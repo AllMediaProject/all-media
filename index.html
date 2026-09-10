@@ -63,6 +63,7 @@
             border-radius: 14px;
             padding: 25px;
             box-sizing: border-box;
+            margin-bottom: 25px;
         }
 
         .post-header {
@@ -484,6 +485,7 @@
 
             <textarea
                 class="text-area"
+                id="postText"
                 placeholder="What's on your mind?"
             ></textarea>
 
@@ -518,7 +520,10 @@
             </div>
 
             <div class="composer-actions">
-                <button class="post-button">
+                <button
+                    class="post-button"
+                    onclick="createPost()"
+                >
                     POST
                 </button>
             </div>
@@ -529,6 +534,11 @@
         <!-- FEED -->
 
         <section class="feed" id="feed">
+
+            <!-- NEW POSTS WILL APPEAR HERE -->
+
+
+            <!-- SAMPLE POST -->
 
             <article class="post">
 
@@ -560,14 +570,13 @@
 
                     <button
                         class="interaction like-button"
-                        id="likeButton"
-                        onclick="toggleLike()"
+                        onclick="toggleLike(this)"
                     >
-                        ♡ <span id="likeCount">24</span>
+                        ♡ <span class="like-count">24</span>
                     </button>
 
                     <div class="interaction">
-                        💬 <span id="commentCount">8</span>
+                        💬 <span class="comment-count">8</span>
                     </div>
 
                     <div class="interaction">
@@ -585,7 +594,7 @@
                     Latest comment
                 </div>
 
-                <div class="latest-comment" id="latestComment">
+                <div class="latest-comment">
                     <span class="comment-username">
                         @cryptidcorner:
                     </span>
@@ -597,12 +606,12 @@
 
                     <button
                         class="comment-button"
-                        onclick="toggleCommentComposer()"
+                        onclick="toggleCommentComposer(this)"
                     >
                         Leave your opinion…
                     </button>
 
-                    <div class="footer-link" id="moreComments">
+                    <div class="footer-link">
                         View 7 more comments
                     </div>
 
@@ -621,7 +630,7 @@
 
                 <!-- COMMENT COMPOSER -->
 
-                <div class="comment-composer" id="commentComposer">
+                <div class="comment-composer">
 
                     <div class="comment-user">
 
@@ -635,7 +644,6 @@
 
                     <textarea
                         class="comment-text-area"
-                        id="commentText"
                         placeholder="Say hi…"
                     ></textarea>
 
@@ -643,7 +651,7 @@
 
                         <button
                             class="comment-post-button"
-                            onclick="postComment()"
+                            onclick="postComment(this)"
                         >
                             POST
                         </button>
@@ -675,31 +683,36 @@
 
         /* LIKE */
 
-        let liked = false;
-        let likeCount = 24;
+        function toggleLike(button) {
 
-        function toggleLike() {
+            const likeCountDisplay =
+                button.querySelector(".like-count");
 
-            const likeButton = document.getElementById("likeButton");
-            const likeCountDisplay = document.getElementById("likeCount");
+            let likeCount =
+                parseInt(likeCountDisplay.textContent);
 
-            if (liked) {
+            const isLiked =
+                button.classList.contains("liked");
 
-                liked = false;
+
+            if (isLiked) {
+
+                button.classList.remove("liked");
+
+                button.firstChild.textContent = "♡ ";
+
                 likeCount--;
-
-                likeButton.classList.remove("liked");
-                likeButton.firstChild.textContent = "♡ ";
 
             } else {
 
-                liked = true;
+                button.classList.add("liked");
+
+                button.firstChild.textContent = "♥ ";
+
                 likeCount++;
 
-                likeButton.classList.add("liked");
-                likeButton.firstChild.textContent = "♥ ";
-
             }
+
 
             likeCountDisplay.textContent = likeCount;
         }
@@ -707,17 +720,23 @@
 
         /* COMMENT COMPOSER */
 
-        function toggleCommentComposer() {
+        function toggleCommentComposer(button) {
 
-            const commentComposer = document.getElementById("commentComposer");
-            const button = document.getElementById("addPostButton");
+            const post = button.closest(".post");
+            const commentComposer =
+                post.querySelector(".comment-composer");
+
+            const mainButton =
+                document.getElementById("addPostButton");
+
 
             commentComposer.classList.toggle("active");
 
+
             if (commentComposer.classList.contains("active")) {
 
-                button.classList.add("open");
-                button.textContent = "−";
+                mainButton.classList.add("open");
+                mainButton.textContent = "−";
 
                 commentComposer.scrollIntoView({
                     behavior: "smooth",
@@ -726,8 +745,8 @@
 
             } else {
 
-                button.classList.remove("open");
-                button.textContent = "+";
+                mainButton.classList.remove("open");
+                mainButton.textContent = "+";
 
             }
         }
@@ -735,16 +754,26 @@
 
         /* POST COMMENT */
 
-        let commentCount = 8;
+        function postComment(button) {
 
-        function postComment() {
+            const post = button.closest(".post");
 
-            const commentText = document.getElementById("commentText");
-            const latestComment = document.getElementById("latestComment");
-            const commentCountDisplay = document.getElementById("commentCount");
-            const moreComments = document.getElementById("moreComments");
+            const commentText =
+                post.querySelector(".comment-text-area");
 
-            const text = commentText.value.trim();
+            const latestComment =
+                post.querySelector(".latest-comment");
+
+            const commentCountDisplay =
+                post.querySelector(".comment-count");
+
+            const moreComments =
+                post.querySelector(".footer-link");
+
+
+            const text =
+                commentText.value.trim();
+
 
             if (text === "") {
                 return;
@@ -756,17 +785,23 @@
              */
 
             latestComment.innerHTML =
-                '<span class="comment-username">@yourusername:</span> ' +
+                '<span class="comment-username">' +
+                '@yourusername:' +
+                '</span> ' +
                 escapeHTML(text);
 
 
             /*
-             * Increase total comment count.
+             * Increase the total comment count.
              */
+
+            let commentCount =
+                parseInt(commentCountDisplay.textContent);
 
             commentCount++;
 
-            commentCountDisplay.textContent = commentCount;
+            commentCountDisplay.textContent =
+                commentCount;
 
 
             /*
@@ -774,14 +809,17 @@
              * so the remaining comments are total - 1.
              */
 
-            const remainingComments = commentCount - 1;
+            const remainingComments =
+                commentCount - 1;
 
             moreComments.textContent =
-                "View " + remainingComments + " more comments";
+                "View " +
+                remainingComments +
+                " more comments";
 
 
             /*
-             * Clear the text box.
+             * Clear the comment box.
              */
 
             commentText.value = "";
@@ -791,7 +829,7 @@
              * Close the composer.
              */
 
-            toggleCommentComposer();
+            toggleCommentComposer(button);
         }
 
 
@@ -802,7 +840,8 @@
 
         function escapeHTML(text) {
 
-            const div = document.createElement("div");
+            const div =
+                document.createElement("div");
 
             div.textContent = text;
 
@@ -810,25 +849,227 @@
         }
 
 
+        /* CREATE POST */
+
+        function createPost() {
+
+            const postText =
+                document.getElementById("postText");
+
+            const feed =
+                document.getElementById("feed");
+
+            const text =
+                postText.value.trim();
+
+
+            /*
+             * Don't create an empty post.
+             */
+
+            if (text === "") {
+                return;
+            }
+
+
+            /*
+             * Create the new post.
+             */
+
+            const newPost =
+                document.createElement("article");
+
+            newPost.className = "post";
+
+
+            newPost.innerHTML = `
+
+                <div class="post-header">
+
+                    <div class="profile-picture"></div>
+
+                    <div>
+                        <div class="username">
+                            @yourusername
+                        </div>
+
+                        <div class="topic">
+                            Art
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="caption">
+                    ${escapeHTML(text)}
+                </div>
+
+
+                <div class="interactions">
+
+                    <button
+                        class="interaction like-button"
+                        onclick="toggleLike(this)"
+                    >
+                        ♡ <span class="like-count">0</span>
+                    </button>
+
+                    <div class="interaction">
+                        💬 <span class="comment-count">0</span>
+                    </div>
+
+                    <div class="interaction">
+                        ⟳ 0
+                    </div>
+
+                    <div class="interaction share">
+                        ↗ Share
+                    </div>
+
+                </div>
+
+
+                <div class="latest-comment-label">
+                    Latest comment
+                </div>
+
+                <div class="latest-comment">
+                    No comments yet.
+                </div>
+
+
+                <div class="post-footer">
+
+                    <button
+                        class="comment-button"
+                        onclick="toggleCommentComposer(this)"
+                    >
+                        Leave your opinion…
+                    </button>
+
+                    <div class="footer-link">
+                        View 0 more comments
+                    </div>
+
+                    <div class="hashtag-link">
+
+                        <div class="hashtag-icon">
+                            #
+                        </div>
+
+                        <span>Hashtags</span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="comment-composer">
+
+                    <div class="comment-user">
+
+                        <div class="comment-profile-picture"></div>
+
+                        <div class="comment-username-display">
+                            @yourusername
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        class="comment-text-area"
+                        placeholder="Say hi…"
+                    ></textarea>
+
+                    <div class="comment-actions">
+
+                        <button
+                            class="comment-post-button"
+                            onclick="postComment(this)"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            /*
+             * Put the new post at the top of the feed.
+             */
+
+            feed.prepend(newPost);
+
+
+            /*
+             * Clear the Create Post box.
+             */
+
+            postText.value = "";
+
+
+            /*
+             * Close Create Post.
+             */
+
+            const composer =
+                document.getElementById("composer");
+
+            const mainButton =
+                document.getElementById("addPostButton");
+
+            composer.classList.remove("active");
+
+            mainButton.classList.remove("open");
+
+            mainButton.textContent = "+";
+
+
+            /*
+             * Return to the top of the feed.
+             */
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
         /* CREATE POST BUTTON */
 
         function toggleMainButton() {
 
-            const composer = document.getElementById("composer");
-            const feed = document.getElementById("feed");
-            const commentComposer = document.getElementById("commentComposer");
-            const button = document.getElementById("addPostButton");
+            const composer =
+                document.getElementById("composer");
+
+            const feed =
+                document.getElementById("feed");
+
+            const openComment =
+                document.querySelector(
+                    ".comment-composer.active"
+                );
+
+            const button =
+                document.getElementById("addPostButton");
 
 
             /*
-             * If the comment box is open,
-             * the red minus acts as the cancel button.
+             * If a comment box is open,
+             * the red minus closes it.
              */
 
-            if (commentComposer.classList.contains("active")) {
+            if (openComment) {
 
-                commentComposer.classList.remove("active");
+                openComment.classList.remove("active");
+
                 button.classList.remove("open");
+
                 button.textContent = "+";
 
                 return;
@@ -836,16 +1077,19 @@
 
 
             /*
-             * Otherwise, the button opens/closes
+             * Otherwise open or close
              * the Create Post screen.
              */
 
             composer.classList.toggle("active");
+
             button.classList.toggle("open");
+
 
             if (composer.classList.contains("active")) {
 
                 feed.style.display = "none";
+
                 button.textContent = "−";
 
                 composer.scrollIntoView({
@@ -856,13 +1100,13 @@
             } else {
 
                 feed.style.display = "block";
+
                 button.textContent = "+";
 
                 window.scrollTo({
                     top: 0,
                     behavior: "smooth"
                 });
-
             }
         }
 
