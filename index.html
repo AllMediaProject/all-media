@@ -122,6 +122,13 @@
         .feed { width: 100%; margin: 0; }
         @media (max-width: 800px) { .page-layout { display: block; width: 90%; max-width: none; transform: none; } .sidebar-column { width: 100%; position: static; margin-bottom: 30px; } .pockets-panel { width: 100%; } }
             nav { width:90%; margin:0 auto; background:#182447; border-radius:10px; padding:14px 18px; box-sizing:border-box; }
+
+        .interests-panel { margin-top:16px; padding:22px 22px 18px; background:#182447; border-radius:12px; }
+        .interests-panel h2 { margin:0 0 16px; font-size:20px; }
+        .interest-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+        .interest-tag { padding:7px 10px; border:1px solid rgba(255,255,255,.16); border-radius:18px; background:#101a3a; color:#f8f8f2; font-family:'Outfit',sans-serif; font-size:12px; }
+        .manage-interests { width:100%; padding:11px; border:1px solid rgba(255,255,255,.18); border-radius:8px; background:transparent; color:#f8f8f2; font-family:'Outfit',sans-serif; font-weight:600; cursor:pointer; }
+        .manage-interests:hover { background:rgba(255,255,255,.06); }
 </style>
 </head>
 <body>
@@ -173,6 +180,16 @@
 </div>
 </aside>
 <button class="sidebar-create" id="sidebarCreateButton" onclick="toggleCreatePost()">CREATE POST</button>
+<div class="interests-panel">
+    <h2>INTERESTS</h2>
+    <div class="interest-list">
+        <span class="interest-tag">Art</span>
+        <span class="interest-tag">Halloween</span>
+        <span class="interest-tag">Horror</span>
+        <span class="interest-tag">Nature</span>
+    </div>
+    <button class="manage-interests">Manage Interests</button>
+</div>
 </div>
 <div class="main-column">
 <section class="composer" id="composer">
