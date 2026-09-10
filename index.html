@@ -73,14 +73,20 @@
         .community-bar { width: 90%; max-width: 1180px; margin: 14px auto 0; display: flex; align-items: center; gap: 12px; }
         .community-divider { width: 90%; height: 1px; margin: 14px auto 0; background: rgba(255,255,255,.28); }
         .community-label { font-size: 13px; font-weight: 700; opacity: .7; white-space: nowrap; }
-        .pinned-communities { display: flex; align-items: center; gap: 9px; min-width: 0; overflow: hidden; }
-        .community-chip { display: flex; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; background: #182447; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; cursor: pointer; white-space: nowrap; }
+        .pinned-communities { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 2px 4px 6px 0; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.22) transparent; }
+        .pinned-communities::-webkit-scrollbar { height: 5px; }
+        .pinned-communities::-webkit-scrollbar-track { background: transparent; }
+        .pinned-communities::-webkit-scrollbar-thumb { background: rgba(255,255,255,.22); border-radius: 10px; }
+        .community-divider-vertical { width: 1px; height: 30px; margin: 0 3px; background: rgba(255,255,255,.28); flex-shrink: 0; }
+        .community-chip { display: flex; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; background: #182447; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; cursor: grab; white-space: nowrap; flex-shrink: 0; }
+        .community-chip:active { cursor: grabbing; }
+        .community-chip.dragging { opacity: .45; }
         .community-icon { width: 24px; height: 24px; border-radius: 50%; background: #53648f; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; }
         .activity-bell { position: relative; width: 25px; height: 25px; margin-left: 2px; display: inline-flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
         .activity-bell svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
         .activity-count { position: absolute; top: -4px; right: -5px; min-width: 15px; height: 15px; padding: 0 3px; box-sizing: border-box; border-radius: 10px; background: #b83a3a; color: white; font-size: 9px; font-weight: 700; line-height: 15px; text-align: center; }
         .activity-count.hidden { display: none; }
-        .community-tools { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+        .community-tools { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .community-menu { position: relative; }
         .community-tool { padding: 8px 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: transparent; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; }
         .community-dropdown { display: none; position: absolute; right: 0; top: calc(100% + 8px); width: 210px; padding: 8px; background: #182447; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; z-index: 20; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
@@ -114,10 +120,11 @@
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities">
-<button class="community-chip"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+<button class="community-chip" draggable="true"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
 </div>
+<div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
@@ -274,6 +281,18 @@ function createPost(){
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.add("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
 function toggleMainButton(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), cc=document.querySelector(".comment-composer.active"), rc=document.querySelector(".reply-composer.active"), b=document.getElementById("addPostButton"); if(cc){ cc.classList.remove("active"); b.textContent="+"; return; } if(rc){ rc.classList.remove("active"); b.textContent="+"; return; } c.classList.toggle("active"); b.classList.toggle("open"); if(c.classList.contains("active")){ f.style.display="none"; b.textContent="−"; } else { f.style.display="block"; b.textContent="+"; } }
 function toggleCommunityDropdown(){ document.getElementById("communityDropdown").classList.toggle("active"); }
+const hotbar=document.querySelector(".pinned-communities");
+let draggedCommunity=null;
+hotbar.querySelectorAll(".community-chip").forEach(chip=>{
+    chip.addEventListener("dragstart",()=>{ draggedCommunity=chip; chip.classList.add("dragging"); });
+    chip.addEventListener("dragend",()=>{ chip.classList.remove("dragging"); draggedCommunity=null; });
+});
+hotbar.addEventListener("dragover",e=>{
+    e.preventDefault();
+    const after=[...hotbar.querySelectorAll(".community-chip:not(.dragging)")].find(el=>e.clientX<=el.getBoundingClientRect().left+el.offsetWidth/2);
+    if(draggedCommunity) after?hotbar.insertBefore(draggedCommunity,after):hotbar.appendChild(draggedCommunity);
+});
+hotbar.addEventListener("wheel",e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ e.preventDefault(); hotbar.scrollLeft+=e.deltaY; } },{passive:false});
 function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
 function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
 function togglePocketFavorite(button){ const item=button.closest(".pocket-item"), faves=document.getElementById("favesList"), pockets=document.getElementById("pocketList"), isFav=button.textContent.trim()==="★"; if(isFav){ button.textContent="☆"; pockets.appendChild(item); } else { button.textContent="★"; faves.appendChild(item); } }
