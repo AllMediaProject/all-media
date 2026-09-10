@@ -1,1137 +1,1133 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>All Media</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            background-color: #101a3a;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-        }
+<html> <head> <title>All Media</title> <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        header {
-            text-align: center;
-            padding: 30px 0 20px;
-        }
+<style>
+    body {
+        margin: 0;
+        background-color: #101a3a;
+        color: white;
+        font-family: 'Outfit', sans-serif;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-            font-weight: 800;
-        }
+    header {
+        text-align: center;
+        padding: 30px 0 20px;
+    }
 
-        .divider {
-            width: 90%;
-            height: 1px;
-            background-color: white;
-            margin: 0 auto;
-        }
+    header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+    }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 35px;
-            padding: 18px 20px;
-        }
+    .divider {
+        width: 90%;
+        height: 1px;
+        background-color: white;
+        margin: 0 auto;
+    }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 700;
-        }
+    nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 35px;
+        padding: 18px 20px;
+    }
 
-        nav span {
-            opacity: 0.6;
-        }
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 700;
+    }
 
-        .feed {
-            width: 90%;
-            max-width: 700px;
-            margin: 35px auto 110px;
-        }
+    nav span {
+        opacity: 0.6;
+    }
 
-        .post {
-            background-color: #182447;
-            border-radius: 14px;
-            padding: 25px;
-            box-sizing: border-box;
-            margin-bottom: 24px;
-        }
+    .feed {
+        width: 90%;
+        max-width: 700px;
+        margin: 35px auto 110px;
+    }
 
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
+    .post {
+        background-color: #182447;
+        border-radius: 14px;
+        padding: 25px;
+        box-sizing: border-box;
+        margin-bottom: 24px;
+    }
 
-        .profile-picture {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background-color: #53648f;
-            flex-shrink: 0;
-        }
+    .post-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
 
-        .username {
-            font-size: 16px;
-            font-weight: 700;
-        }
+    /* Text-only posts don't need the extra space
+       that the image creates in the sample post. */
+    .text-only-post .post-header {
+        margin-bottom: 8px;
+    }
 
-        .topic {
-            margin-top: 3px;
-            font-size: 13px;
-            opacity: 0.7;
-        }
+    .profile-picture {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background-color: #53648f;
+        flex-shrink: 0;
+    }
 
-        .post-image {
-            width: 100%;
-            min-height: 260px;
-            background-color: #101a3a;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-bottom: 18px;
-        }
+    .username {
+        font-size: 16px;
+        font-weight: 700;
+    }
 
-        .post-image span {
-            opacity: 0.45;
-            font-size: 14px;
-        }
+    .topic {
+        margin-top: 3px;
+        font-size: 13px;
+        opacity: 0.7;
+    }
 
-        .caption {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
+    .post-image {
+        width: 100%;
+        min-height: 260px;
+        background-color: #101a3a;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-bottom: 18px;
+    }
 
-        .interactions {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-            padding: 14px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        }
+    .post-image span {
+        opacity: 0.45;
+        font-size: 14px;
+    }
 
-        .interaction {
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap;
-            background: none;
-            border: none;
-            padding: 0;
-            font-family: 'Outfit', sans-serif;
-        }
+    .caption {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
 
-        .interaction:hover {
-            opacity: 0.7;
-        }
+    .interactions {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 14px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
 
-        .like-button {
-            font-size: 16px;
-        }
+    .interaction {
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: 'Outfit', sans-serif;
+    }
 
-        .share {
-            margin-left: auto;
-        }
+    .interaction:hover {
+        opacity: 0.7;
+    }
 
-        .latest-comment-label {
-            padding-top: 16px;
-            margin-bottom: 5px;
-            color: #aeb7cb;
-            font-size: 13px;
-            font-weight: 500;
-        }
+    .like-button {
+        font-size: 16px;
+    }
 
-        .latest-comment {
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    .share {
+        margin-left: auto;
+    }
 
-        .comment-username {
-            font-weight: 700;
-        }
+    .latest-comment-label {
+        padding-top: 16px;
+        margin-bottom: 5px;
+        color: #aeb7cb;
+        font-size: 13px;
+        font-weight: 500;
+    }
 
-        .post-footer {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 14px;
-            margin-top: 14px;
-        }
+    .latest-comment {
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-        .footer-link {
-            color: white;
-            font-size: 13px;
-            opacity: 0.7;
-            cursor: pointer;
-            white-space: nowrap;
-        }
+    .comment-username {
+        font-weight: 700;
+    }
 
-        .footer-link:hover {
-            opacity: 1;
-        }
+    .post-footer {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 14px;
+        margin-top: 14px;
+    }
 
-        .comment-button {
-            color: white;
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 7px;
-            padding: 7px 12px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            cursor: pointer;
-        }
+    .footer-link {
+        color: white;
+        font-size: 13px;
+        opacity: 0.7;
+        cursor: pointer;
+        white-space: nowrap;
+    }
 
-        .comment-button:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-        }
+    .footer-link:hover {
+        opacity: 1;
+    }
 
-        .hashtag-link {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            margin-left: auto;
-            color: white;
-            font-size: 13px;
-            opacity: 0.7;
-            cursor: pointer;
-            white-space: nowrap;
-        }
+    .comment-button {
+        color: white;
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 7px;
+        padding: 7px 12px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px;
+        cursor: pointer;
+    }
 
-        .hashtag-link:hover {
-            opacity: 1;
-        }
+    .comment-button:hover {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
 
-        .hashtag-icon {
-            width: 22px;
-            height: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.55);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 600;
-            box-sizing: border-box;
-        }
+    .hashtag-link {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-left: auto;
+        color: white;
+        font-size: 13px;
+        opacity: 0.7;
+        cursor: pointer;
+        white-space: nowrap;
+    }
 
-        .comment-composer {
-            display: none;
-            margin-top: 18px;
-            padding: 18px;
-            background-color: #101a3a;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
+    .hashtag-link:hover {
+        opacity: 1;
+    }
 
-        .comment-composer.active {
-            display: block;
-        }
+    .hashtag-icon {
+        width: 22px;
+        height: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        box-sizing: border-box;
+    }
 
-        .comment-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
+    .comment-composer {
+        display: none;
+        margin-top: 18px;
+        padding: 18px;
+        background-color: #101a3a;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
 
-        .comment-profile-picture {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background-color: #53648f;
-            flex-shrink: 0;
-        }
+    .comment-composer.active {
+        display: block;
+    }
 
-        .comment-username-display {
-            font-size: 14px;
-            font-weight: 700;
-        }
+    .comment-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
 
-        .comment-text-area {
-            width: 100%;
-            min-height: 90px;
-            box-sizing: border-box;
-            background-color: #182447;
-            border: 1px solid #53648f;
-            border-radius: 8px;
-            padding: 12px;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-size: 15px;
-            resize: vertical;
-        }
+    .comment-profile-picture {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: #53648f;
+        flex-shrink: 0;
+    }
 
-        .comment-text-area::placeholder {
-            color: #b9c0d2;
-        }
+    .comment-username-display {
+        font-size: 14px;
+        font-weight: 700;
+    }
 
-        .comment-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
+    .comment-text-area {
+        width: 100%;
+        min-height: 90px;
+        box-sizing: border-box;
+        background-color: #182447;
+        border: 1px solid #53648f;
+        border-radius: 8px;
+        padding: 12px;
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        resize: vertical;
+    }
 
-        .comment-post-button {
-            padding: 9px 20px;
-            border: none;
-            border-radius: 7px;
-            background-color: #3156b8;
-            color: #f8f8f2;
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+    .comment-text-area::placeholder {
+        color: #b9c0d2;
+    }
 
-        .comment-post-button:hover {
-            background-color: #4169d0;
-        }
+    .comment-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 12px;
+    }
 
-        .add-post {
-            position: fixed;
-            right: 35px;
-            bottom: 35px;
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            border: none;
-            background-color: #3156b8;
-            color: #f8f8f2;
-            font-size: 30px;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.2s ease;
-            z-index: 10;
-        }
+    .comment-post-button {
+        padding: 9px 20px;
+        border: none;
+        border-radius: 7px;
+        background-color: #3156b8;
+        color: #f8f8f2;
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+    }
 
-        .add-post.open {
-            background-color: #b83a3a;
-        }
+    .comment-post-button:hover {
+        background-color: #4169d0;
+    }
 
-        .add-post:hover::after {
-            content: "What's on your mind?";
-            position: absolute;
-            right: 70px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #182447;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            white-space: nowrap;
-            font-size: 14px;
-            font-weight: 500;
-        }
+    .add-post {
+        position: fixed;
+        right: 35px;
+        bottom: 35px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        border: none;
+        background-color: #3156b8;
+        color: #f8f8f2;
+        font-size: 30px;
+        font-family: 'Outfit', sans-serif;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.2s ease;
+        z-index: 10;
+    }
 
-        .add-post.open:hover::after {
-            content: "Go back to feed";
-        }
+    .add-post.open {
+        background-color: #b83a3a;
+    }
 
-        .composer {
-            display: none;
-            width: 90%;
-            max-width: 650px;
-            margin: 35px auto 100px;
-            background-color: #182447;
-            border-radius: 14px;
-            padding: 30px;
-            box-sizing: border-box;
-        }
+    .add-post:hover::after {
+        content: "What's on your mind?";
+        position: absolute;
+        right: 70px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #182447;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 500;
+    }
 
-        .composer.active {
-            display: block;
-        }
+    .add-post.open:hover::after {
+        content: "Go back to feed";
+    }
 
-        .composer h2 {
-            margin-top: 0;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-        }
+    .composer {
+        display: none;
+        width: 90%;
+        max-width: 650px;
+        margin: 35px auto 100px;
+        background-color: #182447;
+        border-radius: 14px;
+        padding: 30px;
+        box-sizing: border-box;
+    }
 
-        .text-area {
-            width: 100%;
-            min-height: 150px;
-            box-sizing: border-box;
-            background-color: #101a3a;
-            border: 1px solid #53648f;
-            border-radius: 10px;
-            padding: 15px;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-size: 16px;
-            resize: vertical;
-        }
+    .composer.active {
+        display: block;
+    }
 
-        .text-area::placeholder {
-            color: #b9c0d2;
-        }
+    .composer h2 {
+        margin-top: 0;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+    }
 
-        .composer-option {
-            width: 100%;
-            margin-top: 15px;
-            padding: 13px 16px;
-            background-color: #101a3a;
-            border: 1px solid #53648f;
-            border-radius: 10px;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-size: 15px;
-            text-align: left;
-            cursor: pointer;
-        }
+    .text-area {
+        width: 100%;
+        min-height: 150px;
+        box-sizing: border-box;
+        background-color: #101a3a;
+        border: 1px solid #53648f;
+        border-radius: 10px;
+        padding: 15px;
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        font-size: 16px;
+        resize: vertical;
+    }
 
-        .composer-option:hover {
-            background-color: #1d2c52;
-        }
+    .text-area::placeholder {
+        color: #b9c0d2;
+    }
 
-        .profile-setting {
-            margin-top: 20px;
-            padding: 10px 0;
-            font-size: 15px;
-        }
+    .composer-option {
+        width: 100%;
+        margin-top: 15px;
+        padding: 13px 16px;
+        background-color: #101a3a;
+        border: 1px solid #53648f;
+        border-radius: 10px;
+        color: white;
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        text-align: left;
+        cursor: pointer;
+    }
 
-        .profile-setting label {
-            margin-right: 15px;
-        }
+    .composer-option:hover {
+        background-color: #1d2c52;
+    }
 
-        .composer-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 25px;
-        }
+    .profile-setting {
+        margin-top: 20px;
+        padding: 10px 0;
+        font-size: 15px;
+    }
 
-        .post-button {
-            padding: 11px 24px;
-            border: none;
-            border-radius: 8px;
-            background-color: #3156b8;
-            color: #f8f8f2;
-            font-family: 'Outfit', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+    .profile-setting label {
+        margin-right: 15px;
+    }
 
-        .post-button:hover {
-            background-color: #4169d0;
-        }
-    </style>
+    .composer-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .post-button {
+        padding: 11px 24px;
+        border: none;
+        border-radius: 8px;
+        background-color: #3156b8;
+        color: #f8f8f2;
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .post-button:hover {
+        background-color: #4169d0;
+    }
+</style>
+
 </head>
 
 <body>
 
-    <header>
-        <h1>ALL MEDIA</h1>
-    </header>
+<header>
+    <h1>ALL MEDIA</h1>
+</header>
 
-    <div class="divider"></div>
+<div class="divider"></div>
 
-    <nav>
-        <a href="#">Home</a>
-        <span>|</span>
-        <a href="#">Communities</a>
-        <span>|</span>
-        <a href="#">Discover</a>
-        <span>|</span>
-        <a href="#">Notifications</a>
-        <span>|</span>
-        <a href="#">Profile</a>
-    </nav>
+<nav>
+    <a href="#">Home</a>
+    <span>|</span>
+    <a href="#">Communities</a>
+    <span>|</span>
+    <a href="#">Discover</a>
+    <span>|</span>
+    <a href="#">Notifications</a>
+    <span>|</span>
+    <a href="#">Profile</a>
+</nav>
 
-    <div class="divider"></div>
+<div class="divider"></div>
 
-    <main>
+<main>
 
-        <!-- CREATE POST -->
-        <section class="composer" id="composer">
+    <!-- CREATE POST -->
+    <section class="composer" id="composer">
 
-            <h2>Create Post</h2>
+        <h2>Create Post</h2>
 
-            <textarea
-                class="text-area"
-                id="mainPostText"
-                placeholder="What's on your mind?"
-            ></textarea>
+        <textarea
+            class="text-area"
+            id="mainPostText"
+            placeholder="What's on your mind?"
+        ></textarea>
 
-            <button class="composer-option">＋ Add Media</button>
+        <button class="composer-option">＋ Add Media</button>
 
-            <button class="composer-option">Topic</button>
+        <button class="composer-option">Topic</button>
 
-            <button class="composer-option"># Add Hashtags</button>
+        <button class="composer-option"># Add Hashtags</button>
 
-            <button class="composer-option">Add to Community</button>
+        <button class="composer-option">Add to Community</button>
 
-            <div class="profile-setting">
-                <strong>Show on Profile</strong>
-                <br><br>
+        <div class="profile-setting">
+            <strong>Show on Profile</strong>
+            <br><br>
 
-                <label>
-                    <input type="radio" name="profile" checked>
-                    Yes
-                </label>
+            <label>
+                <input type="radio" name="profile" checked>
+                Yes
+            </label>
 
-                <label>
-                    <input type="radio" name="profile">
-                    No
-                </label>
+            <label>
+                <input type="radio" name="profile">
+                No
+            </label>
+        </div>
+
+        <div class="composer-actions">
+            <button class="post-button" onclick="createPost()">POST</button>
+        </div>
+
+    </section>
+
+
+    <!-- FEED -->
+    <section class="feed" id="feed">
+
+        <!-- SAMPLE POST -->
+        <article class="post">
+
+            <div class="post-header">
+                <div class="profile-picture"></div>
+
+                <div>
+                    <div class="username">@moonlitmoth</div>
+                    <div class="topic">Art</div>
+                </div>
             </div>
 
-            <div class="composer-actions">
-                <button class="post-button" onclick="createPost()">POST</button>
+            <div class="post-image">
+                <span>Image preview</span>
             </div>
 
-        </section>
+            <div class="caption">
+                Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!
+            </div>
 
+            <div class="interactions">
 
-        <!-- FEED -->
-        <section class="feed" id="feed">
+                <button
+                    class="interaction like-button"
+                    id="likeButton"
+                    onclick="toggleLike()"
+                >
+                    ♡ <span id="likeCount">24</span>
+                </button>
 
-            <!-- SAMPLE POST -->
-            <article class="post">
-
-                <div class="post-header">
-                    <div class="profile-picture"></div>
-
-                    <div>
-                        <div class="username">@moonlitmoth</div>
-                        <div class="topic">Art</div>
-                    </div>
+                <div class="interaction">
+                    💬 <span id="commentCount">8</span>
                 </div>
 
-                <div class="post-image">
-                    <span>Image preview</span>
+                <div class="interaction">
+                    ⟳ 14
                 </div>
 
-                <div class="caption">
-                    Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!
+                <div class="interaction share">
+                    ↗ Share
                 </div>
 
-                <div class="interactions">
+            </div>
 
-                    <button
-                        class="interaction like-button"
-                        id="likeButton"
-                        onclick="toggleLike()"
-                    >
-                        ♡ <span id="likeCount">24</span>
-                    </button>
+            <div class="latest-comment-label">
+                Latest comment
+            </div>
 
-                    <div class="interaction">
-                        💬 <span id="commentCount">8</span>
-                    </div>
+            <div class="latest-comment" id="latestComment">
+                <span class="comment-username">@cryptidcorner:</span>
+                I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
+            </div>
 
-                    <div class="interaction">
-                        ⟳ 14
-                    </div>
+            <div class="post-footer">
 
-                    <div class="interaction share">
-                        ↗ Share
-                    </div>
-
-                </div>
-
-                <div class="latest-comment-label">
-                    Latest comment
-                </div>
-
-                <div class="latest-comment" id="latestComment">
-                    <span class="comment-username">@cryptidcorner:</span>
-                    I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
-                </div>
-
-                <div class="post-footer">
-
-                    <button
-                        class="comment-button"
-                        onclick="toggleCommentComposer()"
-                    >
-                        Leave your opinion…
-                    </button>
-
-                    <div
-                        class="footer-link"
-                        id="moreComments"
-                    >
-                        View 7 more comments
-                    </div>
-
-                    <div class="hashtag-link">
-                        <div class="hashtag-icon">#</div>
-                        <span>Hashtags</span>
-                    </div>
-
-                </div>
+                <button
+                    class="comment-button"
+                    onclick="toggleCommentComposer()"
+                >
+                    Leave your opinion…
+                </button>
 
                 <div
-                    class="comment-composer"
-                    id="commentComposer"
+                    class="footer-link"
+                    id="moreComments"
                 >
+                    View 7 more comments
+                </div>
 
-                    <div class="comment-user">
-                        <div class="comment-profile-picture"></div>
-                        <div class="comment-username-display">
-                            @yourusername
-                        </div>
+                <div class="hashtag-link">
+                    <div class="hashtag-icon">#</div>
+                    <span>Hashtags</span>
+                </div>
+
+            </div>
+
+            <div
+                class="comment-composer"
+                id="commentComposer"
+            >
+
+                <div class="comment-user">
+                    <div class="comment-profile-picture"></div>
+
+                    <div class="comment-username-display">
+                        @yourusername
+                    </div>
+                </div>
+
+                <textarea
+                    class="comment-text-area"
+                    id="commentText"
+                    placeholder="Say hi…"
+                ></textarea>
+
+                <div class="comment-actions">
+                    <button
+                        class="comment-post-button"
+                        onclick="postComment()"
+                    >
+                        POST
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+</main>
+
+
+<!-- FLOATING CREATE / CLOSE BUTTON -->
+<button
+    class="add-post"
+    id="addPostButton"
+    onclick="toggleMainButton()"
+    aria-label="Create Post"
+>
+    +
+</button>
+
+
+<script>
+
+    /* --------------------------------
+       LIKE - ORIGINAL POST
+    -------------------------------- */
+
+    let liked = false;
+    let likeCount = 24;
+
+    function toggleLike() {
+
+        const likeButton =
+            document.getElementById("likeButton");
+
+        const likeCountDisplay =
+            document.getElementById("likeCount");
+
+        if (liked) {
+
+            liked = false;
+            likeCount--;
+
+            likeButton.classList.remove("liked");
+
+            likeButton.firstChild.textContent = "♡ ";
+
+        } else {
+
+            liked = true;
+            likeCount++;
+
+            likeButton.classList.add("liked");
+
+            likeButton.firstChild.textContent = "♥ ";
+
+        }
+
+        likeCountDisplay.textContent = likeCount;
+    }
+
+
+    /* --------------------------------
+       LIKE - NEW POSTS
+    -------------------------------- */
+
+    function toggleLikeNew(btn) {
+
+        const countSpan =
+            btn.querySelector(".like-count");
+
+        let count =
+            parseInt(countSpan.textContent);
+
+        const isLiked =
+            btn.dataset.liked === "true";
+
+        if (isLiked) {
+
+            btn.dataset.liked = "false";
+
+            btn.firstChild.textContent = "♡ ";
+
+            countSpan.textContent = count - 1;
+
+        } else {
+
+            btn.dataset.liked = "true";
+
+            btn.firstChild.textContent = "♥ ";
+
+            countSpan.textContent = count + 1;
+        }
+    }
+
+
+    /* --------------------------------
+       COMMENT COMPOSER
+    -------------------------------- */
+
+    function toggleCommentComposerForPost(post) {
+
+        const composer =
+            post.querySelector(".comment-composer");
+
+        const button =
+            document.getElementById("addPostButton");
+
+        const currentlyOpen =
+            composer.classList.contains("active");
+
+
+        document
+            .querySelectorAll(".comment-composer.active")
+            .forEach(function(otherComposer) {
+
+                otherComposer.classList.remove("active");
+
+            });
+
+
+        if (!currentlyOpen) {
+
+            composer.classList.add("active");
+
+            button.classList.add("open");
+
+            button.textContent = "−";
+
+            composer.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+
+        } else {
+
+            button.classList.remove("open");
+
+            button.textContent = "+";
+        }
+    }
+
+
+    /* --------------------------------
+       ORIGINAL COMMENT COMPOSER
+    -------------------------------- */
+
+    function toggleCommentComposer() {
+
+        const post =
+            document.querySelector(".post");
+
+        toggleCommentComposerForPost(post);
+    }
+
+
+    /* --------------------------------
+       POST COMMENT - ORIGINAL
+    -------------------------------- */
+
+    let commentCount = 8;
+
+    function postComment() {
+
+        const post =
+            document.querySelector(".post");
+
+        const commentText =
+            post.querySelector("#commentText");
+
+        const latestComment =
+            post.querySelector("#latestComment");
+
+        const commentCountDisplay =
+            post.querySelector("#commentCount");
+
+        const moreComments =
+            post.querySelector("#moreComments");
+
+        const text =
+            commentText.value.trim();
+
+        if (text === "") return;
+
+
+        latestComment.innerHTML =
+            '<span class="comment-username">@yourusername:</span> '
+            + escapeHTML(text);
+
+
+        commentCount++;
+
+        commentCountDisplay.textContent =
+            commentCount;
+
+
+        const remainingComments =
+            commentCount - 1;
+
+        moreComments.textContent =
+            "View " + remainingComments + " more comments";
+
+
+        commentText.value = "";
+
+        toggleCommentComposerForPost(post);
+    }
+
+
+    /* --------------------------------
+       COMMENT - NEW POSTS
+    -------------------------------- */
+
+    function postCommentNew(button) {
+
+        const post =
+            button.closest(".post");
+
+        const commentText =
+            post.querySelector(".comment-text-area");
+
+        const latestComment =
+            post.querySelector(".latest-comment");
+
+        const commentCountDisplay =
+            post.querySelector(".comment-count");
+
+        const moreComments =
+            post.querySelector(".more-comments");
+
+        const text =
+            commentText.value.trim();
+
+        if (text === "") return;
+
+
+        latestComment.innerHTML =
+            '<span class="comment-username">@yourusername:</span> '
+            + escapeHTML(text);
+
+
+        let count =
+            parseInt(commentCountDisplay.textContent);
+
+        count++;
+
+        commentCountDisplay.textContent =
+            count;
+
+
+        moreComments.textContent =
+            "View " + (count - 1) + " more comments";
+
+
+        commentText.value = "";
+
+        toggleCommentComposerForPost(post);
+    }
+
+
+    /* --------------------------------
+       ESCAPE HTML
+    -------------------------------- */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+    }
+
+
+    /* --------------------------------
+       CREATE POST
+    -------------------------------- */
+
+    function createPost() {
+
+        const textArea =
+            document.getElementById("mainPostText");
+
+        const text =
+            textArea.value.trim();
+
+        if (text === "") return;
+
+
+        const feed =
+            document.getElementById("feed");
+
+
+        const newPost =
+            document.createElement("article");
+
+        newPost.className = "post text-only-post";
+
+
+        newPost.innerHTML = `
+
+            <div class="post-header">
+
+                <div class="profile-picture"></div>
+
+                <div>
+                    <div class="username">
+                        @yourusername
                     </div>
 
-                    <textarea
-                        class="comment-text-area"
-                        id="commentText"
-                        placeholder="Say hi…"
-                    ></textarea>
+                    <div class="topic">
+                        Art
+                    </div>
+                </div>
 
-                    <div class="comment-actions">
-                        <button
-                            class="comment-post-button"
-                            onclick="postComment()"
-                        >
-                            POST
-                        </button>
+            </div>
+
+
+            <div class="caption">
+                ${escapeHTML(text)}
+            </div>
+
+
+            <div class="interactions">
+
+                <button
+                    class="interaction like-button"
+                    data-liked="false"
+                    onclick="toggleLikeNew(this)"
+                >
+                    ♡ <span class="like-count">0</span>
+                </button>
+
+
+                <div class="interaction">
+                    💬 <span class="comment-count">0</span>
+                </div>
+
+
+                <div class="interaction">
+                    ⟳ 0
+                </div>
+
+
+                <div class="interaction share">
+                    ↗ Share
+                </div>
+
+            </div>
+
+
+            <div class="latest-comment-label">
+                Latest comment
+            </div>
+
+
+            <div class="latest-comment">
+                No comments yet
+            </div>
+
+
+            <div class="post-footer">
+
+                <button
+                    class="comment-button"
+                    onclick="toggleCommentComposerForPost(this.closest('.post'))"
+                >
+                    Leave your opinion…
+                </button>
+
+
+                <div class="footer-link more-comments">
+                    View 0 more comments
+                </div>
+
+
+                <div class="hashtag-link">
+
+                    <div class="hashtag-icon">
+                        #
+                    </div>
+
+                    <span>
+                        Hashtags
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="comment-composer">
+
+                <div class="comment-user">
+
+                    <div class="comment-profile-picture"></div>
+
+                    <div class="comment-username-display">
+                        @yourusername
                     </div>
 
                 </div>
 
-            </article>
 
-        </section>
+                <textarea
+                    class="comment-text-area"
+                    placeholder="Say hi…"
+                ></textarea>
 
-    </main>
 
-
-    <!-- FLOATING CREATE / CLOSE BUTTON -->
-    <button
-        class="add-post"
-        id="addPostButton"
-        onclick="toggleMainButton()"
-        aria-label="Create Post"
-    >
-        +
-    </button>
-
-
-    <script>
-
-        /* --------------------------------
-           LIKE - ORIGINAL POST
-        -------------------------------- */
-
-        let liked = false;
-        let likeCount = 24;
-
-        function toggleLike() {
-
-            const likeButton =
-                document.getElementById("likeButton");
-
-            const likeCountDisplay =
-                document.getElementById("likeCount");
-
-            if (liked) {
-
-                liked = false;
-                likeCount--;
-
-                likeButton.classList.remove("liked");
-
-                likeButton.firstChild.textContent = "♡ ";
-
-            } else {
-
-                liked = true;
-                likeCount++;
-
-                likeButton.classList.add("liked");
-
-                likeButton.firstChild.textContent = "♥ ";
-
-            }
-
-            likeCountDisplay.textContent = likeCount;
-        }
-
-
-        /* --------------------------------
-           LIKE - NEW POSTS
-        -------------------------------- */
-
-        function toggleLikeNew(btn) {
-
-            const countSpan =
-                btn.querySelector(".like-count");
-
-            let count =
-                parseInt(countSpan.textContent);
-
-            const isLiked =
-                btn.dataset.liked === "true";
-
-            if (isLiked) {
-
-                btn.dataset.liked = "false";
-
-                btn.firstChild.textContent = "♡ ";
-
-                countSpan.textContent = count - 1;
-
-            } else {
-
-                btn.dataset.liked = "true";
-
-                btn.firstChild.textContent = "♥ ";
-
-                countSpan.textContent = count + 1;
-            }
-        }
-
-
-        /* --------------------------------
-           COMMENT COMPOSER
-        -------------------------------- */
-
-        function toggleCommentComposerForPost(post) {
-
-            const composer =
-                post.querySelector(".comment-composer");
-
-            const button =
-                document.getElementById("addPostButton");
-
-            const currentlyOpen =
-                composer.classList.contains("active");
-
-
-            // Close any other open comment composers
-
-            document
-                .querySelectorAll(".comment-composer.active")
-                .forEach(function(otherComposer) {
-
-                    otherComposer.classList.remove("active");
-
-                });
-
-
-            if (!currentlyOpen) {
-
-                composer.classList.add("active");
-
-                button.classList.add("open");
-
-                button.textContent = "−";
-
-                composer.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest"
-                });
-
-            } else {
-
-                button.classList.remove("open");
-
-                button.textContent = "+";
-            }
-        }
-
-
-        /* --------------------------------
-           ORIGINAL COMMENT COMPOSER
-        -------------------------------- */
-
-        function toggleCommentComposer() {
-
-            const post =
-                document.querySelector(".post");
-
-            toggleCommentComposerForPost(post);
-        }
-
-
-        /* --------------------------------
-           POST COMMENT - ORIGINAL
-        -------------------------------- */
-
-        let commentCount = 8;
-
-        function postComment() {
-
-            const post =
-                document.querySelector(".post");
-
-            const commentText =
-                post.querySelector("#commentText");
-
-            const latestComment =
-                post.querySelector("#latestComment");
-
-            const commentCountDisplay =
-                post.querySelector("#commentCount");
-
-            const moreComments =
-                post.querySelector("#moreComments");
-
-            const text =
-                commentText.value.trim();
-
-            if (text === "") return;
-
-
-            latestComment.innerHTML =
-                '<span class="comment-username">@yourusername:</span> '
-                + escapeHTML(text);
-
-
-            commentCount++;
-
-            commentCountDisplay.textContent =
-                commentCount;
-
-
-            const remainingComments =
-                commentCount - 1;
-
-            moreComments.textContent =
-                "View " + remainingComments + " more comments";
-
-
-            commentText.value = "";
-
-
-            toggleCommentComposerForPost(post);
-        }
-
-
-        /* --------------------------------
-           COMMENT - NEW POSTS
-        -------------------------------- */
-
-        function postCommentNew(button) {
-
-            const post =
-                button.closest(".post");
-
-            const commentText =
-                post.querySelector(".comment-text-area");
-
-            const latestComment =
-                post.querySelector(".latest-comment");
-
-            const commentCountDisplay =
-                post.querySelector(".comment-count");
-
-            const moreComments =
-                post.querySelector(".more-comments");
-
-            const text =
-                commentText.value.trim();
-
-            if (text === "") return;
-
-
-            latestComment.innerHTML =
-                '<span class="comment-username">@yourusername:</span> '
-                + escapeHTML(text);
-
-
-            let count =
-                parseInt(commentCountDisplay.textContent);
-
-            count++;
-
-            commentCountDisplay.textContent =
-                count;
-
-
-            moreComments.textContent =
-                "View " + (count - 1) + " more comments";
-
-
-            commentText.value = "";
-
-
-            toggleCommentComposerForPost(post);
-        }
-
-
-        /* --------------------------------
-           ESCAPE HTML
-        -------------------------------- */
-
-        function escapeHTML(text) {
-
-            const div =
-                document.createElement("div");
-
-            div.textContent = text;
-
-            return div.innerHTML;
-        }
-
-
-        /* --------------------------------
-           CREATE POST
-        -------------------------------- */
-
-        function createPost() {
-
-            const textArea =
-                document.getElementById("mainPostText");
-
-            const text =
-                textArea.value.trim();
-
-            if (text === "") return;
-
-
-            const feed =
-                document.getElementById("feed");
-
-
-            const newPost =
-                document.createElement("article");
-
-            newPost.className = "post";
-
-
-            newPost.innerHTML = `
-
-                <div class="post-header">
-
-                    <div class="profile-picture"></div>
-
-                    <div>
-                        <div class="username">
-                            @yourusername
-                        </div>
-
-                        <div class="topic">
-                            Art
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="caption">
-                    ${escapeHTML(text)}
-                </div>
-
-
-                <div class="interactions">
+                <div class="comment-actions">
 
                     <button
-                        class="interaction like-button"
-                        data-liked="false"
-                        onclick="toggleLikeNew(this)"
+                        class="comment-post-button"
+                        onclick="postCommentNew(this)"
                     >
-                        ♡ <span class="like-count">0</span>
+                        POST
                     </button>
 
-
-                    <div class="interaction">
-                        💬 <span class="comment-count">0</span>
-                    </div>
-
-
-                    <div class="interaction">
-                        ⟳ 0
-                    </div>
-
-
-                    <div class="interaction share">
-                        ↗ Share
-                    </div>
-
                 </div>
 
+            </div>
 
-                <div class="latest-comment-label">
-                    Latest comment
-                </div>
-
-
-                <div class="latest-comment">
-                    No comments yet
-                </div>
+        `;
 
 
-                <div class="post-footer">
-
-                    <button
-                        class="comment-button"
-                        onclick="toggleCommentComposerForPost(this.closest('.post'))"
-                    >
-                        Leave your opinion…
-                    </button>
+        feed.prepend(newPost);
 
 
-                    <div class="footer-link more-comments">
-                        View 0 more comments
-                    </div>
+        textArea.value = "";
 
 
-                    <div class="hashtag-link">
-
-                        <div class="hashtag-icon">
-                            #
-                        </div>
-
-                        <span>
-                            Hashtags
-                        </span>
-
-                    </div>
-
-                </div>
+        document
+            .getElementById("composer")
+            .classList.remove("active");
 
 
-                <div class="comment-composer">
-
-                    <div class="comment-user">
-
-                        <div class="comment-profile-picture"></div>
-
-                        <div class="comment-username-display">
-                            @yourusername
-                        </div>
-
-                    </div>
+        feed.style.display = "block";
 
 
-                    <textarea
-                        class="comment-text-area"
-                        placeholder="Say hi…"
-                    ></textarea>
+        const button =
+            document.getElementById("addPostButton");
+
+        button.classList.remove("open");
+
+        button.textContent = "+";
 
 
-                    <div class="comment-actions">
-
-                        <button
-                            class="comment-post-button"
-                            onclick="postCommentNew(this)"
-                        >
-                            POST
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
 
 
-            feed.prepend(newPost);
+    /* --------------------------------
+       MAIN CREATE POST BUTTON
+    -------------------------------- */
+
+    function toggleMainButton() {
+
+        const composer =
+            document.getElementById("composer");
+
+        const feed =
+            document.getElementById("feed");
+
+        const commentComposer =
+            document.querySelector(".comment-composer.active");
+
+        const button =
+            document.getElementById("addPostButton");
 
 
-            textArea.value = "";
+        if (commentComposer) {
 
-
-            // Close Create Post
-
-            document
-                .getElementById("composer")
-                .classList.remove("active");
-
-
-            feed.style.display = "block";
-
-
-            const button =
-                document.getElementById("addPostButton");
+            commentComposer.classList.remove("active");
 
             button.classList.remove("open");
 
             button.textContent = "+";
 
+            return;
+        }
+
+
+        composer.classList.toggle("active");
+
+        button.classList.toggle("open");
+
+
+        if (composer.classList.contains("active")) {
+
+            feed.style.display = "none";
+
+            button.textContent = "−";
+
+            composer.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        } else {
+
+            feed.style.display = "block";
+
+            button.textContent = "+";
 
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
             });
         }
+    }
 
+</script>
 
-        /* --------------------------------
-           MAIN CREATE POST BUTTON
-        -------------------------------- */
-
-        function toggleMainButton() {
-
-            const composer =
-                document.getElementById("composer");
-
-            const feed =
-                document.getElementById("feed");
-
-            const commentComposer =
-                document.querySelector(".comment-composer.active");
-
-            const button =
-                document.getElementById("addPostButton");
-
-
-            // If a comment composer is open,
-            // close that first.
-
-            if (commentComposer) {
-
-                commentComposer.classList.remove("active");
-
-                button.classList.remove("open");
-
-                button.textContent = "+";
-
-                return;
-            }
-
-
-            composer.classList.toggle("active");
-
-            button.classList.toggle("open");
-
-
-            if (composer.classList.contains("active")) {
-
-                feed.style.display = "none";
-
-                button.textContent = "−";
-
-                composer.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            } else {
-
-                feed.style.display = "block";
-
-                button.textContent = "+";
-
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            }
-        }
-
-    </script>
-
-</body>
-</html>
+</body> </html>
