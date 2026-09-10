@@ -144,6 +144,14 @@
 .post-community{display:inline-flex!important;align-items:center;gap:5px;margin:5px 0 0 7px!important;color:#aeb7cb!important;font-size:12px!important;cursor:pointer;transition:.15s}.post-community:hover{color:#f8f8f2!important;text-decoration:underline}
 .post-meta-line{display:flex;align-items:center;flex-wrap:wrap}
 .drawer-done{display:block;margin:12px 0 0 auto;padding:6px 10px;border:0;background:transparent;color:#aeb7cb;font:12px 'Outfit',sans-serif;cursor:pointer}.drawer-done:hover{color:#f8f8f2}.community-limit{display:none;margin-top:9px;color:#d96a6a;font-size:11px}.community-limit.show{display:block}.post-warning{margin-right:10px;color:#d96a6a;font-size:11px;opacity:0;transition:opacity .25s}.post-warning.show{opacity:1}
+
+.community-more-row{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:7px}
+.community-more-row:hover{background:rgba(255,255,255,.05)}
+.community-more-name{display:flex;align-items:center;gap:9px;min-width:0;flex:1;color:#f8f8f2;font-size:12px}
+.community-pin{width:30px!important;min-width:30px;padding:6px!important;justify-content:center!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:7px!important;color:#aeb7cb!important}
+.community-pin:hover{color:#f8f8f2!important;background:rgba(255,255,255,.08)!important}
+.community-pin.pinned{color:#f8f8f2!important;background:#3156b8!important;border-color:#4169d0!important}
+
 </style>
 </head>
 <body>
@@ -154,18 +162,21 @@
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities">
-<button class="community-chip" draggable="true"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" draggable="true"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" draggable="true"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
 </div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
 <div class="community-dropdown" id="communityDropdown">
-<button><span class="community-icon">📚</span>Book Club</button>
-<button><span class="community-icon">🧶</span>Crochet Corner</button>
-<button><span class="community-icon">🌿</span>Garden & Nature</button>
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
 </div>
 </div>
 <button class="community-tool">Manage Communities</button>
@@ -374,16 +385,41 @@ function editPost(button){ const post=button.closest(".post"), caption=post.quer
 function deletePost(button){ const post=button.closest(".post"); if(confirm("Delete this post?")) post.remove(); }
 const hotbar=document.querySelector(".pinned-communities");
 let draggedCommunity=null;
-hotbar.querySelectorAll(".community-chip").forEach(chip=>{
-    chip.addEventListener("dragstart",()=>{ draggedCommunity=chip; chip.classList.add("dragging"); });
-    chip.addEventListener("dragend",()=>{ chip.classList.remove("dragging"); draggedCommunity=null; });
-});
+function wireCommunityChip(chip){
+    chip.addEventListener("dragstart",()=>{draggedCommunity=chip;chip.classList.add("dragging")});
+    chip.addEventListener("dragend",()=>{chip.classList.remove("dragging");draggedCommunity=null})
+}
+hotbar.querySelectorAll(".community-chip").forEach(wireCommunityChip);
+function toggleCommunityPin(event,btn){
+    event.stopPropagation();
+    const row=btn.closest(".community-more-row"), name=row.dataset.community, icon=row.dataset.icon;
+    const existing=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
+    if(existing){
+        existing.remove();
+        btn.classList.remove("pinned");
+        btn.textContent="📍";
+        btn.title="Pin to hotbar";
+    }else{
+        const chip=document.createElement("button");
+        chip.className="community-chip";
+        chip.draggable=true;
+        chip.dataset.community=name;
+        chip.dataset.icon=icon;
+        chip.innerHTML=`<span class="community-icon">${icon}</span>${name}`;
+        wireCommunityChip(chip);
+        hotbar.appendChild(chip);
+        btn.classList.add("pinned");
+        btn.textContent="📌";
+        btn.title="Unpin from hotbar";
+        hotbar.scrollTo({left:hotbar.scrollWidth,behavior:"smooth"});
+    }
+}
 hotbar.addEventListener("dragover",e=>{
     e.preventDefault();
     const after=[...hotbar.querySelectorAll(".community-chip:not(.dragging)")].find(el=>e.clientX<=el.getBoundingClientRect().left+el.offsetWidth/2);
     if(draggedCommunity) after?hotbar.insertBefore(draggedCommunity,after):hotbar.appendChild(draggedCommunity);
 });
-hotbar.addEventListener("wheel",e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ e.preventDefault(); hotbar.scrollLeft+=e.deltaY; } },{passive:false});
+hotbar.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){e.preventDefault();hotbar.scrollLeft+=e.deltaY}},{passive:false});
 function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
 function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
 function togglePocketFavorite(button){ const item=button.closest(".pocket-item"), faves=document.getElementById("favesList"), pockets=document.getElementById("pocketList"), isFav=button.textContent.trim()==="★"; if(isFav){ button.textContent="☆"; pockets.appendChild(item); } else { button.textContent="★"; faves.appendChild(item); } }
