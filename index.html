@@ -143,10 +143,20 @@
 
         /* COMMENTS */
 
-        .latest-comment {
+        .latest-comment-label {
             padding-top: 16px;
+            margin-bottom: 5px;
+            color: #aeb7cb;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .latest-comment {
             font-size: 14px;
             line-height: 1.5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .comment-username {
@@ -155,9 +165,9 @@
 
         .post-footer {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             margin-top: 14px;
         }
 
@@ -186,6 +196,111 @@
 
         .comment-button:hover {
             background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* HASHTAGS */
+
+        .hashtag-link {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: auto;
+            color: white;
+            font-size: 13px;
+            opacity: 0.7;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .hashtag-link:hover {
+            opacity: 1;
+        }
+
+        .hashtag-icon {
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            box-sizing: border-box;
+        }
+
+        /* COMMENT COMPOSER */
+
+        .comment-composer {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            background-color: #101a3a;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .comment-composer.active {
+            display: block;
+        }
+
+        .comment-like {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .comment-like-heart {
+            font-size: 23px;
+            line-height: 1;
+        }
+
+        .comment-like-text {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .comment-text-area {
+            width: 100%;
+            min-height: 90px;
+            box-sizing: border-box;
+            background-color: #182447;
+            border: 1px solid #53648f;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+        }
+
+        .comment-text-area::placeholder {
+            color: #b9c0d2;
+        }
+
+        .comment-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .comment-post-button {
+            padding: 9px 20px;
+            border: none;
+            border-radius: 7px;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .comment-post-button:hover {
+            background-color: #4169d0;
         }
 
         /* CREATE POST BUTTON */
@@ -450,29 +565,71 @@
                 </div>
 
 
-                <div class="latest-comment">
+                <div class="latest-comment-label">
+                    Latest comment
+                </div>
 
+                <div class="latest-comment">
                     <span class="comment-username">
                         @cryptidcorner:
                     </span>
-
-                    I LOVE this! The little details are perfect.
-
+                    I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
                 </div>
 
 
                 <div class="post-footer">
 
-                    <div class="footer-link">
-                        View 7 more comments
-                    </div>
-
-                    <button class="comment-button">
+                    <button
+                        class="comment-button"
+                        onclick="toggleCommentComposer()"
+                    >
                         Leave your opinion…
                     </button>
 
                     <div class="footer-link">
-                        View Hashtags
+                        View 7 more comments
+                    </div>
+
+                    <div class="hashtag-link">
+
+                        <div class="hashtag-icon">
+                            #
+                        </div>
+
+                        <span>Hashtags</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- COMMENT COMPOSER -->
+
+                <div class="comment-composer" id="commentComposer">
+
+                    <div class="comment-like">
+
+                        <div class="comment-like-heart">
+                            ♡
+                        </div>
+
+                        <div class="comment-like-text">
+                            Like
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        class="comment-text-area"
+                        placeholder="Say hi…"
+                    ></textarea>
+
+                    <div class="comment-actions">
+
+                        <button class="comment-post-button">
+                            POST
+                        </button>
+
                     </div>
 
                 </div>
@@ -484,12 +641,12 @@
     </main>
 
 
-    <!-- FLOATING CREATE POST BUTTON -->
+    <!-- FLOATING BUTTON -->
 
     <button
         class="add-post"
         id="addPostButton"
-        onclick="toggleComposer()"
+        onclick="toggleMainButton()"
         aria-label="Create Post"
     >
         +
@@ -498,11 +655,32 @@
 
     <script>
 
-        function toggleComposer() {
+        function toggleMainButton() {
 
             const composer = document.getElementById("composer");
             const feed = document.getElementById("feed");
+            const commentComposer = document.getElementById("commentComposer");
             const button = document.getElementById("addPostButton");
+
+            /*
+             * If the comment box is open,
+             * the red minus acts as the cancel button.
+             */
+
+            if (commentComposer.classList.contains("active")) {
+
+                commentComposer.classList.remove("active");
+                button.classList.remove("open");
+                button.textContent = "+";
+
+                return;
+            }
+
+
+            /*
+             * Otherwise, the button opens/closes
+             * the Create Post screen.
+             */
 
             composer.classList.toggle("active");
             button.classList.toggle("open");
@@ -530,7 +708,34 @@
             }
         }
 
+
+        function toggleCommentComposer() {
+
+            const commentComposer = document.getElementById("commentComposer");
+            const button = document.getElementById("addPostButton");
+
+            commentComposer.classList.toggle("active");
+
+            if (commentComposer.classList.contains("active")) {
+
+                button.classList.add("open");
+                button.textContent = "−";
+
+                commentComposer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+
+            } else {
+
+                button.classList.remove("open");
+                button.textContent = "+";
+
+            }
+        }
+
     </script>
 
 </body>
 </html>
+
