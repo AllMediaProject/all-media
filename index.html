@@ -4,6 +4,7 @@
 <head>
     <title>All Media</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
@@ -230,7 +231,9 @@
             box-sizing: border-box;
         }
 
-        /* EXPANDED COMMENTS */
+        /* =========================
+           COMMENTS
+        ========================= */
 
         .comments-section {
             display: none;
@@ -244,7 +247,8 @@
         }
 
         .comment-item {
-            padding: 14px 0;
+            position: relative;
+            padding: 14px 0 16px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -264,11 +268,13 @@
             word-break: break-word;
         }
 
+        /* Like + Reply start from the left */
+
         .comment-actions {
             display: flex;
             align-items: center;
             gap: 16px;
-            margin-top: 7px;
+            margin-top: 8px;
         }
 
         .comment-like,
@@ -282,20 +288,51 @@
             cursor: pointer;
         }
 
+        .comment-like {
+            font-size: 13px;
+        }
+
         .comment-like:hover,
         .reply-button:hover {
             opacity: 0.7;
         }
 
+        /* =========================
+           REPLIES
+        ========================= */
+
         .reply-list {
+            position: relative;
             margin-left: 28px;
-            margin-top: 10px;
-            padding-left: 14px;
-            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+
+        /* Conversation connector */
+
+        .reply-list::before {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 0;
+            bottom: 12px;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.16);
         }
 
         .reply-item {
-            padding: 10px 0;
+            position: relative;
+            padding: 10px 0 12px;
+        }
+
+        .reply-item::before {
+            content: "";
+            position: absolute;
+            left: -15px;
+            top: 22px;
+            width: 10px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.16);
         }
 
         .reply-author {
@@ -310,6 +347,20 @@
             word-break: break-word;
         }
 
+        .reply-item .comment-actions {
+            margin-top: 7px;
+        }
+
+        /* Nested replies */
+
+        .reply-item .reply-list {
+            margin-left: 24px;
+        }
+
+        /* =========================
+           REPLY COMPOSER
+        ========================= */
+
         .reply-composer {
             display: none;
             margin-top: 12px;
@@ -321,8 +372,8 @@
 
         .reply-input {
             width: 100%;
-            box-sizing: border-box;
             min-height: 55px;
+            box-sizing: border-box;
             background-color: #101a3a;
             border: 1px solid #53648f;
             border-radius: 8px;
@@ -359,7 +410,9 @@
             background-color: #4169d0;
         }
 
-        /* COMMENT COMPOSER */
+        /* =========================
+           MAIN COMMENT COMPOSER
+        ========================= */
 
         .comment-composer {
             display: none;
@@ -412,7 +465,7 @@
             color: #b9c0d2;
         }
 
-        .comment-actions {
+        .comment-post-actions {
             display: flex;
             justify-content: flex-end;
             margin-top: 12px;
@@ -434,7 +487,9 @@
             background-color: #4169d0;
         }
 
-        /* CREATE POST */
+        /* =========================
+           CREATE POST
+        ========================= */
 
         .add-post {
             position: fixed;
@@ -594,6 +649,7 @@
     <main>
 
         <section class="composer" id="composer">
+
             <h2>Create Post</h2>
 
             <textarea
@@ -602,13 +658,26 @@
                 placeholder="What's on your mind?"
             ></textarea>
 
-            <button class="composer-option">＋ Add Media</button>
-            <button class="composer-option">Topic</button>
-            <button class="composer-option"># Add Hashtags</button>
-            <button class="composer-option">Add to Community</button>
+            <button class="composer-option">
+                ＋ Add Media
+            </button>
+
+            <button class="composer-option">
+                Topic
+            </button>
+
+            <button class="composer-option">
+                # Add Hashtags
+            </button>
+
+            <button class="composer-option">
+                Add to Community
+            </button>
 
             <div class="profile-setting">
+
                 <strong>Show on Profile</strong>
+
                 <br><br>
 
                 <label>
@@ -620,38 +689,58 @@
                     <input type="radio" name="profile">
                     No
                 </label>
+
             </div>
 
             <div class="composer-actions">
-                <button class="post-button" onclick="createPost()">POST</button>
+
+                <button
+                    class="post-button"
+                    onclick="createPost()"
+                >
+                    POST
+                </button>
+
             </div>
+
         </section>
 
 
         <section class="feed" id="feed">
 
-            <!-- ORIGINAL SAMPLE POST -->
-
             <article class="post">
 
                 <div class="post-header">
+
                     <div class="profile-picture"></div>
 
                     <div>
-                        <div class="username">@moonlitmoth</div>
-                        <div class="topic">Art</div>
+
+                        <div class="username">
+                            @moonlitmoth
+                        </div>
+
+                        <div class="topic">
+                            Art
+                        </div>
+
                     </div>
+
                 </div>
+
 
                 <div class="post-image">
                     <span>Image preview</span>
                 </div>
 
+
                 <div class="caption">
                     Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!
                 </div>
 
+
                 <div class="interactions">
+
                     <button
                         class="interaction like-button"
                         id="likeButton"
@@ -671,16 +760,25 @@
                     <div class="interaction share">
                         ↗ Share
                     </div>
+
                 </div>
+
 
                 <div class="latest-comment-label">
                     Latest comment
                 </div>
 
-                <div class="latest-comment" id="latestComment">
-                    <span class="comment-username">@cryptidcorner:</span>
+
+                <div
+                    class="latest-comment"
+                    id="latestComment"
+                >
+                    <span class="comment-username">
+                        @cryptidcorner:
+                    </span>
                     I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
                 </div>
+
 
                 <div class="post-footer">
 
@@ -700,16 +798,28 @@
                     </div>
 
                     <div class="hashtag-link">
-                        <div class="hashtag-icon">#</div>
-                        <span>Hashtags</span>
+
+                        <div class="hashtag-icon">
+                            #
+                        </div>
+
+                        <span>
+                            Hashtags
+                        </span>
+
                     </div>
 
                 </div>
 
 
-                <!-- EXPANDED COMMENT LIST -->
+                <!-- EXPANDED COMMENTS -->
 
-                <div class="comments-section" id="commentsSection">
+                <div
+                    class="comments-section"
+                    id="commentsSection"
+                >
+
+                    <!-- COMMENT 1 -->
 
                     <div class="comment-item">
 
@@ -739,6 +849,9 @@
                             </button>
 
                         </div>
+
+
+                        <!-- REPLY -->
 
                         <div class="reply-list">
 
@@ -771,25 +884,31 @@
 
                                 </div>
 
+
                                 <div class="reply-composer">
+
                                     <textarea
                                         class="reply-input"
                                         placeholder="Reply…"
                                     ></textarea>
 
                                     <div class="reply-submit">
+
                                         <button
                                             class="reply-post-button"
                                             onclick="postReply(this)"
                                         >
                                             POST
                                         </button>
+
                                     </div>
+
                                 </div>
 
                             </div>
 
                         </div>
+
 
                         <div class="reply-composer">
 
@@ -799,18 +918,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 2 -->
 
                     <div class="comment-item">
 
@@ -841,6 +964,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -849,18 +973,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 3 -->
 
                     <div class="comment-item">
 
@@ -891,6 +1019,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -899,18 +1028,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 4 -->
 
                     <div class="comment-item">
 
@@ -941,6 +1074,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -949,18 +1083,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 5 -->
 
                     <div class="comment-item">
 
@@ -991,6 +1129,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -999,18 +1138,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 6 -->
 
                     <div class="comment-item">
 
@@ -1041,6 +1184,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -1049,18 +1193,22 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
 
                     </div>
 
+
+                    <!-- COMMENT 7 -->
 
                     <div class="comment-item">
 
@@ -1091,6 +1239,7 @@
 
                         </div>
 
+
                         <div class="reply-composer">
 
                             <textarea
@@ -1099,12 +1248,14 @@
                             ></textarea>
 
                             <div class="reply-submit">
+
                                 <button
                                     class="reply-post-button"
                                     onclick="postReply(this)"
                                 >
                                     POST
                                 </button>
+
                             </div>
 
                         </div>
@@ -1116,13 +1267,19 @@
 
                 <!-- MAIN COMMENT COMPOSER -->
 
-                <div class="comment-composer" id="commentComposer">
+                <div
+                    class="comment-composer"
+                    id="commentComposer"
+                >
 
                     <div class="comment-user">
+
                         <div class="comment-profile-picture"></div>
+
                         <div class="comment-username-display">
                             @yourusername
                         </div>
+
                     </div>
 
                     <textarea
@@ -1131,13 +1288,15 @@
                         placeholder="Say hi…"
                     ></textarea>
 
-                    <div class="comment-actions">
+                    <div class="comment-post-actions">
+
                         <button
                             class="comment-post-button"
                             onclick="postComment()"
                         >
                             POST
                         </button>
+
                     </div>
 
                 </div>
@@ -1161,17 +1320,20 @@
 
     <script>
 
-        /* -------------------------
+        /* =========================
            POST LIKES
-        ------------------------- */
+        ========================= */
 
         let liked = false;
         let likeCount = 24;
 
         function toggleLike() {
 
-            const likeButton = document.getElementById("likeButton");
-            const likeCountDisplay = document.getElementById("likeCount");
+            const likeButton =
+                document.getElementById("likeButton");
+
+            const likeCountDisplay =
+                document.getElementById("likeCount");
 
             if (liked) {
 
@@ -1191,16 +1353,21 @@
 
             }
 
-            likeCountDisplay.textContent = likeCount;
+            likeCountDisplay.textContent =
+                likeCount;
         }
 
 
         function toggleLikeNew(btn) {
 
-            const countSpan = btn.querySelector(".like-count");
-            let count = parseInt(countSpan.textContent);
+            const countSpan =
+                btn.querySelector(".like-count");
 
-            const isLiked = btn.dataset.liked === "true";
+            let count =
+                parseInt(countSpan.textContent);
+
+            const isLiked =
+                btn.dataset.liked === "true";
 
             if (isLiked) {
 
@@ -1218,16 +1385,20 @@
         }
 
 
-        /* -------------------------
+        /* =========================
            COMMENT LIKES
-        ------------------------- */
+        ========================= */
 
         function toggleCommentLike(button) {
 
-            const countSpan = button.querySelector("span");
-            let count = parseInt(countSpan.textContent);
+            const countSpan =
+                button.querySelector("span");
 
-            const isLiked = button.dataset.liked === "true";
+            let count =
+                parseInt(countSpan.textContent);
+
+            const isLiked =
+                button.dataset.liked === "true";
 
             if (isLiked) {
 
@@ -1245,41 +1416,69 @@
         }
 
 
-        /* -------------------------
+        /* =========================
            EXPAND / COLLAPSE COMMENTS
-        ------------------------- */
+        ========================= */
 
         function toggleComments(button) {
 
-            const post = button.closest(".post");
-            const commentsSection = post.querySelector(".comments-section");
+            const post =
+                button.closest(".post");
 
-            const isOpen = commentsSection.classList.contains("active");
+            const commentsSection =
+                post.querySelector(".comments-section");
+
+            const isOpen =
+                commentsSection.classList.contains("active");
 
             if (isOpen) {
 
                 commentsSection.classList.remove("active");
-                button.textContent = "View 7 more comments";
+
+                button.textContent =
+                    "View " + getMoreCommentCount(post) + " more comments";
 
             } else {
 
                 commentsSection.classList.add("active");
-                button.textContent = "Hide comments";
+
+                button.textContent =
+                    "Hide comments";
 
             }
         }
 
 
-        /* -------------------------
-           COMMENT COMPOSER
-        ------------------------- */
+        function getMoreCommentCount(post) {
+
+            const countDisplay =
+                post.querySelector(".comment-count, #commentCount");
+
+            if (!countDisplay) {
+                return 0;
+            }
+
+            const count =
+                parseInt(countDisplay.textContent);
+
+            return Math.max(count - 1, 0);
+        }
+
+
+        /* =========================
+           MAIN COMMENT COMPOSER
+        ========================= */
 
         function toggleCommentComposerForPost(post) {
 
-            const composer = post.querySelector(".comment-composer");
-            const button = document.getElementById("addPostButton");
+            const composer =
+                post.querySelector(".comment-composer");
 
-            const currentlyOpen = composer.classList.contains("active");
+            const button =
+                document.getElementById("addPostButton");
+
+            const currentlyOpen =
+                composer.classList.contains("active");
 
             document
                 .querySelectorAll(".comment-composer.active")
@@ -1312,22 +1511,24 @@
 
         function toggleCommentComposer() {
 
-            const post = document.querySelector(".post");
+            const post =
+                document.querySelector(".post");
 
             toggleCommentComposerForPost(post);
 
         }
 
 
-        /* -------------------------
+        /* =========================
            POST A COMMENT
-        ------------------------- */
+        ========================= */
 
         let commentCount = 8;
 
         function postComment() {
 
-            const post = document.querySelector(".post");
+            const post =
+                document.querySelector(".post");
 
             const commentText =
                 post.querySelector("#commentText");
@@ -1347,7 +1548,9 @@
             const text =
                 commentText.value.trim();
 
-            if (text === "") return;
+            if (text === "") {
+                return;
+            }
 
 
             /* Update latest comment */
@@ -1365,16 +1568,7 @@
                 commentCount;
 
 
-            /* Update expand button */
-
-            const remainingComments =
-                commentCount - 1;
-
-            moreComments.textContent =
-                "View " + remainingComments + " more comments";
-
-
-            /* Add new comment to expanded list */
+            /* Create new comment */
 
             const newComment =
                 document.createElement("div");
@@ -1383,6 +1577,7 @@
                 "comment-item";
 
             newComment.innerHTML = `
+
                 <div class="comment-author">
                     @yourusername
                 </div>
@@ -1429,59 +1624,82 @@
                     </div>
 
                 </div>
+
             `;
 
-            commentsSection.appendChild(newComment);
+
+            commentsSection.appendChild(
+                newComment
+            );
 
 
-            /* Keep comments open after posting */
+            commentsSection.classList.add(
+                "active"
+            );
 
-            commentsSection.classList.add("active");
 
             moreComments.textContent =
                 "Hide comments";
 
 
-            /* Clear and close main composer */
-
             commentText.value = "";
 
-            toggleCommentComposerForPost(post);
+            toggleCommentComposerForPost(
+                post
+            );
 
         }
 
 
-        /* -------------------------
+        /* =========================
            REPLY COMPOSERS
-        ------------------------- */
+        ========================= */
 
         function toggleReplyComposer(button) {
 
-            const comment =
-                button.closest(".comment-item");
+            const parent =
+                button.closest(
+                    ".comment-item, .reply-item"
+                );
+
+            if (!parent) {
+                return;
+            }
 
             const composer =
-                comment.querySelector(":scope > .reply-composer");
+                parent.querySelector(
+                    ":scope > .reply-composer"
+                );
 
-            if (!composer) return;
+            if (!composer) {
+                return;
+            }
 
             const isOpen =
                 composer.classList.contains("active");
+
 
             document
                 .querySelectorAll(".reply-composer.active")
                 .forEach(function(otherComposer) {
 
-                    otherComposer.classList.remove("active");
+                    otherComposer.classList.remove(
+                        "active"
+                    );
 
                 });
 
+
             if (!isOpen) {
 
-                composer.classList.add("active");
+                composer.classList.add(
+                    "active"
+                );
 
                 const input =
-                    composer.querySelector(".reply-input");
+                    composer.querySelector(
+                        ".reply-input"
+                    );
 
                 if (input) {
                     input.focus();
@@ -1492,17 +1710,17 @@
         }
 
 
-        /* -------------------------
+        /* =========================
            POST A REPLY
-        ------------------------- */
+        ========================= */
 
         function postReply(button) {
 
             const composer =
                 button.closest(".reply-composer");
 
-            const comment =
-                composer.closest(".comment-item");
+            const parent =
+                composer.parentElement;
 
             const input =
                 composer.querySelector(".reply-input");
@@ -1510,11 +1728,15 @@
             const text =
                 input.value.trim();
 
-            if (text === "") return;
+            if (text === "") {
+                return;
+            }
 
 
             let replyList =
-                comment.querySelector(":scope > .reply-list");
+                parent.querySelector(
+                    ":scope > .reply-list"
+                );
 
 
             /* Create reply list if needed */
@@ -1527,7 +1749,7 @@
                 replyList.className =
                     "reply-list";
 
-                comment.insertBefore(
+                parent.insertBefore(
                     replyList,
                     composer
                 );
@@ -1543,7 +1765,9 @@
             reply.className =
                 "reply-item";
 
+
             reply.innerHTML = `
+
                 <div class="reply-author">
                     @yourusername
                 </div>
@@ -1590,21 +1814,27 @@
                     </div>
 
                 </div>
+
             `;
 
 
-            replyList.appendChild(reply);
+            replyList.appendChild(
+                reply
+            );
+
 
             input.value = "";
 
-            composer.classList.remove("active");
+            composer.classList.remove(
+                "active"
+            );
 
         }
 
 
-        /* -------------------------
-           SAFELY DISPLAY USER TEXT
-        ------------------------- */
+        /* =========================
+           SAFE TEXT
+        ========================= */
 
         function escapeHTML(text) {
 
@@ -1619,19 +1849,23 @@
         }
 
 
-        /* -------------------------
+        /* =========================
            CREATE POST
-        ------------------------- */
+        ========================= */
 
         function createPost() {
 
             const textArea =
-                document.getElementById("mainPostText");
+                document.getElementById(
+                    "mainPostText"
+                );
 
             const text =
                 textArea.value.trim();
 
-            if (text === "") return;
+            if (text === "") {
+                return;
+            }
 
 
             const feed =
@@ -1751,14 +1985,12 @@
 
                     </div>
 
-
                     <textarea
                         class="comment-text-area"
                         placeholder="Say hi…"
                     ></textarea>
 
-
-                    <div class="comment-actions">
+                    <div class="comment-post-actions">
 
                         <button
                             class="comment-post-button"
@@ -1774,20 +2006,27 @@
             `;
 
 
-            feed.prepend(newPost);
+            feed.prepend(
+                newPost
+            );
+
 
             textArea.value = "";
+
 
             document
                 .getElementById("composer")
                 .classList.remove("active");
+
 
             feed.style.display =
                 "block";
 
 
             const button =
-                document.getElementById("addPostButton");
+                document.getElementById(
+                    "addPostButton"
+                );
 
             button.classList.remove("open");
             button.textContent = "+";
@@ -1801,9 +2040,9 @@
         }
 
 
-        /* -------------------------
+        /* =========================
            COMMENTS ON NEW POSTS
-        ------------------------- */
+        ========================= */
 
         function postCommentNew(button) {
 
@@ -1811,24 +2050,36 @@
                 button.closest(".post");
 
             const commentText =
-                post.querySelector(".comment-text-area");
+                post.querySelector(
+                    ".comment-text-area"
+                );
 
             const latestComment =
-                post.querySelector(".latest-comment");
+                post.querySelector(
+                    ".latest-comment"
+                );
 
             const commentCountDisplay =
-                post.querySelector(".comment-count");
+                post.querySelector(
+                    ".comment-count"
+                );
 
             const moreComments =
-                post.querySelector(".more-comments");
+                post.querySelector(
+                    ".more-comments"
+                );
 
             const commentsSection =
-                post.querySelector(".comments-section");
+                post.querySelector(
+                    ".comments-section"
+                );
 
             const text =
                 commentText.value.trim();
 
-            if (text === "") return;
+            if (text === "") {
+                return;
+            }
 
 
             latestComment.innerHTML =
@@ -1837,16 +2088,14 @@
 
 
             let count =
-                parseInt(commentCountDisplay.textContent);
+                parseInt(
+                    commentCountDisplay.textContent
+                );
 
             count++;
 
             commentCountDisplay.textContent =
                 count;
-
-
-            moreComments.textContent =
-                "View " + (count - 1) + " more comments";
 
 
             const newComment =
@@ -1908,32 +2157,44 @@
             `;
 
 
-            commentsSection.appendChild(newComment);
+            commentsSection.appendChild(
+                newComment
+            );
 
-            commentText.value = "";
 
-            commentsSection.classList.add("active");
+            commentsSection.classList.add(
+                "active"
+            );
+
 
             moreComments.textContent =
                 "Hide comments";
 
 
-            toggleCommentComposerForPost(post);
+            commentText.value = "";
+
+            toggleCommentComposerForPost(
+                post
+            );
 
         }
 
 
-        /* -------------------------
+        /* =========================
            MAIN FLOATING BUTTON
-        ------------------------- */
+        ========================= */
 
         function toggleMainButton() {
 
             const composer =
-                document.getElementById("composer");
+                document.getElementById(
+                    "composer"
+                );
 
             const feed =
-                document.getElementById("feed");
+                document.getElementById(
+                    "feed"
+                );
 
             const commentComposer =
                 document.querySelector(
@@ -1941,38 +2202,52 @@
                 );
 
             const button =
-                document.getElementById("addPostButton");
+                document.getElementById(
+                    "addPostButton"
+                );
 
 
             /* Close comment composer first */
 
             if (commentComposer) {
 
-                const post =
-                    commentComposer.closest(".post");
+                commentComposer.classList.remove(
+                    "active"
+                );
 
-                commentComposer.classList.remove("active");
+                button.classList.remove(
+                    "open"
+                );
 
-                button.classList.remove("open");
-                button.textContent = "+";
+                button.textContent =
+                    "+";
 
                 return;
-
             }
 
 
             /* Toggle Create Post */
 
-            composer.classList.toggle("active");
+            composer.classList.toggle(
+                "active"
+            );
 
-            button.classList.toggle("open");
+            button.classList.toggle(
+                "open"
+            );
 
 
-            if (composer.classList.contains("active")) {
+            if (
+                composer.classList.contains(
+                    "active"
+                )
+            ) {
 
-                feed.style.display = "none";
+                feed.style.display =
+                    "none";
 
-                button.textContent = "−";
+                button.textContent =
+                    "−";
 
                 composer.scrollIntoView({
                     behavior: "smooth",
@@ -1981,9 +2256,11 @@
 
             } else {
 
-                feed.style.display = "block";
+                feed.style.display =
+                    "block";
 
-                button.textContent = "+";
+                button.textContent =
+                    "+";
 
                 window.scrollTo({
                     top: 0,
@@ -1998,3 +2275,2282 @@
 
 </body>
 </html>
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #101a3a;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .divider {
+            width: 90%;
+            height: 1px;
+            background-color: white;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            padding: 18px 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        nav span {
+            opacity: 0.6;
+        }
+
+        .feed {
+            width: 90%;
+            max-width: 700px;
+            margin: 35px auto 110px;
+        }
+
+        .post {
+            background-color: #182447;
+            border-radius: 14px;
+            padding: 25px;
+            box-sizing: border-box;
+            margin-bottom: 24px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .profile-picture {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: #53648f;
+            flex-shrink: 0;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .topic {
+            margin-top: 3px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .post-image {
+            width: 100%;
+            min-height: 260px;
+            background-color: #101a3a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .post-image span {
+            opacity: 0.45;
+            font-size: 14px;
+        }
+
+        .caption {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+            white-space: pre-line;
+            word-break: break-word;
+        }
+
+        .interactions {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .interaction {
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .interaction:hover {
+            opacity: 0.7;
+        }
+
+        .like-button {
+            font-size: 16px;
+        }
+
+        .share {
+            margin-left: auto;
+        }
+
+        .latest-comment-label {
+            padding-top: 16px;
+            margin-bottom: 5px;
+            color: #aeb7cb;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .latest-comment {
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .comment-username {
+            font-weight: 700;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .footer-link {
+            color: white;
+            font-size: 13px;
+            opacity: 0.7;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+        }
+
+        .comment-button {
+            color: white;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 7px;
+            padding: 7px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .comment-button:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .hashtag-link {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: auto;
+            color: white;
+            font-size: 13px;
+            opacity: 0.7;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .hashtag-link:hover {
+            opacity: 1;
+        }
+
+        .hashtag-icon {
+            width: 22px;
+            height: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            box-sizing: border-box;
+        }
+
+        /* =========================
+           COMMENTS
+        ========================= */
+
+        .comments-section {
+            display: none;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .comments-section.active {
+            display: block;
+        }
+
+        .comment-item {
+            position: relative;
+            padding: 14px 0 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-author {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .comment-content {
+            font-size: 14px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        /* Like + Reply start from the left */
+
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .comment-like,
+        .reply-button {
+            color: white;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .comment-like {
+            font-size: 13px;
+        }
+
+        .comment-like:hover,
+        .reply-button:hover {
+            opacity: 0.7;
+        }
+
+        /* =========================
+           REPLIES
+        ========================= */
+
+        .reply-list {
+            position: relative;
+            margin-left: 28px;
+            margin-top: 8px;
+            padding-left: 18px;
+        }
+
+        /* Conversation connector */
+
+        .reply-list::before {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 0;
+            bottom: 12px;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .reply-item {
+            position: relative;
+            padding: 10px 0 12px;
+        }
+
+        .reply-item::before {
+            content: "";
+            position: absolute;
+            left: -15px;
+            top: 22px;
+            width: 10px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .reply-author {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .reply-content {
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .reply-item .comment-actions {
+            margin-top: 7px;
+        }
+
+        /* Nested replies */
+
+        .reply-item .reply-list {
+            margin-left: 24px;
+        }
+
+        /* =========================
+           REPLY COMPOSER
+        ========================= */
+
+        .reply-composer {
+            display: none;
+            margin-top: 12px;
+        }
+
+        .reply-composer.active {
+            display: block;
+        }
+
+        .reply-input {
+            width: 100%;
+            min-height: 55px;
+            box-sizing: border-box;
+            background-color: #101a3a;
+            border: 1px solid #53648f;
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .reply-input::placeholder {
+            color: #b9c0d2;
+        }
+
+        .reply-submit {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .reply-post-button {
+            padding: 7px 15px;
+            border: none;
+            border-radius: 7px;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .reply-post-button:hover {
+            background-color: #4169d0;
+        }
+
+        /* =========================
+           MAIN COMMENT COMPOSER
+        ========================= */
+
+        .comment-composer {
+            display: none;
+            margin-top: 18px;
+            padding: 18px;
+            background-color: #101a3a;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .comment-composer.active {
+            display: block;
+        }
+
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .comment-profile-picture {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #53648f;
+            flex-shrink: 0;
+        }
+
+        .comment-username-display {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .comment-text-area {
+            width: 100%;
+            min-height: 90px;
+            box-sizing: border-box;
+            background-color: #182447;
+            border: 1px solid #53648f;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+        }
+
+        .comment-text-area::placeholder {
+            color: #b9c0d2;
+        }
+
+        .comment-post-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .comment-post-button {
+            padding: 9px 20px;
+            border: none;
+            border-radius: 7px;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .comment-post-button:hover {
+            background-color: #4169d0;
+        }
+
+        /* =========================
+           CREATE POST
+        ========================= */
+
+        .add-post {
+            position: fixed;
+            right: 35px;
+            bottom: 35px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: none;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-size: 30px;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s ease;
+            z-index: 10;
+        }
+
+        .add-post.open {
+            background-color: #b83a3a;
+        }
+
+        .add-post:hover::after {
+            content: "What's on your mind?";
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #182447;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .add-post.open:hover::after {
+            content: "Go back to feed";
+        }
+
+        .composer {
+            display: none;
+            width: 90%;
+            max-width: 650px;
+            margin: 35px auto 100px;
+            background-color: #182447;
+            border-radius: 14px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .composer.active {
+            display: block;
+        }
+
+        .composer h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 150px;
+            box-sizing: border-box;
+            background-color: #101a3a;
+            border: 1px solid #53648f;
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .text-area::placeholder {
+            color: #b9c0d2;
+        }
+
+        .composer-option {
+            width: 100%;
+            margin-top: 15px;
+            padding: 13px 16px;
+            background-color: #101a3a;
+            border: 1px solid #53648f;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .composer-option:hover {
+            background-color: #1d2c52;
+        }
+
+        .profile-setting {
+            margin-top: 20px;
+            padding: 10px 0;
+            font-size: 15px;
+        }
+
+        .profile-setting label {
+            margin-right: 15px;
+        }
+
+        .composer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .post-button {
+            padding: 11px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .post-button:hover {
+            background-color: #4169d0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ALL MEDIA</h1>
+    </header>
+
+    <div class="divider"></div>
+
+    <nav>
+        <a href="#">Home</a>
+        <span>|</span>
+        <a href="#">Communities</a>
+        <span>|</span>
+        <a href="#">Discover</a>
+        <span>|</span>
+        <a href="#">Notifications</a>
+        <span>|</span>
+        <a href="#">Profile</a>
+    </nav>
+
+    <div class="divider"></div>
+
+    <main>
+
+        <section class="composer" id="composer">
+
+            <h2>Create Post</h2>
+
+            <textarea
+                class="text-area"
+                id="mainPostText"
+                placeholder="What's on your mind?"
+            ></textarea>
+
+            <button class="composer-option">
+                ＋ Add Media
+            </button>
+
+            <button class="composer-option">
+                Topic
+            </button>
+
+            <button class="composer-option">
+                # Add Hashtags
+            </button>
+
+            <button class="composer-option">
+                Add to Community
+            </button>
+
+            <div class="profile-setting">
+
+                <strong>Show on Profile</strong>
+
+                <br><br>
+
+                <label>
+                    <input type="radio" name="profile" checked>
+                    Yes
+                </label>
+
+                <label>
+                    <input type="radio" name="profile">
+                    No
+                </label>
+
+            </div>
+
+            <div class="composer-actions">
+
+                <button
+                    class="post-button"
+                    onclick="createPost()"
+                >
+                    POST
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <section class="feed" id="feed">
+
+            <article class="post">
+
+                <div class="post-header">
+
+                    <div class="profile-picture"></div>
+
+                    <div>
+
+                        <div class="username">
+                            @moonlitmoth
+                        </div>
+
+                        <div class="topic">
+                            Art
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="post-image">
+                    <span>Image preview</span>
+                </div>
+
+
+                <div class="caption">
+                    Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!
+                </div>
+
+
+                <div class="interactions">
+
+                    <button
+                        class="interaction like-button"
+                        id="likeButton"
+                        onclick="toggleLike()"
+                    >
+                        ♡ <span id="likeCount">24</span>
+                    </button>
+
+                    <div class="interaction">
+                        💬 <span id="commentCount">8</span>
+                    </div>
+
+                    <div class="interaction">
+                        ⟳ 14
+                    </div>
+
+                    <div class="interaction share">
+                        ↗ Share
+                    </div>
+
+                </div>
+
+
+                <div class="latest-comment-label">
+                    Latest comment
+                </div>
+
+
+                <div
+                    class="latest-comment"
+                    id="latestComment"
+                >
+                    <span class="comment-username">
+                        @cryptidcorner:
+                    </span>
+                    I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
+                </div>
+
+
+                <div class="post-footer">
+
+                    <button
+                        class="comment-button"
+                        onclick="toggleCommentComposer()"
+                    >
+                        Leave your opinion…
+                    </button>
+
+                    <div
+                        class="footer-link more-comments"
+                        id="moreComments"
+                        onclick="toggleComments(this)"
+                    >
+                        View 7 more comments
+                    </div>
+
+                    <div class="hashtag-link">
+
+                        <div class="hashtag-icon">
+                            #
+                        </div>
+
+                        <span>
+                            Hashtags
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EXPANDED COMMENTS -->
+
+                <div
+                    class="comments-section"
+                    id="commentsSection"
+                >
+
+                    <!-- COMMENT 1 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @cryptidcorner
+                        </div>
+
+                        <div class="comment-content">
+                            I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>4</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <!-- REPLY -->
+
+                        <div class="reply-list">
+
+                            <div class="reply-item">
+
+                                <div class="reply-author">
+                                    @moonlitmoth
+                                </div>
+
+                                <div class="reply-content">
+                                    Thank you!! I had so much fun adding all the tiny details.
+                                </div>
+
+                                <div class="comment-actions">
+
+                                    <button
+                                        class="comment-like"
+                                        data-liked="false"
+                                        onclick="toggleCommentLike(this)"
+                                    >
+                                        ♡ <span>2</span>
+                                    </button>
+
+                                    <button
+                                        class="reply-button"
+                                        onclick="toggleReplyComposer(this)"
+                                    >
+                                        Reply
+                                    </button>
+
+                                </div>
+
+
+                                <div class="reply-composer">
+
+                                    <textarea
+                                        class="reply-input"
+                                        placeholder="Reply…"
+                                    ></textarea>
+
+                                    <div class="reply-submit">
+
+                                        <button
+                                            class="reply-post-button"
+                                            onclick="postReply(this)"
+                                        >
+                                            POST
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 2 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @hauntedhome
+                        </div>
+
+                        <div class="comment-content">
+                            The lighting is SO good. This really feels like something from an old gothic story.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>3</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 3 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @spookycat
+                        </div>
+
+                        <div class="comment-content">
+                            I need one of these hanging in my house immediately.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>1</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 4 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @witchywoodland
+                        </div>
+
+                        <div class="comment-content">
+                            The little moon detail is everything.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>2</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 5 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @graveyardgarden
+                        </div>
+
+                        <div class="comment-content">
+                            This is exactly the kind of spooky cozy art I love.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>5</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 6 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @littlebat
+                        </div>
+
+                        <div class="comment-content">
+                            This would look amazing beside a candle shelf.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>1</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMENT 7 -->
+
+                    <div class="comment-item">
+
+                        <div class="comment-author">
+                            @moonandmoss
+                        </div>
+
+                        <div class="comment-content">
+                            Gorgeous work. I love how soft the spooky feeling is.
+                        </div>
+
+                        <div class="comment-actions">
+
+                            <button
+                                class="comment-like"
+                                data-liked="false"
+                                onclick="toggleCommentLike(this)"
+                            >
+                                ♡ <span>3</span>
+                            </button>
+
+                            <button
+                                class="reply-button"
+                                onclick="toggleReplyComposer(this)"
+                            >
+                                Reply
+                            </button>
+
+                        </div>
+
+
+                        <div class="reply-composer">
+
+                            <textarea
+                                class="reply-input"
+                                placeholder="Reply…"
+                            ></textarea>
+
+                            <div class="reply-submit">
+
+                                <button
+                                    class="reply-post-button"
+                                    onclick="postReply(this)"
+                                >
+                                    POST
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAIN COMMENT COMPOSER -->
+
+                <div
+                    class="comment-composer"
+                    id="commentComposer"
+                >
+
+                    <div class="comment-user">
+
+                        <div class="comment-profile-picture"></div>
+
+                        <div class="comment-username-display">
+                            @yourusername
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        class="comment-text-area"
+                        id="commentText"
+                        placeholder="Say hi…"
+                    ></textarea>
+
+                    <div class="comment-post-actions">
+
+                        <button
+                            class="comment-post-button"
+                            onclick="postComment()"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <button
+        class="add-post"
+        id="addPostButton"
+        onclick="toggleMainButton()"
+        aria-label="Create Post"
+    >
+        +
+    </button>
+
+
+    <script>
+
+        /* =========================
+           POST LIKES
+        ========================= */
+
+        let liked = false;
+        let likeCount = 24;
+
+        function toggleLike() {
+
+            const likeButton =
+                document.getElementById("likeButton");
+
+            const likeCountDisplay =
+                document.getElementById("likeCount");
+
+            if (liked) {
+
+                liked = false;
+                likeCount--;
+
+                likeButton.classList.remove("liked");
+                likeButton.firstChild.textContent = "♡ ";
+
+            } else {
+
+                liked = true;
+                likeCount++;
+
+                likeButton.classList.add("liked");
+                likeButton.firstChild.textContent = "♥ ";
+
+            }
+
+            likeCountDisplay.textContent =
+                likeCount;
+        }
+
+
+        function toggleLikeNew(btn) {
+
+            const countSpan =
+                btn.querySelector(".like-count");
+
+            let count =
+                parseInt(countSpan.textContent);
+
+            const isLiked =
+                btn.dataset.liked === "true";
+
+            if (isLiked) {
+
+                btn.dataset.liked = "false";
+                btn.firstChild.textContent = "♡ ";
+                countSpan.textContent = count - 1;
+
+            } else {
+
+                btn.dataset.liked = "true";
+                btn.firstChild.textContent = "♥ ";
+                countSpan.textContent = count + 1;
+
+            }
+        }
+
+
+        /* =========================
+           COMMENT LIKES
+        ========================= */
+
+        function toggleCommentLike(button) {
+
+            const countSpan =
+                button.querySelector("span");
+
+            let count =
+                parseInt(countSpan.textContent);
+
+            const isLiked =
+                button.dataset.liked === "true";
+
+            if (isLiked) {
+
+                button.dataset.liked = "false";
+                button.firstChild.textContent = "♡ ";
+                countSpan.textContent = count - 1;
+
+            } else {
+
+                button.dataset.liked = "true";
+                button.firstChild.textContent = "♥ ";
+                countSpan.textContent = count + 1;
+
+            }
+        }
+
+
+        /* =========================
+           EXPAND / COLLAPSE COMMENTS
+        ========================= */
+
+        function toggleComments(button) {
+
+            const post =
+                button.closest(".post");
+
+            const commentsSection =
+                post.querySelector(".comments-section");
+
+            const isOpen =
+                commentsSection.classList.contains("active");
+
+            if (isOpen) {
+
+                commentsSection.classList.remove("active");
+
+                button.textContent =
+                    "View " + getMoreCommentCount(post) + " more comments";
+
+            } else {
+
+                commentsSection.classList.add("active");
+
+                button.textContent =
+                    "Hide comments";
+
+            }
+        }
+
+
+        function getMoreCommentCount(post) {
+
+            const countDisplay =
+                post.querySelector(".comment-count, #commentCount");
+
+            if (!countDisplay) {
+                return 0;
+            }
+
+            const count =
+                parseInt(countDisplay.textContent);
+
+            return Math.max(count - 1, 0);
+        }
+
+
+        /* =========================
+           MAIN COMMENT COMPOSER
+        ========================= */
+
+        function toggleCommentComposerForPost(post) {
+
+            const composer =
+                post.querySelector(".comment-composer");
+
+            const button =
+                document.getElementById("addPostButton");
+
+            const currentlyOpen =
+                composer.classList.contains("active");
+
+            document
+                .querySelectorAll(".comment-composer.active")
+                .forEach(function(otherComposer) {
+
+                    otherComposer.classList.remove("active");
+
+                });
+
+            if (!currentlyOpen) {
+
+                composer.classList.add("active");
+
+                button.classList.add("open");
+                button.textContent = "−";
+
+                composer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+
+            } else {
+
+                button.classList.remove("open");
+                button.textContent = "+";
+
+            }
+        }
+
+
+        function toggleCommentComposer() {
+
+            const post =
+                document.querySelector(".post");
+
+            toggleCommentComposerForPost(post);
+
+        }
+
+
+        /* =========================
+           POST A COMMENT
+        ========================= */
+
+        let commentCount = 8;
+
+        function postComment() {
+
+            const post =
+                document.querySelector(".post");
+
+            const commentText =
+                post.querySelector("#commentText");
+
+            const latestComment =
+                post.querySelector("#latestComment");
+
+            const commentCountDisplay =
+                post.querySelector("#commentCount");
+
+            const moreComments =
+                post.querySelector("#moreComments");
+
+            const commentsSection =
+                post.querySelector(".comments-section");
+
+            const text =
+                commentText.value.trim();
+
+            if (text === "") {
+                return;
+            }
+
+
+            /* Update latest comment */
+
+            latestComment.innerHTML =
+                '<span class="comment-username">@yourusername:</span> '
+                + escapeHTML(text);
+
+
+            /* Update count */
+
+            commentCount++;
+
+            commentCountDisplay.textContent =
+                commentCount;
+
+
+            /* Create new comment */
+
+            const newComment =
+                document.createElement("div");
+
+            newComment.className =
+                "comment-item";
+
+            newComment.innerHTML = `
+
+                <div class="comment-author">
+                    @yourusername
+                </div>
+
+                <div class="comment-content">
+                    ${escapeHTML(text)}
+                </div>
+
+                <div class="comment-actions">
+
+                    <button
+                        class="comment-like"
+                        data-liked="false"
+                        onclick="toggleCommentLike(this)"
+                    >
+                        ♡ <span>0</span>
+                    </button>
+
+                    <button
+                        class="reply-button"
+                        onclick="toggleReplyComposer(this)"
+                    >
+                        Reply
+                    </button>
+
+                </div>
+
+                <div class="reply-composer">
+
+                    <textarea
+                        class="reply-input"
+                        placeholder="Reply…"
+                    ></textarea>
+
+                    <div class="reply-submit">
+
+                        <button
+                            class="reply-post-button"
+                            onclick="postReply(this)"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            commentsSection.appendChild(
+                newComment
+            );
+
+
+            commentsSection.classList.add(
+                "active"
+            );
+
+
+            moreComments.textContent =
+                "Hide comments";
+
+
+            commentText.value = "";
+
+            toggleCommentComposerForPost(
+                post
+            );
+
+        }
+
+
+        /* =========================
+           REPLY COMPOSERS
+        ========================= */
+
+        function toggleReplyComposer(button) {
+
+            const parent =
+                button.closest(
+                    ".comment-item, .reply-item"
+                );
+
+            if (!parent) {
+                return;
+            }
+
+            const composer =
+                parent.querySelector(
+                    ":scope > .reply-composer"
+                );
+
+            if (!composer) {
+                return;
+            }
+
+            const isOpen =
+                composer.classList.contains("active");
+
+
+            document
+                .querySelectorAll(".reply-composer.active")
+                .forEach(function(otherComposer) {
+
+                    otherComposer.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            if (!isOpen) {
+
+                composer.classList.add(
+                    "active"
+                );
+
+                const input =
+                    composer.querySelector(
+                        ".reply-input"
+                    );
+
+                if (input) {
+                    input.focus();
+                }
+
+            }
+
+        }
+
+
+        /* =========================
+           POST A REPLY
+        ========================= */
+
+        function postReply(button) {
+
+            const composer =
+                button.closest(".reply-composer");
+
+            const parent =
+                composer.parentElement;
+
+            const input =
+                composer.querySelector(".reply-input");
+
+            const text =
+                input.value.trim();
+
+            if (text === "") {
+                return;
+            }
+
+
+            let replyList =
+                parent.querySelector(
+                    ":scope > .reply-list"
+                );
+
+
+            /* Create reply list if needed */
+
+            if (!replyList) {
+
+                replyList =
+                    document.createElement("div");
+
+                replyList.className =
+                    "reply-list";
+
+                parent.insertBefore(
+                    replyList,
+                    composer
+                );
+
+            }
+
+
+            /* Create reply */
+
+            const reply =
+                document.createElement("div");
+
+            reply.className =
+                "reply-item";
+
+
+            reply.innerHTML = `
+
+                <div class="reply-author">
+                    @yourusername
+                </div>
+
+                <div class="reply-content">
+                    ${escapeHTML(text)}
+                </div>
+
+                <div class="comment-actions">
+
+                    <button
+                        class="comment-like"
+                        data-liked="false"
+                        onclick="toggleCommentLike(this)"
+                    >
+                        ♡ <span>0</span>
+                    </button>
+
+                    <button
+                        class="reply-button"
+                        onclick="toggleReplyComposer(this)"
+                    >
+                        Reply
+                    </button>
+
+                </div>
+
+                <div class="reply-composer">
+
+                    <textarea
+                        class="reply-input"
+                        placeholder="Reply…"
+                    ></textarea>
+
+                    <div class="reply-submit">
+
+                        <button
+                            class="reply-post-button"
+                            onclick="postReply(this)"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            replyList.appendChild(
+                reply
+            );
+
+
+            input.value = "";
+
+            composer.classList.remove(
+                "active"
+            );
+
+        }
+
+
+        /* =========================
+           SAFE TEXT
+        ========================= */
+
+        function escapeHTML(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                text;
+
+            return div.innerHTML;
+
+        }
+
+
+        /* =========================
+           CREATE POST
+        ========================= */
+
+        function createPost() {
+
+            const textArea =
+                document.getElementById(
+                    "mainPostText"
+                );
+
+            const text =
+                textArea.value.trim();
+
+            if (text === "") {
+                return;
+            }
+
+
+            const feed =
+                document.getElementById("feed");
+
+            const newPost =
+                document.createElement("article");
+
+            newPost.className =
+                "post";
+
+
+            newPost.innerHTML = `
+
+                <div class="post-header">
+
+                    <div class="profile-picture"></div>
+
+                    <div>
+
+                        <div class="username">
+                            @yourusername
+                        </div>
+
+                        <div class="topic">
+                            Art
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="caption">
+                    ${escapeHTML(text)}
+                </div>
+
+
+                <div class="interactions">
+
+                    <button
+                        class="interaction like-button"
+                        data-liked="false"
+                        onclick="toggleLikeNew(this)"
+                    >
+                        ♡ <span class="like-count">0</span>
+                    </button>
+
+                    <div class="interaction">
+                        💬 <span class="comment-count">0</span>
+                    </div>
+
+                    <div class="interaction">
+                        ⟳ 0
+                    </div>
+
+                    <div class="interaction share">
+                        ↗ Share
+                    </div>
+
+                </div>
+
+
+                <div class="latest-comment-label">
+                    Latest comment
+                </div>
+
+
+                <div class="latest-comment">
+                    No comments yet
+                </div>
+
+
+                <div class="post-footer">
+
+                    <button
+                        class="comment-button"
+                        onclick="toggleCommentComposerForPost(this.closest('.post'))"
+                    >
+                        Leave your opinion…
+                    </button>
+
+                    <div
+                        class="footer-link more-comments"
+                        onclick="toggleComments(this)"
+                    >
+                        View 0 more comments
+                    </div>
+
+                    <div class="hashtag-link">
+
+                        <div class="hashtag-icon">
+                            #
+                        </div>
+
+                        <span>
+                            Hashtags
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="comments-section"></div>
+
+
+                <div class="comment-composer">
+
+                    <div class="comment-user">
+
+                        <div class="comment-profile-picture"></div>
+
+                        <div class="comment-username-display">
+                            @yourusername
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        class="comment-text-area"
+                        placeholder="Say hi…"
+                    ></textarea>
+
+                    <div class="comment-post-actions">
+
+                        <button
+                            class="comment-post-button"
+                            onclick="postCommentNew(this)"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            feed.prepend(
+                newPost
+            );
+
+
+            textArea.value = "";
+
+
+            document
+                .getElementById("composer")
+                .classList.remove("active");
+
+
+            feed.style.display =
+                "block";
+
+
+            const button =
+                document.getElementById(
+                    "addPostButton"
+                );
+
+            button.classList.remove("open");
+            button.textContent = "+";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+        /* =========================
+           COMMENTS ON NEW POSTS
+        ========================= */
+
+        function postCommentNew(button) {
+
+            const post =
+                button.closest(".post");
+
+            const commentText =
+                post.querySelector(
+                    ".comment-text-area"
+                );
+
+            const latestComment =
+                post.querySelector(
+                    ".latest-comment"
+                );
+
+            const commentCountDisplay =
+                post.querySelector(
+                    ".comment-count"
+                );
+
+            const moreComments =
+                post.querySelector(
+                    ".more-comments"
+                );
+
+            const commentsSection =
+                post.querySelector(
+                    ".comments-section"
+                );
+
+            const text =
+                commentText.value.trim();
+
+            if (text === "") {
+                return;
+            }
+
+
+            latestComment.innerHTML =
+                '<span class="comment-username">@yourusername:</span> '
+                + escapeHTML(text);
+
+
+            let count =
+                parseInt(
+                    commentCountDisplay.textContent
+                );
+
+            count++;
+
+            commentCountDisplay.textContent =
+                count;
+
+
+            const newComment =
+                document.createElement("div");
+
+            newComment.className =
+                "comment-item";
+
+
+            newComment.innerHTML = `
+
+                <div class="comment-author">
+                    @yourusername
+                </div>
+
+                <div class="comment-content">
+                    ${escapeHTML(text)}
+                </div>
+
+                <div class="comment-actions">
+
+                    <button
+                        class="comment-like"
+                        data-liked="false"
+                        onclick="toggleCommentLike(this)"
+                    >
+                        ♡ <span>0</span>
+                    </button>
+
+                    <button
+                        class="reply-button"
+                        onclick="toggleReplyComposer(this)"
+                    >
+                        Reply
+                    </button>
+
+                </div>
+
+                <div class="reply-composer">
+
+                    <textarea
+                        class="reply-input"
+                        placeholder="Reply…"
+                    ></textarea>
+
+                    <div class="reply-submit">
+
+                        <button
+                            class="reply-post-button"
+                            onclick="postReply(this)"
+                        >
+                            POST
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            commentsSection.appendChild(
+                newComment
+            );
+
+
+            commentsSection.classList.add(
+                "active"
+            );
+
+
+            moreComments.textContent =
+                "Hide comments";
+
+
+            commentText.value = "";
+
+            toggleCommentComposerForPost(
+                post
+            );
+
+        }
+
+
+        /* =========================
+           MAIN FLOATING BUTTON
+        ========================= */
+
+        function toggleMainButton() {
+
+            const composer =
+                document.getElementById(
+                    "composer"
+                );
+
+            const feed =
+                document.getElementById(
+                    "feed"
+                );
+
+            const commentComposer =
+                document.querySelector(
+                    ".comment-composer.active"
+                );
+
+            const button =
+                document.getElementById(
+                    "addPostButton"
+                );
+
+
+            /* Close comment composer first */
+
+            if (commentComposer) {
+
+                commentComposer.classList.remove(
+                    "active"
+                );
+
+                button.classList.remove(
+                    "open"
+                );
+
+                button.textContent =
+                    "+";
+
+                return;
+            }
+
+
+            /* Toggle Create Post */
+
+            composer.classList.toggle(
+                "active"
+            );
+
+            button.classList.toggle(
+                "open"
+            );
+
+
+            if (
+                composer.classList.contains(
+                    "active"
+                )
+            ) {
+
+                feed.style.display =
+                    "none";
+
+                button.textContent =
+                    "−";
+
+                composer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            } else {
+
+                feed.style.display =
+                    "block";
+
+                button.textContent =
+                    "+";
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+
+
