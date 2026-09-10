@@ -70,6 +70,18 @@
         .profile-setting { margin-top: 20px; padding: 10px 0; font-size: 15px; }
         .composer-actions { display: flex; justify-content: flex-end; margin-top: 25px; }
         .post-button { padding: 11px 24px; border: none; border-radius: 8px; background-color: #3156b8; color: #f8f8f2; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; }
+        .page-layout { display: flex; width: 94%; max-width: 1100px; margin: 35px auto 110px; gap: 28px; align-items: flex-start; }
+        .pockets-panel { width: 210px; flex-shrink: 0; background-color: #182447; border-radius: 14px; padding: 20px; box-sizing: border-box; }
+        .pockets-title { margin: 0 0 14px; font-size: 18px; font-weight: 700; }
+        .add-pocket { width: 100%; padding: 10px 12px; margin-bottom: 18px; background-color: #3156b8; color: #f8f8f2; border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; }
+        .panel-section { margin-top: 12px; }
+        .panel-toggle { display: flex; align-items: center; gap: 7px; width: 100%; padding: 6px 0; background: none; border: none; color: white; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer; }
+        .panel-list { display: block; margin-top: 5px; }
+        .panel-list.collapsed { display: none; }
+        .pocket-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 0 7px 5px; font-size: 13px; }
+        .pocket-star { color: white; opacity: .75; background: none; border: none; padding: 0; font-size: 15px; cursor: pointer; }
+        .feed { width: 100%; max-width: 700px; margin: 0; }
+        @media (max-width: 800px) { .page-layout { width: 90%; flex-direction: column; } .pockets-panel { width: 100%; } }
     </style>
 </head>
 <body>
@@ -89,6 +101,26 @@
 <div class="composer-actions"><button class="post-button" onclick="createPost()">POST</button></div>
 </section>
 
+<div class="page-layout">
+<aside class="pockets-panel">
+<h2 class="pockets-title">POCKETS</h2>
+<button class="add-pocket">＋ Add New Pocket</button>
+<div class="panel-section">
+<button class="panel-toggle">★ Faves</button>
+<div class="panel-list">
+<div class="pocket-item"><span>🎃 Halloween</span><button class="pocket-star">★</button></div>
+<div class="pocket-item"><span>🎨 Art</span><button class="pocket-star">★</button></div>
+</div>
+</div>
+<div class="panel-section">
+<button class="panel-toggle" onclick="togglePocketList(this)">▾ Pockets</button>
+<div class="panel-list" id="pocketList">
+<div class="pocket-item"><span>🏠 Home Decor</span><button class="pocket-star">☆</button></div>
+<div class="pocket-item"><span>👻 Spooky Stuff</span><button class="pocket-star">☆</button></div>
+<div class="pocket-item"><span>🧶 Crochet</span><button class="pocket-star">☆</button></div>
+</div>
+</div>
+</aside>
 <section class="feed" id="feed">
 <article class="post">
 <div class="post-header"><div class="profile-picture"></div><div><div class="username">@moonlitmoth</div><div class="topic">Art</div></div></div>
@@ -123,6 +155,7 @@
 <div class="comment-composer" id="commentComposer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" id="commentText" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postComment()">POST</button></div></div>
 </article>
 </section>
+</div>
 </main>
 <button class="add-post" id="addPostButton" onclick="toggleMainButton()">+</button>
 
@@ -194,6 +227,7 @@ function createPost(){
 }
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.add("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
 function toggleMainButton(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), cc=document.querySelector(".comment-composer.active"), rc=document.querySelector(".reply-composer.active"), b=document.getElementById("addPostButton"); if(cc){ cc.classList.remove("active"); b.textContent="+"; return; } if(rc){ rc.classList.remove("active"); b.textContent="+"; return; } c.classList.toggle("active"); b.classList.toggle("open"); if(c.classList.contains("active")){ f.style.display="none"; b.textContent="−"; } else { f.style.display="block"; b.textContent="+"; } }
+function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
 </script>
 </body>
 </html>
