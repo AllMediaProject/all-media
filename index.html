@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,10 +130,22 @@
             font-size: 14px;
             cursor: pointer;
             white-space: nowrap;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
         }
 
         .interaction:hover {
             opacity: 0.7;
+        }
+
+        .like-button {
+            font-size: 16px;
+        }
+
+        .like-button.liked {
+            color: white;
         }
 
         .share {
@@ -547,12 +558,16 @@
 
                 <div class="interactions">
 
-                    <div class="interaction">
-                        ♡ 24
-                    </div>
+                    <button
+                        class="interaction like-button"
+                        id="likeButton"
+                        onclick="toggleLike()"
+                    >
+                        ♡ <span id="likeCount">24</span>
+                    </button>
 
                     <div class="interaction">
-                        💬 8
+                        💬 <span id="commentCount">8</span>
                     </div>
 
                     <div class="interaction">
@@ -570,7 +585,7 @@
                     Latest comment
                 </div>
 
-                <div class="latest-comment">
+                <div class="latest-comment" id="latestComment">
                     <span class="comment-username">
                         @cryptidcorner:
                     </span>
@@ -587,7 +602,7 @@
                         Leave your opinion…
                     </button>
 
-                    <div class="footer-link">
+                    <div class="footer-link" id="moreComments">
                         View 7 more comments
                     </div>
 
@@ -620,12 +635,16 @@
 
                     <textarea
                         class="comment-text-area"
+                        id="commentText"
                         placeholder="Say hi…"
                     ></textarea>
 
                     <div class="comment-actions">
 
-                        <button class="comment-post-button">
+                        <button
+                            class="comment-post-button"
+                            onclick="postComment()"
+                        >
                             POST
                         </button>
 
@@ -654,12 +673,152 @@
 
     <script>
 
+        /* LIKE */
+
+        let liked = false;
+        let likeCount = 24;
+
+        function toggleLike() {
+
+            const likeButton = document.getElementById("likeButton");
+            const likeCountDisplay = document.getElementById("likeCount");
+
+            if (liked) {
+
+                liked = false;
+                likeCount--;
+
+                likeButton.classList.remove("liked");
+                likeButton.firstChild.textContent = "♡ ";
+
+            } else {
+
+                liked = true;
+                likeCount++;
+
+                likeButton.classList.add("liked");
+                likeButton.firstChild.textContent = "♥ ";
+
+            }
+
+            likeCountDisplay.textContent = likeCount;
+        }
+
+
+        /* COMMENT COMPOSER */
+
+        function toggleCommentComposer() {
+
+            const commentComposer = document.getElementById("commentComposer");
+            const button = document.getElementById("addPostButton");
+
+            commentComposer.classList.toggle("active");
+
+            if (commentComposer.classList.contains("active")) {
+
+                button.classList.add("open");
+                button.textContent = "−";
+
+                commentComposer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                });
+
+            } else {
+
+                button.classList.remove("open");
+                button.textContent = "+";
+
+            }
+        }
+
+
+        /* POST COMMENT */
+
+        let commentCount = 8;
+
+        function postComment() {
+
+            const commentText = document.getElementById("commentText");
+            const latestComment = document.getElementById("latestComment");
+            const commentCountDisplay = document.getElementById("commentCount");
+            const moreComments = document.getElementById("moreComments");
+
+            const text = commentText.value.trim();
+
+            if (text === "") {
+                return;
+            }
+
+
+            /*
+             * Add the new comment as the latest comment.
+             */
+
+            latestComment.innerHTML =
+                '<span class="comment-username">@yourusername:</span> ' +
+                escapeHTML(text);
+
+
+            /*
+             * Increase total comment count.
+             */
+
+            commentCount++;
+
+            commentCountDisplay.textContent = commentCount;
+
+
+            /*
+             * One comment is displayed in the feed,
+             * so the remaining comments are total - 1.
+             */
+
+            const remainingComments = commentCount - 1;
+
+            moreComments.textContent =
+                "View " + remainingComments + " more comments";
+
+
+            /*
+             * Clear the text box.
+             */
+
+            commentText.value = "";
+
+
+            /*
+             * Close the composer.
+             */
+
+            toggleCommentComposer();
+        }
+
+
+        /*
+         * Prevent HTML entered into a comment
+         * from being interpreted as code.
+         */
+
+        function escapeHTML(text) {
+
+            const div = document.createElement("div");
+
+            div.textContent = text;
+
+            return div.innerHTML;
+        }
+
+
+        /* CREATE POST BUTTON */
+
         function toggleMainButton() {
 
             const composer = document.getElementById("composer");
             const feed = document.getElementById("feed");
             const commentComposer = document.getElementById("commentComposer");
             const button = document.getElementById("addPostButton");
+
 
             /*
              * If the comment box is open,
@@ -703,32 +862,6 @@
                     top: 0,
                     behavior: "smooth"
                 });
-
-            }
-        }
-
-
-        function toggleCommentComposer() {
-
-            const commentComposer = document.getElementById("commentComposer");
-            const button = document.getElementById("addPostButton");
-
-            commentComposer.classList.toggle("active");
-
-            if (commentComposer.classList.contains("active")) {
-
-                button.classList.add("open");
-                button.textContent = "−";
-
-                commentComposer.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest"
-                });
-
-            } else {
-
-                button.classList.remove("open");
-                button.textContent = "+";
 
             }
         }
