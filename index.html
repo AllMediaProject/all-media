@@ -52,24 +52,127 @@
             opacity: 0.6;
         }
 
+        /* FEED */
+
         .feed {
             width: 90%;
             max-width: 700px;
-            margin: 30px auto 100px;
+            margin: 35px auto 110px;
         }
 
         .post {
             background-color: #182447;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 25px;
-            min-height: 180px;
+            box-sizing: border-box;
         }
 
-        .post-placeholder {
-            text-align: center;
-            opacity: 0.6;
-            font-size: 15px;
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
         }
+
+        .profile-picture {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: #53648f;
+            flex-shrink: 0;
+        }
+
+        .username {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .topic {
+            margin-top: 3px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .post-image {
+            width: 100%;
+            min-height: 260px;
+            background-color: #101a3a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .post-image span {
+            opacity: 0.45;
+            font-size: 14px;
+        }
+
+        .caption {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* INTERACTIONS */
+
+        .interactions {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .interaction {
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .interaction:hover {
+            opacity: 0.7;
+        }
+
+        .share {
+            margin-left: auto;
+        }
+
+        /* COMMENTS */
+
+        .latest-comment {
+            padding-top: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .comment-username {
+            font-weight: 700;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .footer-link {
+            color: white;
+            font-size: 13px;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+        }
+
+        /* CREATE POST BUTTON */
 
         .add-post {
             position: fixed;
@@ -86,6 +189,7 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: background-color 0.2s ease;
+            z-index: 10;
         }
 
         .add-post.open {
@@ -110,6 +214,8 @@
         .add-post.open:hover::after {
             content: "Go back to feed";
         }
+
+        /* CREATE POST */
 
         .composer {
             display: none;
@@ -227,7 +333,10 @@
 
     <main>
 
+        <!-- CREATE POST -->
+
         <section class="composer" id="composer">
+
             <h2>Create Post</h2>
 
             <textarea
@@ -270,19 +379,92 @@
                     POST
                 </button>
             </div>
+
         </section>
+
+
+        <!-- FEED -->
 
         <section class="feed" id="feed">
 
-            <div class="post">
-                <div class="post-placeholder">
-                    Your feed will appear here.
+            <article class="post">
+
+                <div class="post-header">
+
+                    <div class="profile-picture"></div>
+
+                    <div>
+                        <div class="username">@moonlitmoth</div>
+                        <div class="topic">Art</div>
+                    </div>
+
                 </div>
-            </div>
+
+
+                <div class="post-image">
+                    <span>Image preview</span>
+                </div>
+
+
+                <div class="caption">
+                    Finally finished this little piece tonight. 🌙
+                    I wanted it to feel like something you might find
+                    tucked away in an old haunted house.
+                </div>
+
+
+                <div class="interactions">
+
+                    <div class="interaction">
+                        ♡ 24
+                    </div>
+
+                    <div class="interaction">
+                        💬 8
+                    </div>
+
+                    <div class="interaction">
+                        ⟳ 14
+                    </div>
+
+                    <div class="interaction share">
+                        ↗ Share
+                    </div>
+
+                </div>
+
+
+                <div class="latest-comment">
+
+                    <span class="comment-username">
+                        @cryptidcorner:
+                    </span>
+
+                    I LOVE this! The little details are perfect.
+
+                </div>
+
+
+                <div class="post-footer">
+
+                    <div class="footer-link">
+                        View 7 more comments
+                    </div>
+
+                    <div class="footer-link">
+                        View Hashtags
+                    </div>
+
+                </div>
+
+            </article>
 
         </section>
 
     </main>
+
+
+    <!-- FLOATING CREATE POST BUTTON -->
 
     <button
         class="add-post"
@@ -293,8 +475,11 @@
         +
     </button>
 
+
     <script>
+
         function toggleComposer() {
+
             const composer = document.getElementById("composer");
             const feed = document.getElementById("feed");
             const button = document.getElementById("addPostButton");
@@ -303,6 +488,7 @@
             button.classList.toggle("open");
 
             if (composer.classList.contains("active")) {
+
                 feed.style.display = "none";
                 button.textContent = "−";
 
@@ -312,6 +498,7 @@
                 });
 
             } else {
+
                 feed.style.display = "block";
                 button.textContent = "+";
 
@@ -319,10 +506,13 @@
                     top: 0,
                     behavior: "smooth"
                 });
+
             }
         }
+
     </script>
 
 </body>
 </html>
+
 
