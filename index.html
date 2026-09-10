@@ -84,6 +84,11 @@
             font-family: 'Outfit', sans-serif;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s ease;
+        }
+
+        .add-post.open {
+            background-color: #b83a3a;
         }
 
         .add-post:hover::after {
@@ -99,6 +104,10 @@
             white-space: nowrap;
             font-size: 14px;
             font-weight: 500;
+        }
+
+        .add-post.open:hover::after {
+            content: "Go back to feed";
         }
 
         .composer {
@@ -274,20 +283,36 @@
 
     </main>
 
-    <button class="add-post" onclick="openComposer()" aria-label="Create Post">
+    <button
+        class="add-post"
+        id="addPostButton"
+        onclick="toggleComposer()"
+        aria-label="Create Post"
+    >
         +
     </button>
 
     <script>
-        function openComposer() {
+        function toggleComposer() {
             const composer = document.getElementById("composer");
+            const button = document.getElementById("addPostButton");
 
             composer.classList.toggle("active");
+            button.classList.toggle("open");
 
             if (composer.classList.contains("active")) {
+                button.textContent = "−";
+
                 composer.scrollIntoView({
                     behavior: "smooth",
                     block: "center"
+                });
+            } else {
+                button.textContent = "+";
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
                 });
             }
         }
@@ -295,3 +320,4 @@
 
 </body>
 </html>
+
