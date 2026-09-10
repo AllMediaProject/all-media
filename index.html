@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +16,34 @@
 
         header {
             text-align: center;
-            padding: 30px 0;
+            padding: 30px 0 20px;
         }
 
         header h1 {
             margin: 0;
             font-size: 32px;
+            font-weight: 800;
+        }
+
+        .divider {
+            width: 90%;
+            height: 1px;
+            background-color: white;
+            margin: 0 auto;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            padding: 18px 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -31,8 +54,16 @@
         <h1>ALL MEDIA</h1>
     </header>
 
-</body>
-</html>
+    <div class="divider"></div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Communities</a>
+        <a href="#">Discover</a>
+        <a href="#">Notifications</a>
+        <a href="#">Profile</a>
+    </nav>
 
 </body>
 </html>
+```
