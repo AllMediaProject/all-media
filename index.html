@@ -169,6 +169,13 @@
 .interest-manage-list{display:flex;flex-wrap:wrap;gap:7px}
 .interest-manage-note{margin-top:9px;color:#aeb7cb;font-size:10px;line-height:1.35}
 
+
+.manage-section+.manage-section{margin-top:15px;padding-top:13px;border-top:1px solid rgba(255,255,255,.12)}
+.hashtag-collection-list{display:flex;flex-direction:column;gap:7px}
+.hashtag-collection-row{display:flex;align-items:center;gap:7px}
+.hashtag-collection-name{flex:1;padding:7px 9px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:#182447;color:#f8f8f2;font-size:12px}
+.collection-remove{border:0;background:transparent;color:#aeb7cb;cursor:pointer;font-size:12px}.collection-remove:hover{color:#f8f8f2}
+.collection-add-row{display:flex;gap:7px;margin-top:9px}.collection-add-input{min-width:0;flex:1;padding:8px 9px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:#182447;color:#f8f8f2;font:12px 'Outfit',sans-serif;outline:none}.collection-add{padding:7px 10px;border:1px solid rgba(65,105,208,.4);border-radius:7px;background:rgba(49,86,184,.16);color:#f8f8f2;font:12px 'Outfit',sans-serif;cursor:pointer}.collection-note{margin-top:7px;color:#aeb7cb;font-size:10px;line-height:1.35}
 </style>
 </head>
 <body>
@@ -236,12 +243,20 @@
 
     <div class="interest-list" id="interestList"></div>
 
-    <button class="manage-interests" onclick="toggleManageInterests()">Manage Interests</button>
+    <button class="manage-interests" onclick="toggleManageInterests()">Manage</button>
 
     <div class="interest-manage-panel" id="interestManagePanel">
-        <div class="interest-manage-title">Your Interests</div>
-        <div class="interest-manage-list" id="interestManageList"></div>
-        <div class="interest-manage-note">Click an Interest to unfollow it. The sidebar shows up to 6 Interests.</div>
+        <div class="manage-section">
+            <div class="interest-manage-title">Your Interests</div>
+            <div class="interest-manage-list" id="interestManageList"></div>
+            <div class="interest-manage-note">Click an Interest to unfollow it. The sidebar shows up to 6 Interests.</div>
+        </div>
+        <div class="manage-section">
+            <div class="interest-manage-title">Hashtag Collections</div>
+            <div class="hashtag-collection-list" id="hashtagCollectionList"></div>
+            <div class="collection-add-row"><input id="newCollectionName" class="collection-add-input" placeholder="New collection name..." maxlength="24"><button type="button" class="collection-add" onclick="addHashtagCollection()">+ Add</button></div>
+            <div class="collection-note">Collections organize hashtags for faster posting. They do not appear on finished posts.</div>
+        </div>
     </div>
 </div>
 </div>
@@ -358,6 +373,7 @@ function toggleInterestFollow(name){
     renderSidebarInterests();
     renderInterestSearch(document.getElementById("interestSearchInput").value);
     renderManageInterests();
+renderHashtagCollections();
 }
 function toggleManageInterests(){
     const panel=document.getElementById("interestManagePanel");
@@ -370,6 +386,19 @@ function renderManageInterests(){
         const i=interestData(name); return `<button class="manage-interest-chip selected" onclick="toggleInterestFollow('${name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`;
     }).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;
 }
+let hashtagCollections=[
+{name:"Halloween",emoji:"🎃"},{name:"Art",emoji:"🎨"},{name:"Home Decor",emoji:"🏠"}
+];
+function renderHashtagCollections(){
+ const box=document.getElementById("hashtagCollectionList"); if(!box)return;
+ box.innerHTML=hashtagCollections.length?hashtagCollections.map((c,i)=>`<div class="hashtag-collection-row"><div class="hashtag-collection-name">${c.emoji} ${c.name}</div><button type="button" class="collection-remove" onclick="removeHashtagCollection(${i})">Remove</button></div>`).join(""):`<span class="interest-search-empty">No hashtag collections yet.</span>`;
+}
+function addHashtagCollection(){
+ const input=document.getElementById("newCollectionName"),name=input.value.trim(); if(!name)return;
+ if(hashtagCollections.some(c=>c.name.toLowerCase()===name.toLowerCase())){input.value="";return}
+ hashtagCollections.push({name,emoji:"🏷️"});input.value="";renderHashtagCollections()
+}
+function removeHashtagCollection(i){hashtagCollections.splice(i,1);renderHashtagCollections()}
 document.addEventListener("click",()=>document.getElementById("interestSearchPanel")?.classList.remove("open"));
 renderSidebarInterests();
 renderManageInterests();
