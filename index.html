@@ -244,23 +244,24 @@
             display: block;
         }
 
-        .comment-like {
-            display: inline-flex;
-            flex-direction: column;
+        .comment-user {
+            display: flex;
             align-items: center;
-            gap: 2px;
-            margin-bottom: 12px;
-            cursor: pointer;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
-        .comment-like-heart {
-            font-size: 23px;
-            line-height: 1;
+        .comment-profile-picture {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #53648f;
+            flex-shrink: 0;
         }
 
-        .comment-like-text {
-            font-size: 12px;
-            opacity: 0.7;
+        .comment-username-display {
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .comment-text-area {
@@ -607,14 +608,12 @@
 
                 <div class="comment-composer" id="commentComposer">
 
-                    <div class="comment-like">
+                    <div class="comment-user">
 
-                        <div class="comment-like-heart">
-                            ♡
-                        </div>
+                        <div class="comment-profile-picture"></div>
 
-                        <div class="comment-like-text">
-                            Like
+                        <div class="comment-username-display">
+                            @yourusername
                         </div>
 
                     </div>
@@ -738,4 +737,3 @@
 
 </body>
 </html>
-
