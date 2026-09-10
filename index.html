@@ -74,8 +74,12 @@
         .community-divider { width: 90%; height: 1px; margin: 14px auto 0; background: rgba(255,255,255,.28); }
         .community-label { font-size: 13px; font-weight: 700; opacity: .7; white-space: nowrap; }
         .pinned-communities { display: flex; align-items: center; gap: 9px; min-width: 0; overflow: hidden; }
-        .community-chip { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; background: #182447; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; cursor: pointer; white-space: nowrap; }
+        .community-chip { display: flex; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; background: #182447; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; cursor: pointer; white-space: nowrap; }
         .community-icon { width: 24px; height: 24px; border-radius: 50%; background: #53648f; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; }
+        .activity-bell { position: relative; width: 25px; height: 25px; margin-left: 2px; display: inline-flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+        .activity-bell svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .activity-count { position: absolute; top: -4px; right: -5px; min-width: 15px; height: 15px; padding: 0 3px; box-sizing: border-box; border-radius: 10px; background: #b83a3a; color: white; font-size: 9px; font-weight: 700; line-height: 15px; text-align: center; }
+        .activity-count.hidden { display: none; }
         .community-tools { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
         .community-menu { position: relative; }
         .community-tool { padding: 8px 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: transparent; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; }
@@ -110,9 +114,9 @@
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities">
-<button class="community-chip"><span class="community-icon">🎃</span>Spooky Cozy</button>
-<button class="community-chip"><span class="community-icon">🎨</span>Artists</button>
-<button class="community-chip"><span class="community-icon">🐢</span>Turtle Rescue</button>
+<button class="community-chip"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
 </div>
 <div class="community-tools">
 <div class="community-menu">
@@ -270,6 +274,7 @@ function createPost(){
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.add("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
 function toggleMainButton(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), cc=document.querySelector(".comment-composer.active"), rc=document.querySelector(".reply-composer.active"), b=document.getElementById("addPostButton"); if(cc){ cc.classList.remove("active"); b.textContent="+"; return; } if(rc){ rc.classList.remove("active"); b.textContent="+"; return; } c.classList.toggle("active"); b.classList.toggle("open"); if(c.classList.contains("active")){ f.style.display="none"; b.textContent="−"; } else { f.style.display="block"; b.textContent="+"; } }
 function toggleCommunityDropdown(){ document.getElementById("communityDropdown").classList.toggle("active"); }
+function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
 function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
 function togglePocketFavorite(button){ const item=button.closest(".pocket-item"), faves=document.getElementById("favesList"), pockets=document.getElementById("pocketList"), isFav=button.textContent.trim()==="★"; if(isFav){ button.textContent="☆"; pockets.appendChild(item); } else { button.textContent="★"; faves.appendChild(item); } }
 function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; b.classList.remove("cancel"); } else { c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; b.classList.add("cancel"); c.scrollIntoView({behavior:"smooth",block:"start"}); } }
