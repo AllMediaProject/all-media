@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,7 +115,7 @@
             display: none;
             width: 90%;
             max-width: 650px;
-            margin: 35px auto;
+            margin: 35px auto 100px;
             background-color: #182447;
             border-radius: 14px;
             padding: 30px;
@@ -271,7 +272,7 @@
             </div>
         </section>
 
-        <section class="feed">
+        <section class="feed" id="feed">
 
             <div class="post">
                 <div class="post-placeholder">
@@ -295,19 +296,23 @@
     <script>
         function toggleComposer() {
             const composer = document.getElementById("composer");
+            const feed = document.getElementById("feed");
             const button = document.getElementById("addPostButton");
 
             composer.classList.toggle("active");
             button.classList.toggle("open");
 
             if (composer.classList.contains("active")) {
+                feed.style.display = "none";
                 button.textContent = "−";
 
                 composer.scrollIntoView({
                     behavior: "smooth",
-                    block: "center"
+                    block: "start"
                 });
+
             } else {
+                feed.style.display = "block";
                 button.textContent = "+";
 
                 window.scrollTo({
