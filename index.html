@@ -152,6 +152,23 @@
 .community-pin:hover{color:#f8f8f2!important;background:rgba(255,255,255,.08)!important}
 .community-pin.pinned{color:#f8f8f2!important;background:rgba(49,86,184,.14)!important;border-color:rgba(65,105,208,.38)!important;font-weight:700}
 
+
+.interests-panel{position:relative}
+.interest-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.interest-tag{cursor:default}
+.interest-search-panel{display:none;position:absolute;z-index:20;top:58px;right:18px;width:230px;padding:12px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:#101a3a;box-shadow:0 12px 30px rgba(0,0,0,.28)}
+.interest-search-panel.open{display:block}
+.interest-search-input{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid rgba(255,255,255,.2);border-radius:7px;background:#182447;color:#f8f8f2;font:12px 'Outfit',sans-serif;outline:none}
+.interest-search-results{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.interest-result,.manage-interest-chip{padding:7px 9px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:#182447;color:#f8f8f2;font:12px 'Outfit',sans-serif;cursor:pointer}
+.interest-result.selected,.manage-interest-chip.selected{background:rgba(49,86,184,.18);border-color:rgba(65,105,208,.42);font-weight:700}
+.interest-search-empty{color:#aeb7cb;font-size:11px}
+.interest-manage-panel{display:none;margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:#101a3a}
+.interest-manage-panel.open{display:block}
+.interest-manage-title{margin-bottom:9px;color:#aeb7cb;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.interest-manage-list{display:flex;flex-wrap:wrap;gap:7px}
+.interest-manage-note{margin-top:9px;color:#aeb7cb;font-size:10px;line-height:1.35}
+
 </style>
 </head>
 <body>
@@ -209,15 +226,23 @@
 <div class="interests-panel">
     <div class="interests-header">
         <h2>INTERESTS</h2>
-        <button class="interest-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search</button>
+        <button class="interest-search" onclick="toggleInterestSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search</button>
     </div>
-    <div class="interest-list">
-        <span class="interest-tag">🎨 Art</span>
-        <span class="interest-tag">🎃 Halloween</span>
-        <span class="interest-tag">👻 Horror</span>
-        <span class="interest-tag">🌲 Nature</span>
+
+    <div class="interest-search-panel" id="interestSearchPanel" onclick="event.stopPropagation()">
+        <input id="interestSearchInput" class="interest-search-input" placeholder="Search interests..." oninput="renderInterestSearch(this.value)">
+        <div class="interest-search-results" id="interestSearchResults"></div>
     </div>
-    <button class="manage-interests">Manage Interests</button>
+
+    <div class="interest-list" id="interestList"></div>
+
+    <button class="manage-interests" onclick="toggleManageInterests()">Manage Interests</button>
+
+    <div class="interest-manage-panel" id="interestManagePanel">
+        <div class="interest-manage-title">Your Interests</div>
+        <div class="interest-manage-list" id="interestManageList"></div>
+        <div class="interest-manage-note">Click an Interest to unfollow it. The sidebar shows up to 6 Interests.</div>
+    </div>
 </div>
 </div>
 <div class="main-column">
@@ -297,6 +322,58 @@
 <button class="add-post" id="addPostButton" onclick="toggleMainButton()" style="display:none">+</button>
 
 <script>
+const allInterests=[
+{name:"Art",emoji:"🎨"},{name:"Halloween",emoji:"🎃"},{name:"Horror",emoji:"👻"},{name:"Nature",emoji:"🌲"},
+{name:"Gaming",emoji:"🎮"},{name:"Music",emoji:"🎵"},{name:"Books",emoji:"📚"},{name:"Food",emoji:"🍔"},
+{name:"Photography",emoji:"📷"},{name:"Movies & TV",emoji:"🎬"},{name:"Fashion",emoji:"👗"},{name:"Technology",emoji:"💻"},
+{name:"Lifestyle",emoji:"🧘"},{name:"Home & Decor",emoji:"🏠"},{name:"Travel",emoji:"✈️"},{name:"Animals",emoji:"🐾"}
+];
+let followedInterests=["Art","Halloween","Horror","Nature"];
+
+function interestData(name){return allInterests.find(i=>i.name===name)}
+function renderSidebarInterests(){
+    const list=document.getElementById("interestList");
+    list.innerHTML=followedInterests.slice(0,6).map(name=>{
+        const i=interestData(name); return `<span class="interest-tag">${i.emoji} ${i.name}</span>`;
+    }).join("");
+}
+function toggleInterestSearch(e){
+    e.stopPropagation();
+    const panel=document.getElementById("interestSearchPanel");
+    panel.classList.toggle("open");
+    if(panel.classList.contains("open")){
+        document.getElementById("interestSearchInput").focus();
+        renderInterestSearch(document.getElementById("interestSearchInput").value);
+    }
+}
+function renderInterestSearch(query=""){
+    const q=query.trim().toLowerCase();
+    const results=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q));
+    const box=document.getElementById("interestSearchResults");
+    box.innerHTML=results.length?results.map(i=>`<button class="interest-result ${followedInterests.includes(i.name)?"selected":""}" onclick="toggleInterestFollow('${i.name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`).join(""):`<span class="interest-search-empty">No matching Interests</span>`;
+}
+function toggleInterestFollow(name){
+    const index=followedInterests.indexOf(name);
+    if(index>=0) followedInterests.splice(index,1); else followedInterests.push(name);
+    renderSidebarInterests();
+    renderInterestSearch(document.getElementById("interestSearchInput").value);
+    renderManageInterests();
+}
+function toggleManageInterests(){
+    const panel=document.getElementById("interestManagePanel");
+    panel.classList.toggle("open");
+    renderManageInterests();
+}
+function renderManageInterests(){
+    const box=document.getElementById("interestManageList");
+    box.innerHTML=followedInterests.length?followedInterests.map(name=>{
+        const i=interestData(name); return `<button class="manage-interest-chip selected" onclick="toggleInterestFollow('${name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`;
+    }).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;
+}
+document.addEventListener("click",()=>document.getElementById("interestSearchPanel")?.classList.remove("open"));
+renderSidebarInterests();
+renderManageInterests();
+
 let liked=false; let likeCount=24;
 function toggleLike(){ const b=document.getElementById("likeButton"), c=document.getElementById("likeCount"); if(liked){ liked=false; likeCount--; b.firstChild.textContent="♡ "; } else { liked=true; likeCount++; b.firstChild.textContent="♥ "; } c.textContent=likeCount; }
 function toggleLikeNew(btn){ const s=btn.querySelector(".like-count"); let n=parseInt(s.textContent); const l=btn.dataset.liked==="true"; if(l){ btn.dataset.liked="false"; btn.firstChild.textContent="♡ "; s.textContent=n-1; } else { btn.dataset.liked="true"; btn.firstChild.textContent="♥ "; s.textContent=n+1; } }
