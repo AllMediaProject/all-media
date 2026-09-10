@@ -62,7 +62,7 @@
         .comment-post-button { padding: 9px 20px; border: none; border-radius: 7px; background-color: #3156b8; color: #f8f8f2; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
         .add-post { position: fixed; right: 35px; bottom: 35px; width: 58px; height: 58px; border-radius: 50%; border: none; background-color: #3156b8; color: #f8f8f2; font-size: 30px; font-family: 'Outfit', sans-serif; cursor: pointer; z-index: 10; }
         .add-post.open { background-color: #b83a3a; }
-        .composer { display: none; width: 90%; max-width: 650px; margin: 35px auto 100px; background-color: #182447; border-radius: 14px; padding: 30px; box-sizing: border-box; }
+        .composer { display: none; width: 100%; margin: 0; background-color: #182447; border-radius: 14px; padding: 30px; box-sizing: border-box; }
         .composer.active { display: block; }
         .composer h2 { margin-top: 0; text-align: center; font-size: 24px; font-weight: 700; }
         .text-area { width: 100%; min-height: 150px; box-sizing: border-box; background-color: #101a3a; border: 1px solid #53648f; border-radius: 10px; padding: 15px; color: white; font-family: 'Outfit', sans-serif; font-size: 16px; resize: vertical; }
@@ -81,7 +81,8 @@
         .pocket-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 0 7px 5px; font-size: 13px; }
         .pocket-star { color: white; opacity: .75; background: none; border: none; padding: 0; font-size: 15px; cursor: pointer; }
         .sidebar-create { width: 100%; margin-top: 22px; padding: 12px 15px; border: none; border-radius: 8px; background-color: #3156b8; color: #f8f8f2; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
-        .feed { width: 100%; max-width: 700px; margin: 0; }
+        .main-column { width: 100%; max-width: 700px; }
+        .feed { width: 100%; margin: 0; }
         @media (max-width: 800px) { .page-layout { width: 90%; flex-direction: column; } .pockets-panel { width: 100%; min-height: auto; position: static; } }
     </style>
 </head>
@@ -91,17 +92,6 @@
 <nav><a href="#">Home</a><span>|</span><a href="#">Communities</a><span>|</span><a href="#">Discover</a><span>|</span><a href="#">Notifications</a><span>|</span><a href="#">Profile</a></nav>
 <div class="divider"></div>
 <main>
-<section class="composer" id="composer">
-<h2>Create Post</h2>
-<textarea class="text-area" id="mainPostText" placeholder="What's on your mind?"></textarea>
-<button class="composer-option">＋ Add Media</button>
-<button class="composer-option">Topic</button>
-<button class="composer-option"># Add Hashtags</button>
-<button class="composer-option">Add to Community</button>
-<div class="profile-setting"><strong>Show on Profile</strong><br><br><label><input type="radio" name="profile" checked> Yes</label><label><input type="radio" name="profile"> No</label></div>
-<div class="composer-actions"><button class="post-button" onclick="createPost()">POST</button></div>
-</section>
-
 <div class="page-layout">
 <aside class="pockets-panel">
 <h2 class="pockets-title">POCKETS</h2>
@@ -121,8 +111,19 @@
 <div class="pocket-item"><span>🧶 Crochet</span><button class="pocket-star">☆</button></div>
 </div>
 </div>
-<button class="sidebar-create" onclick="openCreatePost()">CREATE POST</button>
+<button class="sidebar-create" id="sidebarCreateButton" onclick="toggleCreatePost()">CREATE POST</button>
 </aside>
+<div class="main-column">
+<section class="composer" id="composer">
+<h2>Create Post</h2>
+<textarea class="text-area" id="mainPostText" placeholder="What's on your mind?"></textarea>
+<button class="composer-option">＋ Add Media</button>
+<button class="composer-option">Topic</button>
+<button class="composer-option"># Add Hashtags</button>
+<button class="composer-option">Add to Community</button>
+<div class="profile-setting"><strong>Show on Profile</strong><br><br><label><input type="radio" name="profile" checked> Yes</label><label><input type="radio" name="profile"> No</label></div>
+<div class="composer-actions"><button class="post-button" onclick="createPost()">POST</button></div>
+</section>
 <section class="feed" id="feed">
 <article class="post">
 <div class="post-header"><div class="profile-picture"></div><div><div class="username">@moonlitmoth</div><div class="topic">Art</div></div></div>
@@ -157,6 +158,7 @@
 <div class="comment-composer" id="commentComposer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" id="commentText" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postComment()">POST</button></div></div>
 </article>
 </section>
+</div>
 </div>
 </main>
 <button class="add-post" id="addPostButton" onclick="toggleMainButton()" style="display:none">+</button>
@@ -225,12 +227,12 @@ function createPost(){
     const ta=document.getElementById("mainPostText"), text=ta.value.trim(); if(!text) return;
     const feed=document.getElementById("feed"), np=document.createElement("article"); np.className="post";
     np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div><div class="username">@yourusername</div><div class="topic">Art</div></div></div><div class="caption">${escapeHTML(text)}</div><div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button><div class="interaction">⟳ 0</div><div class="interaction share">↗ Share</div></div><div class="latest-comment-label">Latest comment</div><div class="latest-comment">No comments yet</div><div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 0 more comments</div><div class="hashtag-link"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="comments-section"></div><div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>`;
-    feed.prepend(np); ta.value=""; document.getElementById("composer").classList.remove("active"); feed.style.display="block"; document.getElementById("addPostButton").textContent="+";
+    feed.prepend(np); ta.value=""; document.getElementById("composer").classList.remove("active"); feed.style.display="block"; document.getElementById("addPostButton").textContent="+"; const sb=document.getElementById("sidebarCreateButton"); if(sb) sb.textContent="CREATE POST";
 }
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.add("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
 function toggleMainButton(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), cc=document.querySelector(".comment-composer.active"), rc=document.querySelector(".reply-composer.active"), b=document.getElementById("addPostButton"); if(cc){ cc.classList.remove("active"); b.textContent="+"; return; } if(rc){ rc.classList.remove("active"); b.textContent="+"; return; } c.classList.toggle("active"); b.classList.toggle("open"); if(c.classList.contains("active")){ f.style.display="none"; b.textContent="−"; } else { f.style.display="block"; b.textContent="+"; } }
 function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
-function openCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"); c.classList.add("active"); f.style.display="none"; c.scrollIntoView({behavior:"smooth",block:"start"}); }
+function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; } else { c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; c.scrollIntoView({behavior:"smooth",block:"start"}); } }
 </script>
 </body>
 </html>
