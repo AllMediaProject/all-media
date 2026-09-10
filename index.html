@@ -4,7 +4,7 @@
 <head>
     <title>All Media</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -35,6 +35,7 @@
         nav {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 35px;
             padding: 18px 20px;
         }
@@ -48,6 +49,146 @@
 
         nav span {
             opacity: 0.6;
+        }
+
+        .feed {
+            width: 90%;
+            max-width: 700px;
+            margin: 30px auto 100px;
+        }
+
+        .post {
+            background-color: #182447;
+            border-radius: 12px;
+            padding: 25px;
+            min-height: 180px;
+        }
+
+        .post-placeholder {
+            text-align: center;
+            opacity: 0.6;
+            font-size: 15px;
+        }
+
+        .add-post {
+            position: fixed;
+            right: 35px;
+            bottom: 35px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: none;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-size: 30px;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .add-post:hover::after {
+            content: "What's on your mind?";
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #182447;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .composer {
+            display: none;
+            width: 90%;
+            max-width: 650px;
+            margin: 35px auto;
+            background-color: #182447;
+            border-radius: 14px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .composer.active {
+            display: block;
+        }
+
+        .composer h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 150px;
+            box-sizing: border-box;
+            background-color: #101a3a;
+            border: 1px solid #53648f;
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .text-area::placeholder {
+            color: #b9c0d2;
+        }
+
+        .composer-option {
+            width: 100%;
+            margin-top: 15px;
+            padding: 13px 16px;
+            background-color: #101a3a;
+            border: 1px solid #53648f;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .composer-option:hover {
+            background-color: #1d2c52;
+        }
+
+        .profile-setting {
+            margin-top: 20px;
+            padding: 10px 0;
+            font-size: 15px;
+        }
+
+        .profile-setting label {
+            margin-right: 15px;
+        }
+
+        .composer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .post-button {
+            padding: 11px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #3156b8;
+            color: #f8f8f2;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .post-button:hover {
+            background-color: #4169d0;
         }
     </style>
 </head>
@@ -73,6 +214,84 @@
     </nav>
 
     <div class="divider"></div>
+
+    <main>
+
+        <section class="composer" id="composer">
+            <h2>Create Post</h2>
+
+            <textarea
+                class="text-area"
+                placeholder="What's on your mind?"
+            ></textarea>
+
+            <button class="composer-option">
+                ＋ Add Media
+            </button>
+
+            <button class="composer-option">
+                Topic
+            </button>
+
+            <button class="composer-option">
+                # Add Hashtags
+            </button>
+
+            <button class="composer-option">
+                Add to Community
+            </button>
+
+            <div class="profile-setting">
+                <strong>Show on Profile</strong><br><br>
+
+                <label>
+                    <input type="radio" name="profile" checked>
+                    Yes
+                </label>
+
+                <label>
+                    <input type="radio" name="profile">
+                    No
+                </label>
+            </div>
+
+            <div class="composer-actions">
+                <button class="post-button">
+                    POST
+                </button>
+            </div>
+        </section>
+
+        <section class="feed">
+
+            <div class="post">
+                <div class="post-placeholder">
+                    Your feed will appear here.
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <button class="add-post" onclick="openComposer()" aria-label="Create Post">
+        +
+    </button>
+
+    <script>
+        function openComposer() {
+            const composer = document.getElementById("composer");
+
+            composer.classList.toggle("active");
+
+            if (composer.classList.contains("active")) {
+                composer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+        }
+    </script>
 
 </body>
 </html>
