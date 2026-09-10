@@ -50,10 +50,7 @@
             opacity: 0.6;
         }
 
-
-        /* =========================
-           FEED
-        ========================= */
+        /* FEED */
 
         .feed {
             width: 90%;
@@ -66,7 +63,6 @@
             border-radius: 14px;
             padding: 25px;
             box-sizing: border-box;
-            margin-bottom: 25px;
         }
 
         .post-header {
@@ -116,13 +112,9 @@
             font-size: 16px;
             line-height: 1.5;
             margin-bottom: 20px;
-            white-space: pre-wrap;
         }
 
-
-        /* =========================
-           INTERACTIONS
-        ========================= */
+        /* INTERACTIONS */
 
         .interactions {
             display: flex;
@@ -160,10 +152,7 @@
             margin-left: auto;
         }
 
-
-        /* =========================
-           COMMENTS
-        ========================= */
+        /* COMMENTS */
 
         .latest-comment-label {
             padding-top: 16px;
@@ -220,10 +209,7 @@
             background-color: rgba(255, 255, 255, 0.08);
         }
 
-
-        /* =========================
-           HASHTAGS
-        ========================= */
+        /* HASHTAGS */
 
         .hashtag-link {
             display: flex;
@@ -254,10 +240,7 @@
             box-sizing: border-box;
         }
 
-
-        /* =========================
-           COMMENT COMPOSER
-        ========================= */
+        /* COMMENT COMPOSER */
 
         .comment-composer {
             display: none;
@@ -332,10 +315,7 @@
             background-color: #4169d0;
         }
 
-
-        /* =========================
-           FLOATING BUTTON
-        ========================= */
+        /* CREATE POST BUTTON */
 
         .add-post {
             position: fixed;
@@ -378,10 +358,7 @@
             content: "Go back to feed";
         }
 
-
-        /* =========================
-           CREATE POST
-        ========================= */
+        /* CREATE POST */
 
         .composer {
             display: none;
@@ -475,7 +452,6 @@
     </style>
 </head>
 
-
 <body>
 
     <header>
@@ -483,7 +459,6 @@
     </header>
 
     <div class="divider"></div>
-
 
     <nav>
         <a href="#">Home</a>
@@ -497,242 +472,139 @@
         <a href="#">Profile</a>
     </nav>
 
-
     <div class="divider"></div>
-
 
     <main>
 
-
-        <!-- =========================
-             CREATE POST
-        ========================= -->
+        <!-- CREATE POST -->
 
         <section class="composer" id="composer">
 
             <h2>Create Post</h2>
 
-
             <textarea
                 class="text-area"
-                id="postText"
                 placeholder="What's on your mind?"
             ></textarea>
 
-
-            <button
-                type="button"
-                class="composer-option"
-            >
+            <button class="composer-option">
                 ＋ Add Media
             </button>
 
-
-            <button
-                type="button"
-                class="composer-option"
-            >
+            <button class="composer-option">
                 Topic
             </button>
 
-
-            <button
-                type="button"
-                class="composer-option"
-            >
+            <button class="composer-option">
                 # Add Hashtags
             </button>
 
-
-            <button
-                type="button"
-                class="composer-option"
-            >
+            <button class="composer-option">
                 Add to Community
             </button>
 
-
             <div class="profile-setting">
-
-                <strong>Show on Profile</strong>
-
-                <br>
-                <br>
+                <strong>Show on Profile</strong><br><br>
 
                 <label>
-                    <input
-                        type="radio"
-                        name="profile"
-                        checked
-                    >
+                    <input type="radio" name="profile" checked>
                     Yes
                 </label>
 
-
                 <label>
-                    <input
-                        type="radio"
-                        name="profile"
-                    >
+                    <input type="radio" name="profile">
                     No
                 </label>
-
             </div>
 
-
             <div class="composer-actions">
-
-                <button
-                    type="button"
-                    class="post-button"
-                    onclick="createPost()"
-                >
+                <button class="post-button">
                     POST
                 </button>
-
             </div>
 
         </section>
 
 
+        <!-- FEED -->
 
-        <!-- =========================
-             FEED
-        ========================= -->
-
-        <section
-            class="feed"
-            id="feed"
-        >
-
-            <!-- New posts will appear here -->
-
-
-            <!-- SAMPLE POST -->
+        <section class="feed" id="feed">
 
             <article class="post">
-
 
                 <div class="post-header">
 
                     <div class="profile-picture"></div>
 
                     <div>
-
-                        <div class="username">
-                            @moonlitmoth
-                        </div>
-
-                        <div class="topic">
-                            Art
-                        </div>
-
+                        <div class="username">@moonlitmoth</div>
+                        <div class="topic">Art</div>
                     </div>
 
                 </div>
 
 
-
                 <div class="post-image">
-
-                    <span>
-                        Image preview
-                    </span>
-
+                    <span>Image preview</span>
                 </div>
-
 
 
                 <div class="caption">
-
                     Finally finished this little piece tonight. 🌙
                     I wanted it to feel like something you might find
                     tucked away in an old haunted house.
-
                 </div>
-
 
 
                 <div class="interactions">
 
-
                     <button
-                        type="button"
                         class="interaction like-button"
-                        onclick="toggleLike(this)"
+                        id="likeButton"
+                        onclick="toggleLike()"
                     >
-                        ♡
-                        <span class="like-count">
-                            24
-                        </span>
+                        ♡ <span id="likeCount">24</span>
                     </button>
 
-
                     <div class="interaction">
-
-                        💬
-                        <span class="comment-count">
-                            8
-                        </span>
-
+                        💬 <span id="commentCount">8</span>
                     </div>
 
-
                     <div class="interaction">
-
                         ⟳ 14
-
                     </div>
-
 
                     <div class="interaction share">
-
                         ↗ Share
-
                     </div>
 
                 </div>
-
 
 
                 <div class="latest-comment-label">
-
                     Latest comment
-
                 </div>
 
-
-
-                <div class="latest-comment">
-
+                <div class="latest-comment" id="latestComment">
                     <span class="comment-username">
                         @cryptidcorner:
                     </span>
-
                     I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!
-
                 </div>
-
 
 
                 <div class="post-footer">
 
-
                     <button
-                        type="button"
                         class="comment-button"
-                        onclick="toggleCommentComposer(this)"
+                        onclick="toggleCommentComposer()"
                     >
                         Leave your opinion…
                     </button>
 
-
-                    <div class="footer-link">
-
+                    <div class="footer-link" id="moreComments">
                         View 7 more comments
-
                     </div>
-
 
                     <div class="hashtag-link">
 
@@ -740,20 +612,16 @@
                             #
                         </div>
 
-                        <span>
-                            Hashtags
-                        </span>
+                        <span>Hashtags</span>
 
                     </div>
 
                 </div>
 
 
-
                 <!-- COMMENT COMPOSER -->
 
-                <div class="comment-composer">
-
+                <div class="comment-composer" id="commentComposer">
 
                     <div class="comment-user">
 
@@ -765,19 +633,17 @@
 
                     </div>
 
-
                     <textarea
                         class="comment-text-area"
+                        id="commentText"
                         placeholder="Say hi…"
                     ></textarea>
-
 
                     <div class="comment-actions">
 
                         <button
-                            type="button"
                             class="comment-post-button"
-                            onclick="postComment(this)"
+                            onclick="postComment()"
                         >
                             POST
                         </button>
@@ -793,13 +659,9 @@
     </main>
 
 
-
-    <!-- =========================
-         FLOATING BUTTON
-    ========================= -->
+    <!-- FLOATING BUTTON -->
 
     <button
-        type="button"
         class="add-post"
         id="addPostButton"
         onclick="toggleMainButton()"
@@ -809,93 +671,53 @@
     </button>
 
 
-
     <script>
 
+        /* LIKE */
 
-        /* =========================
-           LIKE
-        ========================= */
+        let liked = false;
+        let likeCount = 24;
 
-        function toggleLike(button) {
+        function toggleLike() {
 
-            const likeCountDisplay =
-                button.querySelector(".like-count");
+            const likeButton = document.getElementById("likeButton");
+            const likeCountDisplay = document.getElementById("likeCount");
 
+            if (liked) {
 
-            let likeCount =
-                parseInt(
-                    likeCountDisplay.textContent
-                );
-
-
-            const isLiked =
-                button.classList.contains("liked");
-
-
-            if (isLiked) {
-
-                button.classList.remove("liked");
-
-                button.firstChild.textContent = "♡ ";
-
+                liked = false;
                 likeCount--;
+
+                likeButton.classList.remove("liked");
+                likeButton.firstChild.textContent = "♡ ";
 
             } else {
 
-                button.classList.add("liked");
-
-                button.firstChild.textContent = "♥ ";
-
+                liked = true;
                 likeCount++;
+
+                likeButton.classList.add("liked");
+                likeButton.firstChild.textContent = "♥ ";
 
             }
 
-
-            likeCountDisplay.textContent =
-                likeCount;
-
+            likeCountDisplay.textContent = likeCount;
         }
 
 
+        /* COMMENT COMPOSER */
 
-        /* =========================
-           COMMENT COMPOSER
-        ========================= */
+        function toggleCommentComposer() {
 
-        function toggleCommentComposer(button) {
+            const commentComposer = document.getElementById("commentComposer");
+            const button = document.getElementById("addPostButton");
 
-            const post =
-                button.closest(".post");
+            commentComposer.classList.toggle("active");
 
+            if (commentComposer.classList.contains("active")) {
 
-            const commentComposer =
-                post.querySelector(
-                    ".comment-composer"
-                );
-
-
-            const mainButton =
-                document.getElementById(
-                    "addPostButton"
-                );
-
-
-            commentComposer.classList.toggle(
-                "active"
-            );
-
-
-            if (
-                commentComposer.classList.contains(
-                    "active"
-                )
-            ) {
-
-                mainButton.classList.add("open");
-
-                mainButton.textContent = "−";
-
+                button.classList.add("open");
+                button.textContent = "−";
 
                 commentComposer.scrollIntoView({
                     behavior: "smooth",
@@ -904,465 +726,127 @@
 
             } else {
 
-                mainButton.classList.remove("open");
-
-                mainButton.textContent = "+";
+                button.classList.remove("open");
+                button.textContent = "+";
 
             }
-
         }
 
 
+        /* POST COMMENT */
 
-        /* =========================
-           POST COMMENT
-        ========================= */
+        let commentCount = 8;
 
-        function postComment(button) {
+        function postComment() {
 
-            const post =
-                button.closest(".post");
+            const commentText = document.getElementById("commentText");
+            const latestComment = document.getElementById("latestComment");
+            const commentCountDisplay = document.getElementById("commentCount");
+            const moreComments = document.getElementById("moreComments");
 
-
-            const commentText =
-                post.querySelector(
-                    ".comment-text-area"
-                );
-
-
-            const latestComment =
-                post.querySelector(
-                    ".latest-comment"
-                );
-
-
-            const commentCountDisplay =
-                post.querySelector(
-                    ".comment-count"
-                );
-
-
-            const moreComments =
-                post.querySelector(
-                    ".footer-link"
-                );
-
-
-            const text =
-                commentText.value.trim();
-
+            const text = commentText.value.trim();
 
             if (text === "") {
-
                 return;
-
             }
 
 
+            /*
+             * Add the new comment as the latest comment.
+             */
+
             latestComment.innerHTML =
-                '<span class="comment-username">' +
-                '@yourusername:' +
-                '</span> ' +
+                '<span class="comment-username">@yourusername:</span> ' +
                 escapeHTML(text);
 
 
-            let commentCount =
-                parseInt(
-                    commentCountDisplay.textContent
-                );
-
+            /*
+             * Increase total comment count.
+             */
 
             commentCount++;
 
-
-            commentCountDisplay.textContent =
-                commentCount;
+            commentCountDisplay.textContent = commentCount;
 
 
-            const remainingComments =
-                commentCount - 1;
+            /*
+             * One comment is displayed in the feed,
+             * so the remaining comments are total - 1.
+             */
 
+            const remainingComments = commentCount - 1;
 
             moreComments.textContent =
-                "View " +
-                remainingComments +
-                " more comments";
+                "View " + remainingComments + " more comments";
 
+
+            /*
+             * Clear the text box.
+             */
 
             commentText.value = "";
 
 
-            toggleCommentComposer(button);
+            /*
+             * Close the composer.
+             */
 
+            toggleCommentComposer();
         }
 
 
-
-        /* =========================
-           CREATE POST
-        ========================= */
-
-        function createPost() {
-
-            const postText =
-                document.getElementById(
-                    "postText"
-                );
-
-
-            const feed =
-                document.getElementById(
-                    "feed"
-                );
-
-
-            const composer =
-                document.getElementById(
-                    "composer"
-                );
-
-
-            const mainButton =
-                document.getElementById(
-                    "addPostButton"
-                );
-
-
-            const text =
-                postText.value.trim();
-
-
-            /*
-             * Don't create an empty post.
-             */
-
-            if (text === "") {
-
-                return;
-
-            }
-
-
-
-            /*
-             * Create the new post.
-             */
-
-            const newPost =
-                document.createElement(
-                    "article"
-                );
-
-
-            newPost.className = "post";
-
-
-            /*
-             * Build the new post.
-             */
-
-            newPost.innerHTML = `
-
-                <div class="post-header">
-
-                    <div class="profile-picture"></div>
-
-                    <div>
-
-                        <div class="username">
-                            @yourusername
-                        </div>
-
-                        <div class="topic">
-                            Art
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="caption">
-                    ${escapeHTML(text)}
-                </div>
-
-
-                <div class="interactions">
-
-                    <button
-                        type="button"
-                        class="interaction like-button"
-                        onclick="toggleLike(this)"
-                    >
-                        ♡
-                        <span class="like-count">
-                            0
-                        </span>
-                    </button>
-
-
-                    <div class="interaction">
-
-                        💬
-                        <span class="comment-count">
-                            0
-                        </span>
-
-                    </div>
-
-
-                    <div class="interaction">
-
-                        ⟳ 0
-
-                    </div>
-
-
-                    <div class="interaction share">
-
-                        ↗ Share
-
-                    </div>
-
-                </div>
-
-
-                <div class="latest-comment-label">
-
-                    Latest comment
-
-                </div>
-
-
-                <div class="latest-comment">
-
-                    No comments yet.
-
-                </div>
-
-
-                <div class="post-footer">
-
-
-                    <button
-                        type="button"
-                        class="comment-button"
-                        onclick="toggleCommentComposer(this)"
-                    >
-                        Leave your opinion…
-                    </button>
-
-
-                    <div class="footer-link">
-
-                        View 0 more comments
-
-                    </div>
-
-
-                    <div class="hashtag-link">
-
-                        <div class="hashtag-icon">
-                            #
-                        </div>
-
-                        <span>
-                            Hashtags
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="comment-composer">
-
-
-                    <div class="comment-user">
-
-                        <div class="comment-profile-picture"></div>
-
-                        <div class="comment-username-display">
-                            @yourusername
-                        </div>
-
-                    </div>
-
-
-                    <textarea
-                        class="comment-text-area"
-                        placeholder="Say hi…"
-                    ></textarea>
-
-
-                    <div class="comment-actions">
-
-                        <button
-                            type="button"
-                            class="comment-post-button"
-                            onclick="postComment(this)"
-                        >
-                            POST
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-
-            /*
-             * Put the new post at the
-             * very top of the feed.
-             */
-
-            feed.prepend(newPost);
-
-
-
-            /*
-             * Clear the Create Post box.
-             */
-
-            postText.value = "";
-
-
-
-            /*
-             * Close Create Post.
-             */
-
-            composer.classList.remove(
-                "active"
-            );
-
-
-            mainButton.classList.remove(
-                "open"
-            );
-
-
-            mainButton.textContent = "+";
-
-
-
-            /*
-             * Return to the top of the feed.
-             */
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-
-
-
-        /* =========================
-           ESCAPE HTML
-        ========================= */
+        /*
+         * Prevent HTML entered into a comment
+         * from being interpreted as code.
+         */
 
         function escapeHTML(text) {
 
-            const div =
-                document.createElement("div");
-
+            const div = document.createElement("div");
 
             div.textContent = text;
 
-
             return div.innerHTML;
-
         }
 
 
-
-        /* =========================
-           MAIN FLOATING BUTTON
-        ========================= */
+        /* CREATE POST BUTTON */
 
         function toggleMainButton() {
 
-            const composer =
-                document.getElementById(
-                    "composer"
-                );
-
-
-            const feed =
-                document.getElementById(
-                    "feed"
-                );
-
-
-            const openComment =
-                document.querySelector(
-                    ".comment-composer.active"
-                );
-
-
-            const button =
-                document.getElementById(
-                    "addPostButton"
-                );
-
+            const composer = document.getElementById("composer");
+            const feed = document.getElementById("feed");
+            const commentComposer = document.getElementById("commentComposer");
+            const button = document.getElementById("addPostButton");
 
 
             /*
-             * If a comment composer is open,
-             * the red minus closes it.
+             * If the comment box is open,
+             * the red minus acts as the cancel button.
              */
 
-            if (openComment) {
+            if (commentComposer.classList.contains("active")) {
 
-                openComment.classList.remove(
-                    "active"
-                );
-
-
-                button.classList.remove(
-                    "open"
-                );
-
-
+                commentComposer.classList.remove("active");
+                button.classList.remove("open");
                 button.textContent = "+";
 
-
                 return;
-
             }
 
 
-
             /*
-             * Open or close Create Post.
+             * Otherwise, the button opens/closes
+             * the Create Post screen.
              */
 
-            composer.classList.toggle(
-                "active"
-            );
+            composer.classList.toggle("active");
+            button.classList.toggle("open");
 
-
-            button.classList.toggle(
-                "open"
-            );
-
-
-
-            if (
-                composer.classList.contains(
-                    "active"
-                )
-            ) {
+            if (composer.classList.contains("active")) {
 
                 feed.style.display = "none";
-
-
                 button.textContent = "−";
-
 
                 composer.scrollIntoView({
                     behavior: "smooth",
@@ -1372,10 +856,7 @@
             } else {
 
                 feed.style.display = "block";
-
-
                 button.textContent = "+";
-
 
                 window.scrollTo({
                     top: 0,
@@ -1383,7 +864,6 @@
                 });
 
             }
-
         }
 
     </script>
