@@ -76,6 +76,11 @@
         .composer { display: none; width: 100%; margin: 0; background-color: #182447; border-radius: 14px; padding: 30px; box-sizing: border-box; }
         .composer.active { display: block; }
         .composer h2 { margin-top: 0; text-align: center; font-size: 24px; font-weight: 700; }
+        .creator-type-tabs { display: flex; gap: 7px; margin: -4px 0 22px; padding: 5px; background: #101a3a; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; }
+        .creator-type-tab { flex: 1; padding: 8px 6px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: #aeb7cb; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .35px; cursor: pointer; }
+        .creator-type-tab:hover { color: #f8f8f2; background: rgba(255,255,255,.05); }
+        .creator-type-tab.active { color: #f8f8f2; background: #3156b8; border-color: #4169d0; }
+
         .text-area { width: 100%; min-height: 150px; box-sizing: border-box; background-color: #101a3a; border: 1px solid #53648f; border-radius: 10px; padding: 15px; color: white; font-family: 'Outfit', sans-serif; font-size: 16px; resize: vertical; }
         .composer-option { width: 100%; margin-top: 15px; padding: 13px 16px; background-color: #101a3a; border: 1px solid #53648f; border-radius: 10px; color: white; font-family: 'Outfit', sans-serif; font-size: 15px; text-align: left; cursor: pointer; }
         .profile-setting { margin-top: 20px; padding: 10px 0; font-size: 15px; }
@@ -296,6 +301,12 @@
 <div class="main-column">
 <section class="composer" id="composer">
 <h2>Create Post</h2>
+<div class="creator-type-tabs" role="tablist" aria-label="Content type">
+<button type="button" class="creator-type-tab active" data-type="post" onclick="selectCreatorType(this)">POST</button>
+<button type="button" class="creator-type-tab" data-type="blog" onclick="selectCreatorType(this)">BLOG</button>
+<button type="button" class="creator-type-tab" data-type="video" onclick="selectCreatorType(this)">VIDEO</button>
+<button type="button" class="creator-type-tab" data-type="byte" onclick="selectCreatorType(this)">BYTE</button>
+</div>
 <div class="post-text-wrap"><textarea class="text-area" id="mainPostText" maxlength="500" placeholder="What's on your mind?" oninput="updatePostCharCount()"></textarea><div class="post-char-count" id="postCharCount">0 / 500</div></div>
 <input class="post-media-input" id="postMediaInput" type="file" accept="image/*" onchange="previewPostMedia(this)">
 <button type="button" class="composer-option" onclick="document.getElementById('postMediaInput').click()">＋ Add Media</button>
@@ -562,6 +573,10 @@ hotbar.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){e.
 function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
 function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Pockets":"▸ Pockets"; }
 function togglePocketFavorite(button){ const item=button.closest(".pocket-item"), faves=document.getElementById("favesList"), pockets=document.getElementById("pocketList"), isFav=button.textContent.trim()==="★"; if(isFav){ button.textContent="☆"; pockets.appendChild(item); } else { button.textContent="★"; faves.appendChild(item); } }
+function selectCreatorType(button){
+    document.querySelectorAll(".creator-type-tab").forEach(tab=>tab.classList.remove("active"));
+    button.classList.add("active");
+}
 function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; b.classList.remove("cancel"); } else { c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; b.classList.add("cancel"); c.scrollIntoView({behavior:"smooth",block:"start"}); } }
 </script>
 </body>
