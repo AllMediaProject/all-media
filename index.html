@@ -176,6 +176,32 @@
 .hashtag-collection-name{flex:1;padding:7px 9px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:#182447;color:#f8f8f2;font-size:12px}
 .collection-remove{border:0;background:transparent;color:#aeb7cb;cursor:pointer;font-size:12px}.collection-remove:hover{color:#f8f8f2}
 .collection-add-row{display:flex;gap:7px;margin-top:9px}.collection-add-input{min-width:0;flex:1;padding:8px 9px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:#182447;color:#f8f8f2;font:12px 'Outfit',sans-serif;outline:none}.collection-add{padding:7px 10px;border:1px solid rgba(65,105,208,.4);border-radius:7px;background:rgba(49,86,184,.16);color:#f8f8f2;font:12px 'Outfit',sans-serif;cursor:pointer}.collection-note{margin-top:7px;color:#aeb7cb;font-size:10px;line-height:1.35}
+
+/* --- Interests + Hashtag Collections management V2 --- */
+.interest-list{min-height:34px}
+.interest-tag[draggable="true"]{cursor:grab;user-select:none}.interest-tag.dragging{opacity:.45}
+.interest-list.drag-target{outline:1px dashed rgba(65,105,208,.65);outline-offset:5px;border-radius:8px}
+.manage-interests{white-space:nowrap}
+.manage-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:8px 9px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#182447;color:#f8f8f2;font:12px 'Outfit',sans-serif;cursor:pointer}
+.manage-toggle .chev{color:#aeb7cb}
+.manage-interest-body{display:none;padding-top:10px}.manage-interest-body.open{display:block}
+.manage-interest-chip{cursor:grab}.manage-interest-chip.dragging{opacity:.45}
+.manage-drag-note{margin-top:8px;color:#aeb7cb;font-size:10px;line-height:1.35}
+.collection-create-button{width:100%;margin-top:9px;padding:9px 10px;border:1px solid rgba(65,105,208,.36);border-radius:8px;background:rgba(49,86,184,.12);color:#f8f8f2;font:12px 'Outfit',sans-serif;cursor:pointer;text-align:left}
+.collection-builder,.collection-editor{display:none;margin-top:10px;padding:10px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#182447}.collection-builder.open,.collection-editor.open{display:block}
+.collection-builder-title,.collection-editor-title{margin-bottom:8px;color:#f8f8f2;font-size:12px;font-weight:600}
+.collection-input,.collection-hashtag-search{width:100%;box-sizing:border-box;padding:8px 9px;border:1px solid rgba(255,255,255,.17);border-radius:7px;background:#101a3a;color:#f8f8f2;font:12px 'Outfit',sans-serif;outline:none}
+.collection-hashtag-search{margin-top:7px}
+.collection-hashtag-options{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;max-height:145px;overflow:auto}
+.collection-hashtag-option{padding:6px 8px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:#101a3a;color:#f8f8f2;font:11px 'Outfit',sans-serif;cursor:pointer}
+.collection-hashtag-option.selected{background:rgba(49,86,184,.18);border-color:rgba(65,105,208,.42);font-weight:700}
+.collection-builder-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:10px}
+.collection-action{padding:7px 9px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:transparent;color:#aeb7cb;font:11px 'Outfit',sans-serif;cursor:pointer}
+.collection-action.primary{background:rgba(49,86,184,.16);border-color:rgba(65,105,208,.36);color:#f8f8f2}
+.existing-collections-title{margin:14px 0 8px;color:#aeb7cb;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.hashtag-collection-row{cursor:pointer}.hashtag-collection-row.active .hashtag-collection-name{border-color:rgba(65,105,208,.42);background:rgba(49,86,184,.12)}
+.collection-meta{color:#aeb7cb;font-size:10px;margin-left:auto;padding-left:8px}
+
 </style>
 </head>
 <body>
@@ -243,21 +269,48 @@
 
     <div class="interest-list" id="interestList"></div>
 
-    <button class="manage-interests" onclick="toggleManageInterests()">Manage</button>
+    <button class="manage-interests" onclick="toggleManageInterests()">Manage Interests + #</button>
 
     <div class="interest-manage-panel" id="interestManagePanel">
         <div class="manage-section">
-            <div class="interest-manage-title">Your Interests</div>
-            <div class="interest-manage-list" id="interestManageList"></div>
-            <div class="interest-manage-note">Click an Interest to unfollow it. The sidebar shows up to 6 Interests.</div>
+            <button class="manage-toggle" onclick="toggleYourInterests()"><span>Your Interests</span><span class="chev" id="interestManageChevron">▴</span></button>
+            <div class="manage-interest-body open" id="manageInterestBody">
+                <div class="interest-manage-list" id="interestManageList"></div>
+                <div class="manage-drag-note">Newest followed Interests appear first. Drag any Interest into the six visible Interests above to make it a quick Interest. Click to unfollow.</div>
+            </div>
         </div>
+
         <div class="manage-section">
             <div class="interest-manage-title">Hashtag Collections</div>
+            <button type="button" class="collection-create-button" onclick="toggleCollectionBuilder()">＋ Create New Collection</button>
+
+            <div class="collection-builder" id="collectionBuilder">
+                <div class="collection-builder-title">Create New Collection</div>
+                <input id="newCollectionName" class="collection-input" placeholder="Collection name...">
+                <input id="newCollectionSearch" class="collection-hashtag-search" placeholder="Search hashtags..." oninput="renderCollectionBuilderTags(this.value)">
+                <div class="collection-hashtag-options" id="newCollectionHashtags"></div>
+                <div class="collection-builder-actions">
+                    <button type="button" class="collection-action" onclick="closeCollectionBuilder()">Cancel</button>
+                    <button type="button" class="collection-action primary" onclick="createHashtagCollection()">Create Collection</button>
+                </div>
+            </div>
+
+            <div class="existing-collections-title">Edit Existing Collections</div>
             <div class="hashtag-collection-list" id="hashtagCollectionList"></div>
-            <div class="collection-add-row"><input id="newCollectionName" class="collection-add-input" placeholder="New collection name..." maxlength="24"><button type="button" class="collection-add" onclick="addHashtagCollection()">+ Add</button></div>
-            <div class="collection-note">Collections organize hashtags for faster posting. They do not appear on finished posts.</div>
+
+            <div class="collection-editor" id="collectionEditor">
+                <div class="collection-editor-title" id="collectionEditorTitle">Edit Collection</div>
+                <input id="editCollectionSearch" class="collection-hashtag-search" placeholder="Search hashtags..." oninput="renderCollectionEditorTags(this.value)">
+                <div class="collection-hashtag-options" id="editCollectionHashtags"></div>
+                <div class="collection-builder-actions">
+                    <button type="button" class="collection-action" onclick="deleteEditingCollection()">Delete Collection</button>
+                    <button type="button" class="collection-action primary" onclick="saveEditingCollection()">Save Changes</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 </div>
 <div class="main-column">
@@ -341,17 +394,55 @@ const allInterests=[
 {name:"Art",emoji:"🎨"},{name:"Halloween",emoji:"🎃"},{name:"Horror",emoji:"👻"},{name:"Nature",emoji:"🌲"},
 {name:"Gaming",emoji:"🎮"},{name:"Music",emoji:"🎵"},{name:"Books",emoji:"📚"},{name:"Food",emoji:"🍔"},
 {name:"Photography",emoji:"📷"},{name:"Movies & TV",emoji:"🎬"},{name:"Fashion",emoji:"👗"},{name:"Technology",emoji:"💻"},
-{name:"Lifestyle",emoji:"🧘"},{name:"Home & Decor",emoji:"🏠"},{name:"Travel",emoji:"✈️"},{name:"Animals",emoji:"🐾"}
+{name:"Lifestyle",emoji:"🧘"},{name:"Home & Decor",emoji:"🏠"},{name:"Travel",emoji:"✈️"},{name:"Animals",emoji:"🐾"},
+{name:"Spiders",emoji:"🕷️"}
 ];
-let followedInterests=["Art","Halloween","Horror","Nature"];
+
+/* Full followed list = newest first. Quick Interests = the six shown in the sidebar. */
+let followedInterests=["Nature","Horror","Halloween","Art"];
+let quickInterests=["Art","Halloween","Horror","Nature"];
+let draggedInterestName=null;
 
 function interestData(name){return allInterests.find(i=>i.name===name)}
+
 function renderSidebarInterests(){
     const list=document.getElementById("interestList");
-    list.innerHTML=followedInterests.slice(0,6).map(name=>{
-        const i=interestData(name); return `<span class="interest-tag">${i.emoji} ${i.name}</span>`;
+    list.innerHTML=quickInterests.slice(0,6).map(name=>{
+        const i=interestData(name);
+        return `<span class="interest-tag" draggable="true" data-interest="${i.name}">${i.emoji} ${i.name}</span>`;
     }).join("");
+    wireQuickInterestDrag();
 }
+
+function wireQuickInterestDrag(){
+    document.querySelectorAll("#interestList .interest-tag").forEach(tag=>{
+        tag.addEventListener("dragstart",()=>{draggedInterestName=tag.dataset.interest;tag.classList.add("dragging")});
+        tag.addEventListener("dragend",()=>{tag.classList.remove("dragging");draggedInterestName=null});
+        tag.addEventListener("dragover",e=>e.preventDefault());
+        tag.addEventListener("drop",e=>{
+            e.preventDefault();
+            if(!draggedInterestName)return;
+            const target=tag.dataset.interest;
+            promoteQuickInterest(draggedInterestName,quickInterests.indexOf(target));
+        });
+    });
+    const list=document.getElementById("interestList");
+    list.ondragover=e=>{e.preventDefault();list.classList.add("drag-target")};
+    list.ondragleave=()=>list.classList.remove("drag-target");
+    list.ondrop=e=>{
+        e.preventDefault();list.classList.remove("drag-target");
+        if(draggedInterestName)promoteQuickInterest(draggedInterestName,quickInterests.length);
+    };
+}
+
+function promoteQuickInterest(name,position=0){
+    if(!followedInterests.includes(name))return;
+    quickInterests=quickInterests.filter(n=>n!==name);
+    quickInterests.splice(Math.min(position,quickInterests.length),0,name);
+    quickInterests=quickInterests.slice(0,6);
+    renderSidebarInterests();
+}
+
 function toggleInterestSearch(e){
     e.stopPropagation();
     const panel=document.getElementById("interestSearchPanel");
@@ -362,46 +453,117 @@ function toggleInterestSearch(e){
     }
 }
 function renderInterestSearch(query=""){
-    const q=query.trim().toLowerCase();
-    const results=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q));
+    const q=query.trim().toLowerCase(),results=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q));
     const box=document.getElementById("interestSearchResults");
     box.innerHTML=results.length?results.map(i=>`<button class="interest-result ${followedInterests.includes(i.name)?"selected":""}" onclick="toggleInterestFollow('${i.name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`).join(""):`<span class="interest-search-empty">No matching Interests</span>`;
 }
 function toggleInterestFollow(name){
     const index=followedInterests.indexOf(name);
-    if(index>=0) followedInterests.splice(index,1); else followedInterests.push(name);
+    if(index>=0){
+        followedInterests.splice(index,1);
+        quickInterests=quickInterests.filter(n=>n!==name);
+    }else{
+        followedInterests.unshift(name); /* newest followed sits first in Manage */
+    }
     renderSidebarInterests();
     renderInterestSearch(document.getElementById("interestSearchInput").value);
     renderManageInterests();
-renderHashtagCollections();
 }
 function toggleManageInterests(){
-    const panel=document.getElementById("interestManagePanel");
-    panel.classList.toggle("open");
-    renderManageInterests();
+    document.getElementById("interestManagePanel").classList.toggle("open");
+    renderManageInterests();renderHashtagCollections();
+}
+function toggleYourInterests(){
+    const body=document.getElementById("manageInterestBody"),chev=document.getElementById("interestManageChevron");
+    body.classList.toggle("open");chev.textContent=body.classList.contains("open")?"▴":"▾";
 }
 function renderManageInterests(){
     const box=document.getElementById("interestManageList");
     box.innerHTML=followedInterests.length?followedInterests.map(name=>{
-        const i=interestData(name); return `<button class="manage-interest-chip selected" onclick="toggleInterestFollow('${name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`;
+        const i=interestData(name);
+        return `<button class="manage-interest-chip selected" draggable="true" data-interest="${i.name}" onclick="toggleInterestFollow('${name.replace(/'/g,"\\'")}')">${i.emoji} ${i.name}</button>`;
     }).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;
+    document.querySelectorAll("#interestManageList .manage-interest-chip").forEach(chip=>{
+        chip.addEventListener("dragstart",e=>{draggedInterestName=chip.dataset.interest;chip.classList.add("dragging");e.stopPropagation()});
+        chip.addEventListener("dragend",()=>{chip.classList.remove("dragging");draggedInterestName=null});
+    });
 }
-let hashtagCollections=[
-{name:"Halloween",emoji:"🎃"},{name:"Art",emoji:"🎨"},{name:"Home Decor",emoji:"🏠"}
+
+/* Hashtag Collection manager */
+const allCollectionHashtags=[
+"#halloweenart","#acrylicpainting","#spookyart","#ghostart","#spookydecor","#homedecor","#wallart",
+"#halloween","#artist","#painting","#darkart","#cozyart","#fallart","#autumn","#illustration","#handmade",
+"#smallartist","#creepycozy","#pumpkinart","#natureart","#crochet","#photography"
 ];
+let hashtagCollections=[
+{name:"Halloween",emoji:"🎃",tags:["#halloweenart","#spookyart","#ghostart","#halloween"]},
+{name:"Art",emoji:"🎨",tags:["#acrylicpainting","#artist","#painting","#wallart"]},
+{name:"Home Decor",emoji:"🏠",tags:["#spookydecor","#homedecor","#wallart"]}
+];
+let newCollectionSelected=[];
+let editingCollectionIndex=null;
+let editingCollectionSelected=[];
+
+function toggleCollectionBuilder(){
+    const box=document.getElementById("collectionBuilder");
+    box.classList.toggle("open");
+    if(box.classList.contains("open")){
+        newCollectionSelected=[];
+        document.getElementById("newCollectionName").value="";
+        document.getElementById("newCollectionSearch").value="";
+        renderCollectionBuilderTags("");
+    }
+}
+function closeCollectionBuilder(){document.getElementById("collectionBuilder").classList.remove("open")}
+function renderTagChoices(targetId,query,selected,onToggle){
+    const q=query.trim().toLowerCase();
+    let tags=allCollectionHashtags.filter(t=>!q||t.includes(q));
+    if(q&&q.startsWith("#")&&!allCollectionHashtags.includes(q))tags=[q,...tags];
+    document.getElementById(targetId).innerHTML=tags.map(tag=>`<button type="button" class="collection-hashtag-option ${selected.includes(tag)?"selected":""}" onclick="${onToggle}('${tag}')">${tag}</button>`).join("");
+}
+function renderCollectionBuilderTags(q=""){renderTagChoices("newCollectionHashtags",q,newCollectionSelected,"toggleNewCollectionTag")}
+function toggleNewCollectionTag(tag){
+    const i=newCollectionSelected.indexOf(tag);i>=0?newCollectionSelected.splice(i,1):newCollectionSelected.push(tag);
+    renderCollectionBuilderTags(document.getElementById("newCollectionSearch").value);
+}
+function createHashtagCollection(){
+    const name=document.getElementById("newCollectionName").value.trim();
+    if(!name||!newCollectionSelected.length)return;
+    if(hashtagCollections.some(c=>c.name.toLowerCase()===name.toLowerCase()))return;
+    hashtagCollections.push({name,emoji:"🏷️",tags:[...newCollectionSelected]});
+    closeCollectionBuilder();renderHashtagCollections();
+}
 function renderHashtagCollections(){
- const box=document.getElementById("hashtagCollectionList"); if(!box)return;
- box.innerHTML=hashtagCollections.length?hashtagCollections.map((c,i)=>`<div class="hashtag-collection-row"><div class="hashtag-collection-name">${c.emoji} ${c.name}</div><button type="button" class="collection-remove" onclick="removeHashtagCollection(${i})">Remove</button></div>`).join(""):`<span class="interest-search-empty">No hashtag collections yet.</span>`;
+    const box=document.getElementById("hashtagCollectionList");if(!box)return;
+    box.innerHTML=hashtagCollections.length?hashtagCollections.map((c,i)=>`<div class="hashtag-collection-row ${editingCollectionIndex===i?"active":""}" onclick="openCollectionEditor(${i})"><div class="hashtag-collection-name">${c.emoji} ${c.name}<span class="collection-meta">${c.tags.length} hashtags</span></div></div>`).join(""):`<span class="interest-search-empty">No hashtag collections yet.</span>`;
 }
-function addHashtagCollection(){
- const input=document.getElementById("newCollectionName"),name=input.value.trim(); if(!name)return;
- if(hashtagCollections.some(c=>c.name.toLowerCase()===name.toLowerCase())){input.value="";return}
- hashtagCollections.push({name,emoji:"🏷️"});input.value="";renderHashtagCollections()
+function openCollectionEditor(i){
+    editingCollectionIndex=i;editingCollectionSelected=[...hashtagCollections[i].tags];
+    document.getElementById("collectionEditorTitle").textContent=`Edit ${hashtagCollections[i].emoji} ${hashtagCollections[i].name}`;
+    document.getElementById("editCollectionSearch").value="";
+    document.getElementById("collectionEditor").classList.add("open");
+    renderCollectionEditorTags("");renderHashtagCollections();
 }
-function removeHashtagCollection(i){hashtagCollections.splice(i,1);renderHashtagCollections()}
+function renderCollectionEditorTags(q=""){renderTagChoices("editCollectionHashtags",q,editingCollectionSelected,"toggleEditingCollectionTag")}
+function toggleEditingCollectionTag(tag){
+    const i=editingCollectionSelected.indexOf(tag);i>=0?editingCollectionSelected.splice(i,1):editingCollectionSelected.push(tag);
+    renderCollectionEditorTags(document.getElementById("editCollectionSearch").value);
+}
+function saveEditingCollection(){
+    if(editingCollectionIndex===null)return;
+    hashtagCollections[editingCollectionIndex].tags=[...editingCollectionSelected];
+    renderHashtagCollections();
+}
+function deleteEditingCollection(){
+    if(editingCollectionIndex===null)return;
+    hashtagCollections.splice(editingCollectionIndex,1);editingCollectionIndex=null;editingCollectionSelected=[];
+    document.getElementById("collectionEditor").classList.remove("open");renderHashtagCollections();
+}
+
 document.addEventListener("click",()=>document.getElementById("interestSearchPanel")?.classList.remove("open"));
 renderSidebarInterests();
 renderManageInterests();
+renderHashtagCollections();
 
 let liked=false; let likeCount=24;
 function toggleLike(){ const b=document.getElementById("likeButton"), c=document.getElementById("likeCount"); if(liked){ liked=false; likeCount--; b.firstChild.textContent="♡ "; } else { liked=true; likeCount++; b.firstChild.textContent="♥ "; } c.textContent=likeCount; }
