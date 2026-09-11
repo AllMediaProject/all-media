@@ -296,7 +296,7 @@
 <div class="main-column">
 <section class="composer" id="composer">
 <h2>Create Post</h2>
-<div class="post-text-wrap"><textarea class="text-area" id="mainPostText" maxlength="750" placeholder="What's on your mind?" oninput="updatePostCharCount()"></textarea><div class="post-char-count" id="postCharCount">0 / 750</div></div>
+<div class="post-text-wrap"><textarea class="text-area" id="mainPostText" maxlength="500" placeholder="What's on your mind?" oninput="updatePostCharCount()"></textarea><div class="post-char-count" id="postCharCount">0 / 500</div></div>
 <input class="post-media-input" id="postMediaInput" type="file" accept="image/*" onchange="previewPostMedia(this)">
 <button type="button" class="composer-option" onclick="document.getElementById('postMediaInput').click()">＋ Add Media</button>
 <div class="post-media-preview" id="postMediaPreview"><img id="postMediaPreviewImage" alt="Selected image preview"><button type="button" class="media-remove" onclick="removePostMedia()" title="Remove image">×</button></div>
@@ -499,7 +499,7 @@ function selectCommunity(btn){const p=document.getElementById("communityPicker")
 function filterCommunityPicker(q){q=q.toLowerCase();document.querySelectorAll("#communityPicker .community-picker-option").forEach(b=>b.style.display=b.textContent.toLowerCase().includes(q)?"":"none")}
 function showPostWarning(){const w=document.getElementById("postWarning");w.classList.add("show");clearTimeout(window.postWarningTimer);window.postWarningTimer=setTimeout(()=>w.classList.remove("show"),3500)}
 let selectedPostMediaURL="";
-function updatePostCharCount(){const t=document.getElementById("mainPostText"),c=document.getElementById("postCharCount"),n=t.value.length;c.textContent=`${n} / 750`;c.classList.toggle("near",n>=650&&n<750);c.classList.toggle("limit",n>=750)}
+function updatePostCharCount(){const t=document.getElementById("mainPostText"),c=document.getElementById("postCharCount"),n=t.value.length;c.textContent=`${n} / 500`;c.classList.toggle("near",n>=425&&n<500);c.classList.toggle("limit",n>=500)}
 function previewPostMedia(input){const file=input.files&&input.files[0];if(!file)return;removePostMedia(false);selectedPostMediaURL=URL.createObjectURL(file);document.getElementById("postMediaPreviewImage").src=selectedPostMediaURL;document.getElementById("postMediaPreview").classList.add("active")}
 function removePostMedia(clearInput=true){if(selectedPostMediaURL){URL.revokeObjectURL(selectedPostMediaURL);selectedPostMediaURL=""}const img=document.getElementById("postMediaPreviewImage");if(img)img.removeAttribute("src");document.getElementById("postMediaPreview").classList.remove("active");if(clearInput)document.getElementById("postMediaInput").value=""}
 function togglePostLink(){document.getElementById("postLinkPanel").classList.toggle("open");if(document.getElementById("postLinkPanel").classList.contains("open"))document.getElementById("postLinkInput").focus()}
