@@ -284,7 +284,7 @@
                 <div class="interest-manage-title" id="collectionEditorTitle">Edit Collection</div>
                 <input id="editCollectionSearch" class="collection-hashtag-search" placeholder="Search hashtags..." oninput="renderEditCollectionTags(this.value)">
                 <div class="collection-hashtag-options" id="editCollectionHashtags"></div>
-                <div class="collection-actions"><button type="button" class="collection-action" onclick="deleteEditingCollection()">Delete</button><button type="button" class="collection-action primary" onclick="saveEditingCollection()">Save</button></div>
+                <div class="collection-actions"><button type="button" class="collection-action" onclick="cancelEditingCollection()">Cancel</button><button type="button" class="collection-action" onclick="deleteEditingCollection()">Delete</button><button type="button" class="collection-action primary" onclick="saveEditingCollection()">Save</button></div>
             </div>
         </div>
     </div>
@@ -408,6 +408,7 @@ function renderHashtagCollections(){const b=document.getElementById("hashtagColl
 function openCollectionEditor(i){editIndex=i;editTags=[...hashtagCollections[i].tags];document.getElementById("collectionEditorTitle").textContent=`Edit ${hashtagCollections[i].emoji} ${hashtagCollections[i].name}`;document.getElementById("editCollectionSearch").value="";document.getElementById("collectionEditor").classList.add("open");renderEditCollectionTags("");renderHashtagCollections()}
 function renderEditCollectionTags(q=""){tagChoices("editCollectionHashtags",q,editTags,"toggleEditTag")}
 function toggleEditTag(t){const i=editTags.indexOf(t);i>=0?editTags.splice(i,1):editTags.push(t);renderEditCollectionTags(document.getElementById("editCollectionSearch").value)}
+function cancelEditingCollection(){editIndex=null;editTags=[];document.getElementById("collectionEditor").classList.remove("open");renderHashtagCollections()}
 function saveEditingCollection(){if(editIndex===null)return;hashtagCollections[editIndex].tags=[...editTags];renderHashtagCollections()}
 function deleteEditingCollection(){if(editIndex===null)return;hashtagCollections.splice(editIndex,1);editIndex=null;editTags=[];document.getElementById("collectionEditor").classList.remove("open");renderHashtagCollections()}
 document.addEventListener("click",()=>document.getElementById("interestSearchPanel")?.classList.remove("open"));
