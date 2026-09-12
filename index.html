@@ -1604,7 +1604,7 @@ function setupVideoDescription(post){
     if(!caption||!button)return;
     requestAnimationFrame(()=>{button.style.display=caption.scrollHeight>caption.clientHeight+2?"inline-flex":"none";});
 }
-function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; b.classList.remove("cancel"); } else { c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; b.classList.add("cancel"); c.scrollIntoView({behavior:"smooth",block:"start"}); } }
+function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; b.classList.remove("cancel"); } else { selectCreatorType(document.querySelector('.creator-type-tab[data-type="post"]')); c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; b.classList.add("cancel"); c.scrollIntoView({behavior:"smooth",block:"start"}); } }
 
 requestAnimationFrame(()=>{document.querySelectorAll('.post.byte-post').forEach(setupByteCaption);document.querySelectorAll('.post.video-post').forEach(setupVideoDescription);document.querySelectorAll('.post').forEach(updateMoreLink)});
 </script>
