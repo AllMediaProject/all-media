@@ -938,26 +938,6 @@
   content:"  →";
   margin-left:3px;
 }
-.post.blog-post .blog-read-button.expanded{
-  margin:14px 0 8px;
-  padding:7px 11px;
-  border:1px solid rgba(65,105,208,.65);
-  border-radius:999px;
-  background:rgba(49,86,184,.22);
-  color:#dce5ff;
-  font-size:11px;
-}
-.post.blog-post .blog-read-button.expanded:hover{
-  background:rgba(49,86,184,.38);
-  border-color:#4169d0;
-  color:#fff;
-}
-.post.blog-post .blog-read-button.expanded::after{
-  content:"  ↑";
-}
-.post.blog-post .blog-read-button.expanded + .interactions{
-  border-top:0;
-}
 .post.blog-post .blog-full-body.active + .interactions,
 .post.blog-post .blog-full-body:not(.active) + .interactions{
   margin-top:2px;
@@ -968,11 +948,11 @@
   box-sizing:border-box;
   width:100%;
   max-width:64ch;
-  margin-top:11px;
+  margin-top:2px;
   margin-left:auto;
   margin-right:auto;
-  padding-top:11px;
-  border-top:1px solid rgba(255,255,255,.075);
+  padding-top:0;
+  border-top:0;
   font-size:14px;
   line-height:1.68;
   white-space:pre-wrap;
@@ -1557,7 +1537,7 @@ const endBlogInlineDrag=e=>{if(blogInlineDrag?.pointerId===e.pointerId)blogInlin
 function insertBlogLink(){const editor=document.getElementById("blogBodyEditor"),sel=window.getSelection();if(!sel||!sel.rangeCount||!editor.contains(sel.anchorNode)||sel.isCollapsed){alert("Highlight the words you want to link first.");return}let url=prompt("Paste the link:","https://");if(!url)return;url=normalizeAttachedLink(url);if(!url)return;const range=sel.getRangeAt(0),a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.textContent=range.toString();range.deleteContents();range.insertNode(a);sel.removeAllRanges();updateBlogBodyCount()}
 function setupByteCaption(post){const caption=post?.querySelector(".byte-caption"),btn=post?.querySelector(".byte-caption-more");if(!caption||!btn)return;requestAnimationFrame(()=>{if(caption.scrollHeight>caption.clientHeight+2)btn.classList.add("show")})}
 function toggleByteCaption(btn){const caption=btn.closest(".byte-caption-row")?.querySelector(".byte-caption");if(!caption)return;const open=caption.classList.toggle("expanded");btn.textContent=open?"Less":"More"}
-function toggleBlogBody(btn){const post=btn.closest(".post"),body=post.querySelector(".blog-full-body"),excerpt=post.querySelector(".blog-feed-excerpt");if(!body)return;const open=body.classList.toggle("active");if(excerpt)excerpt.style.display=open?"none":"";btn.textContent=open?"Close Blog":"Read Blog";btn.classList.toggle("expanded",open);if(open)body.after(btn);else if(excerpt)excerpt.after(btn)}
+function toggleBlogBody(btn){const post=btn.closest(".post"),body=post.querySelector(".blog-full-body"),excerpt=post.querySelector(".blog-feed-excerpt");if(!body)return;const open=body.classList.toggle("active");if(excerpt)excerpt.style.display=open?"none":"";btn.textContent=open?"Close Blog":"Read Blog"}
 function updateBlogTitleCount(){const input=document.getElementById("blogTitle"),counter=document.getElementById("blogTitleCount");if(!input||!counter)return;const n=input.value.length;counter.textContent=`${n} / 120`;counter.classList.toggle("near",n>=108&&n<120);counter.classList.toggle("limit",n>=120)}
 function resetPostComposerSelections(){
     const topic=document.getElementById("topicPicker");
