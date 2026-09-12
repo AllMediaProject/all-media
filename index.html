@@ -937,11 +937,24 @@
 
 /* Open article: roomy enough to read, without turning the entire feed card chunky. */
 .post.blog-post .blog-full-body{
+  box-sizing:border-box;
+  width:100%;
+  max-width:64ch;
   margin-top:11px;
+  margin-left:auto;
+  margin-right:auto;
   padding-top:11px;
   border-top:1px solid rgba(255,255,255,.075);
   font-size:14px;
   line-height:1.68;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow-x:hidden;
+}
+.post.blog-post .blog-full-body > *{
+  max-width:100%;
+  box-sizing:border-box;
 }
 .post.blog-post .blog-full-body p{
   margin:0 0 13px;
