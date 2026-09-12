@@ -669,6 +669,31 @@
   .post:not(.byte-post):not(.video-post):not(.blog-post){padding:15px}
 }
 
+
+/* V17 — dynamic Reblog lock.
+   Newly published POST / VIDEO / BYTE must match the static V2 cards. */
+.post.byte-post .reblog-action,
+.post.video-post .reblog-action,
+.post:not(.byte-post):not(.video-post):not(.blog-post) .reblog-action{
+  margin-left:auto !important;
+  padding:0 !important;
+  min-height:0 !important;
+  border:0 !important;
+  outline:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#f8f8f2 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+}
+.post.byte-post .reblog-action + .share,
+.post.video-post .reblog-action + .share,
+.post:not(.byte-post):not(.video-post):not(.blog-post) .reblog-action + .share{
+  margin-left:10px !important;
+}
+
 </style>
 </head>
 <body>
