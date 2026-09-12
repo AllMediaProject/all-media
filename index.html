@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -795,6 +794,248 @@
   aspect-ratio:1/1;
 }
 
+
+/* =========================================================
+   BLOG V2 — creator + Home feed
+   Editorial, readable, compact on Home; expansive when opened.
+   ========================================================= */
+
+/* ---------- Creator ---------- */
+.composer.mode-blog #blogTitleWrap{
+  margin:0 0 10px !important;
+}
+.composer.mode-blog .blog-title-input{
+  padding:12px 14px !important;
+  border-radius:9px !important;
+  font-size:18px !important;
+  line-height:1.3 !important;
+}
+.composer.mode-blog .blog-title-count{
+  margin-top:4px !important;
+}
+
+/* Home preview is optional, visually secondary to the title/body. */
+.composer.mode-blog #blogPreviewLabel{
+  margin:10px 2px 5px !important;
+  color:#8f9bb8 !important;
+  font-size:9px !important;
+  font-weight:800 !important;
+  letter-spacing:.8px !important;
+}
+.composer.mode-blog #mediaAddButton{
+  min-height:35px !important;
+  padding:8px 11px !important;
+  border-radius:8px !important;
+  background:rgba(24,36,71,.62) !important;
+}
+.composer.mode-blog #postMediaPreview{
+  margin-top:9px !important;
+  margin-bottom:11px !important;
+}
+.composer.mode-blog #cropPanel{
+  margin-top:8px !important;
+  margin-bottom:11px !important;
+}
+
+/* Long-form editor reads like the main workspace instead of another chunky card. */
+.composer.mode-blog #blogEditorWrap{
+  margin-top:11px !important;
+}
+.composer.mode-blog .blog-editor-tools{
+  display:flex !important;
+  gap:7px !important;
+  margin-bottom:7px !important;
+}
+.composer.mode-blog .blog-editor-tool{
+  padding:6px 9px !important;
+  border-radius:7px !important;
+  font-size:11px !important;
+}
+.composer.mode-blog .blog-body-editor{
+  min-height:250px !important;
+  padding:15px !important;
+  border-radius:9px !important;
+  line-height:1.62 !important;
+  background:#101a3a !important;
+}
+.composer.mode-blog .blog-editor-count{
+  margin-top:5px !important;
+}
+
+/* ---------- Home Blog card ---------- */
+.post.blog-post{
+  padding:18px 20px 16px;
+}
+.post.blog-post .post-header{
+  margin-bottom:8px;
+}
+.post.blog-post .blog-feed-title{
+  margin:1px 0 9px;
+  font-size:20px;
+  line-height:1.28;
+  font-weight:750;
+  letter-spacing:-.1px;
+}
+
+/* Preview image is a teaser, not a giant stage. */
+.post.blog-post .blog-home-preview{
+  margin:0 0 9px;
+}
+.post.blog-post .blog-home-preview .post-image,
+.post.blog-post .blog-home-preview .sample-blog-cover{
+  margin:0 !important;
+}
+.post.blog-post .blog-home-preview .feed-media-stage,
+.post.blog-post .blog-home-preview .feed-carousel,
+.post.blog-post .blog-home-preview .post-image{
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+.post.blog-post .blog-home-preview .feed-media-frame,
+.post.blog-post .blog-home-preview .sample-blog-cover{
+  border:1px solid rgba(143,174,255,.30) !important;
+  border-radius:10px !important;
+  box-shadow:
+    0 7px 18px rgba(0,0,0,.18),
+    0 0 8px rgba(65,105,208,.045),
+    inset 0 1px 0 rgba(255,255,255,.035) !important;
+  overflow:hidden !important;
+}
+
+/* Home only gets a readable teaser; opening the Blog reveals the article. */
+.post.blog-post .blog-feed-excerpt{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  margin:7px 0 5px;
+  font-size:13px;
+  line-height:1.48;
+  color:#e7e9f0;
+}
+.post.blog-post .blog-read-button{
+  display:inline-flex;
+  align-items:center;
+  margin:2px 0 8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#8faeff;
+  font-size:11px;
+  font-weight:750;
+}
+.post.blog-post .blog-read-button::after{
+  content:"  →";
+  margin-left:3px;
+}
+.post.blog-post .blog-full-body.active + .interactions,
+.post.blog-post .blog-full-body:not(.active) + .interactions{
+  margin-top:2px;
+}
+
+/* Open article: roomy enough to read, without turning the entire feed card chunky. */
+.post.blog-post .blog-full-body{
+  margin-top:11px;
+  padding-top:11px;
+  border-top:1px solid rgba(255,255,255,.075);
+  font-size:14px;
+  line-height:1.68;
+}
+.post.blog-post .blog-full-body p{
+  margin:0 0 13px;
+}
+.post.blog-post .blog-full-body img{
+  margin:14px auto;
+  border:1px solid rgba(143,174,255,.24);
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
+
+/* Same locked V2 action language as the other types. */
+.post.blog-post .interactions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:3px;
+  padding:8px 0;
+  border-top:1px solid rgba(255,255,255,.075);
+  border-bottom:1px solid rgba(255,255,255,.075);
+  flex-wrap:wrap;
+}
+.post.blog-post .interaction{
+  font-size:12px;
+}
+.post.blog-post .quick-action{
+  padding:4px 7px;
+  min-height:0;
+  border-color:rgba(65,105,208,.30);
+  border-radius:999px;
+  background:rgba(49,86,184,.09);
+  color:#dbe4ff;
+  font-size:10px;
+  font-weight:600;
+}
+.post.blog-post .reblog-counter{
+  margin-left:auto !important;
+  padding:0 !important;
+  min-height:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#f8f8f2 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  cursor:default !important;
+  pointer-events:none !important;
+}
+.post.blog-post .share-action{
+  margin-left:10px !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#f8f8f2 !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+}
+
+/* Conversation/footer stays present but visually secondary. */
+.post.blog-post .latest-comment-label{display:none}
+.post.blog-post .latest-comment{
+  margin-top:8px;
+  color:#c8d0e2;
+  font-size:12px;
+  line-height:1.35;
+}
+.post.blog-post .latest-comment::before{
+  content:"Latest · ";
+  color:#8f9bb8;
+  font-size:10px;
+  font-weight:700;
+}
+.post.blog-post .post-footer{
+  gap:9px;
+  margin-top:8px;
+}
+.post.blog-post .comment-button{
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:11px;
+}
+.post.blog-post .footer-link,
+.post.blog-post .hashtag-link{font-size:11px}
+.post.blog-post .hashtag-icon{width:19px;height:19px;font-size:11px}
+
+@media(max-width:700px){
+  .post.blog-post{padding:15px}
+  .post.blog-post .blog-feed-title{font-size:18px}
+}
+
 </style>
 </head>
 <body>
@@ -1007,11 +1248,11 @@
 <article class="post blog-post sample-post">
 <div class="post-header"><div class="profile-picture"></div><div><div class="content-type-label blog">BLOG</div><div class="username">@paperlantern</div><div class="post-meta-line"><div class="topic">📚 Books</div><div class="post-community">· in 📚 Book Club</div></div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>
 <div class="blog-feed-title">Why I Keep a Tiny Autumn Sketchbook</div>
-<div class="sample-media-art sample-blog-cover"><div class="sample-media-copy">HOME PREVIEW IMAGE</div></div>
+<div class="blog-home-preview"><div class="sample-media-art sample-blog-cover"><div class="sample-media-copy">HOME PREVIEW IMAGE</div></div></div>
 <div class="caption blog-feed-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits…</div>
 <button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button>
 <div class="blog-full-body"><p>I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project.</p><div class="sample-media-art sample-inline-image"><div class="sample-media-copy">INLINE BLOG IMAGE</div></div><p>Some pages are finished drawings and some are only a color combination, a sentence, or a shape I want to remember. Keeping everything in one small place has made experimenting feel much less serious.</p></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">18</span></button><button class="quick-action">Add to my Pocket</button><button class="quick-action">Share to Community</button><button class="quick-action">Repost to Profile</button><div class="interaction share">⟳ 6</div><div class="interaction">↗ Share</div></div>
+<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">18</span></button><button class="quick-action">＋ Pocket</button><button class="quick-action">↗ Community</button><div class="interaction reblog-counter">↻ 6 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
 <div class="latest-comment-label">Latest comment</div><div class="latest-comment"><span class="comment-username">@bookmarkwitch:</span> This makes me want to start carrying one too.</div>
 <div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#sketchbook</span><span class="post-hashtag">#creativeprocess</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
 <div class="comments-section"><div class="comment-item"><div class="comment-author">@bookmarkwitch</div><div class="comment-content">This makes me want to start carrying one too.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>2</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
@@ -1276,12 +1517,12 @@ function createPost(){
     const imageHTML=mediaItems.length?`<div class="post-image has-upload"><div class="media-carousel feed-carousel" data-index="0"><div class="media-carousel-track">${mediaItems.map((m,i)=>`<div class="media-slide"><div class="feed-media-stage"><div class="feed-media-frame ${m.mode||"fit"}" data-full="${m.url}" onclick="openPostImage(this,event)"><img src="${m.url}" alt="${mode==="blog"?"Blog":"Post"} image ${i+1} of ${mediaItems.length}" style="${composerImageStyle(m)}"><button type="button" class="feed-expand" onclick="openPostImage(this.parentElement,event)" aria-label="Expand full image">⤢</button></div></div></div>`).join("")}</div>${mediaItems.length>1?`<button type="button" class="carousel-arrow prev" onclick="movePostCarousel(this,-1)" aria-label="Previous photo">‹</button><button type="button" class="carousel-arrow next" onclick="movePostCarousel(this,1)" aria-label="Next photo">›</button>`:""}</div>${mediaItems.length>1?`<div class="carousel-dots">${mediaItems.map((_,i)=>`<button type="button" class="carousel-dot ${i===0?"active":""}" onclick="goPostCarousel(this,${i})" aria-label="View photo ${i+1}"></button>`).join("")}</div>`:""}</div>`:"";
     const videoPoster=(mode==="video"||mode==="byte")&&mediaItems.length?mediaItems[0]:null;
     const videoHTML=videoItem?`<div class="video-feed-player ${mode==="byte"?"byte-feed-player":""}">${videoPoster?`<div class="video-feed-poster"><img src="${videoPoster.url}" alt="Video preview image" style="${composerImageStyle(videoPoster)}"><button type="button" class="video-play-toggle" onclick="const p=this.closest('.video-feed-player');p.querySelector('.video-feed-poster').classList.add('hidden');toggleVideoPlayback(p.querySelector('video'))" aria-label="Play video">▶</button></div>`:""}<video preload="metadata" playsinline src="${videoItem.feedUrl}" data-video-type="${escapeHTML(videoItem.type||'')}" onclick="toggleVideoPlayback(this)"></video><div class="video-playback-warning">This browser cannot play this video file.</div><button type="button" class="video-mute-toggle" onclick="toggleVideoMute(this)" aria-label="Mute or unmute video">🔊</button>${videoPoster?"":`<button type="button" class="video-play-toggle" onclick="toggleVideoPlayback(this.closest('.video-feed-player').querySelector('video'))" aria-label="Play or pause video">▶</button>`}<span class="feed-video-duration">${formatMediaDuration(videoItem.duration)}</span></div>`:"";
-    const contentHTML=mode==="blog"?`<div class="blog-feed-title">${escapeHTML(title)}</div>${imageHTML}<div class="caption blog-feed-excerpt">${escapeHTML(text.length>360?text.slice(0,360).trim()+"…":text)}</div><button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button><div class="blog-full-body">${blogHTML}</div>`:mode==="video"?`<div class="video-feed-title">${escapeHTML(title)}</div>${videoHTML}<div class="video-caption-row"><div class="caption video-caption">${escapeHTML(text)}</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>`:mode==="byte"?`<div class="byte-home-media-stage">${videoHTML}</div><div class="byte-caption-row"><div class="caption byte-caption">${escapeHTML(text)}</div><button type="button" class="byte-caption-more" onclick="toggleByteCaption(this)">More</button></div>`:`${imageHTML}<div class="caption">${escapeHTML(text)}</div>`;
+    const contentHTML=mode==="blog"?`<div class="blog-feed-title">${escapeHTML(title)}</div>${imageHTML?`<div class="blog-home-preview">${imageHTML}</div>`:""}<div class="caption blog-feed-excerpt">${escapeHTML(text.length>420?text.slice(0,420).trim()+"…":text)}</div><button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button><div class="blog-full-body">${blogHTML}</div>`:mode==="video"?`<div class="video-feed-title">${escapeHTML(title)}</div>${videoHTML}<div class="video-caption-row"><div class="caption video-caption">${escapeHTML(text)}</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>`:mode==="byte"?`<div class="byte-home-media-stage">${videoHTML}</div><div class="byte-caption-row"><div class="caption byte-caption">${escapeHTML(text)}</div><button type="button" class="byte-caption-more" onclick="toggleByteCaption(this)">More</button></div>`:`${imageHTML}<div class="caption">${escapeHTML(text)}</div>`;
     np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<div class="username">@yourusername</div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
 <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button>
-<button class="quick-action">${mode==="byte"||mode==="video"||mode==="post"?"＋ Pocket":"Add to my Pocket"}</button>
-<button class="quick-action">${mode==="byte"||mode==="video"||mode==="post"?"↗ Community":"Share to Community"}</button>
-${mode==="byte"||mode==="video"||mode==="post"?`<div class="interaction reblog-counter">↻ 0 · Reblog</div>`:`<button class="quick-action">↻ 0 · Reblog</button>`}
+<button class="quick-action">＋ Pocket</button>
+<button class="quick-action">↗ Community</button>
+<div class="interaction reblog-counter">↻ 0 · Reblog</div>
 <button class="interaction share share-action" type="button">↗ Share</button>
 </div><div class="latest-comment-label">Latest comment</div><div class="latest-comment">No comments yet</div><div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 0 more comments</div><div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}<button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div><div class="comments-section"></div><div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>`;
     feed.prepend(np);closeComposerAfterPublish();const newCarousel=np.querySelector(".media-carousel.feed-carousel");if(newCarousel)wirePostCarouselSwipe(newCarousel);const newFeedVideo=np.querySelector(".video-feed-player video");if(newFeedVideo)syncFeedVideoControls(newFeedVideo);if(mode==="byte")setupByteCaption(np);if(mode==="video")setupVideoDescription(np);ta.value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";selectedPostMedia=[];composerMediaIndex=0;if(selectedPostVideo?.previewUrl)URL.revokeObjectURL(selectedPostVideo.previewUrl);selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreviewPlayer").load();document.getElementById("videoPreview").classList.remove("active");document.getElementById("videoFileNote").textContent="";document.getElementById("videoUploadInput").value="";document.getElementById("byteFramePicker").classList.remove("active");document.getElementById("postMediaInput").value="";document.getElementById("cropPanel").classList.remove("open");renderComposerMedia();removePostLink();resetPostComposerSelections();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();requestAnimation(()=>np.scrollIntoView({behavior:"smooth",block:"start"}));
