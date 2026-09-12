@@ -959,6 +959,29 @@
 .post.blog-post .blog-full-body p{
   margin:0 0 13px;
 }
+.blog-body-editor a,
+.post.blog-post .blog-full-body a{
+  color:#9db7ff;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  overflow-wrap:anywhere;
+}
+.post.blog-post .blog-full-body a{
+  position:relative;
+  z-index:1;
+  pointer-events:auto;
+  cursor:pointer;
+}
+.blog-body-editor a:hover,
+.post.blog-post .blog-full-body a:hover{
+  color:#c4d2ff;
+}
+.post.blog-post .blog-full-body a:focus-visible{
+  outline:2px solid #8faeff;
+  outline-offset:2px;
+  border-radius:2px;
+}
 .post.blog-post .blog-full-body img{
   margin:14px auto;
   border:1px solid rgba(143,174,255,.24);
