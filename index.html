@@ -176,9 +176,13 @@
 .community-more-row{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:7px}
 .community-more-row:hover{background:rgba(255,255,255,.05)}
 .community-more-name{display:flex;align-items:center;gap:9px;min-width:0;flex:1;color:#f8f8f2;font-size:12px}
-.community-pin{width:30px!important;min-width:30px;padding:6px!important;justify-content:center!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:7px!important;color:#aeb7cb!important}
-.community-pin:hover{color:#f8f8f2!important;background:rgba(255,255,255,.08)!important}
-.community-pin.pinned{color:#f8f8f2!important;background:rgba(49,86,184,.14)!important;border-color:rgba(65,105,208,.38)!important;font-weight:700}
+.community-pin{width:auto!important;min-width:59px;padding:5px 8px!important;justify-content:center!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:7px!important;color:#aeb7cb!important;font-size:10px!important;font-weight:700;line-height:1.15;white-space:nowrap}
+.community-pin:hover,.community-pin:focus-visible{color:#f8f8f2!important;background:rgba(255,255,255,.08)!important}
+.community-pin.pinned{color:#dce6ff!important;background:rgba(49,86,184,.14)!important;border-color:rgba(65,105,208,.38)!important}
+.community-pin .pin-action{display:none}
+.community-pin.pinned:hover,.community-pin.pinned:focus-visible{color:#f0b0b0!important;background:rgba(181,66,66,.12)!important;border-color:rgba(217,106,106,.4)!important}
+.community-pin.pinned:hover .pin-state,.community-pin.pinned:focus-visible .pin-state{display:none}
+.community-pin.pinned:hover .pin-action,.community-pin.pinned:focus-visible .pin-action{display:inline}
 
 
 .interests-panel{position:relative}
@@ -1151,12 +1155,12 @@
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
 <div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar">📌</button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar">📍</button></div>
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
 </div>
 </div>
 <button class="community-tool">Manage Communities</button>
@@ -1175,12 +1179,12 @@
 <div class="pocket-item"><span>🎃 Halloween</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></div>
 <div class="pocket-item"><span>🎨 Art</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></div>
 </div>
-<div class="pocket-favorite-count" id="pocketFavoriteCount">2 of 6 favorites</div>
-<div class="pocket-limit-message" id="pocketLimitMessage" aria-live="polite"></div>
 </div>
 <div class="panel-section pocket-drawer-section">
 <button class="panel-toggle pocket-list-toggle" onclick="togglePocketList(this)">▸ Pockets</button>
 <div class="panel-list collapsed" id="pocketList">
+<div class="pocket-favorite-count" id="pocketFavoriteCount">2 of 6 favorites</div>
+<div class="pocket-limit-message" id="pocketLimitMessage" aria-live="polite"></div>
 <div class="pocket-item"><span>🏠 Home Decor</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
 <div class="pocket-item"><span>👻 Spooky Stuff</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
 <div class="pocket-item"><span>🧶 Crochet</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
@@ -1705,8 +1709,9 @@ function toggleCommunityPin(event,btn){
         row.dataset.activityHidden=count?.classList.contains("hidden")?"true":"false";
         existing.remove();
         btn.classList.remove("pinned");
-        btn.textContent="📍";
+        btn.innerHTML='<span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span>';
         btn.title="Pin to hotbar";
+        btn.setAttribute("aria-label",`Pin ${name} to hotbar`);
     }else{
         const chip=document.createElement("button"),activityCount=row.dataset.activityCount||"0",hidden=row.dataset.activityHidden==="true"||activityCount==="0";
         chip.className="community-chip";
@@ -1717,8 +1722,9 @@ function toggleCommunityPin(event,btn){
         wireCommunityChip(chip);
         hotbar.appendChild(chip);
         btn.classList.add("pinned");
-        btn.textContent="📌";
+        btn.innerHTML='<span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span>';
         btn.title="Unpin from hotbar";
+        btn.setAttribute("aria-label",`Unpin ${name} from hotbar`);
         hotbar.scrollTo({left:hotbar.scrollWidth,behavior:"smooth"});
     }
 }
