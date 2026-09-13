@@ -1404,6 +1404,43 @@
 .composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:180px minmax(220px,1fr)}
 @media(max-width:760px){.composer .post-media-preview.active:has(.crop-panel.open),.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open),.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)){grid-template-columns:1fr}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)):after,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-carousel,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.carousel-dots,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-count-note,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-thumbs,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-reorder-hint,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{grid-column:1;grid-row:auto}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-count-note{margin-top:10px}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{margin-top:10px}}
 
+/* V90 final compacting and remaining creator-control cleanup */
+.composer.active.mode-post,.composer.active.mode-blog,.composer.active.mode-video,.composer.active.mode-byte{padding:24px 26px 25px}
+.composer .creator-intro{margin-bottom:16px}.composer .creator-intro h2{font-size:32px!important}.composer .creator-intro p{margin-top:5px}
+.composer.mode-post .creator-type-tabs,.composer.mode-blog .creator-type-tabs,.composer.mode-video .creator-type-tabs,.composer.mode-byte .creator-type-tabs{margin-bottom:16px;gap:9px}
+.composer.mode-post .post-text-wrap{margin-bottom:14px}.composer.mode-post .text-area{min-height:104px;padding:16px 18px}
+.composer.mode-post .media-empty-upload{padding:14px 16px}.composer.mode-post .creator-tools,.composer.mode-blog .creator-tools,.composer.mode-video .creator-tools,.composer.mode-byte .creator-tools{margin-top:15px}
+.composer.mode-post .profile-setting,.composer.mode-blog .profile-setting,.composer.mode-video .profile-setting,.composer.mode-byte .profile-setting{gap:9px;margin-top:15px;padding-top:14px}
+.composer.mode-blog #mediaAddButton,.composer.mode-video #mediaAddButton{min-height:62px!important;margin-bottom:12px!important}
+.composer.mode-blog .blog-body-editor{min-height:205px;padding:15px 17px}.composer.mode-video .video-upload-button{min-height:125px;padding:17px}.composer.mode-video .text-area{min-height:80px;padding:15px 17px}
+.composer.mode-blog #postMediaPreview .composer-media-stage.landscape,.composer.mode-video #postMediaPreview .composer-media-stage.landscape{width:min(100%,480px)}
+.composer.mode-byte .video-upload-button{min-height:290px}.composer.mode-byte .text-area{min-height:92px;padding:14px 16px}.composer.mode-byte .byte-frame-picker{padding:14px 16px}.composer.mode-byte .byte-frame-picker:not(.active){min-height:150px}
+
+/* Keep validation in a dedicated bottom status line. */
+.composer.mode-post .composer-actions,.composer.mode-blog .composer-actions,.composer.mode-video .composer-actions,.composer.mode-byte .composer-actions{position:relative;min-height:66px;box-sizing:border-box;padding-bottom:18px}
+.composer.mode-post .post-warning,.composer.mode-blog .post-warning,.composer.mode-video .post-warning,.composer.mode-byte .post-warning{position:absolute;left:2px;right:auto;bottom:0;width:auto!important;max-width:calc(100% - 4px);margin:0;color:#f28f8f;font-size:10px;font-weight:650;line-height:1.3;white-space:normal}
+
+/* Small solid peach removal controls for uploaded media. */
+.composer .preview-remove-current,.composer .video-remove{display:grid;place-items:center;width:25px;height:25px;padding:0;border:1px solid #ffd2a8;border-radius:50%;background:linear-gradient(135deg,#ffc98e,#ffb477);box-shadow:0 5px 13px rgba(3,8,24,.28),inset 0 1px 0 rgba(255,255,255,.42);color:#17203b;font:800 15px/1 'Outfit',sans-serif;transition:transform .15s,filter .15s}
+.composer .preview-remove-current{top:9px;right:9px}.composer .video-remove{top:9px;right:9px;z-index:8}.composer .preview-remove-current:hover,.composer .video-remove:hover{transform:scale(1.06);filter:brightness(1.04)}
+.composer .media-thumb-remove{width:18px;height:18px;margin-top:-1px;border:1px solid #ffd2a8;border-radius:50%;background:linear-gradient(135deg,#ffc98e,#ffb477);box-shadow:0 3px 8px rgba(3,8,24,.23);color:#17203b;font:800 12px/1 'Outfit',sans-serif}.composer .media-thumb-remove:hover{border-color:#ffe1c2;background:#ffd09f;color:#101831;transform:scale(1.06)}
+
+/* Blog inline-image crop controls: compact creative toolbar, not a settings form. */
+.composer.mode-blog .blog-inline-controls.active{display:grid;grid-template-columns:minmax(155px,.8fr) minmax(225px,1.2fr) minmax(190px,1fr);gap:8px 10px;align-items:center;margin:8px 0 9px;padding:11px 12px;border:1px solid rgba(255,190,132,.32);border-radius:12px;background:rgba(9,17,38,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.composer.mode-blog .blog-inline-control-title{grid-column:1/-1;margin:0 0 1px;color:#ffd0a3;font-size:9px;font-weight:800;letter-spacing:.075em}
+.composer.mode-blog .blog-inline-control-row{display:flex;align-items:center;gap:5px;min-width:0;margin:0;padding:6px 7px;border:1px solid rgba(126,147,201,.22);border-radius:9px;background:rgba(19,30,62,.48);flex-wrap:nowrap}
+.composer.mode-blog .blog-inline-control-label{width:auto;margin-right:2px;color:#ffd0a3;font-size:8px;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.composer.mode-blog .blog-inline-control{min-width:0;min-height:26px;padding:5px 7px;border:1px solid rgba(145,162,207,.36);border-radius:999px;background:rgba(8,15,34,.25);color:#c8d1e4;font-size:9px;font-weight:700;white-space:nowrap}.composer.mode-blog .blog-inline-control:hover{border-color:rgba(255,202,152,.68);background:rgba(255,188,128,.06);color:#fff}.composer.mode-blog .blog-inline-control.active{border-color:#ffc384;background:linear-gradient(135deg,#ffc98e,#ffb477);box-shadow:0 4px 10px rgba(255,176,105,.12);color:#17203b}
+.composer.mode-blog .blog-inline-zoom{flex:1;min-width:65px;max-width:145px;accent-color:#ffc384}.composer.mode-blog .blog-inline-zoom-value{width:34px;color:#d5dced;font-size:9px;font-weight:700}
+.composer.mode-blog .blog-inline-hint{grid-column:1/-1;margin:0 2px;color:#8f9dbc;font-size:8px;line-height:1.4}
+
+/* Byte editor stays fully contained at desktop width. */
+.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:138px minmax(0,1fr);gap:0 12px;overflow:hidden}
+.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open) .composer-media-stage.byte{width:min(100%,120px)}
+.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.crop-panel{width:auto;min-width:0}
+@media(max-width:900px){.composer.mode-blog .blog-inline-controls.active{grid-template-columns:1fr 1fr}.composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:1/-1}.composer.mode-blog .blog-inline-zoom{max-width:none}}
+@media(max-width:760px){.composer.active.mode-post,.composer.active.mode-blog,.composer.active.mode-video,.composer.active.mode-byte{padding:20px 16px 22px}.composer .creator-intro h2{font-size:28px!important}.composer.mode-blog .blog-inline-controls.active{grid-template-columns:1fr}.composer.mode-blog .blog-inline-control-row,.composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:1}.composer.mode-blog .blog-inline-control-row{flex-wrap:wrap}.composer.mode-post .composer-actions,.composer.mode-blog .composer-actions,.composer.mode-video .composer-actions,.composer.mode-byte .composer-actions{padding-bottom:20px}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
