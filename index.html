@@ -1759,6 +1759,210 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   color:#fff5e9!important;
 }
 
+/* V107 — feed layering, Byte alignment, comments, Blog resizing, and peach expansion controls */
+.feed .post>.post-header{z-index:40!important}
+.feed .post .post-menu{position:relative!important;z-index:50!important}
+.feed .post .post-menu-dropdown{z-index:100!important}
+
+/* Keep only the 9:16 Byte frame visible and center it in every feed card. */
+.feed .post.byte-post>.byte-home-media-stage{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  width:100%!important;
+  margin:0 0 8px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+.feed .post.byte-post>.byte-home-media-stage>.byte-feed-player,
+.feed .post.byte-post>.byte-home-media-stage>.sample-byte-shell{
+  flex:0 1 360px!important;
+  width:min(100%,360px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* A liked heart keeps the same footprint; colour communicates the selected state. */
+.feed .post .interactions .like-button,
+.feed .post .comments-section .comment-like{
+  font-variant-emoji:text!important;
+}
+.feed .post .comments-section .reply-button,
+.feed .post .comments-section .comment-like[data-liked="true"]{
+  color:var(--am-peach)!important;
+  opacity:1!important;
+}
+.feed .post .more-comments:hover,
+.feed .post:has(>.comments-section.active) .more-comments{
+  color:var(--am-peach)!important;
+}
+
+/* Comment avatars are represented by a compact peach-framed user circle. */
+.feed .post .comments-section .comment-item,
+.feed .post .comments-section .reply-item{
+  position:relative!important;
+  min-height:36px!important;
+  padding-left:43px!important;
+}
+.feed .post .comments-section .comment-author::before,
+.feed .post .comments-section .reply-author::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  top:10px;
+  width:28px;
+  height:28px;
+  box-sizing:border-box;
+  border:2px solid var(--am-peach);
+  border-radius:50%;
+  background:linear-gradient(145deg,#6f83b2,#334a80);
+  box-shadow:0 0 0 2px rgba(8,18,44,.45);
+}
+.feed .post .comments-section .reply-author::before{
+  width:25px;
+  height:25px;
+}
+
+/* Blog body gets the same native vertical drag-to-expand affordance as Byte. */
+.composer.mode-blog .blog-writing-field{
+  position:relative;
+  grid-column:2;
+  min-width:0;
+}
+.composer.mode-blog .blog-writing-field .blog-body-editor{
+  width:100%!important;
+  min-height:250px!important;
+  max-height:620px!important;
+  box-sizing:border-box!important;
+  resize:vertical!important;
+  overflow:auto!important;
+}
+.composer.mode-blog .blog-writing-field .blog-resize-hint{
+  display:block!important;
+  position:absolute;
+  right:12px;
+  bottom:6px;
+  z-index:3;
+  color:#8f9bb8;
+  font-size:9px;
+  pointer-events:none;
+}
+/* Use the same resize cue and placement in standard Post and Video captions. */
+.composer.mode-post .creator-writing-field .textarea-resize-hint,
+.composer.mode-video .creator-writing-field .textarea-resize-hint{
+  display:block!important;
+  position:absolute;
+  right:12px;
+  bottom:6px;
+  color:#ffbd7d;
+  font-size:9px;
+  font-weight:750;
+  letter-spacing:.01em;
+  pointer-events:none;
+  white-space:nowrap;
+}
+.composer.mode-post .creator-writing-field .text-area,
+.composer.mode-video .creator-writing-field .text-area{
+  padding-bottom:29px!important;
+  resize:vertical!important;
+}
+.composer.mode-post .creator-writing-field .post-char-count,
+.composer.mode-video .creator-writing-field .post-char-count{
+  left:12px!important;
+  right:auto!important;
+  bottom:8px!important;
+  pointer-events:none;
+}
+@media(min-width:901px){
+  .composer.mode-blog .blog-editor-wrap.active>.blog-inline-controls.active{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(230px,1.15fr)!important;
+  }
+  .composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(2),
+  .composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(3),
+  .composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(4){
+    justify-self:stretch!important;
+    width:100%!important;
+  }
+  .composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(4){width:100%!important}
+}
+
+.feed .post .feed-expand:hover,
+.feed .post .feed-expand:focus-visible{
+  border-color:var(--am-peach)!important;
+  background:rgba(255,195,132,.14)!important;
+  color:var(--am-peach)!important;
+  outline:none!important;
+}
+.image-lightbox .lightbox-close{
+  border-color:var(--am-peach)!important;
+  color:var(--am-peach)!important;
+}
+.image-lightbox .lightbox-close:hover,
+.image-lightbox .lightbox-close:focus-visible{
+  background:rgba(255,195,132,.14)!important;
+  box-shadow:0 0 0 3px rgba(255,195,132,.12)!important;
+  outline:none!important;
+}
+
+/* V108 — keep the first divider above creator settings; remove only the
+   redundant composer-actions divider that overlaps the settings/actions. */
+.composer.mode-post>.composer-actions,
+.composer.mode-blog>.composer-actions,
+.composer.mode-video>.composer-actions,
+.composer.mode-byte>.composer-actions{
+  border-top:0!important;
+}
+
+/* V109 — only the heart changes colour when liked; the control never changes size. */
+.feed .post .interactions .like-button,
+.feed .post .interactions .like-button[data-liked="true"]{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  background:rgba(8,18,44,.26)!important;
+  color:#eef2fb!important;
+}
+.feed .post .comments-section .comment-like,
+.feed .post .comments-section .comment-like[data-liked="true"]{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  color:#f8f8f2!important;
+}
+.feed .post .like-heart{
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 16px;
+  width:16px;
+  height:16px;
+  color:#eef2fb;
+  font:400 16px/1 Arial,sans-serif;
+  transition:color .16s ease;
+}
+.feed .post .like-button[data-liked="true"]>.like-heart,
+.feed .post .comment-like[data-liked="true"]>.like-heart{
+  color:var(--am-peach)!important;
+}
+.feed .post .like-button .like-count,
+.feed .post .like-button #likeCount,
+.feed .post .comment-like>span:not(.like-heart){color:inherit!important}
+
+/* Followed Interests visually match Search-result pills without changing
+   Search itself or the existing follow/unfollow interaction. */
+.followed-interests-drawer .manage-interest-chip,
+.followed-interests-drawer .manage-interest-chip.selected{
+  padding:7px 9px!important;
+  border-radius:16px!important;
+  font-family:'Outfit',sans-serif!important;
+  font-size:12px!important;
+  font-weight:700!important;
+  line-height:normal!important;
+}
+
 </style>
 </head>
 <body>
@@ -2116,9 +2320,34 @@ document.addEventListener("click",()=>document.getElementById("interestSearchPan
 renderSidebarInterests();renderManageInterests();renderHashtagCollections();
 
 let liked=false; let likeCount=24;
-function toggleLike(){ const b=document.getElementById("likeButton"), c=document.getElementById("likeCount"); if(liked){ liked=false; likeCount--; b.firstChild.textContent="♡ "; } else { liked=true; likeCount++; b.firstChild.textContent="♥ "; } c.textContent=likeCount; }
-function toggleLikeNew(btn){ const s=btn.querySelector(".like-count"); let n=parseInt(s.textContent); const l=btn.dataset.liked==="true"; if(l){ btn.dataset.liked="false"; btn.firstChild.textContent="♡ "; s.textContent=n-1; } else { btn.dataset.liked="true"; btn.firstChild.textContent="♥ "; s.textContent=n+1; } }
-function toggleCommentLike(b){ const s=b.querySelector("span"); let n=parseInt(s.textContent); const l=b.dataset.liked==="true"; if(l){ b.dataset.liked="false"; b.firstChild.textContent="♡ "; s.textContent=n-1; } else { b.dataset.liked="true"; b.firstChild.textContent="♥ "; s.textContent=n+1; } }
+function ensureLikeHeart(button){
+    let heart=button.querySelector(":scope > .like-heart");
+    if(heart)return heart;
+    heart=document.createElement("span");
+    heart.className="like-heart";
+    heart.setAttribute("aria-hidden","true");
+    const textNode=[...button.childNodes].find(node=>node.nodeType===Node.TEXT_NODE&&/[♡♥]/.test(node.textContent));
+    if(textNode)textNode.textContent=textNode.textContent.replace(/[♡♥]\s*/,"");
+    button.insertBefore(heart,button.firstChild);
+    return heart;
+}
+function setLikeState(button,active){
+    if(!button)return;
+    button.dataset.liked=active?"true":"false";
+    ensureLikeHeart(button).textContent=active?"♥":"♡";
+}
+function prepareLikeButtons(root=document){
+    const buttons=[];
+    if(root.matches?.(".like-button,.comment-like"))buttons.push(root);
+    root.querySelectorAll?.(".like-button,.comment-like").forEach(button=>buttons.push(button));
+    buttons.forEach(button=>setLikeState(button,button.dataset.liked==="true"));
+}
+function toggleLike(){ const b=document.getElementById("likeButton"), c=document.getElementById("likeCount"); liked=!liked; likeCount+=liked?1:-1; setLikeState(b,liked); c.textContent=likeCount; }
+function toggleLikeNew(btn){ const s=btn.querySelector(".like-count"); let n=parseInt(s.textContent); const active=btn.dataset.liked!=="true"; setLikeState(btn,active); s.textContent=n+(active?1:-1); }
+function toggleCommentLike(b){ const s=b.querySelector("span:not(.like-heart)"); let n=parseInt(s.textContent); const active=b.dataset.liked!=="true"; setLikeState(b,active); s.textContent=n+(active?1:-1); }
+prepareLikeButtons();
+const feedLikeObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===Node.ELEMENT_NODE)prepareLikeButtons(node)})));
+const observedFeed=document.getElementById("feed");if(observedFeed)feedLikeObserver.observe(observedFeed,{childList:true,subtree:true});
 
 /* --- NEW: Counts comments + replies --- */
 function getTotalCount(post){
@@ -2278,6 +2507,20 @@ function setBlogImageLayout(layout){if(!selectedBlogInlineImage)return;selectedB
 function setBlogImageCrop(crop){if(!selectedBlogInlineImage)return;selectedBlogInlineImage.classList.remove("crop-original","crop-landscape","crop-portrait","crop-square");selectedBlogInlineImage.classList.add("crop-"+crop);selectedBlogInlineImage.dataset.crop=crop;applyBlogInlineImageStyle(selectedBlogInlineImage);syncBlogInlineControls()}
 function setBlogImageZoom(value){if(!selectedBlogInlineImage||selectedBlogInlineImage.dataset.crop==="original")return;selectedBlogInlineImage.dataset.zoom=String(value);applyBlogInlineImageStyle(selectedBlogInlineImage);document.getElementById("blogInlineZoomValue").textContent=`${value}%`}
 function insertBlogImage(input){const f=input.files?.[0];if(!f)return;const url=URL.createObjectURL(f),editor=document.getElementById("blogBodyEditor"),img=document.createElement("img"),figure=makeBlogInlineFigure(img),after=document.createElement("p");img.src=url;after.innerHTML="<br>";editor.focus();const sel=window.getSelection();if(sel&&sel.rangeCount&&editor.contains(sel.anchorNode)){const r=sel.getRangeAt(0);r.deleteContents();r.insertNode(figure)}else editor.appendChild(figure);figure.after(after);const range=document.createRange();range.selectNodeContents(after);range.collapse(true);sel?.removeAllRanges();sel?.addRange(range);input.value="";selectBlogInlineImage(figure);updateBlogBodyCount()}
+function setupBlogResizeField(){
+    const editor=document.getElementById("blogBodyEditor");
+    if(!editor||editor.closest(".blog-writing-field"))return;
+    const field=document.createElement("div");
+    field.className="blog-writing-field";
+    editor.parentNode.insertBefore(field,editor);
+    field.appendChild(editor);
+    const hint=document.createElement("span");
+    hint.className="textarea-resize-hint blog-resize-hint";
+    hint.setAttribute("aria-hidden","true");
+    hint.textContent="Drag to expand ↘";
+    field.appendChild(hint);
+}
+setupBlogResizeField();
 const blogEditorElement=document.getElementById("blogBodyEditor");
 blogEditorElement.addEventListener("pointerdown",e=>{const figure=e.target.closest?.(".blog-inline-media");if(!figure)return;selectBlogInlineImage(figure);if(figure.dataset.crop==="original"||e.target.tagName!=="IMG")return;blogInlineDrag={figure,pointerId:e.pointerId,startClientX:e.clientX,startClientY:e.clientY,startX:Number(figure.dataset.x||50),startY:Number(figure.dataset.y||50)};e.target.setPointerCapture?.(e.pointerId);e.preventDefault()});
 blogEditorElement.addEventListener("pointermove",e=>{if(!blogInlineDrag||blogInlineDrag.pointerId!==e.pointerId)return;const {figure,startClientX,startClientY,startX,startY}=blogInlineDrag,r=figure.getBoundingClientRect();figure.dataset.x=String(Math.max(0,Math.min(100,startX-(e.clientX-startClientX)/Math.max(r.width,1)*100)));figure.dataset.y=String(Math.max(0,Math.min(100,startY-(e.clientY-startClientY)/Math.max(r.height,1)*100)));applyBlogInlineImageStyle(figure)});
