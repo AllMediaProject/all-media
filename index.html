@@ -1381,6 +1381,29 @@
 .composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){display:grid;grid-template-columns:180px minmax(220px,1fr);gap:0 14px}.composer.mode-byte #postMediaPreview:has(.crop-panel.open)>.media-carousel{grid-column:1}.composer.mode-byte #postMediaPreview:has(.crop-panel.open)>.crop-toggle,.composer.mode-byte #postMediaPreview:has(.crop-panel.open)>.crop-panel{grid-column:2}
 @media(max-width:760px){.composer.mode-post .creator-type-tab,.composer.mode-blog .creator-type-tab,.composer.mode-video .creator-type-tab,.composer.mode-byte .creator-type-tab{min-height:40px}.composer.active.mode-byte{grid-template-columns:1fr}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open),.composer .post-media-preview.active:has(.crop-panel.open){grid-template-columns:1fr}.composer .post-media-preview:has(.crop-panel.open)>.media-carousel,.composer .post-media-preview:has(.crop-panel.open)>.carousel-dots,.composer .post-media-preview:has(.crop-panel.open)>.media-count-note,.composer .post-media-preview:has(.crop-panel.open)>.media-thumbs,.composer .post-media-preview:has(.crop-panel.open)>.media-reorder-hint,.composer .post-media-preview:has(.crop-panel.open)>.crop-toggle,.composer .post-media-preview:has(.crop-panel.open)>.crop-panel{grid-column:1;grid-row:auto}.composer .post-media-preview:has(.crop-panel.open)>.crop-toggle{margin-top:12px}.composer .thumb-modes{grid-template-columns:repeat(2,1fr)}}
 
+/* V89: keep the controls off the runway and make Byte use its canvas */
+.creator-interest-icon{display:inline-block;color:#fff;font-family:Arial,'Outfit',sans-serif;font-size:15px;font-weight:400;line-height:1;text-shadow:0 0 7px rgba(255,255,255,.18)}
+.composer .thumb-modes{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+.composer .thumb-mode{min-width:0;width:100%;white-space:normal;line-height:1.2;overflow-wrap:anywhere}
+.composer .crop-panel{min-width:0;overflow:hidden}
+.composer .post-media-preview.active:has(.crop-panel.open){grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr)}
+
+.composer.mode-byte .byte-frame-picker:not(.active){display:flex;min-height:172px;box-sizing:border-box;align-items:center;justify-content:center;flex-direction:column;border-style:dashed;border-color:rgba(255,190,132,.42);background:rgba(255,188,128,.025);text-align:center}
+.composer.mode-byte .byte-frame-picker:not(.active)>*{display:none}
+.composer.mode-byte .byte-frame-picker:not(.active):before{content:"Choose your preview frame";color:#e9edf7;font-size:13px;font-weight:800}
+.composer.mode-byte .byte-frame-picker:not(.active):after{content:"Upload a Byte and the frame selector will appear here.";max-width:260px;margin-top:6px;color:#98a6c3;font-size:10px;font-weight:600;line-height:1.45}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)){display:grid;grid-template-columns:185px minmax(0,1fr);grid-template-rows:auto auto auto 1fr;gap:0 16px;align-items:start;padding:14px}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)):after{content:"This is the cover people see before your Byte starts playing.";grid-column:2;grid-row:2;margin:7px 0 13px;color:#98a6c3;font-size:10px;font-weight:600;line-height:1.45}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-carousel{grid-column:1;grid-row:1 / span 5;width:100%;box-sizing:border-box;padding:9px}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.carousel-dots{grid-column:1;grid-row:6}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-count-note{grid-column:2;grid-row:1;margin:2px 0;color:#eef2fb;font-size:13px;font-weight:800;line-height:1.3;text-align:left}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-thumbs{grid-column:2;grid-row:4;justify-content:flex-start;margin:0;padding-top:12px}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-reorder-hint{grid-column:2;grid-row:5}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{grid-column:2;grid-row:3;justify-self:start;margin:0}
+.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)) .composer-media-stage.byte{width:min(100%,155px)}
+.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:180px minmax(220px,1fr)}
+@media(max-width:760px){.composer .post-media-preview.active:has(.crop-panel.open),.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open),.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)){grid-template-columns:1fr}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)):after,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-carousel,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.carousel-dots,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-count-note,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-thumbs,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-reorder-hint,.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{grid-column:1;grid-row:auto}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-count-note{margin-top:10px}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{margin-top:10px}}
+
 </style>
 </head>
 <body>
@@ -1543,7 +1566,7 @@
 <div class="link-panel creator-popover" id="postLinkPanel"><div class="creator-popover-title">Attach a link</div><div class="link-row"><input class="link-input" id="postLinkInput" type="url" placeholder="Paste a link…" oninput="updatePostLinkSummary()" onpaste="setTimeout(completePostLink,0)" onkeydown="if(event.key==='Enter'){event.preventDefault();completePostLink()}"></div><div class="attached-link-preview" id="postLinkDisplay">Your link will appear here.</div><div class="link-note">Paste a link or press Enter to attach it. One link per post.</div><div class="creator-popover-actions"><button type="button" class="link-remove" onclick="removePostLink()">Remove</button></div></div>
 </div>
 <div class="topic-picker creator-tool" id="topicPicker">
-<button type="button" class="topic-toggle creator-tool-button" onclick="toggleTopicPicker()"><span aria-hidden="true">🏷️</span><span>Interest</span><span class="creator-tool-value" id="topicLabel">Select</span></button>
+<button type="button" class="topic-toggle creator-tool-button" onclick="toggleTopicPicker()"><span class="creator-interest-icon" aria-hidden="true">✨︎</span><span>Interest</span><span class="creator-tool-value" id="topicLabel">Select</span></button>
 <div class="topic-drawer">
 <input class="topic-search" id="topicSearch" placeholder="⌕  Search topics..." oninput="filterTopics(this.value)">
 <div class="topic-group">Recently Used</div>
