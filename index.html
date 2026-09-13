@@ -1515,11 +1515,10 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 .feed .post .content-type-label.video{border-color:rgba(120,161,255,.42)!important;background:rgba(72,113,211,.12)!important;color:#bcd0ff!important}.feed .post .content-type-label.byte{border-color:rgba(128,220,174,.4)!important;background:rgba(57,174,116,.11)!important;color:#9be2b8!important}
 .feed .post .post-meta-line{display:flex!important;align-items:center!important;gap:7px!important;margin-top:4px!important;min-width:0!important}.feed .post .topic{padding:3px 8px!important;border:1px solid rgba(65,105,208,.48)!important;border-radius:999px!important;background:rgba(8,18,44,.28)!important;color:var(--am-peach)!important;font-size:10px!important;font-weight:700!important;line-height:1.15!important}.feed .post .post-community{overflow:hidden;color:#aeb9d2!important;font-size:10px!important;text-overflow:ellipsis;white-space:nowrap}
 .feed .post .post-menu{align-self:start!important;justify-self:end!important}.feed .post .post-menu-button{width:28px!important;height:28px!important;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;color:#d9e1f4!important;font-size:19px!important;line-height:20px!important}.feed .post .post-menu-button:hover{background:rgba(255,195,132,.09)!important;color:var(--am-peach)!important}
-.feed .post>.post-image,.feed .post .blog-home-preview,.feed .post .sample-video-shell,.feed .post .video-feed-player,.feed .post .byte-home-media-stage{border:1px solid rgba(90,128,215,.28)!important;box-shadow:0 10px 28px rgba(2,8,24,.29)!important}
+.feed .post>.post-image,.feed .post .blog-home-preview,.feed .post .sample-video-shell,.feed .post .video-feed-player{border:1px solid rgba(90,128,215,.28)!important;box-shadow:0 10px 28px rgba(2,8,24,.29)!important}
 .feed .post>.post-image,.feed .post .blog-home-preview,.feed .post .sample-video-shell,.feed .post .video-feed-player{border-radius:12px!important;overflow:hidden!important}.feed .post>.post-image{min-height:250px!important;margin:0 0 11px!important;background:radial-gradient(circle at 36% 30%,rgba(255,188,128,.2),transparent 25%),linear-gradient(145deg,#213762,#101c3d)!important}.feed .post>.post-image>span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#9eabd0;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .feed .post .blog-feed-title,.feed .post .video-feed-title{margin:1px 0 10px!important;color:#fff!important;font-size:18px!important;font-weight:800!important;line-height:1.25!important}.feed .post .blog-feed-title::before{content:"✦";margin-right:7px;color:var(--am-peach);font-size:14px}.feed .post .video-feed-title::before{content:"▶";margin-right:7px;color:var(--am-peach);font-size:10px;vertical-align:2px}
 .feed .post .blog-home-preview{margin-bottom:10px!important;background:#0b1735!important}.feed .post .sample-blog-cover{margin:0!important;border:0!important;border-radius:0!important}.feed .post .sample-video-shell,.feed .post .video-feed-player{margin:0 0 10px!important;background:#080e22!important}
-.feed .post.byte-post .byte-home-media-stage{margin:0 0 9px!important;padding:10px!important;border-radius:12px!important;background:linear-gradient(145deg,#101d40,#0a1532)!important}.feed .post.byte-post .byte-home-media-stage .sample-byte-shell,.feed .post.byte-post .byte-home-media-stage .byte-feed-player{margin-bottom:0!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:12px!important;box-shadow:0 12px 30px rgba(1,5,16,.36)!important}
 .feed .post .caption{margin-bottom:10px!important;color:#edf1f8!important;font-size:13px!important;line-height:1.48!important}.feed .post .blog-feed-excerpt{color:#dce4f4!important}.feed .post .blog-read-button,.feed .post .video-caption-more,.feed .post .byte-caption-more{color:var(--am-peach)!important}
 .feed .post>.interactions{display:flex!important;align-items:center!important;gap:7px!important;margin:2px 0 0!important;padding:9px 0!important;border-top:1px solid rgba(65,105,208,.24)!important;border-bottom:1px solid rgba(65,105,208,.24)!important}
 .feed .post .interactions .interaction,.feed .post .interactions .quick-action{min-height:31px!important;box-sizing:border-box!important;padding:5px 10px!important;border:1px solid rgba(65,105,208,.52)!important;border-radius:999px!important;background:rgba(8,18,44,.26)!important;color:#eef2fb!important;font:700 11px/1 'Outfit',sans-serif!important;white-space:nowrap!important}
@@ -1573,6 +1572,100 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 .feed .post .interactions .quick-action.community-action:active{transform:translateY(0)!important}
 @media(max-width:700px){.feed .post .interactions .quick-action.pocket-action,.feed .post .interactions .quick-action.community-action{padding:5px 9px!important;gap:5px!important}}
 
+/* V99 POLISH + CONTROL FIXES */
+/* Strengthen the light edge already drawn into the transparent brand mark. */
+.brand-logo{
+  filter:drop-shadow(1.35px 0 0 rgba(255,251,244,.96)) drop-shadow(-1.35px 0 0 rgba(255,251,244,.96)) drop-shadow(0 1.35px 0 rgba(255,251,244,.96)) drop-shadow(0 -1.35px 0 rgba(255,251,244,.96)) drop-shadow(0 3px 8px rgba(2,8,24,.24));
+}
+
+/* Let the center feed consume the unused grid track so the widget rail sits beside it. */
+@media(min-width:1101px){
+  .page-layout{grid-template-columns:320px minmax(0,1fr) 300px!important;column-gap:14px!important}
+  .main-column{min-width:0!important}
+  .right-rail{width:100%!important;justify-self:stretch!important;margin-left:0!important}
+}
+@media(min-width:1101px) and (max-width:1320px){.page-layout{grid-template-columns:285px minmax(0,1fr) 250px!important}}
+
+/* Reliable full-surface hit target for both creator switches. */
+.setting-switch input{
+  inset:0!important;
+  z-index:4!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  opacity:0!important;
+  pointer-events:auto!important;
+  cursor:pointer!important;
+}
+
+/* Cancel is a secondary escape action, not a red warning block. */
+.sidebar-create.cancel{
+  border:1px dashed rgba(255,195,132,.78)!important;
+  background:rgba(255,195,132,.055)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  color:var(--am-peach)!important;
+}
+.sidebar-create.cancel::before{content:"×";margin-right:7px;font-size:18px;line-height:0;vertical-align:-1px}
+.sidebar-create.cancel:hover{border-color:#ffd5ad!important;background:rgba(255,195,132,.11)!important;color:#fff5e9!important}
+
+/* Hashtag collection controls use peach as their selected/editing state. */
+.collection-create-button{
+  border:1px dashed rgba(255,195,132,.78)!important;
+  background:rgba(255,195,132,.045)!important;
+  color:var(--am-peach)!important;
+}
+.collection-create-button:hover{border-color:#ffd5ad!important;background:rgba(255,195,132,.1)!important;color:#fff5e9!important}
+.collection-hashtag-option.selected{
+  border-color:rgba(255,195,132,.92)!important;
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
+  color:#101a3a!important;
+  box-shadow:0 4px 10px rgba(255,180,119,.12)!important;
+}
+.collection-edit-label{color:var(--am-peach)!important}
+.hashtag-collection-row:hover .collection-edit-label,.hashtag-collection-row.active .collection-edit-label{color:#ffe2c5!important}
+.hashtag-collection-row.active .hashtag-collection-name{
+  border-color:rgba(255,195,132,.72)!important;
+  background:rgba(255,195,132,.075)!important;
+  box-shadow:inset 3px 0 0 var(--am-peach)!important;
+}
+.collection-action.primary{
+  border-color:rgba(255,195,132,.9)!important;
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
+  color:#101a3a!important;
+  font-weight:800!important;
+  box-shadow:0 5px 12px rgba(255,180,119,.13)!important;
+}
+.collection-action.primary:hover{filter:brightness(1.05)}
+
+/* Pinned communities are marked quietly but unmistakably in More. */
+.community-pin.pinned{
+  border-color:rgba(255,195,132,.64)!important;
+  background:rgba(255,195,132,.075)!important;
+  color:var(--am-peach)!important;
+}
+.community-pin.pinned .pin-state{display:inline-flex;align-items:center;gap:6px}
+.community-pin.pinned .pin-state::before{content:"";width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:var(--am-peach);box-shadow:0 0 0 3px rgba(255,195,132,.1)}
+.community-pin.pinned:hover,.community-pin.pinned:focus-visible{border-color:rgba(255,195,132,.82)!important;background:rgba(255,195,132,.12)!important;color:#ffe1c1!important}
+
+/* V104 SMALL ACTION-ROW POLISH */
+.feed .post>.interactions .like-button{
+  font-size:14px!important;
+  line-height:1!important;
+}
+.feed .post>.interactions .like-button>span{
+  font-size:11px!important;
+  line-height:1!important;
+}
+.feed .post>.interactions .reblog-counter{
+  color:#cbd5ea!important;
+}
+.feed .post>.interactions .reblog-counter>.reblog-icon{
+  color:var(--am-peach)!important;
+  font-size:14px!important;
+  font-weight:850!important;
+  line-height:1!important;
+}
+
 </style>
 </head>
 <body>
@@ -1596,12 +1689,12 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
 <div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span></button></div>
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
 </div>
 </div>
 <button class="community-tool">Manage Communities</button>
@@ -1780,7 +1873,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <button class="interaction like-button" id="likeButton" onclick="toggleLike()">♡ <span id="likeCount">24</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
-<div class="interaction reblog-counter">↻ 14 · Reblog</div>
+<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
 <div class="interaction">↗ Share</div>
 </div>
 
@@ -1814,7 +1907,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <div class="caption blog-feed-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits…</div>
 <button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button>
 <div class="blog-full-body"><p>I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project.</p><div class="sample-media-art sample-inline-image"><div class="sample-media-copy">INLINE BLOG IMAGE</div></div><p>Some pages are finished drawings and some are only a color combination, a sentence, or a shape I want to remember. Keeping everything in one small place has made experimenting feel much less serious.</p></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">18</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter">↻ 6 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
+<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">18</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 6 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
 <div class="latest-comment-label">Latest comment</div><div class="latest-comment" data-time="8m ago"><span class="comment-username">@bookmarkwitch:</span> This makes me want to start carrying one too.</div>
 <div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#sketchbook</span><span class="post-hashtag">#creativeprocess</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
 <div class="comments-section"><div class="comment-item"><div class="comment-author">@bookmarkwitch</div><div class="comment-content">This makes me want to start carrying one too.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>2</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
@@ -1827,7 +1920,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <div class="video-feed-title">Painting a Moonlit Window From Start to Finish</div>
 <div class="sample-video-shell"><div class="sample-media-art"><div class="sample-media-copy">16:9 VIDEO PREVIEW</div></div><div class="sample-video-play">▶</div><span class="sample-video-duration">8:42</span></div>
 <div class="video-caption-row"><div class="caption video-caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">31</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter">↻ 9 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
+<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">31</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 9 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
 <div class="latest-comment" data-time="18m ago"><span class="comment-username">@paintwater:</span> I love seeing the messy middle instead of only the finished result.</div>
 <div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><a class="feed-link-pill" href="https://ko-fi.com/sugarcrumbco" target="_blank" rel="noopener noreferrer" title="https://ko-fi.com/sugarcrumbco"><span class="feed-link-icon">🔗</span><span class="feed-link-text">ko-fi.com/sugarcrumbco</span></a><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#paintingvideo</span><span class="post-hashtag">#artprocess</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
 <div class="comments-section"><div class="comment-item"><div class="comment-author">@paintwater</div><div class="comment-content">I love seeing the messy middle instead of only the finished result.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>4</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
@@ -1839,7 +1932,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@mossandmoon</div><div class="content-type-label byte">BYTE</div><span class="post-time">1d ago</span></div><div class="post-meta-line"><div class="topic">🌲 Nature</div><div class="post-community">· in 🌿 Garden & Nature</div></div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>
 <div class="byte-home-media-stage"><div class="sample-byte-shell"><div class="sample-media-art"><div class="sample-media-copy">9:16 BYTE PREVIEW<br>drag-selected frame</div></div><div class="sample-byte-play">▶</div><span class="sample-video-duration">0:24</span></div></div>
 <div class="byte-caption-row"><div class="caption byte-caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</div><button type="button" class="byte-caption-more" onclick="toggleByteCaption(this)">More</button></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">42</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter">↻ 11 · Reblog</div><div class="interaction">↗ Share</div></div>
+<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">42</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 11 · Reblog</div><div class="interaction">↗ Share</div></div>
 <div class="latest-comment" data-time="5m ago"><span class="comment-username">@lanternlight:</span> No way, this feels like the opening shot of a cozy mystery.</div>
 <div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#foggyforest</span><span class="post-hashtag">#naturebyte</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
 <div class="comments-section"><div class="comment-item"><div class="comment-author">@lanternlight</div><div class="comment-content">No way, this feels like the opening shot of a cozy mystery.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>6</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
@@ -2151,7 +2244,7 @@ function createPost(){
 <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
-<div class="interaction reblog-counter">↻ 0 · Reblog</div>
+<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 0 · Reblog</div>
 <button class="interaction share share-action" type="button">↗ Share</button>
 </div><div class="latest-comment-label">Latest comment</div><div class="latest-comment empty-comment" data-time="">No comments yet</div><div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 0 more comments</div><div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}<button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div><div class="comments-section"></div><div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>`;
     if(postBeingEdited){const oldUser=postBeingEdited.querySelector(".username")?.textContent,oldTime=postBeingEdited.querySelector(".post-time")?.textContent,oldAvatar=postBeingEdited.querySelector(".profile-picture"),newAvatar=np.querySelector(".profile-picture"),newTime=np.querySelector(".post-time");if(oldUser)np.querySelector(".username").textContent=oldUser;if(oldTime&&newTime)newTime.textContent=oldTime;if(oldAvatar&&newAvatar)newAvatar.replaceWith(oldAvatar);[".interactions",".latest-comment-label",".latest-comment",".comments-section",".comment-composer"].forEach(s=>{const oldNode=postBeingEdited.querySelector(s),newNode=np.querySelector(s);if(oldNode&&newNode)newNode.replaceWith(oldNode)});postBeingEdited.replaceWith(np);updateMoreLink(np)}else feed.prepend(np);editingPost=null;editingPreservedMediaHTML="";closeComposerAfterPublish();const newCarousel=np.querySelector(".media-carousel.feed-carousel");if(newCarousel)wirePostCarouselSwipe(newCarousel);const newFeedVideo=np.querySelector(".video-feed-player video");if(newFeedVideo)syncFeedVideoControls(newFeedVideo);if(mode==="byte")setupByteCaption(np);if(mode==="video")setupVideoDescription(np);ta.value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";selectedPostMedia=[];composerMediaIndex=0;if(selectedPostVideo?.previewUrl&&!selectedPostVideo.existing)URL.revokeObjectURL(selectedPostVideo.previewUrl);selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreviewPlayer").load();document.getElementById("videoPreview").classList.remove("active");document.getElementById("videoFileNote").textContent="";document.getElementById("videoUploadInput").value="";document.getElementById("byteFramePicker").classList.remove("active");document.getElementById("postMediaInput").value="";document.getElementById("cropPanel").classList.remove("open");renderComposerMedia();removePostLink();resetPostComposerSelections();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();requestAnimationFrame(()=>np.scrollIntoView({behavior:"smooth",block:"start"}));
@@ -2194,7 +2287,7 @@ function toggleCommunityPin(event,btn){
         row.dataset.activityHidden=count?.classList.contains("hidden")?"true":"false";
         existing.remove();
         btn.classList.remove("pinned");
-        btn.innerHTML='<span class="pin-state">📍 Pin</span><span class="pin-action">📍 Pin</span>';
+        btn.innerHTML='<span class="pin-state">Pin</span><span class="pin-action">Pin</span>';
         btn.title="Pin to hotbar";
         btn.setAttribute("aria-label",`Pin ${name} to hotbar`);
     }else{
@@ -2207,7 +2300,7 @@ function toggleCommunityPin(event,btn){
         wireCommunityChip(chip);
         hotbar.appendChild(chip);
         btn.classList.add("pinned");
-        btn.innerHTML='<span class="pin-state">📌 Pinned</span><span class="pin-action">📌 Unpin</span>';
+        btn.innerHTML='<span class="pin-state">Pinned</span><span class="pin-action">Unpin</span>';
         btn.title="Unpin from hotbar";
         btn.setAttribute("aria-label",`Unpin ${name} from hotbar`);
         hotbar.scrollTo({left:hotbar.scrollWidth,behavior:"smooth"});
