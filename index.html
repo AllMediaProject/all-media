@@ -1666,6 +1666,91 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   line-height:1!important;
 }
 
+/* V105 HEADER + LEFT-WIDGET REVIEW POLISH */
+/* The feed previously kept its original 700px cap inside a wider grid track,
+   which visually reopened a large gap before the right widget rail. */
+@media(min-width:1101px){
+  .page-layout{
+    grid-template-columns:320px minmax(0,1fr) 300px!important;
+    column-gap:14px!important;
+    justify-content:stretch!important;
+  }
+  .page-layout>.sidebar-column,
+  .page-layout>.main-column,
+  .page-layout>.right-rail{min-width:0!important}
+  .main-column>.feed,
+  .main-column>.composer{
+    width:100%!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+}
+@media(min-width:1101px) and (max-width:1320px){
+  .page-layout{grid-template-columns:285px minmax(0,1fr) 250px!important}
+}
+
+/* Home is a quiet peach-outline shortcut beside the primary creator button. */
+.sidebar-actions .sidebar-home{
+  border:1px solid rgba(255,195,132,.88)!important;
+  background:rgba(8,18,44,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  color:var(--am-peach)!important;
+}
+.sidebar-actions .sidebar-home:hover{
+  border-color:#ffd5ad!important;
+  background:rgba(255,195,132,.09)!important;
+  color:#fff4e7!important;
+}
+
+/* Every result in Search Interests uses the peach discovery treatment. */
+.interest-search-panel .interest-result,
+.interest-search-panel .interest-result.selected{
+  border-color:rgba(255,195,132,.90)!important;
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
+  color:#101a3a!important;
+  font-weight:750!important;
+  box-shadow:0 4px 10px rgba(255,180,119,.10)!important;
+}
+.interest-search-panel .interest-result:hover{
+  border-color:#ffe0bd!important;
+  background:linear-gradient(135deg,#ffd29f,#ffbd82)!important;
+}
+
+/* Followed Interests remain neutral until hover, when they turn peach. */
+.followed-interests-drawer .manage-interest-chip,
+.followed-interests-drawer .manage-interest-chip.selected{
+  border-color:rgba(65,105,208,.40)!important;
+  background:rgba(8,18,44,.28)!important;
+  color:#dfe6f5!important;
+  box-shadow:none!important;
+}
+.followed-interests-drawer .manage-interest-chip:hover,
+.followed-interests-drawer .manage-interest-chip.selected:hover{
+  border-color:rgba(255,195,132,.92)!important;
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
+  color:#101a3a!important;
+}
+
+/* All left-widget cancel states share the creator Cancel visual language. */
+.manage-interests.active,
+.collection-actions .collection-action:not(.primary):not(.danger),
+.interest-unfollow-actions .interest-unfollow-button:not(.confirm),
+.composer.mode-byte #postMediaPreview .crop-toggle.cancel-adjustment{
+  border:1px dashed rgba(255,195,132,.78)!important;
+  background:rgba(255,195,132,.055)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  color:var(--am-peach)!important;
+}
+.manage-interests.active:hover,
+.collection-actions .collection-action:not(.primary):not(.danger):hover,
+.interest-unfollow-actions .interest-unfollow-button:not(.confirm):hover,
+.composer.mode-byte #postMediaPreview .crop-toggle.cancel-adjustment:hover{
+  border-color:#ffd5ad!important;
+  background:rgba(255,195,132,.11)!important;
+  color:#fff5e9!important;
+}
+
 </style>
 </head>
 <body>
