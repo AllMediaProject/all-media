@@ -1443,7 +1443,7 @@
 
 /* Final compact pass: keep the Blog tools contained and make the Byte cover editor one concise unit. */
 .thumbnail-delete,.textarea-resize-hint{display:none}
-.composer.mode-blog .blog-inline-controls.active{grid-template-columns:minmax(180px,.9fr) minmax(230px,1.15fr) minmax(155px,.8fr);overflow:hidden}
+.composer.mode-blog .blog-inline-controls.active{grid-column:1/-1;grid-template-columns:minmax(220px,1.05fr) minmax(225px,.95fr) minmax(190px,.9fr);overflow:hidden}
 .composer.mode-blog .blog-inline-control-row:nth-child(2){grid-column:1}
 .composer.mode-blog .blog-inline-control-row:nth-child(3){grid-column:2}
 .composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:3;justify-self:stretch;width:100%;box-sizing:border-box}
@@ -1474,6 +1474,15 @@
 
 @media(max-width:900px){.composer.mode-blog .blog-inline-controls.active{grid-template-columns:1fr 1fr}.composer.mode-blog .blog-inline-control-row:nth-child(2){grid-column:1}.composer.mode-blog .blog-inline-control-row:nth-child(3){grid-column:2}.composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:1/-1;justify-self:stretch;width:100%}.composer.mode-blog .blog-inline-zoom{max-width:none;width:100%}}
 @media(max-width:760px){.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open)),.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:minmax(0,1fr) 24px}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.media-carousel{grid-column:1/3;grid-row:1}.composer.mode-byte #postMediaPreview.active:not(:has(.crop-panel.open))>.crop-toggle{grid-column:1;grid-row:2;margin-top:9px}.composer.mode-byte #postMediaPreview .thumbnail-delete{grid-column:2;grid-row:2;margin-top:10px}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.media-carousel{grid-column:1/3;grid-row:1}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.crop-toggle{grid-column:1;grid-row:2;margin-top:10px}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.thumbnail-delete{grid-column:2;grid-row:2;margin-top:11px}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.crop-panel{grid-column:1/3;grid-row:3}}
+
+/* Force the annotated desktop layout across the avatar gutter. */
+@media(min-width:901px){
+.composer.mode-blog .blog-editor-wrap.active>.blog-inline-controls.active{grid-column:1/3!important;justify-self:stretch!important;width:100%!important;max-width:none!important;grid-template-columns:minmax(225px,1.12fr) minmax(215px,.92fr) minmax(190px,1.04fr)!important;box-sizing:border-box}
+.composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(2){justify-content:flex-start;min-width:0}
+.composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(3){justify-content:center;min-width:0}
+.composer.mode-blog .blog-inline-controls.active>.blog-inline-control-row:nth-child(4){justify-content:flex-end;min-width:0}
+.composer.mode-blog .blog-inline-controls.active .blog-inline-zoom{flex:1 1 105px;width:auto;max-width:125px}
+}
 
 </style>
 </head>
