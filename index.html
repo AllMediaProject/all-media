@@ -1703,8 +1703,15 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   color:#fff4e7!important;
 }
 
-/* Every result in Search Interests uses the peach discovery treatment. */
-.interest-search-panel .interest-result,
+/* Interest results are neutral, peach on hover, and stay peach once followed. */
+.interest-search-panel .interest-result{
+  border-color:rgba(65,105,208,.40)!important;
+  background:rgba(8,18,44,.28)!important;
+  color:#dfe6f5!important;
+  font-weight:700!important;
+  box-shadow:none!important;
+}
+.interest-search-panel .interest-result:hover,
 .interest-search-panel .interest-result.selected{
   border-color:rgba(255,195,132,.90)!important;
   background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
@@ -1712,7 +1719,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   font-weight:750!important;
   box-shadow:0 4px 10px rgba(255,180,119,.10)!important;
 }
-.interest-search-panel .interest-result:hover{
+.interest-search-panel .interest-result.selected:hover{
   border-color:#ffe0bd!important;
   background:linear-gradient(135deg,#ffd29f,#ffbd82)!important;
 }
@@ -1726,7 +1733,8 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   box-shadow:none!important;
 }
 .followed-interests-drawer .manage-interest-chip:hover,
-.followed-interests-drawer .manage-interest-chip.selected:hover{
+.followed-interests-drawer .manage-interest-chip.selected:hover,
+.followed-interests-drawer .manage-interest-chip.pending-unfollow{
   border-color:rgba(255,195,132,.92)!important;
   background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2))!important;
   color:#101a3a!important;
@@ -2076,14 +2084,14 @@ function renderSidebarInterests(){
 }
 function promoteQuickInterest(n,pos=0){if(!n||!followedInterests.includes(n))return;quickInterests=quickInterests.filter(x=>x!==n);quickInterests.splice(Math.min(pos,quickInterests.length),0,n);quickInterests=quickInterests.slice(0,6);renderSidebarInterests()}
 function toggleInterestSearch(e){e.stopPropagation();const p=document.getElementById("interestSearchPanel");p.classList.toggle("open");if(p.classList.contains("open")){document.getElementById("interestSearchInput").focus();renderInterestSearch(document.getElementById("interestSearchInput").value)}}
-function renderInterestSearch(q=""){q=q.trim().toLowerCase();const r=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q)),b=document.getElementById("interestSearchResults");b.innerHTML=r.length?r.map(i=>{const following=followedInterests.includes(i.name);return `<button class="interest-result ${following?"selected":""}" onclick="followInterestFromSearch('${i.name.replace(/'/g,"\\'")}')" ${following?'aria-label="Already following '+i.name+'"':''}>${i.name}${following?" ✓":""}</button>`}).join(""):`<span class="interest-search-empty">No matching Interests</span>`}
+function renderInterestSearch(q=""){q=q.trim().toLowerCase();const r=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q)),b=document.getElementById("interestSearchResults");b.innerHTML=r.length?r.map(i=>{const following=followedInterests.includes(i.name);return `<button class="interest-result ${following?"selected":""}" onclick="followInterestFromSearch('${i.name.replace(/'/g,"\\'")}')" ${following?'aria-label="Already following '+i.name+'"':''}>${i.name}</button>`}).join(""):`<span class="interest-search-empty">No matching Interests</span>`}
 function followInterestFromSearch(n){if(followedInterests.includes(n))return;followedInterests.unshift(n);renderSidebarInterests();renderInterestSearch(document.getElementById("interestSearchInput").value);renderManageInterests()}
 function toggleManageInterests(){const p=document.getElementById("interestManagePanel"),b=document.getElementById("manageInterestsButton");p.classList.toggle("open");const open=p.classList.contains("open");b.classList.toggle("active",open);b.textContent=open?"Cancel":"Manage Hashtag Collections";renderHashtagCollections()}
 function toggleYourInterests(){const b=document.getElementById("manageInterestBody"),c=document.getElementById("manageInterestChevron");b.classList.toggle("open");const open=b.classList.contains("open");c.textContent=open?"▴":"▾";if(!open)cancelInterestUnfollow()}
 let pendingInterestUnfollow=null,interestWasDragged=false;
-function renderManageInterests(){const b=document.getElementById("interestManageList");b.innerHTML=followedInterests.length?followedInterests.map(n=>`<button class="manage-interest-chip selected" draggable="true" data-interest="${n}" onclick="requestInterestUnfollow('${n.replace(/'/g,"\\'")}')">${n}</button>`).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;b.querySelectorAll(".manage-interest-chip").forEach(c=>{c.ondragstart=e=>{interestWasDragged=true;draggedInterest=c.dataset.interest;e.stopPropagation()};c.ondragend=()=>{draggedInterest=null;setTimeout(()=>interestWasDragged=false,0)}})}
-function requestInterestUnfollow(n){if(interestWasDragged||!followedInterests.includes(n))return;pendingInterestUnfollow=n;const box=document.getElementById("interestUnfollowConfirm");document.getElementById("interestUnfollowMessage").textContent=`Are you sure you want to unfollow ${n}?`;box.classList.add("open")}
-function cancelInterestUnfollow(){pendingInterestUnfollow=null;document.getElementById("interestUnfollowConfirm")?.classList.remove("open")}
+function renderManageInterests(){const b=document.getElementById("interestManageList");b.innerHTML=followedInterests.length?followedInterests.map(n=>`<button class="manage-interest-chip ${pendingInterestUnfollow===n?"pending-unfollow":""}" draggable="true" data-interest="${n}" onclick="requestInterestUnfollow('${n.replace(/'/g,"\\'")}')">${n}</button>`).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;b.querySelectorAll(".manage-interest-chip").forEach(c=>{c.ondragstart=e=>{interestWasDragged=true;draggedInterest=c.dataset.interest;e.stopPropagation()};c.ondragend=()=>{draggedInterest=null;setTimeout(()=>interestWasDragged=false,0)}})}
+function requestInterestUnfollow(n){if(interestWasDragged||!followedInterests.includes(n))return;pendingInterestUnfollow=n;renderManageInterests();const box=document.getElementById("interestUnfollowConfirm");document.getElementById("interestUnfollowMessage").textContent=`Are you sure you want to unfollow ${n}?`;box.classList.add("open")}
+function cancelInterestUnfollow(){pendingInterestUnfollow=null;document.getElementById("interestUnfollowConfirm")?.classList.remove("open");renderManageInterests()}
 function confirmInterestUnfollow(){if(!pendingInterestUnfollow)return;const n=pendingInterestUnfollow;followedInterests=followedInterests.filter(i=>i!==n);quickInterests=quickInterests.filter(i=>i!==n);cancelInterestUnfollow();renderSidebarInterests();renderManageInterests();renderInterestSearch(document.getElementById("interestSearchInput").value)}
 
 const collectionTags=["#halloweenart","#acrylicpainting","#spookyart","#ghostart","#spookydecor","#homedecor","#wallart","#halloween","#artist","#painting","#darkart","#cozyart","#fallart","#autumn","#illustration","#handmade","#smallartist","#creepycozy","#pumpkinart","#natureart","#crochet","#photography"];
