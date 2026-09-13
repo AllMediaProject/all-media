@@ -123,7 +123,7 @@
         .community-dropdown button { width: 100%; display: flex; align-items: center; gap: 9px; padding: 9px; border: 0; border-radius: 7px; background: transparent; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; text-align: left; cursor: pointer; }
         .community-dropdown button:hover { background: rgba(255,255,255,.07); }
         .page-layout { display: grid; grid-template-columns: 285px 700px; width: 1015px; max-width: 94%; margin: 26px auto 110px; gap: 30px; align-items: start; transform: translateX(-70px); }
-        .sidebar-column { width: 285px; max-height: calc(100vh - 48px); position: sticky; top: 24px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(174,183,203,.34) transparent; }
+        .sidebar-column { width: 285px; height: calc(100vh - 48px); min-height: 0; position: sticky; top: 24px; align-self: start; overflow-x: hidden; overflow-y: auto; overscroll-behavior-x: none; overscroll-behavior-y: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(174,183,203,.34) transparent; }
         .sidebar-column::-webkit-scrollbar { width: 6px; }
         .sidebar-column::-webkit-scrollbar-track { background: transparent; }
         .sidebar-column::-webkit-scrollbar-thumb { background: rgba(174,183,203,.34); border-radius: 999px; }
@@ -149,7 +149,7 @@
         .sidebar-create.cancel { background-color: #b83a3a; }
         .main-column { width: 100%; max-width: 700px; }
         .feed { width: 100%; margin: 0; }
-        @media (max-width: 800px) { .page-layout { display: block; width: 90%; max-width: none; transform: none; } .sidebar-column { width: 100%; max-height: none; position: static; margin-bottom: 30px; overflow: visible; overscroll-behavior: auto; scrollbar-gutter: auto; } .pockets-panel { width: 100%; } }
+        @media (max-width: 800px) { .page-layout { display: block; width: 90%; max-width: none; transform: none; } .sidebar-column { width: 100%; height: auto; min-height: initial; position: static; margin-bottom: 30px; overflow: visible; overscroll-behavior: auto; scrollbar-gutter: auto; } .pockets-panel { width: 100%; } }
             nav { width:90%; margin:0 auto; background:#182447; border-radius:10px; padding:14px 18px; box-sizing:border-box; }
 
         .interests-panel { margin-top:16px; padding:22px 22px 18px; background:#182447; border-radius:12px; }
@@ -1792,6 +1792,9 @@ function setupVideoDescription(post){
     requestAnimationFrame(()=>{button.style.display=caption.scrollHeight>caption.clientHeight+2?"inline-flex":"none";});
 }
 function toggleCreatePost(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), b=document.getElementById("sidebarCreateButton"), open=c.classList.contains("active"); if(open){ c.classList.remove("active"); f.style.display="block"; b.textContent="CREATE POST"; b.classList.remove("cancel"); setCreatorTypeLocked(false); if(editingPost){editingPost=null;editingPreservedMediaHTML="";document.getElementById("mainPostText").value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";clearBlogImageSelection();selectedPostMedia=[];composerMediaIndex=0;selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreview").classList.remove("active");removePostLink();resetPostComposerSelections();renderComposerMedia();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();} } else { setCreatorTypeLocked(false); selectCreatorType(document.querySelector('.creator-type-tab[data-type="post"]')); c.classList.add("active"); f.style.display="none"; b.textContent="CANCEL POST"; b.classList.add("cancel"); c.scrollIntoView({behavior:"smooth",block:"start"}); } }
+
+const desktopSidebar=document.querySelector(".sidebar-column");
+desktopSidebar?.addEventListener("wheel",event=>{if(window.matchMedia("(max-width: 800px)").matches||desktopSidebar.scrollHeight<=desktopSidebar.clientHeight)return;const movingUp=event.deltaY<0,movingDown=event.deltaY>0,canMoveUp=desktopSidebar.scrollTop>0,canMoveDown=desktopSidebar.scrollTop+desktopSidebar.clientHeight<desktopSidebar.scrollHeight-1;if((movingUp&&canMoveUp)||(movingDown&&canMoveDown)){event.preventDefault();desktopSidebar.scrollTop+=event.deltaY}}, {passive:false});
 
 requestAnimationFrame(()=>{document.querySelectorAll('.post.byte-post').forEach(setupByteCaption);document.querySelectorAll('.post.video-post').forEach(setupVideoDescription);document.querySelectorAll('.post').forEach(updateMoreLink)});
 </script>
