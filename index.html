@@ -1963,6 +1963,59 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   line-height:normal!important;
 }
 
+/* V110 — clearer feed footer controls and creator count alignment. */
+.feed .post .like-button[data-liked="true"]>.like-heart,
+.feed .post .comment-like[data-liked="true"]>.like-heart{
+  font-size:20px!important;
+  font-weight:700!important;
+}
+
+@media(min-width:701px){
+  .feed .post>.post-footer{
+    grid-template-columns:minmax(180px,38%) max-content minmax(0,1fr)!important;
+  }
+  .feed .post>.post-footer>.comment-button{
+    width:100%!important;
+    max-width:360px!important;
+    justify-self:start!important;
+  }
+  .feed .post>.post-footer>.post-footer-actions{
+    justify-self:end!important;
+  }
+}
+.feed .post .more-comments{
+  font-size:11px!important;
+  font-weight:650!important;
+}
+
+.feed .post .post-hashtags,
+.feed .post .post-hashtags.active{
+  padding:12px!important;
+  border:1px dashed var(--am-peach)!important;
+  background:rgba(16,31,67,.96)!important;
+}
+.feed .post .post-hashtag{
+  font-size:13px!important;
+  line-height:1.25!important;
+}
+.feed .post .post-hashtag-done{display:none!important}
+
+.composer.mode-video #postTextWrap .creator-writing-field{
+  position:relative!important;
+}
+.composer.mode-video #postTextWrap #mainPostText{
+  padding-bottom:29px!important;
+}
+.composer.mode-video #postTextWrap #postCharCount{
+  position:absolute!important;
+  left:12px!important;
+  right:auto!important;
+  bottom:8px!important;
+  margin:0!important;
+  z-index:2!important;
+  pointer-events:none!important;
+}
+
 </style>
 </head>
 <body>
