@@ -644,6 +644,301 @@ body.discover-body .top-nav a.active{
     width:auto;
   }
 }
+
+
+/* =========================================================
+   DISCOVER CARD TEST — REGULAR POST ONLY (V19)
+   Prototype of the improved shared All Media card design.
+   Blog / Video / Byte intentionally remain unchanged for now.
+========================================================= */
+.discover-wall .post.discover-card-test{
+  overflow:hidden;
+  border:1px solid rgba(255,207,159,.10);
+  border-radius:18px;
+  background:#182447;
+  box-shadow:0 20px 55px -26px rgba(0,0,0,.68),
+             inset 0 0 0 1px rgba(255,255,255,.035),
+             0 0 28px -12px rgba(255,207,159,.18);
+}
+.discover-card-test .post-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px 18px 14px;
+}
+.discover-card-test .profile-picture{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  border:1px solid rgba(255,207,159,.42);
+  outline:2px solid rgba(255,207,159,.18);
+  outline-offset:2px;
+  background:linear-gradient(145deg,#ffcf9f,#f5b683);
+  box-shadow:0 0 14px rgba(255,207,159,.22);
+}
+.discover-card-test .profile-picture::after{
+  content:"m";
+  display:grid;
+  place-items:center;
+  width:100%;height:100%;
+  color:#1a274f;
+  font-size:13px;
+  font-weight:800;
+}
+.discover-card-test .post-author-copy{min-width:0;flex:1}
+.discover-card-test .post-author-line{
+  display:flex;
+  align-items:baseline;
+  gap:7px;
+  min-width:0;
+}
+.discover-card-test .username{font-size:14px;font-weight:700}
+.discover-card-test .post-time{font-size:12px;color:rgba(255,255,255,.4)}
+.discover-card-test .post-card-type{
+  height:24px;
+  padding:0 13px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,207,159,.3);
+  border-radius:999px;
+  background:rgba(255,207,159,.14);
+  color:#ffcf9f;
+  box-shadow:0 0 12px rgba(255,207,159,.13);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
+.discover-card-test .post-header-right{display:flex;align-items:center;gap:9px;margin-left:auto}
+.discover-card-test .post-menu{position:relative;right:auto;top:auto}
+.discover-card-test .post-menu-button{
+  width:28px;height:28px;border-radius:999px;
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.48);
+}
+.discover-card-test .post-meta-line{
+  padding:0 18px 11px;
+  margin-top:-4px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.discover-card-test .post-image{
+  margin:0 18px;
+  width:calc(100% - 36px);
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,207,159,.20);
+  box-shadow:0 0 0 1px rgba(255,207,159,.10),0 0 24px rgba(255,207,159,.11),0 10px 24px -16px rgba(0,0,0,.7);
+}
+.discover-card-test .discover-demo-art.short{min-height:280px}
+.discover-card-test > .caption{
+  margin:0;
+  padding:17px 18px 5px;
+  color:rgba(255,255,255,.84);
+  font-size:14px;
+  line-height:1.58;
+}
+.discover-card-test .interactions{
+  margin:14px 18px 0;
+  padding:14px 0 0;
+  border-top:1px solid rgba(255,207,159,.08);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.discover-card-test .interaction.like-button,
+.discover-card-test .quick-action{
+  height:32px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  color:rgba(255,255,255,.70);
+}
+.discover-card-test .interaction.like-button:hover,
+.discover-card-test .quick-action:hover{
+  border-color:rgba(255,207,159,.28);
+  background:rgba(255,207,159,.09);
+  color:#ffcf9f;
+}
+.discover-card-test .quick-action-icon{width:14px;height:14px}
+.discover-card-test .reblog-counter{
+  margin-left:auto;
+  padding:0;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.42);
+  font-size:12px;
+  white-space:nowrap;
+}
+.discover-card-test .share-action{
+  padding:0;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.42);
+  font-size:12px;
+}
+.discover-card-test .latest-comment-label{display:none}
+.discover-card-test .latest-comment{
+  margin:15px 18px 0;
+  min-height:38px;
+  padding:0 14px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  color:rgba(255,255,255,.58);
+  font-size:12px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.discover-card-test .latest-comment::after{
+  content:attr(data-time);
+  margin-left:auto;
+  padding-left:10px;
+  color:rgba(255,255,255,.28);
+  font-size:10px;
+}
+.discover-card-test .comment-username{color:rgba(255,255,255,.86);font-weight:700;flex:none}
+.discover-card-test .post-footer{
+  position:relative;
+  padding:14px 18px 17px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.discover-card-test .single-comment-composer{
+  flex:1 1 auto;
+  min-width:0;
+}
+.discover-card-test .comment-composer{
+  display:flex;
+  position:relative;
+  width:100%;
+  min-height:40px;
+  margin:0;
+  padding:0 14px;
+  align-items:center;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  transition:min-height .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease,padding .22s ease;
+  cursor:text;
+}
+.discover-card-test .comment-composer:hover{
+  border-color:rgba(255,207,159,.20);
+  background:rgba(255,207,159,.055);
+}
+.discover-card-test .comment-composer .comment-compact-state{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  color:rgba(255,255,255,.38);
+  font-size:12px;
+}
+.discover-card-test .comment-mini-avatar{
+  width:24px;height:24px;border-radius:50%;flex:none;
+  border:1px solid rgba(255,207,159,.20);
+  background:#26365f;
+}
+.discover-card-test .comment-expanded-state{display:none;width:100%}
+.discover-card-test .comment-composer.active{
+  min-height:86px;
+  padding:11px 12px 36px;
+  align-items:flex-start;
+  border-color:rgba(255,207,159,.50);
+  background:#1f2f56;
+  box-shadow:0 0 0 3px rgba(255,207,159,.15),0 0 18px rgba(255,207,159,.10);
+}
+.discover-card-test .comment-composer.active .comment-compact-state{display:none}
+.discover-card-test .comment-composer.active .comment-expanded-state{display:block}
+.discover-card-test .comment-text-area{
+  display:block;
+  width:100%;
+  min-height:45px;
+  padding:0 68px 0 0;
+  resize:none;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  font:inherit;
+  font-size:13px;
+  line-height:1.5;
+}
+.discover-card-test .comment-post-actions{
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  margin:0;
+}
+.discover-card-test .comment-post-button{
+  height:30px;
+  padding:0 14px;
+  border-radius:999px;
+  border:1px solid #ffcf9f;
+  background:#ffcf9f;
+  color:#1a274f;
+  font-size:12px;
+  font-weight:800;
+  box-shadow:0 2px 12px rgba(255,207,159,.35);
+}
+.discover-card-test .comment-helper{
+  display:none;
+  margin:7px 4px 0;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:rgba(255,207,159,.42);
+  font-size:10px;
+}
+.discover-card-test .single-comment-composer.open .comment-helper{display:flex}
+.discover-card-test .comment-cancel{
+  border:0;background:none;padding:0;color:rgba(255,255,255,.34);font-size:10px;cursor:pointer;
+}
+.discover-card-test .more-comments{
+  flex:none;
+  font-size:11px;
+  color:rgba(255,255,255,.33);
+  white-space:nowrap;
+}
+.discover-card-test .post-footer-actions{margin-left:auto;flex:none}
+.discover-card-test .hashtag-link{
+  height:40px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  background:rgba(255,255,255,.045);
+  color:rgba(255,255,255,.50);
+  font-size:11px;
+}
+.discover-card-test .hashtag-link:hover{border-color:rgba(255,207,159,.20);background:rgba(255,207,159,.08);color:#ffcf9f}
+.discover-card-test .comments-section{margin:0 18px 16px}
+.discover-card-test::after{
+  content:"";
+  display:block;
+  height:24px;
+  border-top:1px solid rgba(255,207,159,.20);
+  background:linear-gradient(to bottom,rgba(255,207,159,.055),transparent);
+}
+@media(max-width:760px){
+  .discover-card-test .interactions{flex-wrap:wrap}
+  .discover-card-test .reblog-counter{margin-left:0}
+  .discover-card-test .post-footer{flex-wrap:wrap}
+  .discover-card-test .single-comment-composer{flex-basis:100%}
+  .discover-card-test .more-comments{order:2}
+  .discover-card-test .post-footer-actions{order:3}
+}
+
 </style>
 </head>
 
@@ -995,7 +1290,103 @@ function mainContent(post){
   return `${demoMedia(post)}<div class="caption">${escapeHTML(post.caption)}</div>`;
 }
 
+function buildRegularDiscoverCard(post){
+  return `
+  <article class="post discover-card-test" data-type="post" data-interest="${escapeHTML(post.interest)}">
+    <div class="post-header">
+      <div class="profile-picture"></div>
+      <div class="post-author-copy">
+        <div class="post-author-line">
+          <div class="username">${escapeHTML(post.user)}</div>
+          <span class="post-time">· ${escapeHTML(post.time)}</span>
+        </div>
+      </div>
+      <div class="post-header-right">
+        <div class="post-card-type">${escapeHTML(post.interest)}</div>
+        <div class="post-menu">
+          <button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button>
+          <div class="post-menu-dropdown"><button>Not interested</button><button>Report</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-meta-line">
+      ${topicHTML(post)}
+      ${post.community ? `<div class="post-community">· in ${escapeHTML(post.community)}</div>` : ""}
+    </div>
+
+    ${demoMedia(post)}
+    <div class="caption">${escapeHTML(post.caption)}</div>
+
+    <div class="interactions">
+      <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">
+        <span class="like-heart">♡</span> <span class="like-count">${post.likes}</span>
+      </button>
+      <button class="quick-action pocket-action" type="button" onclick="toggleSimpleAction(this)">
+        <svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v16l-7-4.6-7 4.6Z"></path></svg>
+        <span>Pocket</span>
+      </button>
+      <button class="quick-action community-action" type="button" onclick="toggleSimpleAction(this)">
+        <svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg>
+        <span>Community</span>
+      </button>
+      <div class="interaction reblog-counter"><span class="reblog-icon">↻</span> ${post.reblogs}</div>
+      <button class="interaction share share-action" type="button">↗ Share</button>
+    </div>
+
+    <div class="latest-comment" data-time="2m ago">
+      <span class="comment-username">${escapeHTML(post.latestUser)}:</span>
+      <span class="latest-comment-copy">${escapeHTML(post.latest)}</span>
+    </div>
+
+    <div class="post-footer">
+      <div class="single-comment-composer">
+        <div class="comment-composer" onclick="openInlineCommentComposer(this,event)">
+          <div class="comment-compact-state"><div class="comment-mini-avatar"></div><span>Leave your opinion...</span></div>
+          <div class="comment-expanded-state">
+            <textarea class="comment-text-area" placeholder="Say hi... share what you feel" onkeydown="handleInlineCommentKeys(event,this)"></textarea>
+            <div class="comment-post-actions"><button class="comment-post-button" onclick="event.stopPropagation();postCommentNew(this)">POST</button></div>
+          </div>
+        </div>
+        <div class="comment-helper"><span>Press Esc to cancel • ↵ to post</span><button class="comment-cancel" type="button" onclick="closeInlineCommentComposer(event,this)">Changed my mind...</button></div>
+      </div>
+
+      <div class="footer-link more-comments" onclick="toggleComments(this)">View ${Math.max(post.comments-1,0)} more comments</div>
+      <div class="post-footer-actions">
+        <div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div>
+      </div>
+      <div class="post-hashtags">
+        ${post.hashtags.map(h=>`<span class="post-hashtag">${escapeHTML(h)}</span>`).join("")}
+        <button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <div class="comment-item">
+        <div class="comment-author">${escapeHTML(post.latestUser)}</div>
+        <div class="comment-content">${escapeHTML(post.latest)}</div>
+        <div class="comment-actions">
+          <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)"><span class="like-heart">♡</span> <span>4</span></button>
+          <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
+        </div>
+        <div class="reply-list"></div>
+        <div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>
+      </div>
+      <div class="comment-item">
+        <div class="comment-author">@wanderingcloud</div>
+        <div class="comment-content">This is exactly the sort of thing I like finding here.</div>
+        <div class="comment-actions">
+          <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)"><span class="like-heart">♡</span> <span>1</span></button>
+          <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
+        </div>
+        <div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>
+      </div>
+    </div>
+  </article>`;
+}
+
 function buildDiscoverCard(post){
+  if(post.type==="post") return buildRegularDiscoverCard(post);
   return `
   <article class="post ${post.type==="blog"?"blog-post":post.type==="video"?"video-post":post.type==="byte"?"byte-post":""}"
            data-type="${post.type}"
@@ -1515,6 +1906,40 @@ function toggleComments(el){
   post.querySelector(".comments-section")?.classList.toggle("active");
 }
 
+function openInlineCommentComposer(composer,event){
+  if(event?.target?.closest("button")) return;
+  if(!composer.classList.contains("active")){
+    composer.classList.add("active");
+    composer.closest(".single-comment-composer")?.classList.add("open");
+  }
+  requestAnimationFrame(()=>composer.querySelector(".comment-text-area")?.focus());
+}
+
+function closeInlineCommentComposer(event,button){
+  event?.stopPropagation();
+  const wrap=button.closest(".single-comment-composer");
+  const composer=wrap?.querySelector(".comment-composer");
+  const input=composer?.querySelector(".comment-text-area");
+  if(input) input.value="";
+  composer?.classList.remove("active");
+  wrap?.classList.remove("open");
+}
+
+function handleInlineCommentKeys(event,textarea){
+  if(event.key==="Escape"){
+    event.preventDefault();
+    const wrap=textarea.closest(".single-comment-composer");
+    textarea.value="";
+    wrap?.querySelector(".comment-composer")?.classList.remove("active");
+    wrap?.classList.remove("open");
+  }
+  if(event.key==="Enter" && !event.shiftKey){
+    event.preventDefault();
+    const btn=textarea.closest(".comment-composer")?.querySelector(".comment-post-button");
+    btn?.click();
+  }
+}
+
 function toggleCommentComposerForPost(post){
   post.querySelector(".comment-composer")?.classList.toggle("active");
   post.querySelector(".comment-text-area")?.focus();
@@ -1583,6 +2008,7 @@ function postCommentNew(button){
 
   input.value="";
   composer.classList.remove("active");
+  composer.closest(".single-comment-composer")?.classList.remove("open");
 }
 
 function togglePostHashtags(link){
