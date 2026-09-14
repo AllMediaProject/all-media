@@ -142,8 +142,9 @@ body.discover-body{
   top:48px;
   right:0;
   z-index:200;
-  width:285px;
-  padding:15px 15px 0;
+  width:245px;
+  max-width:calc(100vw - 28px);
+  padding:13px 13px 0;
   overflow:hidden;
   border:1px solid rgba(65,105,208,.34);
   border-radius:16px;
@@ -168,15 +169,15 @@ body.discover-body{
 .discover-filter-options{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:7px;
+  gap:6px;
 }
 
 .discover-filter-option{
   display:flex;
   align-items:center;
-  gap:7px;
-  min-height:38px;
-  padding:8px 8px;
+  gap:6px;
+  min-height:36px;
+  padding:7px 7px;
   border:1px solid rgba(65,105,208,.22);
   border-radius:11px;
   background:#101d3f;
@@ -188,8 +189,8 @@ body.discover-body{
 .discover-filter-option input{accent-color:var(--am-peach)}
 
 .saved-filter-area{
-  margin-top:12px;
-  padding-top:11px;
+  margin-top:10px;
+  padding-top:10px;
   border-top:1px solid rgba(65,105,208,.22);
 }
 
@@ -212,8 +213,8 @@ body.discover-body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:7px;
-  margin-top:8px;
+  gap:6px;
+  margin-top:7px;
 }
 
 .saved-filter-count{
@@ -223,7 +224,7 @@ body.discover-body{
 }
 
 .saved-filter-save{
-  padding:6px 10px;
+  padding:6px 8px;
   border:1px solid rgba(255,195,132,.5);
   border-radius:999px;
   background:rgba(255,195,132,.06);
@@ -242,8 +243,8 @@ body.discover-body{
 .saved-filter-list{
   display:flex;
   flex-direction:column;
-  gap:6px;
-  margin-top:8px;
+  gap:5px;
+  margin-top:7px;
 }
 
 .saved-filter-row{
@@ -441,14 +442,14 @@ body.discover-body{
   display:flex;
   justify-content:flex-end;
   gap:10px;
-  margin:12px -15px 0;
-  padding:11px 15px;
+  margin:10px -13px 0;
+  padding:10px 13px;
   border-top:1px solid rgba(65,105,208,.20);
   background:#18264a;
 }
 
 .discover-filter-action{
-  padding:8px 12px;
+  padding:8px 10px;
   border:1px solid rgba(65,105,208,.38);
   border-radius:10px;
   background:#122041;
