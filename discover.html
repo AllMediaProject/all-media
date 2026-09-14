@@ -169,6 +169,94 @@ body.discover-body{
   line-height:1.4;
 }
 
+.saved-filter-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:10px;
+}
+
+.saved-filter-count{
+  color:#8798bb;
+  font-size:10px;
+  font-weight:700;
+}
+
+.saved-filter-save{
+  padding:7px 10px;
+  border:1px solid rgba(255,195,132,.55);
+  border-radius:8px;
+  background:rgba(255,195,132,.08);
+  color:var(--am-peach);
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.saved-filter-save:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.saved-filter-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-top:10px;
+}
+
+.saved-filter-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px;
+  border:1px solid rgba(65,105,208,.25);
+  border-radius:9px;
+  background:rgba(8,18,44,.28);
+}
+
+.saved-filter-name{
+  min-width:0;
+  flex:1;
+  overflow:hidden;
+  color:#e8ecf8;
+  font-size:11px;
+  font-weight:750;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.saved-filter-types{
+  color:#8fa1c5;
+  font-size:9px;
+  white-space:nowrap;
+}
+
+.saved-filter-mini{
+  padding:5px 7px;
+  border:1px solid rgba(65,105,208,.32);
+  border-radius:7px;
+  background:rgba(8,18,44,.3);
+  color:#cbd6ec;
+  font-family:'Outfit',sans-serif;
+  font-size:9px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.saved-filter-mini:hover{
+  border-color:rgba(255,195,132,.6);
+  color:var(--am-peach);
+}
+
+.saved-filter-empty{
+  padding:9px 0 2px;
+  color:#7386ab;
+  font-size:10px;
+}
+
 .discover-filter-actions{
   display:flex;
   justify-content:flex-end;
@@ -272,12 +360,14 @@ body.discover-body{
 .discover-wall .topic.discover-quick-follow{
   cursor:pointer!important;
   border-color:var(--am-peach)!important;
-  color:var(--am-peach)!important;
-  background:rgba(255,195,132,.08)!important;
+  color:#101a3a!important;
+  background:var(--am-peach)!important;
+  font-weight:800!important;
 }
 
 .discover-wall .topic.discover-quick-follow:hover{
-  background:rgba(255,195,132,.16)!important;
+  background:var(--am-peach-2)!important;
+  border-color:var(--am-peach-2)!important;
 }
 
 /* Demo media is only placeholder art.
@@ -378,7 +468,7 @@ body.discover-body .top-nav a.active{
 ========================================================= -->
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities">
+<div class="pinned-communities" id="pinnedCommunities">
 <button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
 <button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
 <button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
@@ -387,14 +477,7 @@ body.discover-body .top-nav a.active{
 <div class="community-tools">
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
-<div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-</div>
+<div class="community-dropdown" id="communityDropdown"></div>
 </div>
 <button class="community-tool">Manage Communities</button>
 </div>
@@ -437,7 +520,14 @@ body.discover-body .top-nav a.active{
 
         <div class="saved-filter-area" id="savedFilterArea">
           <div class="saved-filter-title">Saved Filters</div>
-          <div class="saved-filter-note">Suggested will support up to three named saved filters. We can build the full manager once the card/layout match is locked.</div>
+          <div class="saved-filter-note">Save up to three content-type combinations for Suggested.</div>
+
+          <div class="saved-filter-toolbar">
+            <span class="saved-filter-count" id="savedFilterCount">0 / 3 saved</span>
+            <button class="saved-filter-save" id="saveCurrentFilterButton" type="button" onclick="saveCurrentDiscoverFilter()">Save Current Filter</button>
+          </div>
+
+          <div class="saved-filter-list" id="savedFilterList"></div>
         </div>
 
         <div class="discover-filter-actions">
@@ -483,6 +573,17 @@ let activeAdventureInterest = "all";
 let activeTypes = ["post","blog","video","byte"];
 
 const followedInterests = new Set(["Art","Halloween","Crochet","Nature"]);
+
+let savedDiscoverFilters = [];
+
+const communityCatalog = [
+  {name:"Spooky Cozy",icon:"🎃",count:5,pinned:true},
+  {name:"Artists",icon:"🎨",count:2,pinned:true},
+  {name:"Turtle Rescue",icon:"🐢",count:1,pinned:true},
+  {name:"Book Club",icon:"📚",count:0,pinned:false},
+  {name:"Crochet Corner",icon:"🧶",count:0,pinned:false},
+  {name:"Garden & Nature",icon:"🌿",count:0,pinned:false}
+];
 
 /* The data is temporary sample content.
    The HTML generated below deliberately uses the SAME Home
@@ -891,6 +992,120 @@ function followDiscoverInterest(el,interest){
   });
 }
 
+
+function renderCommunities(){
+  const pinned=document.getElementById("pinnedCommunities");
+  const menu=document.getElementById("communityDropdown");
+  if(!pinned || !menu) return;
+
+  pinned.innerHTML=communityCatalog
+    .filter(c=>c.pinned)
+    .map(c=>`
+      <button class="community-chip" draggable="true" data-community="${escapeHTML(c.name)}" data-icon="${c.icon}">
+        <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
+        ${c.count ? `<span class="activity-bell" title="${c.count} new community ${c.count===1?"activity":"activities"}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+          <span class="activity-count">${c.count}</span>
+        </span>` : ""}
+      </button>
+    `).join("");
+
+  menu.innerHTML=communityCatalog.map((c,index)=>`
+    <div class="community-more-row">
+      <button class="community-more-name" type="button" onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
+        <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
+      </button>
+      <button class="community-pin ${c.pinned?"pinned":""}" type="button" onclick="toggleCommunityPin(${index},event)">
+        <span class="pin-state">${c.pinned?"Pinned":"Pin"}</span>
+        <span class="pin-action">${c.pinned?"Unpin":"Pin"}</span>
+      </button>
+    </div>
+  `).join("");
+}
+
+function toggleCommunityPin(index,event){
+  event?.stopPropagation();
+  communityCatalog[index].pinned=!communityCatalog[index].pinned;
+  renderCommunities();
+  document.getElementById("communityDropdown")?.classList.add("active");
+}
+
+function openDiscoverCommunity(name){
+  // Prototype behavior: clicking a community visibly selects its chip if pinned.
+  document.querySelectorAll(".community-chip").forEach(chip=>{
+    chip.classList.toggle("active",chip.dataset.community===name);
+  });
+}
+
+
+function renderSavedDiscoverFilters(){
+  const list=document.getElementById("savedFilterList");
+  const count=document.getElementById("savedFilterCount");
+  const saveButton=document.getElementById("saveCurrentFilterButton");
+  if(!list || !count || !saveButton) return;
+
+  count.textContent=`${savedDiscoverFilters.length} / 3 saved`;
+  saveButton.disabled=savedDiscoverFilters.length>=3;
+
+  if(!savedDiscoverFilters.length){
+    list.innerHTML=`<div class="saved-filter-empty">No saved filters yet.</div>`;
+    return;
+  }
+
+  list.innerHTML=savedDiscoverFilters.map((filter,index)=>`
+    <div class="saved-filter-row">
+      <button class="saved-filter-name saved-filter-mini" type="button" onclick="applySavedDiscoverFilter(${index})">${escapeHTML(filter.name)}</button>
+      <span class="saved-filter-types">${filter.types.map(t=>t[0].toUpperCase()+t.slice(1)).join(", ")}</span>
+      <button class="saved-filter-mini" type="button" onclick="renameSavedDiscoverFilter(${index})">Rename</button>
+      <button class="saved-filter-mini" type="button" onclick="deleteSavedDiscoverFilter(${index})">Delete</button>
+    </div>
+  `).join("");
+}
+
+function saveCurrentDiscoverFilter(){
+  if(savedDiscoverFilters.length>=3) return;
+
+  const checked=[...document.querySelectorAll(".discover-filter-options input:checked")].map(i=>i.value);
+  if(!checked.length) return;
+
+  const proposed=prompt("Name this saved filter:");
+  const name=(proposed||"").trim();
+  if(!name) return;
+
+  savedDiscoverFilters.push({name,types:[...checked]});
+  renderSavedDiscoverFilters();
+}
+
+function applySavedDiscoverFilter(index){
+  const filter=savedDiscoverFilters[index];
+  if(!filter) return;
+
+  document.querySelectorAll(".discover-filter-options input").forEach(input=>{
+    input.checked=filter.types.includes(input.value);
+  });
+
+  activeTypes=[...filter.types];
+  document.getElementById("discoverFilterButton").classList.toggle("restricted",activeTypes.length<4);
+  renderDiscover();
+}
+
+function renameSavedDiscoverFilter(index){
+  const filter=savedDiscoverFilters[index];
+  if(!filter) return;
+
+  const proposed=prompt("Rename this filter:",filter.name);
+  const name=(proposed||"").trim();
+  if(!name) return;
+
+  filter.name=name;
+  renderSavedDiscoverFilters();
+}
+
+function deleteSavedDiscoverFilter(index){
+  savedDiscoverFilters.splice(index,1);
+  renderSavedDiscoverFilters();
+}
+
 function toggleDiscoverFilter(event){
   event.stopPropagation();
   document.getElementById("discoverFilterPanel").classList.toggle("open");
@@ -1053,6 +1268,8 @@ window.addEventListener("resize",()=>{
   resizeTimer=setTimeout(renderDiscover,120);
 });
 
+renderCommunities();
+renderSavedDiscoverFilters();
 renderDiscover();
 </script>
 </body>
