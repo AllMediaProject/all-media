@@ -247,6 +247,31 @@ body.discover-body{
   background:rgba(8,18,44,.26);
 }
 
+.saved-filter-row{
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.saved-filter-row:hover{
+  background:rgba(255,195,132,.12);
+  border-color:var(--am-peach);
+  box-shadow:0 0 0 1px rgba(255,195,132,.10);
+}
+.saved-filter-row.selected{
+  background:var(--am-peach);
+  border-color:var(--am-peach);
+  box-shadow:0 5px 14px rgba(0,0,0,.16);
+}
+.saved-filter-row.selected .saved-filter-name,
+.saved-filter-row.selected .saved-filter-types,
+.saved-filter-row.selected .saved-filter-gear{
+  color:#101a3a!important;
+}
+.saved-filter-row.selected .saved-filter-name.saved-filter-mini{
+  background:transparent;
+  border-color:rgba(16,26,58,.28);
+}
+
+
 .saved-filter-name{
   grid-column:1 / -1;
   min-width:0;
@@ -266,7 +291,7 @@ body.discover-body{
   grid-column:1;
   min-width:0;
   padding:0 4px 0 8px;
-  color:#9caed0;
+  color:var(--am-peach);
   font-size:10px;
   line-height:1.25;
   white-space:normal;
@@ -292,17 +317,76 @@ body.discover-body{
   padding:5px 8px;
 }
 
-/* Rename and Delete sit together at the lower-right. */
-.saved-filter-row > .saved-filter-mini:nth-of-type(2){
-  grid-column:2;
+.saved-filter-gear-wrap{
+  grid-column:3;
+  position:relative;
   justify-self:end;
-  padding-left:9px;
-  padding-right:9px;
+  align-self:center;
 }
 
-.saved-filter-row > .saved-filter-mini:nth-of-type(3){
-  grid-column:3;
-  justify-self:end;
+.saved-filter-gear{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--am-peach);
+  font-size:12px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.saved-filter-gear:hover{
+  color:#fff;
+}
+
+.saved-filter-gear-menu{
+  display:none;
+  position:absolute;
+  right:0;
+  bottom:26px;
+  z-index:320;
+  width:112px;
+  padding:5px;
+  border:1px solid rgba(255,195,132,.38);
+  border-radius:9px;
+  background:linear-gradient(145deg,#192b58,#112143);
+  box-shadow:0 12px 28px rgba(0,0,0,.34);
+}
+
+.saved-filter-gear-menu.open{
+  display:block;
+}
+
+.saved-filter-gear-menu button{
+  width:100%;
+  padding:7px 8px;
+  border:0;
+  border-radius:6px;
+  background:transparent;
+  color:#e8ecf8;
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  text-align:left;
+  cursor:pointer;
+}
+
+.saved-filter-gear-menu button:hover{
+  background:rgba(255,195,132,.08);
+  color:var(--am-peach);
+}
+
+.saved-filter-gear-menu button.delete{
+  color:#ff9d9d;
+}
+
+.saved-filter-gear-menu button.delete:hover{
+  background:rgba(255,120,120,.08);
+  color:#ffb0b0;
 }
 
 .saved-filter-mini:hover{
@@ -462,6 +546,21 @@ body.discover-body{
 
 .discover-demo-art.tall{min-height:390px}
 .discover-demo-art.short{min-height:210px}
+
+
+.discover-blog-full{
+  display:none;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(65,105,208,.18);
+  color:#dfe6f6;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.discover-blog-full.open{
+  display:block;
+}
 
 /* Floating refresh */
 .discover-refresh{
@@ -653,6 +752,7 @@ let activeTypes = ["post","blog","video","byte"];
 const followedInterests = new Set(["Art","Halloween","Crochet","Nature"]);
 
 let savedDiscoverFilters = [];
+let selectedSavedFilterIndex = null;
 
 const communityCatalog = [
   {name:"Spooky Cozy",icon:"🎃",pinned:true},
@@ -837,7 +937,21 @@ function mainContent(post){
       <div class="blog-feed-title">${escapeHTML(post.title)}</div>
       ${demoMedia(post)}
       <div class="caption blog-feed-excerpt">${escapeHTML(post.caption)}</div>
-      <button type="button" class="blog-read-button">Read Blog</button>
+
+      <div class="discover-blog-full">
+        <p>
+          ${escapeHTML(post.caption)}
+          This is sample expanded blog content for the Discover prototype.
+          In the finished version, this area would display the full published blog body,
+          including its normal formatting, images, and links.
+        </p>
+      </div>
+
+      <button type="button"
+              class="blog-read-button"
+              onclick="toggleDiscoverBlog(this)">
+        Read Blog
+      </button>
     `;
   }
 
@@ -1188,13 +1302,40 @@ function renderSavedDiscoverFilters(){
   }
 
   list.innerHTML=savedDiscoverFilters.map((filter,index)=>`
-    <div class="saved-filter-row">
-      <button class="saved-filter-name saved-filter-mini" type="button" onclick="applySavedDiscoverFilter(${index})">${escapeHTML(filter.name)}</button>
+    <div class="saved-filter-row ${selectedSavedFilterIndex===index?"selected":""}" onclick="applySavedDiscoverFilter(${index})">
+      <button class="saved-filter-name saved-filter-mini" type="button" onclick="event.stopPropagation(); applySavedDiscoverFilter(${index})">${escapeHTML(filter.name)}</button>
       <span class="saved-filter-types">${filter.types.map(t=>t[0].toUpperCase()+t.slice(1)).join(", ")}</span>
-      <button class="saved-filter-mini" type="button" onclick="renameSavedDiscoverFilter(${index})">Rename</button>
-      <button class="saved-filter-mini" type="button" onclick="deleteSavedDiscoverFilter(${index})">Delete</button>
+
+      <div class="saved-filter-gear-wrap">
+        <button class="saved-filter-gear"
+                type="button"
+                aria-label="Manage saved filter"
+                onclick="toggleSavedFilterGearMenu(event,this)">⚙</button>
+
+        <div class="saved-filter-gear-menu">
+          <button type="button" onclick="renameSavedDiscoverFilter(${index}); closeSavedFilterGearMenus()">Rename</button>
+          <button class="delete" type="button" onclick="deleteSavedDiscoverFilter(${index}); closeSavedFilterGearMenus()">Delete</button>
+        </div>
+      </div>
     </div>
   `).join("");
+}
+
+function closeSavedFilterGearMenus(){
+  document.querySelectorAll(".saved-filter-gear-menu.open").forEach(menu=>menu.classList.remove("open"));
+}
+
+function toggleSavedFilterGearMenu(event,button){
+  event.stopPropagation();
+
+  const menu=button.nextElementSibling;
+  const shouldOpen=!menu.classList.contains("open");
+
+  closeSavedFilterGearMenus();
+
+  if(shouldOpen){
+    menu.classList.add("open");
+  }
 }
 
 let savedFilterWarningTimer;
@@ -1244,12 +1385,15 @@ function applySavedDiscoverFilter(index){
   const filter=savedDiscoverFilters[index];
   if(!filter) return;
 
+  selectedSavedFilterIndex=index;
+
   document.querySelectorAll(".discover-filter-options input").forEach(input=>{
     input.checked=filter.types.includes(input.value);
   });
 
   activeTypes=[...filter.types];
   document.getElementById("discoverFilterButton").classList.toggle("restricted",activeTypes.length<4);
+  renderSavedDiscoverFilters();
   renderDiscover();
 }
 
@@ -1267,6 +1411,11 @@ function renameSavedDiscoverFilter(index){
 
 function deleteSavedDiscoverFilter(index){
   savedDiscoverFilters.splice(index,1);
+  if(selectedSavedFilterIndex===index){
+    selectedSavedFilterIndex=null;
+  }else if(selectedSavedFilterIndex!==null && selectedSavedFilterIndex>index){
+    selectedSavedFilterIndex--;
+  }
   renderSavedDiscoverFilters();
 }
 
@@ -1289,14 +1438,26 @@ function applyDiscoverFilter(){
 }
 
 function clearDiscoverFilter(){
+  selectedSavedFilterIndex=null;
   document.querySelectorAll(".discover-filter-options input").forEach(i=>i.checked=true);
   activeTypes=["post","blog","video","byte"];
   document.getElementById("discoverFilterButton").classList.remove("restricted");
   renderDiscover();
   closeDiscoverFilter();
+  renderSavedDiscoverFilters();
 }
 
 /* Home-card interactions reproduced locally for Discover. */
+function toggleDiscoverBlog(button){
+  const post=button.closest(".post");
+  const full=post?.querySelector(".discover-blog-full");
+  if(!full) return;
+
+  const opening=!full.classList.contains("open");
+  full.classList.toggle("open",opening);
+  button.textContent=opening ? "Close Blog" : "Read Blog";
+}
+
 function toggleLikeNew(button){
   const liked=button.dataset.liked==="true";
   button.dataset.liked=String(!liked);
@@ -1423,6 +1584,7 @@ function refreshDiscover(){
 
 document.addEventListener("click",()=>{
   closeDiscoverFilter();
+  closeSavedFilterGearMenus();
   document.querySelectorAll(".post-menu-dropdown").forEach(menu=>menu.classList.remove("active"));
 });
 
