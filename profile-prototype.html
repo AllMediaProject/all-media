@@ -2158,6 +2158,11 @@ body.profile-prototype-body{background:var(--am-main);}
   color:var(--am-main);
   background:var(--am-peach);
 }
+.profile-support-button.supporting{
+  color:var(--am-peach);
+  background:rgba(255,195,132,.08);
+  border:1px solid rgba(255,195,132,.34);
+}
 .profile-interests{
   display:flex;
   flex-wrap:wrap;
@@ -2807,17 +2812,17 @@ body.profile-prototype-body{background:var(--am-main);}
       <div class="profile-identity-top">
         <div class="profile-avatar">PROFILE<br>IMAGE</div>
         <div class="profile-copy">
-          <div class="profile-name-row"><h1 class="profile-display-name">Hope Hewitt</h1><button class="profile-support-button" type="button">♥ Support</button></div>
-          <div class="profile-handle-large">@SugarCrumbCo</div>
-          <p class="profile-bio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</p>
+          <div class="profile-name-row"><h1 class="profile-display-name">Alex Rivera</h1><button class="profile-support-button" type="button" aria-pressed="false" onclick="toggleSupport(this)">♥ Support</button></div>
+          <div class="profile-handle-large">@AlexRivera.Photo</div>
+          <p class="profile-bio">Film photographer chasing light leaks, quiet streets, old greenhouses, and the little moments that feel like they belong in a zine.</p>
           <div class="profile-interests">
-            <span class="profile-interest">🎨 Art</span><span class="profile-interest">🎃 Halloween</span>
-            <span class="profile-interest">🧶 Crochet</span><span class="profile-interest">👻 Horror</span>
-            <span class="profile-interest">✨ Cozy</span>
+            <span class="profile-interest">📷 Photography</span><span class="profile-interest">🎞️ Film</span>
+            <span class="profile-interest">🌿 Nature</span><span class="profile-interest">✈️ Travel</span>
+            <span class="profile-interest">📚 Zines</span>
           </div>
           <div class="profile-stats">
-            <span><strong>248</strong> Posts</span>
-            <span><strong>1.2K</strong> Supporters</span>
+            <span><strong>412</strong> Posts</span>
+            <span><strong>2.4K</strong> Supporters</span>
             
           </div>
         </div>
@@ -2829,9 +2834,9 @@ body.profile-prototype-body{background:var(--am-main);}
         <button class="profile-tab" onclick="setVisitorTab('reblogs',this)">Reblogs</button>
       </div>
       <div id="otherPostsPanel" class="profile-feed"><section class="feed"><article class="post">
-<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@SugarCrumbCo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">🎃 Spooky Art</div></div></div><div class="post-menu"><button class="post-menu-button">⋯</button><div class="post-menu-dropdown"><button>Edit</button><button class="delete-option">Delete</button></div></div></div>
-<div class="post-image"><span>PROFILE POST IMAGE</span></div>
-<div class="caption">A little spooky-cozy painting from the studio tonight. I wanted it to feel soft, strange, and gently haunted. 👻</div>
+<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@AlexRivera.Photo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">📷 Photography</div></div></div></div>
+<div class="post-image"><span>35MM PHOTO PREVIEW</span></div>
+<div class="caption">A frame from an early-morning walk through an abandoned greenhouse. The fog did most of the work — I just happened to bring the camera.</div>
 
 <div class="interactions">
 <button class="interaction like-button">♡ <span>24</span></button>
@@ -2842,7 +2847,7 @@ body.profile-prototype-body{background:var(--am-main);}
 </div>
 
 <div class="latest-comment-label">Latest comment</div>
-<div class="latest-comment" data-time="2m ago"><span class="comment-username">@ghostlygarden:</span> The cozy haunted feeling on this is perfect.</div>
+<div class="latest-comment" data-time="2m ago"><span class="comment-username">@grainandglow:</span> The light in this frame is unreal.</div>
 
 <div class="post-footer">
 <button class="comment-button">Leave your opinion…</button>
@@ -2851,7 +2856,7 @@ body.profile-prototype-body{background:var(--am-main);}
 </div>
 
 <div class="comments-section">
-<div class="comment-item"><div class="comment-author">@ghostlygarden</div><div class="comment-content">The cozy haunted feeling on this is perfect.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@SugarCrumbCo</div><div class="reply-content">Thank you!! I had so much fun adding all the tiny details.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@grainandglow</div><div class="comment-content">The light in this frame is unreal.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@AlexRivera.Photo</div><div class="reply-content">Thank you! I nearly walked past it because the fog was so thick.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
 <div class="comment-item"><div class="comment-author">@hauntedhome</div><div class="comment-content">The lighting is SO good.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
 <div class="comment-item"><div class="comment-author">@spookycat</div><div class="comment-content">I need one of these hanging in my house immediately.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
 <div class="comment-item"><div class="comment-author">@witchywoodland</div><div class="comment-content">The little moon detail is everything.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
@@ -2868,30 +2873,30 @@ body.profile-prototype-body{background:var(--am-main);}
     <aside class="about-card">
       <div class="about-header"><h2 class="about-title">About Me</h2></div>
       <div class="about-gallery">
-        <div class="about-slide active">ABOUT IMAGE 1</div>
-        <div class="about-slide">ABOUT IMAGE 2</div>
-        <div class="about-slide">ABOUT IMAGE 3</div>
+        <div class="about-slide active">GALLERY IMAGE 1</div>
+        <div class="about-slide">GALLERY IMAGE 2</div>
+        <div class="about-slide">GALLERY IMAGE 3</div>
         <div class="about-gallery-nav">
           <button class="about-dot active" onclick="showAboutSlide(0,this)"></button>
           <button class="about-dot" onclick="showAboutSlide(1,this)"></button>
           <button class="about-dot" onclick="showAboutSlide(2,this)"></button>
         </div>
       </div>
-      <div class="about-text">A little bit artist, a little bit gamer, fully committed to cozy chaos…</div>
+      <div class="about-text">Photographer for 8 years, mostly self-taught. I shoot film because I love the delay…</div>
       <button class="about-read" data-open="false" onclick="toggleAboutText(this)">Read more</button>
 
       <section class="about-section around-web-section">
         <h3 class="around-web-title">Around the Web</h3>
 
         <div class="link-shelf">
-          <a class="web-link-card featured" href="https://ko-fi.com/sugarcrumbco" target="_blank" rel="noopener noreferrer">
+          <a class="web-link-card featured" href="#" target="_blank" rel="noopener noreferrer">
             <span class="web-link-icon" aria-hidden="true">☕</span>
-            <span class="web-link-copy"><span class="web-link-label">My Art Shop</span><span class="web-link-domain">ko-fi.com</span></span>
+            <span class="web-link-copy"><span class="web-link-label">YouTube</span><span class="web-link-domain">alexrivera.co</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
             <span class="web-link-icon" aria-hidden="true">▶</span>
-            <span class="web-link-copy"><span class="web-link-label">YouTube</span><span class="web-link-domain">youtube.com</span></span>
+            <span class="web-link-copy"><span class="web-link-label">Photo Journal</span><span class="web-link-domain">fieldnotes.photo</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
@@ -2908,22 +2913,22 @@ body.profile-prototype-body{background:var(--am-main);}
         <div class="more-links">
           <a class="web-link-card" href="#" onclick="event.preventDefault()">
             <span class="web-link-icon" aria-hidden="true">＠</span>
-            <span class="web-link-copy"><span class="web-link-label">Threads</span><span class="web-link-domain">threads.net</span></span>
+            <span class="web-link-copy"><span class="web-link-label">Zine Shop</span><span class="web-link-domain">alexrivera.co/zines</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="web-link-card" href="#" onclick="event.preventDefault()">
             <span class="web-link-icon" aria-hidden="true">P</span>
-            <span class="web-link-copy"><span class="web-link-label">Pinterest</span><span class="web-link-domain">pinterest.com</span></span>
+            <span class="web-link-copy"><span class="web-link-label">Workshops</span><span class="web-link-domain">alexrivera.co/workshops</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="web-link-card" href="#" onclick="event.preventDefault()">
             <span class="web-link-icon" aria-hidden="true">✦</span>
-            <span class="web-link-copy"><span class="web-link-label">Portfolio</span><span class="web-link-domain">yourwebsite.com</span></span>
+            <span class="web-link-copy"><span class="web-link-label">Portfolio</span><span class="web-link-domain">youtube.com</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="web-link-card" href="#" onclick="event.preventDefault()">
             <span class="web-link-icon" aria-hidden="true">✉</span>
-            <span class="web-link-copy"><span class="web-link-label">My Newsletter</span><span class="web-link-domain">newsletter.example</span></span>
+            <span class="web-link-copy"><span class="web-link-label">Newsletter</span><span class="web-link-domain">fieldnotes.photo/newsletter</span></span>
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
         </div>
@@ -2939,11 +2944,11 @@ body.profile-prototype-body{background:var(--am-main);}
         <div class="side-panel active" data-side-panel="people">
           <div class="side-row">
             <span class="side-mini-avatar"></span>
-            <div>@mossandmoon<small>Artist · Nature</small></div>
+            <div>@grainandglow<small>Film · Street</small></div>
           </div>
           <div class="side-row">
             <span class="side-mini-avatar"></span>
-            <div>@cryptidcorner<small>Horror · Books</small></div>
+            <div>@fieldnotesclub<small>Photography · Zines</small></div>
           </div>
           <button class="about-read" type="button">View all</button>
         </div>
@@ -2951,11 +2956,11 @@ body.profile-prototype-body{background:var(--am-main);}
         <div class="side-panel" data-side-panel="pockets">
           <div class="side-row">
             <span>🎃</span>
-            <div>Spooky Inspiration<small>Public Pocket · created by user</small></div>
+            <div>Greenhouse References<small>Public Pocket · created by user</small></div>
           </div>
           <div class="side-row">
             <span>🎨</span>
-            <div>Art I Love<small>Public Pocket · created by user</small></div>
+            <div>Film Inspiration<small>Public Pocket · created by user</small></div>
           </div>
           <button class="about-read" type="button">View all</button>
         </div>
@@ -2963,11 +2968,11 @@ body.profile-prototype-body{background:var(--am-main);}
         <div class="side-panel" data-side-panel="communities">
           <div class="side-row">
             <span>👻</span>
-            <div>Gentle Hauntings<small>Public Community · created by user</small></div>
+            <div>Film Shooters<small>Public Community · created by user</small></div>
           </div>
           <div class="side-row">
             <span>🧶</span>
-            <div>Cozy Makers<small>Public Community · created by user</small></div>
+            <div>Abandoned Places<small>Public Community · created by user</small></div>
           </div>
           <button class="about-read" type="button">View all</button>
         </div>
@@ -3053,6 +3058,14 @@ function setProfileTab(tab, btn){
   document.getElementById("reblogsPanel").style.display = tab==="reblogs" ? "block" : "none";
   document.getElementById("savedPanel").style.display = tab==="saved" ? "block" : "none";
 }
+
+function toggleSupport(btn){
+  const active=btn.getAttribute("aria-pressed")==="true";
+  btn.setAttribute("aria-pressed",active?"false":"true");
+  btn.textContent=active?"♥ Support":"✓ Supporting";
+  btn.classList.toggle("supporting",!active);
+}
+
 function setVisitorTab(tab, btn){
   document.querySelectorAll("#otherProfile .profile-tab").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
@@ -3066,8 +3079,13 @@ function showAboutSlide(i, root){
 }
 function toggleAboutText(btn){
   const text=btn.previousElementSibling;
-  const long="A little bit artist, a little bit gamer, fully committed to cozy chaos. I make spooky-cute art and crochet, collect too many Halloween things, and like making little corners of the internet feel welcoming. Currently obsessed with moss, vintage Halloween, and half-finished sketchbooks.";
-  const short="A little bit artist, a little bit gamer, fully committed to cozy chaos…";
+  const visitor=btn.closest("#otherProfile");
+  const long=visitor
+    ?"Photographer for 8 years, mostly self-taught. I shoot film because I love the delay — not knowing if I got it until weeks later. I am currently working on a small zine about abandoned greenhouses and teach beginner film workshops every spring."
+    :"A little bit artist, a little bit gamer, fully committed to cozy chaos. I make spooky-cute art and crochet, collect too many Halloween things, and like making little corners of the internet feel welcoming. Currently obsessed with moss, vintage Halloween, and half-finished sketchbooks.";
+  const short=visitor
+    ?"Photographer for 8 years, mostly self-taught. I shoot film because I love the delay…"
+    :"A little bit artist, a little bit gamer, fully committed to cozy chaos…";
   const open=btn.dataset.open==="true";
   btn.dataset.open=open?"false":"true";
   text.textContent=open?short:long;
