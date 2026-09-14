@@ -2638,11 +2638,163 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .fake-toggle.on{background:var(--am-peach);}
 .fake-toggle.on::after{left:21px;background:var(--am-main);}
+.settings-panel[hidden]{display:none;}
+.settings-form-grid{
+  display:grid;
+  grid-template-columns:190px minmax(0,1fr);
+  gap:28px;
+  align-items:start;
+}
+.avatar-editor{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:14px;
+  background:rgba(8,15,39,.16);
+  text-align:center;
+}
+.avatar-preview{
+  width:112px;
+  height:112px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  border:2px solid rgba(255,195,132,.65);
+  background:#53648f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  color:#d8deec;
+  font-size:11px;
+  font-weight:700;
+  line-height:1.2;
+  text-align:center;
+  background-size:cover;
+  background-position:center;
+}
+.avatar-editor input{display:none;}
+.settings-secondary-button,
+.settings-primary-button{
+  border-radius:9px;
+  padding:9px 14px;
+  font:700 12px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.settings-secondary-button{
+  border:1px solid rgba(255,255,255,.18);
+  background:transparent;
+  color:white;
+}
+.settings-secondary-button:hover{
+  border-color:rgba(255,195,132,.35);
+  color:var(--am-peach);
+}
+.settings-primary-button{
+  border:1px solid rgba(255,195,132,.35);
+  background:var(--am-peach);
+  color:var(--am-main);
+}
+.settings-field{
+  margin-bottom:18px;
+}
+.settings-field label{
+  display:block;
+  margin-bottom:7px;
+  color:white;
+  font-size:12px;
+  font-weight:700;
+}
+.settings-field input,
+.settings-field textarea{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
+  background:#101a3a;
+  color:white;
+  padding:11px 12px;
+  font:13px 'Outfit',sans-serif;
+  outline:none;
+}
+.settings-field textarea{
+  min-height:94px;
+  resize:vertical;
+  line-height:1.45;
+}
+.settings-field input:focus,
+.settings-field textarea:focus{
+  border-color:rgba(255,195,132,.48);
+  box-shadow:0 0 0 3px rgba(255,195,132,.06);
+}
+.settings-help{
+  display:block;
+  margin-top:6px;
+  color:var(--am-muted);
+  font-size:10.5px;
+  line-height:1.4;
+}
+.settings-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.settings-save-status{
+  margin-left:4px;
+  color:var(--am-peach);
+  font-size:11px;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.settings-save-status.show{opacity:1;}
+.settings-empty{
+  padding:28px 18px;
+  border:1px dashed rgba(255,255,255,.12);
+  border-radius:12px;
+  color:var(--am-muted);
+  font-size:12px;
+  text-align:center;
+}
+.like-button .like-heart{
+  color:inherit;
+}
+.like-button.liked{
+  color:inherit;
+}
+.like-button.liked .like-heart{
+  color:var(--am-peach);
+}
+.comment-like.liked,
+.reblog-counter.reblogged{
+  color:var(--am-peach);
+}
+.quick-action.prototype-active{
+  border-color:rgba(255,195,132,.5);
+  background:rgba(255,195,132,.1);
+  color:var(--am-peach);
+}
+.prototype-action-note{
+  position:absolute;
+  z-index:50;
+  min-width:170px;
+  padding:9px 11px;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:9px;
+  background:#101a3a;
+  color:white;
+  box-shadow:0 8px 22px rgba(0,0,0,.25);
+  font-size:11px;
+}
+.post{position:relative;}
+
 
 @media(max-width:900px){
   .profile-grid{grid-template-columns:1fr;}
   .about-card{position:static;}
   .settings-content{padding:24px 20px 30px;}
+  .settings-form-grid{grid-template-columns:1fr;}
+  .avatar-editor{max-width:260px;}
 }
 @media(max-width:650px){
   .profile-shell,.settings-shell{width:92%;}
@@ -2724,7 +2876,7 @@ body.profile-prototype-body{background:var(--am-main);}
           </div>
         </div>
         <div class="profile-identity-action">
-          <button class="profile-owner-action" type="button" onclick="showPrototypeView('settingsView',document.querySelector('[data-view=settingsView]'))">Edit Profile</button>
+          <button class="profile-owner-action" type="button" onclick="openProfileSettings()">Edit Profile</button>
         </div>
       </div>
     </section>
@@ -2740,7 +2892,7 @@ body.profile-prototype-body{background:var(--am-main);}
 <div class="caption">A little spooky-cozy painting from the studio tonight. I wanted it to feel soft, strange, and gently haunted. 👻</div>
 
 <div class="interactions">
-<button class="interaction like-button">♡ <span>24</span></button>
+<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
 <div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
@@ -2957,7 +3109,7 @@ body.profile-prototype-body{background:var(--am-main);}
 <div class="caption">A frame from an early-morning walk through an abandoned greenhouse. The fog did most of the work — I just happened to bring the camera.</div>
 
 <div class="interactions">
-<button class="interaction like-button">♡ <span>24</span></button>
+<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
 <div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
@@ -3145,33 +3297,103 @@ body.profile-prototype-body{background:var(--am-main);}
     </header>
 
     <nav class="settings-nav" aria-label="Profile settings sections">
-      <button>Profile Info</button>
-      <button>About Me</button>
-      <button>Gallery</button>
-      <button>Around the Web</button>
-      <button>Interests</button>
-      <button class="active">Privacy</button>
-      <button>Panel Settings</button>
+      <button class="active" data-settings-tab="profile" onclick="setSettingsTab('profile',this)">Profile Info</button>
+      <button data-settings-tab="about" onclick="setSettingsTab('about',this)">About Me</button>
+      <button data-settings-tab="gallery" onclick="setSettingsTab('gallery',this)">Gallery</button>
+      <button data-settings-tab="links" onclick="setSettingsTab('links',this)">Around the Web</button>
+      <button data-settings-tab="interests" onclick="setSettingsTab('interests',this)">Interests</button>
+      <button data-settings-tab="privacy" onclick="setSettingsTab('privacy',this)">Privacy</button>
+      <button data-settings-tab="panels" onclick="setSettingsTab('panels',this)">Panel Settings</button>
     </nav>
 
     <div class="settings-content">
-      <section class="settings-panel">
+      <section class="settings-panel" data-settings-panel="profile">
+        <h3>Profile Info</h3>
+        <p class="settings-intro">Edit the basic information people see at the top of your profile.</p>
+
+        <div class="settings-form-grid">
+          <div class="avatar-editor">
+            <div class="avatar-preview" id="settingsAvatarPreview">PROFILE<br>IMAGE</div>
+            <label class="settings-secondary-button" for="profileAvatarInput">Change image</label>
+            <input id="profileAvatarInput" type="file" accept="image/*" onchange="previewProfileAvatar(this)">
+            <span class="settings-help">Prototype preview only for now.</span>
+          </div>
+
+          <div>
+            <div class="settings-field">
+              <label for="profileDisplayName">Display name</label>
+              <input id="profileDisplayName" type="text" value="Hope Hewitt">
+              <span class="settings-help">Optional. This can be your name, nickname, creator name, or brand.</span>
+            </div>
+
+            <div class="settings-field">
+              <label for="profileUsername">@Username</label>
+              <input id="profileUsername" type="text" value="SugarCrumbCo">
+              <span class="settings-help">Your @username is your primary profile identity. Availability checks will come with real accounts.</span>
+            </div>
+
+            <div class="settings-field">
+              <label for="profileShortBio">Short bio</label>
+              <textarea id="profileShortBio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</textarea>
+              <span class="settings-help">This appears in the main identity card. Your longer About Me text is edited separately.</span>
+            </div>
+
+            <div class="settings-actions">
+              <button class="settings-primary-button" type="button" onclick="saveProfileInfo()">Save changes</button>
+              <button class="settings-secondary-button" type="button" onclick="cancelProfileEdits()">Cancel</button>
+              <span class="settings-save-status" id="profileSaveStatus">Saved ✓</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="about" hidden>
+        <h3>About Me</h3>
+        <p class="settings-intro">Edit the longer story shown in your About Me panel.</p>
+        <div class="settings-empty">About Me editing is the next section to build.</div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="gallery" hidden>
+        <h3>Gallery</h3>
+        <p class="settings-intro">Manage the optional images shown in your About Me panel.</p>
+        <div class="settings-empty">Gallery editing is ready for us to design next.</div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="links" hidden>
+        <h3>Around the Web</h3>
+        <p class="settings-intro">Manage, rename, reorder, and feature your external links.</p>
+        <div class="settings-empty">Around the Web editing will use the 3 featured links + expandable drawer system.</div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="interests" hidden>
+        <h3>Interests</h3>
+        <p class="settings-intro">Choose which Interests appear on your profile and help with discovery.</p>
+        <div class="settings-empty">Interest editing is ready for us to build after the profile basics.</div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="privacy" hidden>
         <h3>Privacy & Visibility</h3>
         <p class="settings-intro">Choose which parts of your profile visitors can see and how your profile can be discovered.</p>
 
         <div class="settings-group">
           <h4 class="settings-group-title">Profile sections</h4>
-          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" data-setting="about" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" data-setting="people" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" data-setting="pockets" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" data-setting="communities" onclick="toggleFakeToggle(this)"></button></div>
         </div>
 
         <div class="settings-group">
           <h4 class="settings-group-title">Privacy & discovery</h4>
-          <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own Following count; visitors cannot.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Discoverable through Interests</strong><span>Your selected Interests can help people find your profile.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own Following count; visitors cannot.</span></div><button class="fake-toggle on" data-setting="following-private" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Discoverable through Interests</strong><span>Your selected Interests can help people find your profile.</span></div><button class="fake-toggle on" data-setting="interest-discovery" onclick="toggleFakeToggle(this)"></button></div>
         </div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="panels" hidden>
+        <h3>Panel Settings</h3>
+        <p class="settings-intro">Control optional profile panels and their presentation.</p>
+        <div class="settings-empty">We can decide what belongs here after the individual profile sections are built.</div>
       </section>
     </div>
   </div>
@@ -3244,7 +3466,297 @@ function setSideTab(name,btn){
   card.querySelectorAll(".side-panel").forEach(p=>p.classList.remove("active"));
   card.querySelector('[data-side-panel="'+name+'"]').classList.add("active");
 }
-function toggleFakeToggle(btn){btn.classList.toggle("on");}
+function setSettingsTab(name,btn){
+  document.querySelectorAll(".settings-nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll("[data-settings-panel]").forEach(p=>p.hidden=true);
+  if(btn)btn.classList.add("active");
+  const panel=document.querySelector('[data-settings-panel="'+name+'"]');
+  if(panel)panel.hidden=false;
+}
+function openProfileSettings(){
+  showPrototypeView("settingsView",document.querySelector('[data-view="settingsView"]'));
+  setSettingsTab("profile",document.querySelector('[data-settings-tab="profile"]'));
+}
+function previewProfileAvatar(input){
+  const file=input.files && input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const preview=document.getElementById("settingsAvatarPreview");
+    preview.style.backgroundImage='url("'+e.target.result+'")';
+    preview.textContent="";
+    preview.dataset.image=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function saveProfileInfo(){
+  const name=document.getElementById("profileDisplayName").value.trim();
+  const rawUser=document.getElementById("profileUsername").value.trim().replace(/^@+/,"");
+  const bio=document.getElementById("profileShortBio").value.trim();
+  const username=rawUser || "username";
+
+  const display=document.querySelector("#myProfile .profile-display-name");
+  const handle=document.querySelector("#myProfile .profile-handle-large");
+  const bioEl=document.querySelector("#myProfile .profile-bio");
+  if(display)display.textContent=name || username;
+  if(handle)handle.textContent="@"+username;
+  if(bioEl)bioEl.textContent=bio;
+
+  document.querySelectorAll("#myProfile article.post .username").forEach(el=>el.textContent="@"+username);
+  document.querySelectorAll("#myProfile .reply-author").forEach(el=>{
+    if(el.textContent.trim()==="@SugarCrumbCo")el.textContent="@"+username;
+  });
+
+  const preview=document.getElementById("settingsAvatarPreview");
+  if(preview && preview.dataset.image){
+    const image=preview.dataset.image;
+    const avatar=document.querySelector("#myProfile .profile-avatar");
+    if(avatar){
+      avatar.style.backgroundImage='url("'+image+'")';
+      avatar.style.backgroundSize="cover";
+      avatar.style.backgroundPosition="center";
+      avatar.textContent="";
+    }
+    document.querySelectorAll("#myProfile article.post .profile-picture, #myProfile .comment-profile-picture").forEach(el=>{
+      el.style.backgroundImage='url("'+image+'")';
+      el.style.backgroundSize="cover";
+      el.style.backgroundPosition="center";
+    });
+  }
+
+  const status=document.getElementById("profileSaveStatus");
+  status.classList.add("show");
+  setTimeout(()=>status.classList.remove("show"),1800);
+}
+function cancelProfileEdits(){
+  const display=document.querySelector("#myProfile .profile-display-name");
+  const handle=document.querySelector("#myProfile .profile-handle-large");
+  const bio=document.querySelector("#myProfile .profile-bio");
+  document.getElementById("profileDisplayName").value=display?display.textContent:"";
+  document.getElementById("profileUsername").value=handle?handle.textContent.replace(/^@/,""):"";
+  document.getElementById("profileShortBio").value=bio?bio.textContent:"";
+  showPrototypeView("myProfile",document.querySelector('[data-view="myProfile"]'));
+}
+function toggleFakeToggle(btn){
+  btn.classList.toggle("on");
+  applyProfileVisibility();
+}
+function applyProfileVisibility(){
+  const states={};
+  document.querySelectorAll(".fake-toggle[data-setting]").forEach(btn=>{
+    states[btn.dataset.setting]=btn.classList.contains("on");
+  });
+
+  const about=document.querySelector("#myProfile .about-card");
+  if(about)about.style.display=states.about===false?"none":"block";
+
+  const following=document.querySelector("#myProfile .private-stat");
+  if(following)following.style.display=states["following-private"]===false?"none":"inline-flex";
+
+  if(about){
+    ["people","pockets","communities"].forEach(name=>{
+      const tab=about.querySelector('.side-tab[onclick*="\''+name+'\'"]');
+      const panel=about.querySelector('[data-side-panel="'+name+'"]');
+      const visible=states[name]!==false;
+      if(tab)tab.style.display=visible?"":"none";
+      if(panel && !visible)panel.classList.remove("active");
+    });
+
+    const activeVisible=about.querySelector(".side-tab.active:not([style*='display: none'])");
+    if(!activeVisible){
+      const first=[...about.querySelectorAll(".side-tab")].find(b=>b.style.display!=="none");
+      if(first){
+        const match=first.getAttribute("onclick").match(/'([^']+)'/);
+        if(match)setSideTab(match[1],first);
+      }
+    }
+
+    const discovery=about.querySelector(".profile-discovery-section");
+    if(discovery){
+      const any=["people","pockets","communities"].some(name=>states[name]!==false);
+      discovery.style.display=any?"":"none";
+    }
+  }
+}
+
+/* Profile-post prototype interactions.
+   These are page-local on purpose; we are not loading the Home JS into Profile. */
+document.addEventListener("click",function(e){
+  const like=e.target.closest(".like-button");
+  if(like){
+    const heart=like.querySelector(".like-heart");
+    const count=like.querySelector(".like-count");
+    const liked=like.classList.toggle("liked");
+    if(count)count.textContent=Math.max(0,Number(count.textContent||0)+(liked?1:-1));
+    if(heart)heart.textContent=liked?"♥":"♡";
+    return;
+  }
+
+  const commentLike=e.target.closest(".comment-like");
+  if(commentLike){
+    const count=commentLike.querySelector("span");
+    const liked=commentLike.classList.toggle("liked");
+    commentLike.dataset.liked=liked?"true":"false";
+    if(count)count.textContent=Math.max(0,Number(count.textContent||0)+(liked?1:-1));
+    commentLike.firstChild.nodeValue=liked?"♥ ":"♡ ";
+    return;
+  }
+
+  const hashtags=e.target.closest(".hashtag-link");
+  if(hashtags){
+    const post=hashtags.closest(".post");
+    const box=post.querySelector(".post-hashtags");
+    if(box)box.classList.toggle("active");
+    return;
+  }
+
+  const hashtagDone=e.target.closest(".post-hashtag-done");
+  if(hashtagDone){
+    hashtagDone.closest(".post-hashtags").classList.remove("active");
+    return;
+  }
+
+  const more=e.target.closest(".more-comments");
+  if(more){
+    const post=more.closest(".post");
+    const section=post.querySelector(".comments-section");
+    if(section){
+      const open=section.classList.toggle("active");
+      if(!more.dataset.closedLabel)more.dataset.closedLabel=more.textContent;
+      more.textContent=open?"💬 Hide comments":more.dataset.closedLabel;
+    }
+    return;
+  }
+
+  const commentBtn=e.target.closest(".comment-button");
+  if(commentBtn){
+    const composer=commentBtn.closest(".post").querySelector(".comment-composer");
+    if(composer){
+      const open=composer.classList.toggle("active");
+      commentBtn.classList.toggle("active",open);
+      if(open)composer.querySelector("textarea")?.focus();
+    }
+    return;
+  }
+
+  const replyBtn=e.target.closest(".reply-button");
+  if(replyBtn){
+    const item=replyBtn.closest(".comment-item,.reply-item");
+    const composer=item?.querySelector(":scope > .reply-composer");
+    if(composer){
+      composer.classList.toggle("active");
+      if(composer.classList.contains("active"))composer.querySelector("textarea")?.focus();
+    }
+    return;
+  }
+
+  const menuBtn=e.target.closest(".post-menu-button");
+  if(menuBtn){
+    const menu=menuBtn.parentElement.querySelector(".post-menu-dropdown");
+    document.querySelectorAll(".post-menu-dropdown.active").forEach(m=>{if(m!==menu)m.classList.remove("active")});
+    menu?.classList.toggle("active");
+    return;
+  }
+
+  const reblog=e.target.closest(".reblog-counter");
+  if(reblog){
+    const match=reblog.textContent.match(/(\d+)/);
+    const current=match?Number(match[1]):0;
+    const active=reblog.classList.toggle("reblogged");
+    reblog.innerHTML='<span class="reblog-icon" aria-hidden="true">↻</span> '+Math.max(0,current+(active?1:-1))+' · '+(active?"Reblogged":"Reblog");
+    return;
+  }
+
+  const share=e.target.closest(".interactions .interaction:not(.reblog-counter)");
+  if(share && share.textContent.includes("Share")){
+    const old=share.textContent;
+    const done=()=>{share.textContent="✓ Copied";setTimeout(()=>share.textContent=old,1300)};
+    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(location.href).then(done).catch(done);
+    else done();
+    return;
+  }
+
+  const pocket=e.target.closest(".pocket-action");
+  if(pocket){
+    showPrototypeActionNote(pocket,"Pocket chooser will use your real Pockets.");
+    return;
+  }
+
+  const community=e.target.closest(".community-action");
+  if(community){
+    showPrototypeActionNote(community,"Community chooser will use your Communities.");
+    return;
+  }
+});
+
+document.addEventListener("click",function(e){
+  if(!e.target.closest(".post-menu")){
+    document.querySelectorAll(".post-menu-dropdown.active").forEach(m=>m.classList.remove("active"));
+  }
+});
+
+document.addEventListener("click",function(e){
+  const postButton=e.target.closest(".comment-post-button");
+  if(postButton){
+    const composer=postButton.closest(".comment-composer");
+    const textarea=composer?.querySelector(".comment-text-area");
+    const value=textarea?.value.trim();
+    if(!value)return;
+    const post=postButton.closest(".post");
+    const section=post.querySelector(".comments-section");
+    const item=document.createElement("div");
+    item.className="comment-item";
+    item.innerHTML='<div class="comment-author">@yourusername</div><div class="comment-content"></div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>0</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div>';
+    item.querySelector(".comment-content").textContent=value;
+    section.prepend(item);
+    section.classList.add("active");
+    post.querySelector(".latest-comment").innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(value);
+    textarea.value="";
+    composer.classList.remove("active");
+    post.querySelector(".comment-button")?.classList.remove("active");
+    return;
+  }
+
+  const replyPost=e.target.closest(".reply-post-button");
+  if(replyPost){
+    const composer=replyPost.closest(".reply-composer");
+    const textarea=composer?.querySelector(".reply-input");
+    const value=textarea?.value.trim();
+    if(!value)return;
+    const host=composer.parentElement;
+    let list=host.querySelector(":scope > .reply-list");
+    if(!list){
+      list=document.createElement("div");
+      list.className="reply-list";
+      host.insertBefore(list,composer);
+    }
+    const reply=document.createElement("div");
+    reply.className="reply-item";
+    reply.innerHTML='<div class="reply-author">@yourusername</div><div class="reply-content"></div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>0</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div>';
+    reply.querySelector(".reply-content").textContent=value;
+    list.appendChild(reply);
+    textarea.value="";
+    composer.classList.remove("active");
+  }
+});
+
+function escapeHTML(value){
+  const div=document.createElement("div");
+  div.textContent=value;
+  return div.innerHTML;
+}
+function showPrototypeActionNote(button,message){
+  const post=button.closest(".post");
+  post.querySelector(".prototype-action-note")?.remove();
+  const note=document.createElement("div");
+  note.className="prototype-action-note";
+  note.textContent=message;
+  note.style.top=(button.offsetTop+button.offsetHeight+8)+"px";
+  note.style.left=button.offsetLeft+"px";
+  post.appendChild(note);
+  button.classList.add("prototype-active");
+  setTimeout(()=>{note.remove();button.classList.remove("prototype-active")},1800);
+}
 
 </script>
 </body>
