@@ -84,6 +84,23 @@ body.discover-body{
 
 .discover-filter-wrap{position:relative}
 
+.community-bar,
+.community-menu,
+.community-dropdown{
+  position:relative;
+  z-index:260;
+}
+
+.community-dropdown{
+  z-index:270;
+}
+
+.community-chip,
+.community-pin,
+.community-more-name{
+  pointer-events:auto;
+}
+
 .discover-filter-button{
   display:flex;
   align-items:center;
@@ -1005,7 +1022,10 @@ function renderCommunities(){
   pinned.innerHTML=communityCatalog
     .filter(c=>c.pinned)
     .map(c=>`
-      <button class="community-chip" draggable="true" data-community="${escapeHTML(c.name)}" data-icon="${c.icon}">
+      <button class="community-chip" type="button" draggable="true"
+              data-community="${escapeHTML(c.name)}"
+              data-icon="${c.icon}"
+              onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
         <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
         ${c.count ? `<span class="activity-bell" title="${c.count} new community ${c.count===1?"activity":"activities"}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
@@ -1032,6 +1052,16 @@ function toggleCommunityPin(index,event){
   communityCatalog[index].pinned=!communityCatalog[index].pinned;
   renderCommunities();
   document.getElementById("communityDropdown")?.classList.add("active");
+}
+
+function openDiscoverCommunity(name){
+  document.querySelectorAll(".community-chip").forEach(chip=>{
+    chip.classList.toggle("active", chip.dataset.community===name);
+  });
+
+  // Close the More menu after choosing a pinned community,
+  // matching the feel of a normal navigation selection.
+  document.getElementById("communityDropdown")?.classList.remove("active");
 }
 
 
