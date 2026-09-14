@@ -10,7 +10,7 @@ body.discover-body{
 .discover-shell{
   width:calc(100% - 48px);
   max-width:1500px;
-  margin:34px auto 120px;
+  margin:16px auto 120px;
 }
 
 .discover-top{
