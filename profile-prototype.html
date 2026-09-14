@@ -2506,38 +2506,135 @@ body.profile-prototype-body{background:var(--am-main);}
 /* settings view inside same file */
 .settings-shell{
   width:calc(100% - 48px);
-  max-width:980px;
-  margin:28px auto 110px;
-  display:grid;
-  grid-template-columns:210px minmax(0,1fr);
-  gap:22px;
+  max-width:1180px;
+  margin:22px auto 110px;
 }
-.settings-nav,.settings-panel{
+.settings-frame{
+  overflow:hidden;
   background:var(--am-card);
-  border-radius:14px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px;
 }
-.settings-nav{padding:12px;height:max-content;}
+.settings-heading{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  padding:24px 28px 20px;
+}
+.settings-heading h2{
+  margin:0 0 5px;
+  font-size:24px;
+}
+.settings-heading p{
+  margin:0;
+  color:var(--am-muted);
+  font-size:12px;
+}
+.settings-nav{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 18px 12px;
+  overflow-x:auto;
+  border-top:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(8,15,39,.18);
+  scrollbar-width:none;
+}
+.settings-nav::-webkit-scrollbar{display:none;}
 .settings-nav button{
-  width:100%;border:0;background:transparent;color:var(--am-muted);
-  border-radius:8px;padding:10px 11px;text-align:left;
-  font:700 12px 'Outfit',sans-serif;cursor:pointer;
+  flex:0 0 auto;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--am-muted);
+  border-radius:999px;
+  padding:9px 12px;
+  font:700 11.5px 'Outfit',sans-serif;
+  cursor:pointer;
 }
-.settings-nav button.active{background:rgba(255,195,132,.12);color:var(--am-peach);}
-.settings-panel{padding:24px;}
-.settings-panel h2{margin:0 0 4px;font-size:20px;}
-.settings-panel>p{margin:0 0 22px;color:var(--am-muted);font-size:12px;}
+.settings-nav button:hover{
+  color:white;
+  background:rgba(255,255,255,.035);
+}
+.settings-nav button.active{
+  color:var(--am-peach);
+  background:rgba(255,195,132,.11);
+  border-color:rgba(255,195,132,.24);
+}
+.settings-content{
+  max-width:900px;
+  margin:0 auto;
+  padding:28px 30px 34px;
+}
+.settings-panel{
+  min-width:0;
+}
+.settings-panel h3{
+  margin:0 0 5px;
+  font-size:19px;
+}
+.settings-panel>.settings-intro{
+  margin:0 0 22px;
+  color:var(--am-muted);
+  font-size:12px;
+}
+.settings-group{
+  margin-top:22px;
+}
+.settings-group:first-of-type{margin-top:0;}
+.settings-group-title{
+  margin:0 0 9px;
+  color:rgba(255,255,255,.58);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+}
 .setting-row{
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding:15px 0;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  margin-top:8px;
+  padding:15px 16px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:12px;
+  background:rgba(8,15,39,.16);
 }
-.setting-row:first-of-type{border-top:0;}
-.setting-copy strong{display:block;font-size:13px;}
-.setting-copy span{display:block;margin-top:4px;color:var(--am-muted);font-size:11px;}
+.setting-row:first-child{margin-top:0;}
+.setting-copy{min-width:0;}
+.setting-copy strong{
+  display:block;
+  font-size:13px;
+}
+.setting-copy span{
+  display:block;
+  margin-top:4px;
+  color:var(--am-muted);
+  font-size:11px;
+  line-height:1.4;
+}
 .fake-toggle{
-  width:42px;height:24px;border-radius:999px;border:0;background:#53648f;position:relative;cursor:pointer;flex:0 0 auto;
+  width:42px;
+  height:24px;
+  border-radius:999px;
+  border:0;
+  background:#53648f;
+  position:relative;
+  cursor:pointer;
+  flex:0 0 auto;
 }
 .fake-toggle::after{
-  content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:white;left:3px;top:3px;transition:.2s;
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:white;
+  left:3px;
+  top:3px;
+  transition:.2s;
 }
 .fake-toggle.on{background:var(--am-peach);}
 .fake-toggle.on::after{left:21px;background:var(--am-main);}
@@ -2545,7 +2642,7 @@ body.profile-prototype-body{background:var(--am-main);}
 @media(max-width:900px){
   .profile-grid{grid-template-columns:1fr;}
   .about-card{position:static;}
-  .settings-shell{grid-template-columns:1fr;}
+  .settings-content{padding:24px 20px 30px;}
 }
 @media(max-width:650px){
   .profile-shell,.settings-shell{width:92%;}
@@ -3039,25 +3136,45 @@ body.profile-prototype-body{background:var(--am-main);}
 </div>
 <div class="community-divider"></div>
 <div class="settings-shell">
-  <nav class="settings-nav">
-    <button class="active">Profile Info</button>
-    <button>About Me</button>
-    <button>Images</button>
-    <button>Links</button>
-    <button>Interests</button>
-    <button>Privacy</button>
-    <button>Panel Settings</button>
-  </nav>
-  <section class="settings-panel">
-    <h2>Profile Settings</h2>
-    <p>Prototype controls for deciding what appears on your profile.</p>
-    <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display the right-side About Me card.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-    <div class="setting-row"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the people section you choose to make public.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-    <div class="setting-row"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-    <div class="setting-row"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-    <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own count; visitors do not.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-    <div class="setting-row"><div class="setting-copy"><strong>Profile discoverable through Interests</strong><span>Your selected Interests can help people find you.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
-  </section>
+  <div class="settings-frame">
+    <header class="settings-heading">
+      <div>
+        <h2>Edit Profile</h2>
+        <p>Manage what appears on your profile and what other people can see.</p>
+      </div>
+    </header>
+
+    <nav class="settings-nav" aria-label="Profile settings sections">
+      <button>Profile Info</button>
+      <button>About Me</button>
+      <button>Gallery</button>
+      <button>Around the Web</button>
+      <button>Interests</button>
+      <button class="active">Privacy</button>
+      <button>Panel Settings</button>
+    </nav>
+
+    <div class="settings-content">
+      <section class="settings-panel">
+        <h3>Privacy & Visibility</h3>
+        <p class="settings-intro">Choose which parts of your profile visitors can see and how your profile can be discovered.</p>
+
+        <div class="settings-group">
+          <h4 class="settings-group-title">Profile sections</h4>
+          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+        </div>
+
+        <div class="settings-group">
+          <h4 class="settings-group-title">Privacy & discovery</h4>
+          <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own Following count; visitors cannot.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Discoverable through Interests</strong><span>Your selected Interests can help people find your profile.</span></div><button class="fake-toggle on" onclick="toggleFakeToggle(this)"></button></div>
+        </div>
+      </section>
+    </div>
+  </div>
 </div>
 </section>
 
