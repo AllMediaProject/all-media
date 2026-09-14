@@ -666,14 +666,14 @@ body.discover-body .top-nav a.active{
 .discover-card-test .post-header{
   display:flex;
   align-items:flex-start;
-  gap:11px;
-  padding:15px 18px 11px;
+  gap:10px;
+  padding:12px 18px 9px;
 }
 
 .discover-card-test .profile-picture{
-  width:36px;
-  height:36px;
-  flex:0 0 36px;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
   border:1px solid rgba(255,207,159,.42);
   outline:2px solid rgba(255,207,159,.16);
   outline-offset:2px;
@@ -719,14 +719,14 @@ body.discover-body .top-nav a.active{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
-  gap:6px;
-  margin-top:5px;
+  gap:5px;
+  margin-top:3px;
   padding:0;
 }
 
 .discover-card-test .post-meta-line .topic{
-  min-height:22px;
-  padding:3px 9px;
+  min-height:20px;
+  padding:2px 8px;
   border:1px solid rgba(255,207,159,.32);
   border-radius:999px;
   background:rgba(255,207,159,.13);
@@ -901,21 +901,27 @@ body.discover-body .top-nav a.active{
 .discover-card-test .post-footer{
   position:relative;
   display:grid;
-  grid-template-columns:minmax(0,1fr) auto auto;
+  grid-template-columns:minmax(0,1fr) max-content max-content;
   align-items:center;
-  column-gap:10px;
-  row-gap:7px;
+  column-gap:14px;
+  row-gap:8px;
   padding:10px 18px 12px;
 }
 
 .discover-card-test .single-comment-composer{
+  grid-column:1;
   min-width:0;
+  width:100%;
+  max-width:100%;
+  overflow:visible;
 }
 
 .discover-card-test .comment-composer{
   display:flex;
   position:relative;
+  box-sizing:border-box;
   width:100%;
+  max-width:100%;
   min-height:38px;
   margin:0;
   padding:0 12px;
@@ -1034,18 +1040,30 @@ body.discover-body .top-nav a.active{
 }
 
 .discover-card-test .more-comments{
+  position:static!important;
+  grid-column:2;
   align-self:center;
   justify-self:start;
+  min-width:max-content;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
   flex:none;
   font-size:10px;
+  line-height:1.2;
   color:rgba(255,255,255,.33);
   white-space:nowrap;
 }
 
 .discover-card-test .post-footer-actions{
+  position:static!important;
+  grid-column:3;
   align-self:center;
   justify-self:end;
-  margin-left:0;
+  min-width:max-content;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
   flex:none;
 }
 
@@ -1053,18 +1071,21 @@ body.discover-body .top-nav a.active{
    The comment count and Hashtags then sit cleanly beneath it instead of beside it. */
 .discover-card-test .single-comment-composer.open{
   grid-column:1 / -1;
+  width:100%;
 }
 
 .discover-card-test .single-comment-composer.open + .more-comments{
   grid-column:1 / 2;
   grid-row:2;
-  margin-top:1px;
+  justify-self:start;
+  margin-top:2px!important;
 }
 
 .discover-card-test .single-comment-composer.open ~ .post-footer-actions{
   grid-column:3 / 4;
   grid-row:2;
-  margin-top:1px;
+  justify-self:end;
+  margin-top:2px!important;
 }
 
 .discover-card-test .hashtag-link{
@@ -1110,19 +1131,25 @@ body.discover-body .top-nav a.active{
   }
 
   .discover-card-test .post-footer{
-    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-columns:minmax(0,1fr) max-content;
+    column-gap:10px;
   }
 
   .discover-card-test .single-comment-composer{
     grid-column:1 / -1;
+    grid-row:1;
   }
 
   .discover-card-test .more-comments{
     grid-column:1;
+    grid-row:2;
+    justify-self:start;
   }
 
   .discover-card-test .post-footer-actions{
     grid-column:2;
+    grid-row:2;
+    justify-self:end;
   }
 
   .discover-card-test .single-comment-composer.open + .more-comments{
@@ -1133,6 +1160,32 @@ body.discover-body .top-nav a.active{
   .discover-card-test .single-comment-composer.open ~ .post-footer-actions{
     grid-column:2;
     grid-row:2;
+  }
+}
+
+/* Discover's two-column cards are narrower than the viewport.
+   This card-width safety rule keeps the composer on its own row
+   whenever horizontal room becomes tight, regardless of viewport size. */
+@media(max-width:1100px){
+  .discover-wall .discover-card-test .post-footer{
+    grid-template-columns:minmax(0,1fr) max-content;
+  }
+
+  .discover-wall .discover-card-test .single-comment-composer{
+    grid-column:1 / -1;
+    grid-row:1;
+  }
+
+  .discover-wall .discover-card-test .more-comments{
+    grid-column:1;
+    grid-row:2;
+    justify-self:start;
+  }
+
+  .discover-wall .discover-card-test .post-footer-actions{
+    grid-column:2;
+    grid-row:2;
+    justify-self:end;
   }
 }
 
