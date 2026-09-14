@@ -2145,8 +2145,14 @@ body.profile-prototype-body{background:var(--am-main);}
   white-space:nowrap;
 }
 .profile-owner-action{
-  color:white;
-  background:#3156b8;
+  color:#d8deec;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.24);
+}
+.profile-owner-action:hover{
+  color:var(--am-peach);
+  border-color:rgba(255,195,132,.45);
+  background:rgba(255,195,132,.06);
 }
 .profile-support-button{
   color:var(--am-main);
@@ -2293,23 +2299,47 @@ body.profile-prototype-body{background:var(--am-main);}
   letter-spacing:.12em;
   text-transform:uppercase;
 }
+.around-web-title{
+  margin:0 0 8px;
+  color:white;
+  font-size:15px;
+  font-weight:800;
+}
 .profile-link{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
+  gap:12px;
   width:100%;
-  padding:7px 0;
+  padding:10px 0;
   border:0;
+  border-bottom:1px solid rgba(255,255,255,.07);
   background:transparent;
   color:white;
   font:600 12px 'Outfit',sans-serif;
   text-align:left;
   cursor:pointer;
 }
-.profile-link span:last-child{color:var(--am-muted);font-size:11px;}
+.profile-link:hover{color:var(--am-peach);}
+.profile-link span:last-child{
+  color:var(--am-muted);
+  font-size:11px;
+  flex:0 0 auto;
+}
 .more-links{display:none;}
 .more-links.open{display:block;}
+.view-more-links{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:9px;
+  border:0;
+  background:transparent;
+  color:var(--am-peach);
+  padding:0;
+  font:700 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
 .side-tabs{
   display:flex;gap:4px;padding:4px;background:#101a3a;border-radius:9px;
 }
@@ -2520,35 +2550,21 @@ body.profile-prototype-body{background:var(--am-main);}
       <button class="about-read" data-open="false" onclick="toggleAboutText(this)">Read more</button>
 
       <section class="about-section">
-        <h3 class="about-label">Around the Web</h3>
+        <h3 class="around-web-title">Around the Web</h3>
+
         <button class="profile-link"><span>My Art Shop</span><span>↗</span></button>
         <button class="profile-link"><span>YouTube</span><span>↗</span></button>
         <button class="profile-link"><span>Instagram</span><span>↗</span></button>
-        <button class="about-read" onclick="toggleMoreLinks(this)">See more</button>
+
+        <button class="view-more-links" onclick="toggleMoreLinks(this)">
+          <span>View more</span><span aria-hidden="true">▾</span>
+        </button>
+
         <div class="more-links">
           <button class="profile-link"><span>Threads</span><span>↗</span></button>
           <button class="profile-link"><span>Pinterest</span><span>↗</span></button>
           <button class="profile-link"><span>Portfolio</span><span>↗</span></button>
-        </div>
-      </section>
-
-      <section class="about-section">
-        <div class="side-tabs">
-          <button class="side-tab active" onclick="setSideTab('people',this)">People</button>
-          <button class="side-tab" onclick="setSideTab('pockets',this)">Pockets</button>
-          <button class="side-tab" onclick="setSideTab('communities',this)">Communities</button>
-        </div>
-        <div class="side-panel active" data-side-panel="people">
-          <div class="side-row"><span class="side-mini-avatar"></span><div>@mossandmoon<small>Artist · Nature</small></div></div>
-          <div class="side-row"><span class="side-mini-avatar"></span><div>@cryptidcorner<small>Horror · Books</small></div></div>
-        </div>
-        <div class="side-panel" data-side-panel="pockets">
-          <div class="side-row"><span>🎃</span><div>Spooky Inspiration<small>Public Pocket · created by user</small></div></div>
-          <div class="side-row"><span>🎨</span><div>Art I Love<small>Public Pocket · created by user</small></div></div>
-        </div>
-        <div class="side-panel" data-side-panel="communities">
-          <div class="side-row"><span>👻</span><div>Gentle Hauntings<small>Public Community · created by user</small></div></div>
-          <div class="side-row"><span>🧶</span><div>Cozy Makers<small>Public Community · created by user</small></div></div>
+          <button class="profile-link"><span>My Newsletter</span><span>↗</span></button>
         </div>
       </section>
     </aside>
@@ -2673,35 +2689,21 @@ body.profile-prototype-body{background:var(--am-main);}
       <button class="about-read" data-open="false" onclick="toggleAboutText(this)">Read more</button>
 
       <section class="about-section">
-        <h3 class="about-label">Around the Web</h3>
+        <h3 class="around-web-title">Around the Web</h3>
+
         <button class="profile-link"><span>My Art Shop</span><span>↗</span></button>
         <button class="profile-link"><span>YouTube</span><span>↗</span></button>
         <button class="profile-link"><span>Instagram</span><span>↗</span></button>
-        <button class="about-read" onclick="toggleMoreLinks(this)">See more</button>
+
+        <button class="view-more-links" onclick="toggleMoreLinks(this)">
+          <span>View more</span><span aria-hidden="true">▾</span>
+        </button>
+
         <div class="more-links">
           <button class="profile-link"><span>Threads</span><span>↗</span></button>
           <button class="profile-link"><span>Pinterest</span><span>↗</span></button>
           <button class="profile-link"><span>Portfolio</span><span>↗</span></button>
-        </div>
-      </section>
-
-      <section class="about-section">
-        <div class="side-tabs">
-          <button class="side-tab active" onclick="setSideTab('people',this)">People</button>
-          <button class="side-tab" onclick="setSideTab('pockets',this)">Pockets</button>
-          <button class="side-tab" onclick="setSideTab('communities',this)">Communities</button>
-        </div>
-        <div class="side-panel active" data-side-panel="people">
-          <div class="side-row"><span class="side-mini-avatar"></span><div>@mossandmoon<small>Artist · Nature</small></div></div>
-          <div class="side-row"><span class="side-mini-avatar"></span><div>@cryptidcorner<small>Horror · Books</small></div></div>
-        </div>
-        <div class="side-panel" data-side-panel="pockets">
-          <div class="side-row"><span>🎃</span><div>Spooky Inspiration<small>Public Pocket · created by user</small></div></div>
-          <div class="side-row"><span>🎨</span><div>Art I Love<small>Public Pocket · created by user</small></div></div>
-        </div>
-        <div class="side-panel" data-side-panel="communities">
-          <div class="side-row"><span>👻</span><div>Gentle Hauntings<small>Public Community · created by user</small></div></div>
-          <div class="side-row"><span>🧶</span><div>Cozy Makers<small>Public Community · created by user</small></div></div>
+          <button class="profile-link"><span>My Newsletter</span><span>↗</span></button>
         </div>
       </section>
     </aside>
@@ -2807,8 +2809,10 @@ function toggleAboutText(btn){
 }
 function toggleMoreLinks(btn){
   const more=btn.nextElementSibling;
-  more.classList.toggle("open");
-  btn.textContent=more.classList.contains("open")?"Show less":"See more";
+  const open=more.classList.toggle("open");
+  const parts=btn.querySelectorAll("span");
+  if(parts[0])parts[0].textContent=open?"View less":"View more";
+  if(parts[1])parts[1].textContent=open?"▴":"▾";
 }
 function setSideTab(name,btn){
   const card=btn.closest(".about-card");
