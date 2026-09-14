@@ -983,12 +983,16 @@ function chooseAdventureInterest(button,key){
 
 function followDiscoverInterest(el,interest){
   if(followedInterests.has(interest)) return;
+
   followedInterests.add(interest);
 
   document.querySelectorAll(`.topic[data-interest="${CSS.escape(interest)}"]`).forEach(topic=>{
-    topic.classList.remove("discover-quick-follow");
-    topic.textContent=topic.textContent.replace(/^\+\s*/,"");
-    topic.onclick=null;
+    const matchingPost = [...suggestedPosts, ...adventurePosts].find(post => post.interest === interest);
+    const icon = matchingPost ? matchingPost.emoji : "";
+
+    topic.className = "topic";
+    topic.removeAttribute("onclick");
+    topic.textContent = `${icon} ${interest}`.trim();
   });
 }
 
@@ -1012,9 +1016,9 @@ function renderCommunities(){
 
   menu.innerHTML=communityCatalog.map((c,index)=>`
     <div class="community-more-row">
-      <button class="community-more-name" type="button" onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
+      <span class="community-more-name">
         <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
-      </button>
+      </span>
       <button class="community-pin ${c.pinned?"pinned":""}" type="button" onclick="toggleCommunityPin(${index},event)">
         <span class="pin-state">${c.pinned?"Pinned":"Pin"}</span>
         <span class="pin-action">${c.pinned?"Unpin":"Pin"}</span>
@@ -1028,13 +1032,6 @@ function toggleCommunityPin(index,event){
   communityCatalog[index].pinned=!communityCatalog[index].pinned;
   renderCommunities();
   document.getElementById("communityDropdown")?.classList.add("active");
-}
-
-function openDiscoverCommunity(name){
-  // Prototype behavior: clicking a community visibly selects its chip if pinned.
-  document.querySelectorAll(".community-chip").forEach(chip=>{
-    chip.classList.toggle("active",chip.dataset.community===name);
-  });
 }
 
 
