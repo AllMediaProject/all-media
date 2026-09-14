@@ -177,8 +177,8 @@ body.discover-body{
 .discover-filter-option input{accent-color:var(--am-peach)}
 
 .saved-filter-area{
-  margin-top:16px;
-  padding-top:14px;
+  margin-top:12px;
+  padding-top:12px;
   border-top:1px solid rgba(65,105,208,.24);
 }
 
@@ -191,10 +191,10 @@ body.discover-body{
 }
 
 .saved-filter-note{
-  margin-top:7px;
+  margin-top:4px;
   color:#8798bb;
   font-size:11px;
-  line-height:1.4;
+  line-height:1.3;
 }
 
 .saved-filter-toolbar{
@@ -202,7 +202,7 @@ body.discover-body{
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  margin-top:10px;
+  margin-top:8px;
 }
 
 .saved-filter-count{
@@ -231,48 +231,52 @@ body.discover-body{
 .saved-filter-list{
   display:flex;
   flex-direction:column;
-  gap:7px;
-  margin-top:10px;
+  gap:5px;
+  margin-top:7px;
 }
 
 .saved-filter-row{
-  display:flex;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
   align-items:center;
-  gap:7px;
-  padding:8px;
-  border:1px solid rgba(65,105,208,.25);
-  border-radius:9px;
-  background:rgba(8,18,44,.28);
+  gap:6px;
+  padding:6px;
+  border:1px dashed rgba(255,195,132,.72);
+  border-radius:10px;
+  background:rgba(8,18,44,.26);
 }
 
 .saved-filter-name{
   min-width:0;
-  flex:1;
   overflow:hidden;
   color:#ffffff;
-  font-size:17px;
+  font-size:19px;
   font-weight:800;
-  line-height:1.3;
+  line-height:1.15;
   text-align:left;
   text-overflow:ellipsis;
   white-space:nowrap;
-  padding:8px 10px;
+  padding:6px 8px;
 }
 
 .saved-filter-types{
+  grid-column:1 / -1;
+  margin-top:-2px;
+  padding:0 8px 2px;
   color:#8fa1c5;
-  font-size:9px;
-  white-space:nowrap;
+  font-size:10px;
+  line-height:1.2;
+  white-space:normal;
 }
 
 .saved-filter-mini{
-  padding:5px 7px;
+  padding:5px 8px;
   border:1px solid rgba(65,105,208,.32);
   border-radius:7px;
-  background:rgba(8,18,44,.3);
+  background:rgba(8,18,44,.28);
   color:#cbd6ec;
   font-family:'Outfit',sans-serif;
-  font-size:9px;
+  font-size:10px;
   font-weight:700;
   cursor:pointer;
 }
