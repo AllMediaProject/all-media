@@ -1,12 +1,2514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Discover | All Media</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discover | All Media</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --page:#101a3a;
+    --panel:#182447;
+    --panel-2:#132449;
+    --panel-3:#14234a;
+    --peach:#ffc384;
+    --peach-2:#ffb477;
+    --text:#f7f8fd;
+    --muted:#aeb9d2;
+    --blue:#4169d0;
+    --green:#71d896;
+    --danger:#ff8e8e;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,rgba(65,105,208,.11),transparent 34%),
+        var(--page);
+    color:var(--text);
+    font-family:'Outfit',sans-serif;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+
+.site-header{
+    width:calc(100% - 48px);
+    max-width:1600px;
+    min-height:92px;
+    margin:12px auto 0;
+    padding:13px 20px;
+    display:grid;
+    grid-template-columns:max-content minmax(390px,1fr) minmax(250px,340px) max-content;
+    align-items:center;
+    gap:24px;
+    background:linear-gradient(135deg,#14234a,#101f43);
+    border:1px solid rgba(65,105,208,.2);
+    border-radius:18px;
+    box-shadow:
+        0 16px 36px rgba(2,8,24,.34),
+        inset 0 1px rgba(255,255,255,.025);
+}
+
+.brand-lockup{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:white;
+    text-decoration:none;
+}
+
+.brand-logo{
+    width:62px;
+    height:62px;
+    object-fit:contain;
+}
+
+.brand-name{
+    font-size:27px;
+    font-weight:500;
+    letter-spacing:-.04em;
+    white-space:nowrap;
+}
+
+.brand-name strong{
+    color:var(--peach);
+    font-weight:800;
+}
+
+.top-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+}
+
+.top-nav a{
+    position:relative;
+    padding:9px 2px;
+    color:#dfe6f6;
+    font-size:15px;
+    font-weight:700;
+    text-decoration:none;
+}
+
+.top-nav a:hover{
+    color:white;
+}
+
+.top-nav a.active{
+    color:var(--peach);
+}
+
+.top-nav a.active::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:1px;
+    width:26px;
+    height:3px;
+    border-radius:10px;
+    background:var(--peach);
+    transform:translateX(-50%);
+}
+
+.global-search{
+    height:48px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 15px;
+    border:2px solid rgba(255,195,132,.9);
+    border-radius:14px;
+    background:rgba(8,18,44,.48);
+    box-shadow:inset 0 1px 7px rgba(0,0,0,.16);
+}
+
+.global-search svg{
+    width:21px;
+    height:21px;
+    fill:none;
+    stroke:var(--peach);
+    stroke-width:2;
+    stroke-linecap:round;
+    flex:0 0 auto;
+}
+
+.global-search input{
+    width:100%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--text);
+    font-weight:600;
+    font-size:14px;
+}
+
+.global-search input::placeholder{
+    color:#c1c8da;
+}
+
+.profile-cluster{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:0;
+    border:0;
+    background:none;
+    color:var(--text);
+    font-weight:700;
+}
+
+.header-avatar{
+    position:relative;
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid rgba(255,195,132,.88);
+    border-radius:50%;
+    background:linear-gradient(145deg,#53648f,#263b73);
+    font-size:10px;
+    letter-spacing:.05em;
+}
+
+.online-dot{
+    position:absolute;
+    right:-2px;
+    bottom:1px;
+    width:11px;
+    height:11px;
+    border:3px solid var(--panel);
+    border-radius:50%;
+    background:var(--green);
+}
+
+.profile-handle{
+    color:var(--peach);
+}
+
+.profile-chevron{
+    color:#9aa8ca;
+    font-size:18px;
+}
+
+/* --------------------------------------------------
+   COMMUNITY HOTBAR
+-------------------------------------------------- */
+
+.community-bar{
+    width:calc(100% - 48px);
+    max-width:1600px;
+    min-height:64px;
+    margin:8px auto 0;
+    padding:9px 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:linear-gradient(135deg,#14234a,#102044);
+    border:1px solid rgba(65,105,208,.18);
+    border-radius:16px;
+    box-shadow:0 10px 26px rgba(2,8,24,.25);
+}
+
+.community-label{
+    font-size:14px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.community-label::before{
+    content:"♧";
+    margin-right:9px;
+    color:var(--peach);
+    font-size:22px;
+    vertical-align:-2px;
+}
+
+.pinned-communities{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    min-width:0;
+    flex:1;
+    overflow-x:auto;
+    padding:3px 2px;
+    scrollbar-width:thin;
+}
+
+.community-chip{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex:0 0 auto;
+    padding:7px 12px;
+    border:1px dashed rgba(255,180,119,.9);
+    border-radius:20px;
+    background:rgba(8,18,44,.32);
+    color:var(--text);
+    font-size:12px;
+    font-weight:700;
+}
+
+.community-chip:hover{
+    background:rgba(255,180,119,.08);
+}
+
+.activity-count{
+    min-width:20px;
+    padding:2px 6px;
+    border-radius:999px;
+    background:var(--peach);
+    color:#101a3a;
+    font-size:9px;
+    font-weight:800;
+    text-align:center;
+}
+
+.community-divider-vertical{
+    width:1px;
+    height:30px;
+    background:rgba(255,255,255,.22);
+    flex:0 0 auto;
+}
+
+.community-tools{
+    display:flex;
+    gap:8px;
+}
+
+.community-tool{
+    padding:8px 13px;
+    border:1px solid rgba(65,105,208,.48);
+    border-radius:999px;
+    background:rgba(8,18,44,.25);
+    color:#dbe4fa;
+    font-size:12px;
+    font-weight:700;
+}
+
+.community-tool:hover{
+    border-color:rgba(255,195,132,.7);
+    color:var(--peach);
+}
+
+/* --------------------------------------------------
+   DISCOVER PAGE
+-------------------------------------------------- */
+
+.discover-page{
+    width:calc(100% - 48px);
+    max-width:1500px;
+    margin:34px auto 130px;
+}
+
+.discover-heading-row{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.discover-heading-copy h1{
+    margin:0;
+    font-size:38px;
+    line-height:1;
+    letter-spacing:-.035em;
+}
+
+.discover-heading-copy h1 span{
+    color:var(--peach);
+}
+
+.discover-heading-copy p{
+    max-width:720px;
+    margin:9px 0 0;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.55;
+}
+
+.discover-controls{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.discover-tabs{
+    display:flex;
+    gap:5px;
+    width:max-content;
+    margin-top:25px;
+    padding:5px;
+    border:1px solid rgba(65,105,208,.26);
+    border-radius:14px;
+    background:rgba(10,22,52,.7);
+}
+
+.discover-tab{
+    min-width:132px;
+    padding:10px 18px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:#b8c3dc;
+    font-weight:750;
+}
+
+.discover-tab:hover{
+    color:white;
+}
+
+.discover-tab.active{
+    background:linear-gradient(135deg,var(--peach),var(--peach-2));
+    color:#101a3a;
+    box-shadow:0 6px 18px rgba(255,180,119,.14);
+}
+
+.filter-wrap{
+    position:relative;
+}
+
+.filter-button{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 15px;
+    border:1px solid rgba(65,105,208,.48);
+    border-radius:11px;
+    background:rgba(18,35,75,.9);
+    color:white;
+    font-weight:700;
+}
+
+.filter-button:hover{
+    border-color:rgba(255,195,132,.72);
+}
+
+.filter-indicator{
+    display:none;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--peach);
+}
+
+.filter-button.restricted .filter-indicator{
+    display:block;
+}
+
+/* --------------------------------------------------
+   FILTER POPOVER
+-------------------------------------------------- */
+
+.filter-panel{
+    position:absolute;
+    top:48px;
+    right:0;
+    z-index:30;
+    width:330px;
+    padding:18px;
+    display:none;
+    border:1px solid rgba(65,105,208,.34);
+    border-radius:15px;
+    background:linear-gradient(145deg,#192b58,#112143);
+    box-shadow:0 22px 50px rgba(0,0,0,.42);
+}
+
+.filter-panel.open{
+    display:block;
+}
+
+.filter-panel h3{
+    margin:0;
+    font-size:18px;
+}
+
+.filter-help{
+    margin:5px 0 16px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.4;
+}
+
+.filter-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.filter-option{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px;
+    border:1px solid rgba(65,105,208,.3);
+    border-radius:10px;
+    background:rgba(8,18,44,.34);
+    color:#e8ecf8;
+    font-size:13px;
+    font-weight:700;
+}
+
+.filter-option input{
+    accent-color:var(--peach);
+}
+
+.saved-filter-area{
+    margin-top:17px;
+    padding-top:15px;
+    border-top:1px solid rgba(65,105,208,.24);
+}
+
+.saved-filter-title{
+    margin-bottom:8px;
+    color:#dce5fa;
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.07em;
+}
+
+.saved-filter-note{
+    color:#8798bb;
+    font-size:11px;
+    line-height:1.4;
+}
+
+.filter-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:18px;
+}
+
+.filter-action{
+    padding:8px 13px;
+    border:1px solid rgba(65,105,208,.38);
+    border-radius:9px;
+    background:rgba(8,18,44,.4);
+    color:#dce5fa;
+    font-weight:700;
+    font-size:12px;
+}
+
+.filter-action.primary{
+    border-color:transparent;
+    background:var(--peach);
+    color:#101a3a;
+}
+
+/* --------------------------------------------------
+   ADVENTURE INTERESTS
+-------------------------------------------------- */
+
+.explore-interests{
+    display:none;
+    margin-top:24px;
+    padding:16px 18px;
+    border:1px solid rgba(65,105,208,.24);
+    border-radius:15px;
+    background:rgba(18,34,72,.66);
+}
+
+.explore-interests.visible{
+    display:block;
+}
+
+.explore-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:11px;
+}
+
+.explore-title{
+    font-size:13px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+.explore-note{
+    color:#8293b7;
+    font-size:11px;
+}
+
+.interest-pills{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:2px;
+}
+
+.interest-pill{
+    flex:0 0 auto;
+    padding:8px 13px;
+    border:1px solid rgba(65,105,208,.42);
+    border-radius:999px;
+    background:#101d40;
+    color:#dce4f6;
+    font-size:12px;
+    font-weight:700;
+}
+
+.interest-pill:hover{
+    border-color:rgba(255,195,132,.75);
+    color:var(--peach);
+}
+
+.interest-pill.active{
+    border-color:var(--peach);
+    background:rgba(255,195,132,.12);
+    color:var(--peach);
+}
+
+/* --------------------------------------------------
+   DISCOVER WALL
+-------------------------------------------------- */
+
+.wall{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:18px;
+    align-items:start;
+}
+
+.wall-column{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.post{
+    position:relative;
+    overflow:hidden;
+    padding:16px 18px 15px;
+    border:1px solid rgba(65,105,208,.3);
+    border-radius:16px;
+    background:linear-gradient(145deg,#182b58,#132449 72%);
+    box-shadow:
+        0 18px 42px rgba(2,8,24,.32),
+        inset 0 1px rgba(255,255,255,.035);
+}
+
+.post::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(115deg,rgba(255,195,132,.025),transparent 34%);
+}
+
+.post > *{
+    position:relative;
+    z-index:1;
+}
+
+.post-header{
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr) max-content;
+    align-items:center;
+    gap:11px;
+    min-height:44px;
+    margin-bottom:12px;
+}
+
+.profile-picture{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid rgba(255,195,132,.82);
+    border-radius:50%;
+    background:linear-gradient(145deg,#735d91,#334f7f);
+    box-shadow:0 0 0 3px rgba(8,18,44,.46);
+    font-size:18px;
+}
+
+.post-author-copy{
+    min-width:0;
+}
+
+.post-author-line{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    min-width:0;
+}
+
+.username{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    color:white;
+    font-size:15px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.post-time{
+    color:#aeb9d2;
+    font-size:11px;
+    font-weight:600;
+    white-space:nowrap;
+}
+
+.post-time::before{
+    content:"·";
+    margin-right:7px;
+    color:#6f83ad;
+}
+
+.post-context{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:5px;
+    color:#aab6d0;
+    font-size:11px;
+}
+
+.interest-link{
+    border:0;
+    padding:0;
+    background:none;
+    color:#dce5fa;
+    font-size:11px;
+    font-weight:700;
+}
+
+.interest-link.quick-follow{
+    color:var(--peach);
+}
+
+.interest-link.quick-follow:hover{
+    text-decoration:underline;
+}
+
+.community-link{
+    color:#9bb6ff;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.content-type-label{
+    padding:4px 8px;
+    border:1px solid rgba(255,195,132,.36);
+    border-radius:999px;
+    background:rgba(255,195,132,.08);
+    color:var(--peach);
+    font-size:8px;
+    font-weight:850;
+    letter-spacing:.11em;
+}
+
+.content-type-label.video{
+    border-color:rgba(120,161,255,.42);
+    background:rgba(72,113,211,.12);
+    color:#bcd0ff;
+}
+
+.content-type-label.byte{
+    border-color:rgba(128,220,174,.4);
+    background:rgba(57,174,116,.11);
+    color:#9be2b8;
+}
+
+/* --------------------------------------------------
+   SAMPLE MEDIA
+-------------------------------------------------- */
+
+.post-media{
+    width:100%;
+    margin:4px 0 13px;
+    overflow:hidden;
+    border-radius:13px;
+    border:1px solid rgba(93,119,179,.28);
+    background:#0c1733;
+}
+
+.sample-art{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:280px;
+    padding:30px;
+    background:
+        radial-gradient(circle at 70% 25%,rgba(255,195,132,.35),transparent 16%),
+        linear-gradient(145deg,#543d66,#1b355e 55%,#10203e);
+    text-align:center;
+}
+
+.sample-art.tall{
+    min-height:430px;
+    background:
+        radial-gradient(circle at 45% 28%,rgba(128,220,174,.28),transparent 20%),
+        linear-gradient(160deg,#294b55,#1a294f 58%,#291f42);
+}
+
+.sample-art.short{
+    min-height:210px;
+    background:
+        radial-gradient(circle at 25% 38%,rgba(255,195,132,.3),transparent 18%),
+        linear-gradient(145deg,#724f4d,#273a68);
+}
+
+.sample-art.byte{
+    width:min(70%,320px);
+    min-height:470px;
+    margin:auto;
+    border-radius:12px;
+    background:
+        radial-gradient(circle at 50% 28%,rgba(255,195,132,.3),transparent 18%),
+        linear-gradient(180deg,#422c5e,#1a3155 60%,#10203e);
+}
+
+.sample-art-icon{
+    font-size:70px;
+    filter:drop-shadow(0 10px 14px rgba(0,0,0,.24));
+}
+
+.video-overlay{
+    position:absolute;
+    left:12px;
+    right:12px;
+    bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 10px;
+    border-radius:10px;
+    background:rgba(4,10,25,.72);
+    backdrop-filter:blur(8px);
+    font-size:11px;
+}
+
+.video-play{
+    color:var(--peach);
+}
+
+.video-line{
+    height:4px;
+    flex:1;
+    overflow:hidden;
+    border-radius:99px;
+    background:rgba(255,255,255,.2);
+}
+
+.video-line::before{
+    content:"";
+    display:block;
+    width:35%;
+    height:100%;
+    background:var(--peach);
+}
+
+/* --------------------------------------------------
+   POST COPY
+-------------------------------------------------- */
+
+.post-title{
+    margin:2px 0 8px;
+    font-size:20px;
+    line-height:1.25;
+}
+
+.post-caption{
+    margin:0;
+    color:#e7ebf5;
+    font-size:14px;
+    line-height:1.58;
+}
+
+.post-link-preview{
+    margin-top:12px;
+    padding:10px 12px;
+    border:1px solid rgba(65,105,208,.27);
+    border-radius:10px;
+    background:rgba(7,16,38,.3);
+    color:#a9bcf1;
+    font-size:12px;
+}
+
+/* --------------------------------------------------
+   ACTIONS
+-------------------------------------------------- */
+
+.post-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:15px;
+    padding-top:12px;
+    border-top:1px solid rgba(65,105,208,.18);
+}
+
+.action-left,
+.action-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+}
+
+.post-action{
+    padding:7px 9px;
+    border:1px solid rgba(65,105,208,.27);
+    border-radius:9px;
+    background:rgba(8,18,44,.22);
+    color:#d8e0f2;
+    font-size:11px;
+    font-weight:700;
+}
+
+.post-action:hover,
+.post-action.active{
+    border-color:rgba(255,195,132,.68);
+    color:var(--peach);
+}
+
+.text-action{
+    padding:4px 2px;
+    border:0;
+    background:none;
+    color:#b9c5dd;
+    font-size:11px;
+    font-weight:700;
+}
+
+.text-action:hover{
+    color:var(--peach);
+}
+
+/* --------------------------------------------------
+   HASHTAGS + COMMENTS
+-------------------------------------------------- */
+
+.hashtag-row{
+    margin-top:12px;
+}
+
+.hashtag-toggle{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0;
+    border:0;
+    background:none;
+    color:#bfc9df;
+    font-size:11px;
+    font-weight:700;
+}
+
+.hashtag-icon{
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,195,132,.5);
+    border-radius:50%;
+    color:var(--peach);
+    font-weight:800;
+}
+
+.hashtags{
+    display:none;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:8px;
+}
+
+.hashtags.open{
+    display:flex;
+}
+
+.hashtags span{
+    color:#91aef2;
+    font-size:11px;
+}
+
+.comment-summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:13px;
+    color:#aeb9d2;
+    font-size:11px;
+}
+
+.comment-button{
+    padding:0;
+    border:0;
+    background:none;
+    color:#dce5fa;
+    font-size:11px;
+    font-weight:700;
+}
+
+.comment-button:hover{
+    color:var(--peach);
+}
+
+.latest-comment{
+    margin-top:10px;
+    padding:10px 11px;
+    border-radius:10px;
+    background:rgba(8,18,44,.28);
+    font-size:12px;
+    line-height:1.45;
+}
+
+.latest-comment strong{
+    color:var(--peach);
+}
+
+.view-comments{
+    margin-top:8px;
+    padding:0;
+    border:0;
+    background:none;
+    color:#a9b9d8;
+    font-size:11px;
+    font-weight:700;
+}
+
+.view-comments:hover{
+    color:var(--peach);
+}
+
+.extra-comments{
+    display:none;
+    margin-top:8px;
+}
+
+.extra-comments.open{
+    display:block;
+}
+
+.comment{
+    padding:9px 0;
+    border-top:1px solid rgba(65,105,208,.16);
+    font-size:12px;
+    line-height:1.45;
+}
+
+.comment strong{
+    color:#f3f5fb;
+}
+
+.reply-button{
+    margin-left:5px;
+    padding:0;
+    border:0;
+    background:none;
+    color:var(--peach);
+    font-size:10px;
+    font-weight:700;
+}
+
+.quick-comment{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:12px;
+}
+
+.comment-avatar{
+    width:30px;
+    height:30px;
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,195,132,.55);
+    border-radius:50%;
+    background:#263b73;
+    font-size:8px;
+    font-weight:800;
+}
+
+.quick-comment-field{
+    position:relative;
+    flex:1;
+}
+
+.quick-comment-field input{
+    width:100%;
+    padding:10px 68px 10px 11px;
+    border:1px solid rgba(65,105,208,.32);
+    border-radius:9px;
+    outline:none;
+    background:#101a3a;
+    color:white;
+    font-size:11px;
+}
+
+.quick-comment-field input:focus{
+    border-color:rgba(255,195,132,.65);
+}
+
+.quick-comment-field span{
+    position:absolute;
+    top:50%;
+    right:10px;
+    transform:translateY(-50%);
+    color:var(--peach);
+    font-size:10px;
+    font-weight:700;
+}
+
+/* --------------------------------------------------
+   REFRESH
+-------------------------------------------------- */
+
+.refresh-button{
+    position:fixed;
+    right:28px;
+    bottom:28px;
+    z-index:25;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 17px;
+    border:1px solid rgba(255,195,132,.72);
+    border-radius:999px;
+    background:linear-gradient(145deg,#192b58,#122348);
+    color:white;
+    font-weight:800;
+    box-shadow:0 14px 30px rgba(0,0,0,.36);
+}
+
+.refresh-button:hover{
+    background:var(--peach);
+    color:#101a3a;
+}
+
+.end-message{
+    display:none;
+    margin:34px 0;
+    color:#7f90b2;
+    font-size:12px;
+    text-align:center;
+}
+
+/* --------------------------------------------------
+   RESPONSIVE
+-------------------------------------------------- */
+
+@media(max-width:1320px){
+    .site-header{
+        grid-template-columns:max-content 1fr minmax(230px,300px) max-content;
+        gap:17px;
+    }
+
+    .brand-logo{
+        width:54px;
+        height:54px;
+    }
+
+    .brand-name{
+        font-size:24px;
+    }
+
+    .top-nav{
+        gap:21px;
+    }
+}
+
+@media(max-width:1100px){
+    .site-header{
+        grid-template-columns:max-content 1fr max-content;
+    }
+
+    .global-search{
+        grid-column:1/-1;
+        grid-row:2;
+        height:42px;
+    }
+
+    .discover-page{
+        width:92%;
+    }
+}
+
+@media(max-width:800px){
+    .site-header{
+        width:92%;
+        display:flex;
+        flex-wrap:wrap;
+        gap:12px;
+        padding:12px 14px;
+    }
+
+    .brand-logo{
+        width:48px;
+        height:48px;
+    }
+
+    .brand-name{
+        font-size:22px;
+    }
+
+    .top-nav{
+        order:3;
+        width:100%;
+        justify-content:space-between;
+        gap:10px;
+        overflow:auto;
+    }
+
+    .global-search{
+        order:4;
+        width:100%;
+    }
+
+    .profile-cluster{
+        margin-left:auto;
+    }
+
+    .profile-handle{
+        display:none;
+    }
+
+    .community-bar{
+        width:92%;
+        overflow:hidden;
+    }
+
+    .community-label,
+    .community-tools,
+    .community-divider-vertical{
+        display:none;
+    }
+
+    .discover-heading-row{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .discover-heading-copy h1{
+        font-size:32px;
+    }
+
+    .discover-controls{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .discover-tabs{
+        flex:1;
+    }
+
+    .discover-tab{
+        min-width:0;
+        flex:1;
+    }
+
+    .wall{
+        grid-template-columns:1fr;
+    }
+
+    .filter-panel{
+        position:fixed;
+        left:5%;
+        right:5%;
+        top:120px;
+        width:auto;
+    }
+
+    .refresh-button{
+        right:18px;
+        bottom:18px;
+    }
+}
+
+@media(max-width:520px){
+    .brand-name{
+        display:none;
+    }
+
+    .discover-page{
+        width:94%;
+        margin-top:25px;
+    }
+
+    .discover-controls{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .discover-tabs{
+        width:100%;
+        margin-top:8px;
+    }
+
+    .filter-button{
+        justify-content:center;
+        width:100%;
+    }
+
+    .post{
+        padding:14px;
+    }
+
+    .action-left{
+        flex-wrap:wrap;
+    }
+
+    .post-actions{
+        align-items:flex-start;
+    }
+
+    .sample-art.byte{
+        width:78%;
+    }
+}
+</style>
 </head>
 
 <body>
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="site-header">
+
+    <a class="brand-lockup" href="index.html" aria-label="All Media home">
+        <img class="brand-logo" src="all-media-logo.png" alt="">
+        <span class="brand-name">
+            <span>ALL</span> <strong>MEDIA</strong>
+        </span>
+    </a>
+
+    <nav class="top-nav" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a class="active" href="discover.html">Discover</a>
+        <a href="#">Notifications</a>
+        <a href="#">Profile</a>
+    </nav>
+
+    <label class="global-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+        </svg>
+        <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+    </label>
+
+    <button class="profile-cluster" type="button">
+        <span class="header-avatar">
+            YOU
+            <span class="online-dot"></span>
+        </span>
+        <span class="profile-handle">@you</span>
+        <span class="profile-chevron">⌄</span>
+    </button>
+
+</header>
+
+<!-- ==================================================
+     COMMUNITY HOTBAR
+================================================== -->
+
+<div class="community-bar">
+
+    <span class="community-label">COMMUNITIES</span>
+
+    <div class="pinned-communities">
+
+        <button class="community-chip">
+            <span>🎃</span>
+            Spooky Cozy
+            <span class="activity-count">5</span>
+        </button>
+
+        <button class="community-chip">
+            <span>🎨</span>
+            Artists
+            <span class="activity-count">2</span>
+        </button>
+
+        <button class="community-chip">
+            <span>🐢</span>
+            Turtle Rescue
+            <span class="activity-count">1</span>
+        </button>
+
+    </div>
+
+    <div class="community-divider-vertical"></div>
+
+    <div class="community-tools">
+        <button class="community-tool">▾ More</button>
+        <button class="community-tool">Manage Communities</button>
+    </div>
+
+</div>
+
+<!-- ==================================================
+     DISCOVER
+================================================== -->
+
+<main class="discover-page">
+
+    <div class="discover-heading-row">
+
+        <div class="discover-heading-copy">
+            <h1><span>Discover</span></h1>
+
+            <p id="discoverDescription">
+                Find more of what you enjoy—and a few things you may have missed.
+            </p>
+        </div>
+
+        <div class="discover-controls">
+
+            <div class="discover-tabs" role="tablist">
+                <button
+                    class="discover-tab active"
+                    data-tab="suggested"
+                    onclick="switchDiscoverTab('suggested')">
+                    Suggested
+                </button>
+
+                <button
+                    class="discover-tab"
+                    data-tab="adventure"
+                    onclick="switchDiscoverTab('adventure')">
+                    Adventure
+                </button>
+            </div>
+
+            <div class="filter-wrap">
+
+                <button
+                    class="filter-button"
+                    id="filterButton"
+                    onclick="toggleFilter(event)">
+                    ☷ Filter
+                    <span class="filter-indicator"></span>
+                </button>
+
+                <div
+                    class="filter-panel"
+                    id="filterPanel"
+                    onclick="event.stopPropagation()">
+
+                    <h3>Filter Discover</h3>
+
+                    <div class="filter-help">
+                        Mix and match the kinds of posts you want to see.
+                    </div>
+
+                    <div class="filter-options">
+
+                        <label class="filter-option">
+                            <input type="checkbox" value="post" checked>
+                            Post
+                        </label>
+
+                        <label class="filter-option">
+                            <input type="checkbox" value="blog" checked>
+                            Blog
+                        </label>
+
+                        <label class="filter-option">
+                            <input type="checkbox" value="video" checked>
+                            Video
+                        </label>
+
+                        <label class="filter-option">
+                            <input type="checkbox" value="byte" checked>
+                            Byte
+                        </label>
+
+                    </div>
+
+                    <div class="saved-filter-area" id="savedFilterArea">
+
+                        <div class="saved-filter-title">
+                            Saved Filters
+                        </div>
+
+                        <div class="saved-filter-note">
+                            Suggested can eventually save up to three named filters here.
+                            We will build the full manager after the page layout is approved.
+                        </div>
+
+                    </div>
+
+                    <div class="filter-actions">
+                        <button class="filter-action" onclick="clearFilter()">
+                            Clear
+                        </button>
+
+                        <button class="filter-action primary" onclick="applyFilter()">
+                            Apply Filter
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ADVENTURE-ONLY INTEREST ROW -->
+
+    <section class="explore-interests" id="exploreInterests">
+
+        <div class="explore-title-row">
+            <div class="explore-title">
+                Explore Interests
+            </div>
+
+            <div class="explore-note">
+                Wander somewhere new.
+            </div>
+        </div>
+
+        <div class="interest-pills">
+
+            <button
+                class="interest-pill active"
+                onclick="chooseAdventureInterest(this,'all')">
+                Explore All
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'vehicles')">
+                🚙 Vehicles
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'architecture')">
+                🏛 Architecture
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'marine')">
+                🐋 Marine Life
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'history')">
+                🗝 History
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'science')">
+                🔬 Science
+            </button>
+
+            <button
+                class="interest-pill"
+                onclick="chooseAdventureInterest(this,'outdoors')">
+                🏕 Outdoors
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- TWO-COLUMN WALL -->
+
+    <section class="wall" id="discoverWall">
+
+        <div class="wall-column" id="leftColumn"></div>
+
+        <div class="wall-column" id="rightColumn"></div>
+
+    </section>
+
+    <div class="end-message" id="endMessage">
+        You’ve reached the end—for now.
+    </div>
+
+</main>
+
+<button class="refresh-button" onclick="refreshDiscover()">
+    ↻ Refresh
+</button>
+
+<script>
+
+/* ==================================================
+   DISCOVER STATE
+================================================== */
+
+let activeTab = "suggested";
+let activeAdventureInterest = "all";
+
+let activeTypes = [
+    "post",
+    "blog",
+    "video",
+    "byte"
+];
+
+const followedInterests = new Set([
+    "Art",
+    "Halloween",
+    "Crochet",
+    "Nature"
+]);
+
+/* ==================================================
+   SAMPLE DISCOVER CONTENT
+
+   These are temporary design/testing cards.
+   We will later match the finalized Home card markup
+   and functionality exactly.
+================================================== */
+
+const suggestedPosts = [
+
+    {
+        type:"post",
+        avatar:"🎨",
+        user:"@paperlantern",
+        time:"4d",
+        interest:"Art",
+        community:"Artists",
+        media:"short",
+        icon:"🎨",
+        caption:
+            "Trying something softer today. I kept thinking I had to add more detail, but I actually like where this stopped.",
+        hashtags:["#painting","#creativeprocess","#art"],
+        commentCount:8,
+        latestUser:"@marigold",
+        latest:
+            "The softer background really makes the center stand out."
+    },
+
+    {
+        type:"blog",
+        avatar:"📚",
+        user:"@northwindow",
+        time:"3w",
+        interest:"Books",
+        community:"Book Club",
+        media:"none",
+        title:"The books I almost missed this year",
+        caption:
+            "A small collection of stories I found late, borrowed on a whim, or nearly put back on the shelf. Some of my favorite reading this year came from things I wasn't looking for at all.",
+        hashtags:["#books","#reading","#essays"],
+        commentCount:14,
+        latestUser:"@quietpages",
+        latest:
+            "I love lists like this because they're never the obvious picks."
+    },
+
+    {
+        type:"video",
+        avatar:"🌲",
+        user:"@littletrails",
+        time:"12d",
+        interest:"Nature",
+        community:"Garden & Nature",
+        media:"tall",
+        icon:"🌲",
+        caption:
+            "A slow walk through one of the trails near me after a rainy morning.",
+        hashtags:["#nature","#walking","#rain"],
+        commentCount:5,
+        latestUser:"@mossyboots",
+        latest:
+            "The sound of the rain in this is ridiculously calming."
+    },
+
+    {
+        type:"byte",
+        avatar:"🧶",
+        user:"@threadorbit",
+        time:"6d",
+        interest:"Crochet",
+        community:"Crochet Corner",
+        media:"byte",
+        icon:"🧶",
+        caption:
+            "Thirty seconds of watching this tiny mushroom finally get its face.",
+        hashtags:["#crochet","#amigurumi","#crafts"],
+        commentCount:11,
+        latestUser:"@softloops",
+        latest:
+            "THE LITTLE FACE 😭"
+    },
+
+    {
+        type:"post",
+        avatar:"🪴",
+        user:"@fernfriend",
+        time:"2mo",
+        interest:"Plants",
+        community:"Garden & Nature",
+        media:"tall",
+        icon:"🪴",
+        caption:
+            "This corner used to get ignored completely. Moving two shelves around changed the whole room.",
+        hashtags:["#plants","#homedecor","#greenery"],
+        commentCount:3,
+        latestUser:"@sunroom",
+        latest:
+            "This makes me want to redo my windowsill."
+    },
+
+    {
+        type:"post",
+        avatar:"🚙",
+        user:"@roadsideoddities",
+        time:"18d",
+        interest:"Vehicles",
+        community:"Weekend Garage",
+        media:"short",
+        icon:"🚙",
+        caption:
+            "Found this little beauty parked outside a roadside diner. I know almost nothing about it, but the color stopped me in my tracks.",
+        hashtags:["#vehicles","#cars","#roadtrip"],
+        commentCount:7,
+        latestUser:"@oldsteel",
+        latest:
+            "That body shape is fantastic."
+    }
+
+];
+
+const adventurePosts = [
+
+    {
+        type:"video",
+        avatar:"🐋",
+        user:"@belowblue",
+        time:"9d",
+        interest:"Marine Life",
+        community:"Ocean Watch",
+        media:"tall",
+        icon:"🐋",
+        caption:
+            "A few quiet minutes from a shoreline survey. The tide pools looked completely different after the storm.",
+        hashtags:["#ocean","#marinelife","#science"],
+        commentCount:9,
+        latestUser:"@shorebird",
+        latest:
+            "I never knew how quickly those little pools could change."
+    },
+
+    {
+        type:"post",
+        avatar:"🚗",
+        user:"@oddmotors",
+        time:"5w",
+        interest:"Vehicles",
+        community:"Weekend Garage",
+        media:"short",
+        icon:"🚗",
+        caption:
+            "One of my favorite forgotten dashboard designs. Everything is chunky, mechanical, and weirdly charming.",
+        hashtags:["#vehicles","#design","#cars"],
+        commentCount:4,
+        latestUser:"@switchgear",
+        latest:
+            "Older dashboards had so much personality."
+    },
+
+    {
+        type:"blog",
+        avatar:"🗝",
+        user:"@smallhistories",
+        time:"3mo",
+        interest:"History",
+        community:"History Nook",
+        media:"none",
+        title:"The tiny stories hidden inside ordinary objects",
+        caption:
+            "Museum collections are full of objects that look mundane until someone tells you who carried them, repaired them, wrote on them, or refused to throw them away.",
+        hashtags:["#history","#museums","#objects"],
+        commentCount:19,
+        latestUser:"@archivemouse",
+        latest:
+            "This is exactly why I can spend hours reading exhibit labels."
+    },
+
+    {
+        type:"byte",
+        avatar:"🔬",
+        user:"@kitchenscience",
+        time:"13d",
+        interest:"Science",
+        community:"Curious Minds",
+        media:"byte",
+        icon:"🔬",
+        caption:
+            "A tiny experiment with surface tension that looks much more dramatic than it has any right to.",
+        hashtags:["#science","#experiment","#learning"],
+        commentCount:12,
+        latestUser:"@microscopeclub",
+        latest:
+            "I am absolutely trying this."
+    },
+
+    {
+        type:"post",
+        avatar:"🏛",
+        user:"@lookuparchive",
+        time:"7w",
+        interest:"Architecture",
+        community:"Built Places",
+        media:"tall",
+        icon:"🏛",
+        caption:
+            "A staircase I nearly walked past. The railings curve differently on every landing.",
+        hashtags:["#architecture","#design","#buildings"],
+        commentCount:6,
+        latestUser:"@brickandglass",
+        latest:
+            "That railing detail is gorgeous."
+    },
+
+    {
+        type:"video",
+        avatar:"🏕",
+        user:"@northofhere",
+        time:"22d",
+        interest:"Outdoors",
+        community:"Outside Somewhere",
+        media:"short",
+        icon:"🏕",
+        caption:
+            "Cooking something extremely basic outside somehow makes it taste ten times better.",
+        hashtags:["#outdoors","#camping","#food"],
+        commentCount:15,
+        latestUser:"@trailmug",
+        latest:
+            "Camp food operates under different laws."
+    }
+
+];
+
+/* ==================================================
+   BUILD CARD
+================================================== */
+
+function buildPostCard(post){
+
+    const followed = followedInterests.has(post.interest);
+
+    const typeLabel = post.type.toUpperCase();
+
+    let media = "";
+
+    if(post.media !== "none"){
+
+        const videoControls =
+            post.type === "video" || post.type === "byte"
+            ? `
+                <div class="video-overlay">
+                    <span class="video-play">▶</span>
+                    <div class="video-line"></div>
+                    <span>0:18</span>
+                    <span>🔊</span>
+                    <span>⛶</span>
+                </div>
+            `
+            : "";
+
+        media = `
+            <div class="post-media" style="position:relative;">
+                <div class="sample-art ${post.media}">
+                    <div class="sample-art-icon">${post.icon}</div>
+                </div>
+                ${videoControls}
+            </div>
+        `;
+    }
+
+    const title = post.title
+        ? `<h2 class="post-title">${post.title}</h2>`
+        : "";
+
+    return `
+        <article class="post" data-type="${post.type}" data-interest="${post.interest}">
+
+            <div class="post-header">
+
+                <div class="profile-picture">
+                    ${post.avatar}
+                </div>
+
+                <div class="post-author-copy">
+
+                    <div class="post-author-line">
+                        <span class="username">${post.user}</span>
+                        <span class="post-time">${post.time}</span>
+                    </div>
+
+                    <div class="post-context">
+
+                        <button
+                            class="interest-link ${followed ? "" : "quick-follow"}"
+                            onclick="followInterest(this,'${post.interest}')">
+
+                            ${followed ? "" : "+"}
+                            ${post.interest}
+
+                        </button>
+
+                        <span>in</span>
+
+                        <a class="community-link" href="#">
+                            ${post.community}
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <span class="content-type-label ${post.type}">
+                    ${typeLabel}
+                </span>
+
+            </div>
+
+            ${media}
+
+            ${title}
+
+            <p class="post-caption">
+                ${post.caption}
+            </p>
+
+            ${
+                post.type === "blog"
+                ? `
+                    <div class="post-link-preview">
+                        Continue reading →
+                    </div>
+                `
+                : ""
+            }
+
+            <div class="post-actions">
+
+                <div class="action-left">
+
+                    <button
+                        class="post-action"
+                        onclick="toggleAction(this)">
+                        ♡ Like
+                    </button>
+
+                    <button
+                        class="post-action"
+                        onclick="toggleAction(this)">
+                        ◇ Add to My Pocket
+                    </button>
+
+                    <button
+                        class="post-action"
+                        onclick="toggleAction(this)">
+                        ◉ Share to Community
+                    </button>
+
+                </div>
+
+                <div class="action-right">
+
+                    <button
+                        class="text-action"
+                        onclick="toggleAction(this)">
+                        ↻ 4 · Reblog
+                    </button>
+
+                    <button class="text-action">
+                        ↗ Share
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="hashtag-row">
+
+                <button
+                    class="hashtag-toggle"
+                    onclick="toggleHashtags(this)">
+
+                    <span class="hashtag-icon">#</span>
+                    Hashtags
+
+                </button>
+
+                <div class="hashtags">
+                    ${post.hashtags.map(tag => `<span>${tag}</span>`).join("")}
+                </div>
+
+            </div>
+
+            <div class="comment-summary">
+
+                <span>
+                    ${post.commentCount} comments
+                </span>
+
+                <button
+                    class="comment-button"
+                    onclick="focusComment(this)">
+                    Comment
+                </button>
+
+            </div>
+
+            <div class="latest-comment">
+                <strong>${post.latestUser}</strong>
+                ${post.latest}
+                <button class="reply-button" onclick="replyToComment(this)">
+                    Reply
+                </button>
+            </div>
+
+            <button
+                class="view-comments"
+                onclick="toggleComments(this)">
+
+                View ${Math.max(post.commentCount - 1,1)} more comments
+
+            </button>
+
+            <div class="extra-comments">
+
+                <div class="comment">
+                    <strong>@wanderingcloud</strong>
+                    I really like this.
+                    <button class="reply-button" onclick="replyToComment(this)">
+                        Reply
+                    </button>
+                </div>
+
+                <div class="comment">
+                    <strong>@littlewindow</strong>
+                    This is exactly the sort of thing I like finding here.
+                    <button class="reply-button" onclick="replyToComment(this)">
+                        Reply
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="quick-comment">
+
+                <div class="comment-avatar">
+                    YOU
+                </div>
+
+                <div class="quick-comment-field">
+
+                    <input
+                        type="text"
+                        placeholder="Add a quick comment…"
+                        onkeydown="submitQuickComment(event,this)">
+
+                    <span>@you</span>
+
+                </div>
+
+            </div>
+
+        </article>
+    `;
+}
+
+/* ==================================================
+   RENDER FEED
+
+   Desktop sequence:
+   1 left
+   2 right
+   3 left
+   4 right
+
+   We never calculate shortest-column placement.
+================================================== */
+
+function renderFeed(){
+
+    const leftColumn =
+        document.getElementById("leftColumn");
+
+    const rightColumn =
+        document.getElementById("rightColumn");
+
+    leftColumn.innerHTML = "";
+    rightColumn.innerHTML = "";
+
+    let posts =
+        activeTab === "suggested"
+        ? [...suggestedPosts]
+        : [...adventurePosts];
+
+    posts = posts.filter(
+        post => activeTypes.includes(post.type)
+    );
+
+    if(
+        activeTab === "adventure" &&
+        activeAdventureInterest !== "all"
+    ){
+
+        const interestMap = {
+            vehicles:"Vehicles",
+            architecture:"Architecture",
+            marine:"Marine Life",
+            history:"History",
+            science:"Science",
+            outdoors:"Outdoors"
+        };
+
+        const selected =
+            interestMap[activeAdventureInterest];
+
+        const focused =
+            posts.filter(post => post.interest === selected);
+
+        const variety =
+            posts.filter(post => post.interest !== selected);
+
+        posts = [
+            ...focused,
+            ...variety
+        ];
+    }
+
+    const singleColumn =
+        window.innerWidth <= 800;
+
+    posts.forEach((post,index) => {
+
+        const html = buildPostCard(post);
+
+        if(singleColumn){
+            leftColumn.insertAdjacentHTML(
+                "beforeend",
+                html
+            );
+        }
+        else if(index % 2 === 0){
+            leftColumn.insertAdjacentHTML(
+                "beforeend",
+                html
+            );
+        }
+        else{
+            rightColumn.insertAdjacentHTML(
+                "beforeend",
+                html
+            );
+        }
+
+    });
+
+    rightColumn.style.display =
+        singleColumn ? "none" : "flex";
+
+}
+
+/* ==================================================
+   TABS
+================================================== */
+
+function switchDiscoverTab(tab){
+
+    activeTab = tab;
+
+    document
+        .querySelectorAll(".discover-tab")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.tab === tab
+            );
+
+        });
+
+    const description =
+        document.getElementById(
+            "discoverDescription"
+        );
+
+    const explore =
+        document.getElementById(
+            "exploreInterests"
+        );
+
+    const savedFilter =
+        document.getElementById(
+            "savedFilterArea"
+        );
+
+    if(tab === "suggested"){
+
+        description.textContent =
+            "Find more of what you enjoy—and a few things you may have missed.";
+
+        explore.classList.remove("visible");
+
+        savedFilter.style.display =
+            "block";
+
+    }
+    else{
+
+        description.textContent =
+            "Step outside your usual feed and explore new topics, communities, people, and perspectives.";
+
+        explore.classList.add("visible");
+
+        savedFilter.style.display =
+            "none";
+
+    }
+
+    closeFilter();
+    renderFeed();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* ==================================================
+   ADVENTURE INTEREST PILLS
+================================================== */
+
+function chooseAdventureInterest(button,interest){
+
+    activeAdventureInterest =
+        interest;
+
+    document
+        .querySelectorAll(".interest-pill")
+        .forEach(pill =>
+            pill.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    renderFeed();
+
+}
+
+/* ==================================================
+   QUICK FOLLOW
+================================================== */
+
+function followInterest(button,interest){
+
+    if(followedInterests.has(interest)){
+        return;
+    }
+
+    followedInterests.add(interest);
+
+    document
+        .querySelectorAll(".interest-link")
+        .forEach(link => {
+
+            const text =
+                link.textContent
+                    .replace("+","")
+                    .trim();
+
+            if(text === interest){
+
+                link.classList.remove(
+                    "quick-follow"
+                );
+
+                link.textContent =
+                    interest;
+
+            }
+
+        });
+
+}
+
+/* ==================================================
+   FILTER
+================================================== */
+
+function toggleFilter(event){
+
+    event.stopPropagation();
+
+    document
+        .getElementById("filterPanel")
+        .classList.toggle("open");
+
+}
+
+function closeFilter(){
+
+    document
+        .getElementById("filterPanel")
+        .classList.remove("open");
+
+}
+
+function applyFilter(){
+
+    const checked = [
+        ...document.querySelectorAll(
+            '.filter-options input:checked'
+        )
+    ].map(input => input.value);
+
+    if(checked.length === 0){
+        return;
+    }
+
+    activeTypes = checked;
+
+    document
+        .getElementById("filterButton")
+        .classList.toggle(
+            "restricted",
+            activeTypes.length < 4
+        );
+
+    renderFeed();
+    closeFilter();
+
+}
+
+function clearFilter(){
+
+    document
+        .querySelectorAll(
+            ".filter-options input"
+        )
+        .forEach(input => {
+            input.checked = true;
+        });
+
+    activeTypes = [
+        "post",
+        "blog",
+        "video",
+        "byte"
+    ];
+
+    document
+        .getElementById("filterButton")
+        .classList.remove("restricted");
+
+    renderFeed();
+
+    /* Clear intentionally closes immediately */
+    closeFilter();
+
+}
+
+document.addEventListener(
+    "click",
+    closeFilter
+);
+
+/* ==================================================
+   POST INTERACTIONS
+================================================== */
+
+function toggleAction(button){
+
+    button.classList.toggle("active");
+
+}
+
+function toggleHashtags(button){
+
+    const tags =
+        button.parentElement
+            .querySelector(".hashtags");
+
+    tags.classList.toggle("open");
+
+}
+
+function toggleComments(button){
+
+    const comments =
+        button.nextElementSibling;
+
+    comments.classList.toggle("open");
+
+    button.textContent =
+        comments.classList.contains("open")
+        ? "Hide comments"
+        : "View more comments";
+
+}
+
+function focusComment(button){
+
+    const post =
+        button.closest(".post");
+
+    const input =
+        post.querySelector(
+            ".quick-comment input"
+        );
+
+    input.focus();
+
+}
+
+function replyToComment(button){
+
+    const post =
+        button.closest(".post");
+
+    const input =
+        post.querySelector(
+            ".quick-comment input"
+        );
+
+    input.focus();
+
+    input.value = "@";
+
+}
+
+function submitQuickComment(event,input){
+
+    if(event.key !== "Enter"){
+        return;
+    }
+
+    const text =
+        input.value.trim();
+
+    if(!text){
+        return;
+    }
+
+    const post =
+        input.closest(".post");
+
+    const latest =
+        post.querySelector(
+            ".latest-comment"
+        );
+
+    latest.innerHTML = `
+        <strong>@you</strong>
+        ${escapeHTML(text)}
+        <button
+            class="reply-button"
+            onclick="replyToComment(this)">
+            Reply
+        </button>
+    `;
+
+    input.value = "";
+
+}
+
+function escapeHTML(text){
+
+    const element =
+        document.createElement("div");
+
+    element.textContent = text;
+
+    return element.innerHTML;
+
+}
+
+/* ==================================================
+   REFRESH
+================================================== */
+
+function refreshDiscover(){
+
+    renderFeed();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+/* ==================================================
+   RESPONSIVE REBUILD
+================================================== */
+
+let resizeTimer;
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        clearTimeout(resizeTimer);
+
+        resizeTimer =
+            setTimeout(
+                renderFeed,
+                120
+            );
+
+    }
+);
+
+/* ==================================================
+   INITIAL PAGE LOAD
+================================================== */
+
+renderFeed();
+
+</script>
 
 </body>
 </html>
