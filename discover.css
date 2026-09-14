@@ -1,0 +1,633 @@
+/* =========================================================
+   DISCOVER-ONLY LAYOUT
+   Everything below is scoped to Discover so Home is untouched.
+========================================================= */
+
+body.discover-body{
+  min-height:100vh;
+}
+
+.discover-shell{
+  width:calc(100% - 48px);
+  max-width:1500px;
+  margin:34px auto 120px;
+}
+
+.discover-top{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:22px;
+  margin-bottom:22px;
+}
+
+.discover-copy h1{
+  margin:0 0 8px;
+  color:var(--am-peach);
+  font-size:38px;
+  line-height:1;
+  letter-spacing:-.035em;
+}
+
+.discover-copy p{
+  margin:0;
+  color:#aeb9d2;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.discover-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.discover-tabs{
+  display:flex;
+  gap:5px;
+  padding:5px;
+  border:1px solid rgba(65,105,208,.26);
+  border-radius:14px;
+  background:rgba(10,22,52,.7);
+}
+
+.discover-tab{
+  min-width:132px;
+  padding:10px 18px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#b8c3dc;
+  font-family:'Outfit',sans-serif;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.discover-tab.active{
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2));
+  color:#101a3a;
+}
+
+.discover-filter-wrap{position:relative}
+
+.community-bar{
+  position:relative;
+  z-index:260;
+}
+
+.community-menu{
+  position:relative;
+}
+
+.community-dropdown{
+  z-index:270;
+}
+
+.community-menu > .community-tool{
+  position:relative;
+  top:auto;
+  right:auto;
+  bottom:auto;
+  left:auto;
+  margin:0;
+}
+
+.community-chip,
+.community-pin,
+.community-more-name{
+  pointer-events:auto;
+}
+
+.discover-filter-button{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 15px;
+  border:1px solid rgba(65,105,208,.48);
+  border-radius:11px;
+  background:#132449;
+  color:#fff;
+  font-family:'Outfit',sans-serif;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.discover-filter-dot{
+  display:none;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--am-peach);
+}
+
+.discover-filter-button.restricted .discover-filter-dot{display:block}
+
+.discover-filter-panel{
+  display:none;
+  position:absolute;
+  top:48px;
+  right:0;
+  z-index:200;
+  width:245px;
+  max-width:calc(100vw - 28px);
+  padding:13px 13px 0;
+  overflow:hidden;
+  border:1px solid rgba(65,105,208,.34);
+  border-radius:16px;
+  background:#1a2a53;
+  box-shadow:0 24px 54px rgba(0,0,0,.42);
+}
+
+.discover-filter-panel.open{display:block}
+
+.discover-filter-panel h3{
+  margin:0 0 6px;
+  font-size:20px;
+  line-height:1.15;
+}
+.discover-filter-help{
+  margin-bottom:14px;
+  color:#aeb9d2;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.discover-filter-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.discover-filter-option{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-height:36px;
+  padding:7px 7px;
+  border:1px solid rgba(65,105,208,.22);
+  border-radius:11px;
+  background:#101d3f;
+  color:#eef2fb;
+  font-size:13px;
+  font-weight:700;
+}
+
+.discover-filter-option input{accent-color:var(--am-peach)}
+
+.saved-filter-area{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(65,105,208,.22);
+}
+
+.saved-filter-title{
+  color:#aeb9d2;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.saved-filter-note{
+  margin-top:6px;
+  color:#9aa9c7;
+  font-size:11px;
+  line-height:1.35;
+}
+
+.saved-filter-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-top:7px;
+}
+
+.saved-filter-count{
+  color:#eef2fb;
+  font-size:12px;
+  font-weight:800;
+}
+
+.saved-filter-save{
+  padding:6px 8px;
+  border:1px solid rgba(255,195,132,.5);
+  border-radius:999px;
+  background:rgba(255,195,132,.06);
+  color:var(--am-peach);
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.saved-filter-save:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.saved-filter-list{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-top:7px;
+}
+
+.saved-filter-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  column-gap:8px;
+  row-gap:4px;
+  padding:8px 9px;
+  border:1px dashed rgba(90,113,168,.45);
+  border-radius:10px;
+  background:#152447;
+}
+
+.saved-filter-row{
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.saved-filter-row:hover{
+  background:rgba(255,195,132,.10);
+  border-color:rgba(255,195,132,.72);
+  box-shadow:0 0 0 1px rgba(255,195,132,.08);
+}
+.saved-filter-row.selected{
+  background:var(--am-peach);
+  border-color:var(--am-peach);
+  box-shadow:0 5px 14px rgba(0,0,0,.16);
+}
+.saved-filter-row.selected .saved-filter-name,
+.saved-filter-row.selected .saved-filter-types,
+.saved-filter-row.selected .saved-filter-gear{
+  color:#101a3a!important;
+}
+.saved-filter-row.selected .saved-filter-name.saved-filter-mini{
+  background:transparent;
+  border-color:transparent;
+}
+
+
+.saved-filter-name{
+  grid-column:1;
+  min-width:0;
+  width:100%;
+  overflow:hidden;
+  color:#ffffff;
+  font-size:17px;
+  font-weight:800;
+  line-height:1.15;
+  text-align:left;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding:0;
+}
+
+.saved-filter-types{
+  grid-column:1;
+  min-width:0;
+  padding:0;
+  color:var(--am-peach);
+  font-size:10px;
+  line-height:1.25;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+
+.saved-filter-mini{
+  padding:5px 8px;
+  border:1px solid rgba(65,105,208,.32);
+  border-radius:7px;
+  background:rgba(8,18,44,.28);
+  color:#cbd6ec;
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+/* Keep the filter name large even though it also uses saved-filter-mini. */
+.saved-filter-name.saved-filter-mini{
+  font-size:17px;
+  font-weight:800;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+
+.saved-filter-gear-wrap{
+  grid-column:2;
+  grid-row:1 / span 2;
+  position:relative;
+  justify-self:end;
+  align-self:end;
+}
+
+.saved-filter-gear{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:18px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--am-peach);
+  font-size:18px;
+  font-weight:800;
+  line-height:.7;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.saved-filter-gear:hover{
+  color:#fff;
+}
+
+.saved-filter-gear-menu{
+  display:none;
+  position:absolute;
+  right:0;
+  bottom:26px;
+  z-index:320;
+  width:112px;
+  padding:5px;
+  border:1px solid rgba(255,195,132,.38);
+  border-radius:9px;
+  background:linear-gradient(145deg,#192b58,#112143);
+  box-shadow:0 12px 28px rgba(0,0,0,.34);
+}
+
+.saved-filter-gear-menu.open{
+  display:block;
+}
+
+.saved-filter-gear-menu button{
+  width:100%;
+  padding:7px 8px;
+  border:0;
+  border-radius:6px;
+  background:transparent;
+  color:#e8ecf8;
+  font-family:'Outfit',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  text-align:left;
+  cursor:pointer;
+}
+
+.saved-filter-gear-menu button:hover{
+  background:rgba(255,195,132,.08);
+  color:var(--am-peach);
+}
+
+.saved-filter-gear-menu button.delete{
+  color:#ff9d9d;
+}
+
+.saved-filter-gear-menu button.delete:hover{
+  background:rgba(255,120,120,.08);
+  color:#ffb0b0;
+}
+
+.saved-filter-mini:hover{
+  border-color:rgba(255,195,132,.6);
+  color:var(--am-peach);
+}
+
+.saved-filter-empty{
+  padding:14px 10px;
+  border:1px dashed rgba(90,113,168,.34);
+  border-radius:10px;
+  color:#7f90b2;
+  font-size:11px;
+  text-align:center;
+}
+
+.saved-filter-warning{
+  max-height:0;
+  margin:0;
+  overflow:hidden;
+  color:#ff8f8f;
+  font-size:11px;
+  font-weight:700;
+  line-height:1.2;
+  opacity:0;
+  transition:opacity .22s ease,max-height .22s ease,margin .22s ease;
+}
+
+.saved-filter-warning.show{
+  max-height:24px;
+  margin:5px 0 0;
+  opacity:1;
+}
+
+.discover-filter-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin:10px -13px 0;
+  padding:10px 13px;
+  border-top:1px solid rgba(65,105,208,.20);
+  background:#18264a;
+}
+
+.discover-filter-action{
+  padding:8px 10px;
+  border:1px solid rgba(65,105,208,.38);
+  border-radius:10px;
+  background:#122041;
+  color:#dce5fa;
+  font-family:'Outfit',sans-serif;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.discover-filter-action.primary{
+  border-color:transparent;
+  background:var(--am-peach);
+  color:#101a3a;
+}
+
+/* Adventure-only interests */
+.discover-interest-row{
+  display:none;
+  margin:0 0 22px;
+  padding:15px 17px;
+  border:1px solid rgba(65,105,208,.24);
+  border-radius:15px;
+  background:rgba(18,34,72,.66);
+}
+
+.discover-interest-row.show{display:block}
+
+.discover-interest-heading{
+  margin-bottom:10px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.discover-interest-pills{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+}
+
+.discover-interest-pill{
+  flex:0 0 auto;
+  padding:8px 13px;
+  border:1px solid rgba(65,105,208,.42);
+  border-radius:999px;
+  background:#101d40;
+  color:#dce4f6;
+  font-family:'Outfit',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.discover-interest-pill.active{
+  border-color:var(--am-peach);
+  background:rgba(255,195,132,.12);
+  color:var(--am-peach);
+}
+
+/* IMPORTANT:
+   The wall itself gets class="feed".
+   That makes the finished Home .feed .post rules apply unchanged. */
+.discover-wall.feed{
+  width:100%;
+  max-width:none;
+  margin:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+}
+
+/* Fixed sequence masonry:
+   odd posts stay in left column, even posts stay in right.
+   No shortest-column reshuffling. */
+.discover-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  min-width:0;
+}
+
+/* Remove Home feed vertical spacing because columns own the gap. */
+.discover-wall.feed .post{
+  margin:0!important;
+}
+
+/* Discover-only Interest quick-follow.
+   Followed Interest keeps Home .topic styling.
+   Unfollowed Interest simply gains the peach + treatment. */
+.discover-wall .topic.discover-quick-follow{
+  cursor:pointer!important;
+  border-color:var(--am-peach)!important;
+  color:#101a3a!important;
+  background:var(--am-peach)!important;
+  font-weight:800!important;
+}
+
+.discover-wall .topic.discover-quick-follow:hover{
+  background:var(--am-peach-2)!important;
+  border-color:var(--am-peach-2)!important;
+}
+
+/* Demo media is only placeholder art.
+   The frame itself is still the real Home post-image frame. */
+.discover-demo-art{
+  min-height:250px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 36% 30%,rgba(255,188,128,.2),transparent 25%),
+    linear-gradient(145deg,#213762,#101c3d);
+  color:#9eabd0;
+  font-size:58px;
+}
+
+.discover-demo-art.tall{min-height:390px}
+.discover-demo-art.short{min-height:210px}
+
+
+.discover-blog-full{
+  display:none;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(65,105,208,.18);
+  color:#dfe6f6;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.discover-blog-full.open{
+  display:block;
+}
+
+/* Floating refresh */
+.discover-refresh{
+  position:fixed;
+  right:28px;
+  bottom:28px;
+  z-index:180;
+  padding:12px 17px;
+  border:1px solid rgba(255,195,132,.72);
+  border-radius:999px;
+  background:linear-gradient(145deg,#192b58,#122348);
+  color:#fff;
+  font-family:'Outfit',sans-serif;
+  font-weight:800;
+  box-shadow:0 14px 30px rgba(0,0,0,.36);
+  cursor:pointer;
+}
+
+.discover-refresh:hover{
+  background:var(--am-peach);
+  color:#101a3a;
+}
+
+.discover-end{
+  display:none;
+  margin:34px 0;
+  color:#7f90b2;
+  font-size:12px;
+  text-align:center;
+}
+
+/* Header: only change active nav link; all shape/styling comes from Home CSS. */
+body.discover-body .top-nav a{cursor:pointer}
+body.discover-body .top-nav a.active{
+  color:var(--am-peach);
+}
+
+/* On Discover we never show Home sidebars/composer because they are not in this page. */
+
+@media(max-width:900px){
+  .discover-top{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .discover-controls{width:100%}
+  .discover-tabs{flex:1}
+  .discover-tab{flex:1;min-width:0}
+}
+
+@media(max-width:700px){
+  .discover-shell{width:92%}
+  .discover-wall.feed{grid-template-columns:1fr}
+  #discoverRightColumn{display:none}
+  .discover-filter-panel{
+    position:fixed;
+    left:5%;
+    right:5%;
+    top:120px;
+    width:auto;
+  }
+}
