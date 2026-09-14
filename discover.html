@@ -594,13 +594,24 @@ const followedInterests = new Set(["Art","Halloween","Crochet","Nature"]);
 let savedDiscoverFilters = [];
 
 const communityCatalog = [
-  {name:"Spooky Cozy",icon:"🎃",count:5,pinned:true},
-  {name:"Artists",icon:"🎨",count:2,pinned:true},
-  {name:"Turtle Rescue",icon:"🐢",count:1,pinned:true},
-  {name:"Book Club",icon:"📚",count:0,pinned:false},
-  {name:"Crochet Corner",icon:"🧶",count:0,pinned:false},
-  {name:"Garden & Nature",icon:"🌿",count:0,pinned:false}
+  {name:"Spooky Cozy",icon:"🎃",pinned:true},
+  {name:"Artists",icon:"🎨",pinned:true},
+  {name:"Turtle Rescue",icon:"🐢",pinned:true},
+  {name:"Book Club",icon:"📚",pinned:false},
+  {name:"Crochet Corner",icon:"🧶",pinned:false},
+  {name:"Garden & Nature",icon:"🌿",pinned:false}
 ];
+
+/* Notification/activity counts are separate from pin state.
+   Pinning or unpinning must never erase them. */
+const communityActivityCounts = {
+  "Spooky Cozy": 5,
+  "Artists": 2,
+  "Turtle Rescue": 1,
+  "Book Club": 0,
+  "Crochet Corner": 0,
+  "Garden & Nature": 0
+};
 
 /* The data is temporary sample content.
    The HTML generated below deliberately uses the SAME Home
@@ -1021,18 +1032,23 @@ function renderCommunities(){
 
   pinned.innerHTML=communityCatalog
     .filter(c=>c.pinned)
-    .map(c=>`
-      <button class="community-chip" type="button" draggable="true"
-              data-community="${escapeHTML(c.name)}"
-              data-icon="${c.icon}"
-              onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
-        <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
-        ${c.count ? `<span class="activity-bell" title="${c.count} new community ${c.count===1?"activity":"activities"}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-          <span class="activity-count">${c.count}</span>
-        </span>` : ""}
-      </button>
-    `).join("");
+    .map(c=>{
+      const count=communityActivityCounts[c.name] || 0;
+
+      return `
+        <button class="community-chip" type="button" draggable="true"
+                data-community="${escapeHTML(c.name)}"
+                data-icon="${c.icon}"
+                data-activity-count="${count}"
+                onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
+          <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
+          ${count ? `<span class="activity-bell" title="${count} new community ${count===1?"activity":"activities"}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+            <span class="activity-count">${count}</span>
+          </span>` : ""}
+        </button>
+      `;
+    }).join("");
 
   menu.innerHTML=communityCatalog.map((c,index)=>`
     <div class="community-more-row">
@@ -1049,7 +1065,14 @@ function renderCommunities(){
 
 function toggleCommunityPin(index,event){
   event?.stopPropagation();
-  communityCatalog[index].pinned=!communityCatalog[index].pinned;
+
+  const community=communityCatalog[index];
+  if(!community) return;
+
+  /* Only pin state changes here.
+     Notification/activity counts live separately and are preserved. */
+  community.pinned=!community.pinned;
+
   renderCommunities();
   document.getElementById("communityDropdown")?.classList.add("active");
 }
