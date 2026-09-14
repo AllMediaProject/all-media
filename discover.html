@@ -647,8 +647,8 @@ body.discover-body .top-nav a.active{
 
 
 /* =========================================================
-   DISCOVER CARD TEST — REGULAR POST ONLY (V19)
-   Prototype of the improved shared All Media card design.
+   DISCOVER CARD TEST — REGULAR POST ONLY (V20)
+   Refined shared-card prototype.
    Blog / Video / Byte intentionally remain unchanged for now.
 ========================================================= */
 .discover-wall .post.discover-card-test{
@@ -656,287 +656,453 @@ body.discover-body .top-nav a.active{
   border:1px solid rgba(255,207,159,.10);
   border-radius:18px;
   background:#182447;
-  box-shadow:0 20px 55px -26px rgba(0,0,0,.68),
-             inset 0 0 0 1px rgba(255,255,255,.035),
-             0 0 28px -12px rgba(255,207,159,.18);
+  box-shadow:
+    0 18px 48px -28px rgba(0,0,0,.70),
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 0 24px -14px rgba(255,207,159,.16);
 }
+
+/* Header: tighter, with Interest returned beneath the username. */
 .discover-card-test .post-header{
   display:flex;
-  align-items:center;
-  gap:12px;
-  padding:18px 18px 14px;
+  align-items:flex-start;
+  gap:11px;
+  padding:15px 18px 11px;
 }
+
 .discover-card-test .profile-picture{
-  width:38px;
-  height:38px;
-  flex:0 0 38px;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
   border:1px solid rgba(255,207,159,.42);
-  outline:2px solid rgba(255,207,159,.18);
+  outline:2px solid rgba(255,207,159,.16);
   outline-offset:2px;
   background:linear-gradient(145deg,#ffcf9f,#f5b683);
-  box-shadow:0 0 14px rgba(255,207,159,.22);
+  box-shadow:0 0 12px rgba(255,207,159,.20);
 }
+
 .discover-card-test .profile-picture::after{
   content:"m";
   display:grid;
   place-items:center;
-  width:100%;height:100%;
+  width:100%;
+  height:100%;
   color:#1a274f;
-  font-size:13px;
+  font-size:12px;
   font-weight:800;
 }
-.discover-card-test .post-author-copy{min-width:0;flex:1}
+
+.discover-card-test .post-author-copy{
+  min-width:0;
+  flex:1;
+}
+
 .discover-card-test .post-author-line{
   display:flex;
   align-items:baseline;
   gap:7px;
   min-width:0;
 }
-.discover-card-test .username{font-size:14px;font-weight:700}
-.discover-card-test .post-time{font-size:12px;color:rgba(255,255,255,.4)}
-.discover-card-test .post-card-type{
-  height:24px;
-  padding:0 13px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid rgba(255,207,159,.3);
-  border-radius:999px;
-  background:rgba(255,207,159,.14);
-  color:#ffcf9f;
-  box-shadow:0 0 12px rgba(255,207,159,.13);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.11em;
-  text-transform:uppercase;
+
+.discover-card-test .username{
+  font-size:14px;
+  font-weight:700;
 }
-.discover-card-test .post-header-right{display:flex;align-items:center;gap:9px;margin-left:auto}
-.discover-card-test .post-menu{position:relative;right:auto;top:auto}
+
+.discover-card-test .post-time{
+  font-size:11px;
+  color:rgba(255,255,255,.40);
+}
+
+/* Interest/community line belongs under the username, as on the original card. */
+.discover-card-test .post-meta-line{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:5px;
+  padding:0;
+}
+
+.discover-card-test .post-meta-line .topic{
+  min-height:22px;
+  padding:3px 9px;
+  border:1px solid rgba(255,207,159,.32);
+  border-radius:999px;
+  background:rgba(255,207,159,.13);
+  color:#ffcf9f;
+  box-shadow:0 0 10px rgba(255,207,159,.09);
+  font-size:10px;
+  font-weight:750;
+  line-height:1;
+}
+
+/* Quick Follow remains the solid-peach control, just matched in weight/shape. */
+.discover-card-test .post-meta-line .topic.discover-quick-follow{
+  min-height:22px;
+  padding:3px 9px;
+  border-color:var(--am-peach)!important;
+  background:var(--am-peach)!important;
+  color:#101a3a!important;
+  box-shadow:0 0 11px rgba(255,207,159,.16);
+  font-weight:800!important;
+}
+
+.discover-card-test .post-meta-line .post-community{
+  color:rgba(255,255,255,.42);
+  font-size:10px;
+  white-space:nowrap;
+}
+
+.discover-card-test .post-header-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-left:auto;
+  padding-top:1px;
+}
+
+.discover-card-test .post-menu{
+  position:relative;
+  right:auto;
+  top:auto;
+}
+
 .discover-card-test .post-menu-button{
-  width:28px;height:28px;border-radius:999px;
+  width:27px;
+  height:27px;
+  border-radius:999px;
   background:rgba(255,255,255,.04);
   color:rgba(255,255,255,.48);
 }
-.discover-card-test .post-meta-line{
-  padding:0 18px 11px;
-  margin-top:-4px;
+
+/* Media box: centered inside the card and softly peach-highlighted.
+   This glow belongs to the media box ONLY, never the outer card/stage. */
+.discover-card-test > .post-image{
+  display:block;
+  width:calc(100% - 36px);
+  margin:0 auto;
+  border:1px solid rgba(255,207,159,.28);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,207,159,.09),
+    0 0 22px rgba(255,207,159,.14),
+    0 10px 22px -17px rgba(0,0,0,.72),
+    inset 0 0 18px rgba(255,207,159,.025);
+}
+
+.discover-card-test > .post-image .discover-demo-art.short{
+  min-height:245px;
+}
+
+.discover-card-test > .caption{
+  margin:0;
+  padding:13px 18px 3px;
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  line-height:1.52;
+}
+
+/* Action row: same controls, just slimmer and less chunky. */
+.discover-card-test .interactions{
+  margin:10px 18px 0;
+  padding:10px 0 0;
+  border-top:1px solid rgba(255,207,159,.08);
   display:flex;
   align-items:center;
   gap:7px;
 }
-.discover-card-test .post-image{
-  margin:0 18px;
-  width:calc(100% - 36px);
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid rgba(255,207,159,.20);
-  box-shadow:0 0 0 1px rgba(255,207,159,.10),0 0 24px rgba(255,207,159,.11),0 10px 24px -16px rgba(0,0,0,.7);
-}
-.discover-card-test .discover-demo-art.short{min-height:280px}
-.discover-card-test > .caption{
-  margin:0;
-  padding:17px 18px 5px;
-  color:rgba(255,255,255,.84);
-  font-size:14px;
-  line-height:1.58;
-}
-.discover-card-test .interactions{
-  margin:14px 18px 0;
-  padding:14px 0 0;
-  border-top:1px solid rgba(255,207,159,.08);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
+
 .discover-card-test .interaction.like-button,
 .discover-card-test .quick-action{
-  height:32px;
-  padding:0 12px;
+  height:29px;
+  padding:0 10px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:999px;
-  background:rgba(255,255,255,.055);
+  background:rgba(255,255,255,.05);
   color:rgba(255,255,255,.70);
+  font-size:11px;
 }
+
 .discover-card-test .interaction.like-button:hover,
 .discover-card-test .quick-action:hover{
   border-color:rgba(255,207,159,.28);
   background:rgba(255,207,159,.09);
   color:#ffcf9f;
 }
-.discover-card-test .quick-action-icon{width:14px;height:14px}
+
+.discover-card-test .quick-action-icon{
+  width:13px;
+  height:13px;
+}
+
 .discover-card-test .reblog-counter{
   margin-left:auto;
   padding:0;
   border:0;
   background:none;
   color:rgba(255,255,255,.42);
-  font-size:12px;
+  font-size:11px;
   white-space:nowrap;
 }
+
 .discover-card-test .share-action{
   padding:0;
   border:0;
   background:none;
   color:rgba(255,255,255,.42);
-  font-size:12px;
+  font-size:11px;
 }
-.discover-card-test .latest-comment-label{display:none}
+
+.discover-card-test .latest-comment-label{
+  display:none;
+}
+
 .discover-card-test .latest-comment{
-  margin:15px 18px 0;
-  min-height:38px;
-  padding:0 14px;
+  margin:10px 18px 0;
+  min-height:34px;
+  padding:0 12px;
   display:flex;
   align-items:center;
   gap:4px;
+  min-width:0;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.05);
   border-radius:999px;
-  background:rgba(255,255,255,.035);
+  background:rgba(255,255,255,.032);
   color:rgba(255,255,255,.58);
-  font-size:12px;
+  font-size:11px;
   white-space:nowrap;
+}
+
+.discover-card-test .latest-comment-copy{
+  min-width:0;
+  overflow:hidden;
   text-overflow:ellipsis;
 }
+
 .discover-card-test .latest-comment::after{
   content:attr(data-time);
   margin-left:auto;
-  padding-left:10px;
+  padding-left:9px;
+  flex:none;
   color:rgba(255,255,255,.28);
-  font-size:10px;
+  font-size:9px;
 }
-.discover-card-test .comment-username{color:rgba(255,255,255,.86);font-weight:700;flex:none}
+
+.discover-card-test .comment-username{
+  color:rgba(255,255,255,.86);
+  font-weight:700;
+  flex:none;
+}
+
+/* Bottom row uses a grid so composer / comment count / hashtags cannot overlap. */
 .discover-card-test .post-footer{
   position:relative;
-  padding:14px 18px 17px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+  display:grid;
+  grid-template-columns:minmax(210px,1fr) auto auto;
+  align-items:start;
+  gap:9px;
+  padding:10px 18px 12px;
 }
+
 .discover-card-test .single-comment-composer{
-  flex:1 1 auto;
   min-width:0;
 }
+
 .discover-card-test .comment-composer{
   display:flex;
   position:relative;
   width:100%;
-  min-height:40px;
+  min-height:38px;
   margin:0;
-  padding:0 14px;
+  padding:0 12px;
   align-items:center;
   border:1px solid rgba(255,255,255,.08);
   border-radius:12px;
-  background:rgba(255,255,255,.045);
+  background:rgba(255,255,255,.042);
   transition:min-height .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease,padding .22s ease;
   cursor:text;
 }
+
 .discover-card-test .comment-composer:hover{
   border-color:rgba(255,207,159,.20);
-  background:rgba(255,207,159,.055);
+  background:rgba(255,207,159,.052);
 }
+
 .discover-card-test .comment-composer .comment-compact-state{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:8px;
   width:100%;
+  min-width:0;
   color:rgba(255,255,255,.38);
-  font-size:12px;
+  font-size:11px;
 }
+
 .discover-card-test .comment-mini-avatar{
-  width:24px;height:24px;border-radius:50%;flex:none;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  flex:none;
   border:1px solid rgba(255,207,159,.20);
   background:#26365f;
 }
-.discover-card-test .comment-expanded-state{display:none;width:100%}
-.discover-card-test .comment-composer.active{
-  min-height:86px;
-  padding:11px 12px 36px;
-  align-items:flex-start;
-  border-color:rgba(255,207,159,.50);
-  background:#1f2f56;
-  box-shadow:0 0 0 3px rgba(255,207,159,.15),0 0 18px rgba(255,207,159,.10);
+
+.discover-card-test .comment-expanded-state{
+  display:none;
+  width:100%;
 }
-.discover-card-test .comment-composer.active .comment-compact-state{display:none}
-.discover-card-test .comment-composer.active .comment-expanded-state{display:block}
+
+.discover-card-test .comment-composer.active{
+  min-height:78px;
+  padding:9px 10px 33px;
+  align-items:flex-start;
+  border-color:rgba(255,207,159,.46);
+  background:#1f2f56;
+  box-shadow:
+    0 0 0 2px rgba(255,207,159,.13),
+    0 0 15px rgba(255,207,159,.09);
+}
+
+.discover-card-test .comment-composer.active .comment-compact-state{
+  display:none;
+}
+
+.discover-card-test .comment-composer.active .comment-expanded-state{
+  display:block;
+}
+
 .discover-card-test .comment-text-area{
   display:block;
   width:100%;
-  min-height:45px;
-  padding:0 68px 0 0;
+  min-height:40px;
+  padding:0 64px 0 0;
   resize:none;
   border:0;
   outline:0;
   background:transparent;
   color:#fff;
   font:inherit;
-  font-size:13px;
-  line-height:1.5;
+  font-size:12px;
+  line-height:1.45;
 }
+
 .discover-card-test .comment-post-actions{
   position:absolute;
-  right:8px;
-  bottom:8px;
+  right:7px;
+  bottom:7px;
   margin:0;
 }
+
 .discover-card-test .comment-post-button{
-  height:30px;
-  padding:0 14px;
-  border-radius:999px;
+  height:28px;
+  padding:0 13px;
   border:1px solid #ffcf9f;
+  border-radius:999px;
   background:#ffcf9f;
   color:#1a274f;
-  font-size:12px;
+  font-size:11px;
   font-weight:800;
-  box-shadow:0 2px 12px rgba(255,207,159,.35);
+  box-shadow:0 2px 10px rgba(255,207,159,.31);
 }
+
 .discover-card-test .comment-helper{
   display:none;
-  margin:7px 4px 0;
+  margin:6px 3px 0;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
+  gap:8px;
   color:rgba(255,207,159,.42);
-  font-size:10px;
+  font-size:9px;
 }
-.discover-card-test .single-comment-composer.open .comment-helper{display:flex}
+
+.discover-card-test .single-comment-composer.open .comment-helper{
+  display:flex;
+}
+
 .discover-card-test .comment-cancel{
-  border:0;background:none;padding:0;color:rgba(255,255,255,.34);font-size:10px;cursor:pointer;
+  border:0;
+  background:none;
+  padding:0;
+  color:rgba(255,255,255,.34);
+  font-size:9px;
+  cursor:pointer;
+  white-space:nowrap;
 }
+
 .discover-card-test .more-comments{
+  align-self:center;
   flex:none;
-  font-size:11px;
+  font-size:10px;
   color:rgba(255,255,255,.33);
   white-space:nowrap;
 }
-.discover-card-test .post-footer-actions{margin-left:auto;flex:none}
+
+.discover-card-test .post-footer-actions{
+  align-self:center;
+  margin-left:0;
+  flex:none;
+}
+
 .discover-card-test .hashtag-link{
-  height:40px;
-  padding:0 12px;
+  height:36px;
+  padding:0 11px;
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:6px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:999px;
-  background:rgba(255,255,255,.045);
+  background:rgba(255,255,255,.043);
   color:rgba(255,255,255,.50);
-  font-size:11px;
+  font-size:10px;
 }
-.discover-card-test .hashtag-link:hover{border-color:rgba(255,207,159,.20);background:rgba(255,207,159,.08);color:#ffcf9f}
-.discover-card-test .comments-section{margin:0 18px 16px}
+
+.discover-card-test .hashtag-link:hover{
+  border-color:rgba(255,207,159,.20);
+  background:rgba(255,207,159,.08);
+  color:#ffcf9f;
+}
+
+.discover-card-test .comments-section{
+  margin:0 18px 12px;
+}
+
+/* Keep the sleek glowing divider, but reduce the empty height beneath it. */
 .discover-card-test::after{
   content:"";
   display:block;
-  height:24px;
-  border-top:1px solid rgba(255,207,159,.20);
-  background:linear-gradient(to bottom,rgba(255,207,159,.055),transparent);
+  height:16px;
+  border-top:1px solid rgba(255,207,159,.26);
+  background:linear-gradient(to bottom,rgba(255,207,159,.065),transparent);
 }
+
+/* Narrow-card safety: stack gracefully instead of ever allowing overlap. */
 @media(max-width:760px){
-  .discover-card-test .interactions{flex-wrap:wrap}
-  .discover-card-test .reblog-counter{margin-left:0}
-  .discover-card-test .post-footer{flex-wrap:wrap}
-  .discover-card-test .single-comment-composer{flex-basis:100%}
-  .discover-card-test .more-comments{order:2}
-  .discover-card-test .post-footer-actions{order:3}
+  .discover-card-test .interactions{
+    flex-wrap:wrap;
+  }
+
+  .discover-card-test .reblog-counter{
+    margin-left:0;
+  }
+
+  .discover-card-test .post-footer{
+    grid-template-columns:1fr auto;
+  }
+
+  .discover-card-test .single-comment-composer{
+    grid-column:1 / -1;
+  }
+
+  .discover-card-test .more-comments{
+    grid-column:1;
+  }
+
+  .discover-card-test .post-footer-actions{
+    grid-column:2;
+  }
 }
 
 </style>
@@ -1300,19 +1466,17 @@ function buildRegularDiscoverCard(post){
           <div class="username">${escapeHTML(post.user)}</div>
           <span class="post-time">· ${escapeHTML(post.time)}</span>
         </div>
+        <div class="post-meta-line">
+          ${topicHTML(post)}
+          ${post.community ? `<div class="post-community">· in ${escapeHTML(post.community)}</div>` : ""}
+        </div>
       </div>
       <div class="post-header-right">
-        <div class="post-card-type">${escapeHTML(post.interest)}</div>
         <div class="post-menu">
           <button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button>
           <div class="post-menu-dropdown"><button>Not interested</button><button>Report</button></div>
         </div>
       </div>
-    </div>
-
-    <div class="post-meta-line">
-      ${topicHTML(post)}
-      ${post.community ? `<div class="post-community">· in ${escapeHTML(post.community)}</div>` : ""}
     </div>
 
     ${demoMedia(post)}
@@ -2030,10 +2194,23 @@ function refreshDiscover(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-document.addEventListener("click",()=>{
+document.addEventListener("click",(event)=>{
   closeDiscoverFilter();
   closeSavedFilterGearMenus();
   document.querySelectorAll(".post-menu-dropdown").forEach(menu=>menu.classList.remove("active"));
+
+  /* If an inline quick-comment composer is open but still empty,
+     clicking anywhere outside that composer closes it.
+     Non-empty drafts are preserved so an accidental click cannot erase text. */
+  document.querySelectorAll(".discover-card-test .comment-composer.active").forEach(composer=>{
+    if(composer.contains(event.target)) return;
+
+    const textarea=composer.querySelector(".comment-text-area");
+    if((textarea?.value || "").trim()) return;
+
+    composer.classList.remove("active");
+    composer.closest(".single-comment-composer")?.classList.remove("open");
+  });
 });
 
 let resizeTimer;
