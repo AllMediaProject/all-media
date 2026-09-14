@@ -342,14 +342,16 @@ body.discover-body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:18px;
+  width:20px;
   height:18px;
   padding:0;
   border:0;
   background:transparent;
   color:var(--am-peach);
-  font-size:11px;
-  line-height:1;
+  font-size:18px;
+  font-weight:800;
+  line-height:.7;
+  letter-spacing:1px;
   cursor:pointer;
 }
 
@@ -1330,7 +1332,7 @@ function renderSavedDiscoverFilters(){
         <button class="saved-filter-gear"
                 type="button"
                 aria-label="Manage saved filter"
-                onclick="toggleSavedFilterGearMenu(event,this)">⚙</button>
+                onclick="toggleSavedFilterGearMenu(event,this)">⋯</button>
 
         <div class="saved-filter-gear-menu">
           <button type="button" onclick="renameSavedDiscoverFilter(${index}); closeSavedFilterGearMenus()">Rename</button>
