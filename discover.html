@@ -1034,6 +1034,7 @@ function renderCommunities(){
     .filter(c=>c.pinned)
     .map(c=>{
       const count=communityActivityCounts[c.name] || 0;
+      const hidden=count===0;
 
       return `
         <button class="community-chip" type="button" draggable="true"
@@ -1042,10 +1043,15 @@ function renderCommunities(){
                 data-activity-count="${count}"
                 onclick="openDiscoverCommunity('${escapeHTML(c.name)}')">
           <span class="community-icon">${c.icon}</span>${escapeHTML(c.name)}
-          ${count ? `<span class="activity-bell" title="${count} new community ${count===1?"activity":"activities"}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-            <span class="activity-count">${count}</span>
-          </span>` : ""}
+          <span class="activity-bell"
+                onclick="openRecentCommunityActivity(event,this)"
+                title="${hidden ? "No new community activity" : `${count} new community ${count===1?"activity":"activities"}`}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+              <path d="M10 21h4"></path>
+            </svg>
+            <span class="activity-count${hidden ? " hidden" : ""}">${count}</span>
+          </span>
         </button>
       `;
     }).join("");
@@ -1085,6 +1091,24 @@ function openDiscoverCommunity(name){
   // Close the More menu after choosing a pinned community,
   // matching the feel of a normal navigation selection.
   document.getElementById("communityDropdown")?.classList.remove("active");
+}
+
+function openRecentCommunityActivity(event,bell){
+  event.stopPropagation();
+
+  const chip=bell.closest(".community-chip");
+  const name=chip?.dataset.community;
+  if(!name) return;
+
+  communityActivityCounts[name]=0;
+
+  const count=bell.querySelector(".activity-count");
+  if(count){
+    count.textContent="0";
+    count.classList.add("hidden");
+  }
+
+  bell.title="No new community activity";
 }
 
 
