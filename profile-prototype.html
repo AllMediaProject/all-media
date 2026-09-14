@@ -2112,6 +2112,16 @@ body.profile-prototype-body{background:var(--am-main);}
   font-weight:700;
 }
 .profile-copy{min-width:0;flex:1;}
+.profile-identity-action{
+  margin-left:auto;
+  align-self:flex-start;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-end;
+  flex:0 0 auto;
+  padding-left:18px;
+  padding-top:2px;
+}
 .profile-name-row{
   display:flex;
   align-items:center;
@@ -2542,7 +2552,12 @@ body.profile-prototype-body{background:var(--am-main);}
   .profile-identity-top{align-items:center;flex-wrap:wrap;}
   .profile-avatar{width:72px;height:72px;}
   .profile-display-name{font-size:22px;}
-  .profile-owner-action,.profile-support-button{margin-left:auto;}
+  .profile-identity-action{
+    width:100%;
+    margin-left:90px;
+    padding-left:0;
+    justify-content:flex-start;
+  }
   .prototype-note{display:none;}
 }
 
@@ -2597,7 +2612,7 @@ body.profile-prototype-body{background:var(--am-main);}
       <div class="profile-identity-top">
         <div class="profile-avatar">PROFILE<br>IMAGE</div>
         <div class="profile-copy">
-          <div class="profile-name-row"><h1 class="profile-display-name">Hope Hewitt</h1><button class="profile-owner-action" type="button" onclick="showPrototypeView('settingsView',document.querySelector('[data-view=settingsView]'))">Edit Profile</button></div>
+          <div class="profile-name-row"><h1 class="profile-display-name">Hope Hewitt</h1></div>
           <div class="profile-handle-large">@SugarCrumbCo</div>
           <p class="profile-bio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</p>
           <div class="profile-interests">
@@ -2610,6 +2625,9 @@ body.profile-prototype-body{background:var(--am-main);}
             <span><strong>1.2K</strong> Supporters</span>
             <span class="private-stat"><strong>356</strong> Following</span>
           </div>
+        </div>
+        <div class="profile-identity-action">
+          <button class="profile-owner-action" type="button" onclick="showPrototypeView('settingsView',document.querySelector('[data-view=settingsView]'))">Edit Profile</button>
         </div>
       </div>
     </section>
@@ -2812,7 +2830,7 @@ body.profile-prototype-body{background:var(--am-main);}
       <div class="profile-identity-top">
         <div class="profile-avatar">PROFILE<br>IMAGE</div>
         <div class="profile-copy">
-          <div class="profile-name-row"><h1 class="profile-display-name">Alex Rivera</h1><button class="profile-support-button" type="button" aria-pressed="false" onclick="toggleSupport(this)">♥ Support</button></div>
+          <div class="profile-name-row"><h1 class="profile-display-name">Alex Rivera</h1></div>
           <div class="profile-handle-large">@AlexRivera.Photo</div>
           <p class="profile-bio">Film photographer chasing light leaks, quiet streets, old greenhouses, and the little moments that feel like they belong in a zine.</p>
           <div class="profile-interests">
@@ -2825,6 +2843,9 @@ body.profile-prototype-body{background:var(--am-main);}
             <span><strong>2.4K</strong> Supporters</span>
             
           </div>
+        </div>
+        <div class="profile-identity-action">
+          <button class="profile-support-button" type="button" aria-pressed="false" onclick="toggleSupport(this)">♥ Support</button>
         </div>
       </div>
     </section>
