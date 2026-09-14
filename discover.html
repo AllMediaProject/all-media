@@ -239,34 +239,38 @@ body.discover-body{
   display:grid;
   grid-template-columns:minmax(0,1fr) auto auto;
   align-items:center;
-  gap:6px;
-  padding:6px;
+  column-gap:6px;
+  row-gap:4px;
+  padding:6px 7px;
   border:1px dashed rgba(255,195,132,.72);
   border-radius:10px;
   background:rgba(8,18,44,.26);
 }
 
 .saved-filter-name{
+  grid-column:1 / -1;
   min-width:0;
+  width:100%;
   overflow:hidden;
   color:#ffffff;
-  font-size:19px;
+  font-size:20px;
   font-weight:800;
-  line-height:1.15;
+  line-height:1.1;
   text-align:left;
   text-overflow:ellipsis;
   white-space:nowrap;
-  padding:6px 8px;
+  padding:5px 8px;
 }
 
 .saved-filter-types{
-  grid-column:1 / -1;
-  margin-top:-2px;
-  padding:0 8px 2px;
-  color:#8fa1c5;
+  grid-column:1;
+  min-width:0;
+  padding:0 4px 0 8px;
+  color:#9caed0;
   font-size:10px;
-  line-height:1.2;
+  line-height:1.25;
   white-space:normal;
+  overflow-wrap:anywhere;
 }
 
 .saved-filter-mini{
@@ -281,6 +285,26 @@ body.discover-body{
   cursor:pointer;
 }
 
+/* Keep the filter name large even though it also uses saved-filter-mini. */
+.saved-filter-name.saved-filter-mini{
+  font-size:20px;
+  font-weight:800;
+  padding:5px 8px;
+}
+
+/* Rename and Delete sit together at the lower-right. */
+.saved-filter-row > .saved-filter-mini:nth-of-type(2){
+  grid-column:2;
+  justify-self:end;
+  padding-left:9px;
+  padding-right:9px;
+}
+
+.saved-filter-row > .saved-filter-mini:nth-of-type(3){
+  grid-column:3;
+  justify-self:end;
+}
+
 .saved-filter-mini:hover{
   border-color:rgba(255,195,132,.6);
   color:var(--am-peach);
@@ -290,6 +314,24 @@ body.discover-body{
   padding:9px 0 2px;
   color:#7386ab;
   font-size:10px;
+}
+
+.saved-filter-warning{
+  max-height:0;
+  margin:0;
+  overflow:hidden;
+  color:#ff8f8f;
+  font-size:11px;
+  font-weight:700;
+  line-height:1.2;
+  opacity:0;
+  transition:opacity .22s ease,max-height .22s ease,margin .22s ease;
+}
+
+.saved-filter-warning.show{
+  max-height:24px;
+  margin:5px 0 0;
+  opacity:1;
 }
 
 .discover-filter-actions{
@@ -563,6 +605,7 @@ body.discover-body .top-nav a.active{
           </div>
 
           <div class="saved-filter-list" id="savedFilterList"></div>
+          <div class="saved-filter-warning" id="savedFilterWarning">oops, looks like you have that already</div>
         </div>
 
         <div class="discover-filter-actions">
@@ -1154,11 +1197,40 @@ function renderSavedDiscoverFilters(){
   `).join("");
 }
 
+let savedFilterWarningTimer;
+
+function showSavedFilterDuplicateWarning(){
+  const warning=document.getElementById("savedFilterWarning");
+  if(!warning) return;
+
+  clearTimeout(savedFilterWarningTimer);
+  warning.classList.add("show");
+
+  savedFilterWarningTimer=setTimeout(()=>{
+    warning.classList.remove("show");
+  },2200);
+}
+
 function saveCurrentDiscoverFilter(){
   if(savedDiscoverFilters.length>=3) return;
 
   const checked=[...document.querySelectorAll(".discover-filter-options input:checked")].map(i=>i.value);
+
+  /* Nothing selected cannot be saved. */
   if(!checked.length) return;
+
+  /* "Everything" is the default state, so it is not saveable. */
+  if(checked.length===4) return;
+
+  const signature=[...checked].sort().join("|");
+  const duplicate=savedDiscoverFilters.some(filter=>
+    [...filter.types].sort().join("|")===signature
+  );
+
+  if(duplicate){
+    showSavedFilterDuplicateWarning();
+    return;
+  }
 
   const proposed=prompt("Name this saved filter:");
   const name=(proposed||"").trim();
