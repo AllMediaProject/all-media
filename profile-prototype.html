@@ -50,7 +50,18 @@
         .feed-link-pill:hover { background: rgba(49,86,184,.18); border-color: rgba(65,105,208,.6); opacity: 1; }
         .feed-link-icon { flex: 0 0 auto; font-size: 12px; }
         .feed-link-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        @media(max-width:700px){.post-footer-actions{width:100%;margin-left:0;justify-content:flex-end}.feed-link-pill{max-width:min(54vw,190px)}}
+        @media(max-width:760px){
+  .link-editor-row{
+    grid-template-columns:24px 52px 36px minmax(0,1fr) 28px;
+  }
+  .link-editor-row .link-label-input{
+    grid-column:4 / 6;
+  }
+  .link-editor-row .link-url-input{
+    grid-column:3 / 6;
+  }
+}
+@media(max-width:700px){.post-footer-actions{width:100%;margin-left:0;justify-content:flex-end}.feed-link-pill{max-width:min(54vw,190px)}}
         .hashtag-icon { width: 22px; height: 22px; border: 1px solid rgba(255,255,255,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
         .comments-section { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); }
         .comments-section.active { display: block; }
@@ -123,6 +134,52 @@
         .community-tool { padding: 8px 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: transparent; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; }
         .community-dropdown { display: none; position: absolute; right: 0; top: calc(100% + 8px); width: 210px; padding: 8px; background: #182447; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; z-index: 20; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
         .community-dropdown.active { display: block; }
+.community-menu > .community-tool.active{
+  color:#ffc384;
+  border-color:rgba(255,195,132,.42);
+  background:rgba(255,195,132,.07);
+}
+.community-chip .activity-bell.no-activity{display:none;}
+.profile-view .community-chip .activity-bell{
+  position:relative;
+  width:28px;
+  height:24px;
+  margin-left:4px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--am-peach);
+  flex:0 0 28px;
+  overflow:visible;
+}
+.profile-view .community-chip .community-bell-icon{
+  display:block;
+  width:17px;
+  height:17px;
+  color:var(--am-peach);
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.profile-view .community-chip .activity-count{
+  position:absolute;
+  top:-5px;
+  right:-7px;
+  z-index:2;
+  min-width:15px;
+  height:15px;
+  padding:0 3px;
+  border-radius:10px;
+  background:#b83a3a;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  line-height:15px;
+  text-align:center;
+  box-sizing:border-box;
+}
         .community-dropdown button { width: 100%; display: flex; align-items: center; gap: 9px; padding: 9px; border: 0; border-radius: 7px; background: transparent; color: white; font-family: 'Outfit', sans-serif; font-size: 12px; text-align: left; cursor: pointer; }
         .community-dropdown button:hover { background: rgba(255,255,255,.07); }
         .page-layout { display: grid; grid-template-columns: 285px 700px; width: 1015px; max-width: 94%; margin: 26px auto 110px; gap: 30px; align-items: start; transform: translateX(-70px); }
@@ -1441,6 +1498,549 @@
 .composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:138px minmax(0,1fr);gap:0 12px;overflow:hidden}
 .composer.mode-byte #postMediaPreview.active:has(.crop-panel.open) .composer-media-stage.byte{width:min(100%,120px)}
 .composer.mode-byte #postMediaPreview.active:has(.crop-panel.open)>.crop-panel{width:auto;min-width:0}
+
+
+/* V16 settings refinements */
+.settings-nav-label{
+  margin:2px 10px 5px;
+  color:rgba(255,255,255,.48);
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.settings-nav-label-panel{
+  margin-top:17px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.settings-field-meta{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:6px;
+}
+.settings-field-meta .settings-help{margin-top:0;}
+.settings-char-count{
+  flex:0 0 auto;
+  color:var(--am-muted);
+  font-size:10.5px;
+}
+.around-web-settings-hint{
+  margin-top:10px;
+  border:0;
+  background:transparent;
+  color:rgba(255,207,159,.72);
+  padding:0;
+  font:600 9.5px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.around-web-settings-hint:hover{color:var(--am-peach);}
+
+/* Link manager */
+.links-editor-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:13px;
+}
+.links-editor-head strong{
+  display:block;
+  font-size:12px;
+}
+.links-editor-head span{
+  display:block;
+  margin-top:4px;
+  color:var(--am-muted);
+  font-size:10.5px;
+}
+.links-editor-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.link-editor-row{
+  position:relative;
+  display:grid;
+  grid-template-columns:28px 58px 38px minmax(120px,.8fr) minmax(180px,1.3fr) 28px;
+  align-items:center;
+  gap:9px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  background:rgba(8,15,39,.16);
+}
+.link-editor-row[draggable="true"]{cursor:grab;}
+.link-editor-row.dragging{opacity:.42;cursor:grabbing;}
+.link-editor-row.drag-target{
+  border-color:rgba(255,195,132,.48);
+  box-shadow:0 0 16px rgba(255,195,132,.08);
+}
+.link-drag-handle{
+  color:var(--am-muted);
+  text-align:center;
+  font-size:16px;
+  letter-spacing:-3px;
+  user-select:none;
+}
+.link-feature-badge{
+  display:inline-flex;
+  justify-content:center;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:999px;
+  background:rgba(255,195,132,.09);
+  color:var(--am-peach);
+  padding:5px 7px;
+  font-size:8.5px;
+  font-weight:800;
+}
+.link-feature-badge.standard{
+  border-color:rgba(255,255,255,.08);
+  background:transparent;
+  color:var(--am-muted);
+}
+.link-editor-row input{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:8px;
+  background:#101a3a;
+  color:white;
+  padding:8px 9px;
+  font:11px 'Outfit',sans-serif;
+  outline:none;
+}
+.link-editor-row input:focus{
+  border-color:rgba(255,195,132,.48);
+}
+.link-remove{
+  width:27px;
+  height:27px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,195,132,.12);
+  color:var(--am-peach);
+  font-size:16px;
+  cursor:pointer;
+}
+.link-icon-control{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.link-icon-button{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:10px;
+  background:rgba(255,195,132,.07);
+  color:var(--am-peach);
+  font:800 15px/1 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.link-icon-button:hover,
+.link-icon-button.active{
+  border-color:rgba(255,195,132,.58);
+  background:rgba(255,195,132,.13);
+  box-shadow:0 0 14px rgba(255,195,132,.08);
+}
+.link-icon-picker{
+  position:absolute;
+  z-index:80;
+  top:42px;
+  left:0;
+  width:224px;
+  display:none;
+  grid-template-columns:repeat(6,1fr);
+  gap:6px;
+  padding:9px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:12px;
+  background:#111c3c;
+  box-shadow:0 16px 36px rgba(0,0,0,.32);
+}
+.link-icon-picker.open{display:grid;}
+.link-icon-choice{
+  min-width:0;
+  height:31px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;
+  background:rgba(255,255,255,.025);
+  color:white;
+  font:700 13px/1 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.link-icon-choice:hover,
+.link-icon-choice.selected{
+  border-color:rgba(255,195,132,.48);
+  background:rgba(255,195,132,.11);
+  color:var(--am-peach);
+}
+.link-icon-choice.auto{
+  grid-column:span 2;
+  font-size:9px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.links-limit-note{
+  margin-top:9px;
+  color:var(--am-muted);
+  font-size:9.5px;
+  text-align:right;
+}
+
+/* Cropper now uses a real draggable image, with the same Zoom-row structure as Post Creator. */
+.crop-stage{
+  position:relative;
+  overflow:hidden;
+  background:#101a3a;
+  background-image:none !important;
+}
+.crop-stage img{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform-origin:center center;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.crop-stage.crop-square{
+  width:300px;
+  height:300px;
+  max-width:82vw;
+  max-height:82vw;
+  aspect-ratio:1/1;
+  border-radius:12px;
+}
+.crop-stage.crop-landscape{display:none;}
+.profile-crop-row{
+  max-width:400px;
+  margin:0 auto 4px;
+}
+.crop-dialog .profile-crop-row input{
+  accent-color:var(--am-peach);
+}
+
+/* V15 settings additions */
+.avatar-editor-actions{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:7px;
+}
+.settings-adjust-button{
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:9px;
+  background:rgba(255,195,132,.11);
+  color:var(--am-peach);
+  padding:9px 12px;
+  font:700 12px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.settings-adjust-button:hover{
+  background:rgba(255,195,132,.17);
+  box-shadow:0 0 16px rgba(255,195,132,.09);
+}
+.about-editor-textarea{
+  min-height:220px !important;
+}
+.settings-savebar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:28px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.settings-close-savebar{
+  min-width:108px;
+}
+.settings-global-save{
+  min-width:116px;
+}
+.settings-save-status{
+  color:var(--am-peach);
+  font-size:11px;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.settings-save-status.show{opacity:1;}
+
+/* Image cropper */
+.crop-modal{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(5,10,27,.78);
+  backdrop-filter:blur(5px);
+}
+.crop-modal.open{display:flex;}
+.crop-dialog{
+  width:min(520px,100%);
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:16px;
+  background:#182447;
+  box-shadow:0 24px 70px rgba(0,0,0,.42);
+  padding:20px;
+}
+.crop-dialog-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+}
+.crop-dialog-header h3{
+  margin:0 0 4px;
+  font-size:19px;
+}
+.crop-dialog-header p{
+  margin:0;
+  color:var(--am-muted);
+  font-size:11px;
+}
+.crop-close{
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,195,132,.13);
+  color:var(--am-peach);
+  font-size:18px;
+  cursor:pointer;
+}
+.crop-stage-wrap{
+  display:flex;
+  justify-content:center;
+  margin:22px 0;
+}
+.crop-stage{
+  background-color:#101a3a;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:50% 50%;
+  border:2px solid rgba(255,195,132,.55);
+  box-shadow:0 0 22px rgba(255,195,132,.08);
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+}
+.crop-stage:active{cursor:grabbing;}
+.crop-stage.crop-circle{
+  width:270px;
+  height:270px;
+  border-radius:50%;
+}
+.crop-stage.crop-landscape{
+  width:min(400px,82vw);
+  aspect-ratio:1/1;
+  border-radius:12px;
+}
+.crop-dialog-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+/* Gallery editor */
+.gallery-size-note{
+  margin-bottom:16px;
+  padding:11px 13px;
+  border:1px solid rgba(255,195,132,.14);
+  border-radius:10px;
+  background:rgba(255,195,132,.055);
+  color:var(--am-muted);
+  font-size:10.5px;
+  line-height:1.45;
+}
+.gallery-size-note strong{color:var(--am-peach);}
+.gallery-edit-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.gallery-edit-slot{
+  position:relative;
+  aspect-ratio:1/1;
+  min-width:0;
+}
+.gallery-edit-slot[draggable="true"]{cursor:grab;}
+.gallery-edit-slot.dragging{opacity:.45;cursor:grabbing;}
+.gallery-edit-slot.drag-target{
+  outline:1px dashed rgba(255,195,132,.58);
+  outline-offset:4px;
+  border-radius:14px;
+}
+.gallery-default-badge{
+  position:absolute;
+  top:7px;
+  left:7px;
+  z-index:3;
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:999px;
+  background:rgba(16,26,58,.88);
+  color:var(--am-peach);
+  padding:5px 7px;
+  font-size:8.5px;
+  font-weight:800;
+  pointer-events:none;
+}
+.gallery-edit-slot input{display:none;}
+.gallery-slot-main{
+  position:absolute;
+  inset:0;
+  width:100%;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:14px;
+  background-color:#101a3a;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:50% 50%;
+  color:var(--am-peach);
+  cursor:pointer;
+  overflow:hidden;
+}
+.gallery-edit-slot.empty .gallery-slot-main{
+  border-style:dashed;
+  background:rgba(255,195,132,.075);
+}
+.gallery-slot-main:hover{
+  border-color:rgba(255,195,132,.46);
+  box-shadow:0 0 20px rgba(255,195,132,.09);
+}
+.gallery-plus{
+  font-size:30px;
+  font-weight:300;
+}
+.gallery-delete{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:24px;
+  height:24px;
+  border:0;
+  border-radius:50%;
+  background:var(--am-peach);
+  color:var(--am-main);
+  font-size:17px;
+  line-height:1;
+  cursor:pointer;
+  z-index:2;
+}
+.gallery-adjust{
+  position:absolute;
+  left:50%;
+  bottom:8px;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:999px;
+  background:rgba(16,26,58,.88);
+  color:var(--am-peach);
+  padding:6px 9px;
+  font:700 9.5px 'Outfit',sans-serif;
+  cursor:pointer;
+  z-index:2;
+}
+.gallery-edit-slot.empty .gallery-delete,
+.gallery-edit-slot.empty .gallery-adjust{display:none;}
+.gallery-help{margin-top:10px;}
+
+/* Interests editor */
+.interests-enable-row{
+  margin-bottom:18px;
+}
+.interest-search{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,195,132,.42);
+  border-radius:999px;
+  background:#101a3a;
+  box-shadow:0 0 16px rgba(255,195,132,.07);
+  padding:0 14px;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.interest-search:focus-within{
+  border-color:rgba(255,195,132,.72);
+  box-shadow:0 0 20px rgba(255,195,132,.12);
+}
+.interest-search-icon{
+  color:var(--am-peach);
+  font-size:17px;
+}
+.interest-search input{
+  flex:1;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:white;
+  padding:11px 0;
+  font:12px 'Outfit',sans-serif;
+}
+.interest-search input::placeholder{color:rgba(255,255,255,.46);}
+.interest-results-box,
+.interest-suggestions-box{
+  margin-top:16px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:13px;
+  background:rgba(8,15,39,.16);
+}
+.interest-box-heading{
+  color:white;
+  font-size:12px;
+  font-weight:800;
+}
+.interest-suggestions-box p,
+.interest-results-box p{
+  margin:4px 0 12px;
+  color:var(--am-muted);
+  font-size:10.5px;
+  line-height:1.4;
+}
+.interest-pill-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.interest-choice{
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:999px;
+  background:transparent;
+  color:#d8deec;
+  padding:7px 10px;
+  font:700 10.5px 'Outfit',sans-serif;
+  cursor:pointer;
+  transition:.16s ease;
+}
+.interest-choice:hover,
+.interest-choice.selected{
+  border-color:var(--am-peach);
+  background:var(--am-peach);
+  color:var(--am-main);
+  box-shadow:0 0 15px rgba(255,195,132,.10);
+}
 @media(max-width:900px){.composer.mode-blog .blog-inline-controls.active{grid-template-columns:1fr 1fr}.composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:1/-1}.composer.mode-blog .blog-inline-zoom{max-width:none}}
 @media(max-width:760px){.composer.active.mode-post,.composer.active.mode-blog,.composer.active.mode-video,.composer.active.mode-byte{padding:20px 16px 22px}.composer .creator-intro h2{font-size:28px!important}.composer.mode-blog .blog-inline-controls.active{grid-template-columns:1fr}.composer.mode-blog .blog-inline-control-row,.composer.mode-blog .blog-inline-control-row:nth-child(4){grid-column:1}.composer.mode-blog .blog-inline-control-row{flex-wrap:wrap}.composer.mode-post .composer-actions,.composer.mode-blog .composer-actions,.composer.mode-video .composer-actions,.composer.mode-byte .composer-actions{padding-bottom:20px}.composer.mode-byte #postMediaPreview.active:has(.crop-panel.open){grid-template-columns:1fr}}
 
@@ -1495,7 +2095,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 .top-nav{width:auto;margin:0;padding:0;display:flex;justify-content:center;align-items:center;gap:34px;background:none;border-radius:0}.top-nav a{position:relative;padding:12px 0;color:#c0cae2;font-size:15px;font-weight:700}.top-nav a:hover,.top-nav a.active{color:var(--am-peach)}.top-nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:3px;border-radius:99px;background:var(--am-peach);box-shadow:0 0 12px rgba(255,195,132,.38)}
 .global-search{height:48px;display:flex;align-items:center;gap:10px;padding:0 15px;border:2px solid rgba(255,195,132,.9);border-radius:14px;background:rgba(8,18,44,.48);box-shadow:inset 0 1px 7px rgba(0,0,0,.16)}.global-search svg{width:21px;height:21px;fill:none;stroke:var(--am-peach);stroke-width:2;stroke-linecap:round;flex:0 0 auto}.global-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--am-text);font:600 14px 'Outfit',sans-serif}.global-search input::placeholder{color:#c1c8da;opacity:.88}
 .profile-cluster{display:flex;align-items:center;gap:9px;padding:0;border:0;background:none;color:var(--am-text);font:700 14px 'Outfit',sans-serif;cursor:pointer}.header-avatar{position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,195,132,.88);border-radius:50%;background:linear-gradient(145deg,#53648f,#263b73);color:#fff;font-size:10px;letter-spacing:.05em}.online-dot,.friend-status{position:absolute;right:-2px;bottom:1px;width:11px;height:11px;border:3px solid var(--am-panel);border-radius:50%;background:var(--am-green)}.profile-handle{color:var(--am-peach)}.profile-chevron{color:#9aa8ca;font-size:18px}
-.community-bar{width:calc(100% - 48px);max-width:1600px;min-height:64px;margin:8px auto 0;padding:9px 18px;box-sizing:border-box;gap:14px;background:linear-gradient(135deg,#14234a,#102044);border:1px solid rgba(65,105,208,.18);border-radius:16px;box-shadow:0 10px 26px rgba(2,8,24,.25)}.community-label{color:var(--am-text);opacity:1;font-size:14px}.community-label::before{content:"♧";margin-right:9px;color:var(--am-peach);font-size:22px;vertical-align:-2px}.pinned-communities{padding:3px 2px}.community-chip{padding:7px 12px;border:1px dashed rgba(255,180,119,.9);background:rgba(8,18,44,.32);color:var(--am-text);font-weight:700}.community-chip:hover{background:rgba(255,180,119,.08)}.community-icon{width:22px;height:22px;background:transparent;font-size:15px}.activity-bell{width:22px;height:22px;color:var(--am-peach)}.activity-count{top:-2px;right:-5px;background:var(--am-peach);color:#101a3a}.community-tool{padding:8px 13px;border-color:rgba(65,105,208,.48);border-radius:999px;background:rgba(8,18,44,.25);color:#dbe4fa}.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}.community-divider{display:none}
+.community-bar{width:calc(100% - 48px);max-width:1600px;min-height:64px;margin:8px auto 0;padding:9px 18px;box-sizing:border-box;gap:14px;background:linear-gradient(135deg,#14234a,#102044);border:1px solid rgba(65,105,208,.18);border-radius:16px;box-shadow:0 10px 26px rgba(2,8,24,.25)}.community-label{color:var(--am-text);opacity:1;font-size:14px}.community-label::before{content:"♧";margin-right:9px;color:var(--am-peach);font-size:22px;vertical-align:-2px}.pinned-communities{padding:3px 2px}.community-chip{padding:7px 12px;border:1px dashed rgba(255,180,119,.9);background:rgba(8,18,44,.32);color:var(--am-text);font-weight:700}.community-chip:hover{background:rgba(255,180,119,.08)}.community-icon{width:22px;height:22px;background:transparent;font-size:15px}.activity-bell{color:var(--am-peach)}.activity-count{top:-2px;right:-5px;background:var(--am-peach);color:#101a3a}.community-tool{padding:8px 13px;border-color:rgba(65,105,208,.48);border-radius:999px;background:rgba(8,18,44,.25);color:#dbe4fa}.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}.community-divider{display:none}
 .page-layout{display:grid;grid-template-columns:320px minmax(600px,860px) minmax(245px,300px);width:calc(100% - 48px);max-width:1600px;margin:14px auto 110px;gap:18px;align-items:start;transform:none}.main-column{width:100%;max-width:none}.sidebar-column{width:100%;top:16px}.pockets-panel,.interests-panel,.home-widget{background:linear-gradient(145deg,rgba(24,41,83,.98),rgba(17,32,70,.98));border:1px solid rgba(65,105,208,.25);border-radius:16px;box-shadow:0 16px 34px rgba(2,8,24,.28),inset 0 1px rgba(255,255,255,.02)}
 .pockets-panel{padding:18px}.pockets-title{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-size:20px}.pockets-title::before{content:"▱";color:var(--am-peach);font-size:27px;line-height:1}.add-pocket{padding:12px 14px;margin-bottom:8px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2));color:#101a3a;font-size:14px;font-weight:800;text-align:center;box-shadow:0 7px 18px rgba(255,180,119,.12)}.add-pocket:hover{background:linear-gradient(135deg,#ffd09c,#ffc084);color:#101a3a}.panel-section{padding:0 2px}.panel-toggle{padding:8px 2px;color:#dfe6f6;font-size:13px}.panel-list{padding:2px 10px;border:1px solid rgba(65,105,208,.24);border-radius:10px;background:rgba(8,18,44,.18)}.pocket-item{padding:8px 0;font-size:13px}.pocket-item+.pocket-item{border-top:1px solid rgba(65,105,208,.17)}.pocket-row-end{display:flex;align-items:center;gap:8px}.pocket-notification{min-width:27px;padding:3px 7px;box-sizing:border-box;border:1px solid var(--am-peach);border-radius:999px;color:var(--am-peach);font-size:11px;font-weight:800;text-align:center}.pocket-star{color:var(--am-peach);font-size:17px;opacity:1}.pocket-drawer-section{margin-top:8px}.pocket-list-toggle{padding:8px 7px;border:1px solid rgba(65,105,208,.24);border-radius:9px;background:rgba(8,18,44,.2)}
 .sidebar-actions{top:0;margin-top:10px;padding:6px;border:1px solid rgba(65,105,208,.18);border-radius:13px;background:#101f43;box-shadow:0 10px 24px rgba(2,8,24,.24)}.sidebar-home,.sidebar-create{min-height:44px;border-radius:9px;background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2));color:#101a3a}.sidebar-home:hover,.sidebar-create:hover{background:linear-gradient(135deg,#ffd09c,#ffc084);color:#101a3a}.sidebar-create.cancel{background:#b84b52;color:#fff}
@@ -2085,6 +2685,12 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .profile-main{min-width:0;}
 .profile-side{min-width:0;}
+.profile-feed .feed{
+  width:86%;
+  max-width:660px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 .profile-identity{
   background:var(--am-card);
@@ -2284,7 +2890,34 @@ body.profile-prototype-body{background:var(--am-main);}
 .about-gallery-nav{
   position:absolute;inset:auto 0 8px;
   display:flex;justify-content:center;gap:6px;
+  z-index:4;
 }
+.about-gallery-arrow{
+  position:absolute;
+  top:50%;
+  z-index:4;
+  width:30px;
+  height:30px;
+  transform:translateY(-50%);
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:50%;
+  background:rgba(16,26,58,.78);
+  color:white;
+  font:700 22px/1 'Outfit',sans-serif;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.about-gallery-arrow:hover{
+  color:var(--am-peach);
+  border-color:rgba(255,195,132,.42);
+  background:rgba(16,26,58,.92);
+}
+.about-gallery-arrow.prev{left:8px;}
+.about-gallery-arrow.next{right:8px;}
+.about-gallery{touch-action:pan-y;cursor:grab;}
+.about-gallery.is-dragging{cursor:grabbing;}
 .about-dot{
   width:6px;height:6px;border-radius:50%;
   border:0;background:rgba(255,255,255,.35);padding:0;
@@ -2393,7 +3026,7 @@ body.profile-prototype-body{background:var(--am-main);}
   background:#111c3c;
 }
 .more-links.open{
-  display:block;
+  display:block !important;
 }
 .more-links .web-link-card{
   display:grid;
@@ -2507,20 +3140,24 @@ body.profile-prototype-body{background:var(--am-main);}
 .settings-shell{
   width:calc(100% - 48px);
   max-width:1180px;
-  margin:22px auto 110px;
+  margin:16px auto 110px;
 }
 .settings-frame{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
   overflow:hidden;
   background:var(--am-card);
   border:1px solid rgba(255,255,255,.07);
   border-radius:16px;
 }
 .settings-heading{
+  grid-column:1 / -1;
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
   gap:24px;
   padding:24px 28px 20px;
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
 .settings-heading h2{
   margin:0 0 5px;
@@ -2533,23 +3170,22 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .settings-nav{
   display:flex;
-  align-items:center;
+  flex-direction:column;
+  align-items:stretch;
   gap:6px;
-  padding:10px 18px 12px;
-  overflow-x:auto;
-  border-top:1px solid rgba(255,255,255,.06);
-  border-bottom:1px solid rgba(255,255,255,.07);
+  min-width:0;
+  padding:18px 14px;
+  border-right:1px solid rgba(255,255,255,.07);
   background:rgba(8,15,39,.18);
-  scrollbar-width:none;
 }
-.settings-nav::-webkit-scrollbar{display:none;}
 .settings-nav button{
-  flex:0 0 auto;
+  width:100%;
   border:1px solid transparent;
   background:transparent;
   color:var(--am-muted);
-  border-radius:999px;
-  padding:9px 12px;
+  border-radius:10px;
+  padding:11px 12px;
+  text-align:left;
   font:700 11.5px 'Outfit',sans-serif;
   cursor:pointer;
 }
@@ -2563,8 +3199,9 @@ body.profile-prototype-body{background:var(--am-main);}
   border-color:rgba(255,195,132,.24);
 }
 .settings-content{
-  max-width:900px;
-  margin:0 auto;
+  min-width:0;
+  max-width:none;
+  margin:0;
   padding:28px 30px 34px;
 }
 .settings-panel{
@@ -2792,9 +3429,19 @@ body.profile-prototype-body{background:var(--am-main);}
 @media(max-width:900px){
   .profile-grid{grid-template-columns:1fr;}
   .about-card{position:static;}
+  .settings-frame{grid-template-columns:1fr;}
+  .settings-heading{grid-column:1;}
+  .settings-nav{
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+  }
   .settings-content{padding:24px 20px 30px;}
   .settings-form-grid{grid-template-columns:1fr;}
   .avatar-editor{max-width:260px;}
+}
+
+@media(max-width:700px){
+  .gallery-edit-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media(max-width:650px){
   .profile-shell,.settings-shell{width:92%;}
@@ -2809,6 +3456,89 @@ body.profile-prototype-body{background:var(--am-main);}
   }
   .prototype-note{display:none;}
 }
+
+
+/* V22: stable community notification treatment */
+.profile-view .community-chip .community-notification{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:29px;
+  height:24px;
+  margin-left:3px;
+  flex:0 0 29px;
+  overflow:visible;
+}
+.profile-view .community-chip .community-bell-glyph{
+  display:block;
+  width:18px;
+  height:18px;
+  font-size:14px;
+  line-height:18px;
+  text-align:center;
+  overflow:visible;
+}
+.profile-view .community-chip .community-notification .activity-count{
+  position:absolute;
+  top:-5px;
+  right:-7px;
+  z-index:3;
+  min-width:15px;
+  height:15px;
+  padding:0 3px;
+  border-radius:999px;
+  background:#b83a3a !important;
+  color:white !important;
+  font-size:9px;
+  font-weight:800;
+  line-height:15px;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+
+/* V23 — exact working Home bell treatment; no replacement icon */
+.profile-view .community-chip .activity-bell{
+    position:relative;
+    width:22px;
+    height:22px;
+    margin-left:2px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--am-peach);
+    flex-shrink:0;
+    overflow:visible;
+}
+.profile-view .community-chip .activity-bell svg{
+    display:block;
+    width:16px;
+    height:16px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+.profile-view .community-chip .activity-count{
+    position:absolute;
+    top:-2px;
+    right:-5px;
+    min-width:15px;
+    height:15px;
+    padding:0 3px;
+    box-sizing:border-box;
+    border-radius:10px;
+    background:var(--am-peach) !important;
+    color:#101a3a !important;
+    font-size:9px;
+    font-weight:700;
+    line-height:15px;
+    text-align:center;
+}
+.profile-view .community-chip .activity-count.hidden{display:none;}
+.profile-view .community-dropdown{z-index:40;}
 
 </style>
 </head>
@@ -2832,24 +3562,24 @@ body.profile-prototype-body{background:var(--am-main);}
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities">
-<button class="community-chip" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
 </div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button class="community-tool">▾ More</button>
-<div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
+<div class="community-dropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
 </div>
 </div>
-<button class="community-tool">Manage Communities</button>
+<button class="community-tool" type="button">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -2925,11 +3655,13 @@ body.profile-prototype-body{background:var(--am-main);}
     </main>
     <div class="profile-side">
     <aside class="about-card">
-      <div class="about-header"><h2 class="about-title">About Me</h2><button class="about-edit" type="button" onclick="showPrototypeView('settingsView',document.querySelector('[data-view=settingsView]'))">Edit</button></div>
-      <div class="about-gallery">
+      <div class="about-header"><h2 class="about-title">About Me</h2></div>
+      <div class="about-gallery" onpointerdown="beginAboutGallerySwipe(event)">
         <div class="about-slide active">ABOUT IMAGE 1</div>
         <div class="about-slide">ABOUT IMAGE 2</div>
         <div class="about-slide">ABOUT IMAGE 3</div>
+        <button class="about-gallery-arrow prev" type="button" onclick="stepAboutGallery(this,-1)" aria-label="Previous gallery image">‹</button>
+        <button class="about-gallery-arrow next" type="button" onclick="stepAboutGallery(this,1)" aria-label="Next gallery image">›</button>
         <div class="about-gallery-nav">
           <button class="about-dot active" onclick="showAboutSlide(0,this)"></button>
           <button class="about-dot" onclick="showAboutSlide(1,this)"></button>
@@ -2960,7 +3692,7 @@ body.profile-prototype-body{background:var(--am-main);}
           </a>
         </div>
 
-        <button class="view-more-links" onclick="toggleMoreLinks(this)">
+        <button class="view-more-links" aria-expanded="false" onclick="toggleMoreLinks(this)">
           <span>See 4 more</span><span aria-hidden="true">▾</span>
         </button>
 
@@ -2986,7 +3718,9 @@ body.profile-prototype-body{background:var(--am-main);}
             <span class="web-link-arrow" aria-hidden="true">↗</span>
           </a>
         </div>
-      </section>
+      
+        <button class="around-web-settings-hint" type="button" onclick="openProfileSettingsTab('links')">Edit or rearrange your links in Settings →</button>
+</section>
 
       <section class="about-section profile-discovery-section">
         <div class="side-tabs">
@@ -3050,24 +3784,24 @@ body.profile-prototype-body{background:var(--am-main);}
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities">
-<button class="community-chip" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
 </div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button class="community-tool">▾ More</button>
-<div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
+<div class="community-dropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
 </div>
 </div>
-<button class="community-tool">Manage Communities</button>
+<button class="community-tool" type="button">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -3142,10 +3876,12 @@ body.profile-prototype-body{background:var(--am-main);}
     <div class="profile-side">
     <aside class="about-card">
       <div class="about-header"><h2 class="about-title">About Me</h2></div>
-      <div class="about-gallery">
+      <div class="about-gallery" onpointerdown="beginAboutGallerySwipe(event)">
         <div class="about-slide active">GALLERY IMAGE 1</div>
         <div class="about-slide">GALLERY IMAGE 2</div>
         <div class="about-slide">GALLERY IMAGE 3</div>
+        <button class="about-gallery-arrow prev" type="button" onclick="stepAboutGallery(this,-1)" aria-label="Previous gallery image">‹</button>
+        <button class="about-gallery-arrow next" type="button" onclick="stepAboutGallery(this,1)" aria-label="Next gallery image">›</button>
         <div class="about-gallery-nav">
           <button class="about-dot active" onclick="showAboutSlide(0,this)"></button>
           <button class="about-dot" onclick="showAboutSlide(1,this)"></button>
@@ -3176,7 +3912,7 @@ body.profile-prototype-body{background:var(--am-main);}
           </a>
         </div>
 
-        <button class="view-more-links" onclick="toggleMoreLinks(this)">
+        <button class="view-more-links" aria-expanded="false" onclick="toggleMoreLinks(this)">
           <span>See 4 more</span><span aria-hidden="true">▾</span>
         </button>
 
@@ -3263,47 +3999,25 @@ body.profile-prototype-body{background:var(--am-main);}
 <label class="global-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…" aria-label="Search All Media"></label>
 <button class="profile-cluster" type="button" aria-label="Open your account menu"><span class="header-avatar">YOU<span class="online-dot"></span></span><span class="profile-handle">@you</span><span class="profile-chevron">⌄</span></button>
 </header>
-<div class="community-bar">
-<span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities">
-<button class="community-chip" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
-</div>
-<div class="community-divider-vertical"></div>
-<div class="community-tools">
-<div class="community-menu">
-<button class="community-tool">▾ More</button>
-<div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-</div>
-</div>
-<button class="community-tool">Manage Communities</button>
-</div>
-</div>
-<div class="community-divider"></div>
 <div class="settings-shell">
   <div class="settings-frame">
     <header class="settings-heading">
       <div>
         <h2>Edit Profile</h2>
-        <p>Manage what appears on your profile and what other people can see.</p>
+        <p>Manage your profile, About Me panel, Interests, privacy, and other profile details.</p>
       </div>
     </header>
 
     <nav class="settings-nav" aria-label="Profile settings sections">
+      <div class="settings-nav-label">Profile Settings</div>
       <button class="active" data-settings-tab="profile" onclick="setSettingsTab('profile',this)">Profile Info</button>
+      <button data-settings-tab="interests" onclick="setSettingsTab('interests',this)">Interests</button>
+      <button data-settings-tab="privacy" onclick="setSettingsTab('privacy',this)">Privacy</button>
+
+      <div class="settings-nav-label settings-nav-label-panel">Panel Settings</div>
       <button data-settings-tab="about" onclick="setSettingsTab('about',this)">About Me</button>
       <button data-settings-tab="gallery" onclick="setSettingsTab('gallery',this)">Gallery</button>
       <button data-settings-tab="links" onclick="setSettingsTab('links',this)">Around the Web</button>
-      <button data-settings-tab="interests" onclick="setSettingsTab('interests',this)">Interests</button>
-      <button data-settings-tab="privacy" onclick="setSettingsTab('privacy',this)">Privacy</button>
-      <button data-settings-tab="panels" onclick="setSettingsTab('panels',this)">Panel Settings</button>
     </nav>
 
     <div class="settings-content">
@@ -3314,9 +4028,14 @@ body.profile-prototype-body{background:var(--am-main);}
         <div class="settings-form-grid">
           <div class="avatar-editor">
             <div class="avatar-preview" id="settingsAvatarPreview">PROFILE<br>IMAGE</div>
-            <label class="settings-secondary-button" for="profileAvatarInput">Change image</label>
+
+            <div class="avatar-editor-actions">
+              <label class="settings-secondary-button" for="profileAvatarInput">Change image</label>
+              <button class="settings-adjust-button" type="button" onclick="adjustProfileImage()">Adjust image</button>
+            </div>
+
             <input id="profileAvatarInput" type="file" accept="image/*" onchange="previewProfileAvatar(this)">
-            <span class="settings-help">Prototype preview only for now.</span>
+            <span class="settings-help">Upload an image, then drag it into position inside the circle.</span>
           </div>
 
           <div>
@@ -3337,43 +4056,107 @@ body.profile-prototype-body{background:var(--am-main);}
               <textarea id="profileShortBio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</textarea>
               <span class="settings-help">This appears in the main identity card. Your longer About Me text is edited separately.</span>
             </div>
-
-            <div class="settings-actions">
-              <button class="settings-primary-button" type="button" onclick="saveProfileInfo()">Save changes</button>
-              <button class="settings-secondary-button" type="button" onclick="cancelProfileEdits()">Cancel</button>
-              <span class="settings-save-status" id="profileSaveStatus">Saved ✓</span>
-            </div>
           </div>
         </div>
       </section>
 
       <section class="settings-panel" data-settings-panel="about" hidden>
         <h3>About Me</h3>
-        <p class="settings-intro">Edit the longer story shown in your About Me panel.</p>
-        <div class="settings-empty">About Me editing is the next section to build.</div>
+        <p class="settings-intro">Tell people a little more about yourself than you can fit in your short profile bio.</p>
+
+        <div class="settings-field">
+          <label for="aboutMeText">Tell All Media who you are</label>
+          <textarea id="aboutMeText" class="about-editor-textarea" maxlength="1000" oninput="updateAboutCount()">A little bit artist, a little bit gamer, fully committed to cozy chaos. I make spooky-cute art and crochet, collect too many Halloween things, and like making little corners of the internet feel welcoming. Currently obsessed with moss, vintage Halloween, and half-finished sketchbooks.</textarea>
+          <div class="settings-field-meta">
+            <span class="settings-help">Describe yourself in a little more depth. Visitors can expand this text with Read more.</span>
+            <span class="settings-char-count" id="aboutCharCount">0 / 1000</span>
+          </div>
+        </div>
       </section>
 
       <section class="settings-panel" data-settings-panel="gallery" hidden>
         <h3>Gallery</h3>
-        <p class="settings-intro">Manage the optional images shown in your About Me panel.</p>
-        <div class="settings-empty">Gallery editing is ready for us to design next.</div>
+        <p class="settings-intro">Add up to 3 images to your About Me panel. Each image uses the same fixed square crop so the gallery stays consistent.</p>
+
+        <div class="gallery-size-note">
+          <strong>Recommended:</strong> square images at least 1200 × 1200 px. Images display at a fixed 1:1 crop.
+        </div>
+
+        <div class="gallery-edit-grid" id="galleryEditGrid">
+          <div class="gallery-edit-slot empty" data-gallery-slot="0" ondragstart="galleryDragStart(event,0)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,0)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,0)">
+            <span class="gallery-default-badge">Default</span>
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(0)" aria-label="Add gallery image 1"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput0" type="file" accept="image/*" onchange="loadGalleryImage(0,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(0)" aria-label="Delete gallery image 1">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(0)">Adjust crop</button>
+          </div>
+
+          <div class="gallery-edit-slot empty" data-gallery-slot="1" ondragstart="galleryDragStart(event,1)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,1)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,1)">
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(1)" aria-label="Add gallery image 2"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput1" type="file" accept="image/*" onchange="loadGalleryImage(1,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(1)" aria-label="Delete gallery image 2">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(1)">Adjust crop</button>
+          </div>
+
+          <div class="gallery-edit-slot empty" data-gallery-slot="2" ondragstart="galleryDragStart(event,2)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,2)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,2)">
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(2)" aria-label="Add gallery image 3"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput2" type="file" accept="image/*" onchange="loadGalleryImage(2,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(2)" aria-label="Delete gallery image 3">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(2)">Adjust crop</button>
+          </div>
+        </div>
+
+        <span class="settings-help gallery-help">Click an empty square to add an image. Drag filled squares to reorder them — the far-left image is the default. Use Adjust crop to reposition before saving.</span>
       </section>
 
       <section class="settings-panel" data-settings-panel="links" hidden>
         <h3>Around the Web</h3>
-        <p class="settings-intro">Manage, rename, reorder, and feature your external links.</p>
-        <div class="settings-empty">Around the Web editing will use the 3 featured links + expandable drawer system.</div>
+        <p class="settings-intro">Rename and rearrange up to 12 links. The first 3 links become the featured squares on your profile; the rest appear inside View more.</p>
+
+        <div class="links-editor-head">
+          <div>
+            <strong>Your links</strong>
+            <span>Drag rows to reorder them. Move a link into the top 3 to feature it.</span>
+          </div>
+          <button class="settings-secondary-button" type="button" onclick="addProfileLink()">+ Add link</button>
+        </div>
+
+        <div class="links-editor-list" id="linksEditorList"></div>
+        <div class="links-limit-note"><span id="linksCount">0</span>/12 links</div>
       </section>
 
       <section class="settings-panel" data-settings-panel="interests" hidden>
         <h3>Interests</h3>
-        <p class="settings-intro">Choose which Interests appear on your profile and help with discovery.</p>
-        <div class="settings-empty">Interest editing is ready for us to build after the profile basics.</div>
+        <p class="settings-intro">Interests tell people what you are into, help organize your profile identity, and can help people discover you through topics they already enjoy.</p>
+
+        <div class="setting-row interests-enable-row">
+          <div class="setting-copy">
+            <strong>Enable Interests</strong>
+            <span>Show your selected Interests on your profile and include them in profile discovery.</span>
+          </div>
+          <button id="enableInterestsToggle" class="fake-toggle on" type="button" aria-pressed="true" onclick="toggleFakeToggle(this)"></button>
+        </div>
+
+        <label class="interest-search">
+          <span class="interest-search-icon" aria-hidden="true">⌕</span>
+          <input id="interestSearchInput" type="search" placeholder="Search Interests" oninput="renderInterestSearch(this.value)">
+        </label>
+
+        <div class="interest-results-box" id="interestSearchResults" hidden>
+          <div class="interest-box-heading">Search results</div>
+          <div class="interest-pill-wrap" id="interestResultsList"></div>
+        </div>
+
+        <div class="interest-suggestions-box">
+          <div class="interest-box-heading">Suggested</div>
+          <p>Based on Interests you follow and the topics you post about most often.</p>
+          <div class="interest-pill-wrap" id="interestSuggestedList"></div>
+        </div>
       </section>
 
       <section class="settings-panel" data-settings-panel="privacy" hidden>
         <h3>Privacy & Visibility</h3>
-        <p class="settings-intro">Choose which parts of your profile visitors can see and how your profile can be discovered.</p>
+        <p class="settings-intro">Choose which parts of your profile visitors can see.</p>
 
         <div class="settings-group">
           <h4 class="settings-group-title">Profile sections</h4>
@@ -3384,17 +4167,46 @@ body.profile-prototype-body{background:var(--am-main);}
         </div>
 
         <div class="settings-group">
-          <h4 class="settings-group-title">Privacy & discovery</h4>
+          <h4 class="settings-group-title">Privacy</h4>
           <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own Following count; visitors cannot.</span></div><button class="fake-toggle on" data-setting="following-private" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Discoverable through Interests</strong><span>Your selected Interests can help people find your profile.</span></div><button class="fake-toggle on" data-setting="interest-discovery" onclick="toggleFakeToggle(this)"></button></div>
         </div>
       </section>
 
-      <section class="settings-panel" data-settings-panel="panels" hidden>
-        <h3>Panel Settings</h3>
-        <p class="settings-intro">Control optional profile panels and their presentation.</p>
-        <div class="settings-empty">We can decide what belongs here after the individual profile sections are built.</div>
-      </section>
+      <div class="settings-savebar">
+        <span class="settings-save-status" id="settingsSaveStatus">Saved ✓</span>
+        <button class="settings-secondary-button settings-close-savebar" type="button" onclick="closeProfileSettings()">Close Settings</button>
+        <button class="settings-primary-button settings-global-save" type="button" onclick="saveCurrentSettings()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="crop-modal" id="imageCropModal" aria-hidden="true">
+  <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="cropDialogTitle">
+    <div class="crop-dialog-header">
+      <div>
+        <h3 id="cropDialogTitle">Adjust image</h3>
+        <p id="cropDialogHelp">Drag your image to reposition it.</p>
+      </div>
+      <button class="crop-close" type="button" onclick="closeImageCropper()" aria-label="Close image cropper">×</button>
+    </div>
+
+    <div class="crop-stage-wrap">
+      <div id="cropStage" class="crop-stage crop-circle" onpointerdown="beginCropDrag(event)">
+        <img id="cropStageImage" alt="" draggable="false">
+      </div>
+    </div>
+
+    <div class="crop-row profile-crop-row">
+      <span>Zoom</span>
+      <input id="cropZoomInput" type="range" min="1" max="3" step="0.01" value="1" oninput="setCropZoom(this.value)">
+      <span id="cropZoomValue">100%</span>
+    </div>
+    <div class="crop-help">Drag image to reposition</div>
+
+    <div class="crop-dialog-actions">
+      <button class="settings-secondary-button" type="button" onclick="closeImageCropper()">Cancel</button>
+      <button class="settings-primary-button" type="button" onclick="confirmImageCrop()">Use crop</button>
     </div>
   </div>
 </div>
@@ -3433,10 +4245,60 @@ function setVisitorTab(tab, btn){
   document.getElementById("otherReblogsPanel").style.display = tab==="reblogs" ? "block" : "none";
 }
 function showAboutSlide(i, root){
-  const card=root.closest(".about-card");
-  card.querySelectorAll(".about-slide").forEach((s,n)=>s.classList.toggle("active",n===i));
-  card.querySelectorAll(".about-dot").forEach((d,n)=>d.classList.toggle("active",n===i));
+  const gallery=root.closest(".about-gallery") || root;
+  const slides=[...gallery.querySelectorAll(".about-slide")];
+  const dots=[...gallery.querySelectorAll(".about-dot")];
+  if(!slides.length)return;
+
+  const next=((i%slides.length)+slides.length)%slides.length;
+  slides.forEach((slide,n)=>slide.classList.toggle("active",n===next));
+  dots.forEach((dot,n)=>dot.classList.toggle("active",n===next));
+  gallery.dataset.activeIndex=String(next);
 }
+
+function stepAboutGallery(root,delta){
+  const gallery=root.closest(".about-gallery") || root;
+  const slides=[...gallery.querySelectorAll(".about-slide")];
+  if(slides.length<2)return;
+  const current=slides.findIndex(slide=>slide.classList.contains("active"));
+  showAboutSlide((current<0?0:current)+delta,gallery);
+}
+
+let aboutGallerySwipe=null;
+
+function beginAboutGallerySwipe(event){
+  if(event.target.closest(".about-gallery-arrow,.about-dot"))return;
+  const gallery=event.currentTarget;
+  aboutGallerySwipe={
+    gallery,
+    pointerId:event.pointerId,
+    startX:event.clientX,
+    lastX:event.clientX,
+    moved:false
+  };
+  gallery.classList.add("is-dragging");
+  gallery.setPointerCapture?.(event.pointerId);
+}
+
+document.addEventListener("pointermove",event=>{
+  if(!aboutGallerySwipe || event.pointerId!==aboutGallerySwipe.pointerId)return;
+  aboutGallerySwipe.lastX=event.clientX;
+  if(Math.abs(event.clientX-aboutGallerySwipe.startX)>8)aboutGallerySwipe.moved=true;
+});
+
+document.addEventListener("pointerup",event=>{
+  if(!aboutGallerySwipe || event.pointerId!==aboutGallerySwipe.pointerId)return;
+  const {gallery,startX,lastX,moved}=aboutGallerySwipe;
+  gallery.classList.remove("is-dragging");
+  const dx=lastX-startX;
+  if(moved && Math.abs(dx)>=38)stepAboutGallery(gallery,dx<0?1:-1);
+  aboutGallerySwipe=null;
+});
+
+document.addEventListener("pointercancel",()=>{
+  if(aboutGallerySwipe?.gallery)aboutGallerySwipe.gallery.classList.remove("is-dragging");
+  aboutGallerySwipe=null;
+});
 function toggleAboutText(btn){
   const text=btn.previousElementSibling;
   const visitor=btn.closest("#otherProfile");
@@ -3452,8 +4314,14 @@ function toggleAboutText(btn){
   btn.textContent=open?"Read more":"Show less";
 }
 function toggleMoreLinks(btn){
-  const more=btn.nextElementSibling;
-  const open=more.classList.toggle("open");
+  const section=btn.closest(".around-web-section");
+  const more=section?.querySelector(".more-links");
+  if(!more)return;
+
+  const open=!more.classList.contains("open");
+  more.classList.toggle("open",open);
+  btn.setAttribute("aria-expanded",open?"true":"false");
+
   const parts=btn.querySelectorAll("span");
   const count=more.querySelectorAll(".web-link-card").length;
   if(parts[0])parts[0].textContent=open?"Show less":`See ${count} more`;
@@ -3757,6 +4625,1086 @@ function showPrototypeActionNote(button,message){
   button.classList.add("prototype-active");
   setTimeout(()=>{note.remove();button.classList.remove("prototype-active")},1800);
 }
+
+
+
+/* =========================
+   V15 PROFILE SETTINGS
+   ========================= */
+
+let avatarDraft={src:"",croppedSrc:"",zoom:1,offsetX:0,offsetY:0};
+const galleryDraft=[null,null,null];
+let cropState={
+  type:null,index:null,src:"",zoom:1,offsetX:0,offsetY:0,
+  dragging:false,lastX:0,lastY:0,naturalW:0,naturalH:0
+};
+
+const profileLinks=[
+  {id:"1",label:"My Art Shop",url:"https://ko-fi.com/sugarcrumbco",icon:"☕",iconMode:"auto"},
+  {id:"2",label:"YouTube",url:"https://youtube.com/",icon:"▶",iconMode:"auto"},
+  {id:"3",label:"Instagram",url:"https://instagram.com/",icon:"◎",iconMode:"auto"},
+  {id:"4",label:"Threads",url:"https://threads.net/",icon:"＠",iconMode:"auto"},
+  {id:"5",label:"Pinterest",url:"https://pinterest.com/",icon:"P",iconMode:"auto"},
+  {id:"6",label:"Portfolio",url:"https://yourwebsite.com/",icon:"🌐",iconMode:"auto"},
+  {id:"7",label:"My Newsletter",url:"https://newsletter.example/",icon:"✉",iconMode:"auto"}
+];
+
+const profileLinkIconChoices=["☕","▶","◎","P","𝕏","♪","＠","f","in","👽","🦋","♫","🌐","✉","✦","★","♥","🎨","📷","🛍️","🎮","📚","🧶","🎃"];
+function detectProfileLinkIcon(url,label=""){
+  const hay=((url||"")+" "+(label||"")).toLowerCase();
+  if(hay.includes("ko-fi"))return "☕";
+  if(hay.includes("youtube") || hay.includes("youtu.be"))return "▶";
+  if(hay.includes("instagram"))return "◎";
+  if(hay.includes("pinterest"))return "P";
+  if(hay.includes("tiktok"))return "♪";
+  if(hay.includes("twitter") || hay.includes("x.com"))return "𝕏";
+  if(hay.includes("threads"))return "＠";
+  if(hay.includes("facebook"))return "f";
+  if(hay.includes("linkedin"))return "in";
+  if(hay.includes("reddit"))return "👽";
+  if(hay.includes("bluesky") || hay.includes("bsky"))return "🦋";
+  if(hay.includes("spotify"))return "♫";
+  if(hay.includes("twitch"))return "🎮";
+  if(hay.includes("newsletter") || hay.includes("substack"))return "✉";
+  if(hay.includes("shop") || hay.includes("store"))return "🛍️";
+  return "🌐";
+}
+let draggedProfileLinkId=null;
+
+const interestCatalog=[
+  {name:"Art",emoji:"🎨"},
+  {name:"Halloween",emoji:"🎃"},
+  {name:"Crochet",emoji:"🧶"},
+  {name:"Horror",emoji:"👻"},
+  {name:"Cozy",emoji:"✨"},
+  {name:"Illustration",emoji:"✏️"},
+  {name:"Small Business",emoji:"🛍️"},
+  {name:"DIY",emoji:"🛠️"},
+  {name:"Gaming",emoji:"🎮"},
+  {name:"Nature",emoji:"🌿"},
+  {name:"Photography",emoji:"📷"},
+  {name:"Film",emoji:"🎞️"},
+  {name:"Books",emoji:"📚"},
+  {name:"Writing",emoji:"📝"},
+  {name:"Music",emoji:"🎵"},
+  {name:"Travel",emoji:"✈️"},
+  {name:"Food",emoji:"🍜"},
+  {name:"Gardening",emoji:"🌱"}
+];
+const suggestedInterestNames=["Art","Halloween","Crochet","Horror","Cozy","Illustration","Small Business","DIY","Gaming","Nature"];
+const selectedInterests=new Set(["Art","Halloween","Crochet","Horror","Cozy"]);
+
+function setSettingsTab(name,btn){
+  document.querySelectorAll(".settings-nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll("[data-settings-panel]").forEach(p=>p.hidden=true);
+  if(btn)btn.classList.add("active");
+  const panel=document.querySelector('[data-settings-panel="'+name+'"]');
+  if(panel)panel.hidden=false;
+  if(name==="links")renderLinksEditor();
+
+  const status=document.getElementById("settingsSaveStatus");
+  if(status)status.classList.remove("show");
+}
+
+function openProfileSettingsTab(name){
+  showPrototypeView("settingsView",document.querySelector('[data-view="settingsView"]'));
+  const btn=document.querySelector('[data-settings-tab="'+name+'"]');
+  setSettingsTab(name,btn);
+}
+
+function closeProfileSettings(){
+  closeImageCropper();
+  showPrototypeView("myProfile",document.querySelector('[data-view="myProfile"]'));
+}
+
+function toggleFakeToggle(btn){
+  btn.classList.toggle("on");
+  btn.setAttribute("aria-pressed",btn.classList.contains("on")?"true":"false");
+}
+
+function flashSettingsSaved(){
+  const status=document.getElementById("settingsSaveStatus");
+  if(!status)return;
+  status.classList.add("show");
+  clearTimeout(flashSettingsSaved.timer);
+  flashSettingsSaved.timer=setTimeout(()=>status.classList.remove("show"),1700);
+}
+
+function saveCurrentSettings(){
+  const active=document.querySelector(".settings-nav button.active");
+  const tab=active?.dataset.settingsTab || "profile";
+
+  if(tab==="profile")saveProfileInfo();
+  if(tab==="about")saveAboutMe();
+  if(tab==="gallery")saveGallery();
+  if(tab==="links")saveProfileLinks();
+  if(tab==="interests")saveInterests();
+  if(tab==="privacy")applyProfileVisibility();
+
+  flashSettingsSaved();
+}
+
+/* ----- About Me count ----- */
+function updateAboutCount(){
+  const field=document.getElementById("aboutMeText");
+  const count=document.getElementById("aboutCharCount");
+  if(field && count)count.textContent=field.value.length+" / 1000";
+}
+
+/* ----- Profile image + Gallery image loading ----- */
+
+function previewProfileAvatar(input){
+  const file=input.files && input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    avatarDraft={src:e.target.result,croppedSrc:"",zoom:1,offsetX:0,offsetY:0};
+    openImageCropper("avatar");
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderAvatarDraft(){
+  const preview=document.getElementById("settingsAvatarPreview");
+  if(!preview)return;
+  const src=avatarDraft.croppedSrc || avatarDraft.src;
+  if(!src)return;
+  preview.style.backgroundImage='url("'+src+'")';
+  preview.style.backgroundPosition="center";
+  preview.style.backgroundSize="cover";
+  preview.textContent="";
+}
+
+function adjustProfileImage(){
+  if(!avatarDraft.src){
+    document.getElementById("profileAvatarInput")?.click();
+    return;
+  }
+  openImageCropper("avatar");
+}
+
+function chooseGalleryImage(index){
+  document.getElementById("galleryInput"+index)?.click();
+}
+
+function loadGalleryImage(index,input){
+  const file=input.files && input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    galleryDraft[index]={src:e.target.result,croppedSrc:"",zoom:1,offsetX:0,offsetY:0};
+    openImageCropper("gallery",index);
+  };
+  reader.readAsDataURL(file);
+}
+
+function deleteGalleryImage(index){
+  galleryDraft[index]=null;
+  const input=document.getElementById("galleryInput"+index);
+  if(input)input.value="";
+  renderGallerySlots();
+}
+
+function adjustGalleryImage(index){
+  if(!galleryDraft[index]){
+    chooseGalleryImage(index);
+    return;
+  }
+  openImageCropper("gallery",index);
+}
+
+let draggedGalleryIndex=null;
+
+function renderGallerySlots(){
+  document.querySelectorAll("[data-gallery-slot]").forEach(slot=>{
+    const index=Number(slot.dataset.gallerySlot);
+    const data=galleryDraft[index];
+    const main=slot.querySelector(".gallery-slot-main");
+    const plus=slot.querySelector(".gallery-plus");
+
+    slot.classList.toggle("empty",!data);
+    slot.draggable=!!data;
+    slot.classList.remove("dragging","drag-target");
+
+    if(data){
+      main.style.backgroundImage='url("'+(data.croppedSrc || data.src)+'")';
+      main.style.backgroundPosition="center";
+      main.style.backgroundSize="cover";
+      if(plus)plus.textContent="";
+    }else{
+      main.style.backgroundImage="";
+      main.style.backgroundPosition="50% 50%";
+      if(plus)plus.textContent="+";
+    }
+  });
+}
+
+function galleryDragStart(event,index){
+  if(!galleryDraft[index]){
+    event.preventDefault();
+    return;
+  }
+  draggedGalleryIndex=index;
+  event.currentTarget.classList.add("dragging");
+  if(event.dataTransfer){
+    event.dataTransfer.effectAllowed="move";
+    event.dataTransfer.setData("text/plain",String(index));
+  }
+}
+
+function galleryDragOver(event,index){
+  if(draggedGalleryIndex===null || draggedGalleryIndex===index)return;
+  event.preventDefault();
+  event.currentTarget.classList.add("drag-target");
+  if(event.dataTransfer)event.dataTransfer.dropEffect="move";
+}
+
+function galleryDragLeave(event){
+  event.currentTarget.classList.remove("drag-target");
+}
+
+function galleryDrop(event,targetIndex){
+  event.preventDefault();
+  const from=draggedGalleryIndex;
+  if(from===null || from===targetIndex)return;
+
+  const [moved]=galleryDraft.splice(from,1);
+  galleryDraft.splice(targetIndex,0,moved);
+
+  draggedGalleryIndex=null;
+  renderGallerySlots();
+}
+
+function galleryDragEnd(){
+  draggedGalleryIndex=null;
+  document.querySelectorAll("[data-gallery-slot]").forEach(slot=>slot.classList.remove("dragging","drag-target"));
+}
+
+/* ----- Shared cropper with drag + zoom ----- */
+
+function openImageCropper(type,index=null){
+  let data=type==="avatar" ? avatarDraft : galleryDraft[index];
+  if(!data || !data.src)return;
+
+  cropState={
+    type,
+    index,
+    src:data.src,
+    zoom:Number.isFinite(data.zoom)?data.zoom:1,
+    offsetX:Number.isFinite(data.offsetX)?data.offsetX:0,
+    offsetY:Number.isFinite(data.offsetY)?data.offsetY:0,
+    dragging:false,
+    lastX:0,
+    lastY:0,
+    naturalW:0,
+    naturalH:0
+  };
+
+  const modal=document.getElementById("imageCropModal");
+  const stage=document.getElementById("cropStage");
+  const img=document.getElementById("cropStageImage");
+  const title=document.getElementById("cropDialogTitle");
+  const help=document.getElementById("cropDialogHelp");
+  const zoom=document.getElementById("cropZoomInput");
+
+  stage.classList.toggle("crop-circle",type==="avatar");
+  stage.classList.toggle("crop-square",type==="gallery");
+  title.textContent=type==="avatar"?"Adjust profile image":"Adjust gallery crop";
+  help.textContent=type==="avatar"
+    ?"Drag to reposition your image inside the circle, then use Zoom if needed."
+    :"Drag to reposition your image inside the square, then use Zoom if needed.";
+
+  img.onload=()=>{
+    cropState.naturalW=img.naturalWidth;
+    cropState.naturalH=img.naturalHeight;
+    clampCropOffsets();
+    updateCropStage();
+  };
+  img.src=cropState.src;
+
+  zoom.value=String(cropState.zoom);
+  document.getElementById("cropZoomValue").textContent=Math.round(cropState.zoom*100)+"%";
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden","false");
+}
+
+function getCropGeometry(){
+  const stage=document.getElementById("cropStage");
+  if(!stage || !cropState.naturalW || !cropState.naturalH)return null;
+  const w=stage.clientWidth;
+  const h=stage.clientHeight;
+  const baseScale=Math.max(w/cropState.naturalW,h/cropState.naturalH);
+  const displayW=cropState.naturalW*baseScale*cropState.zoom;
+  const displayH=cropState.naturalH*baseScale*cropState.zoom;
+  return {w,h,baseScale,displayW,displayH};
+}
+
+function clampCropOffsets(){
+  const g=getCropGeometry();
+  if(!g)return;
+  const maxX=Math.max(0,(g.displayW-g.w)/2);
+  const maxY=Math.max(0,(g.displayH-g.h)/2);
+  cropState.offsetX=Math.max(-maxX,Math.min(maxX,cropState.offsetX));
+  cropState.offsetY=Math.max(-maxY,Math.min(maxY,cropState.offsetY));
+}
+
+function updateCropStage(){
+  const img=document.getElementById("cropStageImage");
+  if(!img)return;
+  img.style.transform=
+    'translate(-50%,-50%) translate('+cropState.offsetX+'px,'+cropState.offsetY+'px) scale('+cropState.zoom+')';
+}
+
+function setCropZoom(value){
+  cropState.zoom=Math.max(1,Math.min(3,Number(value)||1));
+  document.getElementById("cropZoomValue").textContent=Math.round(cropState.zoom*100)+"%";
+  clampCropOffsets();
+  updateCropStage();
+}
+
+function beginCropDrag(event){
+  if(!cropState.src)return;
+  cropState.dragging=true;
+  cropState.lastX=event.clientX;
+  cropState.lastY=event.clientY;
+  event.currentTarget.setPointerCapture?.(event.pointerId);
+  event.preventDefault();
+}
+
+document.addEventListener("pointermove",event=>{
+  if(!cropState.dragging)return;
+  cropState.offsetX+=event.clientX-cropState.lastX;
+  cropState.offsetY+=event.clientY-cropState.lastY;
+  cropState.lastX=event.clientX;
+  cropState.lastY=event.clientY;
+  clampCropOffsets();
+  updateCropStage();
+});
+
+document.addEventListener("pointerup",()=>{cropState.dragging=false;});
+document.addEventListener("pointercancel",()=>{cropState.dragging=false;});
+
+function makeCroppedDataURL(){
+  const g=getCropGeometry();
+  if(!g)return cropState.src;
+
+  const img=document.getElementById("cropStageImage");
+  const scale=g.baseScale*cropState.zoom;
+  const left=g.w/2+cropState.offsetX-g.displayW/2;
+  const top=g.h/2+cropState.offsetY-g.displayH/2;
+
+  let sx=(0-left)/scale;
+  let sy=(0-top)/scale;
+  let sw=g.w/scale;
+  let sh=g.h/scale;
+
+  sx=Math.max(0,Math.min(img.naturalWidth-sw,sx));
+  sy=Math.max(0,Math.min(img.naturalHeight-sh,sy));
+
+  const canvas=document.createElement("canvas");
+  const target=900;
+  canvas.width=target;
+  canvas.height=target;
+  const ctx=canvas.getContext("2d");
+  ctx.drawImage(img,sx,sy,sw,sh,0,0,target,target);
+  return canvas.toDataURL("image/jpeg",0.92);
+}
+
+function confirmImageCrop(){
+  const cropped=makeCroppedDataURL();
+
+  if(cropState.type==="avatar"){
+    avatarDraft={
+      src:cropState.src,croppedSrc:cropped,zoom:cropState.zoom,
+      offsetX:cropState.offsetX,offsetY:cropState.offsetY
+    };
+    renderAvatarDraft();
+  }
+
+  if(cropState.type==="gallery" && cropState.index!==null){
+    galleryDraft[cropState.index]={
+      src:cropState.src,croppedSrc:cropped,zoom:cropState.zoom,
+      offsetX:cropState.offsetX,offsetY:cropState.offsetY
+    };
+    renderGallerySlots();
+  }
+
+  closeImageCropper();
+}
+
+function closeImageCropper(){
+  const modal=document.getElementById("imageCropModal");
+  modal?.classList.remove("open");
+  modal?.setAttribute("aria-hidden","true");
+  cropState.dragging=false;
+}
+
+/* ----- Around the Web editor ----- */
+
+function closeAllLinkIconPickers(except=null){
+  document.querySelectorAll(".link-icon-picker.open").forEach(picker=>{
+    if(picker===except)return;
+    picker.classList.remove("open");
+    picker.previousElementSibling?.classList.remove("active");
+  });
+}
+
+function setProfileLinkIcon(link,icon,mode,button,picker){
+  link.iconMode=mode;
+  link.icon=mode==="auto" ? detectProfileLinkIcon(link.url,link.label) : icon;
+  if(button)button.textContent=link.icon;
+  if(picker){
+    picker.querySelectorAll(".link-icon-choice").forEach(choice=>choice.classList.remove("selected"));
+    const selected=mode==="auto"
+      ? picker.querySelector(".link-icon-choice.auto")
+      : [...picker.querySelectorAll(".link-icon-choice")].find(choice=>choice.dataset.icon===link.icon);
+    selected?.classList.add("selected");
+  }
+}
+
+function renderLinksEditor(){
+  const list=document.getElementById("linksEditorList");
+  const count=document.getElementById("linksCount");
+  if(!list)return;
+  list.innerHTML="";
+
+  profileLinks.forEach((link,index)=>{
+    if(!link.iconMode)link.iconMode="auto";
+    if(link.iconMode==="auto")link.icon=detectProfileLinkIcon(link.url,link.label);
+
+    const row=document.createElement("div");
+    row.className="link-editor-row";
+    row.draggable=true;
+    row.dataset.linkId=link.id;
+
+    const handle=document.createElement("span");
+    handle.className="link-drag-handle";
+    handle.textContent="⋮⋮";
+
+    const badge=document.createElement("span");
+    badge.className="link-feature-badge"+(index<3?"":" standard");
+    badge.textContent=index<3?"TOP "+(index+1):"MORE";
+
+    const iconControl=document.createElement("div");
+    iconControl.className="link-icon-control";
+
+    const iconButton=document.createElement("button");
+    iconButton.type="button";
+    iconButton.className="link-icon-button";
+    iconButton.textContent=link.icon || "🌐";
+    iconButton.title="Choose link icon";
+    iconButton.setAttribute("aria-label","Choose icon for "+link.label);
+
+    const iconPicker=document.createElement("div");
+    iconPicker.className="link-icon-picker";
+
+    const autoChoice=document.createElement("button");
+    autoChoice.type="button";
+    autoChoice.className="link-icon-choice auto"+(link.iconMode==="auto"?" selected":"");
+    autoChoice.textContent="Auto";
+    autoChoice.onclick=e=>{
+      e.stopPropagation();
+      setProfileLinkIcon(link,null,"auto",iconButton,iconPicker);
+      closeAllLinkIconPickers();
+    };
+    iconPicker.appendChild(autoChoice);
+
+    profileLinkIconChoices.forEach(icon=>{
+      const choice=document.createElement("button");
+      choice.type="button";
+      choice.className="link-icon-choice"+(link.iconMode==="manual" && link.icon===icon?" selected":"");
+      choice.dataset.icon=icon;
+      choice.textContent=icon;
+      choice.title="Use "+icon;
+      choice.onclick=e=>{
+        e.stopPropagation();
+        setProfileLinkIcon(link,icon,"manual",iconButton,iconPicker);
+        closeAllLinkIconPickers();
+      };
+      iconPicker.appendChild(choice);
+    });
+
+    iconButton.onclick=e=>{
+      e.stopPropagation();
+      const opening=!iconPicker.classList.contains("open");
+      closeAllLinkIconPickers(iconPicker);
+      iconPicker.classList.toggle("open",opening);
+      iconButton.classList.toggle("active",opening);
+    };
+
+    iconControl.append(iconButton,iconPicker);
+
+    const label=document.createElement("input");
+    label.className="link-label-input";
+    label.value=link.label;
+    label.placeholder="Display name";
+    label.maxLength=40;
+    label.addEventListener("input",()=>{
+      link.label=label.value;
+      if(link.iconMode==="auto"){
+        link.icon=detectProfileLinkIcon(link.url,link.label);
+        iconButton.textContent=link.icon;
+      }
+    });
+
+    const url=document.createElement("input");
+    url.className="link-url-input";
+    url.value=link.url;
+    url.placeholder="https://…";
+    url.addEventListener("input",()=>{
+      link.url=url.value;
+      if(link.iconMode==="auto"){
+        link.icon=detectProfileLinkIcon(link.url,link.label);
+        iconButton.textContent=link.icon;
+      }
+    });
+
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.className="link-remove";
+    remove.textContent="×";
+    remove.setAttribute("aria-label","Remove "+link.label);
+    remove.onclick=()=>removeProfileLink(link.id);
+
+    row.append(handle,badge,iconControl,label,url,remove);
+
+    row.addEventListener("dragstart",e=>{
+      if(e.target.closest("button,input,.link-icon-control")){
+        e.preventDefault();
+        return;
+      }
+      draggedProfileLinkId=link.id;
+      row.classList.add("dragging");
+    });
+    row.addEventListener("dragend",()=>{
+      draggedProfileLinkId=null;
+      document.querySelectorAll(".link-editor-row").forEach(r=>r.classList.remove("dragging","drag-target"));
+    });
+    row.addEventListener("dragover",e=>{
+      e.preventDefault();
+      if(draggedProfileLinkId && draggedProfileLinkId!==link.id)row.classList.add("drag-target");
+    });
+    row.addEventListener("dragleave",()=>row.classList.remove("drag-target"));
+    row.addEventListener("drop",e=>{
+      e.preventDefault();
+      row.classList.remove("drag-target");
+      reorderProfileLink(draggedProfileLinkId,link.id);
+    });
+
+    list.appendChild(row);
+  });
+
+  if(count)count.textContent=profileLinks.length;
+}
+
+function reorderProfileLink(fromId,toId){
+  if(!fromId || fromId===toId)return;
+  const from=profileLinks.findIndex(link=>link.id===fromId);
+  const to=profileLinks.findIndex(link=>link.id===toId);
+  if(from<0 || to<0)return;
+  const [moved]=profileLinks.splice(from,1);
+  profileLinks.splice(to,0,moved);
+  renderLinksEditor();
+}
+
+function addProfileLink(){
+  if(profileLinks.length>=12){
+    flashSettingsSaved();
+    const status=document.getElementById("settingsSaveStatus");
+    if(status)status.textContent="12 link maximum";
+    clearTimeout(addProfileLink.timer);
+    addProfileLink.timer=setTimeout(()=>{status.textContent="Saved ✓";status.classList.remove("show");},1600);
+    return;
+  }
+  const id=String(Date.now());
+  profileLinks.push({id,label:"New Link",url:"https://",icon:"🌐",iconMode:"auto"});
+  renderLinksEditor();
+}
+
+function removeProfileLink(id){
+  const index=profileLinks.findIndex(link=>link.id===id);
+  if(index<0)return;
+  profileLinks.splice(index,1);
+  renderLinksEditor();
+}
+
+function safeDomain(url){
+  try{
+    const value=/^https?:\/\//i.test(url)?url:"https://"+url;
+    return new URL(value).hostname.replace(/^www\./,"");
+  }catch{
+    return "link";
+  }
+}
+
+function saveProfileLinks(){
+  const section=document.querySelector("#myProfile .around-web-section");
+  if(!section)return;
+
+  const shelf=section.querySelector(".link-shelf");
+  const more=section.querySelector(".more-links");
+  const toggle=section.querySelector(".view-more-links");
+  if(!shelf || !more || !toggle)return;
+
+  shelf.innerHTML="";
+  more.innerHTML="";
+
+  profileLinks.forEach((link,index)=>{
+    const a=document.createElement("a");
+    a.className="web-link-card"+(index<3?" featured":"");
+    a.href=link.url || "#";
+    a.target="_blank";
+    a.rel="noopener noreferrer";
+
+    const icon=document.createElement("span");
+    icon.className="web-link-icon";
+    icon.setAttribute("aria-hidden","true");
+    icon.textContent=link.icon || "↗";
+
+    const copy=document.createElement("span");
+    copy.className="web-link-copy";
+
+    const label=document.createElement("span");
+    label.className="web-link-label";
+    label.textContent=link.label || "Link";
+
+    const domain=document.createElement("span");
+    domain.className="web-link-domain";
+    domain.textContent=safeDomain(link.url);
+
+    const arrow=document.createElement("span");
+    arrow.className="web-link-arrow";
+    arrow.setAttribute("aria-hidden","true");
+    arrow.textContent="↗";
+
+    copy.append(label,domain);
+    a.append(icon,copy,arrow);
+
+    if(index<3)shelf.appendChild(a);
+    else more.appendChild(a);
+  });
+
+  const remaining=Math.max(0,profileLinks.length-3);
+  toggle.style.display=remaining?"":"none";
+  const spans=toggle.querySelectorAll("span");
+  if(spans[0])spans[0].textContent="See "+remaining+" more";
+  if(spans[1])spans[1].textContent="▾";
+  toggle.setAttribute("aria-expanded","false");
+  more.classList.remove("open");
+}
+
+/* ----- Save individual settings categories ----- */
+
+function saveProfileInfo(){
+  const name=document.getElementById("profileDisplayName").value.trim();
+  const rawUser=document.getElementById("profileUsername").value.trim().replace(/^@+/,"");
+  const bio=document.getElementById("profileShortBio").value.trim();
+  const username=rawUser || "username";
+
+  const display=document.querySelector("#myProfile .profile-display-name");
+  const handle=document.querySelector("#myProfile .profile-handle-large");
+  const bioEl=document.querySelector("#myProfile .profile-bio");
+  if(display)display.textContent=name || username;
+  if(handle)handle.textContent="@"+username;
+  if(bioEl)bioEl.textContent=bio;
+
+  document.querySelectorAll("#myProfile article.post .username").forEach(el=>el.textContent="@"+username);
+
+  if(avatarDraft.src){
+    const image=avatarDraft.croppedSrc || avatarDraft.src;
+    const avatar=document.querySelector("#myProfile .profile-avatar");
+    if(avatar){
+      avatar.style.backgroundImage='url("'+image+'")';
+      avatar.style.backgroundSize="cover";
+      avatar.style.backgroundPosition="center";
+      avatar.textContent="";
+    }
+
+    document.querySelectorAll("#myProfile article.post .profile-picture, #myProfile .comment-profile-picture").forEach(el=>{
+      el.style.backgroundImage='url("'+image+'")';
+      el.style.backgroundSize="cover";
+      el.style.backgroundPosition="center";
+    });
+  }
+}
+
+function saveAboutMe(){
+  const field=document.getElementById("aboutMeText");
+  const value=field?.value.trim() || "";
+  const about=document.querySelector("#myProfile .about-text");
+  const read=document.querySelector("#myProfile .about-read");
+  if(!about || !read)return;
+
+  const short=value.length>118 ? value.slice(0,115).trimEnd()+"…" : value;
+  about.dataset.fullText=value;
+  about.dataset.shortText=short;
+  about.textContent=short;
+
+  read.dataset.open="false";
+  read.textContent="Read more";
+  read.style.display=value.length>118?"":"none";
+}
+
+function saveGallery(){
+  const slides=[...document.querySelectorAll("#myProfile .about-slide")];
+  const dots=[...document.querySelectorAll("#myProfile .about-dot")];
+
+  galleryDraft.forEach((data,index)=>{
+    const slide=slides[index];
+    const dot=dots[index];
+    if(!slide)return;
+
+    if(data){
+      slide.style.backgroundImage='url("'+(data.croppedSrc || data.src)+'")';
+      slide.style.backgroundSize="cover";
+      slide.style.backgroundPosition="center";
+      slide.textContent="";
+      slide.dataset.hasImage="true";
+      if(dot)dot.style.display="";
+    }else{
+      slide.style.backgroundImage="";
+      slide.style.backgroundSize="";
+      slide.style.backgroundPosition="";
+      slide.textContent="ABOUT IMAGE "+(index+1);
+      slide.dataset.hasImage="false";
+      if(dot)dot.style.display="";
+    }
+  });
+
+  slides.forEach((slide,index)=>slide.classList.toggle("active",index===0));
+  dots.forEach((dot,index)=>dot.classList.toggle("active",index===0));
+  const gallery=document.querySelector("#myProfile .about-gallery");
+  if(gallery)gallery.dataset.activeIndex="0";
+}
+
+function saveInterests(){
+  const enabled=document.getElementById("enableInterestsToggle")?.classList.contains("on");
+  const wrap=document.querySelector("#myProfile .profile-interests");
+  if(!wrap)return;
+
+  wrap.style.display=enabled?"":"none";
+  if(!enabled)return;
+
+  wrap.innerHTML="";
+  interestCatalog
+    .filter(item=>selectedInterests.has(item.name))
+    .forEach(item=>{
+      const span=document.createElement("span");
+      span.className="profile-interest";
+      span.textContent=item.emoji+" "+item.name;
+      wrap.appendChild(span);
+    });
+}
+
+function applyProfileVisibility(){
+  const states={};
+  document.querySelectorAll(".fake-toggle[data-setting]").forEach(btn=>{
+    states[btn.dataset.setting]=btn.classList.contains("on");
+  });
+
+  const about=document.querySelector("#myProfile .about-card");
+  if(about)about.style.display=states.about===false?"none":"block";
+
+  const following=document.querySelector("#myProfile .private-stat");
+  if(following)following.style.display=states["following-private"]===false?"none":"inline-flex";
+
+  if(about){
+    ["people","pockets","communities"].forEach(name=>{
+      const tab=about.querySelector('.side-tab[onclick*="\''+name+'\'"]');
+      const panel=about.querySelector('[data-side-panel="'+name+'"]');
+      const visible=states[name]!==false;
+      if(tab)tab.style.display=visible?"":"none";
+      if(panel && !visible)panel.classList.remove("active");
+    });
+
+    const visibleTabs=[...about.querySelectorAll(".side-tab")].filter(b=>b.style.display!=="none");
+    if(!visibleTabs.some(b=>b.classList.contains("active")) && visibleTabs[0]){
+      const match=visibleTabs[0].getAttribute("onclick")?.match(/'([^']+)'/);
+      if(match)setSideTab(match[1],visibleTabs[0]);
+    }
+
+    const discovery=about.querySelector(".profile-discovery-section");
+    if(discovery){
+      const any=["people","pockets","communities"].some(name=>states[name]!==false);
+      discovery.style.display=any?"":"none";
+    }
+  }
+}
+
+/* ----- About read-more now uses the editable owner text ----- */
+
+function toggleAboutText(btn){
+  const text=btn.previousElementSibling;
+  const visitor=btn.closest("#otherProfile");
+
+  const fallbackLong=visitor
+    ?"Photographer for 8 years, mostly self-taught. I shoot film because I love the delay — not knowing if I got it until weeks later. I am currently working on a small zine about abandoned greenhouses and teach beginner film workshops every spring."
+    :"A little bit artist, a little bit gamer, fully committed to cozy chaos. I make spooky-cute art and crochet, collect too many Halloween things, and like making little corners of the internet feel welcoming. Currently obsessed with moss, vintage Halloween, and half-finished sketchbooks.";
+
+  const fallbackShort=visitor
+    ?"Photographer for 8 years, mostly self-taught. I shoot film because I love the delay…"
+    :"A little bit artist, a little bit gamer, fully committed to cozy chaos…";
+
+  const long=text.dataset.fullText || fallbackLong;
+  const short=text.dataset.shortText || fallbackShort;
+  const open=btn.dataset.open==="true";
+
+  btn.dataset.open=open?"false":"true";
+  text.textContent=open?short:long;
+  btn.textContent=open?"Read more":"Show less";
+}
+
+/* ----- Interests ----- */
+
+function createInterestChoice(item){
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="interest-choice"+(selectedInterests.has(item.name)?" selected":"");
+  button.textContent=item.emoji+" "+item.name;
+  button.onclick=()=>toggleInterestChoice(item.name);
+  return button;
+}
+
+function renderInterestSuggestions(){
+  const wrap=document.getElementById("interestSuggestedList");
+  if(!wrap)return;
+  wrap.innerHTML="";
+  suggestedInterestNames
+    .map(name=>interestCatalog.find(item=>item.name===name))
+    .filter(Boolean)
+    .forEach(item=>wrap.appendChild(createInterestChoice(item)));
+}
+
+function renderInterestSearch(query){
+  const box=document.getElementById("interestSearchResults");
+  const wrap=document.getElementById("interestResultsList");
+  if(!box || !wrap)return;
+
+  const q=(query||"").trim().toLowerCase();
+  if(!q){
+    box.hidden=true;
+    wrap.innerHTML="";
+    return;
+  }
+
+  const matches=interestCatalog.filter(item=>item.name.toLowerCase().includes(q));
+  wrap.innerHTML="";
+  matches.forEach(item=>wrap.appendChild(createInterestChoice(item)));
+
+  if(!matches.length){
+    const empty=document.createElement("span");
+    empty.className="settings-help";
+    empty.textContent="No matching Interests yet.";
+    wrap.appendChild(empty);
+  }
+  box.hidden=false;
+}
+
+function toggleInterestChoice(name){
+  if(selectedInterests.has(name))selectedInterests.delete(name);
+  else selectedInterests.add(name);
+
+  renderInterestSuggestions();
+  renderInterestSearch(document.getElementById("interestSearchInput")?.value || "");
+}
+
+/* Initialize draft UI */
+document.addEventListener("click",event=>{
+  if(!event.target.closest(".link-icon-control"))closeAllLinkIconPickers();
+});
+
+renderGallerySlots();
+renderInterestSuggestions();
+renderLinksEditor();
+updateAboutCount();
+
+
+/* =========================
+   COMMUNITIES — WORKING HOME IMPLEMENTATION
+   ========================= */
+let draggedCommunity=null;
+
+function wireCommunityChip(chip){
+    if(!chip || chip.dataset.communityWired==="true")return;
+    chip.dataset.communityWired="true";
+    chip.draggable=true;
+    chip.addEventListener("dragstart",()=>{draggedCommunity=chip;chip.classList.add("dragging")});
+    chip.addEventListener("dragend",()=>{
+        chip.classList.remove("dragging");
+        const bar=chip.closest(".community-bar");
+        draggedCommunity=null;
+        if(bar)syncCommunityOrderFromBar(bar);
+    });
+}
+
+function seedCommunityActivityState(bar){
+    const hotbar=bar.querySelector(".pinned-communities");
+    bar.querySelectorAll(".community-more-row").forEach(row=>{
+        const chip=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===row.dataset.community);
+        if(chip){
+            const count=chip.querySelector(".activity-count");
+            row.dataset.activityCount=count?count.textContent.trim():"0";
+            row.dataset.activityHidden=count?.classList.contains("hidden")?"true":"false";
+        }else{
+            row.dataset.activityCount=row.dataset.activityCount||"0";
+            row.dataset.activityHidden=row.dataset.activityHidden||"true";
+        }
+    });
+}
+
+function wireCommunityHotbar(hotbar){
+    if(!hotbar || hotbar.dataset.hotbarWired==="true")return;
+    hotbar.dataset.hotbarWired="true";
+    hotbar.querySelectorAll(".community-chip").forEach(wireCommunityChip);
+
+    hotbar.addEventListener("dragover",event=>{
+        event.preventDefault();
+        const after=[...hotbar.querySelectorAll(".community-chip:not(.dragging)")].find(
+            el=>event.clientX<=el.getBoundingClientRect().left+el.offsetWidth/2
+        );
+        if(draggedCommunity && draggedCommunity.closest(".pinned-communities")===hotbar){
+            after?hotbar.insertBefore(draggedCommunity,after):hotbar.appendChild(draggedCommunity);
+        }
+    });
+
+    hotbar.addEventListener("wheel",event=>{
+        if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){
+            event.preventDefault();
+            hotbar.scrollLeft+=event.deltaY;
+        }
+    },{passive:false});
+}
+
+function setCommunityPinButton(btn,name,pinned){
+    if(!btn)return;
+    btn.classList.toggle("pinned",pinned);
+    btn.innerHTML=pinned
+        ? '<span class="pin-state">Pinned</span><span class="pin-action">Unpin</span>'
+        : '<span class="pin-state">Pin</span><span class="pin-action">Pin</span>';
+    btn.title=pinned?"Unpin from hotbar":"Pin to hotbar";
+    btn.setAttribute("aria-label",(pinned?"Unpin ":"Pin ")+name+(pinned?" from hotbar":" to hotbar"));
+}
+
+function buildCommunityChip(name,icon,activityCount="0",hidden=true){
+    const chip=document.createElement("button");
+    chip.className="community-chip";
+    chip.draggable=true;
+    chip.dataset.community=name;
+    chip.dataset.icon=icon;
+    chip.innerHTML=`<span class="community-icon">${icon}</span>${name} <span class="activity-bell" onclick="openRecentActivity(event,this)" title="${hidden?'No new community activity':activityCount+' new community activities'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count${hidden?' hidden':''}">${activityCount}</span></span>`;
+    wireCommunityChip(chip);
+    return chip;
+}
+
+function toggleCommunityDropdown(event,button){
+    event?.stopPropagation();
+    const dropdown=button?.closest(".community-menu")?.querySelector(".community-dropdown");
+    if(!dropdown)return;
+    const wasOpen=dropdown.classList.contains("active");
+    document.querySelectorAll(".profile-view .community-dropdown.active").forEach(d=>d.classList.remove("active"));
+    if(!wasOpen)dropdown.classList.add("active");
+}
+
+function toggleCommunityPin(event,btn){
+    event.stopPropagation();
+    const sourceBar=btn.closest(".community-bar");
+    const sourceRow=btn.closest(".community-more-row");
+    if(!sourceBar || !sourceRow)return;
+
+    const name=sourceRow.dataset.community;
+    const icon=sourceRow.dataset.icon;
+    const sourceHotbar=sourceBar.querySelector(".pinned-communities");
+    const existing=[...sourceHotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
+
+    let activityCount=sourceRow.dataset.activityCount||"0";
+    let hidden=sourceRow.dataset.activityHidden==="true"||activityCount==="0";
+
+    if(existing){
+        const bell=existing.querySelector(".activity-bell");
+        const count=bell?.querySelector(".activity-count");
+        activityCount=count?count.textContent.trim():"0";
+        hidden=count?.classList.contains("hidden")||activityCount==="0";
+
+        document.querySelectorAll(".profile-view .community-bar").forEach(bar=>{
+            const hotbar=bar.querySelector(".pinned-communities");
+            const chip=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
+            chip?.remove();
+
+            const row=[...bar.querySelectorAll(".community-more-row")].find(r=>r.dataset.community===name);
+            if(row){
+                row.dataset.activityCount=activityCount;
+                row.dataset.activityHidden=hidden?"true":"false";
+                setCommunityPinButton(row.querySelector(".community-pin"),name,false);
+            }
+        });
+    }else{
+        document.querySelectorAll(".profile-view .community-more-row").forEach(row=>{
+            if(row.dataset.community===name && row.dataset.activityCount!==undefined){
+                activityCount=row.dataset.activityCount;
+                hidden=row.dataset.activityHidden==="true"||activityCount==="0";
+            }
+        });
+
+        document.querySelectorAll(".profile-view .community-bar").forEach(bar=>{
+            const hotbar=bar.querySelector(".pinned-communities");
+            const chip=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
+            if(!chip)hotbar.appendChild(buildCommunityChip(name,icon,activityCount,hidden));
+
+            const row=[...bar.querySelectorAll(".community-more-row")].find(r=>r.dataset.community===name);
+            if(row){
+                row.dataset.activityCount=activityCount;
+                row.dataset.activityHidden=hidden?"true":"false";
+                setCommunityPinButton(row.querySelector(".community-pin"),name,true);
+            }
+        });
+    }
+}
+
+function openRecentActivity(event,bell){
+    event.stopPropagation();
+    const name=bell.closest(".community-chip")?.dataset.community;
+    if(!name)return;
+
+    document.querySelectorAll(".profile-view .community-chip").forEach(chip=>{
+        if(chip.dataset.community!==name)return;
+        const otherBell=chip.querySelector(".activity-bell");
+        const count=otherBell?.querySelector(".activity-count");
+        if(count)count.classList.add("hidden");
+        if(otherBell)otherBell.title="No new community activity";
+    });
+
+    const ownCount=bell.querySelector(".activity-count")?.textContent.trim()||"0";
+    document.querySelectorAll(".profile-view .community-more-row").forEach(row=>{
+        if(row.dataset.community===name){
+            row.dataset.activityCount=ownCount;
+            row.dataset.activityHidden="true";
+        }
+    });
+}
+
+function syncCommunityOrderFromBar(sourceBar){
+    const order=[...sourceBar.querySelectorAll(".pinned-communities .community-chip")].map(chip=>chip.dataset.community);
+    document.querySelectorAll(".profile-view .community-bar").forEach(bar=>{
+        if(bar===sourceBar)return;
+        const hotbar=bar.querySelector(".pinned-communities");
+        order.forEach(name=>{
+            const chip=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
+            if(chip)hotbar.appendChild(chip);
+        });
+    });
+}
+
+document.querySelectorAll(".profile-view .community-bar").forEach(bar=>{
+    seedCommunityActivityState(bar);
+    wireCommunityHotbar(bar.querySelector(".pinned-communities"));
+});
+
+document.addEventListener("click",event=>{
+    if(!event.target.closest(".profile-view .community-menu")){
+        document.querySelectorAll(".profile-view .community-dropdown.active").forEach(d=>d.classList.remove("active"));
+    }
+});
 
 </script>
 </body>
