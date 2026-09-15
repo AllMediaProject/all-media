@@ -227,6 +227,25 @@ body{
   font:600 11px 'Outfit',sans-serif;
   cursor:pointer;
 }
+
+.like-heart{
+  width:15px;
+  height:15px;
+  flex:0 0 15px;
+  overflow:visible;
+}
+.like-heart path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transition:fill .14s ease,stroke .14s ease;
+}
+.like-button.liked .like-heart path{
+  fill:currentColor;
+  stroke:currentColor;
+}
 .action-pill:hover,
 .action-pill.active{
   border-color:rgba(255,207,159,.28);
@@ -237,6 +256,7 @@ body{
   border-color:var(--peach);
   background:rgba(255,207,159,.12);
   color:var(--peach);
+  box-shadow:0 0 10px rgba(255,207,159,.08);
 }
 .action-icon{
   width:13px;
@@ -585,7 +605,9 @@ body{
 
     <div class="interactions">
       <button class="action-pill like-button" type="button" onclick="toggleLike(this)">
-        <span class="like-heart">♡</span>
+        <svg class="like-heart" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+        </svg>
         <span class="like-count">24</span>
       </button>
 
@@ -673,10 +695,8 @@ body{
 
 <script>
 function toggleLike(btn){
-  const heart=btn.querySelector(".like-heart");
   const count=btn.querySelector(".like-count");
   const liked=btn.classList.toggle("liked");
-  heart.textContent=liked?"♥":"♡";
   count.textContent=String(Number(count.textContent)+(liked?1:-1));
 }
 
@@ -756,9 +776,6 @@ document.addEventListener("keydown",event=>{
   }
 });
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
