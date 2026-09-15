@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Media — Feed Card Lab V10</title>
+<title>All Media — Feed Card Lab V11</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -152,6 +152,7 @@ body{
 }
 
 .post-header-right{
+  position:relative;
   margin-left:auto;
   padding-top:1px;
 }
@@ -169,6 +170,40 @@ body{
 .post-menu-button:hover{
   background:rgba(255,207,159,.08);
   color:var(--peach);
+}
+
+
+.post-menu{
+  position:absolute;
+  top:33px;
+  right:0;
+  z-index:20;
+  display:none;
+  align-items:center;
+  gap:7px;
+  padding:7px 9px;
+  border:1px solid rgba(255,207,159,.20);
+  border-radius:10px;
+  background:linear-gradient(145deg,#182a53,#101e40);
+  box-shadow:0 10px 26px rgba(0,0,0,.34);
+  white-space:nowrap;
+}
+.post-menu.open{display:flex}
+
+.post-menu-action{
+  padding:0;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.66);
+  font:600 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.post-menu-action:hover{color:var(--peach)}
+.post-menu-delete:hover{color:#ff8f8f}
+
+.post-menu-divider{
+  color:rgba(255,255,255,.18);
+  font-size:10px;
 }
 
 .post-image{
@@ -765,7 +800,7 @@ body{
 <main class="lab-shell">
   <div class="lab-heading">
     <span>Feed Card Lab</span>
-    <strong>Regular Post · V10</strong>
+    <strong>Regular Post · V11</strong>
   </div>
 
   <article class="feed-card">
@@ -784,7 +819,12 @@ body{
       </div>
 
       <div class="post-header-right">
-        <button class="post-menu-button" type="button" aria-label="More options">•••</button>
+        <button class="post-menu-button" type="button" aria-label="More options" onclick="togglePostMenu(event)">•••</button>
+        <div class="post-menu" id="postMenu">
+          <button class="post-menu-action" type="button" onclick="editPost(event)">Edit</button>
+          <span class="post-menu-divider">|</span>
+          <button class="post-menu-action post-menu-delete" type="button" onclick="deletePost(event)">Delete</button>
+        </div>
       </div>
     </header>
 
@@ -941,6 +981,33 @@ function incrementReblog(btn){
   }
 }
 
+function togglePostMenu(event){
+  event.stopPropagation();
+  document.getElementById("postMenu").classList.toggle("open");
+}
+
+function editPost(event){
+  event.stopPropagation();
+  document.getElementById("postMenu").classList.remove("open");
+
+  const caption=document.querySelector(".caption");
+  const updated=window.prompt("Edit post caption:",caption.textContent);
+
+  if(updated!==null && updated.trim()){
+    caption.textContent=updated.trim();
+    flashNote("Post updated.");
+  }
+}
+
+function deletePost(event){
+  event.stopPropagation();
+  document.getElementById("postMenu").classList.remove("open");
+
+  if(window.confirm("Delete this post?")){
+    document.querySelector(".feed-card").remove();
+  }
+}
+
 function flashNote(message){
   const note=document.getElementById("prototypeNote");
   note.textContent=message;
@@ -1027,6 +1094,32 @@ function postComment(event){
     latest.querySelector(".comment-username").textContent="@yourusername:";
     latest.querySelector(".latest-comment-copy").textContent=value;
     latest.querySelector(".latest-comment-time").textContent="now";
+
+    const section=document.getElementById("commentsSection");
+    const comment=document.createElement("div");
+    comment.className="comment-item";
+    comment.innerHTML=`
+      <div class="comment-avatar" aria-hidden="true">y</div>
+      <div class="comment-body">
+        <div class="comment-author">@yourusername</div>
+        <div class="comment-copy"></div>
+        <div class="comment-actions">
+          <button class="comment-action comment-like-button" type="button" onclick="toggleCommentLike(this)">
+            <svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+            </svg>
+            <span>Like</span>
+          </button>
+          <button class="comment-action" type="button" onclick="replyToComment(this,'@yourusername')">Reply</button>
+        </div>
+      </div>
+    `;
+    comment.querySelector(".comment-copy").textContent=value;
+    section.appendChild(comment);
+    section.classList.add("active");
+
+    const moreButton=document.querySelector(".more-comments");
+    if(moreButton)moreButton.textContent="Hide comments";
   }
 
   field.value="";
@@ -1076,6 +1169,11 @@ function toggleHashtags(btn){
   const open=box.classList.toggle("active");
   btn.classList.toggle("active",open);
 }
+
+document.addEventListener("click",()=>{
+  const menu=document.getElementById("postMenu");
+  if(menu)menu.classList.remove("open");
+});
 
 document.addEventListener("keydown",event=>{
   const composer=document.getElementById("commentComposer");
