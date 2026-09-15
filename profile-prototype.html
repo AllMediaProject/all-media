@@ -1966,6 +1966,23 @@
 .interests-enable-row{
   margin-bottom:18px;
 }
+.interest-limit-status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 14px;
+  color:var(--am-muted);
+  font-size:10.5px;
+}
+.interest-limit-status #interestSelectedCount{
+  color:var(--am-peach);
+  font-weight:800;
+  white-space:nowrap;
+}
+.interest-limit-status.limit-hit #interestLimitMessage{
+  color:var(--am-peach);
+}
 .interest-search{
   display:flex;
   align-items:center;
@@ -4196,6 +4213,7 @@ body.profile-prototype-body{background:var(--am-main);}
       <section class="settings-panel" data-settings-panel="interests" hidden>
         <h3>Interests</h3>
         <p class="settings-intro">Interests tell people what you are into, help organize your profile identity, and can help people discover you through topics they already enjoy.</p>
+        <div class="interest-limit-status"><span id="interestSelectedCount">5 / 5 selected</span><span id="interestLimitMessage">You can show up to 5 Interests on your profile.</span></div>
 
         <div class="setting-row interests-enable-row">
           <div class="setting-copy">
@@ -5499,6 +5517,7 @@ function saveInterests(){
   wrap.innerHTML="";
   interestCatalog
     .filter(item=>selectedInterests.has(item.name))
+    .slice(0,5)
     .forEach(item=>{
       const span=document.createElement("span");
       span.className="profile-interest";
@@ -5611,10 +5630,26 @@ function renderInterestSearch(query){
   box.hidden=false;
 }
 
-function toggleInterestChoice(name){
-  if(selectedInterests.has(name))selectedInterests.delete(name);
-  else selectedInterests.add(name);
+function updateInterestLimitStatus(){
+  const count=document.getElementById("interestSelectedCount");
+  const box=document.querySelector(".interest-limit-status");
+  const total=selectedInterests.size;
+  if(count)count.textContent=total+" / 5 selected";
+  box?.classList.toggle("limit-hit",total>=5);
+}
 
+function toggleInterestChoice(name){
+  if(selectedInterests.has(name)){
+    selectedInterests.delete(name);
+  }else{
+    if(selectedInterests.size>=5){
+      updateInterestLimitStatus();
+      return;
+    }
+    selectedInterests.add(name);
+  }
+
+  updateInterestLimitStatus();
   renderInterestSuggestions();
   renderInterestSearch(document.getElementById("interestSearchInput")?.value || "");
 }
@@ -5628,6 +5663,7 @@ renderGallerySlots();
 renderInterestSuggestions();
 renderLinksEditor();
 updateAboutCount();
+updateInterestLimitStatus();
 syncAboutDependentSettings();
 
 
