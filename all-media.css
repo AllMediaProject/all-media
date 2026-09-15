@@ -2012,82 +2012,94 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 }
 
 /* =========================================================
-   HEADER NOTIFICATIONS + PROFILE
+   APPROVED HEADER NOTIFICATION BUTTON
+   Bell + counter both sit INSIDE the peach circle
 ========================================================= */
-.header-actions{
+.site-header .header-actions{
     display:flex !important;
     flex-direction:row !important;
-    align-items:center;
-    justify-content:flex-end;
-    gap:14px;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    width:max-content !important;
+    gap:14px !important;
     white-space:nowrap;
 }
 
-.header-notifications{
+.site-header .header-notifications{
     position:relative;
-    width:46px;
-    height:46px;
+    width:48px;
+    height:48px;
     display:flex;
     align-items:center;
     justify-content:center;
-    flex:0 0 46px;
+    flex:0 0 48px;
     padding:0;
-    border:1px solid rgba(65,105,208,.58);
+    box-sizing:border-box;
+
+    border:1.5px solid var(--am-peach);
     border-radius:50%;
+
     background:rgba(8,18,44,.28);
-    color:inherit;
+    color:var(--am-peach);
     text-decoration:none;
     cursor:pointer;
-    box-sizing:border-box;
-    overflow:visible;
-    transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    overflow:hidden;
+
+    box-shadow:0 0 0 rgba(255,195,132,0);
+    transition:
+        background .16s ease,
+        box-shadow .16s ease,
+        transform .16s ease;
 }
 
-.header-notifications:hover{
-    border-color:rgba(255,195,132,.78);
-    background:rgba(255,195,132,.06);
-    box-shadow:0 0 14px rgba(255,195,132,.08);
+.site-header .header-notifications:hover{
+    background:rgba(255,195,132,.10);
+    box-shadow:0 0 16px rgba(255,195,132,.18);
+    transform:translateY(-1px);
 }
 
-.notification-bell{
+.site-header .notification-bell{
     display:block;
     font-size:23px;
     line-height:1;
-    filter:none;
-    transform:translateY(1px);
-    transition:transform .15s ease;
+    transform:translate(-4px,3px);
+    transition:transform .16s ease;
 }
 
-.header-notifications:hover .notification-bell{
-    transform:translateY(1px) scale(1.08);
+.site-header .header-notifications:hover .notification-bell{
+    transform:translate(-4px,3px) scale(1.08);
 }
 
-.header-notification-count{
+.site-header .header-notification-count{
     position:absolute;
-    top:-5px;
-    right:-5px;
-    width:20px;
-    height:20px;
+    top:4px;
+    right:4px;
+
+    width:16px;
+    height:16px;
     display:flex;
     align-items:center;
     justify-content:center;
     box-sizing:border-box;
-    border:1.5px solid var(--am-peach);
+
+    border:1px solid var(--am-peach);
     border-radius:50%;
     background:var(--am-panel);
     color:var(--am-peach);
-    font-size:10px;
+
+    font-size:8px;
     font-weight:800;
     line-height:1;
 }
 
-.header-actions .profile-cluster{
-    margin:0;
-    flex:0 0 auto;
+.site-header .header-actions .profile-cluster{
+    margin:0 !important;
+    flex:0 0 auto !important;
 }
 
 @media(max-width:800px){
-    .header-actions{
+    .site-header .header-actions{
         margin-left:auto;
     }
 }
