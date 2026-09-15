@@ -174,6 +174,12 @@ function saveProfileInfo(){
       el.style.backgroundSize="cover";
       el.style.backgroundPosition="center";
     });
+
+    document.querySelectorAll("#myProfile .header-avatar, #settingsView .header-avatar").forEach(headerAvatar=>{
+      headerAvatar.style.backgroundImage='url("'+image+'")';
+      headerAvatar.style.backgroundSize="cover";
+      headerAvatar.style.backgroundPosition="center";
+    });
   }
 
   const status=document.getElementById("profileSaveStatus");
