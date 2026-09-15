@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Media — Feed Card Lab V11</title>
+<title>All Media — Blog Feed Card Lab V1</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -55,8 +55,8 @@ body{
 }
 
 /* =========================================================
-   ALL MEDIA FEED CARD LAB V1
-   Regular Post only
+   ALL MEDIA FEED CARD LAB — BLOG V1
+   Based on locked Regular Post V11
 ========================================================= */
 
 .feed-card{
@@ -238,6 +238,104 @@ body{
   font-size:13px;
   line-height:1.52;
 }
+
+
+/* =========================================================
+   BLOG-SPECIFIC PREVIEW
+   Shared V11 interactions/comments/footer remain unchanged.
+========================================================= */
+.blog-type{
+  margin-left:2px;
+  padding:2px 6px;
+  border:1px solid rgba(255,207,159,.28);
+  border-radius:999px;
+  background:rgba(255,207,159,.10);
+  color:var(--peach);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.08em;
+  line-height:1.2;
+  text-transform:uppercase;
+}
+
+.blog-title{
+  margin:0;
+  padding:2px 18px 11px;
+  color:#fff;
+  font-size:17px;
+  font-weight:700;
+  line-height:1.25;
+}
+
+.blog-title-star{
+  margin-right:5px;
+  color:var(--peach);
+  text-shadow:0 0 10px rgba(255,207,159,.28);
+}
+
+.blog-preview-image{
+  width:calc(100% - 36px);
+  aspect-ratio:16 / 9;
+  margin:0 auto;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border:1px solid rgba(255,207,159,.28);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 34% 46%,rgba(255,207,159,.12),transparent 24%),
+    radial-gradient(circle at 74% 52%,rgba(170,155,255,.10),transparent 22%),
+    linear-gradient(145deg,#233963,#101d3f);
+  box-shadow:
+    0 0 0 1px rgba(255,207,159,.09),
+    0 0 22px rgba(255,207,159,.14),
+    0 10px 22px -17px rgba(0,0,0,.72),
+    inset 0 0 18px rgba(255,207,159,.025);
+}
+
+.blog-preview-placeholder{
+  color:rgba(255,255,255,.55);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.blog-excerpt{
+  margin:0;
+  padding:13px 18px 0;
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  line-height:1.52;
+}
+
+.read-blog{
+  margin:8px 18px 0;
+  padding:0;
+  border:0;
+  background:none;
+  color:var(--peach);
+  font:700 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.read-blog:hover{text-decoration:underline}
+
+.blog-full-content{
+  display:none;
+  margin:12px 18px 0;
+  padding:14px 15px;
+  border:1px solid rgba(255,207,159,.15);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+  color:rgba(255,255,255,.78);
+  font-size:12px;
+  line-height:1.62;
+}
+
+.blog-full-content.active{display:block}
+.blog-full-content p{margin:0 0 11px}
+.blog-full-content p:last-child{margin-bottom:0}
 
 .interactions{
   margin:10px 18px 0;
@@ -800,7 +898,7 @@ body{
 <main class="lab-shell">
   <div class="lab-heading">
     <span>Feed Card Lab</span>
-    <strong>Regular Post · V11</strong>
+    <strong>Blog · V1</strong>
   </div>
 
   <article class="feed-card">
@@ -828,11 +926,21 @@ body{
       </div>
     </header>
 
-    <div class="post-image">
-      <div class="demo-moon" aria-label="Moon artwork placeholder">🌙</div>
+    <h2 class="blog-title"><span class="blog-title-star" aria-hidden="true">✦</span>Why I Keep a Tiny Autumn Sketchbook</h2>
+
+    <div class="blog-preview-image" aria-label="Blog preview image placeholder">
+      <div class="blog-preview-placeholder">Blog preview image</div>
     </div>
 
-    <p class="caption">Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!</p>
+    <p class="blog-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits...</p>
+
+    <button class="read-blog" id="readBlogButton" type="button" onclick="toggleBlog()">Read Blog →</button>
+
+    <div class="blog-full-content" id="blogFullContent">
+      <p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p>
+      <p>Lately I have been filling mine with crooked little houses, sleepy moons, leaves, color notes, and scraps of ideas I might come back to later. Some probably will never become anything else—and I think that is part of why I like it.</p>
+      <p>It has become a small place for creativity without pressure: something I can open, add to, and close again whenever an idea wanders by.</p>
+    </div>
 
     <div class="interactions">
       <button class="action-pill like-button" type="button" onclick="toggleLike(this)">
@@ -956,6 +1064,17 @@ body{
 </main>
 
 <script>
+
+function toggleBlog(){
+  const content=document.getElementById("blogFullContent");
+  const button=document.getElementById("readBlogButton");
+  const open=content.classList.toggle("active");
+  button.textContent=open?"Close Blog ↑":"Read Blog →";
+  if(open){
+    setTimeout(()=>content.scrollIntoView({behavior:"smooth",block:"nearest"}),0);
+  }
+}
+
 function toggleLike(btn){
   const count=btn.querySelector(".like-count");
   const liked=btn.classList.toggle("liked");
@@ -990,12 +1109,12 @@ function editPost(event){
   event.stopPropagation();
   document.getElementById("postMenu").classList.remove("open");
 
-  const caption=document.querySelector(".caption");
-  const updated=window.prompt("Edit post caption:",caption.textContent);
+  const excerpt=document.querySelector(".blog-excerpt");
+  const updated=window.prompt("Edit blog preview text:",excerpt.textContent);
 
   if(updated!==null && updated.trim()){
-    caption.textContent=updated.trim();
-    flashNote("Post updated.");
+    excerpt.textContent=updated.trim();
+    flashNote("Blog preview updated.");
   }
 }
 
