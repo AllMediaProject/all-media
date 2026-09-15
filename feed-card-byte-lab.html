@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Media — Feed Card Lab V11</title>
+<title>All Media — Byte Feed Card Lab V1</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -240,6 +240,56 @@ body{
   font-size:13px;
   line-height:1.52;
 }
+
+
+/* =========================================================
+   BYTE CARD LAB
+   CARD DESIGN ONLY — NO BYTE/VIDEO PLAYER CODE.
+   Existing Home Byte player will be preserved later.
+========================================================= */
+.byte-stage{
+  margin:0 18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.byte-preview{
+  width:38%;
+  aspect-ratio:9 / 16;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border:1px solid rgba(255,207,159,.28);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 37% 35%,rgba(255,207,159,.10),transparent 24%),
+    radial-gradient(circle at 68% 76%,rgba(255,207,159,.07),transparent 20%),
+    linear-gradient(155deg,#233963,#101d3f);
+  box-shadow:
+    0 0 0 1px rgba(255,207,159,.08),
+    0 0 22px rgba(255,207,159,.14),
+    0 10px 22px -17px rgba(0,0,0,.72),
+    inset 0 0 18px rgba(255,207,159,.025);
+}
+
+.byte-preview-label{
+  color:rgba(255,255,255,.46);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:uppercase;
+}
+
+.byte-caption{
+  margin:0;
+  padding:12px 18px 3px;
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  line-height:1.52;
+}
+
 
 .interactions{
   margin:10px 18px 0;
@@ -802,7 +852,7 @@ body{
 <main class="lab-shell">
   <div class="lab-heading">
     <span>Feed Card Lab</span>
-    <strong>Regular Post · V11</strong>
+    <strong>Byte · V1</strong>
   </div>
 
   <article class="feed-card">
@@ -830,11 +880,13 @@ body{
       </div>
     </header>
 
-    <div class="post-image">
-      <div class="demo-moon" aria-label="Moon artwork placeholder">🌙</div>
+    <div class="byte-stage">
+      <div class="byte-preview" aria-label="Static placeholder for the existing Home Byte player">
+        <span class="byte-preview-label">Existing Byte player goes here</span>
+      </div>
     </div>
 
-    <p class="caption">Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!</p>
+    <p class="byte-caption caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</p>
 
     <div class="interactions">
       <button class="action-pill like-button" type="button" onclick="toggleLike(this)">
