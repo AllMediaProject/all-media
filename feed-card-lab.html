@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Media — Feed Card Lab V1</title>
+<title>All Media — Feed Card Lab V6</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -288,6 +288,41 @@ body{
   cursor:pointer;
 }
 .share-action:hover{color:var(--peach)}
+
+.save-action{
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.42);
+  font:500 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.save-action:hover{color:var(--peach)}
+
+.save-bookmark{
+  width:13px;
+  height:13px;
+  flex:0 0 13px;
+  overflow:visible;
+}
+.save-bookmark path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transition:fill .14s ease,stroke .14s ease;
+}
+.save-action.saved{
+  color:var(--peach);
+}
+.save-action.saved .save-bookmark path{
+  fill:currentColor;
+  stroke:currentColor;
+}
 
 .latest-comment{
   min-height:34px;
@@ -574,7 +609,7 @@ body{
 <main class="lab-shell">
   <div class="lab-heading">
     <span>Feed Card Lab</span>
-    <strong>Regular Post · V1</strong>
+    <strong>Regular Post · V6</strong>
   </div>
 
   <article class="feed-card">
@@ -631,6 +666,12 @@ body{
 
       <button class="reblog-counter" type="button" onclick="incrementReblog(this)">↻ <span>14</span> · Reblog</button>
       <button class="share-action" type="button" onclick="flashNote('Share options would open here.')">↗ Share</button>
+      <button class="save-action" type="button" onclick="toggleSave(this)" aria-label="Save post">
+        <svg class="save-bookmark" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path>
+        </svg>
+        <span>Save</span>
+      </button>
     </div>
 
     <div class="latest-comment">
@@ -698,6 +739,12 @@ function toggleLike(btn){
   const count=btn.querySelector(".like-count");
   const liked=btn.classList.toggle("liked");
   count.textContent=String(Number(count.textContent)+(liked?1:-1));
+}
+
+function toggleSave(btn){
+  const saved=btn.classList.toggle("saved");
+  btn.setAttribute("aria-label",saved?"Remove saved post":"Save post");
+  flashNote(saved?"Saved to your profile.":"Removed from Saved.");
 }
 
 function incrementReblog(btn){
