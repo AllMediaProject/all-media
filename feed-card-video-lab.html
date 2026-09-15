@@ -243,9 +243,9 @@ body{
 
 
 /* =========================================================
-   VIDEO-SPECIFIC CARD
-   Static 16:9 placeholder only. The existing Home video
-   player will be preserved when this card style is integrated.
+   VIDEO CARD LAB
+   CARD DESIGN ONLY — NO VIDEO PLAYER CODE.
+   The existing Home video player will be preserved later.
 ========================================================= */
 .video-title{
   margin:0;
@@ -255,6 +255,7 @@ body{
   font-weight:700;
   line-height:1.25;
 }
+
 .video-title-icon{
   margin-right:5px;
   color:var(--peach);
@@ -262,7 +263,6 @@ body{
 }
 
 .video-preview{
-  position:relative;
   width:calc(100% - 36px);
   aspect-ratio:16 / 9;
   margin:0 auto;
@@ -272,9 +272,8 @@ body{
   border:1px solid rgba(255,207,159,.28);
   border-radius:14px;
   background:
-    radial-gradient(circle at 34% 46%,rgba(109,132,196,.20),transparent 28%),
-    radial-gradient(circle at 73% 58%,rgba(146,114,180,.18),transparent 23%),
-    linear-gradient(145deg,#223762,#101d3f);
+    radial-gradient(circle at 34% 46%,rgba(255,207,159,.10),transparent 26%),
+    linear-gradient(145deg,#233963,#101d3f);
   box-shadow:
     0 0 0 1px rgba(255,207,159,.09),
     0 0 22px rgba(255,207,159,.14),
@@ -282,33 +281,8 @@ body{
     inset 0 0 18px rgba(255,207,159,.025);
 }
 
-.video-preview::before,
-.video-preview::after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-}
-.video-preview::before{
-  width:46%;
-  aspect-ratio:1;
-  left:9%;
-  top:12%;
-  background:rgba(105,128,188,.18);
-  box-shadow:0 0 28px rgba(105,128,188,.16);
-}
-.video-preview::after{
-  width:29%;
-  aspect-ratio:1;
-  right:10%;
-  bottom:8%;
-  background:rgba(133,106,173,.17);
-}
-
 .video-preview-label{
-  position:relative;
-  z-index:1;
-  color:rgba(255,255,255,.50);
+  color:rgba(255,255,255,.46);
   font-size:10px;
   font-weight:700;
   letter-spacing:.08em;
@@ -321,6 +295,25 @@ body{
   color:rgba(255,255,255,.84);
   font-size:13px;
   line-height:1.52;
+}
+
+
+.post-type-bubble{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:6px;
+  padding:2px 6px;
+  border:1px solid rgba(255,207,159,.42);
+  border-radius:999px;
+  background:rgba(16,26,58,.48);
+  color:rgba(255,207,159,.86);
+  font-size:8px;
+  font-weight:800;
+  line-height:1;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  vertical-align:middle;
 }
 
 .interactions{
@@ -894,7 +887,7 @@ body{
       <div class="post-author-copy">
         <div class="post-author-line">
           <span class="username">@moonlitmoth</span>
-          <span class="post-time">· 12m ago</span>
+          <span class="post-time">· 12m ago</span> <span class="post-type-bubble">VIDEO</span>
         </div>
 
         <div class="post-meta-line">
@@ -914,8 +907,8 @@ body{
 
     <h2 class="video-title"><span class="video-title-icon" aria-hidden="true">▶</span>Painting a Moonlit Window From Start to Finish</h2>
 
-    <div class="video-preview" aria-label="16:9 video preview placeholder">
-      <span class="video-preview-label">16:9 video preview</span>
+    <div class="video-preview" aria-label="Static placeholder for the existing Home video player">
+      <span class="video-preview-label">Existing video player goes here</span>
     </div>
 
     <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</p>
@@ -1042,7 +1035,6 @@ body{
 </main>
 
 <script>
-
 function toggleLike(btn){
   const count=btn.querySelector(".like-count");
   const liked=btn.classList.toggle("liked");
