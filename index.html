@@ -17,7 +17,7 @@
 <span class="notification-bell">🔔</span>
 <span class="header-notification-count">3</span>
 </a>
-<a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"><span class="online-dot"></span></span></a>
+<a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"></span></a>
 </div>
 </header>
 <div class="community-bar">
@@ -310,7 +310,21 @@
 <div class="lightbox-dots" id="lightboxDots"></div>
 </div>
 </div>
+<script>
+(function(){
+  try{
+    const image=localStorage.getItem("allMediaProfileAvatar");
+    if(!image)return;
+    document.querySelectorAll(".header-avatar").forEach(function(avatar){
+      avatar.style.backgroundImage='url("'+image+'")';
+      avatar.style.backgroundSize="cover";
+      avatar.style.backgroundPosition="center";
+      avatar.style.backgroundRepeat="no-repeat";
+      avatar.textContent="";
+    });
+  }catch(err){}
+})();
+</script>
 <script src="all-media.js" defer></script>
 </body>
 </html>
-
