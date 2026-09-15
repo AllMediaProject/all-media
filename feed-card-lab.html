@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Media — Feed Card Lab V6</title>
+<title>All Media — Feed Card Lab V10</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -451,18 +451,35 @@ body{
   position:absolute;
   right:7px;
   bottom:7px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.comment-post-button,
+.comment-close-button{
+  height:28px;
+  padding:0 13px;
+  border-radius:999px;
+  font:800 11px 'Outfit',sans-serif;
+  cursor:pointer;
 }
 
 .comment-post-button{
-  height:28px;
-  padding:0 13px;
   border:1px solid var(--peach);
-  border-radius:999px;
   background:var(--peach);
   color:var(--ink);
   box-shadow:0 2px 10px rgba(255,207,159,.31);
-  font:800 11px 'Outfit',sans-serif;
-  cursor:pointer;
+}
+
+.comment-close-button{
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.52);
+}
+.comment-close-button:hover{
+  border-color:rgba(255,207,159,.25);
+  color:var(--peach);
 }
 
 .comment-helper{
@@ -476,16 +493,6 @@ body{
 }
 
 .single-comment-composer.open .comment-helper{display:flex}
-
-.comment-cancel{
-  border:0;
-  background:none;
-  padding:0;
-  color:rgba(255,255,255,.34);
-  font:500 9px 'Outfit',sans-serif;
-  cursor:pointer;
-  white-space:nowrap;
-}
 
 .more-comments{
   align-self:center;
@@ -565,9 +572,31 @@ body{
 
 .comment-item{
   padding:10px 0;
+  display:grid;
+  grid-template-columns:26px minmax(0,1fr);
+  gap:8px;
+  align-items:start;
   border-top:1px solid rgba(255,255,255,.06);
   color:#dfe6f6;
   font-size:12px;
+}
+
+.comment-avatar{
+  width:26px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,207,159,.34);
+  border-radius:50%;
+  background:linear-gradient(145deg,#243b68,#142446);
+  color:var(--peach);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.comment-body{
+  min-width:0;
 }
 
 .comment-author{
@@ -575,6 +604,133 @@ body{
   color:#fff;
   font-size:11px;
   font-weight:700;
+}
+
+.comment-actions{
+  margin-top:6px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.comment-action{
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.34);
+  font:600 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.comment-action:hover{color:var(--peach)}
+
+.comment-like-icon{
+  width:12px;
+  height:12px;
+  overflow:visible;
+}
+.comment-like-icon path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.comment-like-button.liked{
+  color:var(--peach);
+}
+.comment-like-button.liked .comment-like-icon path{
+  fill:currentColor;
+  stroke:currentColor;
+}
+
+
+.comment-replies{
+  margin-top:8px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,207,159,.14);
+}
+
+.comment-reply{
+  padding:8px 0 2px;
+  display:grid;
+  grid-template-columns:22px minmax(0,1fr);
+  gap:7px;
+  align-items:start;
+}
+
+.comment-reply-avatar{
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,207,159,.28);
+  border-radius:50%;
+  background:linear-gradient(145deg,#243b68,#142446);
+  color:var(--peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.comment-reply-author{
+  margin-bottom:2px;
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+}
+
+.comment-reply-copy{
+  color:rgba(255,255,255,.68);
+  font-size:11px;
+  line-height:1.42;
+}
+
+.comment-reply-actions{
+  margin-top:5px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.comment-reply-action{
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.30);
+  font:600 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+.comment-reply-action:hover{color:var(--peach)}
+
+.comment-reply-like-icon{
+  width:11px;
+  height:11px;
+  overflow:visible;
+}
+.comment-reply-like-icon path{
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.comment-reply-like-button.liked{
+  color:var(--peach);
+}
+.comment-reply-like-button.liked .comment-reply-like-icon path{
+  fill:currentColor;
+  stroke:currentColor;
+}
+
+.comment-reply .comment-replies{
+  margin-top:7px;
+  padding-left:9px;
 }
 
 .prototype-note{
@@ -609,7 +765,7 @@ body{
 <main class="lab-shell">
   <div class="lab-heading">
     <span>Feed Card Lab</span>
-    <strong>Regular Post · V6</strong>
+    <strong>Regular Post · V10</strong>
   </div>
 
   <article class="feed-card">
@@ -692,13 +848,13 @@ body{
             <textarea class="comment-text-area" id="commentText" maxlength="500" placeholder="Say hi... share what you feel" onclick="event.stopPropagation()"></textarea>
             <div class="comment-post-actions">
               <button class="comment-post-button" type="button" onclick="postComment(event)">POST</button>
+              <button class="comment-close-button" type="button" onclick="closeCommentComposer(event)">CLOSE</button>
             </div>
           </div>
         </div>
 
         <div class="comment-helper">
-          <span>Press Esc to cancel · ↵ to post</span>
-          <button class="comment-cancel" type="button" onclick="closeCommentComposer(event)">Changed my mind...</button>
+          <span>Press Esc to close · ↵ to post</span>
         </div>
       </div>
 
@@ -721,12 +877,37 @@ body{
 
     <section class="comments-section" id="commentsSection">
       <div class="comment-item">
-        <div class="comment-author">@mossandbones</div>
-        <div>This glow is gorgeous. It feels like a tiny window into a story.</div>
+        <div class="comment-avatar" aria-hidden="true">m</div>
+        <div class="comment-body">
+          <div class="comment-author">@mossandbones</div>
+          <div>This glow is gorgeous. It feels like a tiny window into a story.</div>
+          <div class="comment-actions">
+            <button class="comment-action comment-like-button" type="button" onclick="toggleCommentLike(this)">
+              <svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+              </svg>
+              <span>Like</span>
+            </button>
+            <button class="comment-action" type="button" onclick="replyToComment(this,'@mossandbones')">Reply</button>
+          </div>
+        </div>
       </div>
+
       <div class="comment-item">
-        <div class="comment-author">@softcryptid</div>
-        <div>The little moon is SO good. 🌙</div>
+        <div class="comment-avatar" aria-hidden="true">s</div>
+        <div class="comment-body">
+          <div class="comment-author">@softcryptid</div>
+          <div>The little moon is SO good. 🌙</div>
+          <div class="comment-actions">
+            <button class="comment-action comment-like-button" type="button" onclick="toggleCommentLike(this)">
+              <svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+              </svg>
+              <span>Like</span>
+            </button>
+            <button class="comment-action" type="button" onclick="replyToComment(this,'@softcryptid')">Reply</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -768,6 +949,9 @@ function flashNote(message){
   flashNote.timer=setTimeout(()=>note.classList.remove("show"),1700);
 }
 
+let activeReplyTarget=null;
+let activeReplyUsername="";
+
 function openCommentComposer(){
   const composer=document.getElementById("commentComposer");
   const wrap=document.getElementById("singleCommentComposer");
@@ -780,6 +964,8 @@ function closeCommentComposer(event){
   event?.stopPropagation();
   document.getElementById("commentComposer").classList.remove("active");
   document.getElementById("singleCommentComposer").classList.remove("open");
+  activeReplyTarget=null;
+  activeReplyUsername="";
 }
 
 function postComment(event){
@@ -788,10 +974,60 @@ function postComment(event){
   const value=field.value.trim();
   if(!value)return;
 
-  const latest=document.querySelector(".latest-comment");
-  latest.querySelector(".comment-username").textContent="@yourusername:";
-  latest.querySelector(".latest-comment-copy").textContent=value;
-  latest.querySelector(".latest-comment-time").textContent="now";
+  if(activeReplyTarget){
+    let replies=null;
+
+    if(activeReplyTarget.classList.contains("comment-reply")){
+      const body=activeReplyTarget.querySelector(".comment-reply-body");
+      replies=body.querySelector(":scope > .comment-replies");
+
+      if(!replies){
+        replies=document.createElement("div");
+        replies.className="comment-replies";
+        body.appendChild(replies);
+      }
+    }else{
+      const body=activeReplyTarget.querySelector(".comment-body");
+      replies=body.querySelector(":scope > .comment-replies");
+
+      if(!replies){
+        replies=document.createElement("div");
+        replies.className="comment-replies";
+        body.appendChild(replies);
+      }
+    }
+
+    const reply=document.createElement("div");
+    reply.className="comment-reply";
+    reply.innerHTML=`
+      <div class="comment-reply-avatar" aria-hidden="true">y</div>
+      <div class="comment-reply-body">
+        <div class="comment-reply-author">@yourusername</div>
+        <div class="comment-reply-copy"></div>
+        <div class="comment-reply-actions">
+          <button class="comment-reply-action comment-reply-like-button" type="button" onclick="toggleReplyLike(this)">
+            <svg class="comment-reply-like-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+            </svg>
+            <span>Like</span>
+          </button>
+          <button class="comment-reply-action" type="button" onclick="replyToReply(this,'@yourusername')">Reply</button>
+        </div>
+      </div>
+    `;
+
+    reply.querySelector(".comment-reply-copy").textContent=value;
+    replies.appendChild(reply);
+
+    document.getElementById("commentsSection").classList.add("active");
+    const moreButton=document.querySelector(".more-comments");
+    if(moreButton)moreButton.textContent="Hide comments";
+  }else{
+    const latest=document.querySelector(".latest-comment");
+    latest.querySelector(".comment-username").textContent="@yourusername:";
+    latest.querySelector(".latest-comment-copy").textContent=value;
+    latest.querySelector(".latest-comment-time").textContent="now";
+  }
 
   field.value="";
   closeCommentComposer(event);
@@ -801,6 +1037,38 @@ function toggleComments(btn){
   const section=document.getElementById("commentsSection");
   const open=section.classList.toggle("active");
   btn.textContent=open?"Hide comments":"View 7 more";
+}
+
+function toggleCommentLike(btn){
+  btn.classList.toggle("liked");
+}
+
+function toggleReplyLike(btn){
+  btn.classList.toggle("liked");
+}
+
+function replyToReply(btn,username){
+  activeReplyTarget=btn.closest(".comment-reply");
+  activeReplyUsername=username;
+
+  openCommentComposer();
+
+  const field=document.getElementById("commentText");
+  field.value=username+" ";
+  field.focus();
+  field.setSelectionRange(field.value.length,field.value.length);
+}
+
+function replyToComment(btn,username){
+  activeReplyTarget=btn.closest(".comment-item");
+  activeReplyUsername=username;
+
+  openCommentComposer();
+
+  const field=document.getElementById("commentText");
+  field.value=username+" ";
+  field.focus();
+  field.setSelectionRange(field.value.length,field.value.length);
 }
 
 function toggleHashtags(btn){
