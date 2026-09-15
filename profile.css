@@ -2644,38 +2644,6 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 
 body.profile-prototype-body{background:var(--am-main);}
 
-.prototype-switcher{
-  position:sticky;
-  top:0;
-  z-index:100;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  padding:8px 12px;
-  background:#0b1330;
-  border-bottom:1px solid rgba(255,255,255,.09);
-}
-.prototype-switcher button{
-  border:1px solid rgba(255,195,132,.28);
-  background:rgba(255,195,132,.08);
-  color:var(--am-peach);
-  border-radius:999px;
-  padding:7px 14px;
-  font:700 12px 'Outfit',sans-serif;
-  cursor:pointer;
-}
-.prototype-switcher button.active{
-  background:var(--am-peach);
-  color:var(--am-main);
-  border-color:var(--am-peach);
-}
-.prototype-note{
-  font-size:10px;
-  opacity:.55;
-  align-self:center;
-  margin-left:8px;
-}
-
 .profile-view{display:none;}
 .profile-view.active{display:block;}
 
