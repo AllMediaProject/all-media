@@ -174,12 +174,6 @@ function saveProfileInfo(){
       el.style.backgroundSize="cover";
       el.style.backgroundPosition="center";
     });
-
-    document.querySelectorAll("#myProfile .header-avatar, #settingsView .header-avatar").forEach(headerAvatar=>{
-      headerAvatar.style.backgroundImage='url("'+image+'")';
-      headerAvatar.style.backgroundSize="cover";
-      headerAvatar.style.backgroundPosition="center";
-    });
   }
 
   const status=document.getElementById("profileSaveStatus");
@@ -1667,3 +1661,64 @@ function applyProfileVisibility(){
 // Initialize these dependencies once after the whole document is parsed.
 syncAboutDependentSettings();
 applyProfileVisibility();
+
+/* V31 HEADER AVATAR PERSISTENCE */
+function applyStoredProfileAvatar(){
+  let image="";
+  try{
+    image=localStorage.getItem("allMediaProfileAvatar") || "";
+  }catch(err){}
+  if(!image)return;
+
+  document.querySelectorAll(".header-avatar").forEach(avatar=>{
+    avatar.style.backgroundImage='url("'+image+'")';
+    avatar.style.backgroundSize="cover";
+    avatar.style.backgroundPosition="center";
+    avatar.style.backgroundRepeat="no-repeat";
+    avatar.textContent="";
+  });
+
+  const profileAvatar=document.querySelector("#myProfile .profile-avatar");
+  if(profileAvatar){
+    profileAvatar.style.backgroundImage='url("'+image+'")';
+    profileAvatar.style.backgroundSize="cover";
+    profileAvatar.style.backgroundPosition="center";
+    profileAvatar.textContent="";
+  }
+
+  document.querySelectorAll("#myProfile article.post .profile-picture, #myProfile .comment-profile-picture").forEach(el=>{
+    el.style.backgroundImage='url("'+image+'")';
+    el.style.backgroundSize="cover";
+    el.style.backgroundPosition="center";
+  });
+
+  const preview=document.getElementById("settingsAvatarPreview");
+  if(preview){
+    preview.style.backgroundImage='url("'+image+'")';
+    preview.style.backgroundSize="cover";
+    preview.style.backgroundPosition="center";
+    preview.textContent="";
+  }
+
+  if(typeof avatarDraft!=="undefined" && !avatarDraft.src){
+    avatarDraft={src:image,croppedSrc:image,zoom:1,offsetX:0,offsetY:0};
+  }
+}
+
+const originalSaveProfileInfoForAvatar=saveProfileInfo;
+saveProfileInfo=function(){
+  originalSaveProfileInfoForAvatar();
+
+  if(typeof avatarDraft!=="undefined" && avatarDraft.src){
+    const image=avatarDraft.croppedSrc || avatarDraft.src;
+    try{
+      localStorage.setItem("allMediaProfileAvatar",image);
+    }catch(err){
+      console.warn("Could not save profile image in this browser.",err);
+    }
+  }
+
+  applyStoredProfileAvatar();
+};
+
+applyStoredProfileAvatar();
