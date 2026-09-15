@@ -3585,9 +3585,11 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 
 /* =========================================================
-   APPROVED HEADER NOTIFICATION BUTTON
-   Bell + counter both sit INSIDE the peach circle
+   FINAL APPROVED HEADER NOTIFICATION STYLE
+   Matches the approved Home reference:
+   dark round bell button + peach counter + hover effect
 ========================================================= */
+
 .site-header .header-actions{
     display:flex !important;
     flex-direction:row !important;
@@ -3601,67 +3603,71 @@ body.profile-prototype-body{background:var(--am-main);}
 
 .site-header .header-notifications{
     position:relative;
-    width:48px;
-    height:48px;
+    width:44px;
+    height:44px;
     display:flex;
     align-items:center;
     justify-content:center;
-    flex:0 0 48px;
+    flex:0 0 44px;
     padding:0;
     box-sizing:border-box;
 
-    border:1.5px solid var(--am-peach);
+    border:1px solid rgba(65,105,208,.55);
     border-radius:50%;
-
     background:rgba(8,18,44,.28);
-    color:var(--am-peach);
+
+    color:inherit;
     text-decoration:none;
     cursor:pointer;
-    overflow:hidden;
+    overflow:visible;
 
-    box-shadow:0 0 0 rgba(255,195,132,0);
     transition:
-        background .16s ease,
-        box-shadow .16s ease,
-        transform .16s ease;
+        border-color .15s ease,
+        background .15s ease,
+        box-shadow .15s ease,
+        transform .15s ease;
 }
 
 .site-header .header-notifications:hover{
-    background:rgba(255,195,132,.10);
-    box-shadow:0 0 16px rgba(255,195,132,.18);
+    border-color:rgba(255,195,132,.78);
+    background:rgba(255,195,132,.07);
+    box-shadow:0 0 14px rgba(255,195,132,.10);
     transform:translateY(-1px);
 }
 
 .site-header .notification-bell{
     display:block;
-    font-size:23px;
+    font-size:22px;
     line-height:1;
-    transform:translate(-4px,3px);
-    transition:transform .16s ease;
+    transform:translateY(1px);
+    transition:transform .15s ease;
 }
 
 .site-header .header-notifications:hover .notification-bell{
-    transform:translate(-4px,3px) scale(1.08);
+    transform:translateY(1px) scale(1.08);
 }
 
 .site-header .header-notification-count{
     position:absolute;
-    top:4px;
-    right:4px;
+    top:-4px;
+    right:-4px;
 
-    width:16px;
-    height:16px;
+    min-width:17px;
+    height:17px;
+    padding:0 4px;
+
     display:flex;
     align-items:center;
     justify-content:center;
     box-sizing:border-box;
 
-    border:1px solid var(--am-peach);
-    border-radius:50%;
-    background:var(--am-panel);
-    color:var(--am-peach);
+    border:0;
+    border-radius:999px;
 
-    font-size:8px;
+    background:var(--am-peach);
+    color:#101a3a;
+
+    font-size:9px;
     font-weight:800;
     line-height:1;
 }
