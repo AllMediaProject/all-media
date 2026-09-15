@@ -244,7 +244,8 @@ body{
 
 /* =========================================================
    VIDEO-SPECIFIC CARD
-   16:9 preview + subtle peach edge/glow.
+   Static 16:9 placeholder only. The existing Home video
+   player will be preserved when this card style is integrated.
 ========================================================= */
 .video-title{
   margin:0;
@@ -260,11 +261,13 @@ body{
   text-shadow:0 0 10px rgba(255,207,159,.28);
 }
 
-.video-player{
+.video-preview{
   position:relative;
   width:calc(100% - 36px);
   aspect-ratio:16 / 9;
   margin:0 auto;
+  display:grid;
+  place-items:center;
   overflow:hidden;
   border:1px solid rgba(255,207,159,.28);
   border-radius:14px;
@@ -277,23 +280,16 @@ body{
     0 0 22px rgba(255,207,159,.14),
     0 10px 22px -17px rgba(0,0,0,.72),
     inset 0 0 18px rgba(255,207,159,.025);
-  cursor:pointer;
-  user-select:none;
 }
 
-.video-art{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-.video-art::before,
-.video-art::after{
+.video-preview::before,
+.video-preview::after{
   content:"";
   position:absolute;
   border-radius:50%;
-  filter:blur(1px);
+  pointer-events:none;
 }
-.video-art::before{
+.video-preview::before{
   width:46%;
   aspect-ratio:1;
   left:9%;
@@ -301,7 +297,7 @@ body{
   background:rgba(105,128,188,.18);
   box-shadow:0 0 28px rgba(105,128,188,.16);
 }
-.video-art::after{
+.video-preview::after{
   width:29%;
   aspect-ratio:1;
   right:10%;
@@ -309,73 +305,14 @@ body{
   background:rgba(133,106,173,.17);
 }
 
-.video-center-state{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .18s ease;
-}
-.video-player.paused .video-center-state{opacity:1}
-
-.video-center-icon{
-  width:46px;
-  height:46px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.30);
-  border-radius:50%;
-  background:rgba(8,18,43,.52);
-  color:#fff;
-  font-size:17px;
-  backdrop-filter:blur(3px);
-}
-
-.video-controls{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:3;
-  padding:25px 11px 9px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(to top,rgba(5,12,30,.82),transparent);
-  opacity:0;
-  transform:translateY(3px);
-  transition:opacity .18s ease,transform .18s ease;
-}
-.video-player:hover .video-controls,
-.video-player.controls-visible .video-controls,
-.video-player.paused .video-controls{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.video-control{
-  padding:0;
-  border:0;
-  background:none;
-  color:rgba(255,255,255,.88);
-  font:700 13px 'Outfit',sans-serif;
-  cursor:pointer;
-}
-.video-control:hover{color:var(--peach)}
-
-.video-timeline{
-  min-width:70px;
-  flex:1;
-  accent-color:var(--peach);
-  cursor:pointer;
-}
-
-.video-time{
-  color:rgba(255,255,255,.70);
-  font-size:9px;
-  white-space:nowrap;
+.video-preview-label{
+  position:relative;
+  z-index:1;
+  color:rgba(255,255,255,.50);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
 }
 
 .video-description{
@@ -977,20 +914,8 @@ body{
 
     <h2 class="video-title"><span class="video-title-icon" aria-hidden="true">▶</span>Painting a Moonlit Window From Start to Finish</h2>
 
-    <div class="video-player paused controls-visible" id="videoPlayer" tabindex="0" role="button" aria-label="Video preview. Click to play or pause." onclick="toggleVideoPlayback(event)">
-      <div class="video-art" aria-hidden="true"></div>
-
-      <div class="video-center-state" aria-hidden="true">
-        <div class="video-center-icon" id="videoCenterIcon">▶</div>
-      </div>
-
-      <div class="video-controls" id="videoControls" onclick="event.stopPropagation()">
-        <button class="video-control" id="videoPlayButton" type="button" aria-label="Play" onclick="toggleVideoPlayback(event)">▶</button>
-        <button class="video-control" id="videoMuteButton" type="button" aria-label="Mute" onclick="toggleVideoMute(event)">🔊</button>
-        <input class="video-timeline" id="videoTimeline" type="range" min="0" max="522" value="0" aria-label="Video timeline" oninput="seekVideo(this.value)">
-        <span class="video-time"><span id="videoElapsed">0:00</span> / 8:42</span>
-        <button class="video-control" type="button" aria-label="Fullscreen" onclick="toggleVideoFullscreen(event)">⛶</button>
-      </div>
+    <div class="video-preview" aria-label="16:9 video preview placeholder">
+      <span class="video-preview-label">16:9 video preview</span>
     </div>
 
     <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</p>
@@ -1117,89 +1042,6 @@ body{
 </main>
 
 <script>
-
-let videoPlaying=false;
-let videoMuted=false;
-let videoSeconds=0;
-const videoDuration=522;
-let videoTimer=null;
-let videoControlsTimer=null;
-
-function formatVideoTime(seconds){
-  const mins=Math.floor(seconds/60);
-  const secs=Math.floor(seconds%60);
-  return mins+":"+String(secs).padStart(2,"0");
-}
-
-function showVideoControls(){
-  const player=document.getElementById("videoPlayer");
-  player.classList.add("controls-visible");
-  clearTimeout(videoControlsTimer);
-  if(videoPlaying){
-    videoControlsTimer=setTimeout(()=>player.classList.remove("controls-visible"),1800);
-  }
-}
-
-function updateVideoUI(){
-  const player=document.getElementById("videoPlayer");
-  const play=document.getElementById("videoPlayButton");
-  const center=document.getElementById("videoCenterIcon");
-  const timeline=document.getElementById("videoTimeline");
-  const elapsed=document.getElementById("videoElapsed");
-
-  player.classList.toggle("paused",!videoPlaying);
-  play.textContent=videoPlaying?"❚❚":"▶";
-  play.setAttribute("aria-label",videoPlaying?"Pause":"Play");
-  center.textContent="▶";
-  timeline.value=String(Math.floor(videoSeconds));
-  elapsed.textContent=formatVideoTime(videoSeconds);
-}
-
-function toggleVideoPlayback(event){
-  event?.stopPropagation();
-  videoPlaying=!videoPlaying;
-  clearInterval(videoTimer);
-
-  if(videoPlaying){
-    videoTimer=setInterval(()=>{
-      videoSeconds=Math.min(videoDuration,videoSeconds+1);
-      if(videoSeconds>=videoDuration){
-        videoPlaying=false;
-        clearInterval(videoTimer);
-      }
-      updateVideoUI();
-    },1000);
-  }
-
-  updateVideoUI();
-  showVideoControls();
-}
-
-function toggleVideoMute(event){
-  event?.stopPropagation();
-  videoMuted=!videoMuted;
-  const btn=document.getElementById("videoMuteButton");
-  btn.textContent=videoMuted?"🔇":"🔊";
-  btn.setAttribute("aria-label",videoMuted?"Unmute":"Mute");
-  showVideoControls();
-}
-
-function seekVideo(value){
-  videoSeconds=Number(value);
-  updateVideoUI();
-  showVideoControls();
-}
-
-function toggleVideoFullscreen(event){
-  event?.stopPropagation();
-  const player=document.getElementById("videoPlayer");
-  if(!document.fullscreenElement){
-    player.requestFullscreen?.();
-  }else{
-    document.exitFullscreen?.();
-  }
-  showVideoControls();
-}
 
 function toggleLike(btn){
   const count=btn.querySelector(".like-count");
@@ -1419,15 +1261,6 @@ document.addEventListener("click",()=>{
   const menu=document.getElementById("postMenu");
   if(menu)menu.classList.remove("open");
 });
-
-document.getElementById("videoPlayer")?.addEventListener("keydown",event=>{
-  if(event.key===" " || event.key==="Enter"){
-    event.preventDefault();
-    toggleVideoPlayback(event);
-  }
-});
-
-document.getElementById("videoPlayer")?.addEventListener("mousemove",showVideoControls);
 
 document.addEventListener("keydown",event=>{
   const composer=document.getElementById("commentComposer");
