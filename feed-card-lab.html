@@ -179,9 +179,11 @@ body{
   right:0;
   z-index:20;
   display:none;
-  align-items:center;
-  gap:7px;
-  padding:7px 9px;
+  flex-direction:column;
+  align-items:stretch;
+  gap:2px;
+  min-width:92px;
+  padding:6px;
   border:1px solid rgba(255,207,159,.20);
   border-radius:10px;
   background:linear-gradient(145deg,#182a53,#101e40);
@@ -191,20 +193,20 @@ body{
 .post-menu.open{display:flex}
 
 .post-menu-action{
-  padding:0;
+  width:100%;
+  padding:7px 10px;
   border:0;
+  border-radius:7px;
   background:none;
-  color:rgba(255,255,255,.66);
-  font:600 10px 'Outfit',sans-serif;
+  color:rgba(255,255,255,.72);
+  font:600 12px 'Outfit',sans-serif;
+  text-align:left;
   cursor:pointer;
 }
-.post-menu-action:hover{color:var(--peach)}
-.post-menu-delete:hover{color:#ff8f8f}
+.post-menu-action:hover{background:rgba(255,207,159,.08);color:var(--peach)}
+.post-menu-delete:hover{background:rgba(255,143,143,.07);color:#ff8f8f}
 
-.post-menu-divider{
-  color:rgba(255,255,255,.18);
-  font-size:10px;
-}
+.post-menu-divider{display:none}
 
 .post-image{
   width:calc(100% - 36px);
