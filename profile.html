@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Media — Profile Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="profile.css">
+
+</head>
+<body class="profile-prototype-body">
+<div class="prototype-switcher">
+  <button class="active" data-view="myProfile" onclick="showPrototypeView('myProfile',this)">My Profile</button>
+  <button data-view="otherProfile" onclick="showPrototypeView('otherProfile',this)">Other User's Profile</button>
+  <button data-view="settingsView" onclick="showPrototypeView('settingsView',this)">Settings</button>
+  <span class="prototype-note">Temporary prototype switcher — removed in final site</span>
+</div>
+
+<section class="profile-view active" id="myProfile">
+<header class="site-header">
+<a class="brand-lockup" href="#"  aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">Notifications</a><a class="active" href="#">Profile</a></nav>
+<label class="global-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…" aria-label="Search All Media"></label>
+<button class="profile-cluster" type="button" aria-label="Open your account menu"><span class="header-avatar">YOU<span class="online-dot"></span></span><span class="profile-handle">@you</span><span class="profile-chevron">⌄</span></button>
+</header>
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities">
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
+<div class="community-dropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+</div>
+</div>
+<button class="community-tool" type="button">Manage Communities</button>
+</div>
+</div>
+<div class="community-divider"></div>
+<div class="profile-shell">
+  <div class="profile-grid">
+    <main class="profile-main">
+      
+    <section class="profile-identity">
+      <div class="profile-identity-top">
+        <div class="profile-avatar">PROFILE<br>IMAGE</div>
+        <div class="profile-copy">
+          <div class="profile-name-row"><h1 class="profile-display-name">Hope Hewitt</h1></div>
+          <div class="profile-handle-large">@SugarCrumbCo</div>
+          <p class="profile-bio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</p>
+          <div class="profile-interests">
+            <span class="profile-interest">🎨 Art</span><span class="profile-interest">🎃 Halloween</span>
+            <span class="profile-interest">🧶 Crochet</span><span class="profile-interest">👻 Horror</span>
+            <span class="profile-interest">✨ Cozy</span>
+          </div>
+          <div class="profile-stats">
+            <span><strong>248</strong> Posts</span>
+            <span><strong>1.2K</strong> Supporters</span>
+            <span class="private-stat"><strong>356</strong> Following</span>
+          </div>
+        </div>
+        <div class="profile-identity-action">
+          <button class="profile-owner-action" type="button" onclick="openProfileSettings()">Edit Profile</button>
+        </div>
+      </div>
+    </section>
+    
+      <div class="profile-tabs">
+        <button class="profile-tab active" onclick="setProfileTab('posts',this)">Posts</button>
+        <button class="profile-tab" onclick="setProfileTab('reblogs',this)">Reblogs</button>
+        <button class="profile-tab" onclick="setProfileTab('saved',this)">Saved</button>
+      </div>
+      <div id="postsPanel" class="profile-feed"><section class="feed"><article class="post">
+<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@SugarCrumbCo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">🎃 Spooky Art</div></div></div><div class="post-menu"><button class="post-menu-button">⋯</button><div class="post-menu-dropdown"><button>Edit</button><button class="delete-option">Delete</button></div></div></div>
+<div class="post-image"><span>PROFILE POST IMAGE</span></div>
+<div class="caption">A little spooky-cozy painting from the studio tonight. I wanted it to feel soft, strange, and gently haunted. 👻</div>
+
+<div class="interactions">
+<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
+<button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
+<button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
+<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
+<div class="interaction">↗ Share</div>
+</div>
+
+<div class="latest-comment-label">Latest comment</div>
+<div class="latest-comment" data-time="2m ago"><span class="comment-username">@ghostlygarden:</span> The cozy haunted feeling on this is perfect.</div>
+
+<div class="post-footer">
+<button class="comment-button">Leave your opinion…</button>
+<div class="footer-link more-comments">💬 View 7 more comments</div>
+<div class="post-footer-actions"><div class="hashtag-link"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#acrylicpainting</span><span class="post-hashtag">#spookyart</span><button type="button" class="post-hashtag-done">Done</button></div>
+</div>
+
+<div class="comments-section">
+<div class="comment-item"><div class="comment-author">@ghostlygarden</div><div class="comment-content">The cozy haunted feeling on this is perfect.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@SugarCrumbCo</div><div class="reply-content">Thank you!! I had so much fun adding all the tiny details.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@hauntedhome</div><div class="comment-content">The lighting is SO good.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@spookycat</div><div class="comment-content">I need one of these hanging in my house immediately.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@witchywoodland</div><div class="comment-content">The little moon detail is everything.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@graveyardgarden</div><div class="comment-content">This is exactly the kind of spooky cozy art I love.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>5</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@littlebat</div><div class="comment-content">This would look amazing beside a candle shelf.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@moonandmoss</div><div class="comment-content">Gorgeous work. I love how soft the spooky feeling is.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+</div>
+
+<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button">POST</button></div></div>
+</article></section></div>
+      <div id="reblogsPanel" style="display:none"><div class="reblog-note"><strong style="color:white">Reblogs</strong><br>This is where content you chose to reblog will appear. We can add a full sample reblog card once the Profile layout is locked.</div></div>
+      <div id="savedPanel" style="display:none"><div class="saved-note"><strong style="color:white">Saved — private</strong><br>Only you can see this tab and the posts you saved for later.</div></div>
+    </main>
+    <div class="profile-side">
+    <aside class="about-card">
+      <div class="about-header"><h2 class="about-title">About Me</h2></div>
+      <div class="about-gallery" onpointerdown="beginAboutGallerySwipe(event)">
+        <div class="about-slide active">ABOUT IMAGE 1</div>
+        <div class="about-slide">ABOUT IMAGE 2</div>
+        <div class="about-slide">ABOUT IMAGE 3</div>
+        <button class="about-gallery-arrow prev" type="button" onclick="stepAboutGallery(this,-1)" aria-label="Previous gallery image">‹</button>
+        <button class="about-gallery-arrow next" type="button" onclick="stepAboutGallery(this,1)" aria-label="Next gallery image">›</button>
+        <div class="about-gallery-nav">
+          <button class="about-dot active" onclick="showAboutSlide(0,this)"></button>
+          <button class="about-dot" onclick="showAboutSlide(1,this)"></button>
+          <button class="about-dot" onclick="showAboutSlide(2,this)"></button>
+        </div>
+      </div>
+      <div class="about-text">A little bit artist, a little bit gamer, fully committed to cozy chaos…</div>
+      <button class="about-read" data-open="false" onclick="toggleAboutText(this)">Read more</button>
+
+      <section class="about-section around-web-section">
+        <h3 class="around-web-title">Around the Web</h3>
+
+        <div class="link-shelf">
+          <a class="web-link-card featured" href="https://ko-fi.com/sugarcrumbco" target="_blank" rel="noopener noreferrer">
+            <span class="web-link-icon" aria-hidden="true">☕</span>
+            <span class="web-link-copy"><span class="web-link-label">My Art Shop</span><span class="web-link-domain">ko-fi.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">▶</span>
+            <span class="web-link-copy"><span class="web-link-label">YouTube</span><span class="web-link-domain">youtube.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">◎</span>
+            <span class="web-link-copy"><span class="web-link-label">Instagram</span><span class="web-link-domain">instagram.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <button class="view-more-links" aria-expanded="false" onclick="toggleMoreLinks(this)">
+          <span>See 4 more</span><span aria-hidden="true">▾</span>
+        </button>
+
+        <div class="more-links">
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">＠</span>
+            <span class="web-link-copy"><span class="web-link-label">Threads</span><span class="web-link-domain">threads.net</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">P</span>
+            <span class="web-link-copy"><span class="web-link-label">Pinterest</span><span class="web-link-domain">pinterest.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">✦</span>
+            <span class="web-link-copy"><span class="web-link-label">Portfolio</span><span class="web-link-domain">yourwebsite.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">✉</span>
+            <span class="web-link-copy"><span class="web-link-label">My Newsletter</span><span class="web-link-domain">newsletter.example</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      
+        <button class="around-web-settings-hint" type="button" onclick="openProfileSettingsTab('links')">Edit or rearrange your links in Settings →</button>
+</section>
+
+      <section class="about-section profile-discovery-section">
+        <div class="side-tabs">
+          <button class="side-tab active" onclick="setSideTab('people',this)">People</button>
+          <button class="side-tab" onclick="setSideTab('pockets',this)">Pockets</button>
+          <button class="side-tab" onclick="setSideTab('communities',this)">Communities</button>
+        </div>
+
+        <div class="side-panel active" data-side-panel="people">
+          <div class="side-row">
+            <span class="side-mini-avatar"></span>
+            <div>@mossandmoon<small>Artist · Nature</small></div>
+          </div>
+          <div class="side-row">
+            <span class="side-mini-avatar"></span>
+            <div>@cryptidcorner<small>Horror · Books</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+
+        <div class="side-panel" data-side-panel="pockets">
+          <div class="side-row">
+            <span>🎃</span>
+            <div>Spooky Inspiration<small>Public Pocket · created by user</small></div>
+          </div>
+          <div class="side-row">
+            <span>🎨</span>
+            <div>Art I Love<small>Public Pocket · created by user</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+
+        <div class="side-panel" data-side-panel="communities">
+          <div class="side-row">
+            <span>👻</span>
+            <div>Gentle Hauntings<small>Public Community · created by user</small></div>
+          </div>
+          <div class="side-row">
+            <span>🧶</span>
+            <div>Cozy Makers<small>Public Community · created by user</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+      </section>
+    </aside>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section class="profile-view" id="otherProfile">
+<header class="site-header">
+<a class="brand-lockup" href="#"  aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">Notifications</a><a class="active" href="#">Profile</a></nav>
+<label class="global-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…" aria-label="Search All Media"></label>
+<button class="profile-cluster" type="button" aria-label="Open your account menu"><span class="header-avatar">YOU<span class="online-dot"></span></span><span class="profile-handle">@you</span><span class="profile-chevron">⌄</span></button>
+</header>
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities">
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
+<div class="community-dropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+</div>
+</div>
+<button class="community-tool" type="button">Manage Communities</button>
+</div>
+</div>
+<div class="community-divider"></div>
+<div class="profile-shell">
+  <div class="profile-grid">
+    <main class="profile-main">
+      
+    <section class="profile-identity">
+      <div class="profile-identity-top">
+        <div class="profile-avatar">PROFILE<br>IMAGE</div>
+        <div class="profile-copy">
+          <div class="profile-name-row"><h1 class="profile-display-name">Alex Rivera</h1></div>
+          <div class="profile-handle-large">@AlexRivera.Photo</div>
+          <p class="profile-bio">Film photographer chasing light leaks, quiet streets, old greenhouses, and the little moments that feel like they belong in a zine.</p>
+          <div class="profile-interests">
+            <span class="profile-interest">📷 Photography</span><span class="profile-interest">🎞️ Film</span>
+            <span class="profile-interest">🌿 Nature</span><span class="profile-interest">✈️ Travel</span>
+            <span class="profile-interest">📚 Zines</span>
+          </div>
+          <div class="profile-stats">
+            <span><strong>412</strong> Posts</span>
+            <span><strong>2.4K</strong> Supporters</span>
+            
+          </div>
+        </div>
+        <div class="profile-identity-action">
+          <button class="profile-support-button" type="button" aria-pressed="false" onclick="toggleSupport(this)">♥ Support</button>
+        </div>
+      </div>
+    </section>
+    
+      <div class="profile-tabs">
+        <button class="profile-tab active" onclick="setVisitorTab('posts',this)">Posts</button>
+        <button class="profile-tab" onclick="setVisitorTab('reblogs',this)">Reblogs</button>
+      </div>
+      <div id="otherPostsPanel" class="profile-feed"><section class="feed"><article class="post">
+<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@AlexRivera.Photo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">📷 Photography</div></div></div></div>
+<div class="post-image"><span>35MM PHOTO PREVIEW</span></div>
+<div class="caption">A frame from an early-morning walk through an abandoned greenhouse. The fog did most of the work — I just happened to bring the camera.</div>
+
+<div class="interactions">
+<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
+<button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
+<button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
+<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
+<div class="interaction">↗ Share</div>
+</div>
+
+<div class="latest-comment-label">Latest comment</div>
+<div class="latest-comment" data-time="2m ago"><span class="comment-username">@grainandglow:</span> The light in this frame is unreal.</div>
+
+<div class="post-footer">
+<button class="comment-button">Leave your opinion…</button>
+<div class="footer-link more-comments">💬 View 7 more comments</div>
+<div class="post-footer-actions"><div class="hashtag-link"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#acrylicpainting</span><span class="post-hashtag">#spookyart</span><button type="button" class="post-hashtag-done">Done</button></div>
+</div>
+
+<div class="comments-section">
+<div class="comment-item"><div class="comment-author">@grainandglow</div><div class="comment-content">The light in this frame is unreal.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@AlexRivera.Photo</div><div class="reply-content">Thank you! I nearly walked past it because the fog was so thick.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@hauntedhome</div><div class="comment-content">The lighting is SO good.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@spookycat</div><div class="comment-content">I need one of these hanging in my house immediately.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@witchywoodland</div><div class="comment-content">The little moon detail is everything.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@graveyardgarden</div><div class="comment-content">This is exactly the kind of spooky cozy art I love.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>5</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@littlebat</div><div class="comment-content">This would look amazing beside a candle shelf.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<div class="comment-item"><div class="comment-author">@moonandmoss</div><div class="comment-content">Gorgeous work. I love how soft the spooky feeling is.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+</div>
+
+<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button">POST</button></div></div>
+</article></section></div>
+      <div id="otherReblogsPanel" style="display:none"><div class="reblog-note"><strong style="color:white">Reblogs</strong><br>Visitors can see the posts this person chose to reblog. Saved content and the private Following count are not shown.</div></div>
+    </main>
+    <div class="profile-side">
+    <aside class="about-card">
+      <div class="about-header"><h2 class="about-title">About Me</h2></div>
+      <div class="about-gallery" onpointerdown="beginAboutGallerySwipe(event)">
+        <div class="about-slide active">GALLERY IMAGE 1</div>
+        <div class="about-slide">GALLERY IMAGE 2</div>
+        <div class="about-slide">GALLERY IMAGE 3</div>
+        <button class="about-gallery-arrow prev" type="button" onclick="stepAboutGallery(this,-1)" aria-label="Previous gallery image">‹</button>
+        <button class="about-gallery-arrow next" type="button" onclick="stepAboutGallery(this,1)" aria-label="Next gallery image">›</button>
+        <div class="about-gallery-nav">
+          <button class="about-dot active" onclick="showAboutSlide(0,this)"></button>
+          <button class="about-dot" onclick="showAboutSlide(1,this)"></button>
+          <button class="about-dot" onclick="showAboutSlide(2,this)"></button>
+        </div>
+      </div>
+      <div class="about-text">Photographer for 8 years, mostly self-taught. I shoot film because I love the delay…</div>
+      <button class="about-read" data-open="false" onclick="toggleAboutText(this)">Read more</button>
+
+      <section class="about-section around-web-section">
+        <h3 class="around-web-title">Around the Web</h3>
+
+        <div class="link-shelf">
+          <a class="web-link-card featured" href="#" target="_blank" rel="noopener noreferrer">
+            <span class="web-link-icon" aria-hidden="true">☕</span>
+            <span class="web-link-copy"><span class="web-link-label">YouTube</span><span class="web-link-domain">alexrivera.co</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">▶</span>
+            <span class="web-link-copy"><span class="web-link-label">Photo Journal</span><span class="web-link-domain">fieldnotes.photo</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card featured" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">◎</span>
+            <span class="web-link-copy"><span class="web-link-label">Instagram</span><span class="web-link-domain">instagram.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <button class="view-more-links" aria-expanded="false" onclick="toggleMoreLinks(this)">
+          <span>See 4 more</span><span aria-hidden="true">▾</span>
+        </button>
+
+        <div class="more-links">
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">＠</span>
+            <span class="web-link-copy"><span class="web-link-label">Zine Shop</span><span class="web-link-domain">alexrivera.co/zines</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">P</span>
+            <span class="web-link-copy"><span class="web-link-label">Workshops</span><span class="web-link-domain">alexrivera.co/workshops</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">✦</span>
+            <span class="web-link-copy"><span class="web-link-label">Portfolio</span><span class="web-link-domain">youtube.com</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="web-link-card" href="#" onclick="event.preventDefault()">
+            <span class="web-link-icon" aria-hidden="true">✉</span>
+            <span class="web-link-copy"><span class="web-link-label">Newsletter</span><span class="web-link-domain">fieldnotes.photo/newsletter</span></span>
+            <span class="web-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="about-section profile-discovery-section">
+        <div class="side-tabs">
+          <button class="side-tab active" onclick="setSideTab('people',this)">People</button>
+          <button class="side-tab" onclick="setSideTab('pockets',this)">Pockets</button>
+          <button class="side-tab" onclick="setSideTab('communities',this)">Communities</button>
+        </div>
+
+        <div class="side-panel active" data-side-panel="people">
+          <div class="side-row">
+            <span class="side-mini-avatar"></span>
+            <div>@grainandglow<small>Film · Street</small></div>
+          </div>
+          <div class="side-row">
+            <span class="side-mini-avatar"></span>
+            <div>@fieldnotesclub<small>Photography · Zines</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+
+        <div class="side-panel" data-side-panel="pockets">
+          <div class="side-row">
+            <span>🎃</span>
+            <div>Greenhouse References<small>Public Pocket · created by user</small></div>
+          </div>
+          <div class="side-row">
+            <span>🎨</span>
+            <div>Film Inspiration<small>Public Pocket · created by user</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+
+        <div class="side-panel" data-side-panel="communities">
+          <div class="side-row">
+            <span>👻</span>
+            <div>Film Shooters<small>Public Community · created by user</small></div>
+          </div>
+          <div class="side-row">
+            <span>🧶</span>
+            <div>Abandoned Places<small>Public Community · created by user</small></div>
+          </div>
+          <button class="about-read" type="button">View all</button>
+        </div>
+      </section>
+    </aside>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section class="profile-view" id="settingsView">
+<header class="site-header">
+<a class="brand-lockup" href="#"  aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">Notifications</a><a class="active" href="#">Profile</a></nav>
+<label class="global-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…" aria-label="Search All Media"></label>
+<button class="profile-cluster" type="button" aria-label="Open your account menu"><span class="header-avatar">YOU<span class="online-dot"></span></span><span class="profile-handle">@you</span><span class="profile-chevron">⌄</span></button>
+</header>
+<div class="settings-shell">
+  <div class="settings-frame">
+    <header class="settings-heading">
+      <div>
+        <h2>Edit Profile</h2>
+        <p>Manage your profile, About Me panel, Interests, privacy, and other profile details.</p>
+      </div>
+    </header>
+
+    <nav class="settings-nav" aria-label="Profile settings sections">
+      <div class="settings-nav-label">Profile Settings</div>
+      <button class="active" data-settings-tab="profile" onclick="setSettingsTab('profile',this)">Profile Info</button>
+      <button data-settings-tab="interests" onclick="setSettingsTab('interests',this)">Interests</button>
+      <button data-settings-tab="privacy" onclick="setSettingsTab('privacy',this)">Privacy</button>
+
+      <div class="settings-nav-label settings-nav-label-panel">Panel Settings</div>
+      <button data-settings-tab="about" onclick="setSettingsTab('about',this)">About Me</button>
+      <button data-settings-tab="gallery" onclick="setSettingsTab('gallery',this)">Gallery</button>
+      <button data-settings-tab="links" onclick="setSettingsTab('links',this)">Around the Web</button>
+    </nav>
+
+    <div class="settings-content">
+      <section class="settings-panel" data-settings-panel="profile">
+        <h3>Profile Info</h3>
+        <p class="settings-intro">Edit the basic information people see at the top of your profile.</p>
+
+        <div class="settings-form-grid">
+          <div class="avatar-editor">
+            <div class="avatar-preview" id="settingsAvatarPreview">PROFILE<br>IMAGE</div>
+
+            <div class="avatar-editor-actions">
+              <label class="settings-secondary-button" for="profileAvatarInput">Change image</label>
+              <button class="settings-adjust-button" type="button" onclick="adjustProfileImage()">Adjust image</button>
+            </div>
+
+            <input id="profileAvatarInput" type="file" accept="image/*" onchange="previewProfileAvatar(this)">
+            <span class="settings-help">Upload an image, then drag it into position inside the circle.</span>
+          </div>
+
+          <div>
+            <div class="settings-field">
+              <label for="profileDisplayName">Display name</label>
+              <input id="profileDisplayName" type="text" value="Hope Hewitt">
+              <span class="settings-help">Optional. This can be your name, nickname, creator name, or brand.</span>
+            </div>
+
+            <div class="settings-field">
+              <label for="profileUsername">@Username</label>
+              <input id="profileUsername" type="text" value="SugarCrumbCo">
+              <span class="settings-help">Your @username is your primary profile identity. Availability checks will come with real accounts.</span>
+            </div>
+
+            <div class="settings-field">
+              <label for="profileShortBio">Short bio</label>
+              <textarea id="profileShortBio">Spooky-cozy artist creating gently haunted things. Art, crochet, Halloween all year, and whatever else wanders into the studio.</textarea>
+              <span class="settings-help">This appears in the main identity card. Your longer About Me text is edited separately.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="about" hidden>
+        <h3>About Me</h3>
+        <p class="settings-intro">Tell people a little more about yourself than you can fit in your short profile bio.</p>
+
+        <div class="settings-field">
+          <label for="aboutMeText">Tell All Media who you are</label>
+          <textarea id="aboutMeText" class="about-editor-textarea" maxlength="1000" oninput="updateAboutCount()">A little bit artist, a little bit gamer, fully committed to cozy chaos. I make spooky-cute art and crochet, collect too many Halloween things, and like making little corners of the internet feel welcoming. Currently obsessed with moss, vintage Halloween, and half-finished sketchbooks.</textarea>
+          <div class="settings-field-meta">
+            <span class="settings-help">Describe yourself in a little more depth. Visitors can expand this text with Read more.</span>
+            <span class="settings-char-count" id="aboutCharCount">0 / 1000</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="gallery" hidden>
+        <h3>Gallery</h3>
+        <p class="settings-intro">Add up to 3 images to your About Me panel. Each image uses the same fixed square crop so the gallery stays consistent.</p>
+
+        <div class="gallery-size-note">
+          <strong>Recommended:</strong> square images at least 1200 × 1200 px. Images display at a fixed 1:1 crop.
+        </div>
+
+        <div class="gallery-edit-grid" id="galleryEditGrid">
+          <div class="gallery-edit-slot empty" data-gallery-slot="0" ondragstart="galleryDragStart(event,0)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,0)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,0)">
+            <span class="gallery-default-badge">Default</span>
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(0)" aria-label="Add gallery image 1"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput0" type="file" accept="image/*" onchange="loadGalleryImage(0,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(0)" aria-label="Delete gallery image 1">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(0)">Adjust crop</button>
+          </div>
+
+          <div class="gallery-edit-slot empty" data-gallery-slot="1" ondragstart="galleryDragStart(event,1)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,1)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,1)">
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(1)" aria-label="Add gallery image 2"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput1" type="file" accept="image/*" onchange="loadGalleryImage(1,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(1)" aria-label="Delete gallery image 2">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(1)">Adjust crop</button>
+          </div>
+
+          <div class="gallery-edit-slot empty" data-gallery-slot="2" ondragstart="galleryDragStart(event,2)" ondragend="galleryDragEnd(event)" ondragover="galleryDragOver(event,2)" ondragleave="galleryDragLeave(event)" ondrop="galleryDrop(event,2)">
+            <button class="gallery-slot-main" type="button" onclick="chooseGalleryImage(2)" aria-label="Add gallery image 3"><span class="gallery-plus">+</span></button>
+            <input id="galleryInput2" type="file" accept="image/*" onchange="loadGalleryImage(2,this)">
+            <button class="gallery-delete" type="button" onclick="deleteGalleryImage(2)" aria-label="Delete gallery image 3">×</button>
+            <button class="gallery-adjust" type="button" onclick="adjustGalleryImage(2)">Adjust crop</button>
+          </div>
+        </div>
+
+        <span class="settings-help gallery-help">Click an empty square to add an image. Drag filled squares to reorder them — the far-left image is the default. Use Adjust crop to reposition before saving.</span>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="links" hidden>
+        <h3>Around the Web</h3>
+        <p class="settings-intro">Rename and rearrange up to 12 links. The first 3 links become the featured squares on your profile; the rest appear inside View more.</p>
+
+        <div class="links-editor-head">
+          <div>
+            <strong>Your links</strong>
+            <span>Drag rows to reorder them. Move a link into the top 3 to feature it.</span>
+          </div>
+          <button class="settings-secondary-button" type="button" onclick="addProfileLink()">+ Add link</button>
+        </div>
+
+        <div class="links-editor-list" id="linksEditorList"></div>
+        <div class="links-limit-note"><span id="linksCount">0</span>/12 links</div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="interests" hidden>
+        <h3>Interests</h3>
+        <p class="settings-intro">Interests tell people what you are into, help organize your profile identity, and can help people discover you through topics they already enjoy.</p>
+        <div class="interest-limit-status"><span id="interestSelectedCount">5 / 5 selected</span><span id="interestLimitMessage">You can show up to 5 Interests on your profile.</span></div>
+
+        <div class="setting-row interests-enable-row">
+          <div class="setting-copy">
+            <strong>Enable Interests</strong>
+            <span>Show your selected Interests on your profile and include them in profile discovery.</span>
+          </div>
+          <button id="enableInterestsToggle" class="fake-toggle on" type="button" aria-pressed="true" onclick="toggleFakeToggle(this)"></button>
+        </div>
+
+        <label class="interest-search">
+          <span class="interest-search-icon" aria-hidden="true">⌕</span>
+          <input id="interestSearchInput" type="search" placeholder="Search Interests" oninput="renderInterestSearch(this.value)">
+        </label>
+
+        <div class="interest-results-box" id="interestSearchResults" hidden>
+          <div class="interest-box-heading">Search results</div>
+          <div class="interest-pill-wrap" id="interestResultsList"></div>
+        </div>
+
+        <div class="interest-suggestions-box">
+          <div class="interest-box-heading">Suggested</div>
+          <p>Based on Interests you follow and the topics you post about most often.</p>
+          <div class="interest-pill-wrap" id="interestSuggestedList"></div>
+        </div>
+      </section>
+
+      <section class="settings-panel" data-settings-panel="privacy" hidden>
+        <h3>Privacy & Visibility</h3>
+        <p class="settings-intro">Choose which parts of your profile visitors can see.</p>
+
+        <div class="settings-group">
+          <h4 class="settings-group-title">Profile sections</h4>
+          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" data-setting="about" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="about-dependent-note" id="aboutDependentNote">Enable About Me Panel to Change</div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" data-setting="people" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" data-setting="pockets" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" data-setting="communities" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+        </div>
+
+        <div class="settings-group">
+          <h4 class="settings-group-title">Privacy</h4>
+          <div class="setting-row"><div class="setting-copy"><strong>Keep Following count private</strong><span>You can see your own Following count; visitors cannot.</span></div><button class="fake-toggle on" data-setting="following-private" onclick="toggleFakeToggle(this)"></button></div>
+        </div>
+      </section>
+
+      <div class="settings-savebar">
+        <span class="settings-save-status" id="settingsSaveStatus">Saved ✓</span>
+        <button class="settings-secondary-button settings-close-savebar" type="button" onclick="closeProfileSettings()">Close Settings</button>
+        <button class="settings-primary-button settings-global-save" type="button" onclick="saveCurrentSettings()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="crop-modal" id="imageCropModal" aria-hidden="true">
+  <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="cropDialogTitle">
+    <div class="crop-dialog-header">
+      <div>
+        <h3 id="cropDialogTitle">Adjust image</h3>
+        <p id="cropDialogHelp">Drag your image to reposition it.</p>
+      </div>
+      <button class="crop-close" type="button" onclick="closeImageCropper()" aria-label="Close image cropper">×</button>
+    </div>
+
+    <div class="crop-stage-wrap">
+      <div id="cropStage" class="crop-stage crop-circle" onpointerdown="beginCropDrag(event)">
+        <img id="cropStageImage" alt="" draggable="false">
+      </div>
+    </div>
+
+    <div class="crop-row profile-crop-row">
+      <span>Zoom</span>
+      <input id="cropZoomInput" type="range" min="1" max="3" step="0.01" value="1" oninput="setCropZoom(this.value)">
+      <span id="cropZoomValue">100%</span>
+    </div>
+    <div class="crop-help">Drag image to reposition</div>
+
+    <div class="crop-dialog-actions">
+      <button class="settings-secondary-button" type="button" onclick="closeImageCropper()">Cancel</button>
+      <button class="settings-primary-button" type="button" onclick="confirmImageCrop()">Use crop</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<script src="profile.js"></script>
+</body>
+</html>
