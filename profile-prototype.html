@@ -2676,6 +2676,12 @@ body.profile-prototype-body{background:var(--am-main);}
   max-width:1230px;
   margin:22px auto 110px;
 }
+#myProfile .profile-shell.panel-off-shell{
+  width:824px;
+  max-width:calc(100% - 48px);
+  margin-left:auto;
+  margin-right:auto;
+}
 .profile-grid{
   display:grid;
   grid-template-columns:minmax(0,824px) 380px;
@@ -2685,6 +2691,19 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .profile-main{min-width:0;}
 .profile-side{min-width:0;}
+#myProfile .profile-grid.panel-off{
+  display:block;
+  width:824px;
+  max-width:100%;
+  margin-left:auto;
+  margin-right:auto;
+}
+#myProfile .profile-grid.panel-off .profile-main{
+  width:100%;
+}
+#myProfile .profile-grid.panel-off .profile-side{
+  display:none;
+}
 .profile-feed .feed{
   width:86%;
   max-width:660px;
@@ -3275,6 +3294,23 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .fake-toggle.on{background:var(--am-peach);}
 .fake-toggle.on::after{left:21px;background:var(--am-main);}
+.about-dependent-note{
+  display:none;
+  margin:9px 2px 2px;
+  color:var(--am-peach);
+  font-size:10.5px;
+  font-weight:700;
+}
+.about-dependent-note.show{display:block;}
+.about-dependent-setting.locked{
+  opacity:.48;
+}
+.about-dependent-setting.locked .fake-toggle{
+  cursor:not-allowed;
+}
+.about-dependent-setting.locked .fake-toggle:hover{
+  filter:none;
+}
 .settings-panel[hidden]{display:none;}
 .settings-form-grid{
   display:grid;
@@ -3539,6 +3575,38 @@ body.profile-prototype-body{background:var(--am-main);}
 }
 .profile-view .community-chip .activity-count.hidden{display:none;}
 .profile-view .community-dropdown{z-index:40;}
+
+
+/* V26 — panel-off centering, final authority */
+#myProfile .profile-shell.panel-off-shell{
+  width:min(824px,calc(100% - 48px)) !important;
+  max-width:824px !important;
+  margin:22px auto 110px !important;
+}
+#myProfile .profile-grid.panel-off{
+  display:block !important;
+  width:100% !important;
+  max-width:824px !important;
+  margin:0 auto !important;
+}
+#myProfile .profile-grid.panel-off .profile-main{
+  width:100% !important;
+  max-width:824px !important;
+  margin:0 auto !important;
+}
+#myProfile .profile-grid.panel-off .profile-side{
+  display:none !important;
+}
+#settingsView .about-dependent-setting.locked{
+  opacity:.46;
+}
+#settingsView .about-dependent-setting.locked .fake-toggle{
+  pointer-events:none;
+  cursor:not-allowed;
+}
+#settingsView .about-dependent-note.show{
+  display:block;
+}
 
 </style>
 </head>
@@ -4160,10 +4228,11 @@ body.profile-prototype-body{background:var(--am-main);}
 
         <div class="settings-group">
           <h4 class="settings-group-title">Profile sections</h4>
-          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" data-setting="about" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" data-setting="people" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" data-setting="pockets" onclick="toggleFakeToggle(this)"></button></div>
-          <div class="setting-row"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" data-setting="communities" onclick="toggleFakeToggle(this)"></button></div>
+          <div class="setting-row"><div class="setting-copy"><strong>Show About Me panel</strong><span>Display your About Me card on your public profile.</span></div><button class="fake-toggle on" data-setting="about" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="about-dependent-note" id="aboutDependentNote">Enable About Me Panel to Change</div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show People</strong><span>Allow visitors to see the People section you choose to make public.</span></div><button class="fake-toggle on" data-setting="people" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show created Pockets</strong><span>Only public Pockets you created — not Pockets you follow.</span></div><button class="fake-toggle on" data-setting="pockets" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
+          <div class="setting-row about-dependent-setting"><div class="setting-copy"><strong>Show created Communities</strong><span>Only public Communities you created — not every Community you joined.</span></div><button class="fake-toggle on" data-setting="communities" onclick="toggleFakeToggle(this)" aria-pressed="true"></button></div>
         </div>
 
         <div class="settings-group">
@@ -4405,18 +4474,59 @@ function cancelProfileEdits(){
   document.getElementById("profileShortBio").value=bio?bio.textContent:"";
   showPrototypeView("myProfile",document.querySelector('[data-view="myProfile"]'));
 }
-function toggleFakeToggle(btn){
+function legacyToggleFakeToggle1(btn){
+  if(btn.disabled)return;
   btn.classList.toggle("on");
+  btn.setAttribute("aria-pressed",btn.classList.contains("on")?"true":"false");
+
+  if(btn.dataset.setting==="about"){
+    syncAboutDependentSettings();
+  }
+
   applyProfileVisibility();
 }
-function applyProfileVisibility(){
+
+function syncAboutDependentSettings(){
+  const aboutToggle=document.querySelector('.fake-toggle[data-setting="about"]');
+  if(!aboutToggle)return;
+
+  const aboutEnabled=aboutToggle.classList.contains("on");
+  const note=document.getElementById("aboutDependentNote");
+  const dependentNames=["people","pockets","communities"];
+
+  dependentNames.forEach(name=>{
+    const toggle=document.querySelector('.fake-toggle[data-setting="'+name+'"]');
+    if(!toggle)return;
+
+    const row=toggle.closest(".about-dependent-setting");
+
+    if(!aboutEnabled){
+      toggle.classList.remove("on");
+      toggle.setAttribute("aria-pressed","false");
+      toggle.disabled=true;
+      row?.classList.add("locked");
+    }else{
+      toggle.disabled=false;
+      row?.classList.remove("locked");
+    }
+  });
+
+  note?.classList.toggle("show",!aboutEnabled);
+}
+function legacyApplyProfileVisibility1(){
   const states={};
   document.querySelectorAll(".fake-toggle[data-setting]").forEach(btn=>{
     states[btn.dataset.setting]=btn.classList.contains("on");
   });
 
   const about=document.querySelector("#myProfile .about-card");
-  if(about)about.style.display=states.about===false?"none":"block";
+  const grid=document.querySelector("#myProfile .profile-grid");
+  const shell=document.querySelector("#myProfile .profile-shell");
+  const panelOff=states.about===false;
+
+  if(about)about.style.display=panelOff?"none":"block";
+  if(grid)grid.classList.toggle("panel-off",panelOff);
+  if(shell)shell.classList.toggle("panel-off-shell",panelOff);
 
   const following=document.querySelector("#myProfile .private-stat");
   if(following)following.style.display=states["following-private"]===false?"none":"inline-flex";
@@ -4717,7 +4827,7 @@ function closeProfileSettings(){
   showPrototypeView("myProfile",document.querySelector('[data-view="myProfile"]'));
 }
 
-function toggleFakeToggle(btn){
+function legacyToggleFakeToggle2(btn){
   btn.classList.toggle("on");
   btn.setAttribute("aria-pressed",btn.classList.contains("on")?"true":"false");
 }
@@ -5397,7 +5507,7 @@ function saveInterests(){
     });
 }
 
-function applyProfileVisibility(){
+function legacyApplyProfileVisibility2(){
   const states={};
   document.querySelectorAll(".fake-toggle[data-setting]").forEach(btn=>{
     states[btn.dataset.setting]=btn.classList.contains("on");
@@ -5518,6 +5628,7 @@ renderGallerySlots();
 renderInterestSuggestions();
 renderLinksEditor();
 updateAboutCount();
+syncAboutDependentSettings();
 
 
 /* =========================
@@ -5705,6 +5816,118 @@ document.addEventListener("click",event=>{
         document.querySelectorAll(".profile-view .community-dropdown.active").forEach(d=>d.classList.remove("active"));
     }
 });
+
+
+/* =========================
+   V26 — CANONICAL PROFILE VISIBILITY SETTINGS
+   =========================
+   Important: this intentionally lives LAST in the script.
+   Older prototype versions accumulated duplicate function declarations;
+   these final functions are now the single active behavior.
+*/
+
+function toggleFakeToggle(btn){
+  if(!btn || btn.disabled)return;
+
+  btn.classList.toggle("on");
+  btn.setAttribute("aria-pressed",btn.classList.contains("on")?"true":"false");
+
+  if(btn.dataset.setting==="about"){
+    syncAboutDependentSettings();
+  }
+
+  applyProfileVisibility();
+}
+
+function syncAboutDependentSettings(){
+  const aboutToggle=document.querySelector('#settingsView .fake-toggle[data-setting="about"]');
+  if(!aboutToggle)return;
+
+  const enabled=aboutToggle.classList.contains("on");
+  const note=document.getElementById("aboutDependentNote");
+
+  ["people","pockets","communities"].forEach(name=>{
+    const toggle=document.querySelector('#settingsView .fake-toggle[data-setting="'+name+'"]');
+    if(!toggle)return;
+
+    const row=toggle.closest(".about-dependent-setting");
+
+    if(!enabled){
+      toggle.classList.remove("on");
+      toggle.setAttribute("aria-pressed","false");
+      toggle.disabled=true;
+      row?.classList.add("locked");
+    }else{
+      toggle.disabled=false;
+      row?.classList.remove("locked");
+    }
+  });
+
+  note?.classList.toggle("show",!enabled);
+}
+
+function applyProfileVisibility(){
+  const getState=name=>{
+    const btn=document.querySelector('#settingsView .fake-toggle[data-setting="'+name+'"]');
+    return !!btn?.classList.contains("on");
+  };
+
+  const aboutOn=getState("about");
+  const peopleOn=aboutOn && getState("people");
+  const pocketsOn=aboutOn && getState("pockets");
+  const communitiesOn=aboutOn && getState("communities");
+  const followingPrivate=getState("following-private");
+
+  const profile=document.getElementById("myProfile");
+  if(!profile)return;
+
+  const shell=profile.querySelector(".profile-shell");
+  const grid=profile.querySelector(".profile-grid");
+  const side=profile.querySelector(".profile-side");
+  const about=profile.querySelector(".about-card");
+
+  // When the panel is off, remove the entire right column and center
+  // the complete 824px profile column in the viewport.
+  shell?.classList.toggle("panel-off-shell",!aboutOn);
+  grid?.classList.toggle("panel-off",!aboutOn);
+
+  if(side)side.style.display=aboutOn?"":"none";
+  if(about)about.style.display=aboutOn?"":"none";
+
+  // Owner-only following count.
+  const following=profile.querySelector(".private-stat");
+  if(following)following.style.display=followingPrivate?"inline-flex":"none";
+
+  if(about){
+    const states={
+      people:peopleOn,
+      pockets:pocketsOn,
+      communities:communitiesOn
+    };
+
+    Object.entries(states).forEach(([name,visible])=>{
+      const tab=about.querySelector('.side-tab[onclick*="\''+name+'\'"]');
+      const panel=about.querySelector('[data-side-panel="'+name+'"]');
+      if(tab)tab.style.display=visible?"":"none";
+      if(panel && !visible)panel.classList.remove("active");
+    });
+
+    const visibleTabs=[...about.querySelectorAll(".side-tab")].filter(tab=>tab.style.display!=="none");
+    const currentVisible=visibleTabs.find(tab=>tab.classList.contains("active"));
+
+    if(!currentVisible && visibleTabs[0]){
+      const match=visibleTabs[0].getAttribute("onclick")?.match(/'([^']+)'/);
+      if(match)setSideTab(match[1],visibleTabs[0]);
+    }
+
+    const discovery=about.querySelector(".profile-discovery-section");
+    if(discovery)discovery.style.display=visibleTabs.length?"":"none";
+  }
+}
+
+// Initialize these dependencies once after the whole document is parsed.
+syncAboutDependentSettings();
+applyProfileVisibility();
 
 </script>
 </body>
