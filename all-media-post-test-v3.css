@@ -8073,3 +8073,64 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   color:inherit!important;
 }
 
+/* =========================================================
+   FINAL V11 REBLOG + SHARE — INTERACTION OVERRIDE
+   IMPORTANT: layout/sizing is intentionally untouched.
+   This outranks older legacy Home selectors that were still
+   forcing some controls to white / non-clickable.
+========================================================= */
+
+/* All four locked card types:
+   muted at rest, clickable, transparent, peach on hover. */
+.feed .post.regular-post button.reblog-counter[type="button"],
+.feed .post.regular-post button.share-action[type="button"],
+.feed .post.blog-post-v11 button.reblog-counter[type="button"],
+.feed .post.blog-post-v11 button.share-action[type="button"],
+.feed .post.video-post-v11 button.reblog-counter[type="button"],
+.feed .post.video-post-v11 button.share-action[type="button"],
+.feed .post.byte-post-v11 button.reblog-counter[type="button"],
+.feed .post.byte-post-v11 button.share-action[type="button"]{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  color:rgba(255,255,255,.42)!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  transition:color .15s ease!important;
+}
+
+/* Hover = peach. */
+.feed .post.regular-post button.reblog-counter[type="button"]:hover,
+.feed .post.regular-post button.share-action[type="button"]:hover,
+.feed .post.blog-post-v11 button.reblog-counter[type="button"]:hover,
+.feed .post.blog-post-v11 button.share-action[type="button"]:hover,
+.feed .post.video-post-v11 button.reblog-counter[type="button"]:hover,
+.feed .post.video-post-v11 button.share-action[type="button"]:hover,
+.feed .post.byte-post-v11 button.reblog-counter[type="button"]:hover,
+.feed .post.byte-post-v11 button.share-action[type="button"]:hover{
+  color:#ffc384!important;
+}
+
+/* Reblog stays peach after click. */
+.feed .post.regular-post button.reblog-counter[type="button"][data-reblogged="true"],
+.feed .post.blog-post-v11 button.reblog-counter[type="button"][data-reblogged="true"],
+.feed .post.video-post-v11 button.reblog-counter[type="button"][data-reblogged="true"],
+.feed .post.byte-post-v11 button.reblog-counter[type="button"][data-reblogged="true"]{
+  color:#ffc384!important;
+}
+
+/* Share stays peach after click. */
+.feed .post.regular-post button.share-action[type="button"].shared,
+.feed .post.blog-post-v11 button.share-action[type="button"].shared,
+.feed .post.video-post-v11 button.share-action[type="button"].shared,
+.feed .post.byte-post-v11 button.share-action[type="button"].shared{
+  color:#ffc384!important;
+}
+
+/* Count/text follows the button colour. */
+.feed .post button.reblog-counter[type="button"] span,
+.feed .post button.share-action[type="button"] span{
+  color:inherit!important;
+}
+
