@@ -88,6 +88,8 @@ function getTotalCount(post){
     return post.querySelectorAll(".comments-section .comment-item").length;
 }
 function updateMoreLink(post){
+    // Regular Post V11 owns its own comments toggle text/layout.
+    if(post?.classList.contains("regular-post")) return;
     const link = post.querySelector(".more-comments");
     if(!link) return;
     const total = getTotalCount(post);
@@ -506,6 +508,12 @@ function regularPostComment(btn,event){
   item.innerHTML='<div class="comment-avatar" aria-hidden="true">y</div><div class="comment-body"><div class="comment-author">@yourusername</div><div>'+escapeHTML(value)+'</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button" onclick="regularToggleCommentLike(this)"><svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" type="button" onclick="regularReplyToTarget(this,\'@yourusername\')">Reply</button></div></div>';
   section?.appendChild(item);field.value='';section?.classList.add('active');regularSyncComments(post,true);regularCloseCommentComposer(btn);
 }
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.regular-post').forEach(post=>{
+    const open=post.querySelector('.comments-section')?.classList.contains('active')||false;
+    regularSyncComments(post,open);
+  });
+});
 function regularToggleCommentLike(btn){btn.classList.toggle('liked')}
 function regularToggleReplyLike(btn){btn.classList.toggle('liked')}
 function regularReplyToTarget(btn,username){

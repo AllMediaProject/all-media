@@ -3286,3 +3286,178 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   .feed .post.regular-post .more-comments{grid-column:1!important}
   .feed .post.regular-post .post-footer-actions{grid-column:2!important}
 }
+
+/* =========================================================
+   REGULAR POST V11 — SURGICAL V3 CONFLICT FIX
+   Keeps old Home !important rules from overriding the lab
+   footer/comments layout. Regular Post only.
+   ========================================================= */
+.feed .post.regular-post > .post-footer{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:minmax(210px,1fr) auto auto!important;
+  align-items:start!important;
+  gap:9px!important;
+  margin:0!important;
+  padding:10px 18px 12px!important;
+}
+
+.feed .post.regular-post .single-comment-composer{
+  min-width:0!important;
+}
+
+.feed .post.regular-post .more-comments{
+  position:static!important;
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:center!important;
+  justify-self:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:none!important;
+  color:rgba(255,255,255,.33)!important;
+  font:500 10px/1.2 "Outfit",sans-serif!important;
+  white-space:nowrap!important;
+  transform:none!important;
+  z-index:auto!important;
+}
+
+.feed .post.regular-post .more-comments:hover{
+  color:var(--peach)!important;
+}
+
+.feed .post.regular-post .post-footer-actions{
+  align-self:center!important;
+  justify-self:auto!important;
+  margin:0!important;
+}
+
+/* The V11 regular-post Like button uses its own class and state.
+   Keep the unliked heart muted; liked becomes peach. */
+.feed .post.regular-post .regular-like-button .like-heart{
+  color:inherit!important;
+  font-size:inherit!important;
+  font-weight:inherit!important;
+}
+
+.feed .post.regular-post .regular-like-button.liked{
+  border-color:var(--peach)!important;
+  background:rgba(255,207,159,.12)!important;
+  color:var(--peach)!important;
+  box-shadow:0 0 10px rgba(255,207,159,.08)!important;
+}
+
+.feed .post.regular-post .regular-like-button.liked .like-heart path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+
+@media(max-width:700px){
+  .feed .post.regular-post > .post-footer{
+    grid-template-columns:1fr auto!important;
+  }
+  .feed .post.regular-post .single-comment-composer{
+    grid-column:1 / -1!important;
+  }
+  .feed .post.regular-post .more-comments{
+    grid-column:1!important;
+  }
+  .feed .post.regular-post .post-footer-actions{
+    grid-column:2!important;
+  }
+}
+
+
+
+/* REGULAR POST V11 — FINAL V3 LAYOUT CONFLICT FIX
+   Scoped to the staging Regular Post only. */
+.feed .post.regular-post,
+.feed .post.regular-post *{
+  box-sizing:border-box!important;
+}
+
+/* Keep the footer's three columns inside the available 700px Home card.
+   border-box is critical here: the comment box padding must not spill into
+   the View More column. */
+.feed .post.regular-post > .post-footer{
+  grid-template-columns:minmax(0,1fr) max-content max-content!important;
+  column-gap:12px!important;
+  row-gap:7px!important;
+  align-items:start!important;
+}
+.feed .post.regular-post .single-comment-composer{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+}
+.feed .post.regular-post .comment-composer{
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  overflow:visible!important;
+}
+.feed .post.regular-post .more-comments{
+  align-self:center!important;
+  justify-self:start!important;
+  position:static!important;
+  transform:none!important;
+}
+.feed .post.regular-post .post-footer-actions{
+  align-self:center!important;
+  justify-self:end!important;
+}
+
+/* Expanded quick comment must keep both actions visible. */
+.feed .post.regular-post .comment-composer.active{
+  position:relative!important;
+  overflow:visible!important;
+  z-index:2!important;
+}
+.feed .post.regular-post .comment-composer.active .comment-expanded-state{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+}
+.feed .post.regular-post .comment-composer.active .comment-post-actions{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  z-index:4!important;
+}
+.feed .post.regular-post .comment-composer.active .comment-post-button,
+.feed .post.regular-post .comment-composer.active .comment-close-button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+/* Explicit heart color: Home has a global .like-heart color on the SVG,
+   so set the SVG itself rather than relying on inherited button color. */
+.feed .post.regular-post .regular-like-button .like-heart{
+  color:rgba(255,255,255,.70)!important;
+}
+.feed .post.regular-post .regular-like-button.liked .like-heart{
+  color:#ffcf9f!important;
+}
+.feed .post.regular-post .regular-like-button.liked .like-heart path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+
+@media(max-width:700px){
+  .feed .post.regular-post > .post-footer{
+    grid-template-columns:1fr auto!important;
+  }
+  .feed .post.regular-post .single-comment-composer{
+    grid-column:1 / -1!important;
+  }
+  .feed .post.regular-post .more-comments{
+    grid-column:1!important;
+  }
+  .feed .post.regular-post .post-footer-actions{
+    grid-column:2!important;
+  }
+}
