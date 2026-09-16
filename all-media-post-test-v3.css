@@ -7895,3 +7895,76 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   margin:0 18px 8px!important;
   pointer-events:none;
 }
+/* =========================================================
+   FINAL V11 DESKTOP PROPORTIONS + RIGHT ACTION STATES
+========================================================= */
+
+/* Slightly narrower feed, slightly wider rails,
+   with the whole three-panel group centered. */
+@media(min-width:1321px){
+  .page-layout{
+    grid-template-columns:330px minmax(0,780px) 315px!important;
+    column-gap:18px!important;
+    justify-content:center!important;
+  }
+
+  .main-column{
+    width:100%!important;
+    max-width:780px!important;
+    justify-self:center!important;
+  }
+
+  .sidebar-column,
+  .right-rail{
+    width:100%!important;
+  }
+}
+
+/* Reblog / Share / Save begin muted and all hover peach. */
+.feed .post.regular-post .reblog-counter,
+.feed .post.regular-post .share-action,
+.feed .post.regular-post .save-action,
+.feed .post.blog-post-v11 .reblog-counter,
+.feed .post.blog-post-v11 .share-action,
+.feed .post.blog-post-v11 .save-action,
+.feed .post.video-post-v11 .reblog-counter,
+.feed .post.video-post-v11 .share-action,
+.feed .post.video-post-v11 .save-action,
+.feed .post.byte-post-v11 .reblog-counter,
+.feed .post.byte-post-v11 .share-action,
+.feed .post.byte-post-v11 .save-action{
+  color:rgba(255,255,255,.42)!important;
+  cursor:pointer!important;
+  pointer-events:auto!important;
+  transition:color .15s ease!important;
+}
+
+.feed .post.regular-post .reblog-counter:hover,
+.feed .post.regular-post .share-action:hover,
+.feed .post.regular-post .save-action:hover,
+.feed .post.blog-post-v11 .reblog-counter:hover,
+.feed .post.blog-post-v11 .share-action:hover,
+.feed .post.blog-post-v11 .save-action:hover,
+.feed .post.video-post-v11 .reblog-counter:hover,
+.feed .post.video-post-v11 .share-action:hover,
+.feed .post.video-post-v11 .save-action:hover,
+.feed .post.byte-post-v11 .reblog-counter:hover,
+.feed .post.byte-post-v11 .share-action:hover,
+.feed .post.byte-post-v11 .save-action:hover{
+  color:#ffcf9f!important;
+}
+
+/* Reblog already tracks its clicked state with data-reblogged. */
+.feed .post .reblog-counter[data-reblogged="true"]{
+  color:#ffcf9f!important;
+}
+
+/* Share clicked state. */
+.feed .post .share-action.shared{
+  color:#ffcf9f!important;
+}
+
+/* Save already uses the saved class. */
+.feed .post .save-action.saved{
+  color:#ffcf9f!important;
+}
