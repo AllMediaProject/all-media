@@ -8031,3 +8031,45 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   stroke:currentColor!important;
 }
 
+/* =========================================================
+   FINAL V11 REBLOG + SHARE INTERACTION LOCK
+   Layout/sizing intentionally untouched.
+========================================================= */
+
+/* Reblog + Share: muted at rest, peach on hover. */
+.feed .post.regular-post button.reblog-counter:hover,
+.feed .post.regular-post button.share-action:hover,
+.feed .post.blog-post-v11 button.reblog-counter:hover,
+.feed .post.blog-post-v11 button.share-action:hover,
+.feed .post.video-post-v11 button.reblog-counter:hover,
+.feed .post.video-post-v11 button.share-action:hover,
+.feed .post.byte-post-v11 button.reblog-counter:hover,
+.feed .post.byte-post-v11 button.share-action:hover{
+  color:#ffc384!important;
+  opacity:1!important;
+}
+
+/* Reblog stays peach after it has been clicked. */
+.feed .post.regular-post button.reblog-counter[data-reblogged="true"],
+.feed .post.blog-post-v11 button.reblog-counter[data-reblogged="true"],
+.feed .post.video-post-v11 button.reblog-counter[data-reblogged="true"],
+.feed .post.byte-post-v11 button.reblog-counter[data-reblogged="true"]{
+  color:#ffc384!important;
+  opacity:1!important;
+}
+
+/* Share stays peach after it has been clicked. */
+.feed .post.regular-post button.share-action.shared,
+.feed .post.blog-post-v11 button.share-action.shared,
+.feed .post.video-post-v11 button.share-action.shared,
+.feed .post.byte-post-v11 button.share-action.shared{
+  color:#ffc384!important;
+  opacity:1!important;
+}
+
+/* Any inner text/count inherits the button state. */
+.feed .post button.reblog-counter span,
+.feed .post button.share-action span{
+  color:inherit!important;
+}
+
