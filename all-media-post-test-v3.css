@@ -7895,17 +7895,44 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   margin:0 18px 8px!important;
   pointer-events:none;
 }
+
 /* =========================================================
    FINAL V11 DESKTOP PROPORTIONS + RIGHT ACTION STATES
 ========================================================= */
 
-/* Slightly narrower feed, slightly wider rails,
-   with the whole three-panel group centered. */
+/* Desktop dashboard:
+   - center feed stays tighter
+   - side rails absorb the remaining width
+   - outer edges align with the header/community-bar border
+   - entire three-column layout stays centered */
 @media(min-width:1321px){
   .page-layout{
-    grid-template-columns:330px minmax(0,780px) 315px!important;
+    width:calc(100% - 48px)!important;
+    max-width:1600px!important;
+    margin:14px auto 110px!important;
+
+    display:grid!important;
+    grid-template-columns:
+      minmax(340px,1fr)
+      minmax(0,780px)
+      minmax(320px,1fr)!important;
+
     column-gap:18px!important;
-    justify-content:center!important;
+    justify-content:stretch!important;
+    align-items:start!important;
+    transform:none!important;
+  }
+
+  .page-layout > .sidebar-column,
+  .page-layout > .main-column,
+  .page-layout > .right-rail{
+    min-width:0!important;
+  }
+
+  .sidebar-column{
+    width:100%!important;
+    max-width:none!important;
+    justify-self:stretch!important;
   }
 
   .main-column{
@@ -7914,22 +7941,42 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
     justify-self:center!important;
   }
 
-  .sidebar-column,
+  .main-column > .feed,
+  .main-column > .composer{
+    width:100%!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
   .right-rail{
     width:100%!important;
+    max-width:none!important;
+    justify-self:stretch!important;
+    margin-left:0!important;
   }
 }
 
-/* Reblog / Share / Save begin muted and all hover peach. */
+
+/* =========================================================
+   REBLOG / SHARE / SAVE
+   Default = muted
+   Hover = peach
+   Clicked/active = peach
+========================================================= */
+
 .feed .post.regular-post .reblog-counter,
 .feed .post.regular-post .share-action,
 .feed .post.regular-post .save-action,
+
 .feed .post.blog-post-v11 .reblog-counter,
 .feed .post.blog-post-v11 .share-action,
 .feed .post.blog-post-v11 .save-action,
+
 .feed .post.video-post-v11 .reblog-counter,
 .feed .post.video-post-v11 .share-action,
 .feed .post.video-post-v11 .save-action,
+
 .feed .post.byte-post-v11 .reblog-counter,
 .feed .post.byte-post-v11 .share-action,
 .feed .post.byte-post-v11 .save-action{
@@ -7939,32 +7986,48 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   transition:color .15s ease!important;
 }
 
+
+/* Hover */
 .feed .post.regular-post .reblog-counter:hover,
 .feed .post.regular-post .share-action:hover,
 .feed .post.regular-post .save-action:hover,
+
 .feed .post.blog-post-v11 .reblog-counter:hover,
 .feed .post.blog-post-v11 .share-action:hover,
 .feed .post.blog-post-v11 .save-action:hover,
+
 .feed .post.video-post-v11 .reblog-counter:hover,
 .feed .post.video-post-v11 .share-action:hover,
 .feed .post.video-post-v11 .save-action:hover,
+
 .feed .post.byte-post-v11 .reblog-counter:hover,
 .feed .post.byte-post-v11 .share-action:hover,
 .feed .post.byte-post-v11 .save-action:hover{
   color:#ffcf9f!important;
 }
 
-/* Reblog already tracks its clicked state with data-reblogged. */
+
+/* Reblog clicked */
 .feed .post .reblog-counter[data-reblogged="true"]{
   color:#ffcf9f!important;
 }
 
-/* Share clicked state. */
+
+/* Share clicked */
 .feed .post .share-action.shared{
   color:#ffcf9f!important;
 }
 
-/* Save already uses the saved class. */
+
+/* Save clicked */
 .feed .post .save-action.saved{
   color:#ffcf9f!important;
 }
+
+
+/* Saved bookmark fills peach */
+.feed .post .save-action.saved .save-bookmark path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+
