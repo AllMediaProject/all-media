@@ -553,5 +553,14 @@
 })();
 </script>
 <script defer="" src="all-media-post-test-v3.js?v=0916cleanup1"></script>
+  <script>
+document.addEventListener('click', function(event){
+  const shareButton = event.target.closest('.feed .post .share-action');
+  if(!shareButton) return;
+
+  const active = shareButton.classList.toggle('shared');
+  shareButton.setAttribute('aria-pressed', active ? 'true' : 'false');
+});
+</script>
 </body>
 </html>
