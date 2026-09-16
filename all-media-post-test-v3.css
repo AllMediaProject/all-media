@@ -6383,26 +6383,6 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 }
 
 
-/* =========================================================
-   V11 CARD BOTTOM BREATHING ROOM — MATCH LOCKED LAB
-   The lab keeps a 24px note slot plus 8px bottom margin,
-   even while the prototype note is visually hidden.
-========================================================= */
-.feed .post.regular-post > .prototype-note,
-.feed .post.blog-post-v11 > .prototype-note,
-.feed .post.video-post-v11 > .prototype-note{
-  min-height:24px!important;
-  margin:0 18px 8px!important;
-  color:rgba(255,207,159,.55)!important;
-  font-size:9px!important;
-  opacity:0;
-  transition:opacity .18s;
-}
-.feed .post.regular-post > .prototype-note.show,
-.feed .post.blog-post-v11 > .prototype-note.show,
-.feed .post.video-post-v11 > .prototype-note.show{
-  opacity:1;
-}
 
 /* BYTE V11 — SHARED LOCKED CARD SYSTEM CLONED FROM REGULAR POST */
 .post.byte-post-v11{
@@ -7893,16 +7873,6 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   width:auto!important;min-width:0!important;max-width:none!important;justify-self:end!important;
 }
 
-/* Match the invisible 24px + 8px breathing room from the approved lab. */
-.feed .post.byte-post-v11 > .prototype-note{
-  min-height:24px!important;
-  margin:0 18px 8px!important;
-  color:rgba(255,207,159,.55)!important;
-  font-size:9px!important;
-  opacity:0;
-  transition:opacity .18s;
-}
-.feed .post.byte-post-v11 > .prototype-note.show{opacity:1}
 
 @media(max-width:700px){
   .feed .post.byte-post-v11 > .post-footer{grid-template-columns:1fr auto!important}
@@ -7910,4 +7880,18 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   .feed .post.byte-post-v11 .more-comments{grid-column:1!important}
   .feed .post.byte-post-v11 .post-footer-actions{grid-column:2!important}
   .feed .post.byte-post-v11 .byte-preview{width:min(56%,300px)!important}
+}
+
+/* =========================================================
+   LOCKED CARD BOTTOM BREATHING ROOM
+   Preserves the approved lab spacing without the temporary
+   prototype/helper-message element.
+========================================================= */
+.feed .post.regular-post > .card-bottom-spacer,
+.feed .post.blog-post-v11 > .card-bottom-spacer,
+.feed .post.video-post-v11 > .card-bottom-spacer,
+.feed .post.byte-post-v11 > .card-bottom-spacer{
+  min-height:24px!important;
+  margin:0 18px 8px!important;
+  pointer-events:none;
 }

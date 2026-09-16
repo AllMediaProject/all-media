@@ -4,7 +4,7 @@
 <head>
 <title>All Media</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="all-media-post-test-v3.css?v=0916byte2" rel="stylesheet"/>
+<link href="all-media-post-test-v3.css?v=0916cleanup1" rel="stylesheet"/>
 </head>
 <body>
 <header class="site-header">
@@ -235,14 +235,14 @@
 </svg>
 <span class="like-count">24</span>
 </button>
-<button class="action-pill" onclick="regularFlashNote(this,'Pocket chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24">
 <path d="M4 7h6l2 2h8v10H4Z"></path>
 <path d="M8 4v6"></path>
 </svg>
 <span>Pocket</span>
 </button>
-<button class="action-pill" onclick="regularFlashNote(this,'Community chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24">
 <circle cx="8" cy="8" r="3"></circle>
 <circle cx="17" cy="9" r="2.5"></circle>
@@ -252,7 +252,7 @@
 <span>Community</span>
 </button>
 <button class="reblog-counter" onclick="regularIncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
-<button class="share-action" onclick="regularFlashNote(this,'Share options would open here.')" type="button">↗ Share</button>
+<button class="share-action" type="button">↗ Share</button>
 <button aria-label="Save post" class="save-action" onclick="regularToggleSave(this)" type="button">
 <svg aria-hidden="true" class="save-bookmark" viewbox="0 0 24 24">
 <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path>
@@ -333,9 +333,8 @@
 </div>
 </div>
 </section>
-<div class="prototype-note" id="prototypeNote"></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
-<!-- SAMPLE BLOG POST — V11 LAB INTEGRATION -->
 <article class="post blog-post blog-post-v11 sample-post">
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">m</div>
@@ -371,14 +370,14 @@
 <svg aria-hidden="true" class="like-heart" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
 <span class="like-count">24</span>
 </button>
-<button class="action-pill" onclick="blogV11FlashNote(this,'Pocket chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span>
 </button>
-<button class="action-pill" onclick="blogV11FlashNote(this,'Community chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
 </button>
 <button class="reblog-counter" onclick="blogV11IncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
-<button class="share-action" onclick="blogV11FlashNote(this,'Share options would open here.')" type="button">↗ Share</button>
+<button class="share-action" type="button">↗ Share</button>
 <button aria-label="Save post" class="save-action" onclick="blogV11ToggleSave(this)" type="button">
 <svg aria-hidden="true" class="save-bookmark" viewbox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
 </button>
@@ -401,9 +400,8 @@
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">m</div><div class="comment-body"><div class="comment-author">@mossandbones</div><div>This glow is gorgeous. It feels like a tiny window into a story.</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="blogV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="blogV11ReplyToTarget(this,'@mossandbones')" type="button">Reply</button></div></div></div>
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">s</div><div class="comment-body"><div class="comment-author">@softcryptid</div><div>The little moon is SO good. 🌙</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="blogV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="blogV11ReplyToTarget(this,'@softcryptid')" type="button">Reply</button></div></div></div>
 </section>
-<div class="prototype-note"></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
-<!-- SAMPLE VIDEO POST — V11 LAB INTEGRATION -->
 <article class="post video-post-v11 sample-post" data-post-type="video">
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">m</div>
@@ -424,23 +422,21 @@
 </div>
 </header>
 <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Moonlit Window From Start to Finish</h2>
-<div aria-label="Static placeholder for the existing Home video player" class="video-preview">
-<span class="video-preview-label">Existing video player goes here</span>
-</div>
+<div aria-label="Video player preview" class="video-preview"></div>
 <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</p>
 <div class="interactions">
 <button class="action-pill video-like-button" onclick="videoV11ToggleLike(this)" type="button">
 <svg aria-hidden="true" class="like-heart" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
 <span class="like-count">24</span>
 </button>
-<button class="action-pill" onclick="videoV11FlashNote(this,'Pocket chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span>
 </button>
-<button class="action-pill" onclick="videoV11FlashNote(this,'Community chooser would open here.')" type="button">
+<button class="action-pill" type="button">
 <svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
 </button>
 <button class="reblog-counter" onclick="videoV11IncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
-<button class="share-action" onclick="videoV11FlashNote(this,'Share options would open here.')" type="button">↗ Share</button>
+<button class="share-action" type="button">↗ Share</button>
 <button aria-label="Save post" class="save-action" onclick="videoV11ToggleSave(this)" type="button">
 <svg aria-hidden="true" class="save-bookmark" viewbox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
 </button>
@@ -463,12 +459,11 @@
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">m</div><div class="comment-body"><div class="comment-author">@mossandbones</div><div>This glow is gorgeous. It feels like a tiny window into a story.</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="videoV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="videoV11ReplyToTarget(this,'@mossandbones')" type="button">Reply</button></div></div></div>
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">s</div><div class="comment-body"><div class="comment-author">@softcryptid</div><div>The little moon is SO good. 🌙</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="videoV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="videoV11ReplyToTarget(this,'@softcryptid')" type="button">Reply</button></div></div></div>
 </section>
-<div class="prototype-note"></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
-<!-- SAMPLE BYTE POST — V11 LAB INTEGRATION -->
 <article class="post byte-post-v11 sample-post" id="sampleBytePostV11">
 <div class="byte-stage">
-<div class="byte-preview" aria-label="Static placeholder for the existing Home Byte player"><span class="byte-preview-label">Existing Byte player goes here</span></div>
+<div class="byte-preview" aria-label="Byte player preview"></div>
 </div>
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">m</div>
@@ -488,10 +483,10 @@
 <p class="byte-caption caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</p>
 <div class="interactions">
 <button class="action-pill byte-like-button" onclick="byteV11ToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">24</span></button>
-<button class="action-pill" onclick="byteV11FlashNote(this,'Pocket chooser would open here.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
-<button class="action-pill" onclick="byteV11FlashNote(this,'Community chooser would open here.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
 <button class="reblog-counter" onclick="byteV11IncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
-<button class="share-action" onclick="byteV11FlashNote(this,'Share options would open here.')" type="button">↗ Share</button>
+<button class="share-action" type="button">↗ Share</button>
 <button aria-label="Save post" class="save-action" onclick="byteV11ToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
 </div>
 <div class="latest-comment"><span class="comment-username">@cryptidcorner:</span><span class="latest-comment-copy">I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!</span><span class="latest-comment-time">2m ago</span></div>
@@ -512,7 +507,7 @@
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">m</div><div class="comment-body"><div class="comment-author">@mossandbones</div><div>This glow is gorgeous. It feels like a tiny window into a story.</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="byteV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="byteV11ReplyToTarget(this,'@mossandbones')" type="button">Reply</button></div></div></div>
 <div class="comment-item"><div aria-hidden="true" class="comment-avatar">s</div><div class="comment-body"><div class="comment-author">@softcryptid</div><div>The little moon is SO good. 🌙</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="byteV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="byteV11ReplyToTarget(this,'@softcryptid')" type="button">Reply</button></div></div></div>
 </section>
-<div class="prototype-note"></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 </section>
 </div>
@@ -557,6 +552,6 @@
   }catch(err){}
 })();
 </script>
-<script defer="" src="all-media-post-test-v3.js?v=0916byte2"></script>
+<script defer="" src="all-media-post-test-v3.js?v=0916cleanup1"></script>
 </body>
 </html>

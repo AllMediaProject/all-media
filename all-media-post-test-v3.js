@@ -451,13 +451,6 @@ function regularIncrementReblog(btn){
   count.textContent=String(Math.max(0,Number(count.textContent||0)+(on?-1:1)));
   btn.dataset.reblogged=on?'false':'true';
 }
-function regularFlashNote(btn,message){
-  const post=btn.closest('.regular-post');
-  let note=post.querySelector('.prototype-note');
-  if(!note){note=document.createElement('div');note.className='prototype-note';post.appendChild(note)}
-  note.textContent=message;note.classList.add('show');
-  clearTimeout(note._timer);note._timer=setTimeout(()=>note.classList.remove('show'),1500);
-}
 function regularTogglePostMenu(event,btn){
   event.stopPropagation();
   const menu=btn.nextElementSibling;
@@ -539,14 +532,6 @@ function blogV11ToggleBlog(btn){
 function blogV11ToggleLike(btn){regularToggleLike(btn)}
 function blogV11ToggleSave(btn){regularToggleSave(btn)}
 function blogV11IncrementReblog(btn){regularIncrementReblog(btn)}
-function blogV11FlashNote(btn,message){
-  const post=btn.closest('.blog-post-v11');
-  if(!post)return;
-  let note=post.querySelector('.prototype-note');
-  if(!note){note=document.createElement('div');note.className='prototype-note';post.appendChild(note)}
-  note.textContent=message;note.classList.add('show');
-  clearTimeout(note._timer);note._timer=setTimeout(()=>note.classList.remove('show'),1500);
-}
 function blogV11TogglePostMenu(event,btn){
   event.stopPropagation();
   const menu=btn.nextElementSibling;
@@ -623,14 +608,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 function videoV11ToggleLike(btn){regularToggleLike(btn)}
 function videoV11ToggleSave(btn){regularToggleSave(btn)}
 function videoV11IncrementReblog(btn){regularIncrementReblog(btn)}
-function videoV11FlashNote(btn,message){
-  const post=btn.closest('.video-post-v11');
-  if(!post)return;
-  let note=post.querySelector('.prototype-note');
-  if(!note){note=document.createElement('div');note.className='prototype-note';post.appendChild(note)}
-  note.textContent=message;note.classList.add('show');
-  clearTimeout(note._timer);note._timer=setTimeout(()=>note.classList.remove('show'),1500);
-}
 function videoV11TogglePostMenu(event,btn){
   event.stopPropagation();
   const menu=btn.nextElementSibling;
@@ -720,14 +697,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 function byteV11ToggleLike(btn){regularToggleLike(btn)}
 function byteV11ToggleSave(btn){regularToggleSave(btn)}
 function byteV11IncrementReblog(btn){regularIncrementReblog(btn)}
-function byteV11FlashNote(btn,message){
-  const post=btn.closest('.byte-post-v11');
-  if(!post)return;
-  let note=post.querySelector('.prototype-note');
-  if(!note){note=document.createElement('div');note.className='prototype-note';post.appendChild(note)}
-  note.textContent=message;note.classList.add('show');
-  clearTimeout(note._timer);note._timer=setTimeout(()=>note.classList.remove('show'),1500);
-}
 function byteV11TogglePostMenu(event,btn){
   event.stopPropagation();
   const menu=btn.nextElementSibling;
