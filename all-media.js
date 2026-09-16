@@ -88,6 +88,7 @@ function getTotalCount(post){
     return post.querySelectorAll(".comments-section .comment-item").length;
 }
 function updateMoreLink(post){
+    if(post?.classList.contains("regular-post")) return;
     const link = post.querySelector(".more-comments");
     if(!link) return;
     const total = getTotalCount(post);
@@ -303,20 +304,90 @@ function createPost(){
     if(mode==="byte"&&(!videoItem||!text)){if(warning)warning.textContent=!videoItem?"Add a Byte video before posting…":"Your Byte needs a caption…";showPostWarning();return;}
     if(mode==="byte"&&selectedPostVideo?.duration>180.01){if(warning)warning.textContent="Bytes can be up to 3 minutes long.";showPostWarning();return;}
     if(mode==="post"&&!text){if(warning)warning.textContent="Looks like your post is missing some context…";showPostWarning();return;}
-    const feed=document.getElementById("feed"),np=document.createElement("article");np.className=mode==="blog"?"post blog-post":mode==="video"?"post video-post":mode==="byte"?"post byte-post":"post";
+    const feed=document.getElementById("feed"),np=document.createElement("article");np.className=mode==="blog"?"post blog-post":mode==="video"?"post video-post":mode==="byte"?"post byte-post":"post regular-post";
     const topicEmoji=({"Art":"🎨","Halloween":"🎃","Nature":"🌲","Gaming":"🎮","Music":"🎵","Books":"📚","Food":"🍔","Photography":"📷","Movies & TV":"🎬","Fashion":"👗","Technology":"💻","Lifestyle":"🧘","Home & Decor":"🏠","Travel":"✈️","Animals":"🐾","Other":"🎲"}[selectedTopic]||"🏷️");
     const allowImageExpansion=document.getElementById("imageExpansionToggle")?.checked!==false;
     const imageHTML=mediaItems.length?`<div class="post-image has-upload"><div class="media-carousel feed-carousel" data-index="0"><div class="media-carousel-track">${mediaItems.map((m,i)=>`<div class="media-slide"><div class="feed-media-stage"><div class="feed-media-frame ${m.mode||"fit"}${mode==="post"&&!allowImageExpansion?" no-expand":""}" data-full="${m.url}" data-expand="${allowImageExpansion}" ${mode==="post"&&allowImageExpansion?'onclick="openPostImage(this,event)"':""}><img src="${m.url}" alt="${mode==="blog"?"Blog":"Post"} image ${i+1} of ${mediaItems.length}" style="${composerImageStyle(m)}">${mode==="post"&&allowImageExpansion?'<button type="button" class="feed-expand" onclick="openPostImage(this.parentElement,event)" aria-label="Expand full image">⤢</button>':""}</div></div></div>`).join("")}</div>${mediaItems.length>1?`<button type="button" class="carousel-arrow prev" onclick="movePostCarousel(this,-1)" aria-label="Previous photo">‹</button><button type="button" class="carousel-arrow next" onclick="movePostCarousel(this,1)" aria-label="Next photo">›</button>`:""}</div>${mediaItems.length>1?`<div class="carousel-dots">${mediaItems.map((_,i)=>`<button type="button" class="carousel-dot ${i===0?"active":""}" onclick="goPostCarousel(this,${i})" aria-label="View photo ${i+1}"></button>`).join("")}</div>`:""}</div>`:editingPreservedMediaHTML;
     const videoPoster=(mode==="video"||mode==="byte")&&mediaItems.length?mediaItems[0]:null;
     const videoHTML=videoItem?`<div class="video-feed-player ${mode==="byte"?"byte-feed-player":""}">${videoPoster?`<div class="video-feed-poster"><img src="${videoPoster.url}" alt="Video preview image" style="${composerImageStyle(videoPoster)}"></div>`:""}<video preload="metadata" playsinline src="${videoItem.feedUrl}" data-video-type="${escapeHTML(videoItem.type||'')}" onclick="showVideoControls(this.closest('.video-feed-player'))"></video><div class="video-playback-warning">This browser cannot play this video file.</div>${videoControlHTML()}</div>`:"";
     const contentHTML=mode==="blog"?`<div class="blog-feed-title">${escapeHTML(title)}</div>${imageHTML?`<div class="blog-home-preview">${imageHTML}</div>`:""}<div class="caption blog-feed-excerpt">${escapeHTML(text.length>420?text.slice(0,420).trim()+"…":text)}</div><button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button><div class="blog-full-body">${blogHTML}</div>`:mode==="video"?`<div class="video-feed-title">${escapeHTML(title)}</div>${videoHTML}<div class="video-caption-row"><div class="caption video-caption">${escapeHTML(text)}</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>`:mode==="byte"?`<div class="byte-home-media-stage">${videoHTML}</div><div class="byte-caption-row"><div class="caption byte-caption">${escapeHTML(text)}</div><button type="button" class="byte-caption-more" onclick="toggleByteCaption(this)">More</button></div>`:`${imageHTML}<div class="caption">${escapeHTML(text)}</div>`;
-    np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
+    if(mode==="post"){
+        np.innerHTML=`<header class="post-header">
+<div class="profile-picture"></div>
+<div class="post-author-copy">
+<div class="post-author-line">
+<span class="username">@yourusername</span>
+<span class="post-time">· Just now</span>
+<span class="post-type-bubble">POST</span>
+</div>
+<div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="regularTogglePostMenu(event,this)" type="button">•••</button>
+<div class="regular-post-menu">
+<button class="post-menu-action" onclick="editPost(this)" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" onclick="deletePost(this)" type="button">Delete</button>
+</div>
+</div>
+</header>
+${imageHTML}
+<p class="caption">${escapeHTML(text)}</p>
+<div class="interactions">
+<button class="action-pill regular-like-button" onclick="regularToggleLike(this)" type="button">
+<svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+<span class="like-count">0</span>
+</button>
+<button class="action-pill pocket-action" type="button">
+<svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg>
+<span>Pocket</span>
+</button>
+<button class="action-pill community-action" type="button">
+<svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg>
+<span>Community</span>
+</button>
+<button class="reblog-counter" onclick="regularIncrementReblog(this)" type="button">↻ <span>0</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="regularToggleSave(this)" type="button">
+<svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg>
+<span>Save</span>
+</button>
+</div>
+<div class="latest-comment empty-comment">
+<span class="comment-username"></span>
+<span class="latest-comment-copy">No comments yet</span>
+<span class="latest-comment-time"></span>
+</div>
+<div class="post-footer">
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="regularOpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state">
+<textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea>
+<div class="comment-post-actions">
+<button class="comment-post-button" onclick="regularPostComment(this,event)" type="button">POST</button>
+<button class="comment-close-button" onclick="regularCloseCommentComposer(this,event)" type="button">CLOSE</button>
+</div>
+</div>
+</div>
+<button class="hide-comments-inline" onclick="regularHideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+</div>
+<button class="more-comments" onclick="regularToggleComments(this)" type="button">View 0 more</button>
+<div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}</div>
+<section class="comments-section"></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>`;
+    }else{
+        np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
 <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
 <div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 0 · Reblog</div>
 <button class="interaction share share-action" type="button">↗ Share</button>
 </div><div class="latest-comment-label">Latest comment</div><div class="latest-comment empty-comment" data-time="">No comments yet</div><div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 0 more comments</div><div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}<button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div><div class="comments-section"></div><div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>`;
+    }
     if(postBeingEdited){const oldUser=postBeingEdited.querySelector(".username")?.textContent,oldTime=postBeingEdited.querySelector(".post-time")?.textContent,oldAvatar=postBeingEdited.querySelector(".profile-picture"),newAvatar=np.querySelector(".profile-picture"),newTime=np.querySelector(".post-time");if(oldUser)np.querySelector(".username").textContent=oldUser;if(oldTime&&newTime)newTime.textContent=oldTime;if(oldAvatar&&newAvatar)newAvatar.replaceWith(oldAvatar);[".interactions",".latest-comment-label",".latest-comment",".comments-section",".comment-composer"].forEach(s=>{const oldNode=postBeingEdited.querySelector(s),newNode=np.querySelector(s);if(oldNode&&newNode)newNode.replaceWith(oldNode)});postBeingEdited.replaceWith(np);updateMoreLink(np)}else feed.prepend(np);editingPost=null;editingPreservedMediaHTML="";closeComposerAfterPublish();const newCarousel=np.querySelector(".media-carousel.feed-carousel");if(newCarousel)wirePostCarouselSwipe(newCarousel);const newFeedVideo=np.querySelector(".video-feed-player video");if(newFeedVideo)syncFeedVideoControls(newFeedVideo);if(mode==="byte")setupByteCaption(np);if(mode==="video")setupVideoDescription(np);ta.value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";selectedPostMedia=[];composerMediaIndex=0;if(selectedPostVideo?.previewUrl&&!selectedPostVideo.existing)URL.revokeObjectURL(selectedPostVideo.previewUrl);selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreviewPlayer").load();document.getElementById("videoPreview").classList.remove("active");document.getElementById("videoFileNote").textContent="";document.getElementById("videoUploadInput").value="";document.getElementById("byteFramePicker").classList.remove("active");document.getElementById("postMediaInput").value="";document.getElementById("cropPanel").classList.remove("open");renderComposerMedia();removePostLink();resetPostComposerSelections();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();requestAnimationFrame(()=>np.scrollIntoView({behavior:"smooth",block:"start"}));
 }
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.classList.remove("empty-comment");lc.dataset.time="Just now";lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.remove("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
@@ -428,3 +499,157 @@ window.addEventListener("scroll",sizeDesktopSidebar,{passive:true});
 requestAnimationFrame(sizeDesktopSidebar);
 
 requestAnimationFrame(()=>{syncCreatorVideoControls(document.getElementById('videoPreviewPlayer'));document.querySelectorAll('.video-feed-player video').forEach(syncFeedVideoControls);document.querySelectorAll('.post.byte-post').forEach(setupByteCaption);document.querySelectorAll('.post.video-post').forEach(setupVideoDescription);document.querySelectorAll('.post').forEach(updateMoreLink)});
+
+
+/* =========================================================
+   LIVE HOME — REGULAR POST V11 HANDLERS
+   Scoped to .regular-post. Blog / Video / Byte remain on the
+   original Home behavior until their own integration passes.
+========================================================= */
+function regularToggleLike(btn){
+  const count=btn.querySelector(".like-count");
+  const liked=btn.classList.toggle("liked");
+  if(count) count.textContent=String(Math.max(0,Number(count.textContent||0)+(liked?1:-1)));
+}
+
+function regularToggleSave(btn){
+  const saved=btn.classList.toggle("saved");
+  btn.setAttribute("aria-label",saved?"Remove saved post":"Save post");
+}
+
+function regularIncrementReblog(btn){
+  const count=btn.querySelector("span");
+  if(!count)return;
+  const on=btn.dataset.reblogged==="true";
+  count.textContent=String(Math.max(0,Number(count.textContent||0)+(on?-1:1)));
+  btn.dataset.reblogged=on?"false":"true";
+}
+
+function regularTogglePostMenu(event,btn){
+  event.stopPropagation();
+  const menu=btn.nextElementSibling;
+  document.querySelectorAll(".regular-post-menu.open").forEach(m=>{if(m!==menu)m.classList.remove("open")});
+  menu?.classList.toggle("open");
+}
+
+function regularOpenCommentComposer(el){
+  const composer=el.closest(".comment-composer");
+  const wrap=composer?.closest(".single-comment-composer");
+  if(!composer)return;
+  composer.classList.add("active");
+  wrap?.classList.add("open");
+  setTimeout(()=>composer.querySelector(".comment-text-area")?.focus(),0);
+}
+
+function regularCloseCommentComposer(el,event){
+  event?.stopPropagation();
+  const post=el.closest(".regular-post");
+  post?.querySelector(".comment-composer")?.classList.remove("active");
+  post?.querySelector(".single-comment-composer")?.classList.remove("open");
+}
+
+function regularSyncComments(post,open){
+  const view=post.querySelector(".more-comments");
+  const hide=post.querySelector(".hide-comments-inline");
+  if(view)view.style.display=open?"none":"";
+  hide?.classList.toggle("show",open);
+}
+
+function regularToggleComments(btn){
+  const post=btn.closest(".regular-post");
+  const section=post.querySelector(".comments-section");
+  const open=section.classList.toggle("active");
+  regularSyncComments(post,open);
+}
+
+function regularHideComments(btn){
+  const post=btn.closest(".regular-post");
+  post.querySelector(".comments-section")?.classList.remove("active");
+  regularSyncComments(post,false);
+}
+
+function regularUpdateCommentCount(post){
+  const view=post?.querySelector(".more-comments");
+  if(!view)return;
+  const count=post.querySelectorAll(".comments-section .comment-item").length;
+  view.textContent=`View ${count} more`;
+}
+
+function regularPostComment(btn,event){
+  event?.stopPropagation();
+  const post=btn.closest(".regular-post");
+  const field=post.querySelector(".comment-text-area");
+  const value=field?.value.trim();
+  if(!value)return;
+
+  const latest=post.querySelector(".latest-comment");
+  if(latest){
+    latest.classList.remove("empty-comment");
+    latest.innerHTML='<span class="comment-username">@yourusername:</span><span class="latest-comment-copy">'+escapeHTML(value)+'</span><span class="latest-comment-time">now</span>';
+  }
+
+  const section=post.querySelector(".comments-section");
+  const item=document.createElement("div");
+  item.className="comment-item";
+  item.innerHTML='<div class="comment-avatar" aria-hidden="true">y</div><div class="comment-body"><div class="comment-author">@yourusername</div><div>'+escapeHTML(value)+'</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button" onclick="regularToggleCommentLike(this)"><svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" type="button" onclick="regularReplyToTarget(this,\'@yourusername\')">Reply</button></div></div>';
+  section?.appendChild(item);
+
+  field.value="";
+  regularUpdateCommentCount(post);
+  section?.classList.add("active");
+  regularSyncComments(post,true);
+  regularCloseCommentComposer(btn);
+}
+
+function regularToggleCommentLike(btn){
+  btn.classList.toggle("liked");
+}
+
+function regularReplyToTarget(btn,username){
+  const post=btn.closest(".regular-post");
+  const composer=post?.querySelector(".comment-composer");
+  const field=composer?.querySelector(".comment-text-area");
+  if(!composer||!field)return;
+  regularOpenCommentComposer(composer);
+  field.value=username+" ";
+  field.focus();
+  field.setSelectionRange(field.value.length,field.value.length);
+}
+
+/* Share is only a visual selected state in this front-end prototype. */
+document.addEventListener("click",event=>{
+  const shareButton=event.target.closest(".feed .post.regular-post .share-action");
+  if(!shareButton)return;
+  const active=shareButton.classList.toggle("shared");
+  shareButton.setAttribute("aria-pressed",active?"true":"false");
+});
+
+/* Close the V11 menu when clicking elsewhere. */
+document.addEventListener("click",()=>{
+  document.querySelectorAll(".regular-post-menu.open").forEach(m=>m.classList.remove("open"));
+});
+
+/* Make the helper copy true: Esc closes, Enter posts, Shift+Enter adds a line. */
+document.addEventListener("keydown",event=>{
+  const field=event.target.closest?.(".regular-post .comment-text-area");
+  if(!field)return;
+  const post=field.closest(".regular-post");
+  if(event.key==="Escape"){
+    event.preventDefault();
+    regularCloseCommentComposer(field,event);
+    return;
+  }
+  if(event.key==="Enter"&&!event.shiftKey){
+    event.preventDefault();
+    const button=post?.querySelector(".comment-post-button");
+    if(button)regularPostComment(button,event);
+  }
+});
+
+requestAnimationFrame(()=>{
+  document.querySelectorAll(".post.regular-post").forEach(post=>{
+    const open=post.querySelector(".comments-section")?.classList.contains("active")||false;
+    regularSyncComments(post,open);
+  });
+});
+
