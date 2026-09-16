@@ -638,6 +638,21 @@ function videoV11TogglePostMenu(event,btn){
   menu?.classList.toggle('open');
 }
 document.addEventListener('click',()=>document.querySelectorAll('.video-v11-menu.open').forEach(m=>m.classList.remove('open')));
+function videoV11EditPost(btn){
+  const post=btn.closest('.video-post-v11');
+  const menu=post?.querySelector('.video-v11-menu');
+  menu?.classList.remove('open');
+  const desc=post?.querySelector('.video-description');
+  if(!desc)return;
+  const updated=window.prompt('Edit video description:',desc.textContent);
+  if(updated!==null && updated.trim()) desc.textContent=updated.trim();
+}
+function videoV11DeletePost(btn){
+  const post=btn.closest('.video-post-v11');
+  post?.querySelector('.video-v11-menu')?.classList.remove('open');
+  if(post && window.confirm('Delete this post?')) post.remove();
+}
+
 function videoV11OpenCommentComposer(el){
   const composer=el.closest('.comment-composer');
   const wrap=composer?.closest('.single-comment-composer');
