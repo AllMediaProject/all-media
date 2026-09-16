@@ -4950,3 +4950,23 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
     grid-column:2!important;
   }
 }
+
+
+/* =========================================================
+   V11 CARD BOTTOM BREATHING ROOM — MATCH LOCKED LAB
+   The lab keeps a 24px note slot plus 8px bottom margin,
+   even while the prototype note is visually hidden.
+========================================================= */
+.feed .post.regular-post > .prototype-note,
+.feed .post.blog-post-v11 > .prototype-note{
+  min-height:24px!important;
+  margin:0 18px 8px!important;
+  color:rgba(255,207,159,.55)!important;
+  font-size:9px!important;
+  opacity:0;
+  transition:opacity .18s;
+}
+.feed .post.regular-post > .prototype-note.show,
+.feed .post.blog-post-v11 > .prototype-note.show{
+  opacity:1;
+}
