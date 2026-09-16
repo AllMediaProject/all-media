@@ -5321,7 +5321,62 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   content:none!important;
   display:none!important;
 }
-    </style>
+    
+/* =========================================================
+   LOCKED DESKTOP HOME WIDTH — approved feed/card proportions
+   Header and page layout share the same 1600px outer width.
+========================================================= */
+@media(min-width:1321px){
+  .page-layout{
+    width:calc(100% - 48px)!important;
+    max-width:1600px!important;
+    margin:14px auto 110px!important;
+    display:grid!important;
+    grid-template-columns:
+      minmax(340px,1fr)
+      minmax(0,780px)
+      minmax(320px,1fr)!important;
+    column-gap:18px!important;
+    justify-content:stretch!important;
+    align-items:start!important;
+    transform:none!important;
+  }
+
+  .page-layout > .sidebar-column,
+  .page-layout > .main-column,
+  .page-layout > .right-rail{
+    min-width:0!important;
+  }
+
+  .sidebar-column{
+    width:100%!important;
+    max-width:none!important;
+    justify-self:stretch!important;
+  }
+
+  .main-column{
+    width:100%!important;
+    max-width:780px!important;
+    justify-self:center!important;
+  }
+
+  .main-column > .feed,
+  .main-column > .composer{
+    width:100%!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  .right-rail{
+    width:100%!important;
+    max-width:none!important;
+    justify-self:stretch!important;
+    margin-left:0!important;
+  }
+}
+
+</style>
 </head>
 <body>
 <header class="site-header">
