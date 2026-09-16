@@ -255,7 +255,7 @@ body{
 }
 
 .byte-preview{
-  width:38%;
+  width:41%;
   aspect-ratio:9 / 16;
   display:grid;
   place-items:center;
@@ -280,6 +280,12 @@ body{
   letter-spacing:.08em;
   text-align:center;
   text-transform:uppercase;
+}
+
+
+/* Byte-only desktop composition: preview first, creator metadata second. */
+.feed-card > .post-header{
+  margin-top:12px;
 }
 
 .byte-caption{
@@ -875,6 +881,12 @@ body{
   </div>
 
   <article class="feed-card">
+    <div class="byte-stage">
+      <div class="byte-preview" aria-label="Static placeholder for the existing Home Byte player">
+        <span class="byte-preview-label">Existing Byte player goes here</span>
+      </div>
+    </div>
+
     <header class="post-header">
       <div class="profile-picture" aria-hidden="true">m</div>
 
@@ -898,12 +910,6 @@ body{
         </div>
       </div>
     </header>
-
-    <div class="byte-stage">
-      <div class="byte-preview" aria-label="Static placeholder for the existing Home Byte player">
-        <span class="byte-preview-label">Existing Byte player goes here</span>
-      </div>
-    </div>
 
     <p class="byte-caption caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</p>
 
