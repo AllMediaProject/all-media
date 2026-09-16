@@ -5308,3 +5308,8 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
     margin-right:14px!important;
   }
 }
+/* V11 Blog already includes its own star */
+.feed .post.blog-post-v11 .blog-feed-title::before{
+  content:none!important;
+  display:none!important;
+}
