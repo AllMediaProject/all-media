@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<!-- REVISION: 2026-09-16 HASHTAG + BLOG READ FIX -->
+<!-- REVISION: 2026-09-16 BLOG CONTINUATION FIX -->
 <head>
     <title>All Media</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -9537,12 +9537,56 @@ function resetPostComposerSelections(){
 function setCreatorTypeLocked(locked){const tabs=document.querySelector(".creator-type-tabs"),note=document.getElementById("creatorTypeLockNote");tabs?.classList.toggle("type-locked",locked);note?.classList.toggle("show",locked);document.querySelectorAll(".creator-type-tab").forEach(tab=>{tab.disabled=locked;tab.setAttribute("aria-disabled",String(locked))})}
 function closeComposerAfterPublish(){const composer=document.getElementById("composer"),feed=document.getElementById("feed"),button=document.getElementById("sidebarCreateButton");setCreatorTypeLocked(false);if(composer)composer.classList.remove("active");if(feed)feed.style.display="block";if(button){button.textContent="CREATE POST";button.classList.remove("cancel");}}
 function formatMediaDuration(seconds){const total=Math.max(0,Math.floor(Number(seconds)||0)),m=Math.floor(total/60),sec=String(total%60).padStart(2,"0");return `${m}:${sec}`;}
+
+function splitBlogFeedContent(html,fallbackText){
+    const shell=document.createElement("div");
+    shell.innerHTML=html||"";
+    let target=null;
+
+    for(const node of [...shell.childNodes]){
+        if(node.nodeType===1){
+            const el=node;
+            if(el.matches?.(".blog-inline-media,figure") && !((el.textContent||"").trim())) continue;
+        }
+        const raw=(node.textContent||"").replace(/\u00a0/g," ").trim();
+        if(raw){target=node;break;}
+    }
+
+    if(!target){
+        const clean=(fallbackText||"").trim();
+        return{preview:clean.length>420?clean.slice(0,420).trim()+"…":clean,continuation:""};
+    }
+
+    const raw=(target.textContent||"").replace(/\u00a0/g," ").trim();
+    let cut=raw.length;
+    if(raw.length>420){
+        cut=420;
+        const wordBreak=raw.lastIndexOf(" ",420);
+        if(wordBreak>=320)cut=wordBreak;
+    }
+
+    const preview=raw.slice(0,cut).trim()+(cut<raw.length?"…":"");
+
+    if(cut>=raw.length){
+        target.remove();
+    }else{
+        const remainder=raw.slice(cut).trimStart();
+        if(target.nodeType===3){
+            target.textContent=remainder;
+        }else{
+            target.textContent=remainder;
+        }
+    }
+
+    return{preview,continuation:shell.innerHTML};
+}
+
 function createPost(){
     const mode=document.querySelector(".creator-type-tab.active")?.dataset.type||"post";
     if(!["post","blog","video","byte"].includes(mode))return;
     if(mode==="blog")clearBlogImageSelection();
     const postBeingEdited=editingPost;
-    const ta=document.getElementById("mainPostText"),blogEditor=document.getElementById("blogBodyEditor"),text=mode==="blog"?blogPlainText():ta.value.trim(),blogHTML=mode==="blog"?blogEditor.innerHTML:"",title=document.getElementById("blogTitle").value.trim(),selectedTopic=document.getElementById("topicPicker").dataset.topic||"Art",cp=document.getElementById("communityPicker"),selectedCommunities=JSON.parse(cp.dataset.communities||"[]"),attachedLink=(mode==="post"||mode==="video"||mode==="byte")?normalizeAttachedLink(document.getElementById("postLinkInput").value):"",mediaItems=selectedPostMedia.map(m=>({...m})),videoItem=(mode==="video"||mode==="byte")&&selectedPostVideo?{...selectedPostVideo,feedUrl:selectedPostVideo.existing?(selectedPostVideo.feedUrl||selectedPostVideo.previewUrl):URL.createObjectURL(selectedPostVideo.blob),type:selectedPostVideo.type||"video/mp4"}:null;
+    const ta=document.getElementById("mainPostText"),blogEditor=document.getElementById("blogBodyEditor"),text=mode==="blog"?blogPlainText():ta.value.trim(),blogHTML=mode==="blog"?blogEditor.innerHTML:"",blogFeedParts=mode==="blog"?splitBlogFeedContent(blogHTML,text):null,title=document.getElementById("blogTitle").value.trim(),selectedTopic=document.getElementById("topicPicker").dataset.topic||"Art",cp=document.getElementById("communityPicker"),selectedCommunities=JSON.parse(cp.dataset.communities||"[]"),attachedLink=(mode==="post"||mode==="video"||mode==="byte")?normalizeAttachedLink(document.getElementById("postLinkInput").value):"",mediaItems=selectedPostMedia.map(m=>({...m})),videoItem=(mode==="video"||mode==="byte")&&selectedPostVideo?{...selectedPostVideo,feedUrl:selectedPostVideo.existing?(selectedPostVideo.feedUrl||selectedPostVideo.previewUrl):URL.createObjectURL(selectedPostVideo.blob),type:selectedPostVideo.type||"video/mp4"}:null;
     const warning=document.getElementById("postWarning");
     if(mode==="blog"&&(!title||!text)){if(warning)warning.textContent=!title?"Your blog needs a title…":"Looks like your blog is missing some context…";showPostWarning();return;}
     if(mode==="blog"&&blogMeaningfulLength()<1000){if(warning)warning.textContent="Blogs need at least 1,000 characters.";showPostWarning();return;}
@@ -9556,7 +9600,7 @@ function createPost(){
     const imageHTML=mediaItems.length?`<div class="post-image has-upload"><div class="media-carousel feed-carousel" data-index="0"><div class="media-carousel-track">${mediaItems.map((m,i)=>`<div class="media-slide"><div class="feed-media-stage"><div class="feed-media-frame ${m.mode||"fit"}${mode==="post"&&!allowImageExpansion?" no-expand":""}" data-full="${m.url}" data-expand="${allowImageExpansion}" ${mode==="post"&&allowImageExpansion?'onclick="openPostImage(this,event)"':""}><img src="${m.url}" alt="${mode==="blog"?"Blog":"Post"} image ${i+1} of ${mediaItems.length}" style="${composerImageStyle(m)}">${mode==="post"&&allowImageExpansion?'<button type="button" class="feed-expand" onclick="openPostImage(this.parentElement,event)" aria-label="Expand full image">⤢</button>':""}</div></div></div>`).join("")}</div>${mediaItems.length>1?`<button type="button" class="carousel-arrow prev" onclick="movePostCarousel(this,-1)" aria-label="Previous photo">‹</button><button type="button" class="carousel-arrow next" onclick="movePostCarousel(this,1)" aria-label="Next photo">›</button>`:""}</div>${mediaItems.length>1?`<div class="carousel-dots">${mediaItems.map((_,i)=>`<button type="button" class="carousel-dot ${i===0?"active":""}" onclick="goPostCarousel(this,${i})" aria-label="View photo ${i+1}"></button>`).join("")}</div>`:""}</div>`:editingPreservedMediaHTML;
     const videoPoster=(mode==="video"||mode==="byte")&&mediaItems.length?mediaItems[0]:null;
     const videoHTML=videoItem?`<div class="video-feed-player ${mode==="video"?"video-v11-feed-player":mode==="byte"?"byte-feed-player byte-v11-feed-player":""}">${videoPoster?`<div class="video-feed-poster"><img src="${videoPoster.url}" alt="Video preview image" style="${composerImageStyle(videoPoster)}"></div>`:""}<video preload="metadata" playsinline src="${videoItem.feedUrl}" data-video-type="${escapeHTML(videoItem.type||'')}" onclick="showVideoControls(this.closest('.video-feed-player'))"></video><div class="video-playback-warning">This browser cannot play this video file.</div>${videoControlHTML()}</div>`:"";
-    const contentHTML=mode==="blog"?`<div class="blog-feed-title">${escapeHTML(title)}</div>${imageHTML?`<div class="blog-home-preview">${imageHTML}</div>`:""}<div class="caption blog-feed-excerpt">${escapeHTML(text.length>420?text.slice(0,420).trim()+"…":text)}</div><button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button><div class="blog-full-body">${blogHTML}</div>`:mode==="video"?`<div class="video-feed-title">${escapeHTML(title)}</div>${videoHTML}<div class="video-caption-row"><div class="caption video-caption">${escapeHTML(text)}</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>`:mode==="byte"?`<div class="byte-stage">${videoHTML}</div><p class="byte-caption caption">${escapeHTML(text)}</p>`:`${imageHTML}<div class="caption">${escapeHTML(text)}</div>`;
+    const contentHTML=mode==="blog"?`<div class="blog-feed-title">${escapeHTML(title)}</div>${imageHTML?`<div class="blog-home-preview">${imageHTML}</div>`:""}<div class="caption blog-feed-excerpt">${escapeHTML(blogFeedParts.preview)}</div><button type="button" class="blog-read-button" onclick="toggleBlogBody(this)">Read Blog</button><div class="blog-full-body">${blogFeedParts.continuation}</div><template class="blog-source-html">${blogHTML}</template>`:mode==="video"?`<div class="video-feed-title">${escapeHTML(title)}</div>${videoHTML}<div class="video-caption-row"><div class="caption video-caption">${escapeHTML(text)}</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>`:mode==="byte"?`<div class="byte-stage">${videoHTML}</div><p class="byte-caption caption">${escapeHTML(text)}</p>`:`${imageHTML}<div class="caption">${escapeHTML(text)}</div>`;
     if(mode==="post"){
         np.innerHTML=`<header class="post-header">
 <div class="profile-picture"></div>
@@ -9647,9 +9691,10 @@ ${imageHTML}
 </header>
 <h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>${escapeHTML(title)}</h2>
 ${imageHTML?`<div class="blog-preview-image blog-home-preview">${imageHTML}</div>`:""}
-<p class="blog-excerpt blog-feed-excerpt">${escapeHTML(text.length>420?text.slice(0,420).trim()+"…":text)}</p>
+<p class="blog-excerpt blog-feed-excerpt">${escapeHTML(blogFeedParts.preview)}</p>
 <button class="read-blog blog-read-button" onclick="blogV11ToggleBlog(this)" type="button">Read Blog →</button>
-<div class="blog-full-content blog-full-body">${blogHTML}</div>
+<div class="blog-full-content blog-full-body">${blogFeedParts.continuation}</div>
+<template class="blog-source-html">${blogHTML}</template>
 <div class="interactions">
 <button class="action-pill blog-like-button" onclick="blogV11ToggleLike(this)" type="button">
 <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
@@ -9798,7 +9843,7 @@ function editPost(button){
     if(mode==="post"){const expansionToggle=document.getElementById("imageExpansionToggle");if(expansionToggle){expansionToggle.checked=!frames.length||frames[0].dataset.expand!=="false";syncSwitchStatus(expansionToggle)}}
     if(mode==="blog")selectedPostMedia.forEach(m=>m.mode="landscape");
     if(!selectedPostMedia.length){if(mode==="blog")editingPreservedMediaHTML=post.querySelector(".blog-home-preview")?.innerHTML||"";else if(mode==="post")editingPreservedMediaHTML=post.querySelector(":scope > .post-image")?.outerHTML||"";}
-    if(mode==="blog"){document.getElementById("blogTitle").value=post.querySelector(".blog-feed-title")?.textContent.trim()||"";document.getElementById("blogBodyEditor").innerHTML=post.querySelector(".blog-full-body")?.innerHTML||"";prepareBlogInlineImages();}else{if(mode==="video")document.getElementById("blogTitle").value=(post.querySelector(".video-title")?.textContent||post.querySelector(".video-feed-title")?.textContent||"").replace(/^▶\s*/,"").trim();document.getElementById("mainPostText").value=(post.querySelector(mode==="video"?".video-caption":mode==="byte"?".byte-caption":":scope > .caption")?.textContent||"").trim();}
+    if(mode==="blog"){document.getElementById("blogTitle").value=post.querySelector(".blog-feed-title")?.textContent.trim()||"";const source=post.querySelector(".blog-source-html");document.getElementById("blogBodyEditor").innerHTML=source?source.innerHTML:(post.querySelector(".blog-full-body")?.innerHTML||"");prepareBlogInlineImages();}else{if(mode==="video")document.getElementById("blogTitle").value=(post.querySelector(".video-title")?.textContent||post.querySelector(".video-feed-title")?.textContent||"").replace(/^▶\s*/,"").trim();document.getElementById("mainPostText").value=(post.querySelector(mode==="video"?".video-caption":mode==="byte"?".byte-caption":":scope > .caption")?.textContent||"").trim();}
     if(mode==="video"||mode==="byte"){const video=post.querySelector("video");if(video){selectedPostVideo={previewUrl:video.currentSrc||video.src,feedUrl:video.currentSrc||video.src,type:video.dataset.videoType||"video/mp4",duration:video.duration||Number(post.querySelector(".feed-video-duration")?.textContent.split(":")[0])*60+Number(post.querySelector(".feed-video-duration")?.textContent.split(":")[1])||0,existing:true};const player=document.getElementById("videoPreviewPlayer");player.src=selectedPostVideo.previewUrl;player.load();document.getElementById("videoPreview").classList.add("active");document.getElementById("videoFileNote").textContent="Current video";}}
     renderComposerMedia();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();setPublishButtonLabel("SAVE CHANGES");composer.classList.add("active");feed.style.display="none";sidebarButton.textContent="CANCEL POST";sidebarButton.classList.add("cancel");composer.scrollIntoView({behavior:"smooth",block:"start"});
 }
