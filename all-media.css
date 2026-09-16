@@ -3636,3 +3636,50 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   }
 }
 
+/* =========================================================
+   REGULAR POST V11 — QUICK COMMENT SCALE FIX
+   Only the compact quick-comment control and View More text.
+   Everything else is intentionally untouched.
+========================================================= */
+
+.feed .post.regular-post > .post-footer{
+  grid-template-columns:minmax(0,1fr) 132px 88px!important;
+}
+
+.feed .post.regular-post .comment-composer{
+  min-height:44px!important;
+  padding:0 14px!important;
+  border-radius:14px!important;
+}
+
+.feed .post.regular-post .comment-compact-state{
+  gap:10px!important;
+  font-size:12.5px!important;
+}
+
+.feed .post.regular-post .comment-mini-avatar{
+  width:27px!important;
+  height:27px!important;
+}
+
+.feed .post.regular-post .more-comments{
+  width:132px!important;
+  min-width:132px!important;
+  max-width:132px!important;
+  font:600 12px/1.2 'Outfit',sans-serif!important;
+  letter-spacing:.01em!important;
+}
+
+@media(max-width:700px){
+  .feed .post.regular-post > .post-footer{
+    grid-template-columns:1fr auto!important;
+  }
+
+  .feed .post.regular-post .more-comments{
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    font-size:12px!important;
+  }
+}
+
