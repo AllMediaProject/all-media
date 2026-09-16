@@ -88,7 +88,7 @@ function getTotalCount(post){
     return post.querySelectorAll(".comments-section .comment-item").length;
 }
 function updateMoreLink(post){
-    if(post?.classList.contains("regular-post")) return;
+    if(post?.classList.contains("regular-post")||post?.classList.contains("blog-post-v11")) return;
     const link = post.querySelector(".more-comments");
     if(!link) return;
     const total = getTotalCount(post);
@@ -304,7 +304,7 @@ function createPost(){
     if(mode==="byte"&&(!videoItem||!text)){if(warning)warning.textContent=!videoItem?"Add a Byte video before posting…":"Your Byte needs a caption…";showPostWarning();return;}
     if(mode==="byte"&&selectedPostVideo?.duration>180.01){if(warning)warning.textContent="Bytes can be up to 3 minutes long.";showPostWarning();return;}
     if(mode==="post"&&!text){if(warning)warning.textContent="Looks like your post is missing some context…";showPostWarning();return;}
-    const feed=document.getElementById("feed"),np=document.createElement("article");np.className=mode==="blog"?"post blog-post":mode==="video"?"post video-post":mode==="byte"?"post byte-post":"post regular-post";
+    const feed=document.getElementById("feed"),np=document.createElement("article");np.className=mode==="blog"?"post blog-post blog-post-v11":mode==="video"?"post video-post":mode==="byte"?"post byte-post":"post regular-post";
     const topicEmoji=({"Art":"🎨","Halloween":"🎃","Nature":"🌲","Gaming":"🎮","Music":"🎵","Books":"📚","Food":"🍔","Photography":"📷","Movies & TV":"🎬","Fashion":"👗","Technology":"💻","Lifestyle":"🧘","Home & Decor":"🏠","Travel":"✈️","Animals":"🐾","Other":"🎲"}[selectedTopic]||"🏷️");
     const allowImageExpansion=document.getElementById("imageExpansionToggle")?.checked!==false;
     const imageHTML=mediaItems.length?`<div class="post-image has-upload"><div class="media-carousel feed-carousel" data-index="0"><div class="media-carousel-track">${mediaItems.map((m,i)=>`<div class="media-slide"><div class="feed-media-stage"><div class="feed-media-frame ${m.mode||"fit"}${mode==="post"&&!allowImageExpansion?" no-expand":""}" data-full="${m.url}" data-expand="${allowImageExpansion}" ${mode==="post"&&allowImageExpansion?'onclick="openPostImage(this,event)"':""}><img src="${m.url}" alt="${mode==="blog"?"Blog":"Post"} image ${i+1} of ${mediaItems.length}" style="${composerImageStyle(m)}">${mode==="post"&&allowImageExpansion?'<button type="button" class="feed-expand" onclick="openPostImage(this.parentElement,event)" aria-label="Expand full image">⤢</button>':""}</div></div></div>`).join("")}</div>${mediaItems.length>1?`<button type="button" class="carousel-arrow prev" onclick="movePostCarousel(this,-1)" aria-label="Previous photo">‹</button><button type="button" class="carousel-arrow next" onclick="movePostCarousel(this,1)" aria-label="Next photo">›</button>`:""}</div>${mediaItems.length>1?`<div class="carousel-dots">${mediaItems.map((_,i)=>`<button type="button" class="carousel-dot ${i===0?"active":""}" onclick="goPostCarousel(this,${i})" aria-label="View photo ${i+1}"></button>`).join("")}</div>`:""}</div>`:editingPreservedMediaHTML;
@@ -375,6 +375,58 @@ ${imageHTML}
 </div>
 <button class="more-comments" onclick="regularToggleComments(this)" type="button">View 0 more</button>
 <div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}</div>
+<section class="comments-section"></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>`;
+    }else if(mode==="blog"){
+        np.innerHTML=`<header class="post-header">
+<div class="profile-picture"></div>
+<div class="post-author-copy">
+<div class="post-author-line">
+<span class="username">@yourusername</span>
+<span class="post-time">· Just now</span>
+<span class="post-type-bubble">BLOG</span>
+</div>
+<div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="blogV11TogglePostMenu(event,this)" type="button">•••</button>
+<div class="blog-v11-menu">
+<button class="post-menu-action" onclick="editPost(this)" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" onclick="deletePost(this)" type="button">Delete</button>
+</div>
+</div>
+</header>
+<h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>${escapeHTML(title)}</h2>
+${imageHTML?`<div class="blog-preview-image blog-home-preview">${imageHTML}</div>`:""}
+<p class="blog-excerpt blog-feed-excerpt">${escapeHTML(text.length>420?text.slice(0,420).trim()+"…":text)}</p>
+<button class="read-blog blog-read-button" onclick="blogV11ToggleBlog(this)" type="button">Read Blog →</button>
+<div class="blog-full-content blog-full-body">${blogHTML}</div>
+<div class="interactions">
+<button class="action-pill blog-like-button" onclick="blogV11ToggleLike(this)" type="button">
+<svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+<span class="like-count">0</span>
+</button>
+<button class="action-pill pocket-action" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill community-action" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="blogV11IncrementReblog(this)" type="button">↻ <span>0</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="blogV11ToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+</div>
+<div class="latest-comment empty-comment"><span class="comment-username"></span><span class="latest-comment-copy">No comments yet</span><span class="latest-comment-time"></span></div>
+<div class="post-footer">
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="blogV11OpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="blogV11PostComment(this,event)" type="button">POST</button><button class="comment-close-button" onclick="blogV11CloseCommentComposer(this,event)" type="button">CLOSE</button></div></div>
+</div>
+<button class="hide-comments-inline" onclick="blogV11HideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+</div>
+<button class="more-comments" onclick="blogV11ToggleComments(this)" type="button">View 0 more</button>
+<div class="post-footer-actions"><button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
 </div>
 <div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}</div>
 <section class="comments-section"></section>
@@ -650,6 +702,153 @@ requestAnimationFrame(()=>{
   document.querySelectorAll(".post.regular-post").forEach(post=>{
     const open=post.querySelector(".comments-section")?.classList.contains("active")||false;
     regularSyncComments(post,open);
+  });
+});
+
+
+/* =========================================================
+   LIVE HOME — BLOG V11 HANDLERS
+   Scoped to .blog-post-v11. Regular Post remains untouched.
+========================================================= */
+
+function blogV11ToggleBlog(btn){
+  const post=btn.closest(".blog-post-v11");
+  const body=post?.querySelector(".blog-full-content");
+  if(!body)return;
+  const open=body.classList.toggle("active");
+  btn.textContent=open?"Close Blog ↑":"Read Blog →";
+}
+
+function blogV11ToggleLike(btn){regularToggleLike(btn)}
+function blogV11ToggleSave(btn){regularToggleSave(btn)}
+function blogV11IncrementReblog(btn){regularIncrementReblog(btn)}
+
+function blogV11TogglePostMenu(event,btn){
+  event.stopPropagation();
+  const menu=btn.nextElementSibling;
+  document.querySelectorAll(".blog-v11-menu.open").forEach(m=>{if(m!==menu)m.classList.remove("open")});
+  menu?.classList.toggle("open");
+}
+
+function blogV11OpenCommentComposer(el){
+  const composer=el.closest(".comment-composer");
+  const wrap=composer?.closest(".single-comment-composer");
+  if(!composer)return;
+  composer.classList.add("active");
+  wrap?.classList.add("open");
+  setTimeout(()=>composer.querySelector(".comment-text-area")?.focus(),0);
+}
+
+function blogV11CloseCommentComposer(el,event){
+  event?.stopPropagation();
+  const post=el.closest(".blog-post-v11");
+  post?.querySelector(".comment-composer")?.classList.remove("active");
+  post?.querySelector(".single-comment-composer")?.classList.remove("open");
+}
+
+function blogV11SyncComments(post,open){
+  const view=post.querySelector(".more-comments");
+  const hide=post.querySelector(".hide-comments-inline");
+  if(view)view.style.display=open?"none":"";
+  hide?.classList.toggle("show",open);
+}
+
+function blogV11ToggleComments(btn){
+  const post=btn.closest(".blog-post-v11");
+  const section=post?.querySelector(".comments-section");
+  if(!section)return;
+  const open=section.classList.toggle("active");
+  blogV11SyncComments(post,open);
+}
+
+function blogV11HideComments(btn){
+  const post=btn.closest(".blog-post-v11");
+  post?.querySelector(".comments-section")?.classList.remove("active");
+  if(post)blogV11SyncComments(post,false);
+}
+
+function blogV11UpdateCommentCount(post){
+  const view=post?.querySelector(".more-comments");
+  if(!view)return;
+  const count=post.querySelectorAll(".comments-section .comment-item").length;
+  view.textContent=`View ${count} more`;
+}
+
+function blogV11PostComment(btn,event){
+  event?.stopPropagation();
+  const post=btn.closest(".blog-post-v11");
+  const field=post?.querySelector(".comment-text-area");
+  const value=field?.value.trim();
+  if(!post||!value)return;
+
+  const latest=post.querySelector(".latest-comment");
+  if(latest){
+    latest.classList.remove("empty-comment");
+    latest.innerHTML='<span class="comment-username">@yourusername:</span><span class="latest-comment-copy">'+escapeHTML(value)+'</span><span class="latest-comment-time">now</span>';
+  }
+
+  const section=post.querySelector(".comments-section");
+  const item=document.createElement("div");
+  item.className="comment-item";
+  item.innerHTML='<div class="comment-avatar" aria-hidden="true">y</div><div class="comment-body"><div class="comment-author">@yourusername</div><div>'+escapeHTML(value)+'</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button" onclick="blogV11ToggleCommentLike(this)"><svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" type="button" onclick="blogV11ReplyToTarget(this,\'@yourusername\')">Reply</button></div></div>';
+  section?.appendChild(item);
+
+  field.value="";
+  blogV11UpdateCommentCount(post);
+  section?.classList.add("active");
+  blogV11SyncComments(post,true);
+  blogV11CloseCommentComposer(btn,event);
+}
+
+function blogV11ToggleCommentLike(btn){
+  btn.classList.toggle("liked");
+}
+
+function blogV11ReplyToTarget(btn,username){
+  const post=btn.closest(".blog-post-v11");
+  const composer=post?.querySelector(".comment-composer");
+  const field=composer?.querySelector(".comment-text-area");
+  if(!composer||!field)return;
+  blogV11OpenCommentComposer(composer);
+  field.value=username+" ";
+  field.focus();
+  field.setSelectionRange(field.value.length,field.value.length);
+}
+
+/* Blog Share state matches the locked Regular Post behavior. */
+document.addEventListener("click",event=>{
+  const shareButton=event.target.closest(".feed .post.blog-post-v11 .share-action");
+  if(!shareButton)return;
+  const active=shareButton.classList.toggle("shared");
+  shareButton.setAttribute("aria-pressed",active?"true":"false");
+});
+
+/* Close Blog menu when clicking elsewhere. */
+document.addEventListener("click",()=>{
+  document.querySelectorAll(".blog-v11-menu.open").forEach(m=>m.classList.remove("open"));
+});
+
+/* Blog quick-comment helper: Esc closes; Enter posts; Shift+Enter adds a line. */
+document.addEventListener("keydown",event=>{
+  const field=event.target.closest?.(".blog-post-v11 .comment-text-area");
+  if(!field)return;
+  const post=field.closest(".blog-post-v11");
+  if(event.key==="Escape"){
+    event.preventDefault();
+    blogV11CloseCommentComposer(field,event);
+    return;
+  }
+  if(event.key==="Enter"&&!event.shiftKey){
+    event.preventDefault();
+    const button=post?.querySelector(".comment-post-button");
+    if(button)blogV11PostComment(button,event);
+  }
+});
+
+requestAnimationFrame(()=>{
+  document.querySelectorAll(".blog-post-v11").forEach(post=>{
+    const open=post.querySelector(".comments-section")?.classList.contains("active")||false;
+    blogV11SyncComments(post,open);
   });
 });
 

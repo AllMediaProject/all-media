@@ -3771,3 +3771,279 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   }
 }
 
+/* BLOG V11 SHARED V11 — FOOTER COLLISION FIX
+   Reserve dedicated space for View comments so it can never overlap
+   the quick-comment box inside the 700px Home feed. */
+.feed .post.blog-post-v11 > .post-footer{
+  grid-template-columns:minmax(0,1fr) 118px 88px!important;
+  column-gap:12px!important;
+}
+.feed .post.blog-post-v11 .single-comment-composer{
+  min-width:0!important;
+  overflow:hidden!important;
+}
+.feed .post.blog-post-v11 .comment-composer{
+  min-width:0!important;
+  width:100%!important;
+  overflow:hidden!important;
+}
+.feed .post.blog-post-v11 .more-comments{
+  width:118px!important;
+  min-width:118px!important;
+  max-width:118px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+  text-align:center!important;
+}
+.feed .post.blog-post-v11 .post-footer-actions{
+  width:88px!important;
+  min-width:88px!important;
+  display:flex!important;
+  justify-content:flex-end!important;
+}
+
+@media(max-width:700px){
+  .feed .post.blog-post-v11 > .post-footer{
+    grid-template-columns:1fr auto!important;
+  }
+  .feed .post.blog-post-v11 .single-comment-composer{
+    grid-column:1 / -1!important;
+    overflow:visible!important;
+  }
+  .feed .post.blog-post-v11 .more-comments{
+    grid-column:1!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    justify-content:flex-start!important;
+  }
+  .feed .post.blog-post-v11 .post-footer-actions{
+    grid-column:2!important;
+    width:auto!important;
+    min-width:0!important;
+  }
+}
+
+
+/* =========================================================
+   BLOG V11 — LAB-SPECIFIC PREVIEW
+   Added after the shared V11 card rules so older Home Blog
+   styling cannot override the locked lab appearance.
+========================================================= */
+.feed .post.blog-post-v11 .blog-v11-menu{
+  position:absolute!important;top:33px!important;right:0!important;z-index:20!important;
+  display:none!important;flex-direction:column!important;align-items:stretch!important;gap:2px!important;
+  min-width:92px!important;padding:6px!important;border:1px solid rgba(255,207,159,.20)!important;
+  border-radius:10px!important;background:linear-gradient(145deg,#182a53,#101e40)!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.34)!important;white-space:nowrap!important;
+}
+.feed .post.blog-post-v11 .blog-v11-menu.open{display:flex!important}
+.feed .post.blog-post-v11>.blog-title{
+  margin:0!important;padding:2px 18px 11px!important;color:#fff!important;
+  font:700 17px/1.25 'Outfit',sans-serif!important;word-break:normal!important;
+}
+.feed .post.blog-post-v11 .blog-title-star{
+  margin-right:5px!important;color:#ffcf9f!important;text-shadow:0 0 10px rgba(255,207,159,.28)!important;
+}
+.feed .post.blog-post-v11>.blog-preview-image{
+  width:calc(100% - 36px)!important;aspect-ratio:16/9!important;height:auto!important;min-height:0!important;
+  margin:0 auto!important;padding:0!important;display:grid!important;place-items:center!important;overflow:hidden!important;
+  border:1px solid rgba(255,207,159,.28)!important;border-radius:14px!important;
+  background:radial-gradient(circle at 34% 46%,rgba(255,207,159,.12),transparent 24%),radial-gradient(circle at 74% 52%,rgba(170,155,255,.10),transparent 22%),linear-gradient(145deg,#233963,#101d3f)!important;
+  box-shadow:0 0 0 1px rgba(255,207,159,.09),0 0 22px rgba(255,207,159,.14),0 10px 22px -17px rgba(0,0,0,.72),inset 0 0 18px rgba(255,207,159,.025)!important;
+}
+.feed .post.blog-post-v11 .blog-preview-placeholder{
+  color:rgba(255,255,255,.55)!important;font:700 11px 'Outfit',sans-serif!important;letter-spacing:.09em!important;text-transform:uppercase!important;
+}
+.feed .post.blog-post-v11>.blog-excerpt{
+  display:block!important;margin:0!important;padding:13px 18px 0!important;color:rgba(255,255,255,.84)!important;
+  font:400 13px/1.52 'Outfit',sans-serif!important;white-space:normal!important;
+}
+.feed .post.blog-post-v11>.read-blog{
+  margin:8px 18px 0!important;padding:0!important;border:0!important;background:none!important;color:#ffcf9f!important;
+  font:700 11px 'Outfit',sans-serif!important;cursor:pointer!important;
+}
+.feed .post.blog-post-v11>.read-blog:hover{text-decoration:underline!important}
+.feed .post.blog-post-v11>.blog-full-content{
+  display:none!important;margin:12px 18px 0!important;padding:14px 15px!important;
+  border:1px solid rgba(255,207,159,.15)!important;border-radius:13px!important;background:rgba(255,255,255,.025)!important;
+  color:rgba(255,255,255,.78)!important;font:400 12px/1.62 'Outfit',sans-serif!important;
+}
+.feed .post.blog-post-v11>.blog-full-content.active{display:block!important}
+.feed .post.blog-post-v11>.blog-full-content p{margin:0 0 11px!important}
+.feed .post.blog-post-v11>.blog-full-content p:last-child{margin-bottom:0!important}
+.feed .post.blog-post-v11>.interactions{margin-top:10px!important}
+.feed .post.blog-post-v11 .blog-like-button .like-heart{color:rgba(255,255,255,.70)!important}
+.feed .post.blog-post-v11 .blog-like-button.liked{
+  border-color:#ffcf9f!important;background:rgba(255,207,159,.12)!important;color:#ffcf9f!important;
+  box-shadow:0 0 10px rgba(255,207,159,.08)!important;
+}
+.feed .post.blog-post-v11 .blog-like-button.liked .like-heart{color:#ffcf9f!important}
+.feed .post.blog-post-v11 .blog-like-button.liked .like-heart path{fill:currentColor!important;stroke:currentColor!important}
+@media(max-width:700px){
+  .feed .post.blog-post-v11>.blog-preview-image{width:calc(100% - 28px)!important}
+}
+
+/* =========================================================
+   LIVE HOME — BLOG V11 FITTING
+   Blog only. Approved Regular Post and Home layout untouched.
+========================================================= */
+
+/* Real creator preview media fills the locked 16:9 Blog frame. */
+.feed .post.blog-post-v11 > .blog-preview-image.blog-home-preview:has(.post-image){
+  display:block!important;
+}
+
+.feed .post.blog-post-v11 > .blog-preview-image .post-image.has-upload{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+}
+
+.feed .post.blog-post-v11 > .blog-preview-image .media-carousel,
+.feed .post.blog-post-v11 > .blog-preview-image .media-carousel-track,
+.feed .post.blog-post-v11 > .blog-preview-image .media-slide,
+.feed .post.blog-post-v11 > .blog-preview-image .feed-media-stage,
+.feed .post.blog-post-v11 > .blog-preview-image .feed-media-frame{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
+.feed .post.blog-post-v11 > .blog-preview-image .feed-media-frame{
+  aspect-ratio:16/9!important;
+}
+
+.feed .post.blog-post-v11 > .blog-preview-image .feed-media-frame img{
+  width:100%!important;
+  height:100%!important;
+}
+
+/* Same approved live footer geometry as the now-locked Regular Post:
+   long quick-comment field, View More immediately before Hashtags. */
+.feed .post.blog-post-v11 > .post-footer{
+  grid-template-columns:minmax(0,1fr) max-content max-content!important;
+  column-gap:12px!important;
+  align-items:center!important;
+}
+
+.feed .post.blog-post-v11 .single-comment-composer,
+.feed .post.blog-post-v11 .comment-composer{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+
+.feed .post.blog-post-v11 .comment-composer{
+  min-height:44px!important;
+  padding:0 14px!important;
+  border-radius:14px!important;
+}
+
+.feed .post.blog-post-v11 .comment-compact-state{
+  gap:10px!important;
+  font-size:12.5px!important;
+}
+
+.feed .post.blog-post-v11 .comment-mini-avatar{
+  width:27px!important;
+  height:27px!important;
+}
+
+.feed .post.blog-post-v11 .more-comments{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:end!important;
+  justify-content:flex-end!important;
+  white-space:nowrap!important;
+  text-align:right!important;
+  padding:0!important;
+  font:600 12px/1.2 'Outfit',sans-serif!important;
+}
+
+.feed .post.blog-post-v11 .post-footer-actions{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:end!important;
+  justify-content:flex-end!important;
+}
+
+.feed .post.blog-post-v11 .post-footer-actions .hashtag-link{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  flex:0 0 auto!important;
+}
+
+/* Hashtag drawer hugs its tags instead of stretching across the card. */
+.feed .post.blog-post-v11 > .post-hashtags,
+.feed .post.blog-post-v11 > .post-hashtags.active{
+  width:fit-content!important;
+  max-width:calc(100% - 36px)!important;
+  margin:0 18px 12px auto!important;
+  justify-content:flex-start!important;
+}
+
+/* Approved bottom breathing room. */
+.feed .post.blog-post-v11 > .card-bottom-spacer{
+  min-height:24px!important;
+  margin:0 18px 8px!important;
+  pointer-events:none!important;
+}
+
+/* Reblog / Share / Save final locked state. */
+.feed .post.blog-post-v11 button.reblog-counter[type="button"],
+.feed .post.blog-post-v11 button.share-action[type="button"],
+.feed .post.blog-post-v11 button.save-action[type="button"]{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  color:rgba(255,255,255,.42)!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  transition:color .15s ease!important;
+}
+
+.feed .post.blog-post-v11 button.reblog-counter[type="button"]:hover,
+.feed .post.blog-post-v11 button.share-action[type="button"]:hover,
+.feed .post.blog-post-v11 button.save-action[type="button"]:hover,
+.feed .post.blog-post-v11 button.reblog-counter[type="button"][data-reblogged="true"],
+.feed .post.blog-post-v11 button.share-action[type="button"].shared,
+.feed .post.blog-post-v11 button.save-action[type="button"].saved{
+  color:#ffc384!important;
+}
+
+.feed .post.blog-post-v11 .save-action.saved .save-bookmark path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+
+@media(max-width:700px){
+  .feed .post.blog-post-v11 > .post-footer{
+    grid-template-columns:minmax(0,1fr) max-content max-content!important;
+    column-gap:8px!important;
+  }
+
+  .feed .post.blog-post-v11 > .post-hashtags,
+  .feed .post.blog-post-v11 > .post-hashtags.active{
+    max-width:calc(100% - 28px)!important;
+    margin-right:14px!important;
+  }
+}
+
