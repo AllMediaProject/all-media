@@ -3395,6 +3395,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   width:100%!important;
   min-width:0!important;
   max-width:100%!important;
+  margin:0!important;
   overflow:visible!important;
 }
 .feed .post.regular-post .more-comments{
@@ -4712,6 +4713,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   width:100%!important;
   min-width:0!important;
   max-width:100%!important;
+  margin:0!important;
   overflow:visible!important;
 }
 .feed .post.blog-post-v11 .more-comments{
@@ -4903,6 +4905,13 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 .feed .post.blog-post-v11 > .post-footer{
   grid-template-columns:minmax(0,1fr) max-content max-content!important;
   column-gap:9px!important;
+}
+
+/* Old Home CSS adds margin-top:18px to .comment-composer.
+   Remove it here so the entire footer row sits at the locked lab height. */
+.feed .post.regular-post .comment-composer,
+.feed .post.blog-post-v11 .comment-composer{
+  margin:0!important;
 }
 
 .feed .post.regular-post .more-comments,
