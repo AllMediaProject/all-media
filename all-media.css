@@ -3683,3 +3683,91 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   }
 }
 
+/* =========================================================
+   REGULAR POST V11 — FINAL FOOTER GEOMETRY FIX
+   ONLY:
+   - lengthen quick-comment box
+   - move View More to the right beside Hashtags
+   - keep Hashtags compact
+   - keep expanded hashtag drawer from spanning the card
+========================================================= */
+
+.feed .post.regular-post > .post-footer{
+  grid-template-columns:minmax(0,1fr) max-content max-content!important;
+  column-gap:12px!important;
+  align-items:center!important;
+}
+
+.feed .post.regular-post .single-comment-composer{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  overflow:visible!important;
+}
+
+.feed .post.regular-post .comment-composer{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+
+.feed .post.regular-post .more-comments{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:end!important;
+  justify-content:flex-end!important;
+  white-space:nowrap!important;
+  text-align:right!important;
+  padding:0!important;
+}
+
+.feed .post.regular-post .post-footer-actions{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:end!important;
+  justify-content:flex-end!important;
+}
+
+.feed .post.regular-post .post-footer-actions .hashtag-link{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  flex:0 0 auto!important;
+}
+
+/* If a Regular Post also has a link, still keep View More directly
+   before the right-side actions without shrinking the comment box
+   more than necessary. */
+.feed .post.regular-post > .post-footer:has(.feed-link-pill){
+  grid-template-columns:minmax(0,1fr) max-content minmax(0,max-content)!important;
+}
+
+.feed .post.regular-post .post-footer-actions:has(.feed-link-pill){
+  max-width:205px!important;
+}
+
+/* Expanded hashtag drawer: hug its content instead of running
+   all the way across the card. */
+.feed .post.regular-post > .post-hashtags,
+.feed .post.regular-post > .post-hashtags.active{
+  width:fit-content!important;
+  max-width:calc(100% - 36px)!important;
+  margin:0 18px 12px auto!important;
+  justify-content:flex-start!important;
+}
+
+@media(max-width:700px){
+  .feed .post.regular-post > .post-footer{
+    grid-template-columns:minmax(0,1fr) max-content max-content!important;
+    column-gap:8px!important;
+  }
+
+  .feed .post.regular-post > .post-hashtags,
+  .feed .post.regular-post > .post-hashtags.active{
+    max-width:calc(100% - 28px)!important;
+    margin-right:14px!important;
+  }
+}
+
