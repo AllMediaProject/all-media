@@ -237,6 +237,71 @@ body{
     inset 0 0 18px rgba(255,207,159,.025);
 }
 
+
+/* =========================================================
+   REGULAR POST — ADAPTIVE CROP TESTER
+   Lab-only controls. In Home, these map to the existing
+   Full / Square / Portrait / Landscape crop choices.
+========================================================= */
+.crop-demo-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:0 2px 12px;
+}
+
+.crop-demo-label{
+  margin-right:2px;
+  color:rgba(255,255,255,.40);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.crop-demo-button{
+  min-height:26px;
+  padding:4px 9px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  color:rgba(255,255,255,.52);
+  font:600 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.crop-demo-button:hover,
+.crop-demo-button.active{
+  border-color:rgba(255,195,132,.32);
+  background:rgba(255,195,132,.10);
+  color:#ffc384;
+}
+
+.post-image.crop-fit{
+  width:calc(100% - 36px);
+  min-height:370px;
+  aspect-ratio:auto;
+}
+
+.post-image.crop-square{
+  width:min(68%,520px);
+  min-height:0;
+  aspect-ratio:1 / 1;
+}
+
+.post-image.crop-portrait{
+  width:min(58%,440px);
+  min-height:0;
+  aspect-ratio:4 / 5;
+}
+
+.post-image.crop-landscape{
+  width:calc(100% - 36px);
+  min-height:0;
+  aspect-ratio:16 / 9;
+}
+
 .demo-moon{
   font-size:74px;
   filter:drop-shadow(0 6px 16px rgba(0,0,0,.24));
@@ -560,6 +625,20 @@ body{
 
 .single-comment-composer.open .comment-helper{display:flex}
 
+.hide-comments-inline{
+  display:none;
+  margin:7px 0 0 3px;
+  padding:0;
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.33);
+  font:500 10px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+.hide-comments-inline.show{display:block}
+.hide-comments-inline:hover{color:var(--peach)}
+
 .more-comments{
   align-self:center;
   border:0;
@@ -834,6 +913,14 @@ body{
     <strong>Regular Post · V11</strong>
   </div>
 
+  <div class="crop-demo-controls" aria-label="Regular Post crop preview tester">
+    <span class="crop-demo-label">Test feed crop</span>
+    <button class="crop-demo-button active" type="button" data-crop="fit" onclick="setDemoCrop('fit',this)">Full image</button>
+    <button class="crop-demo-button" type="button" data-crop="square" onclick="setDemoCrop('square',this)">Square · 1:1</button>
+    <button class="crop-demo-button" type="button" data-crop="portrait" onclick="setDemoCrop('portrait',this)">Portrait · 4:5</button>
+    <button class="crop-demo-button" type="button" data-crop="landscape" onclick="setDemoCrop('landscape',this)">Landscape · 16:9</button>
+  </div>
+
   <article class="feed-card">
     <header class="post-header">
       <div class="profile-picture" aria-hidden="true">m</div>
@@ -859,7 +946,7 @@ body{
       </div>
     </header>
 
-    <div class="post-image">
+    <div class="post-image crop-fit" id="regularPostPreview">
       <div class="demo-moon" aria-label="Moon artwork placeholder">🌙</div>
     </div>
 
@@ -924,6 +1011,8 @@ body{
           </div>
         </div>
 
+        <button class="hide-comments-inline" type="button" onclick="hideCommentsInline()">Hide comments ↑</button>
+
         <div class="comment-helper">
           <span>Press Esc to close · ↵ to post</span>
         </div>
@@ -987,6 +1076,19 @@ body{
 </main>
 
 <script>
+
+function setDemoCrop(mode,button){
+  const preview=document.getElementById("regularPostPreview");
+  if(!preview)return;
+
+  preview.classList.remove("crop-fit","crop-square","crop-portrait","crop-landscape");
+  preview.classList.add("crop-"+mode);
+
+  document.querySelectorAll(".crop-demo-button").forEach(btn=>{
+    btn.classList.toggle("active",btn===button);
+  });
+}
+
 function toggleLike(btn){
   const count=btn.querySelector(".like-count");
   const liked=btn.classList.toggle("liked");
@@ -1118,8 +1220,7 @@ function postComment(event){
     replies.appendChild(reply);
 
     document.getElementById("commentsSection").classList.add("active");
-    const moreButton=document.querySelector(".more-comments");
-    if(moreButton)moreButton.textContent="Hide comments";
+    syncCommentsToggle(true);
   }else{
     const latest=document.querySelector(".latest-comment");
     latest.querySelector(".comment-username").textContent="@yourusername:";
@@ -1149,18 +1250,37 @@ function postComment(event){
     section.appendChild(comment);
     section.classList.add("active");
 
-    const moreButton=document.querySelector(".more-comments");
-    if(moreButton)moreButton.textContent="Hide comments";
+    syncCommentsToggle(true);
   }
 
   field.value="";
   closeCommentComposer(event);
 }
 
+function syncCommentsToggle(open){
+  const moreButton=document.querySelector(".more-comments");
+  const hideButton=document.querySelector(".hide-comments-inline");
+
+  if(moreButton){
+    moreButton.style.display=open?"none":"";
+    moreButton.textContent="View 7 more";
+  }
+
+  if(hideButton){
+    hideButton.classList.toggle("show",open);
+  }
+}
+
 function toggleComments(btn){
   const section=document.getElementById("commentsSection");
   const open=section.classList.toggle("active");
-  btn.textContent=open?"Hide comments":"View 7 more";
+  syncCommentsToggle(open);
+}
+
+function hideCommentsInline(){
+  const section=document.getElementById("commentsSection");
+  section.classList.remove("active");
+  syncCommentsToggle(false);
 }
 
 function toggleCommentLike(btn){
