@@ -8524,6 +8524,37 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   margin-bottom:0!important;
 }
 
+
+
+/* === LEFT PANEL REDESIGN — Pockets + Interests === */
+.pockets-panel,.interests-panel{position:relative;overflow:visible!important;background:linear-gradient(155deg,#14264f 0%,#102143 100%)!important;border:1px solid rgba(75,116,215,.34)!important;border-radius:18px!important;box-shadow:0 18px 40px rgba(2,8,24,.30),inset 0 1px 0 rgba(255,255,255,.025)!important}
+.pockets-panel{padding:15px!important}.interests-panel{margin-top:10px!important;padding:15px!important}
+.sidebar-widget-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px!important;padding:0 2px}
+.pockets-title,.interests-header h2{margin:0!important;display:flex!important;align-items:center!important;color:#f8f8f2!important;font-size:17px!important;font-weight:850!important;letter-spacing:.12em!important;line-height:1!important}
+.pockets-title::before{content:"▱"!important;margin-right:10px;color:var(--am-peach)!important;font-size:24px!important;line-height:1!important;transform:translateY(-1px)}
+.interests-header h2::before{content:"#"!important;margin-right:10px;color:var(--am-peach)!important;font-size:24px!important;font-weight:800!important;line-height:1!important}
+.widget-add-button,.add-pocket{width:34px!important;height:34px!important;min-width:34px!important;margin:0!important;padding:0!important;display:grid!important;place-items:center!important;border:1px solid rgba(255,195,132,.72)!important;border-radius:50%!important;background:linear-gradient(135deg,#ffc98e,#ffb477)!important;box-shadow:0 7px 16px rgba(255,180,119,.12)!important;color:#112044!important;font:850 22px/1 'Outfit',sans-serif!important;cursor:pointer!important;transition:transform .15s,filter .15s!important}
+.widget-add-button:hover,.add-pocket:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.pocket-favorites-label,.interest-list-heading{margin:3px 4px 8px;color:#aeb9d3;font-size:9px;font-weight:800;letter-spacing:.11em}
+.interest-list-heading{display:flex;align-items:center;justify-content:space-between;margin-top:13px;margin-bottom:8px}.interest-list-heading button{padding:0;border:0;background:transparent;color:var(--am-peach);font:700 10px 'Outfit',sans-serif;cursor:pointer}.interest-list-heading button:hover{text-decoration:underline}
+.pocket-favorites-list,.pocket-section-list{display:flex!important;flex-direction:column!important;gap:6px!important;padding:0!important;border:0!important;background:transparent!important}
+.pocket-item{min-height:43px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding:7px 9px!important;box-sizing:border-box!important;border:1px solid rgba(65,105,208,.13)!important;border-radius:11px!important;background:rgba(25,49,96,.58)!important;color:#f8f8f2!important;font-size:13px!important;transition:border-color .15s,background .15s,transform .15s!important}
+.pocket-item+.pocket-item{border-top:1px solid rgba(65,105,208,.13)!important}.pocket-item:hover{border-color:rgba(255,195,132,.38)!important;background:rgba(31,59,111,.72)!important;transform:translateX(1px)}
+.pocket-label{min-width:0;display:flex;align-items:center;gap:9px}.pocket-icon{width:25px;height:25px;display:grid;place-items:center;flex:0 0 25px;border-radius:8px;background:rgba(8,18,44,.38);font-size:16px}.pocket-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:650}
+.pocket-creator-avatar{width:20px;height:20px;display:grid;place-items:center;flex:0 0 20px;margin-left:1px;border:1px solid rgba(255,195,132,.66);border-radius:50%;background:linear-gradient(145deg,#607bb8,#2e477f);color:#fff;font-size:8px;font-weight:850;box-shadow:0 0 0 2px rgba(8,18,44,.42)}.pocket-creator-avatar.large{width:32px;height:32px;flex-basis:32px;font-size:11px}.pocket-copy{min-width:0;display:flex;flex-direction:column;gap:2px}.pocket-copy small{color:#93a3c4;font-size:9px;font-weight:550}
+.pocket-star{width:27px!important;height:27px!important;display:grid!important;place-items:center!important;flex:0 0 27px;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;color:var(--am-peach)!important;font-size:15px!important;opacity:.78!important;cursor:pointer!important}.pocket-star:hover{background:rgba(255,195,132,.09)!important;opacity:1!important}.pocket-notification{display:none!important}
+.pocket-limit-message{margin:6px 4px 0!important}.pocket-favorite-count{display:none!important}
+.pocket-list-toggle{width:100%!important;min-height:44px!important;margin:10px 0 0!important;padding:8px 11px!important;display:grid!important;grid-template-columns:26px minmax(0,1fr) 18px!important;align-items:center!important;gap:8px!important;border:1px solid rgba(65,105,208,.42)!important;border-radius:11px!important;background:rgba(8,18,44,.28)!important;color:#f8f8f2!important;font:700 12px 'Outfit',sans-serif!important;text-align:left!important;cursor:pointer!important}.pocket-list-toggle:hover,.pocket-list-toggle.active{border-color:rgba(255,195,132,.65)!important;background:rgba(255,195,132,.055)!important}.pocket-more-icon{color:var(--am-peach);font-size:20px}.pocket-more-chevron{justify-self:end;color:#dbe4f8;font-size:23px;line-height:1;transition:transform .16s}.pocket-list-toggle.active .pocket-more-chevron{transform:rotate(180deg)}
+.pocket-flyout{position:static;z-index:auto;width:100%;max-height:430px;overflow:auto;margin:8px 0 0;padding:11px;box-sizing:border-box;border:1px solid rgba(255,195,132,.38);border-radius:12px;background:rgba(8,18,44,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}.pocket-flyout.collapsed{display:none}.pocket-flyout-header{display:none}.pocket-flyout-icon{color:var(--am-peach)}
+.pocket-search-wrap{height:42px;display:flex;align-items:center;gap:9px;padding:0 12px;margin-bottom:15px;border:1px solid rgba(65,105,208,.52);border-radius:12px;background:rgba(8,18,44,.30)}.pocket-search-wrap svg{width:18px;height:18px;fill:none;stroke:#dce5f9;stroke-width:2;stroke-linecap:round}.pocket-search-wrap input{min-width:0;width:100%;border:0;outline:0;background:transparent;color:#fff;font:600 12px 'Outfit',sans-serif}.pocket-search-wrap input::placeholder{color:#aeb9d2}
+.pocket-flyout-section+.pocket-flyout-section{margin-top:15px;padding-top:14px;border-top:1px solid rgba(65,105,208,.34)}.pocket-section-title{display:flex;align-items:center;gap:7px;margin:0 2px 8px;color:#cbd5eb;font-size:10px;font-weight:800;letter-spacing:.12em}.pocket-section-title span{color:var(--am-peach);font-size:17px}.drawer-pocket{min-height:50px!important}.drawer-pocket .pocket-label{gap:10px}
+.interest-search-bar{width:100%!important;height:42px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:9px!important;padding:0 12px!important;border:1px solid rgba(65,105,208,.58)!important;border-radius:12px!important;background:rgba(8,18,44,.28)!important;color:#b9c5de!important;font-size:12px!important}.interest-search-bar:hover{border-color:rgba(255,195,132,.66)!important;background:rgba(255,195,132,.045)!important;color:#f8f8f2!important}.interest-search-bar svg{width:18px!important;height:18px!important;stroke:#e6ebf7!important}.interest-search-panel{top:96px!important;left:15px!important;right:15px!important;width:auto!important;padding:10px!important;border-color:rgba(255,195,132,.38)!important;border-radius:12px!important;background:#0e1d3d!important;box-shadow:0 16px 34px rgba(2,8,24,.42)!important}.interest-search-input{border-radius:9px!important;background:#162a53!important}.interest-search-results{gap:6px!important}.interest-result{border-color:rgba(65,105,208,.34)!important;background:#172c55!important}.interest-result:hover,.interest-result.selected{border-color:rgba(255,195,132,.62)!important;background:rgba(255,195,132,.08)!important;color:var(--am-peach)!important}
+.interest-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important;margin:0 0 10px!important}.interest-tag{min-width:0!important;padding:7px 10px!important;border:1px solid rgba(255,195,132,.9)!important;border-radius:999px!important;background:rgba(8,18,44,.18)!important;color:#f8f8f2!important;font-size:11px!important;font-weight:700!important;text-align:left!important;box-shadow:none!important}.interest-tag::before{content:"#";margin-right:6px;color:var(--am-peach);font-weight:850}.interest-tag:hover{background:rgba(255,195,132,.07)!important}.interest-tag.dragging{opacity:.45!important}.interest-list.drag-target{outline:1px dashed rgba(255,195,132,.55)!important;outline-offset:4px!important}
+.followed-interests-drawer{margin:0 0 7px!important}.followed-interests-drawer .manage-toggle,.manage-interests{width:100%!important;min-height:42px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:9px!important;padding:9px 11px!important;border:1px solid rgba(65,105,208,.38)!important;border-radius:11px!important;background:rgba(8,18,44,.22)!important;color:#dbe4f8!important;font-size:11px!important;font-weight:700!important;text-align:left!important}.followed-interests-drawer .manage-toggle:hover,.manage-interests:hover{border-color:rgba(255,195,132,.58)!important;background:rgba(255,195,132,.045)!important;color:#fff!important}.followed-interests-drawer .manage-interest-body{padding:9px 1px 2px!important}.followed-interests-drawer .interest-manage-list{gap:6px!important}.followed-interests-drawer .manage-interest-chip{padding:6px 8px!important;border-color:rgba(65,105,208,.3)!important;background:#15294f!important;font-size:10px!important}
+.manage-interests{margin-top:0!important}.manage-collections-icon{color:var(--am-peach);font-size:17px}.manage-collections-label{flex:1}.manage-collections-chevron{color:#dbe4f8;font-size:21px;line-height:1}.manage-interests.active .manage-collections-chevron{transform:rotate(90deg)}
+.interest-manage-panel{margin-top:8px!important;border-color:rgba(65,105,208,.35)!important;border-radius:12px!important;background:rgba(8,18,44,.30)!important}
+@media(max-width:800px){.pocket-flyout{max-height:58vh}.interest-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
 </style>
 </head>
 <body>
@@ -8569,38 +8600,56 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <div class="page-layout">
 <div class="sidebar-column">
 <aside class="pockets-panel">
+<div class="sidebar-widget-heading pockets-widget-heading">
 <h2 class="pockets-title">POCKETS</h2>
-<button class="add-pocket">＋ Add New Pocket</button>
-<div class="panel-section">
-<button class="panel-toggle">Favorites</button>
-<div class="panel-list" id="favesList">
-<div class="pocket-item"><span>🎃 Halloween</span><span class="pocket-row-end"><span class="pocket-notification">12</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></span></div>
-<div class="pocket-item"><span>🎨 Art</span><span class="pocket-row-end"><span class="pocket-notification">8</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></span></div>
+<button class="widget-add-button add-pocket" type="button" aria-label="Add new Pocket" title="Add New Pocket">＋</button>
 </div>
+<div class="pocket-favorites-label">FAVORITE POCKETS</div>
+<div class="panel-list pocket-favorites-list" id="favesList">
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Halloween"><span class="pocket-label"><span class="pocket-icon">🎃</span><span class="pocket-name">Halloween</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Halloween from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Art"><span class="pocket-label"><span class="pocket-icon">🎨</span><span class="pocket-name">Art</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Art from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item followed-pocket" data-pocket-type="followed" data-pocket-name="Spooky Stuff" data-pocket-creator="NightshadeArt"><span class="pocket-label"><span class="pocket-icon">👻</span><span class="pocket-name">Spooky Stuff</span><span class="pocket-creator-avatar" title="Created by @NightshadeArt">N</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Spooky Stuff from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Crochet"><span class="pocket-label"><span class="pocket-icon">🧶</span><span class="pocket-name">Crochet</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Crochet from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Home Decor"><span class="pocket-label"><span class="pocket-icon">🏠</span><span class="pocket-name">Home Decor</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Home Decor from favorites" title="Favorite Pocket">★</button></div>
 </div>
-<div class="panel-section pocket-drawer-section">
-<button class="panel-toggle pocket-list-toggle" onclick="togglePocketList(this)">▸ Other Pockets</button>
-<div class="panel-list collapsed" id="pocketList">
-<div class="pocket-favorite-count" id="pocketFavoriteCount">2 of 6 favorites</div>
 <div class="pocket-limit-message" id="pocketLimitMessage" aria-live="polite"></div>
-<div class="pocket-item"><span>🏠 Home Decor</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
-<div class="pocket-item"><span>👻 Spooky Stuff</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
-<div class="pocket-item"><span>🧶 Crochet</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
+<button class="pocket-list-toggle" onclick="togglePocketList(this)" type="button" aria-expanded="false"><span class="pocket-more-icon">▱</span><span>More Pockets</span><span class="pocket-more-chevron">⌄</span></button>
+<div class="pocket-flyout collapsed" id="pocketList" aria-label="More Pockets">
+<div class="pocket-flyout-header"><div><span class="pocket-flyout-icon">▱</span><strong>MORE POCKETS</strong></div><button type="button" class="pocket-flyout-close" onclick="closePocketList()" aria-label="Close More Pockets">×</button></div>
+<div class="pocket-search-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="pocketSearchInput" type="search" placeholder="Search pockets..." oninput="filterPockets(this.value)"></div>
+<div class="pocket-favorite-count" id="pocketFavoriteCount">5 of 6 favorites</div>
+<section class="pocket-flyout-section">
+<div class="pocket-section-title"><span>▱</span> YOUR POCKETS</div>
+<div class="pocket-section-list" id="yourPocketList">
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Recipes"><span class="pocket-label"><span class="pocket-icon">🍲</span><span class="pocket-name">Recipes</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Recipes to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Future Projects"><span class="pocket-label"><span class="pocket-icon">⭐</span><span class="pocket-name">Future Projects</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Future Projects to favorites" title="Add to favorites">☆</button></div>
 </div>
+</section>
+<section class="pocket-flyout-section followed-pocket-section">
+<div class="pocket-section-title"><span>♧</span> FOLLOWED POCKETS</div>
+<div class="pocket-section-list" id="followedPocketList">
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Halloween Inspo" data-pocket-creator="CozyCatCreates"><span class="pocket-label"><span class="pocket-creator-avatar large">C</span><span class="pocket-copy"><span class="pocket-name">Halloween Inspo</span><small>by @CozyCatCreates</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Halloween Inspo to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Nature & Wildlife" data-pocket-creator="WildRoots"><span class="pocket-label"><span class="pocket-creator-avatar large">W</span><span class="pocket-copy"><span class="pocket-name">Nature &amp; Wildlife</span><small>by @WildRoots</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Nature & Wildlife to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Cozy Gaming" data-pocket-creator="PixelWitch"><span class="pocket-label"><span class="pocket-creator-avatar large">P</span><span class="pocket-copy"><span class="pocket-name">Cozy Gaming</span><small>by @PixelWitch</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Cozy Gaming to favorites" title="Add to favorites">☆</button></div>
+</div>
+</section>
 </div>
 </aside>
 <div class="sidebar-actions"><button type="button" class="sidebar-home" onclick="goHomeAndRefreshFeed()" aria-label="Home and refresh feed" title="Home · Refresh feed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-6h5v6"></path></svg></button><button class="sidebar-create" id="sidebarCreateButton" onclick="toggleCreatePost()">CREATE POST</button></div>
 <div class="interests-panel">
-    <div class="interests-header">
+    <div class="sidebar-widget-heading interests-header">
         <h2>INTERESTS</h2>
-        <button class="interest-search" onclick="toggleInterestSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search</button>
+        <button class="widget-add-button interest-header-add" type="button" onclick="toggleInterestSearch(event)" aria-label="Find more Interests" title="Find more Interests">＋</button>
     </div>
+
+    <button class="interest-search interest-search-bar" type="button" onclick="toggleInterestSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><span>Search interests...</span></button>
 
     <div class="interest-search-panel" id="interestSearchPanel" onclick="event.stopPropagation()">
         <input id="interestSearchInput" class="interest-search-input" placeholder="Search interests..." oninput="renderInterestSearch(this.value)">
         <div class="interest-search-results" id="interestSearchResults"></div>
     </div>
 
+    <div class="interest-list-heading"><span>YOUR TOP INTERESTS</span><button type="button" onclick="toggleYourInterests()">Edit</button></div>
     <div class="interest-list" id="interestList"></div>
 
     <div class="followed-interests-drawer">
@@ -8615,7 +8664,7 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
         </div>
     </div>
 
-    <button class="manage-interests" id="manageInterestsButton" onclick="toggleManageInterests()">Manage Hashtag Collections</button>
+    <button class="manage-interests" id="manageInterestsButton" onclick="toggleManageInterests()"><span class="manage-collections-icon">▯</span><span class="manage-collections-label">Manage Collections</span><span class="manage-collections-chevron">›</span></button>
 
     <div class="interest-manage-panel" id="interestManagePanel">
         <div class="manage-section">
@@ -9237,7 +9286,7 @@ function promoteQuickInterest(n,pos=0){if(!n||!followedInterests.includes(n))ret
 function toggleInterestSearch(e){e.stopPropagation();const p=document.getElementById("interestSearchPanel");p.classList.toggle("open");if(p.classList.contains("open")){document.getElementById("interestSearchInput").focus();renderInterestSearch(document.getElementById("interestSearchInput").value)}}
 function renderInterestSearch(q=""){q=q.trim().toLowerCase();const r=allInterests.filter(i=>!q||i.name.toLowerCase().includes(q)),b=document.getElementById("interestSearchResults");b.innerHTML=r.length?r.map(i=>{const following=followedInterests.includes(i.name);return `<button class="interest-result ${following?"selected":""}" onclick="followInterestFromSearch('${i.name.replace(/'/g,"\\'")}')" ${following?'aria-label="Already following '+i.name+'"':''}>${i.name}</button>`}).join(""):`<span class="interest-search-empty">No matching Interests</span>`}
 function followInterestFromSearch(n){if(followedInterests.includes(n))return;followedInterests.unshift(n);renderSidebarInterests();renderInterestSearch(document.getElementById("interestSearchInput").value);renderManageInterests()}
-function toggleManageInterests(){const p=document.getElementById("interestManagePanel"),b=document.getElementById("manageInterestsButton");p.classList.toggle("open");const open=p.classList.contains("open");b.classList.toggle("active",open);b.textContent=open?"Cancel":"Manage Hashtag Collections";renderHashtagCollections()}
+function toggleManageInterests(){const p=document.getElementById("interestManagePanel"),b=document.getElementById("manageInterestsButton");p.classList.toggle("open");const open=p.classList.contains("open");b.classList.toggle("active",open);const label=b.querySelector(".manage-collections-label");if(label)label.textContent=open?"Close Collections":"Manage Collections";renderHashtagCollections()}
 function toggleYourInterests(){const b=document.getElementById("manageInterestBody"),c=document.getElementById("manageInterestChevron");b.classList.toggle("open");const open=b.classList.contains("open");c.textContent=open?"▴":"▾";if(!open)cancelInterestUnfollow()}
 let pendingInterestUnfollow=null,interestWasDragged=false;
 function renderManageInterests(){const b=document.getElementById("interestManageList");b.innerHTML=followedInterests.length?followedInterests.map(n=>`<button class="manage-interest-chip ${pendingInterestUnfollow===n?"pending-unfollow":""}" draggable="true" data-interest="${n}" onclick="requestInterestUnfollow('${n.replace(/'/g,"\\'")}')">${n}</button>`).join(""):`<span class="interest-search-empty">You aren't following any Interests yet.</span>`;b.querySelectorAll(".manage-interest-chip").forEach(c=>{c.ondragstart=e=>{interestWasDragged=true;draggedInterest=c.dataset.interest;e.stopPropagation()};c.ondragend=()=>{draggedInterest=null;setTimeout(()=>interestWasDragged=false,0)}})}
@@ -9891,11 +9940,16 @@ hotbar.addEventListener("dragover",e=>{
 });
 hotbar.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){e.preventDefault();hotbar.scrollLeft+=e.deltaY}},{passive:false});
 function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
-function togglePocketList(button){ const list=document.getElementById("pocketList"), open=!list.classList.toggle("collapsed"); button.firstChild.textContent=open?"▾ Other Pockets":"▸ Other Pockets"; }
+function positionPocketFlyout(){}
+function togglePocketList(button){const list=document.getElementById("pocketList");if(!list)return;const opening=list.classList.contains("collapsed");list.classList.toggle("collapsed",!opening);button?.classList.toggle("active",opening);button?.setAttribute("aria-expanded",String(opening));if(opening){requestAnimationFrame(()=>document.getElementById("pocketSearchInput")?.focus())}}
+function closePocketList(){const list=document.getElementById("pocketList"),button=document.querySelector(".pocket-list-toggle");if(!list)return;list.classList.add("collapsed");button?.classList.remove("active");button?.setAttribute("aria-expanded","false")}
+function filterPockets(value=""){const q=value.trim().toLowerCase();document.querySelectorAll("#pocketList .pocket-item").forEach(item=>{const hay=`${item.dataset.pocketName||""} ${item.dataset.pocketCreator||""}`.toLowerCase();item.style.display=!q||hay.includes(q)?"":"none"});document.querySelectorAll("#pocketList .pocket-flyout-section").forEach(section=>{const any=[...section.querySelectorAll(".pocket-item")].some(item=>item.style.display!=="none");section.style.display=any?"":"none"})}
 let pocketLimitTimer=null;
 function updatePocketFavoriteCount(){const faves=document.getElementById("favesList"),count=document.getElementById("pocketFavoriteCount");if(faves&&count)count.textContent=`${faves.querySelectorAll(":scope > .pocket-item").length} of 6 favorites`}
 function showPocketLimitMessage(){const message=document.getElementById("pocketLimitMessage");if(!message)return;clearTimeout(pocketLimitTimer);message.textContent="You can favorite up to 6 Pockets.";message.classList.add("show");pocketLimitTimer=setTimeout(()=>message.classList.remove("show"),3500)}
-function togglePocketFavorite(button){const item=button.closest(".pocket-item"),faves=document.getElementById("favesList"),pockets=document.getElementById("pocketList"),isFav=button.textContent.trim()==="★",message=document.getElementById("pocketLimitMessage");if(isFav){button.textContent="☆";pockets.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();return}if(faves.querySelectorAll(":scope > .pocket-item").length>=6){showPocketLimitMessage();return}button.textContent="★";faves.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount()}
+function pocketDrawerTarget(item){return document.getElementById(item?.dataset.pocketType==="followed"?"followedPocketList":"yourPocketList")}
+function updatePocketStar(button,isFavorite){if(!button)return;button.textContent=isFavorite?"★":"☆";const item=button.closest(".pocket-item"),name=item?.dataset.pocketName||"Pocket";button.title=isFavorite?"Favorite Pocket":"Add to favorites";button.setAttribute("aria-label",isFavorite?`Remove ${name} from favorites`:`Add ${name} to favorites`)}
+function togglePocketFavorite(button){const item=button.closest(".pocket-item"),faves=document.getElementById("favesList"),isFav=button.textContent.trim()==="★",message=document.getElementById("pocketLimitMessage");if(!item||!faves)return;if(isFav){updatePocketStar(button,false);pocketDrawerTarget(item)?.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"");return}if(faves.querySelectorAll(":scope > .pocket-item").length>=6){showPocketLimitMessage();return}updatePocketStar(button,true);item.style.display="";faves.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
 updatePocketFavoriteCount();
 function setPublishButtonLabel(label){const button=document.getElementById("publishButton"),text=button?.querySelector(".publish-label");if(text)text.textContent=label;else if(button)button.textContent=label}
 function selectCreatorType(button){
@@ -9930,7 +9984,7 @@ function goHomeAndRefreshFeed(){const composer=document.getElementById("composer
 
 const desktopSidebar=document.querySelector(".sidebar-column");
 function sizeDesktopSidebar(){if(!desktopSidebar)return;if(window.matchMedia("(max-width: 800px)").matches){desktopSidebar.style.removeProperty("height");return}const visibleTop=Math.max(24,desktopSidebar.getBoundingClientRect().top),available=Math.max(240,window.innerHeight-visibleTop-24);desktopSidebar.style.height=`${available}px`}
-desktopSidebar?.addEventListener("wheel",event=>{if(window.matchMedia("(max-width: 800px)").matches||desktopSidebar.scrollHeight<=desktopSidebar.clientHeight)return;event.preventDefault();const maximum=desktopSidebar.scrollHeight-desktopSidebar.clientHeight;desktopSidebar.scrollTop=Math.max(0,Math.min(maximum,desktopSidebar.scrollTop+event.deltaY))},{passive:false,capture:true});
+desktopSidebar?.addEventListener("wheel",event=>{if(event.target.closest?.(".pocket-flyout")||window.matchMedia("(max-width: 800px)").matches||desktopSidebar.scrollHeight<=desktopSidebar.clientHeight)return;event.preventDefault();const maximum=desktopSidebar.scrollHeight-desktopSidebar.clientHeight;desktopSidebar.scrollTop=Math.max(0,Math.min(maximum,desktopSidebar.scrollTop+event.deltaY))},{passive:false,capture:true});
 window.addEventListener("resize",sizeDesktopSidebar);
 window.addEventListener("scroll",sizeDesktopSidebar,{passive:true});
 requestAnimationFrame(sizeDesktopSidebar);
