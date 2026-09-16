@@ -4893,3 +4893,51 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 @media(max-width:700px){
   .feed .post.blog-post-v11>.blog-preview-image{width:calc(100% - 28px)!important}
 }
+
+/* =========================================================
+   V11 COMMENT FOOTER — RESTORE LOCKED LAB SPACING
+   Keep border-box collision protection, but remove the
+   temporary fixed-width columns used during staging.
+========================================================= */
+.feed .post.regular-post > .post-footer,
+.feed .post.blog-post-v11 > .post-footer{
+  grid-template-columns:minmax(0,1fr) max-content max-content!important;
+  column-gap:9px!important;
+}
+
+.feed .post.regular-post .more-comments,
+.feed .post.blog-post-v11 .more-comments{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:start!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+}
+
+.feed .post.regular-post .post-footer-actions,
+.feed .post.blog-post-v11 .post-footer-actions{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  justify-self:end!important;
+}
+
+@media(max-width:700px){
+  .feed .post.regular-post > .post-footer,
+  .feed .post.blog-post-v11 > .post-footer{
+    grid-template-columns:1fr auto!important;
+  }
+  .feed .post.regular-post .single-comment-composer,
+  .feed .post.blog-post-v11 .single-comment-composer{
+    grid-column:1 / -1!important;
+  }
+  .feed .post.regular-post .more-comments,
+  .feed .post.blog-post-v11 .more-comments{
+    grid-column:1!important;
+  }
+  .feed .post.regular-post .post-footer-actions,
+  .feed .post.blog-post-v11 .post-footer-actions{
+    grid-column:2!important;
+  }
+}
