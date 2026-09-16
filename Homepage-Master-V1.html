@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<!-- REVISION: 2026-09-16 HASHTAG + BLOG READ FIX -->
 <head>
     <title>All Media</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -8454,6 +8455,75 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   box-shadow:none!important;
 }
 
+
+
+
+
+
+
+/* =========================================================
+   APPROVED LAB MATCH — BLOG READ + HASHTAG DRAWER
+========================================================= */
+
+/* Hashtag drawer: exact lab geometry.
+   Full usable card width with 18px spacing on BOTH sides,
+   directly below the quick-comment/footer row. */
+.feed .post.regular-post > .post-hashtags,
+.feed .post.blog-post-v11 > .post-hashtags,
+.feed .post.video-post-v11 > .post-hashtags,
+.feed .post.byte-post-v11 > .post-hashtags{
+  display:none!important;
+  position:static!important;
+  width:auto!important;
+  max-width:none!important;
+  margin:0 18px 12px!important;
+  padding:10px 12px!important;
+  gap:6px!important;
+  box-sizing:border-box!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  border:1px dotted rgba(255,207,159,.30)!important;
+  border-radius:12px!important;
+  background:rgba(255,207,159,.035)!important;
+}
+
+.feed .post.regular-post > .post-hashtags.active,
+.feed .post.blog-post-v11 > .post-hashtags.active,
+.feed .post.video-post-v11 > .post-hashtags.active,
+.feed .post.byte-post-v11 > .post-hashtags.active{
+  display:flex!important;
+}
+
+/* Blog Read view: match the approved lab.
+   Preview image + excerpt STAY visible.
+   Full blog body opens beneath Read Blog as its own inset reading box. */
+.feed .post.blog-post-v11 > .blog-full-content{
+  display:none!important;
+  width:auto!important;
+  max-width:none!important;
+  margin:12px 18px 0!important;
+  padding:14px 15px!important;
+  border:1px solid rgba(255,207,159,.15)!important;
+  border-radius:13px!important;
+  background:rgba(255,255,255,.025)!important;
+  box-shadow:none!important;
+  color:rgba(255,255,255,.78)!important;
+  font:400 12px/1.62 "Outfit",sans-serif!important;
+}
+
+.feed .post.blog-post-v11 > .blog-full-content.active{
+  display:block!important;
+}
+
+.feed .post.blog-post-v11 > .blog-full-content p{
+  margin:0 0 11px!important;
+}
+
+.feed .post.blog-post-v11 > .blog-full-content p:last-child{
+  margin-bottom:0!important;
+}
+
 </style>
 </head>
 <body>
@@ -8830,9 +8900,9 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 <button class="read-blog blog-read-button" onclick="blogV11ToggleBlog(this)" type="button">Read Blog →</button>
 
 <div class="blog-full-content blog-full-body">
-<p>I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project.</p>
-<div class="sample-media-art sample-inline-image"><div class="sample-media-copy">INLINE BLOG IMAGE</div></div>
-<p>Some pages are finished drawings and some are only a color combination, a sentence, or a shape I want to remember. Keeping everything in one small place has made experimenting feel much less serious.</p>
+<p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p>
+<p>Lately I have been filling mine with crooked little houses, sleepy moons, leaves, color notes, and scraps of ideas I might come back to later. Some probably will never become anything else—and I think that is part of why I like it.</p>
+<p>It has become a small place for creativity without pressure: something I can open, add to, and close again whenever an idea wanders by.</p>
 </div>
 
 <div class="interactions">
@@ -9290,7 +9360,40 @@ function ensureHashtagOption(tag){const box=document.getElementById("hashtagOpti
 function syncHashtagSelectionUI(){document.querySelectorAll("#hashtagOptions .hashtag-option").forEach(b=>b.classList.toggle("selected",selectedHashtags.includes(b.textContent.trim())));document.getElementById("hashtagCount").textContent=selectedHashtags.length;document.getElementById("hashtagSummary").textContent=selectedHashtags.length?`${selectedHashtags.length}/20`:""}
 function applyHashtagCollection(i){const c=hashtagCollections[i];if(!c)return;c.tags.forEach(t=>{ensureHashtagOption(t);if(selectedHashtags.length<20&&!selectedHashtags.includes(t))selectedHashtags.push(t)});const search=document.getElementById("hashtagSearch");if(search)search.value="";document.querySelectorAll("#hashtagOptions .hashtag-option").forEach(b=>b.style.display="");syncHashtagSelectionUI();const p=document.getElementById("hashtagPicker");p.classList.add("open");if(selectedHashtags.length===20)setTimeout(()=>p.classList.remove("open"),160)}
 function filterHashtagCollection(g){document.querySelectorAll("#hashtagOptions .hashtag-option").forEach(b=>b.style.display=b.dataset.groups.includes(g)?"":"none")}
-function togglePostHashtags(el){const box=el.closest(".post").querySelector(".post-hashtags");box.classList.toggle("active")}
+function togglePostHashtags(el){
+  const post=el.closest(".post");
+  const box=post?.querySelector(".post-hashtags");
+  const footer=post?.querySelector(".post-footer");
+  if(!post || !box)return;
+
+  /* Keep the drawer in the exact approved lab position:
+     immediately after the quick-comment/footer row. */
+  if(footer && box.previousElementSibling!==footer){
+    footer.insertAdjacentElement("afterend",box);
+  }
+
+  const open=!box.classList.contains("active");
+  box.classList.toggle("active",open);
+  el.classList.toggle("active",open);
+
+  /* Force the approved lab geometry inline so none of the older Home
+     hashtag rules can resize or reposition this drawer. */
+  const set=(name,value)=>box.style.setProperty(name,value,"important");
+  set("position","static");
+  set("width","auto");
+  set("max-width","none");
+  set("margin","0 18px 12px");
+  set("padding","10px 12px");
+  set("gap","6px");
+  set("box-sizing","border-box");
+  set("flex-wrap","wrap");
+  set("justify-content","flex-start");
+  set("align-items","center");
+  set("border","1px dotted rgba(255,207,159,.30)");
+  set("border-radius","12px");
+  set("background","rgba(255,207,159,.035)");
+  set("display",open?"flex":"none");
+}
 function closePostHashtags(e,btn){e.stopPropagation();btn.closest(".post-hashtags").classList.remove("active")}
 function toggleTopicPicker(){const p=document.getElementById("topicPicker"),opening=!p.classList.contains("open");closeCreatorTools("topic");p.classList.toggle("open",opening)}
 function selectTopic(btn){const p=document.getElementById("topicPicker"),t=btn.dataset.topic;p.dataset.topic=t;document.getElementById("topicLabel").textContent=btn.textContent.trim();p.querySelectorAll(".topic-option").forEach(b=>b.classList.toggle("selected",b.dataset.topic===t));p.classList.remove("open")}
@@ -9952,6 +10055,7 @@ function blogV11ToggleBlog(btn){
   const post=btn.closest(".blog-post-v11");
   const body=post?.querySelector(".blog-full-content");
   if(!body)return;
+
   const open=body.classList.toggle("active");
   btn.textContent=open?"Close Blog ↑":"Read Blog →";
 }
