@@ -89,7 +89,7 @@ function getTotalCount(post){
 }
 function updateMoreLink(post){
     // Regular Post V11 owns its own comments toggle text/layout.
-    if(post?.classList.contains("regular-post")) return;
+    if(post?.classList.contains("regular-post") || post?.classList.contains("blog-post-v11")) return;
     const link = post.querySelector(".more-comments");
     if(!link) return;
     const total = getTotalCount(post);
@@ -525,3 +525,92 @@ function regularReplyToTarget(btn,username){
   field.value=username+' ';
   field.focus();field.setSelectionRange(field.value.length,field.value.length);
 }
+
+/* =========================================================
+   BLOG V11 TEST HANDLERS — isolated to .blog-post-v11
+   ========================================================= */
+function blogV11ToggleBlog(btn){
+  const post=btn.closest('.blog-post-v11');
+  const body=post?.querySelector('.blog-full-content');
+  if(!body)return;
+  const open=body.classList.toggle('active');
+  btn.textContent=open?'Close Blog ↑':'Read Blog →';
+}
+function blogV11ToggleLike(btn){regularToggleLike(btn)}
+function blogV11ToggleSave(btn){regularToggleSave(btn)}
+function blogV11IncrementReblog(btn){regularIncrementReblog(btn)}
+function blogV11FlashNote(btn,message){
+  const post=btn.closest('.blog-post-v11');
+  if(!post)return;
+  let note=post.querySelector('.prototype-note');
+  if(!note){note=document.createElement('div');note.className='prototype-note';post.appendChild(note)}
+  note.textContent=message;note.classList.add('show');
+  clearTimeout(note._timer);note._timer=setTimeout(()=>note.classList.remove('show'),1500);
+}
+function blogV11TogglePostMenu(event,btn){
+  event.stopPropagation();
+  const menu=btn.nextElementSibling;
+  document.querySelectorAll('.blog-v11-menu.open').forEach(m=>{if(m!==menu)m.classList.remove('open')});
+  menu?.classList.toggle('open');
+}
+document.addEventListener('click',()=>document.querySelectorAll('.blog-v11-menu.open').forEach(m=>m.classList.remove('open')));
+function blogV11OpenCommentComposer(el){
+  const composer=el.closest('.comment-composer');
+  const wrap=composer?.closest('.single-comment-composer');
+  if(!composer)return;
+  composer.classList.add('active');wrap?.classList.add('open');
+  setTimeout(()=>composer.querySelector('.comment-text-area')?.focus(),0);
+}
+function blogV11CloseCommentComposer(el,event){
+  event?.stopPropagation();
+  const post=el.closest('.blog-post-v11');
+  post?.querySelector('.comment-composer')?.classList.remove('active');
+  post?.querySelector('.single-comment-composer')?.classList.remove('open');
+}
+function blogV11SyncComments(post,open){
+  const view=post.querySelector('.more-comments');
+  const hide=post.querySelector('.hide-comments-inline');
+  if(view)view.style.display=open?'none':'';
+  hide?.classList.toggle('show',open);
+}
+function blogV11ToggleComments(btn){
+  const post=btn.closest('.blog-post-v11');
+  const section=post?.querySelector('.comments-section');
+  if(!section)return;
+  const open=section.classList.toggle('active');
+  blogV11SyncComments(post,open);
+}
+function blogV11HideComments(btn){
+  const post=btn.closest('.blog-post-v11');
+  post?.querySelector('.comments-section')?.classList.remove('active');
+  if(post)blogV11SyncComments(post,false);
+}
+function blogV11PostComment(btn,event){
+  event?.stopPropagation();
+  const post=btn.closest('.blog-post-v11');
+  const field=post?.querySelector('.comment-text-area');
+  const value=field?.value.trim();
+  if(!post||!value)return;
+  const latest=post.querySelector('.latest-comment');
+  if(latest)latest.innerHTML='<span class="comment-username">@yourusername:</span><span class="latest-comment-copy">'+escapeHTML(value)+'</span><span class="latest-comment-time">now</span>';
+  const section=post.querySelector('.comments-section');
+  const item=document.createElement('div');item.className='comment-item';
+  item.innerHTML='<div class="comment-avatar" aria-hidden="true">y</div><div class="comment-body"><div class="comment-author">@yourusername</div><div>'+escapeHTML(value)+'</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button" onclick="blogV11ToggleCommentLike(this)"><svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" type="button" onclick="blogV11ReplyToTarget(this,\'@yourusername\')">Reply</button></div></div>';
+  section?.appendChild(item);field.value='';section?.classList.add('active');blogV11SyncComments(post,true);blogV11CloseCommentComposer(btn);
+}
+function blogV11ToggleCommentLike(btn){btn.classList.toggle('liked')}
+function blogV11ReplyToTarget(btn,username){
+  const post=btn.closest('.blog-post-v11');
+  const composer=post?.querySelector('.comment-composer');
+  const field=composer?.querySelector('.comment-text-area');
+  if(!composer||!field)return;
+  blogV11OpenCommentComposer(composer);
+  field.value=username+' ';field.focus();field.setSelectionRange(field.value.length,field.value.length);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.blog-post-v11').forEach(post=>{
+    const open=post.querySelector('.comments-section')?.classList.contains('active')||false;
+    blogV11SyncComments(post,open);
+  });
+});
+
