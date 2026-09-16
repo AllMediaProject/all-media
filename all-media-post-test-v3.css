@@ -8334,3 +8334,184 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   }
 }
 
+/* =========================================================
+   V11 BYTE PLAYER — ORIGINAL HOME PLAYER INTEGRATION
+   IMPORTANT: Byte size/position and dashboard layout are untouched.
+   The existing locked .byte-preview remains the exact 9:16 frame.
+========================================================= */
+
+.feed .post.byte-post-v11 .byte-preview.video-feed-player.byte-v11-feed-player{
+  position:relative!important;
+  padding:0!important;
+  background:#000!important;
+  cursor:pointer!important;
+}
+
+/* Preserve the locked frame; only fill its inside with the real player. */
+.feed .post.byte-post-v11 .byte-preview.video-feed-player.byte-v11-feed-player > video{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  background:#000!important;
+  cursor:pointer!important;
+}
+
+/* Original Home disappearing controls, scoped ONLY to the finished V11 Byte. */
+.feed .post.byte-post-v11 .video-control-overlay{
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  z-index:8!important;
+  padding:32px 7px 6px!important;
+  background:linear-gradient(transparent,rgba(4,8,20,.9))!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  transform:translateY(5px)!important;
+  transition:
+    opacity .22s ease,
+    transform .22s ease,
+    visibility .22s!important;
+  pointer-events:none!important;
+}
+
+.feed .post.byte-post-v11 .video-feed-player.controls-visible .video-control-overlay{
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  pointer-events:auto!important;
+}
+
+.feed .post.byte-post-v11 .video-control-row{
+  display:grid!important;
+  grid-template-columns:22px 22px 34px minmax(38px,1fr) 34px 22px!important;
+  align-items:center!important;
+  gap:4px!important;
+}
+
+.feed .post.byte-post-v11 .video-control-button{
+  width:22px!important;
+  height:22px!important;
+  padding:3px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#e5e8ef!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  cursor:pointer!important;
+  opacity:.92!important;
+  box-shadow:none!important;
+}
+
+.feed .post.byte-post-v11 .video-control-button svg{
+  display:block!important;
+  width:15px!important;
+  height:15px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.8!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+
+.feed .post.byte-post-v11 .video-control-play svg{
+  fill:currentColor!important;
+  stroke:none!important;
+  width:13px!important;
+  height:13px!important;
+}
+
+.feed .post.byte-post-v11 .video-control-button:hover,
+.feed .post.byte-post-v11 .video-control-button:focus-visible{
+  color:#fff!important;
+  opacity:1!important;
+  outline:none!important;
+}
+
+.feed .post.byte-post-v11 .video-control-time{
+  color:#d9dde6!important;
+  font-size:9px!important;
+  font-variant-numeric:tabular-nums!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-shadow:0 1px 3px rgba(0,0,0,.8)!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber{
+  width:100%!important;
+  height:3px!important;
+  margin:0!important;
+  padding:7px 0!important;
+  box-sizing:content-box!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  background:transparent!important;
+  cursor:pointer!important;
+  accent-color:#d8dce5!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber::-webkit-slider-runnable-track{
+  height:3px!important;
+  border-radius:999px!important;
+  background:linear-gradient(
+    to right,
+    #d8dce5 0 var(--video-progress,0%),
+    rgba(255,255,255,.28) var(--video-progress,0%) 100%
+  )!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber::-webkit-slider-thumb{
+  -webkit-appearance:none!important;
+  width:8px!important;
+  height:8px!important;
+  margin-top:-2.5px!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:#eef0f4!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.5)!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber::-moz-range-track{
+  height:3px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.28)!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber::-moz-range-progress{
+  height:3px!important;
+  border-radius:999px!important;
+  background:#d8dce5!important;
+}
+
+.feed .post.byte-post-v11 .video-control-scrubber::-moz-range-thumb{
+  width:8px!important;
+  height:8px!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:#eef0f4!important;
+}
+
+/* Fullscreen uses the same original Home player behavior. */
+.feed .post.byte-post-v11 .video-feed-player:fullscreen,
+.feed .post.byte-post-v11 .video-feed-player:-webkit-full-screen{
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  aspect-ratio:auto!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#000!important;
+  box-shadow:none!important;
+}
+
+.feed .post.byte-post-v11 .video-feed-player:fullscreen video,
+.feed .post.byte-post-v11 .video-feed-player:-webkit-full-screen video{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+}
+

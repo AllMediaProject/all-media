@@ -4,7 +4,7 @@
 <head>
 <title>All Media</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="all-media-post-test-v3.css?v=0916video1" rel="stylesheet"/>
+<link href="all-media-post-test-v3.css?v=0916byte1" rel="stylesheet"/>
 </head>
 <body>
 <header class="site-header">
@@ -477,7 +477,21 @@
 </article>
 <article class="post byte-post-v11 sample-post" id="sampleBytePostV11">
 <div class="byte-stage">
-<div class="byte-preview" aria-label="Byte player preview"></div>
+<!-- STAGING-ONLY test source: final Home Bytes will use the user-uploaded video URL. -->
+<div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+<video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" data-video-type="video/mp4" onclick="showVideoControls(this.closest('.video-feed-player'))"></video>
+<div class="video-playback-warning">This browser cannot play this video file.</div>
+<div class="video-control-overlay">
+<div class="video-control-row">
+<button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+<button type="button" class="video-control-button video-control-mute" onclick="event.stopPropagation();toggleVideoMute(this)" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+<span class="video-control-time video-elapsed">0:00</span>
+<input class="video-control-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+<span class="video-control-time video-total">0:00</span>
+<button type="button" class="video-control-button video-control-fullscreen" onclick="event.stopPropagation();toggleVideoFullscreen(this)" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+</div>
+</div>
+</div>
 </div>
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">m</div>
@@ -566,7 +580,7 @@
   }catch(err){}
 })();
 </script>
-<script defer="" src="all-media-post-test-v3.js?v=0916video1"></script>
+<script defer="" src="all-media-post-test-v3.js?v=0916byte1"></script>
   <script>
 document.addEventListener('click', function(event){
   const shareButton = event.target.closest('.feed .post .share-action');
