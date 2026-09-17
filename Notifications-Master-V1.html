@@ -2560,6 +2560,14 @@ a{color:inherit}
     const data=postActivityData[card.dataset.postId];
     if(!data || !postActivityDetail) return;
 
+    const isAlreadyOpen=card.classList.contains("active") && !postActivityDetail.hidden;
+
+    if(isAlreadyOpen){
+      postActivityDetail.hidden=true;
+      card.classList.remove("active");
+      return;
+    }
+
     postActivityCards.forEach(other=>other.classList.toggle("active",other===card));
 
     document.getElementById("postActivityDetailPreview").textContent=data.icon;
