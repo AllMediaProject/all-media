@@ -533,6 +533,105 @@ a{color:inherit}
 .notification-empty.show{display:block}
 .notification-empty strong{display:block;margin-bottom:6px;color:#dbe4f7;font-size:15px}
 
+.notification-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:9px;
+}
+.notification-action{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#aeb9d2;
+  font-size:10px;
+  font-weight:800;
+}
+.notification-action:hover{color:var(--am-peach)}
+.notification-action.liked{color:var(--am-peach)}
+.notification-action .heart{
+  font-size:14px;
+  line-height:1;
+}
+.quick-reply{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:11px;
+  background:rgba(8,18,44,.38);
+}
+.quick-reply.open{display:block}
+.quick-reply-user{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+  color:#b9c4dc;
+  font-size:9px;
+  font-weight:800;
+}
+.quick-reply-avatar{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.55);
+  border-radius:50%;
+  background:#344a7b;
+  color:#fff;
+  font-size:9px;
+}
+.quick-reply textarea{
+  width:100%;
+  min-height:58px;
+  resize:vertical;
+  padding:9px 10px;
+  border:1px solid rgba(83,100,143,.72);
+  border-radius:8px;
+  outline:0;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 11px/1.4 'Outfit',sans-serif;
+}
+.quick-reply textarea:focus{border-color:rgba(255,195,132,.72)}
+.quick-reply-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:8px;
+}
+.quick-reply-status{
+  min-height:14px;
+  color:#8fa0c4;
+  font-size:9px;
+}
+.quick-reply-buttons{display:flex;align-items:center;gap:7px}
+.quick-reply-cancel,
+.quick-reply-post{
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:800;
+}
+.quick-reply-cancel{
+  border:1px solid rgba(65,105,208,.36);
+  background:transparent;
+  color:#aeb9d2;
+}
+.quick-reply-cancel:hover{color:#fff}
+.quick-reply-post{
+  border:1px solid rgba(255,195,132,.7);
+  background:var(--am-peach);
+  color:#101a3a;
+}
+.quick-reply-post:disabled{opacity:.5;cursor:default}
+
+
 .prototype-note{
   margin-top:20px;
   color:#7585a6;
@@ -679,7 +778,7 @@ a{color:inherit}
   <div class="notifications-heading-row">
     <div class="notifications-title-wrap">
       <h1>Notifications</h1>
-      <p>See what’s happening around your posts, Pockets, and Communities.</p>
+      <p>Personal updates from across your posts, Pockets, and Communities.</p>
     </div>
     <button class="mark-all" type="button" id="markAllReadButton">Mark all as read</button>
   </div>
@@ -701,6 +800,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@NightshadeArt</strong> replied to your comment.</span>
           <span class="notification-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
       </button>
@@ -713,6 +827,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@CozyCatCreates</strong> liked your post.</span>
           <span class="notification-preview">A little painted pumpkin shelf for the Haunted Hollow 🎃</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
       </button>
@@ -723,9 +852,24 @@ a{color:inherit}
           <span class="notification-event-icon">♧</span>
         </span>
         <span class="notification-copy">
-          <span class="notification-message"><strong>Spooky Cozy</strong> has new activity in a discussion you follow.</span>
-          <span class="notification-preview">“Show us what you’re making this week” has 14 new replies.</span>
+          <span class="notification-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</span>
+          <span class="notification-preview">“Show us what you’re making this week” has a new reply for you.</span>
           <span class="notification-community-label">🎃 Spooky Cozy</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
       </button>
@@ -738,6 +882,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@WildRoots</strong> started supporting you.</span>
           <span class="notification-preview">They found you through the Halloween Interest.</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
       </button>
@@ -748,9 +907,24 @@ a{color:inherit}
           <span class="notification-event-icon">!</span>
         </span>
         <span class="notification-copy">
-          <span class="notification-message"><strong>Artists</strong> posted a new Community announcement.</span>
+          <span class="notification-message"><strong>Artists</strong> posted an announcement for members.</span>
           <span class="notification-preview">September prompt: create something using only three colors.</span>
           <span class="notification-community-label">🎨 Artists</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
       </button>
@@ -768,6 +942,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@PixelWitch</strong> reblogged your post.</span>
           <span class="notification-preview">Your “cozy games for rainy evenings” post was shared to their followers.</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
       </button>
@@ -780,6 +969,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@MoonMoth</strong> saved your post to a Pocket.</span>
           <span class="notification-preview">Saved to “Autumn Art Inspiration.”</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
       </button>
@@ -793,6 +997,21 @@ a{color:inherit}
           <span class="notification-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</span>
           <span class="notification-preview">“@SugarCrumbCo this reminded me of the illustration you posted!”</span>
           <span class="notification-community-label">🐢 Turtle Rescue</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
       </button>
@@ -810,6 +1029,21 @@ a{color:inherit}
         <span class="notification-copy">
           <span class="notification-message"><strong>@GhostlyGarden</strong> started following your Halloween Pocket.</span>
           <span class="notification-preview">Pocket: “Halloween”</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
       </button>
@@ -823,6 +1057,21 @@ a{color:inherit}
           <span class="notification-message">Your post was approved in <strong>Spooky Cozy</strong>.</span>
           <span class="notification-preview">“A tiny haunted house painting I finished today.”</span>
           <span class="notification-community-label">🎃 Spooky Cozy</span>
+          <span class="notification-actions">
+            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
+            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
+          </span>
+          <span class="quick-reply">
+            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
+            <span class="quick-reply-footer">
+              <span class="quick-reply-status" aria-live="polite"></span>
+              <span class="quick-reply-buttons">
+                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
+                <button class="quick-reply-post" type="button" disabled>Reply</button>
+              </span>
+            </span>
+          </span>
         </span>
         <span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
       </button>
@@ -834,7 +1083,7 @@ a{color:inherit}
     Try another notification filter.
   </div>
 
-  <div class="prototype-note">Notifications Master V1 — working prototype</div>
+  <div class="prototype-note">Notifications Master V1 — personal notifications with inline Like + quick Reply. Community bells will open a separate full Recent Activity page.</div>
 </main>
 
 <script>
@@ -891,10 +1140,86 @@ a{color:inherit}
   });
 
   notifications.forEach(item=>{
-    item.addEventListener("click",()=>{
+    item.addEventListener("click",event=>{
+      if(event.target.closest("button, textarea")) return;
       item.classList.remove("unread");
       updateCounts();
     });
+  });
+
+  document.querySelectorAll(".like-notification").forEach(button=>{
+    button.addEventListener("click",event=>{
+      event.stopPropagation();
+      const liked=!button.classList.contains("liked");
+      button.classList.toggle("liked",liked);
+      button.setAttribute("aria-pressed",String(liked));
+      button.querySelector(".heart").textContent=liked ? "♥" : "♡";
+      button.querySelector("span:last-child").textContent=liked ? "Liked" : "Like";
+      button.closest(".notification-item").classList.remove("unread");
+      updateCounts();
+    });
+  });
+
+  document.querySelectorAll(".reply-notification").forEach(button=>{
+    button.addEventListener("click",event=>{
+      event.stopPropagation();
+      const item=button.closest(".notification-item");
+      const composer=item.querySelector(".quick-reply");
+      const opening=!composer.classList.contains("open");
+
+      document.querySelectorAll(".quick-reply.open").forEach(openComposer=>{
+        if(openComposer!==composer){
+          openComposer.classList.remove("open");
+          const otherButton=openComposer.closest(".notification-item").querySelector(".reply-notification");
+          otherButton?.setAttribute("aria-expanded","false");
+        }
+      });
+
+      composer.classList.toggle("open",opening);
+      button.setAttribute("aria-expanded",String(opening));
+      item.classList.remove("unread");
+      updateCounts();
+
+      if(opening) composer.querySelector("textarea").focus();
+    });
+  });
+
+  document.querySelectorAll(".quick-reply").forEach(composer=>{
+    const textarea=composer.querySelector("textarea");
+    const postButton=composer.querySelector(".quick-reply-post");
+    const cancelButton=composer.querySelector(".quick-reply-cancel");
+    const status=composer.querySelector(".quick-reply-status");
+    const replyButton=composer.closest(".notification-item").querySelector(".reply-notification");
+
+    textarea.addEventListener("input",()=>{
+      postButton.disabled=!textarea.value.trim();
+      status.textContent="";
+    });
+
+    cancelButton.addEventListener("click",event=>{
+      event.stopPropagation();
+      textarea.value="";
+      postButton.disabled=true;
+      status.textContent="";
+      composer.classList.remove("open");
+      replyButton.setAttribute("aria-expanded","false");
+    });
+
+    postButton.addEventListener("click",event=>{
+      event.stopPropagation();
+      const reply=textarea.value.trim();
+      if(!reply) return;
+      status.textContent="Reply posted.";
+      textarea.value="";
+      postButton.disabled=true;
+      setTimeout(()=>{
+        composer.classList.remove("open");
+        replyButton.setAttribute("aria-expanded","false");
+        status.textContent="";
+      },900);
+    });
+
+    textarea.addEventListener("click",event=>event.stopPropagation());
   });
 
   markAll.addEventListener("click",()=>{
