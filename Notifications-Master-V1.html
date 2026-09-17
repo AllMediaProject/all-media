@@ -2779,6 +2779,105 @@ a{color:inherit}
 .quick-popup-footer{
   font-size:11px;
 }
+
+/* =========================================================
+   QUICK POPUP — VISIBLE REPLY ACTION
+========================================================= */
+.quick-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:6px;
+}
+
+.quick-like,
+.quick-reply{
+  display:inline-flex;
+  align-items:center;
+  padding:0;
+  border:0;
+  background:transparent;
+  font-family:'Outfit',sans-serif;
+  font-size:10.5px;
+  font-weight:800;
+  line-height:1.2;
+}
+
+.quick-like{
+  color:#9ba9c5;
+}
+
+.quick-reply{
+  color:var(--am-peach);
+}
+
+.quick-like:hover,
+.quick-like[aria-pressed="true"],
+.quick-reply:hover{
+  color:var(--am-peach);
+}
+
+.quick-reply:hover{
+  text-decoration:underline;
+}
+
+/* =========================================================
+   QUICK POPUP — ACTION ALIGNMENT + ARROW SEND
+========================================================= */
+.quick-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:6px;
+}
+
+.quick-like,
+.quick-reply{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:18px;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  font-family:'Outfit',sans-serif;
+  font-size:10.5px;
+  font-weight:800;
+  line-height:18px;
+  vertical-align:middle;
+}
+
+.quick-reply-line{
+  align-items:center;
+}
+
+.quick-send{
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  display:inline-grid;
+  place-items:center;
+  padding:0;
+  border:1px solid rgba(255,195,132,.48);
+  border-radius:50%;
+  background:rgba(255,195,132,.08);
+  color:var(--am-peach);
+  font:900 15px/1 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.quick-send:hover:not(:disabled){
+  background:rgba(255,195,132,.14);
+  border-color:rgba(255,195,132,.72);
+}
+
+.quick-send:disabled{
+  border-color:rgba(83,100,143,.28);
+  background:rgba(83,100,143,.08);
+  color:#566789;
+  cursor:default;
+}
 </style>
 </head>
 <body>
@@ -2818,12 +2917,10 @@ a{color:inherit}
 <div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
 <div class="quick-meta">8 min ago</div>
 <div class="quick-actions">
-<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
-<button class="quick-reply" type="button">Reply</button>
-</div>
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-reply" type="button">Reply</button></div>
 <div class="quick-reply-line">
 <input aria-label="Reply to @NightshadeArt" maxlength="500" placeholder="Write a reply…" type="text"/>
-<button class="quick-send" disabled="" type="button">Send</button>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button">➜</button>
 </div>
 </div>
 </article>
@@ -2844,12 +2941,10 @@ a{color:inherit}
 <div class="quick-preview">“I was wondering the exact same thing!”</div>
 <div class="quick-meta">37 min ago</div>
 <div class="quick-actions">
-<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
-<button class="quick-reply" type="button">Reply</button>
-</div>
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-reply" type="button">Reply</button></div>
 <div class="quick-reply-line">
 <input aria-label="Reply to @LanternMoth" maxlength="500" placeholder="Write a reply…" type="text"/>
-<button class="quick-send" disabled="" type="button">Send</button>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button">➜</button>
 </div>
 </div>
 </article>
@@ -2877,12 +2972,10 @@ a{color:inherit}
 <div class="quick-preview">“@SugarCrumbCo you might like this update.”</div>
 <div class="quick-meta">3 hr ago</div>
 <div class="quick-actions">
-<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
-<button class="quick-reply" type="button">Reply</button>
-</div>
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-reply" type="button">Reply</button></div>
 <div class="quick-reply-line">
 <input aria-label="Reply to @ShellKeeper" maxlength="500" placeholder="Write a reply…" type="text"/>
-<button class="quick-send" disabled="" type="button">Send</button>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button">➜</button>
 </div>
 </div>
 </article>
