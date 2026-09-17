@@ -2055,6 +2055,296 @@ a{color:inherit}
     margin-bottom:10px;
   }
 }
+
+/* =========================================================
+   POST ACTIVITY — CATCH-UP TRAYS
+========================================================= */
+.post-activity-controls{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.post-activity-catchup-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 10px;
+  border:0;
+  border-radius:999px;
+  background:rgba(8,18,44,.36);
+  color:#a6b2cc;
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.22);
+  font-size:10px;
+  font-weight:800;
+}
+
+.post-activity-catchup-toggle:hover,
+.post-activity-catchup-toggle[aria-expanded="true"]{
+  color:var(--am-peach);
+  background:rgba(255,195,132,.055);
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.30);
+}
+
+.post-activity-catchup-toggle strong{
+  color:var(--am-peach);
+  font-size:10px;
+}
+
+.catchup-icon{
+  font-size:11px;
+}
+
+.catchup-chevron{
+  color:#7d8cab;
+  font-size:11px;
+  transition:transform .16s ease;
+}
+
+.post-activity-catchup-toggle[aria-expanded="true"] .catchup-chevron{
+  transform:rotate(180deg);
+}
+
+.post-activity-catchup-tray{
+  margin:2px 0 14px;
+  padding:12px 13px 10px;
+  border-radius:12px;
+  background:rgba(8,18,44,.32);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.16);
+}
+
+.post-activity-catchup-tray[hidden]{
+  display:none;
+}
+
+.catchup-tray-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 2px 9px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.catchup-tray-heading h3{
+  margin:0;
+  color:#f1f4fb;
+  font-size:13px;
+  font-weight:800;
+}
+
+.catchup-tray-heading p{
+  margin:3px 0 0;
+  color:#7e8dab;
+  font-size:9.5px;
+}
+
+.catchup-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.catchup-item{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr);
+  gap:9px;
+  padding:11px 2px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.catchup-item:last-child{
+  border-bottom:0;
+}
+
+.catchup-post-thumb,
+.catchup-person-avatar{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:rgba(20,35,74,.72);
+  color:#fff;
+  font-size:17px;
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.20);
+}
+
+.catchup-person-avatar{
+  border-radius:50%;
+  font-size:10px;
+  font-weight:800;
+}
+
+.catchup-main{
+  min-width:0;
+}
+
+.catchup-context{
+  color:#8696b6;
+  font-size:9.5px;
+  line-height:1.4;
+}
+
+.catchup-context strong{
+  color:#edf1fa;
+}
+
+.catchup-context span{
+  color:#bac4da;
+  font-weight:700;
+}
+
+.catchup-main > p{
+  margin:4px 0 0;
+  color:#d8deec;
+  font-size:11px;
+  line-height:1.45;
+}
+
+.catchup-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:7px;
+}
+
+.catchup-actions button{
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#8f9dbb;
+  font-size:9.5px;
+  font-weight:800;
+}
+
+.catchup-actions button:hover,
+.catchup-actions button[aria-pressed="true"]{
+  color:var(--am-peach);
+}
+
+.catchup-reply-box{
+  display:none;
+  margin-top:8px;
+  padding:8px;
+  border-radius:9px;
+  background:rgba(16,26,58,.52);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.18);
+}
+
+.catchup-reply-box.open{
+  display:block;
+}
+
+.catchup-reply-box textarea{
+  width:100%;
+  min-height:54px;
+  resize:vertical;
+  padding:8px 9px;
+  border:1px solid rgba(83,100,143,.46);
+  border-radius:8px;
+  outline:0;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 10.5px/1.4 'Outfit',sans-serif;
+}
+
+.catchup-reply-box textarea:focus{
+  border-color:rgba(255,195,132,.58);
+}
+
+.catchup-reply-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:7px;
+}
+
+.catchup-status{
+  color:#7f90b2;
+  font-size:9px;
+}
+
+.catchup-reply-footer > div{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.catchup-cancel,
+.catchup-send{
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:8.5px;
+  font-weight:800;
+}
+
+.catchup-cancel{
+  border:1px solid rgba(65,105,208,.30);
+  background:transparent;
+  color:#9ba8c5;
+}
+
+.catchup-send{
+  border:1px solid rgba(255,195,132,.5);
+  background:var(--am-peach);
+  color:#101a3a;
+}
+
+.catchup-send:disabled{
+  opacity:.45;
+  cursor:default;
+}
+
+.catchup-item.resolved{
+  animation:catchupDone .28s ease forwards;
+}
+
+@keyframes catchupDone{
+  to{
+    opacity:0;
+    transform:translateY(-4px);
+    max-height:0;
+    margin:0;
+    padding-top:0;
+    padding-bottom:0;
+    overflow:hidden;
+  }
+}
+
+.catchup-empty{
+  padding:14px 4px 6px;
+  color:#7f8ead;
+  font-size:10px;
+  text-align:center;
+}
+
+@media(max-width:800px){
+  .post-activity-controls{
+    justify-content:flex-start;
+  }
+
+  .post-activity-catchup-toggle{
+    font-size:9.5px;
+  }
+
+  .catchup-item{
+    grid-template-columns:34px minmax(0,1fr);
+  }
+
+  .catchup-post-thumb,
+  .catchup-person-avatar{
+    width:34px;
+    height:34px;
+  }
+
+  .catchup-reply-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
 </style>
 </head>
 <body>
@@ -2138,13 +2428,154 @@ a{color:inherit}
 <p>Recent movement across your posts — including older posts finding people again.</p>
 </div>
 <div class="post-activity-controls">
-<button aria-pressed="false" class="post-activity-filter" id="unansweredToggle" type="button">
-<span class="post-activity-filter-check">✓</span>
-<span>Unanswered comments</span>
-<span class="post-activity-filter-count" id="unansweredCount">3</span>
+<button aria-controls="unansweredTray" aria-expanded="false" class="post-activity-catchup-toggle" id="unansweredToggle" type="button">
+<span class="catchup-icon">💬</span>
+<span><strong id="unansweredCount">3</strong> unanswered comments</span>
+<span class="catchup-chevron">⌄</span>
+</button>
+<button aria-controls="missedLikesTray" aria-expanded="false" class="post-activity-catchup-toggle" id="missedLikesToggle" type="button">
+<span class="catchup-icon">♥</span>
+<span><strong id="missedLikesCount">5</strong> missed likes</span>
+<span class="catchup-chevron">⌄</span>
 </button>
 <span class="post-activity-hint">Most recently active</span>
 </div>
+</div>
+
+<div class="post-activity-catchup-tray" hidden="" id="missedLikesTray">
+<div class="catchup-tray-heading">
+<div>
+<h3>Missed likes</h3>
+<p>A few people interacted with older or quieter posts while you were away.</p>
+</div>
+</div>
+<div class="catchup-list" id="missedLikesList">
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">C</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@CozyCatCreates</strong> liked <span>Painted pumpkin shelf</span> · 21 min</div>
+<p>From a post you shared 2 days ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">R</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@RainyDayReads</strong> liked <span>Cozy games for rainy evenings</span> · 42 min</div>
+<p>This post was originally shared 1 year ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">M</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@MoonMoth</strong> liked <span>Tiny haunted house</span> · 1 hr</div>
+<p>They found this older post through Discover.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">W</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@WildRoots</strong> liked <span>Autumn sketchbook page</span> · 2 hr</div>
+<p>From a post you shared 5 days ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">S</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@ShellKeeper</strong> liked <span>Melted Ice Cream Ghost</span> · 3 hr</div>
+<p>From a post you shared 3 weeks ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+</div>
+<div class="catchup-empty" hidden="" id="missedLikesEmpty">No missed likes left to check.</div>
+</div>
+<div class="post-activity-catchup-tray" hidden="" id="unansweredTray">
+<div class="catchup-tray-heading">
+<div>
+<h3>Unanswered comments</h3>
+<p>Finish conversations without leaving Notifications.</p>
+</div>
+</div>
+<div class="catchup-list" id="unansweredList">
+<article class="catchup-item unanswered-item" data-catchup-id="comment-1">
+<div class="catchup-post-thumb">🎃</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@NightshadeArt</strong> on <span>Painted pumpkin shelf</span> · 8 min</div>
+<p>Okay but the tiny ghost in the corner absolutely makes this.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @NightshadeArt" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="catchup-item unanswered-item" data-catchup-id="comment-2">
+<div class="catchup-post-thumb">🏚️</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@LanternMoth</strong> on <span>Tiny haunted house</span> · 37 min</div>
+<p>I love the crooked little chimney. Was that planned or did it just happen?</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @LanternMoth" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="catchup-item unanswered-item" data-catchup-id="comment-3">
+<div class="catchup-post-thumb">🎮</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@PixelWitch</strong> on <span>Cozy games for rainy evenings</span> · 1 hr</div>
+<p>This post found me again at exactly the right time. Adding two of these to my weekend list.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @PixelWitch" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="catchup-empty" hidden="" id="unansweredEmpty">You're caught up — no unanswered comments right now.</div>
 </div>
 <div class="post-activity-strip" role="list">
 <button class="post-activity-card has-new" data-age="Posted 2 days ago" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" data-unanswered="1" data-views="186" role="listitem" type="button">
@@ -2191,7 +2622,7 @@ a{color:inherit}
 <small>5 days ago</small>
 <span class="post-activity-views">◉ 154 views</span></span>
 </button>
-</div><div class="post-activity-empty" id="postActivityEmpty">No posts have unanswered comments right now.</div>
+</div>
 <div class="post-activity-detail" hidden="" id="postActivityDetail">
 <div class="post-activity-detail-top">
 <div class="post-activity-detail-preview" id="postActivityDetailPreview">🎃</div>
@@ -2441,11 +2872,7 @@ a{color:inherit}
 <strong>Nothing here yet.</strong>
     Try another notification filter.
   </div></section>
-
-
-
-
-<div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity, unanswered-comment filtering, quiet view counts, and improved readability.</div>
+<div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity, reply catch-up, missed-like catch-up, view context, and recent activity.</div>
 </main>
 <script>
 (function(){
@@ -2821,44 +3248,140 @@ a{color:inherit}
   });
 
 
+
+  /* =========================================================
+     POST ACTIVITY CATCH-UP TRAYS
+  ========================================================= */
   const unansweredToggle=document.getElementById("unansweredToggle");
+  const missedLikesToggle=document.getElementById("missedLikesToggle");
+  const unansweredTray=document.getElementById("unansweredTray");
+  const missedLikesTray=document.getElementById("missedLikesTray");
   const unansweredCount=document.getElementById("unansweredCount");
-  const postActivityEmpty=document.getElementById("postActivityEmpty");
+  const missedLikesCount=document.getElementById("missedLikesCount");
+  const unansweredEmpty=document.getElementById("unansweredEmpty");
+  const missedLikesEmpty=document.getElementById("missedLikesEmpty");
 
-  function updateUnansweredFilter(){
-    if(!unansweredToggle) return;
-    const active=unansweredToggle.getAttribute("aria-pressed")==="true";
-    let visibleCount=0;
+  function setCatchupTray(toggle,tray,open){
+    if(!toggle || !tray) return;
+    tray.hidden=!open;
+    toggle.setAttribute("aria-expanded",String(open));
+  }
 
-    postActivityCards.forEach(card=>{
-      const unanswered=Number(card.dataset.unanswered || 0);
-      const hide=active && unanswered===0;
-      card.classList.toggle("is-filtered-out",hide);
-      if(!hide) visibleCount++;
-    });
-
-    const totalUnanswered=postActivityCards
-      .reduce((sum,card)=>sum+Number(card.dataset.unanswered || 0),0);
-
-    if(unansweredCount) unansweredCount.textContent=totalUnanswered;
-    if(postActivityEmpty) postActivityEmpty.classList.toggle("show",active && visibleCount===0);
-
-    if(active && postActivityDetail && !postActivityDetail.hidden){
-      const activeCard=document.querySelector(".post-activity-card.active");
-      if(activeCard && Number(activeCard.dataset.unanswered || 0)===0){
-        postActivityDetail.hidden=true;
-        activeCard.classList.remove("active");
-      }
-    }
+  function closeOtherCatchupTray(activeToggle){
+    if(activeToggle!==unansweredToggle) setCatchupTray(unansweredToggle,unansweredTray,false);
+    if(activeToggle!==missedLikesToggle) setCatchupTray(missedLikesToggle,missedLikesTray,false);
   }
 
   unansweredToggle?.addEventListener("click",()=>{
-    const next=unansweredToggle.getAttribute("aria-pressed")!=="true";
-    unansweredToggle.setAttribute("aria-pressed",String(next));
-    updateUnansweredFilter();
+    const opening=unansweredToggle.getAttribute("aria-expanded")!=="true";
+    closeOtherCatchupTray(unansweredToggle);
+    setCatchupTray(unansweredToggle,unansweredTray,opening);
   });
 
-  updateUnansweredFilter();
+  missedLikesToggle?.addEventListener("click",()=>{
+    const opening=missedLikesToggle.getAttribute("aria-expanded")!=="true";
+    closeOtherCatchupTray(missedLikesToggle);
+    setCatchupTray(missedLikesToggle,missedLikesTray,opening);
+  });
+
+  function refreshCatchupCounts(){
+    const unanswered=document.querySelectorAll("#unansweredList .unanswered-item:not(.resolved)").length;
+    const missed=document.querySelectorAll("#missedLikesList .missed-like-item:not(.resolved)").length;
+
+    if(unansweredCount) unansweredCount.textContent=unanswered;
+    if(missedLikesCount) missedLikesCount.textContent=missed;
+
+    if(unansweredEmpty) unansweredEmpty.hidden=unanswered!==0;
+    if(missedLikesEmpty) missedLikesEmpty.hidden=missed!==0;
+
+    if(unansweredToggle){
+      unansweredToggle.querySelector("span:nth-child(2)").lastChild.textContent=
+        unanswered===1 ? " unanswered comment" : " unanswered comments";
+    }
+
+    if(missedLikesToggle){
+      missedLikesToggle.querySelector("span:nth-child(2)").lastChild.textContent=
+        missed===1 ? " missed like" : " missed likes";
+    }
+  }
+
+  document.querySelectorAll(".catchup-like-comment").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const liked=button.getAttribute("aria-pressed")!=="true";
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked" : "♡ Like";
+    });
+  });
+
+  document.querySelectorAll(".catchup-reply-open").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const item=button.closest(".catchup-item");
+      const box=item?.querySelector(".catchup-reply-box");
+      if(!box) return;
+
+      document.querySelectorAll(".catchup-reply-box.open").forEach(other=>{
+        if(other!==box) other.classList.remove("open");
+      });
+
+      const opening=!box.classList.contains("open");
+      box.classList.toggle("open",opening);
+      if(opening) box.querySelector("textarea")?.focus();
+    });
+  });
+
+  document.querySelectorAll(".catchup-reply-box").forEach(box=>{
+    const textarea=box.querySelector("textarea");
+    const send=box.querySelector(".catchup-send");
+    const cancel=box.querySelector(".catchup-cancel");
+    const status=box.querySelector(".catchup-status");
+    const item=box.closest(".catchup-item");
+
+    textarea?.addEventListener("input",()=>{
+      send.disabled=!textarea.value.trim();
+      if(status) status.textContent="";
+    });
+
+    cancel?.addEventListener("click",()=>{
+      if(textarea) textarea.value="";
+      if(send) send.disabled=true;
+      if(status) status.textContent="";
+      box.classList.remove("open");
+    });
+
+    send?.addEventListener("click",()=>{
+      const reply=textarea?.value.trim();
+      if(!reply || !item) return;
+      if(status) status.textContent="Reply posted.";
+      setTimeout(()=>{
+        item.classList.add("resolved");
+        setTimeout(()=>{
+          item.remove();
+          refreshCatchupCounts();
+        },280);
+      },500);
+    });
+  });
+
+  document.querySelectorAll(".catchup-like-back").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const item=button.closest(".missed-like-item");
+      const liked=button.getAttribute("aria-pressed")!=="true";
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked back" : "♡ Like back";
+
+      if(liked && item){
+        setTimeout(()=>{
+          item.classList.add("resolved");
+          setTimeout(()=>{
+            item.remove();
+            refreshCatchupCounts();
+          },280);
+        },450);
+      }
+    });
+  });
+
+  refreshCatchupCounts();
 
   updateCounts();
   applyFilter("all");
