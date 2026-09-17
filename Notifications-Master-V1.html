@@ -2463,6 +2463,268 @@ a{color:inherit}
   margin-right:7px;
   color:#53648f;
 }
+
+/* =========================================================
+   HEADER BELL — QUICK NOTIFICATIONS POPUP
+========================================================= */
+.header-actions{
+  position:relative;
+}
+
+.notification-quick-popup{
+  position:absolute;
+  top:calc(100% + 12px);
+  right:48px;
+  width:370px;
+  height:430px;
+  z-index:3000;
+  overflow:hidden;
+  border-radius:14px;
+  background:#111d3f;
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.34),
+    inset 0 0 0 1px rgba(83,100,143,.28);
+}
+
+.notification-quick-popup[hidden]{
+  display:none;
+}
+
+.quick-popup-header{
+  height:62px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:rgba(24,36,71,.72);
+}
+
+.quick-popup-header h2{
+  margin:0;
+  color:#f5f7fb;
+  font-size:16px;
+  font-weight:800;
+}
+
+.quick-popup-header p{
+  margin:2px 0 0;
+  color:#7f8eae;
+  font-size:9.5px;
+}
+
+.quick-popup-unread{
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(255,195,132,.09);
+  color:var(--am-peach);
+  font-size:8.5px;
+  font-weight:800;
+}
+
+.quick-popup-list{
+  height:320px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,195,132,.20) transparent;
+}
+
+.quick-notification{
+  position:relative;
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr);
+  gap:8px;
+  padding:11px 13px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  background:transparent;
+}
+
+.quick-notification:hover{
+  background:rgba(34,52,98,.26);
+}
+
+.quick-notification.unread{
+  background:linear-gradient(90deg,rgba(255,195,132,.035),transparent 60%);
+}
+
+.quick-unread-dot{
+  position:absolute;
+  left:5px;
+  top:17px;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--am-peach);
+}
+
+.quick-avatar{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#354a7c;
+  color:#fff;
+  font-size:9px;
+  font-weight:800;
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.24);
+}
+
+.quick-copy{
+  min-width:0;
+}
+
+.quick-message{
+  color:#dce2ef;
+  font-size:10.5px;
+  line-height:1.35;
+}
+
+.quick-message strong{
+  color:#f3f5fa;
+}
+
+.quick-preview{
+  margin-top:3px;
+  overflow:hidden;
+  color:#9aa7c1;
+  font-size:9.5px;
+  line-height:1.35;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.quick-meta{
+  margin-top:3px;
+  color:#65769a;
+  font-size:8.5px;
+}
+
+.quick-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:5px;
+}
+
+.quick-actions button{
+  padding:0;
+  border:0;
+  background:transparent;
+  font-family:'Outfit',sans-serif;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.quick-like{
+  color:#8f9dbb;
+  font-size:9px;
+}
+
+.quick-like:hover,
+.quick-like[aria-pressed="true"]{
+  color:var(--am-peach);
+}
+
+.quick-reply{
+  color:#7484a7;
+  font-size:8.5px;
+}
+
+.quick-reply:hover{
+  color:#c7d0e3;
+  text-decoration:underline;
+}
+
+.quick-reply-line{
+  display:none;
+  align-items:center;
+  gap:7px;
+  margin-top:7px;
+}
+
+.quick-reply-line.open{
+  display:flex;
+}
+
+.quick-reply-line input{
+  min-width:0;
+  flex:1;
+  padding:4px 0 5px;
+  border:0;
+  border-bottom:1px solid rgba(83,100,143,.50);
+  outline:0;
+  background:transparent;
+  color:#f1f4fb;
+  font:500 9.5px 'Outfit',sans-serif;
+}
+
+.quick-reply-line input::placeholder{
+  color:#66789e;
+}
+
+.quick-reply-line input:focus{
+  border-bottom-color:rgba(255,195,132,.58);
+}
+
+.quick-send{
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--am-peach);
+  font:800 8.5px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.quick-send:disabled{
+  color:#566789;
+  cursor:default;
+}
+
+.quick-popup-footer{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:48px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:#142143;
+  color:var(--am-peach);
+  font-size:10px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.quick-popup-footer:hover{
+  background:#18284f;
+}
+
+.quick-popup-footer span{
+  font-size:12px;
+}
+
+@media(max-width:520px){
+  .notification-quick-popup{
+    position:fixed;
+    top:72px;
+    left:12px;
+    right:12px;
+    width:auto;
+    height:min(430px,calc(100vh - 88px));
+  }
+
+  .quick-popup-list{
+    height:calc(100% - 110px);
+  }
+}
 </style>
 </head>
 <body>
@@ -2485,6 +2747,97 @@ a{color:inherit}
 <span class="notification-bell">🔔</span>
 <span class="header-notification-count" id="headerUnreadCount">5</span>
 </a>
+<section aria-label="Recent notifications" class="notification-quick-popup" hidden="" id="notificationQuickPopup">
+<div class="quick-popup-header">
+<div>
+<h2>Notifications</h2>
+<p>Recent activity</p>
+</div>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread" data-quick-id="q1">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
+<button class="quick-reply" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @NightshadeArt" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button class="quick-send" disabled="" type="button">Send</button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q2">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div>
+<div class="quick-preview">Painted pumpkin shelf</div>
+<div class="quick-meta">21 min ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q3">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">L</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</div>
+<div class="quick-preview">“I was wondering the exact same thing!”</div>
+<div class="quick-meta">37 min ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
+<button class="quick-reply" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @LanternMoth" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button class="quick-send" disabled="" type="button">Send</button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q4">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">W</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@WildRoots</strong> started supporting you.</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q5">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">P</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@PixelWitch</strong> reblogged your post.</div>
+<div class="quick-preview">Tiny haunted house</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification" data-quick-id="q6">
+<div class="quick-avatar">S</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</div>
+<div class="quick-preview">“@SugarCrumbCo you might like this update.”</div>
+<div class="quick-meta">3 hr ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button>
+<button class="quick-reply" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @ShellKeeper" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button class="quick-send" disabled="" type="button">Send</button>
+</div>
+</div>
+</article>
+</div>
+<a class="quick-popup-footer" href="#recentNotificationsTitle" id="quickPopupSeeMore">
+        See more notifications <span>→</span>
+</a>
+</section>
+
 <a aria-label="Open your profile" class="profile-cluster" href="profile.html">
 <span class="header-avatar" id="headerAvatar"></span>
 </a>
@@ -3590,6 +3943,127 @@ a{color:inherit}
   });
 
   refreshCatchupCounts();
+
+
+  /* =========================================================
+     HEADER BELL — QUICK NOTIFICATIONS POPUP
+  ========================================================= */
+  const quickPopup=document.getElementById("notificationQuickPopup");
+  const quickPopupUnread=document.getElementById("quickPopupUnread");
+  const quickPopupSeeMore=document.getElementById("quickPopupSeeMore");
+
+  function quickUnreadCount(){
+    return document.querySelectorAll("#quickPopupList .quick-notification.unread").length;
+  }
+
+  function refreshQuickPopupCount(){
+    if(!quickPopupUnread) return;
+    const count=quickUnreadCount();
+    quickPopupUnread.textContent=count ? `${count} new` : "Caught up";
+  }
+
+  function closeQuickPopup(){
+    if(!quickPopup) return;
+    quickPopup.hidden=true;
+    headerBell?.setAttribute("aria-expanded","false");
+    document.querySelectorAll(".quick-reply-line.open").forEach(line=>line.classList.remove("open"));
+  }
+
+  function toggleQuickPopup(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!quickPopup) return;
+    const opening=quickPopup.hidden;
+    quickPopup.hidden=!opening;
+    headerBell?.setAttribute("aria-expanded",String(opening));
+    if(opening) refreshQuickPopupCount();
+  }
+
+  if(headerBell){
+    headerBell.setAttribute("aria-haspopup","dialog");
+    headerBell.setAttribute("aria-expanded","false");
+    headerBell.addEventListener("click",toggleQuickPopup);
+  }
+
+  quickPopup?.addEventListener("click",event=>event.stopPropagation());
+
+  document.addEventListener("click",event=>{
+    if(!quickPopup || quickPopup.hidden) return;
+    if(headerBell?.contains(event.target) || quickPopup.contains(event.target)) return;
+    closeQuickPopup();
+  });
+
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape") closeQuickPopup();
+  });
+
+  document.querySelectorAll(".quick-like").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const liked=button.getAttribute("aria-pressed")!=="true";
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked" : "♡ Like";
+
+      const item=button.closest(".quick-notification");
+      item?.classList.remove("unread");
+      refreshQuickPopupCount();
+    });
+  });
+
+  document.querySelectorAll(".quick-reply").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const item=button.closest(".quick-notification");
+      const line=item?.querySelector(".quick-reply-line");
+      if(!line) return;
+
+      document.querySelectorAll(".quick-reply-line.open").forEach(other=>{
+        if(other!==line) other.classList.remove("open");
+      });
+
+      const opening=!line.classList.contains("open");
+      line.classList.toggle("open",opening);
+      if(opening) line.querySelector("input")?.focus();
+    });
+  });
+
+  document.querySelectorAll(".quick-reply-line").forEach(line=>{
+    const input=line.querySelector("input");
+    const send=line.querySelector(".quick-send");
+    const item=line.closest(".quick-notification");
+    const replyButton=item?.querySelector(".quick-reply");
+
+    input?.addEventListener("input",()=>{
+      if(send) send.disabled=!input.value.trim();
+    });
+
+    input?.addEventListener("keydown",event=>{
+      if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
+        event.preventDefault();
+        send?.click();
+      }
+    });
+
+    send?.addEventListener("click",()=>{
+      const reply=input?.value.trim();
+      if(!reply) return;
+
+      item?.classList.remove("unread");
+      if(replyButton) replyButton.textContent="Replied ✓";
+      if(input) input.value="";
+      if(send) send.disabled=true;
+      line.classList.remove("open");
+      refreshQuickPopupCount();
+    });
+  });
+
+  quickPopupSeeMore?.addEventListener("click",event=>{
+    // In this master file, "See more" jumps to the full notification stream.
+    // When the page is split, this becomes a link to notifications.html.
+    event.preventDefault();
+    closeQuickPopup();
+    document.getElementById("recentNotificationsTitle")?.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  refreshQuickPopupCount();
 
   updateCounts();
   applyFilter("all");
