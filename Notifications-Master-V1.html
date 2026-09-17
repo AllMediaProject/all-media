@@ -1653,6 +1653,195 @@ a{color:inherit}
     flex-direction:column;
   }
 }
+
+/* =========================================================
+   POST ACTIVITY — UNANSWERED FILTER + QUIET VIEW COUNTS
+========================================================= */
+.post-activity-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.post-activity-filter{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 9px;
+  border:0;
+  border-radius:999px;
+  background:rgba(16,26,58,.5);
+  color:#91a0c0;
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.22);
+  font-size:9px;
+  font-weight:800;
+}
+
+.post-activity-filter:hover{
+  color:#c8d1e5;
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.28);
+}
+
+.post-activity-filter[aria-pressed="true"]{
+  background:rgba(255,195,132,.08);
+  color:var(--am-peach);
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.34);
+}
+
+.post-activity-filter-check{
+  width:14px;
+  height:14px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(83,100,143,.18);
+  color:transparent;
+  font-size:8px;
+  line-height:1;
+}
+
+.post-activity-filter[aria-pressed="true"] .post-activity-filter-check{
+  background:var(--am-peach);
+  color:#101a3a;
+}
+
+.post-activity-filter-count{
+  min-width:16px;
+  height:16px;
+  display:grid;
+  place-items:center;
+  padding:0 4px;
+  border-radius:999px;
+  background:rgba(255,195,132,.10);
+  color:var(--am-peach);
+  font-size:8px;
+}
+
+.post-activity-card.is-filtered-out{
+  display:none;
+}
+
+.post-activity-views{
+  display:block;
+  margin-top:3px;
+  color:#617194;
+  font-size:8px;
+  font-weight:650;
+}
+
+.post-activity-detail-stats{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:5px;
+  color:#7f90b2;
+  font-size:8.5px;
+  font-weight:700;
+}
+
+.post-activity-detail-stats span{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+
+.post-activity-empty{
+  display:none;
+  padding:16px 4px 4px;
+  color:#7f8ead;
+  font-size:10px;
+  text-align:center;
+}
+
+.post-activity-empty.show{
+  display:block;
+}
+
+@media(max-width:800px){
+  .post-activity-controls{
+    justify-content:flex-start;
+  }
+}
+
+/* =========================================================
+   POST ACTIVITY — READABILITY BUMP
+========================================================= */
+.post-activity-heading h2{
+  font-size:20px;
+}
+
+.post-activity-heading p{
+  font-size:12.5px;
+}
+
+.post-activity-hint{
+  font-size:10px;
+}
+
+.post-activity-filter{
+  font-size:10.5px;
+}
+
+.post-activity-filter-count{
+  font-size:9px;
+}
+
+.post-activity-card-copy strong{
+  font-size:12px;
+}
+
+.post-activity-card-copy small{
+  font-size:9.5px;
+}
+
+.post-activity-views{
+  font-size:9.5px;
+}
+
+.post-activity-bubbles span{
+  font-size:9px;
+}
+
+.post-activity-detail-type{
+  font-size:9px;
+}
+
+.post-activity-detail-title h3{
+  font-size:16px;
+}
+
+.post-activity-detail-title p{
+  font-size:10px;
+}
+
+.post-activity-detail-stats{
+  font-size:10px;
+}
+
+.post-activity-detail-block h4{
+  font-size:10px;
+}
+
+.post-activity-log-row,
+.post-activity-location-row{
+  font-size:11.5px;
+  line-height:1.45;
+}
+
+.post-activity-detail-footer{
+  font-size:10.5px;
+}
+
+.post-activity-view-post{
+  font-size:10.5px;
+}
+
+.post-activity-empty{
+  font-size:11px;
+}
 </style>
 </head>
 <body>
@@ -1729,61 +1918,67 @@ a{color:inherit}
 </div>
 <button class="mark-all" id="markAllReadButton" type="button">Mark all as read</button>
 </div>
-
 <section aria-labelledby="postActivityTitle" class="post-activity-section">
 <div class="post-activity-heading">
 <div>
 <h2 id="postActivityTitle">Post Activity</h2>
 <p>Recent movement across your posts — including older posts finding people again.</p>
 </div>
+<div class="post-activity-controls">
+<button aria-pressed="false" class="post-activity-filter" id="unansweredToggle" type="button">
+<span class="post-activity-filter-check">✓</span>
+<span>Unanswered comments</span>
+<span class="post-activity-filter-count" id="unansweredCount">3</span>
+</button>
 <span class="post-activity-hint">Most recently active</span>
 </div>
+</div>
 <div class="post-activity-strip" role="list">
-<button class="post-activity-card has-new" data-age="Posted 2 days ago" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 2 days ago" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" data-unanswered="1" data-views="186" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-pumpkin">🎃</span>
 <span class="post-activity-card-copy">
 <strong>Painted pumpkin shelf</strong>
 <small>2 days ago</small>
-</span>
+<span class="post-activity-views">◉ 186 views</span></span>
 <span aria-label="3 new likes and 2 new comments" class="post-activity-bubbles">
 <span>♥ 3</span><span>💬 2</span>
 </span>
 </button>
-<button class="post-activity-card has-new" data-age="Posted 8 months ago" data-post-id="haunted-house" data-title="Tiny haunted house painting" data-type="Regular Post" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 8 months ago" data-post-id="haunted-house" data-title="Tiny haunted house painting" data-type="Regular Post" data-unanswered="1" data-views="742" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-house">🏚️</span>
 <span class="post-activity-card-copy">
 <strong>Tiny haunted house</strong>
 <small>8 months ago</small>
-</span>
+<span class="post-activity-views">◉ 742 views</span></span>
 <span aria-label="1 new comment and 1 new reblog" class="post-activity-bubbles">
 <span>💬 1</span><span>↻ 1</span>
 </span>
 </button>
-<button class="post-activity-card" data-age="Posted 3 weeks ago" data-post-id="crochet-ghost" data-title="Melted Ice Cream Ghost" data-type="Regular Post" role="listitem" type="button">
+<button class="post-activity-card" data-age="Posted 3 weeks ago" data-post-id="crochet-ghost" data-title="Melted Ice Cream Ghost" data-type="Regular Post" data-unanswered="0" data-views="96" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-ghost">👻</span>
 <span class="post-activity-card-copy">
 <strong>Melted Ice Cream Ghost</strong>
 <small>3 weeks ago</small>
-</span>
+<span class="post-activity-views">◉ 96 views</span></span>
 </button>
-<button class="post-activity-card has-new" data-age="Posted 1 year ago" data-post-id="cozy-games" data-title="Cozy games for rainy evenings" data-type="Blog" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 1 year ago" data-post-id="cozy-games" data-title="Cozy games for rainy evenings" data-type="Blog" data-unanswered="1" data-views="1280" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-games">🎮</span>
 <span class="post-activity-card-copy">
 <strong>Cozy games for rainy evenings</strong>
 <small>1 year ago</small>
-</span>
+<span class="post-activity-views">◉ 1,280 views</span></span>
 <span aria-label="2 new likes" class="post-activity-bubbles">
 <span>♥ 2</span>
 </span>
 </button>
-<button class="post-activity-card" data-age="Posted 5 days ago" data-post-id="autumn-sketch" data-title="Autumn sketchbook page" data-type="Regular Post" role="listitem" type="button">
+<button class="post-activity-card" data-age="Posted 5 days ago" data-post-id="autumn-sketch" data-title="Autumn sketchbook page" data-type="Regular Post" data-unanswered="0" data-views="154" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-sketch">🍂</span>
 <span class="post-activity-card-copy">
 <strong>Autumn sketchbook page</strong>
 <small>5 days ago</small>
-</span>
+<span class="post-activity-views">◉ 154 views</span></span>
 </button>
-</div>
+</div><div class="post-activity-empty" id="postActivityEmpty">No posts have unanswered comments right now.</div>
 <div class="post-activity-detail" hidden="" id="postActivityDetail">
 <div class="post-activity-detail-top">
 <div class="post-activity-detail-preview" id="postActivityDetailPreview">🎃</div>
@@ -1791,6 +1986,10 @@ a{color:inherit}
 <span class="post-activity-detail-type" id="postActivityDetailType">Regular Post</span>
 <h3 id="postActivityDetailTitle">Painted pumpkin shelf</h3>
 <p id="postActivityDetailAge">Posted 2 days ago</p>
+<div class="post-activity-detail-stats">
+<span id="postActivityViews">◉ 0 views</span>
+<span id="postActivityUnanswered">💬 0 unanswered</span>
+</div>
 </div>
 <button aria-label="Close post activity" class="post-activity-close" id="postActivityClose" type="button">×</button>
 </div>
@@ -2026,7 +2225,7 @@ a{color:inherit}
 <strong>Nothing here yet.</strong>
     Try another notification filter.
   </div>
-<div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity. Header-bell quick view will stay separate and compact.</div>
+<div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity, unanswered-comment filtering, quiet view counts, and improved readability.</div>
 </main>
 <script>
 (function(){
@@ -2269,6 +2468,8 @@ a{color:inherit}
   const postActivityData={
     "pumpkin-shelf":{
       icon:"🎃",
+      views:186,
+      unanswered:1,
       log:[
         "<strong>@CozyCatCreates</strong> commented 21 min ago",
         "<strong>3 people</strong> liked this post today",
@@ -2285,6 +2486,8 @@ a{color:inherit}
     },
     "haunted-house":{
       icon:"🏚️",
+      views:742,
+      unanswered:1,
       log:[
         "<strong>@NightshadeArt</strong> commented 37 min ago",
         "<strong>@PixelWitch</strong> reblogged it 1 hr ago",
@@ -2301,6 +2504,8 @@ a{color:inherit}
     },
     "crochet-ghost":{
       icon:"👻",
+      views:96,
+      unanswered:0,
       log:[
         "Saved to a Pocket 4 days ago",
         "Last comment was 1 week ago"
@@ -2314,6 +2519,8 @@ a{color:inherit}
     },
     "cozy-games":{
       icon:"🎮",
+      views:1280,
+      unanswered:1,
       log:[
         "<strong>2 people</strong> liked this post today",
         "Shown in <strong>Discover</strong> this morning",
@@ -2329,6 +2536,8 @@ a{color:inherit}
     },
     "autumn-sketch":{
       icon:"🍂",
+      views:154,
+      unanswered:0,
       log:[
         "Saved to a Pocket yesterday",
         "Shown in <strong>Discover</strong> 2 days ago"
@@ -2358,6 +2567,9 @@ a{color:inherit}
     document.getElementById("postActivityDetailType").textContent=card.dataset.type;
     document.getElementById("postActivityDetailAge").textContent=card.dataset.age;
     document.getElementById("postActivityNote").textContent=data.note;
+    document.getElementById("postActivityViews").textContent=`◉ ${data.views.toLocaleString()} views`;
+    document.getElementById("postActivityUnanswered").textContent=
+      data.unanswered===1 ? "💬 1 unanswered" : `💬 ${data.unanswered} unanswered`;
 
     document.getElementById("postActivityLog").innerHTML=data.log.map(row=>
       `<div class="post-activity-log-row"><span class="post-activity-log-dot"></span><span>${row}</span></div>`
@@ -2379,6 +2591,46 @@ a{color:inherit}
     postActivityDetail.hidden=true;
     postActivityCards.forEach(card=>card.classList.remove("active"));
   });
+
+
+  const unansweredToggle=document.getElementById("unansweredToggle");
+  const unansweredCount=document.getElementById("unansweredCount");
+  const postActivityEmpty=document.getElementById("postActivityEmpty");
+
+  function updateUnansweredFilter(){
+    if(!unansweredToggle) return;
+    const active=unansweredToggle.getAttribute("aria-pressed")==="true";
+    let visibleCount=0;
+
+    postActivityCards.forEach(card=>{
+      const unanswered=Number(card.dataset.unanswered || 0);
+      const hide=active && unanswered===0;
+      card.classList.toggle("is-filtered-out",hide);
+      if(!hide) visibleCount++;
+    });
+
+    const totalUnanswered=postActivityCards
+      .reduce((sum,card)=>sum+Number(card.dataset.unanswered || 0),0);
+
+    if(unansweredCount) unansweredCount.textContent=totalUnanswered;
+    if(postActivityEmpty) postActivityEmpty.classList.toggle("show",active && visibleCount===0);
+
+    if(active && postActivityDetail && !postActivityDetail.hidden){
+      const activeCard=document.querySelector(".post-activity-card.active");
+      if(activeCard && Number(activeCard.dataset.unanswered || 0)===0){
+        postActivityDetail.hidden=true;
+        activeCard.classList.remove("active");
+      }
+    }
+  }
+
+  unansweredToggle?.addEventListener("click",()=>{
+    const next=unansweredToggle.getAttribute("aria-pressed")!=="true";
+    unansweredToggle.setAttribute("aria-pressed",String(next));
+    updateUnansweredFilter();
+  });
+
+  updateUnansweredFilter();
 
   updateCounts();
   applyFilter("all");
