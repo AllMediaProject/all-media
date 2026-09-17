@@ -1842,6 +1842,219 @@ a{color:inherit}
 .post-activity-empty{
   font-size:11px;
 }
+
+/* =========================================================
+   NOTIFICATIONS — PAGE SECTION SEPARATION
+   One soft surface per major area, while keeping rows flat.
+========================================================= */
+.notifications-shell{
+  max-width:1040px;
+  margin-top:30px;
+}
+
+/* Top page heading feels intentional without becoming a card. */
+.notifications-heading-row{
+  margin-bottom:18px;
+  padding:0 2px 2px;
+}
+.notifications-title-wrap h1{
+  font-size:38px;
+  letter-spacing:-.03em;
+}
+.notifications-title-wrap p{
+  max-width:620px;
+  color:#9aa8c5;
+}
+
+/* Post Activity becomes one cohesive section instead of loose pieces. */
+.post-activity-section{
+  position:relative;
+  margin:0 0 24px;
+  padding:18px 18px 17px;
+  border:0;
+  border-radius:16px;
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.035),transparent 34%),
+    rgba(18,31,67,.42);
+  box-shadow:
+    inset 0 0 0 1px rgba(83,100,143,.16),
+    0 14px 30px rgba(2,8,24,.10);
+}
+
+.post-activity-section::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:18px;
+  bottom:18px;
+  width:3px;
+  border-radius:0 99px 99px 0;
+  background:linear-gradient(var(--am-peach),rgba(255,195,132,.28));
+  opacity:.72;
+}
+
+.post-activity-heading{
+  padding-left:4px;
+  margin-bottom:14px;
+}
+
+.post-activity-heading h2{
+  color:#f5f6fb;
+}
+
+.post-activity-heading p{
+  color:#8c9bb9;
+}
+
+.post-activity-strip{
+  padding:2px 2px 10px;
+}
+
+.post-activity-card{
+  background:rgba(8,18,44,.34);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.16);
+}
+
+.post-activity-card:hover,
+.post-activity-card.active{
+  background:rgba(23,40,82,.52);
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.34);
+}
+
+/* Expanded post activity sits clearly inside the section. */
+.post-activity-detail{
+  margin-top:14px;
+  padding:14px 15px 13px;
+  background:rgba(8,18,44,.38);
+  box-shadow:
+    inset 0 0 0 1px rgba(83,100,143,.18),
+    0 8px 18px rgba(2,8,24,.08);
+}
+
+/* Recent notifications gets its own large, quiet surface. */
+.notification-stream-section{
+  position:relative;
+  padding:18px 18px 20px;
+  border-radius:16px;
+  background:rgba(11,23,53,.34);
+  box-shadow:
+    inset 0 0 0 1px rgba(83,100,143,.14),
+    0 14px 30px rgba(2,8,24,.08);
+}
+
+.notification-stream-section::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:18px;
+  bottom:18px;
+  width:3px;
+  border-radius:0 99px 99px 0;
+  background:linear-gradient(rgba(65,105,208,.78),rgba(65,105,208,.18));
+  opacity:.72;
+}
+
+.notification-stream-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin:0 0 12px;
+  padding-left:4px;
+}
+
+.notification-stream-heading h2{
+  margin:0;
+  color:#f5f6fb;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+
+.notification-stream-heading p{
+  margin:4px 0 0;
+  color:#8291b1;
+  font-size:12px;
+  line-height:1.4;
+}
+
+/* Tabs belong visually to the Recent Notifications section. */
+.notification-tabs{
+  width:max-content;
+  margin:0 0 18px;
+  background:rgba(8,18,44,.42);
+  box-shadow:inset 0 0 0 1px rgba(65,105,208,.15);
+}
+
+.notification-group{
+  margin-top:22px;
+}
+
+.notification-group:first-of-type{
+  margin-top:0;
+}
+
+.notification-group-title{
+  margin:0 0 8px;
+  padding-left:2px;
+  color:#9ba8c3;
+}
+
+.notification-group-title::after{
+  background:linear-gradient(90deg,rgba(255,255,255,.08),transparent);
+}
+
+/* Rows stay flat, but spacing/dividers are clearer. */
+.notification-item{
+  padding-top:16px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.075) !important;
+}
+
+.notification-item:hover{
+  background:rgba(24,41,83,.35) !important;
+}
+
+.notification-item:last-child{
+  border-bottom:0 !important;
+}
+
+/* Slight emphasis for unanswered/comment notifications without boxes. */
+.notification-item:has(.quick-reply-prompt){
+  background:linear-gradient(90deg,rgba(255,195,132,.025),transparent 54%) !important;
+}
+
+.notification-item:has(.quick-reply-prompt):hover{
+  background:linear-gradient(90deg,rgba(255,195,132,.05),rgba(24,41,83,.28) 62%) !important;
+}
+
+/* Keep utility actions visually separate from content. */
+.mark-all{
+  background:rgba(8,18,44,.24);
+}
+
+.prototype-note{
+  margin-top:16px;
+  opacity:.7;
+}
+
+@media(max-width:800px){
+  .post-activity-section,
+  .notification-stream-section{
+    padding:15px 13px 17px;
+    border-radius:14px;
+  }
+
+  .post-activity-section::before,
+  .notification-stream-section::before{
+    top:14px;
+    bottom:14px;
+  }
+
+  .notification-stream-heading{
+    margin-bottom:10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -2009,12 +2222,18 @@ a{color:inherit}
 </div>
 </div>
 </section>
+<section aria-labelledby="recentNotificationsTitle" class="notification-stream-section">
+<div class="notification-stream-heading">
+<div>
+<h2 id="recentNotificationsTitle">Recent Notifications</h2>
+<p>Your latest personal updates and conversations.</p>
+</div>
+</div>
 <div aria-label="Notification filters" class="notification-tabs" role="tablist">
 <button aria-selected="true" class="notification-tab active" data-filter="all" role="tab" type="button">All <span class="tab-count" id="allCount"></span></button>
 <button aria-selected="false" class="notification-tab" data-filter="interaction" role="tab" type="button">Interactions <span class="tab-count" id="interactionCount"></span></button>
 <button aria-selected="false" class="notification-tab" data-filter="community" role="tab" type="button">Communities <span class="tab-count" id="communityCount"></span></button>
-</div>
-<section class="notification-group" data-group="today">
+</div><section class="notification-group" data-group="today">
 <h2 class="notification-group-title">Today</h2>
 <div class="notification-list">
 <article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
@@ -2127,8 +2346,7 @@ a{color:inherit}
 <span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
 </article>
 </div>
-</section>
-<section class="notification-group" data-group="week">
+</section><section class="notification-group" data-group="week">
 <h2 class="notification-group-title">Earlier this week</h2>
 <div class="notification-list">
 <article class="notification-item" data-category="interaction" role="button" tabindex="0">
@@ -2192,8 +2410,7 @@ a{color:inherit}
 <span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
 </article>
 </div>
-</section>
-<section class="notification-group" data-group="older">
+</section><section class="notification-group" data-group="older">
 <h2 class="notification-group-title">Older</h2>
 <div class="notification-list">
 <article class="notification-item" data-category="interaction" role="button" tabindex="0">
@@ -2220,11 +2437,14 @@ a{color:inherit}
 <span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
 </article>
 </div>
-</section>
-<div class="notification-empty" id="notificationEmpty">
+</section><div class="notification-empty" id="notificationEmpty">
 <strong>Nothing here yet.</strong>
     Try another notification filter.
-  </div>
+  </div></section>
+
+
+
+
 <div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity, unanswered-comment filtering, quiet view counts, and improved readability.</div>
 </main>
 <script>
