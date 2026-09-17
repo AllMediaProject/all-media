@@ -6965,8 +6965,8 @@ body.discover-body .top-nav a.active{
 }
 
 /* =========================================================
-   ALL MEDIA — POST VIEW COUNTER
-   Quiet context, not an engagement button or score.
+   ALL MEDIA — CREATOR-ONLY POST VIEW COUNTER
+   Visible to the post creator only; quiet context, not a public score.
 ========================================================= */
 .post-view-count{
   color:#8f9cbb;

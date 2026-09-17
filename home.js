@@ -396,7 +396,7 @@ function createPost(){
     if(mode==="byte"&&(!videoItem||!text)){if(warning)warning.textContent=!videoItem?"Add a Byte video before posting…":"Your Byte needs a caption…";showPostWarning();return;}
     if(mode==="byte"&&selectedPostVideo?.duration>180.01){if(warning)warning.textContent="Bytes can be up to 3 minutes long.";showPostWarning();return;}
     if(mode==="post"&&!text){if(warning)warning.textContent="Looks like your post is missing some context…";showPostWarning();return;}
-    const feed=document.getElementById("feed"),np=document.createElement("article");np.className=mode==="blog"?"post blog-post blog-post-v11":mode==="video"?"post video-post-v11":mode==="byte"?"post byte-post-v11":"post regular-post";
+    const feed=document.getElementById("feed"),np=document.createElement("article");np.dataset.owner="current-user";np.className=mode==="blog"?"post blog-post blog-post-v11":mode==="video"?"post video-post-v11":mode==="byte"?"post byte-post-v11":"post regular-post";
     const topicEmoji=({"Art":"🎨","Halloween":"🎃","Nature":"🌲","Gaming":"🎮","Music":"🎵","Books":"📚","Food":"🍔","Photography":"📷","Movies & TV":"🎬","Fashion":"👗","Technology":"💻","Lifestyle":"🧘","Home & Decor":"🏠","Travel":"✈️","Animals":"🐾","Other":"🎲"}[selectedTopic]||"🏷️");
     const allowImageExpansion=document.getElementById("imageExpansionToggle")?.checked!==false;
     const imageHTML=mediaItems.length?`<div class="post-image has-upload"><div class="media-carousel feed-carousel" data-index="0"><div class="media-carousel-track">${mediaItems.map((m,i)=>`<div class="media-slide"><div class="feed-media-stage"><div class="feed-media-frame ${m.mode||"fit"}${mode==="post"&&!allowImageExpansion?" no-expand":""}" data-full="${m.url}" data-expand="${allowImageExpansion}" ${mode==="post"&&allowImageExpansion?'onclick="openPostImage(this,event)"':""}><img src="${m.url}" alt="${mode==="blog"?"Blog":"Post"} image ${i+1} of ${mediaItems.length}" style="${composerImageStyle(m)}">${mode==="post"&&allowImageExpansion?'<button type="button" class="feed-expand" onclick="openPostImage(this.parentElement,event)" aria-label="Expand full image">⤢</button>':""}</div></div></div>`).join("")}</div>${mediaItems.length>1?`<button type="button" class="carousel-arrow prev" onclick="movePostCarousel(this,-1)" aria-label="Previous photo">‹</button><button type="button" class="carousel-arrow next" onclick="movePostCarousel(this,1)" aria-label="Next photo">›</button>`:""}</div>${mediaItems.length>1?`<div class="carousel-dots">${mediaItems.map((_,i)=>`<button type="button" class="carousel-dot ${i===0?"active":""}" onclick="goPostCarousel(this,${i})" aria-label="View photo ${i+1}"></button>`).join("")}</div>`:""}</div>`:editingPreservedMediaHTML;
@@ -410,7 +410,7 @@ function createPost(){
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
-<span class="post-view-count">· ◉ 0 views</span>
+<span class="post-view-count creator-only-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">POST</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -479,7 +479,7 @@ ${imageHTML}
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
-<span class="post-view-count">· ◉ 0 views</span>
+<span class="post-view-count creator-only-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">BLOG</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -534,7 +534,7 @@ ${imageHTML?`<div class="blog-preview-image blog-home-preview">${imageHTML}</div
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
-<span class="post-view-count">· ◉ 0 views</span>
+<span class="post-view-count creator-only-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">VIDEO</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -584,7 +584,7 @@ ${videoHTML}
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
-<span class="post-view-count">· ◉ 0 views</span>
+<span class="post-view-count creator-only-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">BYTE</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -623,7 +623,7 @@ ${videoHTML}
 <div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}</div>
 <section class="comments-section"></section>
 <div class="card-bottom-spacer" aria-hidden="true"></div>`;
-        np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span><span class="post-view-count">· ◉ 0 views</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
+        np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span><span class="post-view-count creator-only-view-count">· ◉ 0 views</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
 <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
@@ -1339,13 +1339,20 @@ requestAnimationFrame(()=>{
    POST VIEW COUNTER SAFETY NET
    Backend will eventually supply the real count.
 ========================================================= */
+function postBelongsToCurrentUser(post){
+  if(!post) return false;
+  if(post.dataset.owner==="current-user" || post.classList.contains("own-post")) return true;
+  const handle=post.querySelector(".username")?.textContent.trim().toLowerCase();
+  return handle==="@yourusername" || handle==="@sugarcrumbco";
+}
+
 function ensurePostViewCounter(post){
-  if(!post || post.querySelector(".post-view-count")) return;
+  if(!post || !postBelongsToCurrentUser(post) || post.querySelector(".post-view-count")) return;
   const line=post.querySelector(".post-author-line");
   const time=line?.querySelector(".post-time");
   if(!line || !time) return;
   const counter=document.createElement("span");
-  counter.className="post-view-count";
+  counter.className="post-view-count creator-only-view-count";
   counter.textContent="· ◉ 0 views";
   time.insertAdjacentElement("afterend",counter);
 }

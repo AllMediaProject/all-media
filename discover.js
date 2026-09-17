@@ -206,7 +206,7 @@ function postHeader(post){
         <div class="post-author-line">
           <span class="username">${escapeHTML(post.user)}</span>
           <span class="post-time">· ${escapeHTML(post.time)}</span>
-          <span class="post-view-count">· ◉ ${Number(post.views||0).toLocaleString()} views</span>
+          ${post.isOwn===true?`<span class="post-view-count creator-only-view-count">· ◉ ${Number(post.views||0).toLocaleString()} views</span>`:""}
           <span class="post-type-bubble">${post.type==="post"?"POST":post.type.toUpperCase()}</span>
         </div>
         <div class="post-meta-line">
@@ -556,7 +556,7 @@ function footerBlock(post){
 function buildDiscoverCard(post){
   const byteFirst=post.type==="byte" ? demoMedia(post) : "";
   return `
-    <article class="${cardClass(post)}" data-type="${post.type}" data-interest="${escapeHTML(post.interest)}" data-views="${Number(post.views||0)}">
+    <article class="${cardClass(post)}" data-type="${post.type}" data-interest="${escapeHTML(post.interest)}" data-views="${Number(post.views||0)}" data-owner="${post.isOwn===true?"current-user":"other"}">
       ${byteFirst}
       ${postHeader(post)}
       ${mainContent(post)}

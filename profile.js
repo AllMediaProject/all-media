@@ -1800,14 +1800,21 @@ requestAnimationFrame(()=>document.querySelectorAll(".profile-feed .post.regular
    PROFILE POST VIEW COUNTER SAFETY NET
    Applies to every post type shown on a Profile.
 ========================================================= */
+function profilePostBelongsToCurrentUser(post){
+  if(!post) return false;
+  if(post.dataset.owner==="current-user" || post.classList.contains("own-post")) return true;
+  const handle=post.querySelector(".username")?.textContent.trim().toLowerCase();
+  return handle==="@sugarcrumbco" || handle==="@yourusername";
+}
+
 function ensureProfilePostViewCounter(post){
-  if(!post || post.querySelector(".post-view-count")) return;
+  if(!post || !profilePostBelongsToCurrentUser(post) || post.querySelector(".post-view-count")) return;
   const line=post.querySelector(".post-author-line");
   const time=line?.querySelector(".post-time");
   if(!line || !time) return;
   const count=Number(post.dataset.views||0);
   const counter=document.createElement("span");
-  counter.className="post-view-count";
+  counter.className="post-view-count creator-only-view-count";
   counter.textContent=`· ◉ ${count.toLocaleString()} views`;
   time.insertAdjacentElement("afterend",counter);
 }

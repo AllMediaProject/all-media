@@ -8607,8 +8607,8 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 }
 
 /* =========================================================
-   ALL MEDIA — POST VIEW COUNTER
-   Quiet context, not an engagement button or score.
+   ALL MEDIA — CREATOR-ONLY POST VIEW COUNTER
+   Visible to the post creator only; quiet context, not a public score.
 ========================================================= */
 .post-view-count{
   color:#8f9cbb;
