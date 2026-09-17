@@ -8555,6 +8555,20 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
 .interest-manage-panel{margin-top:8px!important;border-color:rgba(65,105,208,.35)!important;border-radius:12px!important;background:rgba(8,18,44,.30)!important}
 @media(max-width:800px){.pocket-flyout{max-height:58vh}.interest-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 
+
+
+/* === POCKET ROW SETTINGS MENU === */
+.pocket-row-actions{position:relative;display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.pocket-menu-button{width:27px;height:27px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:#aeb9d3;font:800 17px/1 'Outfit',sans-serif;cursor:pointer;opacity:.78;transition:background .15s,color .15s,opacity .15s}
+.pocket-menu-button:hover,.pocket-menu-button[aria-expanded="true"]{background:rgba(255,195,132,.09);color:var(--am-peach);opacity:1}
+.pocket-settings-menu{display:none;position:absolute;right:0;top:calc(100% + 4px);z-index:80;min-width:94px;padding:4px;border:1px solid rgba(255,195,132,.34);border-radius:9px;background:#0d1d3d;box-shadow:0 10px 24px rgba(2,8,24,.38)}
+.pocket-settings-menu.open{display:block}
+.pocket-settings-action{width:100%;padding:7px 9px;border:0;border-radius:6px;background:transparent;color:#e5ebf7;font:700 10px 'Outfit',sans-serif;text-align:left;cursor:pointer;white-space:nowrap}
+.pocket-settings-action:hover{background:rgba(255,195,132,.08);color:var(--am-peach)}
+.pocket-settings-action.unfollow{color:#e9a2a2}.pocket-settings-action.unfollow:hover{background:rgba(217,106,106,.10);color:#ffb2b2}
+/* The sidebar itself handles scrolling; this keeps row menus from being clipped. */
+.pocket-flyout{max-height:none!important;overflow:visible!important}
+
 </style>
 </head>
 <body>
@@ -9950,7 +9964,15 @@ function showPocketLimitMessage(){const message=document.getElementById("pocketL
 function pocketDrawerTarget(item){return document.getElementById(item?.dataset.pocketType==="followed"?"followedPocketList":"yourPocketList")}
 function updatePocketStar(button,isFavorite){if(!button)return;button.textContent=isFavorite?"★":"☆";const item=button.closest(".pocket-item"),name=item?.dataset.pocketName||"Pocket";button.title=isFavorite?"Favorite Pocket":"Add to favorites";button.setAttribute("aria-label",isFavorite?`Remove ${name} from favorites`:`Add ${name} to favorites`)}
 function togglePocketFavorite(button){const item=button.closest(".pocket-item"),faves=document.getElementById("favesList"),isFav=button.textContent.trim()==="★",message=document.getElementById("pocketLimitMessage");if(!item||!faves)return;if(isFav){updatePocketStar(button,false);pocketDrawerTarget(item)?.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"");return}if(faves.querySelectorAll(":scope > .pocket-item").length>=6){showPocketLimitMessage();return}updatePocketStar(button,true);item.style.display="";faves.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
+function closePocketSettingsMenus(except=null){document.querySelectorAll(".pocket-settings-menu.open").forEach(menu=>{if(menu!==except){menu.classList.remove("open");menu.previousElementSibling?.setAttribute("aria-expanded","false")}})}
+function togglePocketSettings(event,button){event.stopPropagation();const menu=button.nextElementSibling;if(!menu)return;const opening=!menu.classList.contains("open");closePocketSettingsMenus(menu);menu.classList.toggle("open",opening);button.setAttribute("aria-expanded",String(opening))}
+function editOwnedPocket(item){if(!item||item.dataset.pocketType!=="owned")return;const oldName=item.dataset.pocketName||item.querySelector(".pocket-name")?.textContent||"Pocket";const next=window.prompt("Edit Pocket name",oldName);if(next===null)return;const name=next.trim();if(!name||name===oldName)return;item.dataset.pocketName=name;const label=item.querySelector(".pocket-name");if(label)label.textContent=name;const star=item.querySelector(".pocket-star");if(star){const isFavorite=star.textContent.trim()==="★";star.setAttribute("aria-label",isFavorite?`Remove ${name} from favorites`:`Add ${name} to favorites`)}filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
+function unfollowPocket(item){if(!item||item.dataset.pocketType!=="followed")return;item.remove();updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
+function ensurePocketMenus(){document.querySelectorAll(".pockets-panel .pocket-item").forEach(item=>{let actions=item.querySelector(":scope > .pocket-row-actions");const star=item.querySelector(":scope > .pocket-star");if(!actions){actions=document.createElement("div");actions.className="pocket-row-actions";if(star){item.insertBefore(actions,star);actions.appendChild(star)}else item.appendChild(actions)}if(actions.querySelector(".pocket-menu-button"))return;const menuButton=document.createElement("button");menuButton.type="button";menuButton.className="pocket-menu-button";menuButton.textContent="⋯";menuButton.title="Pocket settings";menuButton.setAttribute("aria-label","Pocket settings");menuButton.setAttribute("aria-expanded","false");menuButton.onclick=event=>togglePocketSettings(event,menuButton);const menu=document.createElement("div");menu.className="pocket-settings-menu";const action=document.createElement("button");action.type="button";action.className="pocket-settings-action"+(item.dataset.pocketType==="followed"?" unfollow":"");action.textContent=item.dataset.pocketType==="followed"?"Unfollow":"Edit";action.onclick=event=>{event.stopPropagation();closePocketSettingsMenus();item.dataset.pocketType==="followed"?unfollowPocket(item):editOwnedPocket(item)};menu.appendChild(action);actions.append(menuButton,menu)})}
+document.addEventListener("click",()=>closePocketSettingsMenus());
+document.addEventListener("keydown",event=>{if(event.key==="Escape")closePocketSettingsMenus()});
 updatePocketFavoriteCount();
+ensurePocketMenus();
 function setPublishButtonLabel(label){const button=document.getElementById("publishButton"),text=button?.querySelector(".publish-label");if(text)text.textContent=label;else if(button)button.textContent=label}
 function selectCreatorType(button){
     const type=button.dataset.type;if(type!=="blog")clearBlogImageSelection();if(type!=="post")clearPostMediaWarning();document.querySelectorAll(".creator-type-tab").forEach(tab=>tab.classList.remove("active"));button.classList.add("active");
