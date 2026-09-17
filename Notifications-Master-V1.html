@@ -556,6 +556,50 @@ a{color:inherit}
   font-size:14px;
   line-height:1;
 }
+
+.quick-reply-prompt{
+  width:min(100%,560px);
+  min-height:36px;
+  margin-top:8px;
+  padding:6px 10px 6px 7px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(83,100,143,.52);
+  border-radius:999px;
+  background:rgba(8,18,44,.30);
+  color:#8f9cbb;
+  text-align:left;
+}
+.quick-reply-prompt:hover{
+  border-color:rgba(255,195,132,.55);
+  background:rgba(255,195,132,.035);
+  color:#bfc9de;
+}
+.quick-reply-prompt-avatar{
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.55);
+  border-radius:50%;
+  background:#344a7b;
+  color:#fff;
+  font-size:9px;
+  font-weight:800;
+}
+.quick-reply-placeholder{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:10px;
+  font-weight:650;
+}
+.quick-reply-prompt[aria-expanded="true"]{
+  display:none;
+}
+
 .quick-reply{
   display:none;
   margin-top:10px;
@@ -792,7 +836,7 @@ a{color:inherit}
   <section class="notification-group" data-group="today">
     <h2 class="notification-group-title">Today</h2>
     <div class="notification-list">
-      <button class="notification-item unread" type="button" data-category="interaction">
+      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">N</span>
           <span class="notification-event-icon">↩</span>
@@ -804,6 +848,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -817,9 +865,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item unread" type="button" data-category="interaction">
+      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">C</span>
           <span class="notification-event-icon">♥</span>
@@ -831,6 +879,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -844,9 +896,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item unread" type="button" data-category="community">
+      <article class="notification-item unread" data-category="community" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar community">🎃</span>
           <span class="notification-event-icon">♧</span>
@@ -859,6 +911,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -872,9 +928,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item unread" type="button" data-category="interaction">
+      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">W</span>
           <span class="notification-event-icon">＋</span>
@@ -886,6 +942,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -899,9 +959,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item unread" type="button" data-category="community">
+      <article class="notification-item unread" data-category="community" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar community">🎨</span>
           <span class="notification-event-icon">!</span>
@@ -914,6 +974,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -927,14 +991,14 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
     </div>
   </section>
 
   <section class="notification-group" data-group="week">
     <h2 class="notification-group-title">Earlier this week</h2>
     <div class="notification-list">
-      <button class="notification-item" type="button" data-category="interaction">
+      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">P</span>
           <span class="notification-event-icon">↻</span>
@@ -946,6 +1010,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -959,9 +1027,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item" type="button" data-category="interaction">
+      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">M</span>
           <span class="notification-event-icon">▱</span>
@@ -973,6 +1041,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -986,9 +1058,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item" type="button" data-category="community">
+      <article class="notification-item" data-category="community" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar community">🐢</span>
           <span class="notification-event-icon">@</span>
@@ -1001,6 +1073,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -1014,14 +1090,14 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
     </div>
   </section>
 
   <section class="notification-group" data-group="older">
     <h2 class="notification-group-title">Older</h2>
     <div class="notification-list">
-      <button class="notification-item" type="button" data-category="interaction">
+      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar">G</span>
           <span class="notification-event-icon">＋</span>
@@ -1033,6 +1109,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -1046,9 +1126,9 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
 
-      <button class="notification-item" type="button" data-category="community">
+      <article class="notification-item" data-category="community" tabindex="0" role="button">
         <span class="notification-avatar-wrap">
           <span class="notification-avatar community">🎃</span>
           <span class="notification-event-icon">✓</span>
@@ -1061,6 +1141,10 @@ a{color:inherit}
             <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
             <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
           </span>
+          <button class="quick-reply-prompt" type="button" aria-expanded="false">
+            <span class="quick-reply-prompt-avatar">H</span>
+            <span class="quick-reply-placeholder">Write a quick reply…</span>
+          </button>
           <span class="quick-reply">
             <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
             <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
@@ -1074,7 +1158,7 @@ a{color:inherit}
           </span>
         </span>
         <span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
-      </button>
+      </article>
     </div>
   </section>
 
@@ -1083,7 +1167,7 @@ a{color:inherit}
     Try another notification filter.
   </div>
 
-  <div class="prototype-note">Notifications Master V1 — personal notifications with inline Like + quick Reply. Community bells will open a separate full Recent Activity page.</div>
+  <div class="prototype-note">Notifications Master V1 — personal notifications with inline Like + compact quick Reply. Community bells will open a separate full Recent Activity page.</div>
 </main>
 
 <script>
@@ -1140,6 +1224,16 @@ a{color:inherit}
   });
 
   notifications.forEach(item=>{
+    item.addEventListener("keydown",event=>{
+      if((event.key==="Enter" || event.key===" ") && !event.target.closest("button, textarea")){
+        event.preventDefault();
+        item.classList.remove("unread");
+        updateCounts();
+      }
+    });
+  });
+
+  notifications.forEach(item=>{
     item.addEventListener("click",event=>{
       if(event.target.closest("button, textarea")) return;
       item.classList.remove("unread");
@@ -1160,23 +1254,26 @@ a{color:inherit}
     });
   });
 
-  document.querySelectorAll(".reply-notification").forEach(button=>{
-    button.addEventListener("click",event=>{
+  document.querySelectorAll(".reply-notification, .quick-reply-prompt").forEach(trigger=>{
+    trigger.addEventListener("click",event=>{
       event.stopPropagation();
-      const item=button.closest(".notification-item");
+      const item=trigger.closest(".notification-item");
       const composer=item.querySelector(".quick-reply");
       const opening=!composer.classList.contains("open");
 
       document.querySelectorAll(".quick-reply.open").forEach(openComposer=>{
         if(openComposer!==composer){
           openComposer.classList.remove("open");
-          const otherButton=openComposer.closest(".notification-item").querySelector(".reply-notification");
-          otherButton?.setAttribute("aria-expanded","false");
+          openComposer.closest(".notification-item")
+            .querySelectorAll(".reply-notification, .quick-reply-prompt")
+            .forEach(otherTrigger=>otherTrigger.setAttribute("aria-expanded","false"));
         }
       });
 
       composer.classList.toggle("open",opening);
-      button.setAttribute("aria-expanded",String(opening));
+      item.querySelectorAll(".reply-notification, .quick-reply-prompt")
+        .forEach(itemTrigger=>itemTrigger.setAttribute("aria-expanded",String(opening)));
+
       item.classList.remove("unread");
       updateCounts();
 
@@ -1189,7 +1286,6 @@ a{color:inherit}
     const postButton=composer.querySelector(".quick-reply-post");
     const cancelButton=composer.querySelector(".quick-reply-cancel");
     const status=composer.querySelector(".quick-reply-status");
-    const replyButton=composer.closest(".notification-item").querySelector(".reply-notification");
 
     textarea.addEventListener("input",()=>{
       postButton.disabled=!textarea.value.trim();
@@ -1202,7 +1298,9 @@ a{color:inherit}
       postButton.disabled=true;
       status.textContent="";
       composer.classList.remove("open");
-      replyButton.setAttribute("aria-expanded","false");
+      composer.closest(".notification-item")
+        .querySelectorAll(".reply-notification, .quick-reply-prompt")
+        .forEach(trigger=>trigger.setAttribute("aria-expanded","false"));
     });
 
     postButton.addEventListener("click",event=>{
@@ -1214,7 +1312,9 @@ a{color:inherit}
       postButton.disabled=true;
       setTimeout(()=>{
         composer.classList.remove("open");
-        replyButton.setAttribute("aria-expanded","false");
+        composer.closest(".notification-item")
+          .querySelectorAll(".reply-notification, .quick-reply-prompt")
+          .forEach(trigger=>trigger.setAttribute("aria-expanded","false"));
         status.textContent="";
       },900);
     });
