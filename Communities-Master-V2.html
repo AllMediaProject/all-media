@@ -279,7 +279,18 @@ body.community-master{
   gap:14px;
   position:sticky;
   top:18px;
+  max-height:calc(100vh - 36px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-right:6px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,195,132,.45) rgba(16,26,58,.45);
 }
+
+.community-sidebar::-webkit-scrollbar{width:7px}
+.community-sidebar::-webkit-scrollbar-track{background:rgba(16,26,58,.45);border-radius:999px}
+.community-sidebar::-webkit-scrollbar-thumb{background:rgba(255,195,132,.42);border-radius:999px}
+.community-sidebar::-webkit-scrollbar-thumb:hover{background:rgba(255,195,132,.62)}
 
 .community-panel{
   padding:18px;
@@ -448,7 +459,7 @@ body.community-master{
 
 .pinned-shelf{
   margin-bottom:14px;
-  padding:18px;
+  padding:14px 16px 16px;
   border:1px solid rgba(255,255,255,.1);
   border-radius:14px;
   background:#182447;
@@ -458,7 +469,7 @@ body.community-master{
   display:flex;
   align-items:center;
   gap:8px;
-  margin-bottom:13px;
+  margin-bottom:11px;
 }
 
 .section-heading h2{
@@ -476,42 +487,68 @@ body.community-master{
 
 .pinned-row{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px;
 }
 
 .pinned-card{
+  min-width:0;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.1);
-  border-radius:11px;
+  border-radius:10px;
   background:#101a3a;
+  cursor:pointer;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+
+.pinned-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,195,132,.42);
+  box-shadow:0 9px 20px rgba(0,0,0,.18);
 }
 
 .pinned-art{
-  height:92px;
+  position:relative;
+  height:68px;
   display:grid;
   place-items:center;
   background:
-    radial-gradient(circle at 30% 70%,rgba(255,195,132,.34),transparent 30%),
+    radial-gradient(circle at 28% 74%,rgba(255,195,132,.32),transparent 28%),
     linear-gradient(135deg,#613325,#17213f 72%);
-  font-size:38px;
+  font-size:29px;
+}
+
+.pinned-art::after{
+  content:"PINNED";
+  position:absolute;
+  left:7px;
+  bottom:6px;
+  padding:2px 5px;
+  border-radius:999px;
+  background:rgba(16,26,58,.78);
+  color:#ffc384;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.08em;
 }
 
 .pinned-card-body{
-  padding:10px;
+  padding:8px 9px 9px;
 }
 
 .pinned-card h3{
-  margin:0 0 5px;
-  font-size:12px;
+  margin:0;
+  overflow:hidden;
+  color:#f8f8f2;
+  font-size:10px;
   line-height:1.3;
+  font-weight:800;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 .pinned-card p{
-  margin:0;
-  color:#aeb7cb;
-  font-size:10px;
-  line-height:1.4;
+  display:none;
 }
 
 .current-activity{
@@ -560,10 +597,160 @@ body.community-master{
 
 .community-composer-preview{
   margin-bottom:14px;
-  padding:16px;
+  padding:14px 16px;
   border:1px solid rgba(255,255,255,.1);
   border-radius:14px;
   background:#182447;
+}
+
+.quick-thought-label{
+  margin-bottom:9px;
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+
+.quick-thought-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.quick-thought-input{
+  flex:1;
+  min-width:0;
+  height:42px;
+  box-sizing:border-box;
+  padding:0 13px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  outline:none;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 12px 'Outfit',sans-serif;
+}
+
+.quick-thought-input:focus{
+  border-color:rgba(255,195,132,.5);
+  box-shadow:0 0 0 2px rgba(255,195,132,.06);
+}
+
+.quick-thought-send{
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:#ffc384;
+  color:#101a3a;
+  cursor:pointer;
+}
+
+.quick-thought-send svg{
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.quick-thought-send:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+.community-create-full{
+  flex:0 0 auto;
+  min-width:112px;
+}
+
+.community-full-composer{
+  display:none!important;
+  margin:0 0 14px!important;
+  max-width:none!important;
+}
+
+.community-full-composer.active{
+  display:block!important;
+}
+
+.community-full-composer .community-creator-context{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin:-5px 0 18px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.38);
+  border-radius:10px;
+  background:rgba(255,195,132,.05);
+  color:#aeb7cb;
+  font-size:11px;
+}
+
+.community-full-composer .community-creator-context strong{
+  color:#ffc384;
+}
+
+.community-full-composer .community-creator-close{
+  border:0;
+  background:transparent;
+  color:#ffc384;
+  font:800 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-full-composer .community-prototype-media{
+  margin-bottom:14px;
+  padding:15px;
+  border:1px dashed rgba(255,195,132,.3);
+  border-radius:10px;
+  background:#101a3a;
+  color:#aeb7cb;
+  text-align:center;
+  font-size:11px;
+}
+
+.community-full-composer .creator-tool-button{
+  cursor:pointer;
+}
+
+.community-full-composer .community-composer-cancel{
+  margin-right:auto;
+  border:0;
+  background:transparent;
+  color:#aeb7cb;
+  font:700 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-toast{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  z-index:9999;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:9px 13px;
+  border:1px solid rgba(255,195,132,.38);
+  border-radius:999px;
+  background:#101a3a;
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);
+  transition:.18s ease;
+}
+
+.community-toast.show{
+  transform:translate(-50%,0);
+  opacity:1;
 }
 
 .before-post{
@@ -680,6 +867,15 @@ body.community-master{
   display:grid;
   gap:10px;
   margin-top:13px;
+}
+
+.community-rules-list{
+  gap:16px;
+  margin-top:16px;
+}
+
+.community-rule{
+  padding:2px 0;
 }
 
 .community-basic{
@@ -924,6 +1120,44 @@ body.community-master{
     grid-template-columns:1fr;
   }
 }
+
+.about-basics-full{
+  margin:22px 0 6px;
+  padding:18px;
+  border:1px solid rgba(255,195,132,.2);
+  border-radius:12px;
+  background:#101a3a;
+  scroll-margin-top:22px;
+}
+
+.about-basics-full h3{
+  margin:0 0 13px!important;
+}
+
+.community-icon-button.locked{
+  opacity:.78;
+  cursor:not-allowed;
+  border-color:rgba(255,195,132,.32);
+}
+
+.community-secondary:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+@media(max-width:1050px){
+  .community-sidebar{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .pinned-row{
+    grid-template-columns:repeat(5,minmax(110px,1fr));
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -1120,12 +1354,13 @@ body.community-master{
 </section>
 
 <section class="pinned-shelf">
-<div class="section-heading"><span>📌</span><h2>Pinned Posts</h2><a href="#">View all</a></div>
+<div class="section-heading"><span>📌</span><h2>Pinned Posts</h2><a href="#" id="viewPinnedPosts">View all</a></div>
 <div class="pinned-row">
-<article class="pinned-card"><div class="pinned-art">🎃</div><div class="pinned-card-body"><h3>September Show & Tell</h3><p>What are you making or decorating?</p></div></article>
-<article class="pinned-card"><div class="pinned-art">📖</div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3><p>Start here if you're new to the Community.</p></div></article>
-<article class="pinned-card"><div class="pinned-art">🧡</div><div class="pinned-card-body"><h3>Community Guidelines</h3><p>A quick friendly guide to the space.</p></div></article>
-<article class="pinned-card"><div class="pinned-art">🕯️</div><div class="pinned-card-body"><h3>Vintage Halloween Resources</h3><p>Collections, links and helpful references.</p></div></article>
+<article class="pinned-card"><div class="pinned-art">🎃</div><div class="pinned-card-body"><h3>September Show &amp; Tell</h3></div></article>
+<article class="pinned-card"><div class="pinned-art">👋</div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3></div></article>
+<article class="pinned-card"><div class="pinned-art">🧡</div><div class="pinned-card-body"><h3>Community Guidelines</h3></div></article>
+<article class="pinned-card"><div class="pinned-art">🕯️</div><div class="pinned-card-body"><h3>Vintage Halloween Resources</h3></div></article>
+<article class="pinned-card"><div class="pinned-art">🦇</div><div class="pinned-card-body"><h3>October Art Exchange</h3></div></article>
 </div>
 </section>
 
@@ -1145,14 +1380,52 @@ body.community-master{
 </section>
 
 <section class="community-composer-preview">
-<div class="before-post">
-<div><strong>Posting in Spooky Cozy</strong><br><span>Match Halloween, Art, Cozy or Crafts.</span></div>
-<div><span>✓ Community + Creator &amp; Shop links · ✓ Reblogs · No approval required</span></div>
+<div class="quick-thought-label">Leave a quick thought</div>
+<div class="quick-thought-row">
+<div class="community-composer-avatar" aria-hidden="true"></div>
+<input class="quick-thought-input" id="quickThoughtInput" maxlength="500" placeholder="Share something with Spooky Cozy…" aria-label="Leave a quick thought">
+<button class="quick-thought-send" id="quickThoughtSend" type="button" aria-label="Post quick thought" title="Post quick thought" disabled>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m14 7 5 5-5 5"></path></svg>
+</button>
+<button class="community-primary community-create-full" id="openCommunityCreator" type="button">Create Post</button>
 </div>
-<div class="community-composer-line">
-<div class="community-composer-avatar"></div>
-<div class="community-composer-input" id="composerPreview">Share something with Spooky Cozy…</div>
-<button class="community-primary" type="button">Create Post</button>
+</section>
+
+<section class="composer mode-post community-full-composer" id="communityFullComposer">
+<div class="creator-intro"><h2>Create something</h2><p>Share a post, blog, video, or quick byte with Spooky Cozy.</p></div>
+<div class="community-creator-context"><span><strong>Posting in 🎃 Spooky Cozy</strong> · Match Halloween, Art, Cozy or Crafts.</span><button class="community-creator-close" id="closeCommunityCreatorTop" type="button">Close ×</button></div>
+
+<div class="creator-type-tabs" role="tablist" aria-label="Content type">
+<button type="button" class="creator-type-tab active" data-type="post"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.5-1 10-10-3.5-3.5-10 10L4 20Z"></path><path d="m13.5 7 3.5 3.5"></path></svg><span>POST</span></button>
+<button type="button" class="creator-type-tab" data-type="blog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h10l3 3v15H6Z"></path><path d="M9 9h6M9 13h6M9 17h4"></path></svg><span>BLOG</span></button>
+<button type="button" class="creator-type-tab" data-type="video"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="m16 10 5-3v10l-5-3Z"></path></svg><span>VIDEO</span></button>
+<button type="button" class="creator-type-tab" data-type="byte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-8 12h6l-1 8 9-13h-6Z"></path></svg><span>BYTE</span></button>
+</div>
+
+<div class="blog-title-wrap" id="communityBlogTitleWrap"><input class="blog-title-input" maxlength="120" placeholder="Blog title"><div class="blog-title-count">0 / 120</div></div>
+<div class="community-prototype-media" id="communityPrototypeMedia">Upload images · up to 6 · crop and rearrange using the existing All Media creator tools</div>
+
+<div class="post-text-wrap">
+<div class="creator-avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="11"></circle><path d="M14 55c2-13 9-19 18-19s16 6 18 19"></path><path d="M22 19c2-8 17-11 21 1-5-3-15-3-21-1Z"></path></svg></div>
+<div class="creator-writing-field"><textarea class="text-area" id="communityCreatorText" maxlength="500" placeholder="What's on your mind? Use @ to tag your friends!"></textarea><span class="textarea-resize-hint" aria-hidden="true">Drag to expand ↘</span><div class="post-char-count" id="communityCreatorCount">0 / 500</div></div>
+</div>
+
+<div class="creator-tools" aria-label="Post options">
+<div class="link-tool creator-tool"><button type="button" class="composer-option creator-tool-button"><span aria-hidden="true">🔗</span><span>Link</span><span class="creator-tool-value">Allowed here</span></button></div>
+<div class="topic-picker creator-tool"><button type="button" class="topic-toggle creator-tool-button"><span class="creator-interest-icon" aria-hidden="true">✨︎</span><span>Interest</span><span class="creator-tool-value">Halloween</span></button></div>
+<div class="hashtag-picker creator-tool"><button type="button" class="hashtag-toggle creator-tool-button"><span aria-hidden="true">#</span><span>Hashtags</span><span class="creator-tool-value"></span></button></div>
+<div class="community-picker creator-tool"><button type="button" class="community-picker-toggle creator-tool-button"><span aria-hidden="true">◉</span><span>Communities</span><span class="creator-tool-value">🎃 Spooky Cozy</span></button></div>
+</div>
+
+<div class="profile-setting">
+<div class="setting-switch-row"><span class="setting-switch-label">Show on Profile</span><label class="setting-switch"><input type="checkbox" checked><span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span><span class="switch-status">On</span></label></div>
+<div class="setting-switch-row"><span class="setting-switch-label">Allow Image Expansion</span><label class="setting-switch"><input type="checkbox" checked><span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span><span class="switch-status">On</span></label></div>
+</div>
+
+<div class="composer-actions">
+<button class="community-composer-cancel" id="closeCommunityCreatorBottom" type="button">Cancel</button>
+<span class="post-warning" id="communityCreatorWarning">Looks like your post is missing some context…</span>
+<button class="post-button" id="communityCreatorPost" type="button"><svg class="publish-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-8-8-2Z"></path><path d="m11 13 10-10"></path></svg><span class="publish-label">POST</span></button>
 </div>
 </section>
 
@@ -1329,7 +1602,7 @@ body.community-master{
 <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
 </div>
 <div class="promo-badge">🔗 COMMUNITY + CREATOR &amp; SHOP LINKS</div>
-<a class="sidebar-link" href="#">View all Community Basics →</a>
+<a class="sidebar-link" href="#" id="viewAllCommunityBasics">View all Community Basics →</a>
 </section>
 
 <section class="community-panel">
@@ -1366,6 +1639,17 @@ body.community-master{
 <article class="about-copy">
 <h2>About Spooky Cozy</h2>
 <p>A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away.</p>
+<section class="about-basics-full" id="communityBasicsFull">
+<h3>Community Basics</h3>
+<div class="community-basics-list">
+<div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>Public Community</strong><br>Anyone can view before joining.</span></div>
+<div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
+<div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>Members can post</strong><br>Original posts are allowed.</span></div>
+<div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>Reblogs allowed</strong><br>Eligible posts may be added here.</span></div>
+<div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>Link sharing</strong><br>Community-related, Creator &amp; Shop links are allowed.</span></div>
+<div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
+</div>
+</section>
 <h3>What belongs here</h3>
 <p>Decorations and seasonal setups, crafts and DIY projects, collections and vintage finds, art and creative work, recipes and cozy treats, questions, discussion and spooky chit-chat.</p>
 <h3>Community Interests</h3>
@@ -1432,26 +1716,38 @@ function toggleCommunityDropdown(){
 
 function toggleCommunityPin(event,button){
   event.stopPropagation();
-  button.classList.toggle('pinned');
   const row=button.closest('.community-more-row');
   const name=row?.dataset.community;
   const icon=row?.dataset.icon||'';
+
+  if(name==='Spooky Cozy'){
+    if(!spookyState.joined)return;
+    spookyState.pinned=!spookyState.pinned;
+    if(spookyState.pinned)spookyState.muted=false;
+    syncSpookyCommunityUI();
+    communityToast(spookyState.pinned?'Pinned to your Communities hotbar.':'Removed from your Communities hotbar.');
+    return;
+  }
+
+  button.classList.toggle('pinned');
   const state=button.querySelector('.pin-state');
   const action=button.querySelector('.pin-action');
   const pinned=button.classList.contains('pinned');
   if(state)state.textContent=pinned?'Pinned':'Pin';
   if(action)action.textContent=pinned?'Unpin':'Pin';
+
   const bar=document.getElementById('masterPinnedCommunities');
   if(!bar||!name)return;
   const existing=[...bar.querySelectorAll('.community-chip')].find(x=>x.dataset.community===name);
-  if(pinned && !existing){
+
+  if(pinned&&!existing){
     const chip=document.createElement('button');
     chip.className='community-chip';
     chip.dataset.community=name;
     chip.dataset.icon=icon;
     chip.innerHTML=`<span class="community-icon">${icon}</span>${name} <span class="activity-bell" title="No new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count" style="display:none">0</span></span>`;
     bar.appendChild(chip);
-  }else if(!pinned && existing){
+  }else if(!pinned&&existing){
     existing.remove();
   }
 }
@@ -1511,19 +1807,257 @@ document.getElementById('announcementPrev')?.addEventListener('click',()=>showAn
 document.getElementById('announcementNext')?.addEventListener('click',()=>showAnnouncement(announcementIndex+1));
 announcementDots.forEach(dot=>dot.addEventListener('click',()=>showAnnouncement(Number(dot.dataset.index||0))));
 
+const spookyState={
+  joined:true,
+  pinned:true,
+  muted:false
+};
+
+function communityToast(message){
+  let toast=document.getElementById('communityToast');
+  if(!toast){
+    toast=document.createElement('div');
+    toast.id='communityToast';
+    toast.className='community-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent=message;
+  toast.classList.add('show');
+  clearTimeout(window.communityToastTimer);
+  window.communityToastTimer=setTimeout(()=>toast.classList.remove('show'),2200);
+}
+
+function getSpookyMoreRow(){
+  return [...document.querySelectorAll('#communityDropdown .community-more-row')]
+    .find(row=>row.dataset.community==='Spooky Cozy');
+}
+
+function addSpookyToMore(){
+  if(getSpookyMoreRow())return;
+  const dropdown=document.getElementById('communityDropdown');
+  if(!dropdown)return;
+  const row=document.createElement('div');
+  row.className='community-more-row';
+  row.dataset.community='Spooky Cozy';
+  row.dataset.icon='🎃';
+  row.innerHTML='<span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button>';
+  dropdown.prepend(row);
+}
+
+function removeSpookyFromMore(){
+  getSpookyMoreRow()?.remove();
+}
+
+function addSpookyToHotbar(){
+  const bar=document.getElementById('masterPinnedCommunities');
+  if(!bar)return;
+  const existing=[...bar.querySelectorAll('.community-chip')].find(x=>x.dataset.community==='Spooky Cozy');
+  if(existing)return;
+  const chip=document.createElement('button');
+  chip.className='community-chip';
+  chip.draggable=true;
+  chip.dataset.community='Spooky Cozy';
+  chip.dataset.icon='🎃';
+  chip.innerHTML='<span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span>';
+  bar.prepend(chip);
+}
+
+function removeSpookyFromHotbar(){
+  const bar=document.getElementById('masterPinnedCommunities');
+  const existing=[...(bar?.querySelectorAll('.community-chip')||[])].find(x=>x.dataset.community==='Spooky Cozy');
+  existing?.remove();
+}
+
+function syncSpookyCommunityUI(){
+  const join=document.getElementById('joinButton');
+  const pin=document.getElementById('pinButton');
+  const bell=document.getElementById('communityBell');
+
+  if(join)join.textContent=spookyState.joined?'Joined ✓':'Join';
+
+  if(pin){
+    pin.disabled=!spookyState.joined;
+    pin.classList.toggle('active',spookyState.pinned);
+    pin.textContent=spookyState.pinned?'📌 Pinned':'📌 Pin';
+  }
+
+  if(bell){
+    if(spookyState.pinned){
+      spookyState.muted=false;
+      bell.textContent='🔔';
+      bell.classList.add('locked');
+      bell.title='Pinned Communities keep notifications on';
+      bell.setAttribute('aria-disabled','true');
+    }else{
+      bell.classList.remove('locked');
+      bell.textContent=spookyState.muted?'🔕':'🔔';
+      bell.title=spookyState.muted?'Community notifications muted':'Community notifications on';
+      bell.setAttribute('aria-disabled','false');
+    }
+  }
+
+  if(spookyState.joined)addSpookyToMore();
+  else removeSpookyFromMore();
+
+  if(spookyState.pinned)addSpookyToHotbar();
+  else removeSpookyFromHotbar();
+
+  const morePin=getSpookyMoreRow()?.querySelector('.community-pin');
+  if(morePin){
+    morePin.classList.toggle('pinned',spookyState.pinned);
+    const state=morePin.querySelector('.pin-state');
+    const action=morePin.querySelector('.pin-action');
+    if(state)state.textContent=spookyState.pinned?'Pinned':'Pin';
+    if(action)action.textContent=spookyState.pinned?'Unpin':'Pin';
+  }
+}
+
 document.getElementById('joinButton')?.addEventListener('click',function(){
-  const joined=this.classList.toggle('joined-off')===false;
-  this.textContent=joined?'Joined ✓':'Join';
+  if(spookyState.joined){
+    spookyState.joined=false;
+    spookyState.pinned=false;
+    spookyState.muted=false;
+    communityToast('You left Spooky Cozy.');
+  }else{
+    spookyState.joined=true;
+    spookyState.muted=false;
+    communityToast('Spooky Cozy added to More.');
+  }
+  syncSpookyCommunityUI();
 });
 
 document.getElementById('pinButton')?.addEventListener('click',function(){
-  this.classList.toggle('active');
-  this.textContent=this.classList.contains('active')?'📌 Pinned':'📌 Pin';
+  if(!spookyState.joined)return;
+  spookyState.pinned=!spookyState.pinned;
+  if(spookyState.pinned){
+    spookyState.muted=false;
+    communityToast('Pinned to your Communities hotbar.');
+  }else{
+    communityToast('Removed from your Communities hotbar.');
+  }
+  syncSpookyCommunityUI();
 });
 
 document.getElementById('communityBell')?.addEventListener('click',function(){
-  this.classList.toggle('muted');
-  this.textContent=this.classList.contains('muted')?'🔕':'🔔';
+  if(spookyState.pinned){
+    communityToast('Pinned Communities keep notifications on.');
+    return;
+  }
+  spookyState.muted=!spookyState.muted;
+  syncSpookyCommunityUI();
+});
+
+syncSpookyCommunityUI();
+
+const quickThoughtInput=document.getElementById('quickThoughtInput');
+const quickThoughtSend=document.getElementById('quickThoughtSend');
+
+quickThoughtInput?.addEventListener('input',()=>{
+  quickThoughtSend.disabled=!quickThoughtInput.value.trim();
+});
+
+function buildQuickThoughtPost(message){
+  const article=document.createElement('article');
+  article.className='post regular-post';
+  article.innerHTML=`
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">y</div>
+<div class="post-author-copy">
+<div class="post-author-line"><span class="username">@yourusername</span><span class="post-time">· just now</span><span class="post-type-bubble">POST</span></div>
+<div class="post-meta-line"><span class="topic">🎃 Halloween</span><span class="post-community">· in 🎃 Spooky Cozy</span></div>
+</div>
+</header>
+<p class="caption"></p>
+<div class="interactions">
+<button class="action-pill regular-like-button" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">0</span></button>
+<button class="action-pill" type="button"><span>Pocket</span></button>
+<button class="action-pill" type="button"><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>0</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button class="save-action" onclick="masterToggleSave(this)" type="button"><span>Save</span></button>
+</div>
+<div class="post-footer"><div class="post-footer-actions"><button class="hashtag-link" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>`;
+  article.querySelector('.caption').textContent=message;
+  return article;
+}
+
+quickThoughtSend?.addEventListener('click',()=>{
+  const message=quickThoughtInput?.value.trim();
+  if(!message)return;
+  const feed=document.getElementById('feed');
+  feed?.prepend(buildQuickThoughtPost(message));
+  quickThoughtInput.value='';
+  quickThoughtSend.disabled=true;
+  communityToast('Quick thought posted to Spooky Cozy.');
+});
+
+quickThoughtInput?.addEventListener('keydown',(event)=>{
+  if(event.key==='Enter'&&!event.shiftKey){
+    event.preventDefault();
+    quickThoughtSend?.click();
+  }
+});
+
+const fullCreator=document.getElementById('communityFullComposer');
+function openCommunityCreator(){
+  fullCreator?.classList.add('active');
+  fullCreator?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeCommunityCreator(){
+  fullCreator?.classList.remove('active');
+}
+document.getElementById('openCommunityCreator')?.addEventListener('click',openCommunityCreator);
+document.getElementById('closeCommunityCreatorTop')?.addEventListener('click',closeCommunityCreator);
+document.getElementById('closeCommunityCreatorBottom')?.addEventListener('click',closeCommunityCreator);
+
+document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    const type=tab.dataset.type||'post';
+    fullCreator?.classList.remove('mode-post','mode-blog','mode-video','mode-byte');
+    fullCreator?.classList.add('mode-'+type);
+    const titleWrap=document.getElementById('communityBlogTitleWrap');
+    if(titleWrap)titleWrap.classList.toggle('active',type==='blog');
+    const media=document.getElementById('communityPrototypeMedia');
+    if(media)media.textContent=(type==='video'||type==='byte')
+      ? (type==='byte'?'Upload Byte video · vertical 9:16 · 3 minute max':'Upload video · horizontal preview')
+      : 'Upload images · up to 6 · crop and rearrange using the existing All Media creator tools';
+    const textarea=document.getElementById('communityCreatorText');
+    if(textarea){
+      textarea.maxLength=type==='byte'?300:type==='blog'?35000:500;
+      textarea.placeholder=type==='blog'?'Write your blog… Use @ to tag your friends!':"What's on your mind? Use @ to tag your friends!";
+      textarea.dispatchEvent(new Event('input'));
+    }
+  });
+});
+
+document.getElementById('communityCreatorText')?.addEventListener('input',function(){
+  const count=document.getElementById('communityCreatorCount');
+  if(count)count.textContent=`${this.value.length} / ${this.maxLength}`;
+});
+
+document.getElementById('communityCreatorPost')?.addEventListener('click',()=>{
+  const textarea=document.getElementById('communityCreatorText');
+  const warning=document.getElementById('communityCreatorWarning');
+  const textValue=textarea?.value.trim()||'';
+  if(!textValue){
+    if(warning){
+      warning.style.display='inline';
+      setTimeout(()=>warning.style.display='',2600);
+    }
+    return;
+  }
+  communityToast('Prototype post created in Spooky Cozy.');
+  if(textarea)textarea.value='';
+  closeCommunityCreator();
+});
+
+document.getElementById('viewAllCommunityBasics')?.addEventListener('click',(event)=>{
+  event.preventDefault();
+  document.querySelector('.community-tab[data-view="about"]')?.click();
+  setTimeout(()=>document.getElementById('communityBasicsFull')?.scrollIntoView({behavior:'smooth',block:'start'}),80);
 });
 
 document.querySelectorAll('.community-feed-filter').forEach(btn=>{
