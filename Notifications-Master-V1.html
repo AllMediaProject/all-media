@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Notifications | All Media</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --am-bg:#0b1533;
@@ -1085,388 +1086,568 @@ a{color:inherit}
   .notification-summary-thumb{width:40px;height:40px}
 }
 
+
+/* =========================================================
+   NOTIFICATIONS — ACTIVITY STREAM REFINEMENT
+   Softer, flatter, less boxy than feed cards.
+========================================================= */
+.notifications-shell{
+  max-width:1000px;
+}
+
+.notification-group{
+  margin-top:28px;
+}
+
+.notification-group-title{
+  margin:0 4px 7px;
+  color:#8f9cbb;
+  font-size:10px;
+  letter-spacing:.11em;
+}
+
+.notification-group-title::after{
+  background:rgba(255,255,255,.065);
+}
+
+.notification-list{
+  display:block;
+  overflow:visible;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.notification-item{
+  position:relative;
+  min-height:0;
+  padding:15px 10px 15px 8px;
+  border:0 !important;
+  border-bottom:1px solid rgba(255,255,255,.065) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  transform:none !important;
+}
+
+.notification-item:last-child{
+  border-bottom:0 !important;
+}
+
+.notification-item:hover{
+  margin-left:-8px;
+  margin-right:-8px;
+  padding-left:16px;
+  padding-right:18px;
+  border-radius:12px !important;
+  background:rgba(24,41,83,.42) !important;
+}
+
+.notification-item.unread{
+  padding-left:8px;
+  background:transparent !important;
+}
+
+.notification-item.unread:hover{
+  padding-left:16px;
+  background:rgba(24,41,83,.46) !important;
+}
+
+.notification-item.unread::before{
+  left:-10px;
+  top:25px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--am-peach);
+  box-shadow:0 0 8px rgba(255,195,132,.28);
+  transform:none;
+}
+
+.notification-avatar-wrap,
+.notification-avatar{
+  width:42px;
+  height:42px;
+}
+
+.notification-avatar{
+  border:1px solid rgba(255,195,132,.46);
+  box-shadow:none;
+}
+
+.notification-event-icon{
+  width:18px;
+  height:18px;
+  border-width:2px;
+  font-size:8px;
+}
+
+.notification-message{
+  font-size:13px;
+  line-height:1.4;
+}
+
+.notification-preview{
+  margin-top:2px;
+  color:#8f9fbe;
+  font-size:10.5px;
+}
+
+.notification-meta{
+  min-width:68px;
+  color:#7585a6;
+  font-size:9px;
+}
+
+.notification-actions{
+  margin-top:6px;
+  gap:13px;
+}
+
+.notification-action{
+  font-size:9.5px;
+}
+
+.quick-reply-prompt{
+  width:min(100%,470px);
+  min-height:32px;
+  margin-top:8px;
+  padding:5px 9px 5px 6px;
+  border:0;
+  border-radius:9px;
+  background:rgba(16,26,58,.58);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.22);
+}
+
+.quick-reply-prompt:hover{
+  background:rgba(24,41,83,.62);
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.30);
+}
+
+.quick-reply{
+  width:min(100%,500px);
+  margin-top:8px;
+  border:0;
+  border-radius:10px;
+  background:rgba(16,26,58,.52);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.22);
+}
+
+.notification-after-reply{
+  margin-top:7px;
+}
+
+.notification-after-reply button{
+  color:#9ba9c7;
+  font-size:9.5px;
+}
+
+.notification-after-reply button:hover{
+  color:var(--am-peach);
+}
+
+.notification-summary{
+  margin:5px 0;
+  padding:13px 12px !important;
+  border-radius:11px !important;
+  background:rgba(255,195,132,.035) !important;
+}
+
+.notification-summary:hover{
+  background:rgba(255,195,132,.055) !important;
+}
+
+.notification-summary-thumb{
+  border:0;
+  background:rgba(16,26,58,.52);
+}
+
+.notification-tabs{
+  border:0;
+  background:rgba(16,26,58,.46);
+  box-shadow:inset 0 0 0 1px rgba(65,105,208,.16);
+}
+
+.notification-tab.active{
+  background:var(--am-peach);
+}
+
+@media(max-width:800px){
+  .notifications-shell{max-width:none}
+  .notification-item,
+  .notification-item.unread{
+    padding:13px 4px;
+  }
+  .notification-item:hover,
+  .notification-item.unread:hover{
+    margin-left:-5px;
+    margin-right:-5px;
+    padding-left:9px;
+    padding-right:9px;
+  }
+  .notification-item.unread::before{
+    left:-7px;
+    top:23px;
+  }
+}
 </style>
 </head>
 <body>
-
 <header class="site-header">
-  <a class="brand-lockup" href="index.html" aria-label="All Media home">
-    <img class="brand-logo" src="all-media-logo.png" alt="">
-    <span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
-  </a>
-
-  <nav class="top-nav" aria-label="Primary navigation">
-    <a href="index.html">Home</a>
-    <a href="discover.html">Discover</a>
-    <a href="#">All Play</a>
-  </nav>
-
-  <label class="global-search">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-    <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
-  </label>
-
-  <div class="header-actions">
-    <a class="header-notifications" href="#notifications" aria-label="Notifications" title="Notifications" aria-current="page">
-      <span class="notification-bell">🔔</span>
-      <span class="header-notification-count" id="headerUnreadCount">5</span>
-    </a>
-    <a class="profile-cluster" href="profile.html" aria-label="Open your profile">
-      <span class="header-avatar" id="headerAvatar"></span>
-    </a>
-  </div>
-</header>
-
-<div class="community-bar">
-  <span class="community-label">COMMUNITIES</span>
-
-  <div class="pinned-communities" id="pinnedCommunities">
-    <button class="community-chip" type="button">
-      <span>🎃</span> Spooky Cozy
-      <span class="activity-bell" title="5 new community activities">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-        <span class="activity-count">5</span>
-      </span>
-    </button>
-
-    <button class="community-chip" type="button">
-      <span>🎨</span> Artists
-      <span class="activity-bell" title="2 new community activities">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-        <span class="activity-count">2</span>
-      </span>
-    </button>
-
-    <button class="community-chip" type="button">
-      <span>🐢</span> Turtle Rescue
-      <span class="activity-bell" title="1 new community activity">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-        <span class="activity-count">1</span>
-      </span>
-    </button>
-  </div>
-
-  <div class="community-divider-vertical"></div>
-
-  <div class="community-tools">
-    <div class="community-menu">
-      <button class="community-tool" type="button" id="communityMoreButton" aria-expanded="false">▾ More</button>
-      <div class="community-dropdown" id="communityDropdown">
-        <div class="community-more-row"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
-        <div class="community-more-row"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
-        <div class="community-more-row"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
-        <div class="community-more-row"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
-        <div class="community-more-row"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
-        <div class="community-more-row"><span class="community-more-name">🌿 Garden & Nature</span><button class="community-pin" type="button">Pin</button></div>
-      </div>
-    </div>
-    <button class="community-tool" type="button">Manage Communities</button>
-  </div>
+<a aria-label="All Media home" class="brand-lockup" href="index.html">
+<img alt="" class="brand-logo" src="all-media-logo.png"/>
+<span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav aria-label="Primary navigation" class="top-nav">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="#">All Play</a>
+</nav>
+<label class="global-search">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input aria-label="Search All Media" placeholder="Search All Media…" type="search"/>
+</label>
+<div class="header-actions">
+<a aria-current="page" aria-label="Notifications" class="header-notifications" href="#notifications" title="Notifications">
+<span class="notification-bell">🔔</span>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</a>
+<a aria-label="Open your profile" class="profile-cluster" href="profile.html">
+<span class="header-avatar" id="headerAvatar"></span>
+</a>
 </div>
-
+</header>
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities" id="pinnedCommunities">
+<button class="community-chip" type="button">
+<span>🎃</span> Spooky Cozy
+      <span class="activity-bell" title="5 new community activities">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">5</span>
+</span>
+</button>
+<button class="community-chip" type="button">
+<span>🎨</span> Artists
+      <span class="activity-bell" title="2 new community activities">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">2</span>
+</span>
+</button>
+<button class="community-chip" type="button">
+<span>🐢</span> Turtle Rescue
+      <span class="activity-bell" title="1 new community activity">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">1</span>
+</span>
+</button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button aria-expanded="false" class="community-tool" id="communityMoreButton" type="button">▾ More</button>
+<div class="community-dropdown" id="communityDropdown">
+<div class="community-more-row"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row"><span class="community-more-name">🌿 Garden &amp; Nature</span><button class="community-pin" type="button">Pin</button></div>
+</div>
+</div>
+<button class="community-tool" type="button">Manage Communities</button>
+</div>
+</div>
 <main class="notifications-shell" id="notifications">
-  <div class="notifications-heading-row">
-    <div class="notifications-title-wrap">
-      <h1>Notifications</h1>
-      <p>Personal updates from across your posts, Pockets, and Communities.</p>
-    </div>
-    <button class="mark-all" type="button" id="markAllReadButton">Mark all as read</button>
-  </div>
+<div class="notifications-heading-row">
+<div class="notifications-title-wrap">
+<h1>Notifications</h1>
+<p>Personal updates from across your posts, Pockets, and Communities.</p>
+</div>
+<button class="mark-all" id="markAllReadButton" type="button">Mark all as read</button>
+</div>
+<div aria-label="Notification filters" class="notification-tabs" role="tablist">
+<button aria-selected="true" class="notification-tab active" data-filter="all" role="tab" type="button">All <span class="tab-count" id="allCount"></span></button>
+<button aria-selected="false" class="notification-tab" data-filter="interaction" role="tab" type="button">Interactions <span class="tab-count" id="interactionCount"></span></button>
+<button aria-selected="false" class="notification-tab" data-filter="community" role="tab" type="button">Communities <span class="tab-count" id="communityCount"></span></button>
+</div>
+<section class="notification-group" data-group="today">
+<h2 class="notification-group-title">Today</h2>
+<div class="notification-list">
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">N</span>
+<span class="notification-event-icon">↩</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@NightshadeArt</strong> replied to your comment.</span>
+<span class="notification-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">C</span>
+<span class="notification-event-icon">♥</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@CozyCatCreates</strong> liked your post.</span>
+<span class="notification-preview">A little painted pumpkin shelf for the Haunted Hollow 🎃</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
 
-  <div class="notification-tabs" role="tablist" aria-label="Notification filters">
-    <button class="notification-tab active" type="button" data-filter="all" role="tab" aria-selected="true">All <span class="tab-count" id="allCount"></span></button>
-    <button class="notification-tab" type="button" data-filter="interaction" role="tab" aria-selected="false">Interactions <span class="tab-count" id="interactionCount"></span></button>
-    <button class="notification-tab" type="button" data-filter="community" role="tab" aria-selected="false">Communities <span class="tab-count" id="communityCount"></span></button>
-  </div>
 
-  <section class="notification-group" data-group="today">
-    <h2 class="notification-group-title">Today</h2>
-    <div class="notification-list">
-      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">N</span>
-          <span class="notification-event-icon">↩</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@NightshadeArt</strong> replied to your comment.</span>
-          <span class="notification-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-          <button class="quick-reply-prompt" type="button" aria-expanded="false">
-            <span class="quick-reply-prompt-avatar">H</span>
-            <span class="quick-reply-placeholder">Write a quick reply…</span>
-          </button>
-          <span class="quick-reply">
-            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
-            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
-            <span class="quick-reply-footer">
-              <span class="quick-reply-status" aria-live="polite"></span>
-              <span class="quick-reply-buttons">
-                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
-                <button class="quick-reply-post" type="button" disabled>Reply</button>
-              </span>
-            </span>
-          </span>
-          <span class="notification-after-reply">
-            <span class="answered-state">Replied ✓</span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
-      </article>
 
-      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">C</span>
-          <span class="notification-event-icon">♥</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@CozyCatCreates</strong> liked your post.</span>
-          <span class="notification-preview">A little painted pumpkin shelf for the Haunted Hollow 🎃</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
-      </article>
 
-      <article class="notification-item unread" data-category="community" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar community">🎃</span>
-          <span class="notification-event-icon">♧</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</span>
-          <span class="notification-preview">“Show us what you’re making this week” has a new reply for you.</span>
-          <span class="notification-community-label">🎃 Spooky Cozy</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-          <button class="quick-reply-prompt" type="button" aria-expanded="false">
-            <span class="quick-reply-prompt-avatar">H</span>
-            <span class="quick-reply-placeholder">Write a quick reply…</span>
-          </button>
-          <span class="quick-reply">
-            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
-            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
-            <span class="quick-reply-footer">
-              <span class="quick-reply-status" aria-live="polite"></span>
-              <span class="quick-reply-buttons">
-                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
-                <button class="quick-reply-post" type="button" disabled>Reply</button>
-              </span>
-            </span>
-          </span>
-          <span class="notification-after-reply">
-            <span class="answered-state">Replied ✓</span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
-      </article>
+</span>
 
-      <article class="notification-item unread" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">W</span>
-          <span class="notification-event-icon">＋</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@WildRoots</strong> started supporting you.</span>
-          <span class="notification-preview">They found you through the Halloween Interest.</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
-      </article>
+<span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎃</span>
+<span class="notification-event-icon">♧</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</span>
+<span class="notification-preview">“Show us what you’re making this week” has a new reply for you.</span>
+<span class="notification-community-label">🎃 Spooky Cozy</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">W</span>
+<span class="notification-event-icon">＋</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@WildRoots</strong> started supporting you.</span>
+<span class="notification-preview">They found you through the Halloween Interest.</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
 
-      <article class="notification-item unread" data-category="community" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar community">🎨</span>
-          <span class="notification-event-icon">!</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>Artists</strong> posted an announcement for members.</span>
-          <span class="notification-preview">September prompt: create something using only three colors.</span>
-          <span class="notification-community-label">🎨 Artists</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
-      </article>
-    </div>
-  </section>
 
-  <section class="notification-group" data-group="week">
-    <h2 class="notification-group-title">Earlier this week</h2>
-    <div class="notification-list">
-      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">P</span>
-          <span class="notification-event-icon">↻</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@PixelWitch</strong> reblogged your post.</span>
-          <span class="notification-preview">Your “cozy games for rainy evenings” post was shared to their followers.</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
-      </article>
 
-      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">M</span>
-          <span class="notification-event-icon">▱</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@MoonMoth</strong> saved your post to a Pocket.</span>
-          <span class="notification-preview">Saved to “Autumn Art Inspiration.”</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
-      </article>
 
-      <article class="notification-item" data-category="community" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar community">🐢</span>
-          <span class="notification-event-icon">@</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</span>
-          <span class="notification-preview">“@SugarCrumbCo this reminded me of the illustration you posted!”</span>
-          <span class="notification-community-label">🐢 Turtle Rescue</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-          <button class="quick-reply-prompt" type="button" aria-expanded="false">
-            <span class="quick-reply-prompt-avatar">H</span>
-            <span class="quick-reply-placeholder">Write a quick reply…</span>
-          </button>
-          <span class="quick-reply">
-            <span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
-            <textarea maxlength="500" placeholder="Write a quick reply…" aria-label="Write a quick reply"></textarea>
-            <span class="quick-reply-footer">
-              <span class="quick-reply-status" aria-live="polite"></span>
-              <span class="quick-reply-buttons">
-                <button class="quick-reply-cancel" type="button">Changed my mind…</button>
-                <button class="quick-reply-post" type="button" disabled>Reply</button>
-              </span>
-            </span>
-          </span>
-          <span class="notification-after-reply">
-            <span class="answered-state">Replied ✓</span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
-      </article>
-    </div>
-  </section>
+</span>
 
-  <section class="notification-group" data-group="older">
-    <h2 class="notification-group-title">Older</h2>
-    <div class="notification-list">
-      <article class="notification-item" data-category="interaction" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar">G</span>
-          <span class="notification-event-icon">＋</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message"><strong>@GhostlyGarden</strong> started following your Halloween Pocket.</span>
-          <span class="notification-preview">Pocket: “Halloween”</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
-      </article>
+<span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎨</span>
+<span class="notification-event-icon">!</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>Artists</strong> posted an announcement for members.</span>
+<span class="notification-preview">September prompt: create something using only three colors.</span>
+<span class="notification-community-label">🎨 Artists</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
 
-      <article class="notification-item" data-category="community" tabindex="0" role="button">
-        <span class="notification-avatar-wrap">
-          <span class="notification-avatar community">🎃</span>
-          <span class="notification-event-icon">✓</span>
-        </span>
-        <span class="notification-copy">
-          <span class="notification-message">Your post was approved in <strong>Spooky Cozy</strong>.</span>
-          <span class="notification-preview">“A tiny haunted house painting I finished today.”</span>
-          <span class="notification-community-label">🎃 Spooky Cozy</span>
-          <span class="notification-actions">
-            <button class="notification-action like-notification" type="button" aria-pressed="false"><span class="heart">♡</span><span>Like</span></button>
-            <button class="notification-action reply-notification" type="button" aria-expanded="false">Reply</button>
-          </span>
-            <span class="dot-separator">·</span>
-            <button class="view-comments-link" type="button">View comments</button>
-            <span class="dot-separator">·</span>
-            <button class="reply-again-link" type="button">Reply again</button>
-          </span>
-        </span>
-        <span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
-      </article>
-    </div>
-  </section>
 
-  <div class="notification-empty" id="notificationEmpty">
-    <strong>Nothing here yet.</strong>
+
+
+</span>
+
+<span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section>
+<section class="notification-group" data-group="week">
+<h2 class="notification-group-title">Earlier this week</h2>
+<div class="notification-list">
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">P</span>
+<span class="notification-event-icon">↻</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@PixelWitch</strong> reblogged your post.</span>
+<span class="notification-preview">Your “cozy games for rainy evenings” post was shared to their followers.</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+
+
+
+
+</span>
+
+<span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">M</span>
+<span class="notification-event-icon">▱</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@MoonMoth</strong> saved your post to a Pocket.</span>
+<span class="notification-preview">Saved to “Autumn Art Inspiration.”</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+
+
+
+
+</span>
+
+<span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🐢</span>
+<span class="notification-event-icon">@</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</span>
+<span class="notification-preview">“@SugarCrumbCo this reminded me of the illustration you posted!”</span>
+<span class="notification-community-label">🐢 Turtle Rescue</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section>
+<section class="notification-group" data-group="older">
+<h2 class="notification-group-title">Older</h2>
+<div class="notification-list">
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">G</span>
+<span class="notification-event-icon">＋</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@GhostlyGarden</strong> started following your Halloween Pocket.</span>
+<span class="notification-preview">Pocket: “Halloween”</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+
+
+
+
+</span>
+
+<span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎃</span>
+<span class="notification-event-icon">✓</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message">Your post was approved in <strong>Spooky Cozy</strong>.</span>
+<span class="notification-preview">“A tiny haunted house painting I finished today.”</span>
+<span class="notification-community-label">🎃 Spooky Cozy</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+
+
+
+
+</span>
+
+<span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section>
+<div class="notification-empty" id="notificationEmpty">
+<strong>Nothing here yet.</strong>
     Try another notification filter.
   </div>
-
-  <div class="prototype-note">Notifications Master V1 — personal notifications with quick replies, answered states, and periodic post catch-up summaries. Community bells will open a separate full Recent Activity page.</div>
+<div class="prototype-note">Notifications Master V1 — activity-stream layout with quick replies and personal catch-up tools.</div>
 </main>
-
 <script>
 (function(){
   "use strict";
