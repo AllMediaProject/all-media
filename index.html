@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+<!-- REVISION: 2026-09-16 BLOG CONTINUATION FIX -->
+<!-- STAGING SPLIT: rename this file to index.html only after verification -->
 <head>
     <title>All Media</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="all-media.css?v=0916blog3">
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <header class="site-header">
@@ -48,38 +50,56 @@
 <div class="page-layout">
 <div class="sidebar-column">
 <aside class="pockets-panel">
+<div class="sidebar-widget-heading pockets-widget-heading">
 <h2 class="pockets-title">POCKETS</h2>
-<button class="add-pocket">＋ Add New Pocket</button>
-<div class="panel-section">
-<button class="panel-toggle">Favorites</button>
-<div class="panel-list" id="favesList">
-<div class="pocket-item"><span>🎃 Halloween</span><span class="pocket-row-end"><span class="pocket-notification">12</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></span></div>
-<div class="pocket-item"><span>🎨 Art</span><span class="pocket-row-end"><span class="pocket-notification">8</span><button class="pocket-star" onclick="togglePocketFavorite(this)">★</button></span></div>
+<button class="widget-add-button add-pocket" type="button" aria-label="Add new Pocket" title="Add New Pocket">＋</button>
 </div>
+<div class="pocket-favorites-label">FAVORITE POCKETS</div>
+<div class="panel-list pocket-favorites-list" id="favesList">
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Halloween"><span class="pocket-label"><span class="pocket-icon">🎃</span><span class="pocket-name">Halloween</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Halloween from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Art"><span class="pocket-label"><span class="pocket-icon">🎨</span><span class="pocket-name">Art</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Art from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item followed-pocket" data-pocket-type="followed" data-pocket-name="Spooky Stuff" data-pocket-creator="NightshadeArt"><span class="pocket-label"><span class="pocket-icon">👻</span><span class="pocket-name">Spooky Stuff</span><span class="pocket-creator-avatar" title="Created by @NightshadeArt">N</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Spooky Stuff from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Crochet"><span class="pocket-label"><span class="pocket-icon">🧶</span><span class="pocket-name">Crochet</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Crochet from favorites" title="Favorite Pocket">★</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Home Decor"><span class="pocket-label"><span class="pocket-icon">🏠</span><span class="pocket-name">Home Decor</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Remove Home Decor from favorites" title="Favorite Pocket">★</button></div>
 </div>
-<div class="panel-section pocket-drawer-section">
-<button class="panel-toggle pocket-list-toggle" onclick="togglePocketList(this)">▸ Other Pockets</button>
-<div class="panel-list collapsed" id="pocketList">
-<div class="pocket-favorite-count" id="pocketFavoriteCount">2 of 6 favorites</div>
 <div class="pocket-limit-message" id="pocketLimitMessage" aria-live="polite"></div>
-<div class="pocket-item"><span>🏠 Home Decor</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
-<div class="pocket-item"><span>👻 Spooky Stuff</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
-<div class="pocket-item"><span>🧶 Crochet</span><button class="pocket-star" onclick="togglePocketFavorite(this)">☆</button></div>
+<button class="pocket-list-toggle" onclick="togglePocketList(this)" type="button" aria-expanded="false"><span class="pocket-more-icon">▱</span><span>More Pockets</span><span class="pocket-more-chevron">⌄</span></button>
+<div class="pocket-flyout collapsed" id="pocketList" aria-label="More Pockets">
+<div class="pocket-flyout-header"><div><span class="pocket-flyout-icon">▱</span><strong>MORE POCKETS</strong></div><button type="button" class="pocket-flyout-close" onclick="closePocketList()" aria-label="Close More Pockets">×</button></div>
+<div class="pocket-search-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="pocketSearchInput" type="search" placeholder="Search pockets..." oninput="filterPockets(this.value)"></div>
+<div class="pocket-favorite-count" id="pocketFavoriteCount">5 of 6 favorites</div>
+<section class="pocket-flyout-section">
+<div class="pocket-section-title"><span>▱</span> YOUR POCKETS</div>
+<div class="pocket-section-list" id="yourPocketList">
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Recipes"><span class="pocket-label"><span class="pocket-icon">🍲</span><span class="pocket-name">Recipes</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Recipes to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item" data-pocket-type="owned" data-pocket-name="Future Projects"><span class="pocket-label"><span class="pocket-icon">⭐</span><span class="pocket-name">Future Projects</span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Future Projects to favorites" title="Add to favorites">☆</button></div>
 </div>
+</section>
+<section class="pocket-flyout-section followed-pocket-section">
+<div class="pocket-section-title"><span>♧</span> FOLLOWED POCKETS</div>
+<div class="pocket-section-list" id="followedPocketList">
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Halloween Inspo" data-pocket-creator="CozyCatCreates"><span class="pocket-label"><span class="pocket-creator-avatar large">C</span><span class="pocket-copy"><span class="pocket-name">Halloween Inspo</span><small>by @CozyCatCreates</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Halloween Inspo to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Nature & Wildlife" data-pocket-creator="WildRoots"><span class="pocket-label"><span class="pocket-creator-avatar large">W</span><span class="pocket-copy"><span class="pocket-name">Nature &amp; Wildlife</span><small>by @WildRoots</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Nature & Wildlife to favorites" title="Add to favorites">☆</button></div>
+<div class="pocket-item followed-pocket drawer-pocket" data-pocket-type="followed" data-pocket-name="Cozy Gaming" data-pocket-creator="PixelWitch"><span class="pocket-label"><span class="pocket-creator-avatar large">P</span><span class="pocket-copy"><span class="pocket-name">Cozy Gaming</span><small>by @PixelWitch</small></span></span><button class="pocket-star" onclick="togglePocketFavorite(this)" type="button" aria-label="Add Cozy Gaming to favorites" title="Add to favorites">☆</button></div>
+</div>
+</section>
 </div>
 </aside>
 <div class="sidebar-actions"><button type="button" class="sidebar-home" onclick="goHomeAndRefreshFeed()" aria-label="Home and refresh feed" title="Home · Refresh feed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-6h5v6"></path></svg></button><button class="sidebar-create" id="sidebarCreateButton" onclick="toggleCreatePost()">CREATE POST</button></div>
 <div class="interests-panel">
-    <div class="interests-header">
+    <div class="sidebar-widget-heading interests-header">
         <h2>INTERESTS</h2>
-        <button class="interest-search" onclick="toggleInterestSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search</button>
+        <button class="widget-add-button interest-header-add" type="button" onclick="toggleInterestSearch(event)" aria-label="Find more Interests" title="Find more Interests">＋</button>
     </div>
+
+    <button class="interest-search interest-search-bar" type="button" onclick="toggleInterestSearch(event)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><span>Search interests...</span></button>
 
     <div class="interest-search-panel" id="interestSearchPanel" onclick="event.stopPropagation()">
         <input id="interestSearchInput" class="interest-search-input" placeholder="Search interests..." oninput="renderInterestSearch(this.value)">
         <div class="interest-search-results" id="interestSearchResults"></div>
     </div>
 
+    <div class="interest-list-heading"><span>YOUR TOP INTERESTS</span><button type="button" onclick="toggleYourInterests()">Edit</button></div>
     <div class="interest-list" id="interestList"></div>
 
     <div class="followed-interests-drawer">
@@ -94,7 +114,7 @@
         </div>
     </div>
 
-    <button class="manage-interests" id="manageInterestsButton" onclick="toggleManageInterests()">Manage Hashtag Collections</button>
+    <button class="manage-interests" id="manageInterestsButton" onclick="toggleManageInterests()"><span class="manage-collections-icon">▯</span><span class="manage-collections-label">Manage Collections</span><span class="manage-collections-chevron">›</span></button>
 
     <div class="interest-manage-panel" id="interestManagePanel">
         <div class="manage-section">
@@ -379,9 +399,9 @@
 <button class="read-blog blog-read-button" onclick="blogV11ToggleBlog(this)" type="button">Read Blog →</button>
 
 <div class="blog-full-content blog-full-body">
-<p>I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project.</p>
-<div class="sample-media-art sample-inline-image"><div class="sample-media-copy">INLINE BLOG IMAGE</div></div>
-<p>Some pages are finished drawings and some are only a color combination, a sentence, or a shape I want to remember. Keeping everything in one small place has made experimenting feel much less serious.</p>
+<p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p>
+<p>Lately I have been filling mine with crooked little houses, sleepy moons, leaves, color notes, and scraps of ideas I might come back to later. Some probably will never become anything else—and I think that is part of why I like it.</p>
+<p>It has become a small place for creativity without pressure: something I can open, add to, and close again whenever an idea wanders by.</p>
 </div>
 
 <div class="interactions">
@@ -455,29 +475,195 @@
 <div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-<!-- SAMPLE VIDEO POST -->
-<article class="post video-post sample-post">
-<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@nightowlstudio</div><div class="content-type-label video">VIDEO</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">🎨 Art</div><div class="post-community">· in 🎨 Artists</div></div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>
-<div class="video-feed-title">Painting a Moonlit Window From Start to Finish</div>
-<div class="sample-video-shell"><div class="sample-media-art"><div class="sample-media-copy">16:9 VIDEO PREVIEW</div></div><div class="sample-video-play">▶</div><span class="sample-video-duration">8:42</span></div>
-<div class="video-caption-row"><div class="caption video-caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</div><button type="button" class="video-caption-more" onclick="toggleVideoDescription(this)">More</button></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">31</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 9 · Reblog</div><button class="interaction share share-action" type="button">↗ Share</button></div>
-<div class="latest-comment" data-time="18m ago"><span class="comment-username">@paintwater:</span> I love seeing the messy middle instead of only the finished result.</div>
-<div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><a class="feed-link-pill" href="https://ko-fi.com/sugarcrumbco" target="_blank" rel="noopener noreferrer" title="https://ko-fi.com/sugarcrumbco"><span class="feed-link-icon">🔗</span><span class="feed-link-text">ko-fi.com/sugarcrumbco</span></a><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#paintingvideo</span><span class="post-hashtag">#artprocess</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
-<div class="comments-section"><div class="comment-item"><div class="comment-author">@paintwater</div><div class="comment-content">I love seeing the messy middle instead of only the finished result.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>4</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
-<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>
+<!-- SAMPLE VIDEO POST — V11 -->
+<article class="post video-post-v11 sample-post" data-post-type="video">
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">m</div>
+<div class="post-author-copy">
+<div class="post-author-line">
+<span class="username">@moonlitmoth</span>
+<span class="post-time">· 12m ago</span> <span class="post-type-bubble">VIDEO</span>
+</div>
+<div class="post-meta-line"><span class="topic">🎨 Art</span></div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="videoV11TogglePostMenu(event,this)" type="button">•••</button>
+<div class="video-v11-menu">
+<button class="post-menu-action" onclick="editPost(this)" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" onclick="deletePost(this)" type="button">Delete</button>
+</div>
+</div>
+</header>
+<h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Moonlit Window From Start to Finish</h2>
+<!-- STAGING-ONLY test source: the final Home card will use the user-uploaded video URL. -->
+<div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
+<video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" data-video-type="video/mp4" onclick="showVideoControls(this.closest('.video-feed-player'))"></video>
+<div class="video-playback-warning">This browser cannot play this video file.</div>
+<div class="video-control-overlay">
+<div class="video-control-row">
+<button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+<button type="button" class="video-control-button video-control-mute" onclick="event.stopPropagation();toggleVideoMute(this)" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+<span class="video-control-time video-elapsed">0:00</span>
+<input class="video-control-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+<span class="video-control-time video-total">0:00</span>
+<button type="button" class="video-control-button video-control-fullscreen" onclick="event.stopPropagation();toggleVideoFullscreen(this)" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+</div>
+</div>
+</div>
+<p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights. I left in a few of the awkward middle stages because those are usually the most useful parts to see.</p>
+<div class="interactions">
+<button class="action-pill video-like-button" onclick="videoV11ToggleLike(this)" type="button">
+<svg aria-hidden="true" class="like-heart" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+<span class="like-count">24</span>
+</button>
+<button class="action-pill" type="button">
+<svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span>
+</button>
+<button class="action-pill" type="button">
+<svg aria-hidden="true" class="action-icon" viewbox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
+</button>
+<button class="reblog-counter" onclick="videoV11IncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="videoV11ToggleSave(this)" type="button">
+<svg aria-hidden="true" class="save-bookmark" viewbox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
+</button>
+</div>
+<div class="latest-comment"><span class="comment-username">@cryptidcorner:</span><span class="latest-comment-copy">I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!</span><span class="latest-comment-time">2m ago</span></div>
+<div class="post-footer">
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="videoV11OpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="videoV11PostComment(this,event)" type="button">POST</button><button class="comment-close-button" onclick="videoV11CloseCommentComposer(this,event)" type="button">CLOSE</button></div></div>
+</div>
+<button class="hide-comments-inline" onclick="videoV11HideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+</div>
+<button class="more-comments" onclick="videoV11ToggleComments(this)" type="button">View 7 more</button>
+<div class="post-footer-actions"><button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#moonart</span><span class="post-hashtag">#hauntedhouse</span></div>
+<section class="comments-section">
+<div class="comment-item"><div aria-hidden="true" class="comment-avatar">m</div><div class="comment-body"><div class="comment-author">@mossandbones</div><div>This glow is gorgeous. It feels like a tiny window into a story.</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="videoV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="videoV11ReplyToTarget(this,'@mossandbones')" type="button">Reply</button></div></div></div>
+<div class="comment-item"><div aria-hidden="true" class="comment-avatar">s</div><div class="comment-body"><div class="comment-author">@softcryptid</div><div>The little moon is SO good. 🌙</div><div class="comment-actions"><button class="comment-action comment-like-button" onclick="videoV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewbox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" onclick="videoV11ReplyToTarget(this,'@softcryptid')" type="button">Reply</button></div></div></div>
+</section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-<!-- SAMPLE BYTE POST -->
-<article class="post byte-post sample-post" id="sampleBytePost">
-<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@mossandmoon</div><div class="content-type-label byte">BYTE</div><span class="post-time">1d ago</span></div><div class="post-meta-line"><div class="topic">🌲 Nature</div><div class="post-community">· in 🌿 Garden & Nature</div></div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>
-<div class="byte-home-media-stage"><div class="sample-byte-shell"><div class="sample-media-art"><div class="sample-media-copy">9:16 BYTE PREVIEW<br>drag-selected frame</div></div><div class="sample-byte-play">▶</div><span class="sample-video-duration">0:24</span></div></div>
-<div class="byte-caption-row"><div class="caption byte-caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</div><button type="button" class="byte-caption-more" onclick="toggleByteCaption(this)">More</button></div>
-<div class="interactions"><button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">42</span></button><button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button><button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button><div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 11 · Reblog</div><div class="interaction">↗ Share</div></div>
-<div class="latest-comment" data-time="5m ago"><span class="comment-username">@lanternlight:</span> No way, this feels like the opening shot of a cozy mystery.</div>
-<div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 1 more comments</div><div class="post-footer-actions"><div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#foggyforest</span><span class="post-hashtag">#naturebyte</span><button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div>
-<div class="comments-section"><div class="comment-item"><div class="comment-author">@lanternlight</div><div class="comment-content">No way, this feels like the opening shot of a cozy mystery.</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>6</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div></div></div>
-<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>
+<!-- SAMPLE BYTE POST — V11 -->
+<article class="post byte-post-v11 sample-post" id="sampleBytePostV11" data-post-type="byte">
+<div class="byte-stage">
+<!-- STAGING-ONLY test source: final Home Bytes will use the user-uploaded video URL. -->
+<div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+<video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" data-video-type="video/mp4" onclick="showVideoControls(this.closest('.video-feed-player'))"></video>
+<div class="video-playback-warning">This browser cannot play this video file.</div>
+<div class="video-control-overlay">
+<div class="video-control-row">
+<button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+<button type="button" class="video-control-button video-control-mute" onclick="event.stopPropagation();toggleVideoMute(this)" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+<span class="video-control-time video-elapsed">0:00</span>
+<input class="video-control-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+<span class="video-control-time video-total">0:00</span>
+<button type="button" class="video-control-button video-control-fullscreen" onclick="event.stopPropagation();toggleVideoFullscreen(this)" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+</div>
+</div>
+</div>
+</div>
+
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">m</div>
+<div class="post-author-copy">
+<div class="post-author-line">
+<span class="username">@moonlitmoth</span>
+<span class="post-time">· 12m ago</span>
+<span class="post-type-bubble">BYTE</span>
+</div>
+<div class="post-meta-line"><span class="topic">🎨 Art</span></div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="byteV11TogglePostMenu(event,this)" type="button">•••</button>
+<div class="byte-v11-menu">
+<button class="post-menu-action" onclick="editPost(this)" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" onclick="deletePost(this)" type="button">Delete</button>
+</div>
+</div>
+</header>
+
+<p class="byte-caption caption">A tiny moment from this morning’s walk—the fog was sitting so low over everything that the whole path looked like it disappeared into the trees. I had to stop for a few seconds and just look at it.</p>
+
+<div class="interactions">
+<button class="action-pill byte-like-button" onclick="byteV11ToggleLike(this)" type="button">
+<svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+<span class="like-count">24</span>
+</button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="byteV11IncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="byteV11ToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+</div>
+
+<div class="latest-comment">
+<span class="comment-username">@cryptidcorner:</span>
+<span class="latest-comment-copy">I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!</span>
+<span class="latest-comment-time">2m ago</span>
+</div>
+
+<div class="post-footer">
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="byteV11OpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state">
+<textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea>
+<div class="comment-post-actions">
+<button class="comment-post-button" onclick="byteV11PostComment(this,event)" type="button">POST</button>
+<button class="comment-close-button" onclick="byteV11CloseCommentComposer(this,event)" type="button">CLOSE</button>
+</div>
+</div>
+</div>
+<button class="hide-comments-inline" onclick="byteV11HideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+</div>
+<button class="more-comments" onclick="byteV11ToggleComments(this)" type="button">View 7 more</button>
+<div class="post-footer-actions">
+<button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button>
+</div>
+</div>
+
+<div class="post-hashtags">
+<span class="post-hashtag">#halloweenart</span>
+<span class="post-hashtag">#spookyart</span>
+<span class="post-hashtag">#moonart</span>
+<span class="post-hashtag">#hauntedhouse</span>
+</div>
+
+<section class="comments-section">
+<div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">m</div>
+<div class="comment-body">
+<div class="comment-author">@mossandbones</div>
+<div>This glow is gorgeous. It feels like a tiny window into a story.</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="byteV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="byteV11ReplyToTarget(this,'@mossandbones')" type="button">Reply</button>
+</div>
+</div>
+</div>
+<div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">s</div>
+<div class="comment-body">
+<div class="comment-author">@softcryptid</div>
+<div>The little moon is SO good. 🌙</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="byteV11ToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="byteV11ReplyToTarget(this,'@softcryptid')" type="button">Reply</button>
+</div>
+</div>
+</div>
+</section>
+
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 </section>
 </div>
@@ -508,21 +694,7 @@
 <div class="lightbox-dots" id="lightboxDots"></div>
 </div>
 </div>
-<script>
-(function(){
-  try{
-    const image=localStorage.getItem("allMediaProfileAvatar");
-    if(!image)return;
-    document.querySelectorAll(".header-avatar").forEach(function(avatar){
-      avatar.style.backgroundImage='url("'+image+'")';
-      avatar.style.backgroundSize="cover";
-      avatar.style.backgroundPosition="center";
-      avatar.style.backgroundRepeat="no-repeat";
-      avatar.textContent="";
-    });
-  }catch(err){}
-})();
-</script>
-<script src="all-media.js?v=0916blog1" defer></script>
+<script src="home.js"></script>
+
 </body>
 </html>
