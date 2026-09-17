@@ -1,145 +1,99 @@
-All Media
+# All Media
 
 All Media is a social platform concept built around inclusive posting, community, and discovery without relying on popularity-first feeds.
 
 The project is currently a front-end prototype hosted with GitHub Pages.
 
-Live Pages
+## Live Pages
 
-Home — index.html
+- **Home** — `index.html`
+- **Discover** — `discover.html`
+- **Profile** — `profile.html`
+- **Notifications** — in development
 
-Discover — discover.html
+## Current Project Structure
 
-Profile — profile.html
+### Home
+- `index.html`
+- `home.css`
+- `home.js`
 
-Notifications — in development
+### Discover
+- `discover.html`
+- `discover.css`
+- `discover.js`
+- `all-media.css` — currently still used by Discover for shared Home/feed styling
 
-Current Project Structure
+### Profile
+- `profile.html`
+- `profile.css`
+- `profile.js`
 
-Home
+### Shared / Project Files
+- `all-media-logo.png` — All Media logo
+- `README.md` — project documentation
+- `all-media.css` — legacy/shared stylesheet still required by Discover
+- `all-media.js` — legacy script retained until its dependencies are fully audited
 
-index.html
-
-home.css
-
-home.js
-
-Discover
-
-discover.html
-
-discover.css
-
-discover.js
-
-all-media.css — currently still used by Discover for shared Home/feed styling
-
-Profile
-
-profile.html
-
-profile.css
-
-profile.js
-
-Shared / Project Files
-
-all-media-logo.png — All Media logo
-
-README.md — project documentation
-
-all-media.css — legacy/shared stylesheet still required by Discover
-
-all-media.js — legacy script retained until its dependencies are fully audited
-
-Development Workflow
+## Development Workflow
 
 Major pages are often developed first as a single master HTML file so the layout, styling, and interactions can be changed safely in one place.
 
 Once a page is finished and tested:
 
-Lock the approved design and behavior.
+1. Lock the approved design and behavior.
+2. Split the master into HTML, CSS, and JavaScript files.
+3. Test the split version.
+4. Replace or connect the live page only after verification.
+5. Preserve the original master or prototype in the archive when useful.
 
-Split the master into HTML, CSS, and JavaScript files.
+## Current Status
 
-Test the split version.
+- ✅ Home
+- ✅ Discover
+- ✅ Profile
+- 🚧 Notifications
+- ⬜ Pockets
+- ⬜ Pocket settings / management
+- ⬜ Communities
+- ⬜ Community settings / management
+- ⬜ Community notifications
+- ⬜ Create Profile / onboarding
+- ⬜ All Play
+- ⬜ Account / site settings
+- ⬜ Home widget refinement
+- ⬜ Support Me panel item
+- ⬜ Legal / policy pages
 
-Replace or connect the live page only after verification.
+## Core Product Ideas
 
-Preserve the original master or prototype in the archive when useful.
-
-Current Status
-
-✅ Home
-
-✅ Discover
-
-✅ Profile
-
-🚧 Notifications
-
-⬜ Pockets
-
-⬜ Pocket settings / management
-
-⬜ Communities
-
-⬜ Community settings / management
-
-⬜ Community notifications
-
-⬜ Create Profile / onboarding
-
-⬜ All Play
-
-⬜ Account / site settings
-
-⬜ Home widget refinement
-
-⬜ Support Me panel item
-
-⬜ Legal / policy pages
-
-Core Product Ideas
-
-Pockets
-
+### Pockets
 Pockets are the curation side of All Media. They let people organize, save, follow, and share collections of content.
 
-Communities
-
+### Communities
 Communities are the gathering side of All Media. They provide focused spaces for people around shared interests.
 
-Discover
-
+### Discover
 Discover is designed to surface overlooked posts and creators without ranking content primarily by popularity.
 
-All Play
-
+### All Play
 All Play is the planned unified video destination for both long-form Videos and short-form Bytes.
 
-Design
+## Design
 
 Primary visual direction:
 
-Page navy: #101a3a
+- **Page navy:** `#101a3a`
+- **Card navy:** `#182447`
+- **Primary peach:** `#ffc384`
 
-Card navy: #182447
+The interface uses the **Outfit** typeface and the All Media pocket-and-star logo.
 
-Primary peach: #ffc384
+## Development Rules
 
-The interface uses the Outfit typeface and the All Media pocket-and-star logo.
-
-Development Rules
-
-Make one focused change at a time.
-
-Preserve tested work.
-
-Avoid unrelated redesigns while fixing a specific area.
-
-Do not overwrite working pages until a replacement has been tested.
-
-Prefer full-file replacement over risky manual edits when practical.
-
-Keep temporary labs, prototypes, and master files separate from live production files.
+- Make one focused change at a time.
+- Preserve tested work.
+- Avoid unrelated redesigns while fixing a specific area.
+- Do not overwrite working pages until a replacement has been tested.
+- Prefer full-file replacement over risky manual edits when practical.
+- Keep temporary labs, prototypes, and master files separate from live production files.
