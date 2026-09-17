@@ -1126,6 +1126,83 @@ body.community-master{
   }
 }
 
+
+/* --- PINNED POST OPEN VIEW --- */
+button.pinned-card{
+  width:100%;
+  padding:0;
+  color:inherit;
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  appearance:none;
+}
+
+.pinned-post-overlay{
+  position:fixed;
+  inset:0;
+  z-index:8000;
+  display:none;
+  overflow-y:auto;
+  padding:38px 18px;
+  box-sizing:border-box;
+  background:rgba(5,10,26,.82);
+  backdrop-filter:blur(7px);
+}
+
+.pinned-post-overlay.active{
+  display:block;
+}
+
+.pinned-post-dialog{
+  position:relative;
+  width:min(780px,96vw);
+  margin:0 auto;
+}
+
+.pinned-post-close{
+  position:sticky;
+  top:0;
+  z-index:5;
+  float:right;
+  width:38px;
+  height:38px;
+  margin:0 0 -38px;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:50%;
+  background:#101a3a;
+  color:#ffc384;
+  font:800 20px/1 'Outfit',sans-serif;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.28);
+}
+
+.pinned-open-post{
+  clear:both;
+  margin:0!important;
+  box-shadow:0 24px 60px rgba(0,0,0,.34);
+}
+
+.pinned-open-media{
+  min-height:300px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 32% 72%,rgba(255,195,132,.28),transparent 28%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  font-size:84px;
+}
+
+.pinned-open-note{
+  margin:-4px 0 16px;
+  color:#ffc384;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -1324,11 +1401,11 @@ body.community-master{
 <section class="pinned-shelf">
 <div class="section-heading"><span>📌</span><h2>Pinned Posts</h2></div>
 <div class="pinned-row">
-<article class="pinned-card"><div class="pinned-art">🎃</div><div class="pinned-card-body"><h3>September Show &amp; Tell</h3></div></article>
-<article class="pinned-card"><div class="pinned-art">👋</div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3></div></article>
-<article class="pinned-card"><div class="pinned-art">🧡</div><div class="pinned-card-body"><h3>Community Guidelines</h3></div></article>
-<article class="pinned-card"><div class="pinned-art">🕯️</div><div class="pinned-card-body"><h3>Vintage Halloween Resources</h3></div></article>
-<article class="pinned-card"><div class="pinned-art">🦇</div><div class="pinned-card-body"><h3>October Art Exchange</h3></div></article>
+<button class="pinned-card" type="button" data-pinned-id="showtell" onclick="openPinnedPost('showtell')"><div class="pinned-art">🎃</div><div class="pinned-card-body"><h3>September Show &amp; Tell</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="welcome" onclick="openPinnedPost('welcome')"><div class="pinned-art">👋</div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="guidelines" onclick="openPinnedPost('guidelines')"><div class="pinned-art">🧡</div><div class="pinned-card-body"><h3>Community Guidelines</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="resources" onclick="openPinnedPost('resources')"><div class="pinned-art">🕯️</div><div class="pinned-card-body"><h3>Vintage Halloween Resources</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="exchange" onclick="openPinnedPost('exchange')"><div class="pinned-art">🦇</div><div class="pinned-card-body"><h3>October Art Exchange</h3></div></button>
 </div>
 </section>
 
@@ -1651,6 +1728,53 @@ body.community-master{
 </div>
 </section>
 </section>
+
+<div class="pinned-post-overlay" id="pinnedPostOverlay" aria-hidden="true">
+  <div class="pinned-post-dialog" role="dialog" aria-modal="true" aria-labelledby="pinnedPostTitle">
+    <button class="pinned-post-close" id="pinnedPostClose" type="button" aria-label="Close pinned post">×</button>
+    <article class="post regular-post pinned-open-post">
+      <header class="post-header">
+        <div aria-hidden="true" class="profile-picture" id="pinnedPostAvatar">p</div>
+        <div class="post-author-copy">
+          <div class="post-author-line">
+            <span class="username" id="pinnedPostAuthor">@PumpkinWitch</span>
+            <span class="post-time" id="pinnedPostTime">· pinned</span>
+            <span class="post-type-bubble">POST</span>
+          </div>
+          <div class="post-meta-line">
+            <span class="topic">🎃 Halloween</span>
+            <span class="post-community">· in 🎃 Spooky Cozy</span>
+          </div>
+        </div>
+      </header>
+      <div class="pinned-open-note">Pinned Community Post</div>
+      <h2 class="blog-feed-title" id="pinnedPostTitle">Pinned Post</h2>
+      <div class="pinned-open-media" id="pinnedPostMedia" aria-hidden="true">🎃</div>
+      <p class="caption" id="pinnedPostCopy"></p>
+      <div class="interactions">
+        <button class="action-pill regular-like-button" onclick="masterToggleLike(this)" type="button">
+          <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+          <span class="like-count" id="pinnedPostLikes">24</span>
+        </button>
+        <button class="action-pill" type="button"><span>Pocket</span></button>
+        <button class="action-pill" type="button"><span>Community</span></button>
+        <button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span id="pinnedPostReblogs">4</span> · Reblog</button>
+        <button class="share-action" type="button">↗ Share</button>
+        <button class="save-action" onclick="masterToggleSave(this)" type="button"><span>Save</span></button>
+      </div>
+      <div class="post-footer">
+        <div class="single-comment-composer">
+          <div class="comment-composer" onclick="masterOpenComposer(this)">
+            <div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+            <div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-bottom-spacer" aria-hidden="true"></div>
+    </article>
+  </div>
+</div>
+
 </main>
 
 <script>
@@ -2092,6 +2216,86 @@ document.addEventListener('click',()=>{
     m.style.display='';
   });
 });
+
+const pinnedPostData={
+  showtell:{
+    title:"September Show & Tell 🎃",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"🎨🎃",
+    copy:"What are you making, decorating, collecting, baking, or working on this month? Drop it into the September Show & Tell so everyone can wander through what the Community has been up to.",
+    likes:76,
+    reblogs:12
+  },
+  welcome:{
+    title:"Welcome to Spooky Cozy",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"👋👻",
+    copy:"Welcome in! Spooky Cozy is a year-round home for Halloween people, cozy weirdos, artists, crafters, collectors, decorators, and anybody who never quite puts the spooky season away. Start here, say hello, and make yourself comfortable.",
+    likes:124,
+    reblogs:18
+  },
+  guidelines:{
+    title:"Community Guidelines",
+    author:"@Raven",
+    avatar:"🦇",
+    emoji:"🧡📖",
+    copy:"A quick guide to keeping Spooky Cozy welcoming: stay on topic, credit creators, be kind to beginners, and keep criticism constructive. Community Basics are enforced by All Media before posting; these written rules explain the culture of the space.",
+    likes:98,
+    reblogs:8
+  },
+  resources:{
+    title:"Vintage Halloween Resources",
+    author:"@Ghostie",
+    avatar:"👻",
+    emoji:"🕯️📚",
+    copy:"A growing collection of vintage Halloween references, archive links, decorating inspiration, collecting resources, and useful reading shared by members. Add something helpful in the comments if you have a resource worth keeping.",
+    likes:53,
+    reblogs:21
+  },
+  exchange:{
+    title:"October Art Exchange",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"🦇✉️",
+    copy:"October Art Exchange signups are open. Pair up with another spooky creator, make something small, and mail or digitally exchange it before Halloween. Check the announcement carousel for the current signup deadline.",
+    likes:88,
+    reblogs:16
+  }
+};
+
+function openPinnedPost(id){
+  const data=pinnedPostData[id];
+  if(!data)return;
+  document.getElementById('pinnedPostTitle').textContent=data.title;
+  document.getElementById('pinnedPostAuthor').textContent=data.author;
+  document.getElementById('pinnedPostAvatar').textContent=data.avatar;
+  document.getElementById('pinnedPostMedia').textContent=data.emoji;
+  document.getElementById('pinnedPostCopy').textContent=data.copy;
+  document.getElementById('pinnedPostLikes').textContent=String(data.likes);
+  document.getElementById('pinnedPostReblogs').textContent=String(data.reblogs);
+  const overlay=document.getElementById('pinnedPostOverlay');
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+
+function closePinnedPost(){
+  const overlay=document.getElementById('pinnedPostOverlay');
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+document.getElementById('pinnedPostClose')?.addEventListener('click',closePinnedPost);
+document.getElementById('pinnedPostOverlay')?.addEventListener('click',(event)=>{
+  if(event.target===event.currentTarget)closePinnedPost();
+});
+document.addEventListener('keydown',(event)=>{
+  if(event.key==='Escape'&&document.getElementById('pinnedPostOverlay')?.classList.contains('active'))closePinnedPost();
+});
+
 </script>
 </body>
 </html>
