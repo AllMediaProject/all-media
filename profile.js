@@ -1831,3 +1831,158 @@ new MutationObserver(records=>{
   });
 }).observe(document.body,{childList:true,subtree:true});
 
+/* =========================================================
+   QUICK NOTIFICATIONS POPUP — PROFILE
+========================================================= */
+(function(){
+  const bells=[...document.querySelectorAll(".profile-header-notification-bell")];
+  const popups=[...document.querySelectorAll(".notification-quick-popup")];
+  if(!bells.length || !popups.length) return;
+
+  function closeAll(exceptPopup=null){
+    popups.forEach(function(popup){
+      if(popup===exceptPopup) return;
+      popup.hidden=true;
+      const bell=popup.parentElement?.querySelector(".profile-header-notification-bell");
+      bell?.setAttribute("aria-expanded","false");
+    });
+  }
+
+  function syncUnread(){
+    const reference=popups[0];
+    const count=reference ? reference.querySelectorAll(".quick-notification.unread").length : 0;
+
+    popups.forEach(function(popup){
+      const badge=popup.querySelector(".quick-popup-unread");
+      const markAll=popup.querySelector(".quick-mark-all-read");
+      if(badge) badge.textContent=count ? `${count} new` : "Caught up";
+      if(markAll) markAll.disabled=count===0;
+    });
+
+    document.querySelectorAll(".profile-header-notification-bell .header-notification-count").forEach(function(counter){
+      counter.textContent=String(count);
+      counter.hidden=count===0;
+    });
+  }
+
+  function setItemUnread(id, unread){
+    document.querySelectorAll(`.notification-quick-popup .quick-notification[data-quick-id="${id}"]`).forEach(function(item){
+      item.classList.toggle("unread",unread);
+    });
+    syncUnread();
+  }
+
+  function syncLike(id, liked){
+    document.querySelectorAll(`.notification-quick-popup .quick-notification[data-quick-id="${id}"] .quick-like`).forEach(function(button){
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked" : "♡ Like";
+    });
+  }
+
+  function syncReplyState(id){
+    document.querySelectorAll(`.notification-quick-popup .quick-notification[data-quick-id="${id}"] .quick-popup-reply-action`).forEach(function(button){
+      button.textContent="Replied ✓";
+    });
+  }
+
+  bells.forEach(function(bell){
+    const popup=bell.parentElement?.querySelector(".notification-quick-popup");
+    if(!popup) return;
+
+    bell.addEventListener("click",function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      const opening=popup.hidden;
+      closeAll(popup);
+      popup.hidden=!opening;
+      bell.setAttribute("aria-expanded",String(opening));
+      syncUnread();
+    });
+  });
+
+  popups.forEach(function(popup){
+    popup.addEventListener("click",function(event){
+      event.stopPropagation();
+    });
+
+    popup.querySelector(".quick-mark-all-read")?.addEventListener("click",function(){
+      document.querySelectorAll(".notification-quick-popup .quick-notification.unread").forEach(function(item){
+        item.classList.remove("unread");
+      });
+      syncUnread();
+    });
+
+    popup.querySelectorAll(".quick-like").forEach(function(button){
+      button.addEventListener("click",function(){
+        const item=button.closest(".quick-notification");
+        const id=item?.dataset.quickId;
+        const liked=button.getAttribute("aria-pressed")!=="true";
+        if(!id) return;
+        syncLike(id,liked);
+        if(liked) setItemUnread(id,false);
+      });
+    });
+
+    popup.querySelectorAll(".quick-popup-reply-action").forEach(function(button){
+      button.addEventListener("click",function(){
+        const item=button.closest(".quick-notification");
+        const line=item?.querySelector(".quick-reply-line");
+        if(!line) return;
+
+        popup.querySelectorAll(".quick-reply-line.open").forEach(function(other){
+          if(other!==line) other.classList.remove("open");
+        });
+
+        const opening=!line.classList.contains("open");
+        line.classList.toggle("open",opening);
+        if(opening) line.querySelector("input")?.focus();
+      });
+    });
+
+    popup.querySelectorAll(".quick-reply-line").forEach(function(line){
+      const input=line.querySelector("input");
+      const send=line.querySelector(".quick-send");
+      const item=line.closest(".quick-notification");
+      const id=item?.dataset.quickId;
+
+      input?.addEventListener("input",function(){
+        if(send) send.disabled=!input.value.trim();
+      });
+
+      input?.addEventListener("keydown",function(event){
+        if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
+          event.preventDefault();
+          send?.click();
+        }
+      });
+
+      send?.addEventListener("click",function(){
+        const reply=input?.value.trim();
+        if(!reply || !id) return;
+
+        syncReplyState(id);
+        setItemUnread(id,false);
+
+        document.querySelectorAll(`.notification-quick-popup .quick-notification[data-quick-id="${id}"] .quick-reply-line`).forEach(function(otherLine){
+          const otherInput=otherLine.querySelector("input");
+          const otherSend=otherLine.querySelector(".quick-send");
+          if(otherInput) otherInput.value="";
+          if(otherSend) otherSend.disabled=true;
+          otherLine.classList.remove("open");
+        });
+      });
+    });
+  });
+
+  document.addEventListener("click",function(event){
+    if(event.target.closest(".profile-header-notification-bell") || event.target.closest(".notification-quick-popup")) return;
+    closeAll();
+  });
+
+  document.addEventListener("keydown",function(event){
+    if(event.key==="Escape") closeAll();
+  });
+
+  syncUnread();
+})();
+
