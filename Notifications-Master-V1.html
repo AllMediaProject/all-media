@@ -2781,105 +2781,6 @@ a{color:inherit}
 }
 
 /* =========================================================
-   QUICK POPUP — VISIBLE REPLY ACTION
-========================================================= */
-.quick-actions{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-top:6px;
-}
-
-.quick-like,
-.quick-reply{
-  display:inline-flex;
-  align-items:center;
-  padding:0;
-  border:0;
-  background:transparent;
-  font-family:'Outfit',sans-serif;
-  font-size:10.5px;
-  font-weight:800;
-  line-height:1.2;
-}
-
-.quick-like{
-  color:#9ba9c5;
-}
-
-.quick-reply{
-  color:var(--am-peach);
-}
-
-.quick-like:hover,
-.quick-like[aria-pressed="true"],
-.quick-reply:hover{
-  color:var(--am-peach);
-}
-
-.quick-reply:hover{
-  text-decoration:underline;
-}
-
-/* =========================================================
-   QUICK POPUP — ACTION ALIGNMENT + ARROW SEND
-========================================================= */
-.quick-actions{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-top:6px;
-}
-
-.quick-like,
-.quick-reply{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:18px;
-  margin:0;
-  padding:0;
-  border:0;
-  background:transparent;
-  font-family:'Outfit',sans-serif;
-  font-size:10.5px;
-  font-weight:800;
-  line-height:18px;
-  vertical-align:middle;
-}
-
-.quick-reply-line{
-  align-items:center;
-}
-
-.quick-send{
-  width:24px;
-  height:24px;
-  flex:0 0 24px;
-  display:inline-grid;
-  place-items:center;
-  padding:0;
-  border:1px solid rgba(255,195,132,.48);
-  border-radius:50%;
-  background:rgba(255,195,132,.08);
-  color:var(--am-peach);
-  font:900 15px/1 'Outfit',sans-serif;
-  cursor:pointer;
-}
-
-.quick-send:hover:not(:disabled){
-  background:rgba(255,195,132,.14);
-  border-color:rgba(255,195,132,.72);
-}
-
-.quick-send:disabled{
-  border-color:rgba(83,100,143,.28);
-  background:rgba(83,100,143,.08);
-  color:#566789;
-  cursor:default;
-}
-
-/* =========================================================
    QUICK POPUP — REPLY CLASS COLLISION FIX + PEACH ARROW
 ========================================================= */
 #notificationQuickPopup .quick-actions{
@@ -3166,6 +3067,57 @@ a{color:inherit}
   box-shadow:none;
   opacity:1;
 }
+
+/* =========================================================
+   FULL NOTIFICATIONS — HOVER CLEANUP
+========================================================= */
+.notification-stream-section .notification-action:hover,
+.notification-stream-section .quick-reply:hover,
+.notification-stream-section .quick-reply-prompt:hover,
+.notification-stream-section .quick-reply-cancel:hover,
+.notification-stream-section .quick-reply-post:hover,
+.notification-stream-section .notification-after-reply button:hover{
+  text-decoration:none !important;
+}
+
+#notificationQuickPopup .quick-popup-reply-action:hover{
+  text-decoration:none;
+}
+
+/* =========================================================
+   COMMUNITY MORE — DROPDOWN + PIN STATE LOCK
+========================================================= */
+.community-tools,
+.community-menu{
+  position:relative;
+  overflow:visible;
+}
+
+.community-dropdown{
+  z-index:5000;
+}
+
+.community-dropdown.open{
+  display:block !important;
+}
+
+.community-pin{
+  text-decoration:none !important;
+}
+
+/* =========================================================
+   COMMUNITY HOTBAR — PRESERVE BELLS AFTER RE-PIN
+========================================================= */
+.activity-count.hidden{
+  display:none;
+}
+
+.pinned-communities .activity-bell{
+  display:grid !important;
+  flex:0 0 22px;
+  visibility:visible !important;
+  opacity:1 !important;
+}
 </style>
 </head>
 <body>
@@ -3289,21 +3241,21 @@ a{color:inherit}
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities" id="pinnedCommunities">
-<button class="community-chip" type="button">
+<button class="community-chip" data-community="Spooky Cozy" type="button">
 <span>🎃</span> Spooky Cozy
       <span class="activity-bell" title="5 new community activities">
 <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
 <span class="activity-count">5</span>
 </span>
 </button>
-<button class="community-chip" type="button">
+<button class="community-chip" data-community="Artists" type="button">
 <span>🎨</span> Artists
       <span class="activity-bell" title="2 new community activities">
 <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
 <span class="activity-count">2</span>
 </span>
 </button>
-<button class="community-chip" type="button">
+<button class="community-chip" data-community="Turtle Rescue" type="button">
 <span>🐢</span> Turtle Rescue
       <span class="activity-bell" title="1 new community activity">
 <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
@@ -3316,12 +3268,12 @@ a{color:inherit}
 <div class="community-menu">
 <button aria-expanded="false" class="community-tool" id="communityMoreButton" type="button">▾ More</button>
 <div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
-<div class="community-more-row"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
-<div class="community-more-row"><span class="community-more-name">🌿 Garden &amp; Nature</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row" data-community="Spooky Cozy" data-count="5" data-emoji="🎃"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Artists" data-count="2" data-emoji="🎨"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-count="1" data-emoji="🐢"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Book Club" data-count="0" data-emoji="📚"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-count="0" data-emoji="🧶"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row" data-community="Garden &amp; Nature" data-count="0" data-emoji="🌿"><span class="community-more-name">🌿 Garden &amp; Nature</span><button class="community-pin" type="button">Pin</button></div>
 </div>
 </div>
 <button class="community-tool" type="button">Manage Communities</button>
@@ -4072,35 +4024,120 @@ a{color:inherit}
 
   const moreButton=document.getElementById("communityMoreButton");
   const communityDropdown=document.getElementById("communityDropdown");
+  const pinnedCommunities=document.getElementById("pinnedCommunities");
 
-  moreButton.addEventListener("click",event=>{
+  /* Pin state and activity state are deliberately separate.
+     Unpinning a Community must NEVER erase its bell or unread count. */
+  const notificationCommunityCatalog=[
+    {name:"Spooky Cozy",icon:"🎃",pinned:true},
+    {name:"Artists",icon:"🎨",pinned:true},
+    {name:"Turtle Rescue",icon:"🐢",pinned:true},
+    {name:"Book Club",icon:"📚",pinned:false},
+    {name:"Crochet Corner",icon:"🧶",pinned:false},
+    {name:"Garden & Nature",icon:"🌿",pinned:false}
+  ];
+
+  const notificationCommunityActivityCounts={
+    "Spooky Cozy":5,
+    "Artists":2,
+    "Turtle Rescue":1,
+    "Book Club":0,
+    "Crochet Corner":0,
+    "Garden & Nature":0
+  };
+
+  function closeCommunityDropdown(){
+    communityDropdown?.classList.remove("open");
+    moreButton?.setAttribute("aria-expanded","false");
+  }
+
+  function communityBellHTML(name){
+    const count=Number(notificationCommunityActivityCounts[name] || 0);
+    const hidden=count===0;
+    return `
+      <span class="activity-bell"
+            data-community-bell="${name}"
+            title="${hidden ? "No new community activity" : `${count} new community ${count===1?"activity":"activities"}`}">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+          <path d="M10 21h4"></path>
+        </svg>
+        <span class="activity-count${hidden ? " hidden" : ""}">${count}</span>
+      </span>`;
+  }
+
+  function renderNotificationCommunities(){
+    if(!pinnedCommunities || !communityDropdown) return;
+
+    pinnedCommunities.innerHTML=notificationCommunityCatalog
+      .filter(community=>community.pinned)
+      .map(community=>`
+        <button class="community-chip"
+                type="button"
+                data-community="${community.name}">
+          <span>${community.icon} ${community.name}</span>
+          ${communityBellHTML(community.name)}
+        </button>
+      `).join("");
+
+    communityDropdown.innerHTML=notificationCommunityCatalog
+      .map((community,index)=>`
+        <div class="community-more-row" data-community="${community.name}">
+          <span class="community-more-name">
+            <span>${community.icon}</span>${community.name}
+          </span>
+          <button class="community-pin ${community.pinned ? "pinned" : ""}"
+                  type="button"
+                  data-community-index="${index}">
+            ${community.pinned ? "Pinned" : "Pin"}
+          </button>
+        </div>
+      `).join("");
+  }
+
+  moreButton?.addEventListener("click",event=>{
     event.stopPropagation();
     const opening=!communityDropdown.classList.contains("open");
     communityDropdown.classList.toggle("open",opening);
     moreButton.setAttribute("aria-expanded",String(opening));
   });
 
-  communityDropdown.addEventListener("click",event=>event.stopPropagation());
+  communityDropdown?.addEventListener("click",event=>{
+    event.stopPropagation();
 
-  document.querySelectorAll(".community-pin").forEach(button=>{
-    button.addEventListener("click",()=>{
-      const pinned=!button.classList.contains("pinned");
-      button.classList.toggle("pinned",pinned);
-      button.textContent=pinned ? "Pinned" : "Pin";
-    });
+    const pinButton=event.target.closest(".community-pin");
+    if(!pinButton) return;
+
+    const index=Number(pinButton.dataset.communityIndex);
+    const community=notificationCommunityCatalog[index];
+    if(!community) return;
+
+    /* Only the pinned flag changes. Bell/count data stays untouched. */
+    community.pinned=!community.pinned;
+    renderNotificationCommunities();
+
+    /* Keep More open after a pin/unpin so the user can keep editing. */
+    communityDropdown.classList.add("open");
+    moreButton?.setAttribute("aria-expanded","true");
   });
 
-  document.addEventListener("click",()=>{
-    communityDropdown.classList.remove("open");
-    moreButton.setAttribute("aria-expanded","false");
-  });
-
-  document.addEventListener("keydown",event=>{
-    if(event.key==="Escape"){
-      communityDropdown.classList.remove("open");
-      moreButton.setAttribute("aria-expanded","false");
+  pinnedCommunities?.addEventListener("click",event=>{
+    const bell=event.target.closest(".activity-bell");
+    if(bell){
+      event.stopPropagation();
+      /* Community Recent Activity page will be wired later.
+         For now the bell remains visible and preserves its count. */
+      return;
     }
   });
+
+  document.addEventListener("click",closeCommunityDropdown);
+
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape") closeCommunityDropdown();
+  });
+
+  renderNotificationCommunities();
 
   try{
     const image=localStorage.getItem("allMediaProfileAvatar");
