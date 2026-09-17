@@ -2743,10 +2743,10 @@ a{color:inherit}
 <input aria-label="Search All Media" placeholder="Search All Media…" type="search"/>
 </label>
 <div class="header-actions">
-<a aria-current="page" aria-label="Notifications" class="header-notifications" href="#notifications" title="Notifications">
+<button aria-current="page" aria-expanded="false" aria-haspopup="dialog" aria-label="Notifications" class="header-notifications" id="headerNotificationBell" title="Notifications" type="button">
 <span class="notification-bell">🔔</span>
 <span class="header-notification-count" id="headerUnreadCount">5</span>
-</a>
+</button>
 <section aria-label="Recent notifications" class="notification-quick-popup" hidden="" id="notificationQuickPopup">
 <div class="quick-popup-header">
 <div>
@@ -2836,8 +2836,38 @@ a{color:inherit}
 <a class="quick-popup-footer" href="#recentNotificationsTitle" id="quickPopupSeeMore">
         See more notifications <span>→</span>
 </a>
-</section>
+</section><script id="quickPopupBellBinding">
+(function(){
+  const bell=document.getElementById("headerNotificationBell");
+  const popup=document.getElementById("notificationQuickPopup");
+  if(!bell || !popup) return;
 
+  function setOpen(open){
+    popup.hidden=!open;
+    bell.setAttribute("aria-expanded",String(open));
+  }
+
+  bell.addEventListener("click",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    setOpen(popup.hidden);
+  });
+
+  popup.addEventListener("click",function(event){
+    event.stopPropagation();
+  });
+
+  document.addEventListener("click",function(event){
+    if(popup.hidden) return;
+    if(bell.contains(event.target) || popup.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown",function(event){
+    if(event.key==="Escape") setOpen(false);
+  });
+})();
+</script>
 <a aria-label="Open your profile" class="profile-cluster" href="profile.html">
 <span class="header-avatar" id="headerAvatar"></span>
 </a>
@@ -3978,12 +4008,6 @@ a{color:inherit}
     quickPopup.hidden=!opening;
     headerBell?.setAttribute("aria-expanded",String(opening));
     if(opening) refreshQuickPopupCount();
-  }
-
-  if(headerBell){
-    headerBell.setAttribute("aria-haspopup","dialog");
-    headerBell.setAttribute("aria-expanded","false");
-    headerBell.addEventListener("click",toggleQuickPopup);
   }
 
   quickPopup?.addEventListener("click",event=>event.stopPropagation());
