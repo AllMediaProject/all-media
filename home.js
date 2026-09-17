@@ -1384,9 +1384,20 @@ new MutationObserver(records=>{
 
   function refreshUnread(){
     const badge=popup.querySelector("#quickPopupUnread");
-    if(!badge) return;
+    const headerCount=document.getElementById("headerUnreadCount");
+    const markAllButton=popup.querySelector("#quickPopupMarkAllRead");
     const count=popup.querySelectorAll(".quick-notification.unread").length;
-    badge.textContent=count ? `${count} new` : "Caught up";
+
+    if(badge) badge.textContent=count ? `${count} new` : "Caught up";
+
+    if(headerCount){
+      headerCount.textContent=String(count);
+      headerCount.hidden=count===0;
+    }
+
+    if(markAllButton){
+      markAllButton.disabled=count===0;
+    }
   }
 
   bell.addEventListener("click",function(event){
@@ -1398,6 +1409,14 @@ new MutationObserver(records=>{
 
   popup.addEventListener("click",function(event){
     event.stopPropagation();
+  });
+
+  const markAllButton=popup.querySelector("#quickPopupMarkAllRead");
+  markAllButton?.addEventListener("click",function(){
+    popup.querySelectorAll(".quick-notification.unread").forEach(function(item){
+      item.classList.remove("unread");
+    });
+    refreshUnread();
   });
 
   popup.querySelectorAll(".quick-like").forEach(function(button){
