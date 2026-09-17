@@ -15,10 +15,98 @@
 <nav class="top-nav" aria-label="Primary navigation"><a class="active" href="#" onclick="goHomeAndRefreshFeed();return false">Home</a><a href="discover.html">Discover</a><a href="#">All Play</a></nav>
 <label class="global-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…" aria-label="Search All Media"></label>
 <div class="header-actions">
-<a class="header-notifications" href="#" aria-label="Open notifications" title="Notifications">
+<button class="header-notifications" id="headerNotificationBell" type="button" aria-label="Notifications" aria-haspopup="dialog" aria-expanded="false" title="Notifications">
 <span class="notification-bell">🔔</span>
-<span class="header-notification-count">3</span>
-</a>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</button>
+<section class="notification-quick-popup" id="notificationQuickPopup" aria-label="Recent notifications" hidden>
+<div class="quick-popup-header">
+<div>
+<h2>Quick Notifications</h2>
+<p>Recent activity</p>
+</div>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread" data-quick-id="q1">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions">
+<button class="quick-like" type="button" aria-pressed="false">♡ Like</button>
+<button class="quick-popup-reply-action" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input type="text" maxlength="500" placeholder="Write a reply…" aria-label="Reply to @NightshadeArt">
+<button class="quick-send" type="button" aria-label="Send reply" title="Send reply" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m14 7 5 5-5 5"></path></svg></button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q2">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div>
+<div class="quick-preview">Painted pumpkin shelf</div>
+<div class="quick-meta">21 min ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q3">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">L</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</div>
+<div class="quick-preview">“I was wondering the exact same thing!”</div>
+<div class="quick-meta">37 min ago</div>
+<div class="quick-actions">
+<button class="quick-like" type="button" aria-pressed="false">♡ Like</button>
+<button class="quick-popup-reply-action" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input type="text" maxlength="500" placeholder="Write a reply…" aria-label="Reply to @LanternMoth">
+<button class="quick-send" type="button" aria-label="Send reply" title="Send reply" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m14 7 5 5-5 5"></path></svg></button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q4">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">W</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@WildRoots</strong> started supporting you.</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q5">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">P</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@PixelWitch</strong> reblogged your post.</div>
+<div class="quick-preview">Tiny haunted house</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification" data-quick-id="q6">
+<div class="quick-avatar">S</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</div>
+<div class="quick-preview">“@SugarCrumbCo you might like this update.”</div>
+<div class="quick-meta">3 hr ago</div>
+<div class="quick-actions">
+<button class="quick-like" type="button" aria-pressed="false">♡ Like</button>
+<button class="quick-popup-reply-action" type="button">Reply</button>
+</div>
+<div class="quick-reply-line">
+<input type="text" maxlength="500" placeholder="Write a reply…" aria-label="Reply to @ShellKeeper">
+<button class="quick-send" type="button" aria-label="Send reply" title="Send reply" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m14 7 5 5-5 5"></path></svg></button>
+</div>
+</div>
+</article>
+</div>
+<a class="quick-popup-footer" id="quickPopupSeeMore" href="notifications.html">See more notifications <span>→</span></a>
+</section>
 <a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"></span></a>
 </div>
 </header>
