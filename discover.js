@@ -1098,3 +1098,122 @@ window.addEventListener("resize",()=>{
 renderCommunities();
 renderSavedDiscoverFilters();
 renderDiscover();
+
+/* =========================================================
+   QUICK NOTIFICATIONS POPUP — DISCOVER
+========================================================= */
+(function(){
+  const bell=document.getElementById("headerNotificationBell");
+  const popup=document.getElementById("notificationQuickPopup");
+  if(!bell || !popup) return;
+
+  function setOpen(open){
+    popup.hidden=!open;
+    bell.setAttribute("aria-expanded",String(open));
+  }
+
+  function refreshUnread(){
+    const badge=popup.querySelector("#quickPopupUnread");
+    const headerCount=document.getElementById("headerUnreadCount");
+    const markAllButton=popup.querySelector("#quickPopupMarkAllRead");
+    const count=popup.querySelectorAll(".quick-notification.unread").length;
+
+    if(badge) badge.textContent=count ? `${count} new` : "Caught up";
+
+    if(headerCount){
+      headerCount.textContent=String(count);
+      headerCount.hidden=count===0;
+    }
+
+    if(markAllButton){
+      markAllButton.disabled=count===0;
+    }
+  }
+
+  bell.addEventListener("click",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    setOpen(popup.hidden);
+    refreshUnread();
+  });
+
+  popup.addEventListener("click",function(event){
+    event.stopPropagation();
+  });
+
+  const markAllButton=popup.querySelector("#quickPopupMarkAllRead");
+  markAllButton?.addEventListener("click",function(){
+    popup.querySelectorAll(".quick-notification.unread").forEach(function(item){
+      item.classList.remove("unread");
+    });
+    refreshUnread();
+  });
+
+  popup.querySelectorAll(".quick-like").forEach(function(button){
+    button.addEventListener("click",function(){
+      const liked=button.getAttribute("aria-pressed")!=="true";
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked" : "♡ Like";
+      if(liked) button.closest(".quick-notification")?.classList.remove("unread");
+      refreshUnread();
+    });
+  });
+
+  popup.querySelectorAll(".quick-popup-reply-action").forEach(function(button){
+    button.addEventListener("click",function(){
+      const item=button.closest(".quick-notification");
+      const line=item?.querySelector(".quick-reply-line");
+      if(!line) return;
+
+      popup.querySelectorAll(".quick-reply-line.open").forEach(function(other){
+        if(other!==line) other.classList.remove("open");
+      });
+
+      const opening=!line.classList.contains("open");
+      line.classList.toggle("open",opening);
+      if(opening) line.querySelector("input")?.focus();
+    });
+  });
+
+  popup.querySelectorAll(".quick-reply-line").forEach(function(line){
+    const input=line.querySelector("input");
+    const send=line.querySelector(".quick-send");
+    const item=line.closest(".quick-notification");
+    const replyButton=item?.querySelector(".quick-popup-reply-action");
+
+    input?.addEventListener("input",function(){
+      if(send) send.disabled=!input.value.trim();
+    });
+
+    input?.addEventListener("keydown",function(event){
+      if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
+        event.preventDefault();
+        send?.click();
+      }
+    });
+
+    send?.addEventListener("click",function(){
+      const reply=input?.value.trim();
+      if(!reply) return;
+
+      item?.classList.remove("unread");
+      if(replyButton) replyButton.textContent="Replied ✓";
+      input.value="";
+      send.disabled=true;
+      line.classList.remove("open");
+      refreshUnread();
+    });
+  });
+
+  document.addEventListener("click",function(event){
+    if(popup.hidden) return;
+    if(bell.contains(event.target) || popup.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown",function(event){
+    if(event.key==="Escape") setOpen(false);
+  });
+
+  refreshUnread();
+})();
