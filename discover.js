@@ -170,208 +170,230 @@ function topicHTML(post){
           </div>`;
 }
 
+
+function cardClass(post){
+  if(post.type==="blog") return "post blog-post blog-post-v11";
+  if(post.type==="video") return "post video-post-v11";
+  if(post.type==="byte") return "post byte-post-v11";
+  return "post regular-post";
+}
+
+function menuClass(post){
+  if(post.type==="blog") return "blog-v11-menu";
+  if(post.type==="video") return "video-v11-menu";
+  if(post.type==="byte") return "byte-v11-menu";
+  return "regular-post-menu";
+}
+
+function postHeader(post){
+  const initial=escapeHTML((post.user||"@u").replace("@","").charAt(0).toLowerCase()||"u");
+  return `
+    <header class="post-header">
+      <div aria-hidden="true" class="profile-picture">${initial}</div>
+      <div class="post-author-copy">
+        <div class="post-author-line">
+          <span class="username">${escapeHTML(post.user)}</span>
+          <span class="post-time">· ${escapeHTML(post.time)}</span>
+          <span class="post-type-bubble">${post.type==="post"?"POST":post.type.toUpperCase()}</span>
+        </div>
+        <div class="post-meta-line">
+          ${topicHTML(post)}
+          ${post.community ? `<span class="post-community">· in ${escapeHTML(post.community)}</span>` : ""}
+        </div>
+      </div>
+      <div class="post-header-right">
+        <button aria-label="More options" class="post-menu-button" onclick="togglePostMenu(event,this)" type="button">•••</button>
+        <div class="${menuClass(post)} discover-post-menu">
+          <button class="post-menu-action" type="button">Not interested</button>
+          <span class="post-menu-divider">|</span>
+          <button class="post-menu-action post-menu-delete" type="button">Report</button>
+        </div>
+      </div>
+    </header>`;
+}
+
 function demoMedia(post){
   if(!post.media) return "";
   const art=`<div class="discover-demo-art ${post.media}">${post.icon||"✦"}</div>`;
 
   if(post.type==="blog"){
-    return `<div class="blog-home-preview"><div class="post-image">${art}</div></div>`;
+    return `<div class="blog-preview-image blog-home-preview"><div class="sample-media-art sample-blog-cover">${art}</div></div>`;
   }
 
   if(post.type==="video"){
-    return `<div class="sample-video-shell">${art}</div>`;
+    return `
+      <div class="video-feed-player video-v11-feed-player discover-demo-player" aria-label="Video preview">
+        ${art}
+        <div class="video-control-overlay discover-demo-controls">
+          <div class="video-control-row">
+            <button type="button" class="video-control-button video-control-play" aria-label="Play video">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+            </button>
+            <button type="button" class="video-control-button video-control-mute" aria-label="Mute video">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>
+            </button>
+            <span class="video-control-time">0:00</span>
+            <input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Video timeline">
+            <span class="video-control-time">0:42</span>
+            <button type="button" class="video-control-button video-control-fullscreen" aria-label="Enter fullscreen">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
   }
 
   if(post.type==="byte"){
-    return `<div class="byte-home-media-stage"><div class="sample-byte-shell">${art}</div></div>`;
+    return `
+      <div class="byte-stage">
+        <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player discover-demo-player" aria-label="Byte preview">
+          ${art}
+          <div class="video-control-overlay discover-demo-controls">
+            <div class="video-control-row">
+              <button type="button" class="video-control-button video-control-play" aria-label="Play Byte">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+              </button>
+              <button type="button" class="video-control-button video-control-mute" aria-label="Mute Byte">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>
+              </button>
+              <span class="video-control-time">0:00</span>
+              <input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Byte timeline">
+              <span class="video-control-time">0:24</span>
+              <button type="button" class="video-control-button video-control-fullscreen" aria-label="Enter fullscreen">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>`;
   }
 
-  return `<div class="post-image">${art}</div>`;
+  return `<div class="post-image crop-fit">${art}</div>`;
 }
 
 function mainContent(post){
   if(post.type==="blog"){
     return `
-      <div class="blog-feed-title">${escapeHTML(post.title)}</div>
+      <h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>${escapeHTML(post.title)}</h2>
       ${demoMedia(post)}
-      <div class="caption blog-feed-excerpt">${escapeHTML(post.caption)}</div>
-
-      <div class="discover-blog-full">
-        <p>
-          ${escapeHTML(post.caption)}
-          This is sample expanded blog content for the Discover prototype.
-          In the finished version, this area would display the full published blog body,
-          including its normal formatting, images, and links.
-        </p>
-      </div>
-
-      <button type="button"
-              class="blog-read-button"
-              onclick="toggleDiscoverBlog(this)">
-        Read Blog
-      </button>
-    `;
+      <p class="blog-excerpt blog-feed-excerpt">${escapeHTML(post.caption)}</p>
+      <button type="button" class="read-blog blog-read-button" onclick="toggleDiscoverBlog(this)">Read Blog →</button>
+      <div class="blog-full-content blog-full-body">
+        <p>This is the next part of the article rather than a repeat of the preview. The finished Discover card will continue directly from whatever excerpt was shown above.</p>
+        <p>Longer published Blogs can continue here with their normal paragraphs, formatting, images, and links.</p>
+      </div>`;
   }
 
   if(post.type==="video"){
     return `
-      <div class="video-feed-title">${escapeHTML(post.title)}</div>
+      <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>${escapeHTML(post.title)}</h2>
       ${demoMedia(post)}
-      <div class="video-caption-row"><div class="caption video-caption">${escapeHTML(post.caption)}</div></div>
-    `;
+      <p class="video-description caption">${escapeHTML(post.caption)}</p>`;
   }
 
   if(post.type==="byte"){
-    return `
-      ${demoMedia(post)}
-      <div class="byte-caption-row"><div class="caption byte-caption">${escapeHTML(post.caption)}</div></div>
-    `;
+    return `<p class="byte-caption caption">${escapeHTML(post.caption)}</p>`;
   }
 
-  return `${demoMedia(post)}<div class="caption">${escapeHTML(post.caption)}</div>`;
+  return `${demoMedia(post)}<p class="caption">${escapeHTML(post.caption)}</p>`;
 }
 
-function buildDiscoverCard(post){
+function interactionRow(post){
+  const likeClass=post.type==="blog"?"blog-like-button":post.type==="video"?"video-like-button":post.type==="byte"?"byte-like-button":"regular-like-button";
   return `
-  <article class="post ${post.type==="blog"?"blog-post":post.type==="video"?"video-post":post.type==="byte"?"byte-post":""}"
-           data-type="${post.type}"
-           data-interest="${escapeHTML(post.interest)}">
-
-    <div class="post-header">
-      <div class="profile-picture"></div>
-
-      <div class="post-author-copy">
-        <div class="post-author-line">
-          <div class="username">${escapeHTML(post.user)}</div>
-          ${contentTypeLabel(post)}
-          <span class="post-time">${escapeHTML(post.time)}</span>
-        </div>
-
-        <div class="post-meta-line">
-          ${topicHTML(post)}
-          ${post.community ? `<div class="post-community">· in ${escapeHTML(post.community)}</div>` : ""}
-        </div>
-      </div>
-
-      <div class="post-menu">
-        <button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button>
-        <div class="post-menu-dropdown">
-          <button>Not interested</button>
-          <button>Report</button>
-        </div>
-      </div>
-    </div>
-
-    ${mainContent(post)}
-
     <div class="interactions">
-      <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">
-        <span class="like-heart">♡</span> <span class="like-count">${post.likes}</span>
+      <button class="action-pill ${likeClass}" data-liked="false" onclick="toggleLikeNew(this)" type="button">
+        <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span class="like-count">${post.likes}</span>
       </button>
-
-      <button class="quick-action pocket-action" type="button" onclick="toggleSimpleAction(this)">
-        <svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path>
-          <path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path>
-        </svg>
-        <span>Pocket</span>
+      <button class="action-pill pocket-action" type="button" onclick="toggleSimpleAction(this)">
+        <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span>
       </button>
-
-      <button class="quick-action community-action" type="button" onclick="toggleSimpleAction(this)">
-        <svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="9" cy="8" r="3"></circle>
-          <circle cx="17" cy="9.5" r="2.5"></circle>
-          <path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path>
-          <path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path>
-        </svg>
-        <span>Community</span>
+      <button class="action-pill community-action" type="button" onclick="toggleSimpleAction(this)">
+        <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
       </button>
+      <button class="reblog-counter" onclick="incrementDiscoverReblog(this)" type="button">↻ <span>${post.reblogs}</span> · Reblog</button>
+      <button class="share-action" type="button">↗ Share</button>
+      <button aria-label="Save post" class="save-action" onclick="toggleDiscoverSave(this)" type="button">
+        <svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
+      </button>
+    </div>`;
+}
 
-      <div class="interaction reblog-counter"><span class="reblog-icon">↻</span> ${post.reblogs} · Reblog</div>
-      <button class="interaction share share-action" type="button">↗ Share</button>
-    </div>
-
-    <div class="latest-comment-label">Latest comment</div>
-    <div class="latest-comment" data-time="2m ago">
-      <span class="comment-username">${escapeHTML(post.latestUser)}:</span>
-      ${escapeHTML(post.latest)}
-    </div>
-
-    <div class="post-footer">
-      <button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button>
-      <div class="footer-link more-comments" onclick="toggleComments(this)">💬 View ${Math.max(post.comments-1,0)} more comments</div>
-
-      <div class="post-footer-actions">
-        <div class="hashtag-link" onclick="togglePostHashtags(this)">
-          <div class="hashtag-icon">#</div><span>Hashtags</span>
-        </div>
-      </div>
-
-      <div class="post-hashtags">
-        ${post.hashtags.map(h=>`<span class="post-hashtag">${escapeHTML(h)}</span>`).join("")}
-        <button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button>
-      </div>
-    </div>
-
-    <div class="comments-section">
+function commentsSection(post){
+  return `
+    <section class="comments-section">
       <div class="comment-item">
-        <div class="comment-author">${escapeHTML(post.latestUser)}</div>
-        <div class="comment-content">${escapeHTML(post.latest)}</div>
-        <div class="comment-actions">
-          <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">
-            <span class="like-heart">♡</span> <span>4</span>
-          </button>
-          <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
+        <div aria-hidden="true" class="comment-avatar">${escapeHTML((post.latestUser||"@g").replace("@","").charAt(0).toLowerCase()||"g")}</div>
+        <div class="comment-body">
+          <div class="comment-author">${escapeHTML(post.latestUser)}</div>
+          <div>${escapeHTML(post.latest)}</div>
+          <div class="comment-actions">
+            <button class="comment-action comment-like-button" data-liked="false" onclick="toggleCommentLike(this)" type="button">
+              <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span>
+            </button>
+            <button class="comment-action" type="button">Reply</button>
+          </div>
         </div>
-        <div class="reply-list">
-          <div class="reply-item">
-            <div class="reply-author">${escapeHTML(post.user)}</div>
-            <div class="reply-content">Thank you!!</div>
-            <div class="comment-actions">
-              <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">
-                <span class="like-heart">♡</span> <span>2</span>
-              </button>
-              <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
-            </div>
-            <div class="reply-composer">
-              <textarea class="reply-input" placeholder="Reply…"></textarea>
-              <div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div>
+      </div>
+      <div class="comment-item">
+        <div aria-hidden="true" class="comment-avatar">w</div>
+        <div class="comment-body">
+          <div class="comment-author">@wanderingcloud</div>
+          <div>This is exactly the sort of thing I like finding here.</div>
+          <div class="comment-actions">
+            <button class="comment-action comment-like-button" data-liked="false" onclick="toggleCommentLike(this)" type="button">
+              <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span>
+            </button>
+            <button class="comment-action" type="button">Reply</button>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
+function footerBlock(post){
+  return `
+    <div class="latest-comment">
+      <span class="comment-username">${escapeHTML(post.latestUser)}:</span>
+      <span class="latest-comment-copy">${escapeHTML(post.latest)}</span>
+      <span class="latest-comment-time">2m ago</span>
+    </div>
+    <div class="post-footer">
+      <div class="single-comment-composer">
+        <div class="comment-composer" onclick="openDiscoverCommentComposer(this)">
+          <div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+          <div class="comment-expanded-state">
+            <textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea>
+            <div class="comment-post-actions">
+              <button class="comment-post-button" onclick="postCommentNew(this,event)" type="button">POST</button>
+              <button class="comment-close-button" onclick="closeDiscoverCommentComposer(this,event)" type="button">CLOSE</button>
             </div>
           </div>
         </div>
-        <div class="reply-composer">
-          <textarea class="reply-input" placeholder="Reply…"></textarea>
-          <div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div>
-        </div>
+        <button class="hide-comments-inline" onclick="hideDiscoverComments(this)" type="button">Hide comments ↑</button>
+        <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
       </div>
-
-      <div class="comment-item">
-        <div class="comment-author">@wanderingcloud</div>
-        <div class="comment-content">This is exactly the sort of thing I like finding here.</div>
-        <div class="comment-actions">
-          <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">
-            <span class="like-heart">♡</span> <span>1</span>
-          </button>
-          <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
-        </div>
-        <div class="reply-composer">
-          <textarea class="reply-input" placeholder="Reply…"></textarea>
-          <div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div>
-        </div>
+      <button class="more-comments" onclick="toggleComments(this)" type="button">View ${Math.max(post.comments-1,0)} more</button>
+      <div class="post-footer-actions">
+        <button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button>
       </div>
     </div>
+    <div class="post-hashtags">${post.hashtags.map(h=>`<span class="post-hashtag">${escapeHTML(h)}</span>`).join("")}</div>
+    ${commentsSection(post)}
+    <div class="card-bottom-spacer" aria-hidden="true"></div>`;
+}
 
-    <div class="comment-composer">
-      <div class="comment-user">
-        <div class="comment-profile-picture"></div>
-        <div class="comment-username-display">@yourusername</div>
-      </div>
-      <textarea class="comment-text-area" placeholder="Say hi…"></textarea>
-      <div class="comment-post-actions">
-        <button class="comment-post-button" onclick="postCommentNew(this)">POST</button>
-      </div>
-    </div>
-  </article>`;
+function buildDiscoverCard(post){
+  const byteFirst=post.type==="byte" ? demoMedia(post) : "";
+  return `
+    <article class="${cardClass(post)}" data-type="${post.type}" data-interest="${escapeHTML(post.interest)}">
+      ${byteFirst}
+      ${postHeader(post)}
+      ${mainContent(post)}
+      ${interactionRow(post)}
+      ${footerBlock(post)}
+    </article>`;
 }
 
 function currentPosts(){
@@ -706,21 +728,20 @@ function clearDiscoverFilter(){
 }
 
 /* Home-card interactions reproduced locally for Discover. */
+
 function toggleDiscoverBlog(button){
   const post=button.closest(".post");
-  const full=post?.querySelector(".discover-blog-full");
+  const full=post?.querySelector(".blog-full-body");
   if(!full) return;
-
-  const opening=!full.classList.contains("open");
-  full.classList.toggle("open",opening);
-  button.textContent=opening ? "Close Blog" : "Read Blog";
+  const opening=!full.classList.contains("active");
+  full.classList.toggle("active",opening);
+  button.textContent=opening ? "Close Blog ↑" : "Read Blog →";
 }
 
 function toggleLikeNew(button){
   const liked=button.dataset.liked==="true";
   button.dataset.liked=String(!liked);
-  const heart=button.querySelector(".like-heart");
-  if(heart) heart.textContent=!liked?"♥":"♡";
+  button.classList.toggle("liked",!liked);
   const count=button.querySelector(".like-count");
   if(count) count.textContent=Math.max(0,Number(count.textContent||0)+(!liked?1:-1));
 }
@@ -728,32 +749,63 @@ function toggleLikeNew(button){
 function toggleCommentLike(button){
   const liked=button.dataset.liked==="true";
   button.dataset.liked=String(!liked);
-  const heart=button.querySelector(".like-heart");
-  if(heart) heart.textContent=!liked?"♥":"♡";
-  const n=button.querySelector("span:not(.like-heart)");
-  if(n) n.textContent=Math.max(0,Number(n.textContent||0)+(!liked?1:-1));
+  button.classList.toggle("liked",!liked);
 }
 
 function toggleSimpleAction(button){
   button.classList.toggle("active");
 }
 
+function incrementDiscoverReblog(button){
+  const count=button.querySelector("span");
+  if(count) count.textContent=Number(count.textContent||0)+1;
+  button.classList.add("active");
+}
+
+function toggleDiscoverSave(button){
+  button.classList.toggle("saved");
+}
+
 function togglePostMenu(event,button){
   event.stopPropagation();
-  document.querySelectorAll(".post-menu-dropdown").forEach(menu=>{
-    if(menu!==button.nextElementSibling) menu.classList.remove("active");
+  const menu=button.nextElementSibling;
+  document.querySelectorAll(".discover-post-menu").forEach(other=>{
+    if(other!==menu) other.classList.remove("open");
   });
-  button.nextElementSibling?.classList.toggle("active");
+  menu?.classList.toggle("open");
 }
 
 function toggleComments(el){
   const post=el.closest(".post");
-  post.querySelector(".comments-section")?.classList.toggle("active");
+  const section=post?.querySelector(".comments-section");
+  const hide=post?.querySelector(".hide-comments-inline");
+  if(!section) return;
+  const opening=!section.classList.contains("active");
+  section.classList.toggle("active",opening);
+  el.style.display=opening?"none":"";
+  hide?.classList.toggle("show",opening);
 }
 
-function toggleCommentComposerForPost(post){
-  post.querySelector(".comment-composer")?.classList.toggle("active");
-  post.querySelector(".comment-text-area")?.focus();
+function hideDiscoverComments(button){
+  const post=button.closest(".post");
+  post?.querySelector(".comments-section")?.classList.remove("active");
+  button.classList.remove("show");
+  const more=post?.querySelector(".more-comments");
+  if(more) more.style.display="";
+}
+
+function openDiscoverCommentComposer(composer){
+  const wrapper=composer.closest(".single-comment-composer");
+  composer.classList.add("active");
+  wrapper?.classList.add("open");
+  composer.querySelector(".comment-text-area")?.focus();
+}
+
+function closeDiscoverCommentComposer(button,event){
+  event?.stopPropagation();
+  const composer=button.closest(".comment-composer");
+  composer?.classList.remove("active");
+  composer?.closest(".single-comment-composer")?.classList.remove("open");
 }
 
 function toggleReplyComposer(button){
@@ -768,24 +820,17 @@ function postReply(button){
   const input=composer?.querySelector(".reply-input");
   const text=input?.value.trim();
   if(!text) return;
-
   const reply=document.createElement("div");
   reply.className="reply-item";
-  reply.innerHTML=`<div class="reply-author">@yourusername</div>
-                   <div class="reply-content">${escapeHTML(text)}</div>
-                   <div class="comment-actions">
-                     <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">
-                       <span class="like-heart">♡</span> <span>0</span>
-                     </button>
-                     <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
-                   </div>`;
+  reply.innerHTML=`<div class="reply-author">@yourusername</div><div class="reply-content">${escapeHTML(text)}</div>`;
   const host=composer.closest(".comment-item")?.querySelector(".reply-list") || composer.parentElement;
   host.appendChild(reply);
   input.value="";
   composer.classList.remove("active");
 }
 
-function postCommentNew(button){
+function postCommentNew(button,event){
+  event?.stopPropagation();
   const composer=button.closest(".comment-composer");
   const input=composer?.querySelector(".comment-text-area");
   const text=input?.value.trim();
@@ -795,35 +840,63 @@ function postCommentNew(button){
   const section=post.querySelector(".comments-section");
   const item=document.createElement("div");
   item.className="comment-item";
-  item.innerHTML=`<div class="comment-author">@yourusername</div>
-                  <div class="comment-content">${escapeHTML(text)}</div>
-                  <div class="comment-actions">
-                    <button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">
-                      <span class="like-heart">♡</span> <span>0</span>
-                    </button>
-                    <button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button>
-                  </div>
-                  <div class="reply-composer">
-                    <textarea class="reply-input" placeholder="Reply…"></textarea>
-                    <div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div>
+  item.innerHTML=`<div aria-hidden="true" class="comment-avatar">y</div>
+                  <div class="comment-body">
+                    <div class="comment-author">@yourusername</div>
+                    <div>${escapeHTML(text)}</div>
+                    <div class="comment-actions">
+                      <button class="comment-action comment-like-button" data-liked="false" onclick="toggleCommentLike(this)" type="button">
+                        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span>
+                      </button>
+                      <button class="comment-action" type="button">Reply</button>
+                    </div>
                   </div>`;
   section.prepend(item);
   section.classList.add("active");
 
   const latest=post.querySelector(".latest-comment");
   if(latest){
-    latest.classList.remove("empty-comment");
-    latest.dataset.time="Just now";
-    latest.innerHTML=`<span class="comment-username">@yourusername:</span> ${escapeHTML(text)}`;
+    latest.innerHTML=`<span class="comment-username">@yourusername:</span><span class="latest-comment-copy">${escapeHTML(text)}</span><span class="latest-comment-time">Just now</span>`;
   }
+
+  const more=post.querySelector(".more-comments");
+  if(more) more.style.display="none";
+  post.querySelector(".hide-comments-inline")?.classList.add("show");
 
   input.value="";
   composer.classList.remove("active");
+  composer.closest(".single-comment-composer")?.classList.remove("open");
 }
 
-function togglePostHashtags(link){
-  const post=link.closest(".post");
-  post.querySelector(".post-hashtags")?.classList.toggle("active");
+function togglePostHashtags(el){
+  const post=el.closest(".post");
+  const box=post?.querySelector(".post-hashtags");
+  const footer=post?.querySelector(".post-footer");
+  if(!post || !box) return;
+
+  if(footer && box.previousElementSibling!==footer){
+    footer.insertAdjacentElement("afterend",box);
+  }
+
+  const open=!box.classList.contains("active");
+  box.classList.toggle("active",open);
+  el.classList.toggle("active",open);
+
+  const set=(name,value)=>box.style.setProperty(name,value,"important");
+  set("position","static");
+  set("width","auto");
+  set("max-width","none");
+  set("margin","0 18px 12px");
+  set("padding","10px 12px");
+  set("gap","6px");
+  set("box-sizing","border-box");
+  set("flex-wrap","wrap");
+  set("justify-content","flex-start");
+  set("align-items","center");
+  set("border","1px dotted rgba(255,207,159,.30)");
+  set("border-radius","12px");
+  set("background","rgba(255,207,159,.035)");
+  set("display",open?"flex":"none");
 }
 
 function closePostHashtags(event,button){
@@ -843,7 +916,7 @@ function refreshDiscover(){
 document.addEventListener("click",()=>{
   closeDiscoverFilter();
   closeSavedFilterGearMenus();
-  document.querySelectorAll(".post-menu-dropdown").forEach(menu=>menu.classList.remove("active"));
+  document.querySelectorAll(".discover-post-menu").forEach(menu=>menu.classList.remove("open"));
 });
 
 let resizeTimer;
