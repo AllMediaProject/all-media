@@ -39,6 +39,7 @@ const communityActivityCounts = {
 const suggestedPosts = [
   {
     type:"post", user:"@moonlitmoth", time:"12m ago",
+    views:186,
     emoji:"🎨", interest:"Art", community:"",
     icon:"🌙", media:"short",
     caption:"Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!",
@@ -48,6 +49,7 @@ const suggestedPosts = [
   },
   {
     type:"blog", user:"@paperlantern", time:"54m ago",
+    views:412,
     emoji:"📚", interest:"Books", community:"📚 Book Club",
     title:"Why I Keep a Tiny Autumn Sketchbook", icon:"📖", media:"tall",
     caption:"I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits…",
@@ -57,6 +59,7 @@ const suggestedPosts = [
   },
   {
     type:"video", user:"@littletrails", time:"12d ago",
+    views:628,
     emoji:"🌲", interest:"Nature", community:"🌿 Garden & Nature",
     title:"A rainy trail morning", icon:"🌲", media:"tall",
     caption:"A slow walk through one of the trails near me after a rainy morning.",
@@ -66,6 +69,7 @@ const suggestedPosts = [
   },
   {
     type:"byte", user:"@threadorbit", time:"6d ago",
+    views:742,
     emoji:"🧶", interest:"Crochet", community:"🧶 Crochet Corner",
     icon:"🧶", media:"tall",
     caption:"Thirty seconds of watching this tiny mushroom finally get its face.",
@@ -75,6 +79,7 @@ const suggestedPosts = [
   },
   {
     type:"post", user:"@fernfriend", time:"2mo ago",
+    views:154,
     emoji:"🪴", interest:"Plants", community:"🌿 Garden & Nature",
     icon:"🪴", media:"tall",
     caption:"This corner used to get ignored completely. Moving two shelves around changed the whole room.",
@@ -84,6 +89,7 @@ const suggestedPosts = [
   },
   {
     type:"post", user:"@roadsideoddities", time:"18d ago",
+    views:327,
     emoji:"🚙", interest:"Vehicles", community:"🚗 Weekend Garage",
     icon:"🚙", media:"short",
     caption:"Found this little beauty parked outside a roadside diner. I know almost nothing about it, but the color stopped me in my tracks.",
@@ -96,6 +102,7 @@ const suggestedPosts = [
 const adventurePosts = [
   {
     type:"video", user:"@belowblue", time:"9d ago",
+    views:911,
     emoji:"🐋", interest:"Marine Life", community:"🌊 Ocean Watch",
     title:"After the storm", icon:"🐋", media:"tall",
     caption:"A few quiet minutes from a shoreline survey. The tide pools looked completely different after the storm.",
@@ -105,6 +112,7 @@ const adventurePosts = [
   },
   {
     type:"post", user:"@oddmotors", time:"5w ago",
+    views:284,
     emoji:"🚗", interest:"Vehicles", community:"🚗 Weekend Garage",
     icon:"🚗", media:"short",
     caption:"One of my favorite forgotten dashboard designs. Everything is chunky, mechanical, and weirdly charming.",
@@ -114,6 +122,7 @@ const adventurePosts = [
   },
   {
     type:"blog", user:"@smallhistories", time:"3mo ago",
+    views:1106,
     emoji:"🗝", interest:"History", community:"🏛 History Nook",
     title:"The tiny stories hidden inside ordinary objects", icon:"🗝", media:"short",
     caption:"Museum collections are full of objects that look mundane until someone tells you who carried them, repaired them, wrote on them, or refused to throw them away.",
@@ -123,6 +132,7 @@ const adventurePosts = [
   },
   {
     type:"byte", user:"@kitchenscience", time:"13d ago",
+    views:689,
     emoji:"🔬", interest:"Science", community:"🔬 Curious Minds",
     icon:"🔬", media:"tall",
     caption:"A tiny experiment with surface tension that looks much more dramatic than it has any right to.",
@@ -132,6 +142,7 @@ const adventurePosts = [
   },
   {
     type:"post", user:"@lookuparchive", time:"7w ago",
+    views:376,
     emoji:"🏛", interest:"Architecture", community:"🏛 Built Places",
     icon:"🏛", media:"tall",
     caption:"A staircase I nearly walked past. The railings curve differently on every landing.",
@@ -141,6 +152,7 @@ const adventurePosts = [
   },
   {
     type:"video", user:"@northofhere", time:"22d ago",
+    views:803,
     emoji:"🏕", interest:"Outdoors", community:"🏕 Outside Somewhere",
     title:"Camp dinner", icon:"🏕", media:"short",
     caption:"Cooking something extremely basic outside somehow makes it taste ten times better.",
@@ -194,6 +206,7 @@ function postHeader(post){
         <div class="post-author-line">
           <span class="username">${escapeHTML(post.user)}</span>
           <span class="post-time">· ${escapeHTML(post.time)}</span>
+          <span class="post-view-count">· ◉ ${Number(post.views||0).toLocaleString()} views</span>
           <span class="post-type-bubble">${post.type==="post"?"POST":post.type.toUpperCase()}</span>
         </div>
         <div class="post-meta-line">
@@ -543,7 +556,7 @@ function footerBlock(post){
 function buildDiscoverCard(post){
   const byteFirst=post.type==="byte" ? demoMedia(post) : "";
   return `
-    <article class="${cardClass(post)}" data-type="${post.type}" data-interest="${escapeHTML(post.interest)}">
+    <article class="${cardClass(post)}" data-type="${post.type}" data-interest="${escapeHTML(post.interest)}" data-views="${Number(post.views||0)}">
       ${byteFirst}
       ${postHeader(post)}
       ${mainContent(post)}

@@ -1796,3 +1796,31 @@ document.addEventListener("keydown",event=>{
 });
 requestAnimationFrame(()=>document.querySelectorAll(".profile-feed .post.regular-post").forEach(post=>regularSyncComments(post,post.querySelector(".comments-section")?.classList.contains("active")||false)));
 
+/* =========================================================
+   PROFILE POST VIEW COUNTER SAFETY NET
+   Applies to every post type shown on a Profile.
+========================================================= */
+function ensureProfilePostViewCounter(post){
+  if(!post || post.querySelector(".post-view-count")) return;
+  const line=post.querySelector(".post-author-line");
+  const time=line?.querySelector(".post-time");
+  if(!line || !time) return;
+  const count=Number(post.dataset.views||0);
+  const counter=document.createElement("span");
+  counter.className="post-view-count";
+  counter.textContent=`· ◉ ${count.toLocaleString()} views`;
+  time.insertAdjacentElement("afterend",counter);
+}
+
+document.querySelectorAll(".profile-feed .post").forEach(ensureProfilePostViewCounter);
+
+new MutationObserver(records=>{
+  records.forEach(record=>{
+    record.addedNodes.forEach(node=>{
+      if(!(node instanceof Element)) return;
+      if(node.matches?.(".profile-feed .post")) ensureProfilePostViewCounter(node);
+      node.querySelectorAll?.(".profile-feed .post").forEach(ensureProfilePostViewCounter);
+    });
+  });
+}).observe(document.body,{childList:true,subtree:true});
+

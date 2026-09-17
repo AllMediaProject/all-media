@@ -410,6 +410,7 @@ function createPost(){
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
+<span class="post-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">POST</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -478,6 +479,7 @@ ${imageHTML}
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
+<span class="post-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">BLOG</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -532,6 +534,7 @@ ${imageHTML?`<div class="blog-preview-image blog-home-preview">${imageHTML}</div
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
+<span class="post-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">VIDEO</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -581,6 +584,7 @@ ${videoHTML}
 <div class="post-author-line">
 <span class="username">@yourusername</span>
 <span class="post-time">· Just now</span>
+<span class="post-view-count">· ◉ 0 views</span>
 <span class="post-type-bubble">BYTE</span>
 </div>
 <div class="post-meta-line"><span class="topic">${topicEmoji} ${selectedTopic}</span>${selectedCommunities.map(c=>`<span class="post-community" title="Open ${c.name}">· in ${c.label}</span>`).join("")}</div>
@@ -619,7 +623,7 @@ ${videoHTML}
 <div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}</div>
 <section class="comments-section"></section>
 <div class="card-bottom-spacer" aria-hidden="true"></div>`;
-        np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
+        np.innerHTML=`<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@yourusername</div>${mode!=="post"?`<div class="content-type-label ${mode}">${mode==="blog"?"BLOG":mode==="video"?"VIDEO":"BYTE"}</div>`:""}<span class="post-time">Just now</span><span class="post-view-count">· ◉ 0 views</span></div><div class="post-meta-line"><div class="topic">${topicEmoji} ${selectedTopic}</div>${selectedCommunities.map(c=>`<div class="post-community" title="Open ${c.name}">· in ${c.label}</div>`).join("")}</div></div><div class="post-menu"><button class="post-menu-button" onclick="togglePostMenu(event,this)">⋯</button><div class="post-menu-dropdown"><button onclick="editPost(this)">Edit</button><button class="delete-option" onclick="deletePost(this)">Delete</button></div></div></div>${contentHTML}<div class="interactions">
 <button class="interaction like-button" data-liked="false" onclick="toggleLikeNew(this)">♡ <span class="like-count">0</span></button>
 <button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
 <button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
@@ -627,7 +631,7 @@ ${videoHTML}
 <button class="interaction share share-action" type="button">↗ Share</button>
 </div><div class="latest-comment-label">Latest comment</div><div class="latest-comment empty-comment" data-time="">No comments yet</div><div class="post-footer"><button class="comment-button" onclick="toggleCommentComposerForPost(this.closest('.post'))">Leave your opinion…</button><div class="footer-link more-comments" onclick="toggleComments(this)">💬 View 0 more comments</div><div class="post-footer-actions">${attachedLink?`<a class="feed-link-pill" href="${attachedLink}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(attachedLink)}"><span class="feed-link-icon">🔗</span><span class="feed-link-text">${escapeHTML(displayAttachedLink(attachedLink))}</span></a>`:""}<div class="hashtag-link" onclick="togglePostHashtags(this)"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags">${selectedHashtags.length?selectedHashtags.map(h=>`<span class="post-hashtag">${h}</span>`).join(""):`<span class="post-hashtag">No hashtags used</span>`}<button type="button" class="post-hashtag-done" onclick="closePostHashtags(event,this)">Done</button></div></div><div class="comments-section"></div><div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="postCommentNew(this)">POST</button></div></div>`;
     }
-    if(postBeingEdited){const oldUser=postBeingEdited.querySelector(".username")?.textContent,oldTime=postBeingEdited.querySelector(".post-time")?.textContent,oldAvatar=postBeingEdited.querySelector(".profile-picture"),newAvatar=np.querySelector(".profile-picture"),newTime=np.querySelector(".post-time");if(oldUser)np.querySelector(".username").textContent=oldUser;if(oldTime&&newTime)newTime.textContent=oldTime;if(oldAvatar&&newAvatar)newAvatar.replaceWith(oldAvatar);[".interactions",".latest-comment-label",".latest-comment",".comments-section",".comment-composer"].forEach(s=>{const oldNode=postBeingEdited.querySelector(s),newNode=np.querySelector(s);if(oldNode&&newNode)newNode.replaceWith(oldNode)});postBeingEdited.replaceWith(np);updateMoreLink(np)}else feed.prepend(np);editingPost=null;editingPreservedMediaHTML="";closeComposerAfterPublish();const newCarousel=np.querySelector(".media-carousel.feed-carousel");if(newCarousel)wirePostCarouselSwipe(newCarousel);const newFeedVideo=np.querySelector(".video-feed-player video");if(newFeedVideo)syncFeedVideoControls(newFeedVideo);if(mode==="byte")setupByteCaption(np);ta.value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";selectedPostMedia=[];composerMediaIndex=0;if(selectedPostVideo?.previewUrl&&!selectedPostVideo.existing)URL.revokeObjectURL(selectedPostVideo.previewUrl);selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreviewPlayer").load();document.getElementById("videoPreview").classList.remove("active");document.getElementById("videoFileNote").textContent="";document.getElementById("videoUploadInput").value="";document.getElementById("byteFramePicker").classList.remove("active");document.getElementById("postMediaInput").value="";document.getElementById("cropPanel").classList.remove("open");renderComposerMedia();removePostLink();resetPostComposerSelections();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();requestAnimationFrame(()=>np.scrollIntoView({behavior:"smooth",block:"start"}));
+    if(postBeingEdited){const oldUser=postBeingEdited.querySelector(".username")?.textContent,oldTime=postBeingEdited.querySelector(".post-time")?.textContent,oldAvatar=postBeingEdited.querySelector(".profile-picture"),newAvatar=np.querySelector(".profile-picture"),newTime=np.querySelector(".post-time");if(oldUser)np.querySelector(".username").textContent=oldUser;if(oldTime&&newTime)newTime.textContent=oldTime;const oldView=postBeingEdited.querySelector(".post-view-count")?.textContent,newView=np.querySelector(".post-view-count");if(oldView&&newView)newView.textContent=oldView;if(oldAvatar&&newAvatar)newAvatar.replaceWith(oldAvatar);[".interactions",".latest-comment-label",".latest-comment",".comments-section",".comment-composer"].forEach(s=>{const oldNode=postBeingEdited.querySelector(s),newNode=np.querySelector(s);if(oldNode&&newNode)newNode.replaceWith(oldNode)});postBeingEdited.replaceWith(np);updateMoreLink(np)}else feed.prepend(np);editingPost=null;editingPreservedMediaHTML="";closeComposerAfterPublish();const newCarousel=np.querySelector(".media-carousel.feed-carousel");if(newCarousel)wirePostCarouselSwipe(newCarousel);const newFeedVideo=np.querySelector(".video-feed-player video");if(newFeedVideo)syncFeedVideoControls(newFeedVideo);if(mode==="byte")setupByteCaption(np);ta.value="";document.getElementById("blogTitle").value="";document.getElementById("blogBodyEditor").innerHTML="";selectedPostMedia=[];composerMediaIndex=0;if(selectedPostVideo?.previewUrl&&!selectedPostVideo.existing)URL.revokeObjectURL(selectedPostVideo.previewUrl);selectedPostVideo=null;document.getElementById("videoPreviewPlayer").removeAttribute("src");document.getElementById("videoPreviewPlayer").load();document.getElementById("videoPreview").classList.remove("active");document.getElementById("videoFileNote").textContent="";document.getElementById("videoUploadInput").value="";document.getElementById("byteFramePicker").classList.remove("active");document.getElementById("postMediaInput").value="";document.getElementById("cropPanel").classList.remove("open");renderComposerMedia();removePostLink();resetPostComposerSelections();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();requestAnimationFrame(()=>np.scrollIntoView({behavior:"smooth",block:"start"}));
 }
 function postCommentNew(button){ const post=button.closest(".post"), ct=post.querySelector(".comment-text-area"), lc=post.querySelector(".latest-comment"), cs=post.querySelector(".comments-section"), text=ct.value.trim(); if(!text) return; lc.classList.remove("empty-comment");lc.dataset.time="Just now";lc.innerHTML='<span class="comment-username">@yourusername:</span> '+escapeHTML(text); const nc=document.createElement("div"); nc.className="comment-item"; nc.innerHTML=`<div class="comment-author">@yourusername</div><div class="comment-content">${escapeHTML(text)}</div><div class="comment-actions"><button class="comment-like" data-liked="false" onclick="toggleCommentLike(this)">♡ <span>0</span></button><button class="reply-button" onclick="toggleReplyComposer(this)">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button" onclick="postReply(this)">POST</button></div></div>`; cs.appendChild(nc); cs.classList.remove("active"); ct.value=""; toggleCommentComposerForPost(post); updateMoreLink(post); }
 function toggleMainButton(){ const c=document.getElementById("composer"), f=document.getElementById("feed"), cc=document.querySelector(".comment-composer.active"), rc=document.querySelector(".reply-composer.active"), b=document.getElementById("addPostButton"); if(cc){ cc.classList.remove("active"); b.textContent="+"; return; } if(rc){ rc.classList.remove("active"); b.textContent="+"; return; } c.classList.toggle("active"); b.classList.toggle("open"); if(c.classList.contains("active")){ f.style.display="none"; b.textContent="−"; } else { f.style.display="block"; b.textContent="+"; } }
@@ -1330,3 +1334,31 @@ requestAnimationFrame(()=>{
     byteV11SyncComments(post,open);
   });
 });
+
+/* =========================================================
+   POST VIEW COUNTER SAFETY NET
+   Backend will eventually supply the real count.
+========================================================= */
+function ensurePostViewCounter(post){
+  if(!post || post.querySelector(".post-view-count")) return;
+  const line=post.querySelector(".post-author-line");
+  const time=line?.querySelector(".post-time");
+  if(!line || !time) return;
+  const counter=document.createElement("span");
+  counter.className="post-view-count";
+  counter.textContent="· ◉ 0 views";
+  time.insertAdjacentElement("afterend",counter);
+}
+
+document.querySelectorAll(".feed .post").forEach(ensurePostViewCounter);
+
+new MutationObserver(records=>{
+  records.forEach(record=>{
+    record.addedNodes.forEach(node=>{
+      if(!(node instanceof Element)) return;
+      if(node.matches?.(".feed .post")) ensurePostViewCounter(node);
+      node.querySelectorAll?.(".feed .post").forEach(ensurePostViewCounter);
+    });
+  });
+}).observe(document.body,{childList:true,subtree:true});
+

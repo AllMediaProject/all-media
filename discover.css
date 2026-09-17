@@ -6963,3 +6963,23 @@ body.discover-body .top-nav a.active{
 .discover-wall.feed .discover-demo-player.controls-visible .video-control-overlay{
   pointer-events:auto!important;
 }
+
+/* =========================================================
+   ALL MEDIA — POST VIEW COUNTER
+   Quiet context, not an engagement button or score.
+========================================================= */
+.post-view-count{
+  color:#8f9cbb;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.25;
+  white-space:nowrap;
+  opacity:.9;
+}
+
+@media(max-width:700px){
+  .post-view-count{
+    font-size:10px;
+  }
+}
+
