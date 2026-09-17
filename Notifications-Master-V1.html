@@ -2345,6 +2345,124 @@ a{color:inherit}
     flex-direction:column;
   }
 }
+
+/* =========================================================
+   REGULAR NOTIFICATIONS — INLINE COMMENT THREAD
+========================================================= */
+.notification-inline-thread{
+  display:none;
+  width:min(100%,560px);
+  margin-top:9px;
+  padding:10px 11px;
+  border-radius:10px;
+  background:rgba(8,18,44,.34);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.18);
+}
+
+.notification-inline-thread.open{
+  display:block;
+}
+
+.notification-inline-thread-title{
+  margin:0 0 8px;
+  color:#8f9fbe;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.notification-inline-comment{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:7px;
+  padding:7px 0;
+}
+
+.notification-inline-comment + .notification-inline-comment{
+  border-top:1px solid rgba(255,255,255,.055);
+}
+
+.notification-inline-comment-avatar{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#344a7b;
+  color:#fff;
+  font-size:8px;
+  font-weight:800;
+  box-shadow:inset 0 0 0 1px rgba(255,195,132,.28);
+}
+
+.notification-inline-comment-copy{
+  min-width:0;
+}
+
+.notification-inline-comment-author{
+  color:#eef2fb;
+  font-size:9.5px;
+  font-weight:800;
+}
+
+.notification-inline-comment-text{
+  margin-top:2px;
+  color:#c9d1e2;
+  font-size:10.5px;
+  line-height:1.45;
+}
+
+.notification-inline-thread-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+  padding-top:7px;
+  border-top:1px solid rgba(255,255,255,.055);
+}
+
+.notification-inline-thread-footer span{
+  color:#7485a7;
+  font-size:9px;
+}
+
+.notification-inline-thread-footer button{
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--am-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.notification-inline-thread-footer button:hover{
+  text-decoration:underline;
+}
+
+/* =========================================================
+   POST ACTIVITY — TOTAL LIKES
+========================================================= */
+.post-activity-views,
+.post-activity-total-likes{
+  display:inline-block;
+  margin-top:3px;
+  color:#617194;
+  font-size:9.5px;
+  font-weight:650;
+}
+
+.post-activity-total-likes{
+  margin-left:7px;
+  color:#7786a7;
+}
+
+.post-activity-total-likes::before{
+  content:"·";
+  margin-right:7px;
+  color:#53648f;
+}
 </style>
 </head>
 <body>
@@ -2441,7 +2559,6 @@ a{color:inherit}
 <span class="post-activity-hint">Most recently active</span>
 </div>
 </div>
-
 <div class="post-activity-catchup-tray" hidden="" id="missedLikesTray">
 <div class="catchup-tray-heading">
 <div>
@@ -2578,49 +2695,49 @@ a{color:inherit}
 <div class="catchup-empty" hidden="" id="unansweredEmpty">You're caught up — no unanswered comments right now.</div>
 </div>
 <div class="post-activity-strip" role="list">
-<button class="post-activity-card has-new" data-age="Posted 2 days ago" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" data-unanswered="1" data-views="186" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 2 days ago" data-likes="24" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" data-unanswered="1" data-views="186" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-pumpkin">🎃</span>
 <span class="post-activity-card-copy">
 <strong>Painted pumpkin shelf</strong>
 <small>2 days ago</small>
-<span class="post-activity-views">◉ 186 views</span></span>
+<span class="post-activity-views">◉ 186 views</span><span class="post-activity-total-likes">♥ 24 likes</span></span>
 <span aria-label="3 new likes and 2 new comments" class="post-activity-bubbles">
 <span>♥ 3</span><span>💬 2</span>
 </span>
 </button>
-<button class="post-activity-card has-new" data-age="Posted 8 months ago" data-post-id="haunted-house" data-title="Tiny haunted house painting" data-type="Regular Post" data-unanswered="1" data-views="742" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 8 months ago" data-likes="91" data-post-id="haunted-house" data-title="Tiny haunted house painting" data-type="Regular Post" data-unanswered="1" data-views="742" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-house">🏚️</span>
 <span class="post-activity-card-copy">
 <strong>Tiny haunted house</strong>
 <small>8 months ago</small>
-<span class="post-activity-views">◉ 742 views</span></span>
+<span class="post-activity-views">◉ 742 views</span><span class="post-activity-total-likes">♥ 91 likes</span></span>
 <span aria-label="1 new comment and 1 new reblog" class="post-activity-bubbles">
 <span>💬 1</span><span>↻ 1</span>
 </span>
 </button>
-<button class="post-activity-card" data-age="Posted 3 weeks ago" data-post-id="crochet-ghost" data-title="Melted Ice Cream Ghost" data-type="Regular Post" data-unanswered="0" data-views="96" role="listitem" type="button">
+<button class="post-activity-card" data-age="Posted 3 weeks ago" data-likes="13" data-post-id="crochet-ghost" data-title="Melted Ice Cream Ghost" data-type="Regular Post" data-unanswered="0" data-views="96" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-ghost">👻</span>
 <span class="post-activity-card-copy">
 <strong>Melted Ice Cream Ghost</strong>
 <small>3 weeks ago</small>
-<span class="post-activity-views">◉ 96 views</span></span>
+<span class="post-activity-views">◉ 96 views</span><span class="post-activity-total-likes">♥ 13 likes</span></span>
 </button>
-<button class="post-activity-card has-new" data-age="Posted 1 year ago" data-post-id="cozy-games" data-title="Cozy games for rainy evenings" data-type="Blog" data-unanswered="1" data-views="1280" role="listitem" type="button">
+<button class="post-activity-card has-new" data-age="Posted 1 year ago" data-likes="147" data-post-id="cozy-games" data-title="Cozy games for rainy evenings" data-type="Blog" data-unanswered="1" data-views="1280" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-games">🎮</span>
 <span class="post-activity-card-copy">
 <strong>Cozy games for rainy evenings</strong>
 <small>1 year ago</small>
-<span class="post-activity-views">◉ 1,280 views</span></span>
+<span class="post-activity-views">◉ 1,280 views</span><span class="post-activity-total-likes">♥ 147 likes</span></span>
 <span aria-label="2 new likes" class="post-activity-bubbles">
 <span>♥ 2</span>
 </span>
 </button>
-<button class="post-activity-card" data-age="Posted 5 days ago" data-post-id="autumn-sketch" data-title="Autumn sketchbook page" data-type="Regular Post" data-unanswered="0" data-views="154" role="listitem" type="button">
+<button class="post-activity-card" data-age="Posted 5 days ago" data-likes="31" data-post-id="autumn-sketch" data-title="Autumn sketchbook page" data-type="Regular Post" data-unanswered="0" data-views="154" role="listitem" type="button">
 <span class="post-activity-thumb post-thumb-sketch">🍂</span>
 <span class="post-activity-card-copy">
 <strong>Autumn sketchbook page</strong>
 <small>5 days ago</small>
-<span class="post-activity-views">◉ 154 views</span></span>
+<span class="post-activity-views">◉ 154 views</span><span class="post-activity-total-likes">♥ 31 likes</span></span>
 </button>
 </div>
 <div class="post-activity-detail" hidden="" id="postActivityDetail">
@@ -2631,7 +2748,7 @@ a{color:inherit}
 <h3 id="postActivityDetailTitle">Painted pumpkin shelf</h3>
 <p id="postActivityDetailAge">Posted 2 days ago</p>
 <div class="post-activity-detail-stats">
-<span id="postActivityViews">◉ 0 views</span>
+<span id="postActivityViews">◉ 0 views</span><span id="postActivityLikes">♥ 0 likes</span>
 <span id="postActivityUnanswered">💬 0 unanswered</span>
 </div>
 </div>
@@ -3017,6 +3134,8 @@ a{color:inherit}
       const prompt=item.querySelector(".quick-reply-prompt");
       const replyAction=item.querySelector(".reply-notification");
 
+      item.dataset.lastReply=reply;
+
       status.textContent="Reply posted.";
       textarea.value="";
       postButton.disabled=true;
@@ -3042,27 +3161,110 @@ a{color:inherit}
       const item=button.closest(".notification-item");
       const composer=item.querySelector(".quick-reply");
       const afterReply=item.querySelector(".notification-after-reply");
+      const thread=item.querySelector(".notification-inline-thread");
       if(!composer) return;
+      thread?.classList.remove("open");
+      const viewButton=item.querySelector(".view-comments-link");
+      if(viewButton) viewButton.textContent="View comments";
       afterReply?.classList.remove("show");
       composer.classList.add("open");
       composer.querySelector("textarea")?.focus();
     });
   });
 
-  document.querySelectorAll(".view-comments-link, .notification-summary-cta").forEach(link=>{
+  function buildNotificationInlineThread(item){
+    let thread=item.querySelector(".notification-inline-thread");
+    if(thread) return thread;
+
+    const message=item.querySelector(".notification-message")?.textContent || "";
+    const preview=item.querySelector(".notification-preview")?.textContent || "";
+    const authorMatch=message.match(/(@[\w.-]+)/);
+    const author=authorMatch ? authorMatch[1] : "Commenter";
+    const initial=(author.replace("@","").charAt(0) || "C").toUpperCase();
+
+    thread=document.createElement("div");
+    thread.className="notification-inline-thread";
+
+    const title=document.createElement("div");
+    title.className="notification-inline-thread-title";
+    title.textContent="Comment thread";
+
+    const original=document.createElement("div");
+    original.className="notification-inline-comment";
+    original.innerHTML=`
+      <div class="notification-inline-comment-avatar">${initial}</div>
+      <div class="notification-inline-comment-copy">
+        <div class="notification-inline-comment-author">${author}</div>
+        <div class="notification-inline-comment-text"></div>
+      </div>`;
+    original.querySelector(".notification-inline-comment-text").textContent=
+      preview.replace(/^["“]|["”]$/g,"");
+
+    thread.append(title,original);
+
+    const lastReply=item.dataset.lastReply;
+    if(lastReply){
+      const yours=document.createElement("div");
+      yours.className="notification-inline-comment";
+      yours.innerHTML=`
+        <div class="notification-inline-comment-avatar">H</div>
+        <div class="notification-inline-comment-copy">
+          <div class="notification-inline-comment-author">@SugarCrumbCo</div>
+          <div class="notification-inline-comment-text"></div>
+        </div>`;
+      yours.querySelector(".notification-inline-comment-text").textContent=lastReply;
+      thread.append(yours);
+    }
+
+    const footer=document.createElement("div");
+    footer.className="notification-inline-thread-footer";
+    footer.innerHTML=`
+      <span>Continue the conversation here or open the full post.</span>
+      <button type="button" class="notification-thread-reply">Reply again</button>`;
+    thread.append(footer);
+
+    item.querySelector(".notification-copy")?.append(thread);
+
+    footer.querySelector(".notification-thread-reply")?.addEventListener("click",event=>{
+      event.stopPropagation();
+      const composer=item.querySelector(".quick-reply");
+      const afterReply=item.querySelector(".notification-after-reply");
+      if(!composer) return;
+      thread.classList.remove("open");
+      const viewButton=item.querySelector(".view-comments-link");
+      if(viewButton) viewButton.textContent="View comments";
+      afterReply?.classList.remove("show");
+      composer.classList.add("open");
+      composer.querySelector("textarea")?.focus();
+    });
+
+    return thread;
+  }
+
+  document.querySelectorAll(".view-comments-link").forEach(link=>{
+    link.addEventListener("click",event=>{
+      event.stopPropagation();
+      const item=link.closest(".notification-item");
+      if(!item) return;
+
+      item.classList.remove("unread");
+      updateCounts();
+
+      const thread=buildNotificationInlineThread(item);
+      const opening=!thread.classList.contains("open");
+      thread.classList.toggle("open",opening);
+      link.textContent=opening ? "Hide comments" : "View comments";
+    });
+  });
+
+  document.querySelectorAll(".notification-summary-cta").forEach(link=>{
     link.addEventListener("click",event=>{
       event.stopPropagation();
       const item=link.closest(".notification-item");
       item?.classList.remove("unread");
       updateCounts();
-      link.textContent = link.classList.contains("notification-summary-cta")
-        ? "Opening post…"
-        : "Opening comments…";
-      setTimeout(()=>{
-        link.textContent = link.classList.contains("notification-summary-cta")
-          ? "View your post →"
-          : "View comments";
-      },800);
+      link.textContent="Opening post…";
+      setTimeout(()=>{link.textContent="View your post →";},800);
     });
   });
 
@@ -3116,6 +3318,7 @@ a{color:inherit}
     "pumpkin-shelf":{
       icon:"🎃",
       views:186,
+      totalLikes:24,
       unanswered:1,
       log:[
         "<strong>@CozyCatCreates</strong> commented 21 min ago",
@@ -3134,6 +3337,7 @@ a{color:inherit}
     "haunted-house":{
       icon:"🏚️",
       views:742,
+      totalLikes:91,
       unanswered:1,
       log:[
         "<strong>@NightshadeArt</strong> commented 37 min ago",
@@ -3152,6 +3356,7 @@ a{color:inherit}
     "crochet-ghost":{
       icon:"👻",
       views:96,
+      totalLikes:13,
       unanswered:0,
       log:[
         "Saved to a Pocket 4 days ago",
@@ -3167,6 +3372,7 @@ a{color:inherit}
     "cozy-games":{
       icon:"🎮",
       views:1280,
+      totalLikes:147,
       unanswered:1,
       log:[
         "<strong>2 people</strong> liked this post today",
@@ -3184,6 +3390,7 @@ a{color:inherit}
     "autumn-sketch":{
       icon:"🍂",
       views:154,
+      totalLikes:31,
       unanswered:0,
       log:[
         "Saved to a Pocket yesterday",
@@ -3223,6 +3430,7 @@ a{color:inherit}
     document.getElementById("postActivityDetailAge").textContent=card.dataset.age;
     document.getElementById("postActivityNote").textContent=data.note;
     document.getElementById("postActivityViews").textContent=`◉ ${data.views.toLocaleString()} views`;
+    document.getElementById("postActivityLikes").textContent=`♥ ${data.totalLikes.toLocaleString()} likes`;
     document.getElementById("postActivityUnanswered").textContent=
       data.unanswered===1 ? "💬 1 unanswered" : `💬 ${data.unanswered} unanswered`;
 
