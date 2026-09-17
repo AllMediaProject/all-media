@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | All Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --am-bg:#0b1533;
+  --am-bg-deep:#08122c;
+  --am-panel:#14234a;
+  --am-panel-2:#182953;
+  --am-blue:#4169d0;
+  --am-peach:#ffc384;
+  --am-peach-2:#ffb477;
+  --am-text:#f8f8f2;
+  --am-muted:#aeb7cb;
+  --am-border:rgba(65,105,208,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-width:320px;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 48% 12%,rgba(37,63,125,.22),transparent 32%),
+    linear-gradient(145deg,var(--am-bg-deep),var(--am-bg) 48%,#0c1838);
+  color:var(--am-text);
+  font-family:'Outfit',sans-serif;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+
+/* =========================================================
+   APPROVED ALL MEDIA HEADER
+========================================================= */
+.site-header{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:92px;
+  margin:12px auto 0;
+  padding:13px 20px;
+  display:grid;
+  grid-template-columns:max-content minmax(390px,1fr) minmax(250px,340px) max-content;
+  align-items:center;
+  gap:24px;
+  background:linear-gradient(135deg,#14234a,#101f43);
+  border:1px solid rgba(65,105,208,.2);
+  border-radius:18px;
+  box-shadow:0 16px 36px rgba(2,8,24,.34),inset 0 1px rgba(255,255,255,.025);
+}
+.brand-lockup{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--am-text);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.brand-logo{width:62px;height:62px;object-fit:contain;display:block}
+.brand-name{font-size:29px;font-weight:800;letter-spacing:.01em}
+.brand-name strong{color:var(--am-peach);font-weight:800}
+.top-nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:34px;
+}
+.top-nav a{
+  position:relative;
+  padding:12px 0;
+  color:#c0cae2;
+  font-size:15px;
+  font-weight:700;
+  text-decoration:none;
+}
+.top-nav a:hover{color:var(--am-peach)}
+.global-search{
+  height:48px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 15px;
+  border:2px solid rgba(255,195,132,.9);
+  border-radius:14px;
+  background:rgba(8,18,44,.48);
+  box-shadow:inset 0 1px 7px rgba(0,0,0,.16);
+}
+.global-search svg{
+  width:21px;height:21px;fill:none;stroke:var(--am-peach);
+  stroke-width:2;stroke-linecap:round;flex:0 0 auto;
+}
+.global-search input{
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--am-text);
+  font:600 14px 'Outfit',sans-serif;
+}
+.global-search input::placeholder{color:#c1c8da;opacity:.88}
+.header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  white-space:nowrap;
+}
+.header-notifications{
+  position:relative;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 44px;
+  padding:0;
+  border:1px solid rgba(255,195,132,.78);
+  border-radius:50%;
+  background:rgba(255,195,132,.08);
+  color:inherit;
+  text-decoration:none;
+  box-shadow:0 0 14px rgba(255,195,132,.10);
+}
+.header-notifications:hover{background:rgba(255,195,132,.12)}
+.notification-bell{display:block;font-size:22px;line-height:1;transform:translateY(1px)}
+.header-notification-count{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:9px;
+  font-weight:800;
+  line-height:1;
+}
+.profile-cluster{
+  display:flex;
+  align-items:center;
+  padding:0;
+  border:0;
+  background:none;
+  text-decoration:none;
+}
+.header-avatar{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid rgba(255,195,132,.88);
+  border-radius:50%;
+  background:linear-gradient(145deg,#53648f,#263b73);
+  background-size:cover;
+  background-position:center;
+}
+
+/* =========================================================
+   APPROVED COMMUNITY HOTBAR
+========================================================= */
+.community-bar{
+  position:relative;
+  z-index:50;
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:64px;
+  margin:8px auto 0;
+  padding:9px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:linear-gradient(135deg,#14234a,#102044);
+  border:1px solid rgba(65,105,208,.18);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(2,8,24,.25);
+}
+.community-label{
+  flex:0 0 auto;
+  color:var(--am-text);
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.community-label::before{
+  content:"♧";
+  margin-right:9px;
+  color:var(--am-peach);
+  font-size:22px;
+  vertical-align:-2px;
+}
+.pinned-communities{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  padding:3px 2px;
+}
+.community-chip{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 12px;
+  border:1px dashed rgba(255,180,119,.9);
+  border-radius:999px;
+  background:rgba(8,18,44,.32);
+  color:var(--am-text);
+  font-size:12px;
+  font-weight:700;
+}
+.community-chip:hover{background:rgba(255,180,119,.08)}
+.activity-bell{
+  position:relative;
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  color:var(--am-peach);
+}
+.activity-bell svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.activity-count{
+  position:absolute;
+  top:-3px;
+  right:-6px;
+  min-width:14px;
+  height:14px;
+  padding:0 3px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:8px;
+  font-weight:800;
+}
+.community-divider-vertical{
+  width:1px;
+  height:28px;
+  background:rgba(65,105,208,.25);
+}
+.community-tools{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.community-menu{position:relative}
+.community-tool{
+  padding:8px 13px;
+  border:1px solid rgba(65,105,208,.48);
+  border-radius:999px;
+  background:rgba(8,18,44,.25);
+  color:#dbe4fa;
+  font-size:11px;
+  font-weight:700;
+}
+.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}
+.community-dropdown{
+  display:none;
+  position:absolute;
+  top:42px;
+  right:0;
+  z-index:80;
+  width:265px;
+  padding:8px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:14px;
+  background:#122348;
+  box-shadow:0 18px 42px rgba(0,0,0,.36);
+}
+.community-dropdown.open{display:block}
+.community-more-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 9px;
+  border-radius:9px;
+}
+.community-more-row:hover{background:rgba(255,195,132,.05)}
+.community-more-name{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700}
+.community-pin{
+  padding:5px 8px;
+  border:1px solid rgba(65,105,208,.38);
+  border-radius:999px;
+  background:rgba(8,18,44,.25);
+  color:#cbd5ec;
+  font-size:9px;
+  font-weight:800;
+}
+.community-pin.pinned{border-color:rgba(255,195,132,.55);color:var(--am-peach)}
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+.notifications-shell{
+  width:calc(100% - 48px);
+  max-width:1180px;
+  margin:32px auto 100px;
+}
+.notifications-heading-row{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:20px;
+}
+.notifications-title-wrap h1{
+  margin:0;
+  color:var(--am-peach);
+  font-size:38px;
+  line-height:1;
+  letter-spacing:-.035em;
+}
+.notifications-title-wrap p{
+  margin:9px 0 0;
+  color:#aeb9d2;
+  font-size:14px;
+  line-height:1.45;
+}
+.mark-all{
+  padding:9px 13px;
+  border:1px solid rgba(255,195,132,.46);
+  border-radius:999px;
+  background:rgba(255,195,132,.06);
+  color:var(--am-peach);
+  font-size:11px;
+  font-weight:800;
+}
+.mark-all:hover{background:rgba(255,195,132,.11)}
+.mark-all:disabled{opacity:.45;cursor:default}
+
+.notification-tabs{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:20px;
+  padding:5px;
+  width:max-content;
+  max-width:100%;
+  border:1px solid rgba(65,105,208,.26);
+  border-radius:14px;
+  background:rgba(10,22,52,.7);
+}
+.notification-tab{
+  min-width:120px;
+  padding:9px 16px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#b8c3dc;
+  font-size:12px;
+  font-weight:800;
+}
+.notification-tab:hover{color:#fff}
+.notification-tab.active{
+  background:linear-gradient(135deg,var(--am-peach),var(--am-peach-2));
+  color:#101a3a;
+}
+.notification-tab .tab-count{
+  margin-left:5px;
+  opacity:.72;
+  font-size:10px;
+}
+
+.notification-group{margin-top:22px}
+.notification-group[hidden]{display:none}
+.notification-group-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 8px;
+  color:#c4cee3;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.notification-group-title::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:rgba(65,105,208,.22);
+}
+.notification-list{
+  overflow:hidden;
+  border:1px solid rgba(65,105,208,.22);
+  border-radius:16px;
+  background:linear-gradient(145deg,rgba(24,41,83,.93),rgba(17,32,70,.94));
+  box-shadow:0 16px 34px rgba(2,8,24,.22),inset 0 1px rgba(255,255,255,.02);
+}
+.notification-item{
+  position:relative;
+  display:grid;
+  grid-template-columns:48px minmax(0,1fr) max-content;
+  gap:13px;
+  align-items:center;
+  min-height:86px;
+  padding:14px 18px;
+  border:0;
+  border-bottom:1px solid rgba(65,105,208,.16);
+  background:transparent;
+  color:inherit;
+  text-align:left;
+  transition:background .16s,border-color .16s;
+}
+.notification-item:last-child{border-bottom:0}
+.notification-item:hover{background:rgba(255,195,132,.045)}
+.notification-item.unread{
+  background:
+    linear-gradient(90deg,rgba(255,195,132,.08),rgba(255,195,132,.015) 38%,transparent 70%);
+}
+.notification-item.unread:hover{
+  background:
+    linear-gradient(90deg,rgba(255,195,132,.105),rgba(255,195,132,.025) 42%,rgba(255,195,132,.02));
+}
+.notification-item.unread::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:13px;
+  bottom:13px;
+  width:3px;
+  border-radius:0 99px 99px 0;
+  background:var(--am-peach);
+  box-shadow:0 0 10px rgba(255,195,132,.24);
+}
+.notification-item.is-filtered{display:none}
+.notification-avatar-wrap{position:relative;width:48px;height:48px}
+.notification-avatar{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border:2px solid rgba(255,195,132,.52);
+  border-radius:50%;
+  background:linear-gradient(145deg,#6f83b2,#334a80);
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+}
+.notification-avatar.community{
+  border-radius:14px;
+  background:linear-gradient(145deg,#233c73,#13264f);
+  font-size:22px;
+}
+.notification-event-icon{
+  position:absolute;
+  right:-4px;
+  bottom:-3px;
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  border:3px solid #172950;
+  border-radius:50%;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:10px;
+  font-weight:900;
+}
+.notification-copy{min-width:0}
+.notification-message{
+  margin:0;
+  color:#eef2fb;
+  font-size:13px;
+  line-height:1.45;
+}
+.notification-message strong{color:#fff;font-weight:800}
+.notification-preview{
+  display:block;
+  max-width:760px;
+  margin-top:5px;
+  overflow:hidden;
+  color:#9eabc8;
+  font-size:11px;
+  line-height:1.4;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.notification-community-label{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:6px;
+  padding:3px 7px;
+  border:1px dashed rgba(255,195,132,.35);
+  border-radius:999px;
+  color:var(--am-peach);
+  font-size:9px;
+  font-weight:800;
+}
+.notification-meta{
+  min-width:92px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  color:#8f9cbb;
+  font-size:10px;
+  font-weight:650;
+  white-space:nowrap;
+}
+.unread-dot{
+  width:8px;
+  height:8px;
+  flex:0 0 8px;
+  border-radius:50%;
+  background:transparent;
+}
+.notification-item.unread .unread-dot{
+  background:var(--am-peach);
+  box-shadow:0 0 8px rgba(255,195,132,.32);
+}
+.notification-empty{
+  display:none;
+  padding:44px 18px;
+  border:1px dashed rgba(65,105,208,.28);
+  border-radius:16px;
+  color:#8f9cbb;
+  text-align:center;
+  font-size:13px;
+}
+.notification-empty.show{display:block}
+.notification-empty strong{display:block;margin-bottom:6px;color:#dbe4f7;font-size:15px}
+
+.prototype-note{
+  margin-top:20px;
+  color:#7585a6;
+  font-size:10px;
+  text-align:center;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:1320px){
+  .site-header{
+    grid-template-columns:max-content 1fr minmax(230px,300px) max-content;
+    gap:17px;
+  }
+  .brand-logo{width:54px;height:54px}
+  .brand-name{font-size:24px}
+  .top-nav{gap:21px}
+  .top-nav a{font-size:14px}
+}
+@media(max-width:1100px){
+  .site-header{grid-template-columns:max-content 1fr max-content}
+  .global-search{grid-column:1/-1;grid-row:2;height:42px}
+  .community-label{display:none}
+}
+@media(max-width:800px){
+  .site-header{
+    width:92%;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    padding:12px 14px;
+  }
+  .brand-logo{width:48px;height:48px}
+  .brand-name{font-size:22px}
+  .top-nav{order:3;width:100%;justify-content:space-between;gap:10px;overflow:auto}
+  .global-search{order:4;width:100%}
+  .header-actions{margin-left:auto}
+  .community-bar{width:92%;overflow:visible}
+  .community-divider-vertical,.community-tools>button{display:none}
+  .notifications-shell{width:92%;margin-top:24px}
+  .notifications-heading-row{align-items:flex-start;flex-direction:column}
+  .notification-tabs{width:100%}
+  .notification-tab{flex:1;min-width:0}
+  .notification-item{
+    grid-template-columns:42px minmax(0,1fr);
+    align-items:start;
+    padding:13px 14px;
+  }
+  .notification-avatar-wrap,.notification-avatar{width:42px;height:42px}
+  .notification-meta{
+    grid-column:2;
+    justify-content:flex-start;
+    margin-top:-5px;
+    min-width:0;
+  }
+}
+@media(max-width:520px){
+  .brand-name{display:none}
+  .notifications-title-wrap h1{font-size:32px}
+  .notification-tab{padding:9px 8px;font-size:11px}
+  .notification-preview{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand-lockup" href="index.html" aria-label="All Media home">
+    <img class="brand-logo" src="all-media-logo.png" alt="">
+    <span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+  </a>
+
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="#">All Play</a>
+  </nav>
+
+  <label class="global-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+  </label>
+
+  <div class="header-actions">
+    <a class="header-notifications" href="#notifications" aria-label="Notifications" title="Notifications" aria-current="page">
+      <span class="notification-bell">🔔</span>
+      <span class="header-notification-count" id="headerUnreadCount">5</span>
+    </a>
+    <a class="profile-cluster" href="profile.html" aria-label="Open your profile">
+      <span class="header-avatar" id="headerAvatar"></span>
+    </a>
+  </div>
+</header>
+
+<div class="community-bar">
+  <span class="community-label">COMMUNITIES</span>
+
+  <div class="pinned-communities" id="pinnedCommunities">
+    <button class="community-chip" type="button">
+      <span>🎃</span> Spooky Cozy
+      <span class="activity-bell" title="5 new community activities">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">5</span>
+      </span>
+    </button>
+
+    <button class="community-chip" type="button">
+      <span>🎨</span> Artists
+      <span class="activity-bell" title="2 new community activities">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">2</span>
+      </span>
+    </button>
+
+    <button class="community-chip" type="button">
+      <span>🐢</span> Turtle Rescue
+      <span class="activity-bell" title="1 new community activity">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">1</span>
+      </span>
+    </button>
+  </div>
+
+  <div class="community-divider-vertical"></div>
+
+  <div class="community-tools">
+    <div class="community-menu">
+      <button class="community-tool" type="button" id="communityMoreButton" aria-expanded="false">▾ More</button>
+      <div class="community-dropdown" id="communityDropdown">
+        <div class="community-more-row"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
+        <div class="community-more-row"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
+        <div class="community-more-row"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
+        <div class="community-more-row"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
+        <div class="community-more-row"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
+        <div class="community-more-row"><span class="community-more-name">🌿 Garden & Nature</span><button class="community-pin" type="button">Pin</button></div>
+      </div>
+    </div>
+    <button class="community-tool" type="button">Manage Communities</button>
+  </div>
+</div>
+
+<main class="notifications-shell" id="notifications">
+  <div class="notifications-heading-row">
+    <div class="notifications-title-wrap">
+      <h1>Notifications</h1>
+      <p>See what’s happening around your posts, Pockets, and Communities.</p>
+    </div>
+    <button class="mark-all" type="button" id="markAllReadButton">Mark all as read</button>
+  </div>
+
+  <div class="notification-tabs" role="tablist" aria-label="Notification filters">
+    <button class="notification-tab active" type="button" data-filter="all" role="tab" aria-selected="true">All <span class="tab-count" id="allCount"></span></button>
+    <button class="notification-tab" type="button" data-filter="interaction" role="tab" aria-selected="false">Interactions <span class="tab-count" id="interactionCount"></span></button>
+    <button class="notification-tab" type="button" data-filter="community" role="tab" aria-selected="false">Communities <span class="tab-count" id="communityCount"></span></button>
+  </div>
+
+  <section class="notification-group" data-group="today">
+    <h2 class="notification-group-title">Today</h2>
+    <div class="notification-list">
+      <button class="notification-item unread" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">N</span>
+          <span class="notification-event-icon">↩</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@NightshadeArt</strong> replied to your comment.</span>
+          <span class="notification-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</span>
+        </span>
+        <span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item unread" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">C</span>
+          <span class="notification-event-icon">♥</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@CozyCatCreates</strong> liked your post.</span>
+          <span class="notification-preview">A little painted pumpkin shelf for the Haunted Hollow 🎃</span>
+        </span>
+        <span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item unread" type="button" data-category="community">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar community">🎃</span>
+          <span class="notification-event-icon">♧</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>Spooky Cozy</strong> has new activity in a discussion you follow.</span>
+          <span class="notification-preview">“Show us what you’re making this week” has 14 new replies.</span>
+          <span class="notification-community-label">🎃 Spooky Cozy</span>
+        </span>
+        <span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item unread" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">W</span>
+          <span class="notification-event-icon">＋</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@WildRoots</strong> started supporting you.</span>
+          <span class="notification-preview">They found you through the Halloween Interest.</span>
+        </span>
+        <span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item unread" type="button" data-category="community">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar community">🎨</span>
+          <span class="notification-event-icon">!</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>Artists</strong> posted a new Community announcement.</span>
+          <span class="notification-preview">September prompt: create something using only three colors.</span>
+          <span class="notification-community-label">🎨 Artists</span>
+        </span>
+        <span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="notification-group" data-group="week">
+    <h2 class="notification-group-title">Earlier this week</h2>
+    <div class="notification-list">
+      <button class="notification-item" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">P</span>
+          <span class="notification-event-icon">↻</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@PixelWitch</strong> reblogged your post.</span>
+          <span class="notification-preview">Your “cozy games for rainy evenings” post was shared to their followers.</span>
+        </span>
+        <span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">M</span>
+          <span class="notification-event-icon">▱</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@MoonMoth</strong> saved your post to a Pocket.</span>
+          <span class="notification-preview">Saved to “Autumn Art Inspiration.”</span>
+        </span>
+        <span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item" type="button" data-category="community">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar community">🐢</span>
+          <span class="notification-event-icon">@</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</span>
+          <span class="notification-preview">“@SugarCrumbCo this reminded me of the illustration you posted!”</span>
+          <span class="notification-community-label">🐢 Turtle Rescue</span>
+        </span>
+        <span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="notification-group" data-group="older">
+    <h2 class="notification-group-title">Older</h2>
+    <div class="notification-list">
+      <button class="notification-item" type="button" data-category="interaction">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar">G</span>
+          <span class="notification-event-icon">＋</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message"><strong>@GhostlyGarden</strong> started following your Halloween Pocket.</span>
+          <span class="notification-preview">Pocket: “Halloween”</span>
+        </span>
+        <span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
+      </button>
+
+      <button class="notification-item" type="button" data-category="community">
+        <span class="notification-avatar-wrap">
+          <span class="notification-avatar community">🎃</span>
+          <span class="notification-event-icon">✓</span>
+        </span>
+        <span class="notification-copy">
+          <span class="notification-message">Your post was approved in <strong>Spooky Cozy</strong>.</span>
+          <span class="notification-preview">“A tiny haunted house painting I finished today.”</span>
+          <span class="notification-community-label">🎃 Spooky Cozy</span>
+        </span>
+        <span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
+      </button>
+    </div>
+  </section>
+
+  <div class="notification-empty" id="notificationEmpty">
+    <strong>Nothing here yet.</strong>
+    Try another notification filter.
+  </div>
+
+  <div class="prototype-note">Notifications Master V1 — working prototype</div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  const tabs=[...document.querySelectorAll(".notification-tab")];
+  const notifications=[...document.querySelectorAll(".notification-item")];
+  const groups=[...document.querySelectorAll(".notification-group")];
+  const emptyState=document.getElementById("notificationEmpty");
+  const markAll=document.getElementById("markAllReadButton");
+  const headerCount=document.getElementById("headerUnreadCount");
+
+  function updateCounts(){
+    const unread=notifications.filter(item=>item.classList.contains("unread")).length;
+    const interactions=notifications.filter(item=>item.dataset.category==="interaction").length;
+    const communities=notifications.filter(item=>item.dataset.category==="community").length;
+
+    document.getElementById("allCount").textContent=`(${notifications.length})`;
+    document.getElementById("interactionCount").textContent=`(${interactions})`;
+    document.getElementById("communityCount").textContent=`(${communities})`;
+
+    headerCount.textContent=unread;
+    headerCount.style.display=unread ? "flex" : "none";
+    markAll.disabled=unread===0;
+  }
+
+  function applyFilter(filter){
+    notifications.forEach(item=>{
+      const show=filter==="all" || item.dataset.category===filter;
+      item.classList.toggle("is-filtered",!show);
+    });
+
+    groups.forEach(group=>{
+      const visible=group.querySelectorAll(".notification-item:not(.is-filtered)").length;
+      group.hidden=visible===0;
+    });
+
+    emptyState.classList.toggle(
+      "show",
+      notifications.every(item=>item.classList.contains("is-filtered"))
+    );
+  }
+
+  tabs.forEach(tab=>{
+    tab.addEventListener("click",()=>{
+      tabs.forEach(other=>{
+        const active=other===tab;
+        other.classList.toggle("active",active);
+        other.setAttribute("aria-selected",String(active));
+      });
+      applyFilter(tab.dataset.filter);
+    });
+  });
+
+  notifications.forEach(item=>{
+    item.addEventListener("click",()=>{
+      item.classList.remove("unread");
+      updateCounts();
+    });
+  });
+
+  markAll.addEventListener("click",()=>{
+    notifications.forEach(item=>item.classList.remove("unread"));
+    updateCounts();
+  });
+
+  const moreButton=document.getElementById("communityMoreButton");
+  const communityDropdown=document.getElementById("communityDropdown");
+
+  moreButton.addEventListener("click",event=>{
+    event.stopPropagation();
+    const opening=!communityDropdown.classList.contains("open");
+    communityDropdown.classList.toggle("open",opening);
+    moreButton.setAttribute("aria-expanded",String(opening));
+  });
+
+  communityDropdown.addEventListener("click",event=>event.stopPropagation());
+
+  document.querySelectorAll(".community-pin").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const pinned=!button.classList.contains("pinned");
+      button.classList.toggle("pinned",pinned);
+      button.textContent=pinned ? "Pinned" : "Pin";
+    });
+  });
+
+  document.addEventListener("click",()=>{
+    communityDropdown.classList.remove("open");
+    moreButton.setAttribute("aria-expanded","false");
+  });
+
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"){
+      communityDropdown.classList.remove("open");
+      moreButton.setAttribute("aria-expanded","false");
+    }
+  });
+
+  try{
+    const image=localStorage.getItem("allMediaProfileAvatar");
+    if(image){
+      const avatar=document.getElementById("headerAvatar");
+      avatar.style.backgroundImage=`url("${image}")`;
+    }
+  }catch(err){}
+
+  updateCounts();
+  applyFilter("all");
+})();
+</script>
+</body>
+</html>
