@@ -3003,6 +3003,169 @@ a{color:inherit}
   box-shadow:none;
   opacity:1;
 }
+
+/* =========================================================
+   FULL NOTIFICATIONS — LOCKED QUICK REPLY RESTORE
+========================================================= */
+.notification-stream-section .quick-reply{
+  display:none;
+  width:min(100%,500px);
+  margin-top:8px;
+  padding:9px;
+  border:0;
+  border-radius:10px;
+  background:rgba(16,26,58,.52);
+  box-shadow:inset 0 0 0 1px rgba(83,100,143,.22);
+  color:inherit;
+  font-size:inherit;
+  line-height:normal;
+}
+
+.notification-stream-section .quick-reply.open{
+  display:block;
+}
+
+.notification-stream-section .quick-reply-user{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+  color:#b9c4dc;
+  font-size:8.5px;
+  font-weight:800;
+}
+
+.notification-stream-section .quick-reply-avatar{
+  width:22px;
+  height:22px;
+  flex:0 0 22px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.4);
+  border-radius:50%;
+  background:#344a7b;
+  color:#fff;
+  font-size:8px;
+}
+
+.notification-stream-section .quick-reply textarea{
+  display:block;
+  width:100%;
+  min-height:52px;
+  resize:vertical;
+  margin:0;
+  padding:8px 9px;
+  border:1px solid rgba(83,100,143,.52);
+  border-radius:8px;
+  outline:0;
+  background:rgba(16,26,58,.82);
+  color:#f8f8f2;
+  font:500 10.5px/1.4 'Outfit',sans-serif;
+}
+
+.notification-stream-section .quick-reply textarea:focus{
+  border-color:rgba(255,195,132,.72);
+}
+
+.notification-stream-section .quick-reply-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+}
+
+.notification-stream-section .quick-reply-status{
+  min-height:14px;
+  color:#8fa0c4;
+  font-size:9px;
+}
+
+.notification-stream-section .quick-reply-buttons{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-left:auto;
+}
+
+.notification-stream-section .quick-reply-cancel,
+.notification-stream-section .quick-reply-post{
+  width:auto;
+  min-width:0;
+  min-height:0;
+  margin:0;
+  padding:5px 9px;
+  border-radius:999px;
+  font-family:'Outfit',sans-serif;
+  font-size:8.5px;
+  font-weight:800;
+  line-height:1.2;
+}
+
+.notification-stream-section .quick-reply-cancel{
+  border:1px solid rgba(65,105,208,.36);
+  background:transparent;
+  color:#aeb9d2;
+}
+
+.notification-stream-section .quick-reply-post{
+  border:1px solid rgba(255,195,132,.55);
+  background:rgba(255,195,132,.92);
+  color:#101a3a;
+}
+
+.notification-stream-section .quick-reply-post:disabled{
+  opacity:.5;
+  cursor:default;
+}
+
+/* Popup actions stay popup-only. */
+#notificationQuickPopup .quick-popup-reply-action{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:auto;
+  min-width:0;
+  min-height:18px;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  color:var(--am-peach);
+  font-family:'Outfit',sans-serif;
+  font-size:10.5px;
+  font-weight:800;
+  line-height:18px;
+}
+
+#notificationQuickPopup .quick-popup-reply-action:hover{
+  background:transparent;
+  color:var(--am-peach);
+  text-decoration:underline;
+}
+
+#notificationQuickPopup .quick-send{
+  width:26px;
+  height:26px;
+  flex:0 0 26px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:var(--am-peach);
+  color:#101a3a;
+  box-shadow:0 2px 8px rgba(255,195,132,.18);
+}
+
+#notificationQuickPopup .quick-send:disabled{
+  background:rgba(83,100,143,.22);
+  color:#6f7f9f;
+  box-shadow:none;
+  opacity:1;
+}
 </style>
 </head>
 <body>
@@ -3117,106 +3280,7 @@ a{color:inherit}
 <a class="quick-popup-footer" href="#recentNotificationsTitle" id="quickPopupSeeMore">
         See more notifications <span>→</span>
 </a>
-</section><script id="quickPopupBellBinding">
-(function(){
-  const bell=document.getElementById("headerNotificationBell");
-  const popup=document.getElementById("notificationQuickPopup");
-  if(!bell || !popup) return;
-
-  function setOpen(open){
-    popup.hidden=!open;
-    bell.setAttribute("aria-expanded",String(open));
-  }
-
-  function refreshPopupUnread(){
-    const badge=popup.querySelector("#quickPopupUnread");
-    if(!badge) return;
-    const count=popup.querySelectorAll(".quick-notification.unread").length;
-    badge.textContent=count ? `${count} new` : "Caught up";
-  }
-
-  bell.addEventListener("click",function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    setOpen(popup.hidden);
-    refreshPopupUnread();
-  });
-
-  popup.addEventListener("click",function(event){
-    event.stopPropagation();
-  });
-
-  popup.querySelectorAll(".quick-like").forEach(function(button){
-    button.addEventListener("click",function(){
-      const liked=button.getAttribute("aria-pressed")!=="true";
-      button.setAttribute("aria-pressed",String(liked));
-      button.textContent=liked ? "♥ Liked" : "♡ Like";
-
-      const item=button.closest(".quick-notification");
-      if(liked) item?.classList.remove("unread");
-      refreshPopupUnread();
-    });
-  });
-
-  popup.querySelectorAll(".quick-popup-reply-action").forEach(function(button){
-    button.addEventListener("click",function(){
-      const item=button.closest(".quick-notification");
-      const line=item?.querySelector(".quick-reply-line");
-      if(!line) return;
-
-      popup.querySelectorAll(".quick-reply-line.open").forEach(function(other){
-        if(other!==line) other.classList.remove("open");
-      });
-
-      const opening=!line.classList.contains("open");
-      line.classList.toggle("open",opening);
-      if(opening) line.querySelector("input")?.focus();
-    });
-  });
-
-  popup.querySelectorAll(".quick-reply-line").forEach(function(line){
-    const input=line.querySelector("input");
-    const send=line.querySelector(".quick-send");
-    const item=line.closest(".quick-notification");
-    const replyButton=item?.querySelector(".quick-popup-reply-action");
-
-    input?.addEventListener("input",function(){
-      if(send) send.disabled=!input.value.trim();
-    });
-
-    input?.addEventListener("keydown",function(event){
-      if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
-        event.preventDefault();
-        send?.click();
-      }
-    });
-
-    send?.addEventListener("click",function(){
-      const reply=input?.value.trim();
-      if(!reply) return;
-
-      item?.classList.remove("unread");
-      if(replyButton) replyButton.textContent="Replied ✓";
-      if(input) input.value="";
-      if(send) send.disabled=true;
-      line.classList.remove("open");
-      refreshPopupUnread();
-    });
-  });
-
-  document.addEventListener("click",function(event){
-    if(popup.hidden) return;
-    if(bell.contains(event.target) || popup.contains(event.target)) return;
-    setOpen(false);
-  });
-
-  document.addEventListener("keydown",function(event){
-    if(event.key==="Escape") setOpen(false);
-  });
-
-  refreshPopupUnread();
-})();
-</script>
+</section>
 <a aria-label="Open your profile" class="profile-cluster" href="profile.html">
 <span class="header-avatar" id="headerAvatar"></span>
 </a>
@@ -3812,7 +3876,7 @@ a{color:inherit}
     trigger.addEventListener("click",event=>{
       event.stopPropagation();
       const item=trigger.closest(".notification-item");
-      const composer=item.querySelector(".quick-popup-reply-action");
+      const composer=item.querySelector(".quick-reply");
       const opening=!composer.classList.contains("open");
 
       document.querySelectorAll(".quick-reply.open").forEach(openComposer=>{
@@ -3835,7 +3899,7 @@ a{color:inherit}
     });
   });
 
-  document.querySelectorAll(".quick-popup-reply-action").forEach(composer=>{
+  document.querySelectorAll(".quick-reply").forEach(composer=>{
     const textarea=composer.querySelector("textarea");
     const postButton=composer.querySelector(".quick-reply-post");
     const cancelButton=composer.querySelector(".quick-reply-cancel");
@@ -3892,7 +3956,7 @@ a{color:inherit}
     button.addEventListener("click",event=>{
       event.stopPropagation();
       const item=button.closest(".notification-item");
-      const composer=item.querySelector(".quick-popup-reply-action");
+      const composer=item.querySelector(".quick-reply");
       const afterReply=item.querySelector(".notification-after-reply");
       const thread=item.querySelector(".notification-inline-thread");
       if(!composer) return;
@@ -3960,7 +4024,7 @@ a{color:inherit}
 
     footer.querySelector(".notification-thread-reply")?.addEventListener("click",event=>{
       event.stopPropagation();
-      const composer=item.querySelector(".quick-popup-reply-action");
+      const composer=item.querySelector(".quick-reply");
       const afterReply=item.querySelector(".notification-after-reply");
       if(!composer) return;
       thread.classList.remove("open");
@@ -4325,71 +4389,57 @@ a{color:inherit}
   refreshCatchupCounts();
 
 
-  /* =========================================================
-     HEADER BELL — QUICK NOTIFICATIONS POPUP
-  ========================================================= */
-  const quickPopup=document.getElementById("notificationQuickPopup");
-  const quickPopupUnread=document.getElementById("quickPopupUnread");
-  const quickPopupSeeMore=document.getElementById("quickPopupSeeMore");
+  updateCounts();
+  applyFilter("all");
+})();
+</script>
+<script id="quickPopupBellBinding">
+(function(){
+  const bell=document.getElementById("headerNotificationBell");
+  const popup=document.getElementById("notificationQuickPopup");
+  const seeMore=document.getElementById("quickPopupSeeMore");
+  if(!bell || !popup) return;
 
-  function quickUnreadCount(){
-    return document.querySelectorAll("#quickPopupList .quick-notification.unread").length;
+  function setOpen(open){
+    popup.hidden=!open;
+    bell.setAttribute("aria-expanded",String(open));
   }
 
-  function refreshQuickPopupCount(){
-    if(!quickPopupUnread) return;
-    const count=quickUnreadCount();
-    quickPopupUnread.textContent=count ? `${count} new` : "Caught up";
+  function refreshUnread(){
+    const badge=popup.querySelector("#quickPopupUnread");
+    if(!badge) return;
+    const count=popup.querySelectorAll(".quick-notification.unread").length;
+    badge.textContent=count ? `${count} new` : "Caught up";
   }
 
-  function closeQuickPopup(){
-    if(!quickPopup) return;
-    quickPopup.hidden=true;
-    headerBell?.setAttribute("aria-expanded","false");
-    document.querySelectorAll(".quick-reply-line.open").forEach(line=>line.classList.remove("open"));
-  }
-
-  function toggleQuickPopup(event){
+  bell.addEventListener("click",function(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!quickPopup) return;
-    const opening=quickPopup.hidden;
-    quickPopup.hidden=!opening;
-    headerBell?.setAttribute("aria-expanded",String(opening));
-    if(opening) refreshQuickPopupCount();
-  }
-
-  quickPopup?.addEventListener("click",event=>event.stopPropagation());
-
-  document.addEventListener("click",event=>{
-    if(!quickPopup || quickPopup.hidden) return;
-    if(headerBell?.contains(event.target) || quickPopup.contains(event.target)) return;
-    closeQuickPopup();
+    setOpen(popup.hidden);
+    refreshUnread();
   });
 
-  document.addEventListener("keydown",event=>{
-    if(event.key==="Escape") closeQuickPopup();
+  popup.addEventListener("click",function(event){
+    event.stopPropagation();
   });
 
-  document.querySelectorAll(".quick-like").forEach(button=>{
-    button.addEventListener("click",()=>{
+  popup.querySelectorAll(".quick-like").forEach(function(button){
+    button.addEventListener("click",function(){
       const liked=button.getAttribute("aria-pressed")!=="true";
       button.setAttribute("aria-pressed",String(liked));
       button.textContent=liked ? "♥ Liked" : "♡ Like";
-
-      const item=button.closest(".quick-notification");
-      item?.classList.remove("unread");
-      refreshQuickPopupCount();
+      if(liked) button.closest(".quick-notification")?.classList.remove("unread");
+      refreshUnread();
     });
   });
 
-  document.querySelectorAll(".quick-popup-reply-action").forEach(button=>{
-    button.addEventListener("click",()=>{
+  popup.querySelectorAll(".quick-popup-reply-action").forEach(function(button){
+    button.addEventListener("click",function(){
       const item=button.closest(".quick-notification");
       const line=item?.querySelector(".quick-reply-line");
       if(!line) return;
 
-      document.querySelectorAll(".quick-reply-line.open").forEach(other=>{
+      popup.querySelectorAll(".quick-reply-line.open").forEach(function(other){
         if(other!==line) other.classList.remove("open");
       });
 
@@ -4399,49 +4449,54 @@ a{color:inherit}
     });
   });
 
-  document.querySelectorAll(".quick-reply-line").forEach(line=>{
+  popup.querySelectorAll(".quick-reply-line").forEach(function(line){
     const input=line.querySelector("input");
     const send=line.querySelector(".quick-send");
     const item=line.closest(".quick-notification");
     const replyButton=item?.querySelector(".quick-popup-reply-action");
 
-    input?.addEventListener("input",()=>{
+    input?.addEventListener("input",function(){
       if(send) send.disabled=!input.value.trim();
     });
 
-    input?.addEventListener("keydown",event=>{
+    input?.addEventListener("keydown",function(event){
       if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
         event.preventDefault();
         send?.click();
       }
     });
 
-    send?.addEventListener("click",()=>{
+    send?.addEventListener("click",function(){
       const reply=input?.value.trim();
       if(!reply) return;
 
       item?.classList.remove("unread");
       if(replyButton) replyButton.textContent="Replied ✓";
-      if(input) input.value="";
-      if(send) send.disabled=true;
+      input.value="";
+      send.disabled=true;
       line.classList.remove("open");
-      refreshQuickPopupCount();
+      refreshUnread();
     });
   });
 
-  quickPopupSeeMore?.addEventListener("click",event=>{
-    // In this master file, "See more" jumps to the full notification stream.
-    // When the page is split, this becomes a link to notifications.html.
+  seeMore?.addEventListener("click",function(event){
     event.preventDefault();
-    closeQuickPopup();
-    document.getElementById("recentNotificationsTitle")?.scrollIntoView({behavior:"smooth",block:"start"});
+    setOpen(false);
+    document.getElementById("recentNotificationsTitle")
+      ?.scrollIntoView({behavior:"smooth",block:"start"});
   });
 
-  refreshQuickPopupCount();
+  document.addEventListener("click",function(event){
+    if(popup.hidden) return;
+    if(bell.contains(event.target) || popup.contains(event.target)) return;
+    setOpen(false);
+  });
 
-  updateCounts();
-  applyFilter("all");
+  document.addEventListener("keydown",function(event){
+    if(event.key==="Escape") setOpen(false);
+  });
+
+  refreshUnread();
 })();
-</script>
-</body>
+</script></body>
 </html>
