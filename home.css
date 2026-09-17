@@ -8964,3 +8964,14 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
   display:none !important;
 }
 
+/* =========================================================
+   QUICK NOTIFICATIONS — UNREAD DOT STATE
+========================================================= */
+#notificationQuickPopup .quick-unread-dot{
+  display:none;
+}
+
+#notificationQuickPopup .quick-notification.unread .quick-unread-dot{
+  display:block;
+}
+
