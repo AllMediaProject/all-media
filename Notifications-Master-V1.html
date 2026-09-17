@@ -2725,6 +2725,60 @@ a{color:inherit}
     height:calc(100% - 110px);
   }
 }
+
+/* =========================================================
+   QUICK NOTIFICATIONS POPUP — ALIGNMENT + READABILITY PASS
+========================================================= */
+.notification-quick-popup{
+  right:0;
+  width:390px;
+}
+
+.quick-popup-header h2{
+  font-size:18px;
+}
+
+.quick-popup-header p{
+  font-size:10.5px;
+}
+
+.quick-popup-unread{
+  font-size:9.5px;
+}
+
+.quick-message{
+  font-size:12px;
+  line-height:1.4;
+}
+
+.quick-preview{
+  font-size:10.5px;
+  line-height:1.4;
+}
+
+.quick-meta{
+  font-size:9.5px;
+}
+
+.quick-like{
+  font-size:10.5px;
+}
+
+.quick-reply{
+  font-size:10px;
+}
+
+.quick-reply-line input{
+  font-size:10.5px;
+}
+
+.quick-send{
+  font-size:9.5px;
+}
+
+.quick-popup-footer{
+  font-size:11px;
+}
 </style>
 </head>
 <body>
@@ -2847,14 +2901,80 @@ a{color:inherit}
     bell.setAttribute("aria-expanded",String(open));
   }
 
+  function refreshPopupUnread(){
+    const badge=popup.querySelector("#quickPopupUnread");
+    if(!badge) return;
+    const count=popup.querySelectorAll(".quick-notification.unread").length;
+    badge.textContent=count ? `${count} new` : "Caught up";
+  }
+
   bell.addEventListener("click",function(event){
     event.preventDefault();
     event.stopPropagation();
     setOpen(popup.hidden);
+    refreshPopupUnread();
   });
 
   popup.addEventListener("click",function(event){
     event.stopPropagation();
+  });
+
+  popup.querySelectorAll(".quick-like").forEach(function(button){
+    button.addEventListener("click",function(){
+      const liked=button.getAttribute("aria-pressed")!=="true";
+      button.setAttribute("aria-pressed",String(liked));
+      button.textContent=liked ? "♥ Liked" : "♡ Like";
+
+      const item=button.closest(".quick-notification");
+      if(liked) item?.classList.remove("unread");
+      refreshPopupUnread();
+    });
+  });
+
+  popup.querySelectorAll(".quick-reply").forEach(function(button){
+    button.addEventListener("click",function(){
+      const item=button.closest(".quick-notification");
+      const line=item?.querySelector(".quick-reply-line");
+      if(!line) return;
+
+      popup.querySelectorAll(".quick-reply-line.open").forEach(function(other){
+        if(other!==line) other.classList.remove("open");
+      });
+
+      const opening=!line.classList.contains("open");
+      line.classList.toggle("open",opening);
+      if(opening) line.querySelector("input")?.focus();
+    });
+  });
+
+  popup.querySelectorAll(".quick-reply-line").forEach(function(line){
+    const input=line.querySelector("input");
+    const send=line.querySelector(".quick-send");
+    const item=line.closest(".quick-notification");
+    const replyButton=item?.querySelector(".quick-reply");
+
+    input?.addEventListener("input",function(){
+      if(send) send.disabled=!input.value.trim();
+    });
+
+    input?.addEventListener("keydown",function(event){
+      if(event.key==="Enter" && !event.shiftKey && input.value.trim()){
+        event.preventDefault();
+        send?.click();
+      }
+    });
+
+    send?.addEventListener("click",function(){
+      const reply=input?.value.trim();
+      if(!reply) return;
+
+      item?.classList.remove("unread");
+      if(replyButton) replyButton.textContent="Replied ✓";
+      if(input) input.value="";
+      if(send) send.disabled=true;
+      line.classList.remove("open");
+      refreshPopupUnread();
+    });
   });
 
   document.addEventListener("click",function(event){
@@ -2866,6 +2986,8 @@ a{color:inherit}
   document.addEventListener("keydown",function(event){
     if(event.key==="Escape") setOpen(false);
   });
+
+  refreshPopupUnread();
 })();
 </script>
 <a aria-label="Open your profile" class="profile-cluster" href="profile.html">
