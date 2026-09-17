@@ -518,19 +518,6 @@ body.community-master{
   font-size:29px;
 }
 
-.pinned-art::after{
-  content:"PINNED";
-  position:absolute;
-  left:7px;
-  bottom:6px;
-  padding:2px 5px;
-  border-radius:999px;
-  background:rgba(16,26,58,.78);
-  color:#ffc384;
-  font-size:7px;
-  font-weight:800;
-  letter-spacing:.08em;
-}
 
 .pinned-card-body{
   padding:8px 9px 9px;
@@ -729,29 +716,6 @@ body.community-master{
   cursor:pointer;
 }
 
-.community-toast{
-  position:fixed;
-  left:50%;
-  bottom:28px;
-  z-index:9999;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  padding:9px 13px;
-  border:1px solid rgba(255,195,132,.38);
-  border-radius:999px;
-  background:#101a3a;
-  color:#ffc384;
-  font-size:11px;
-  font-weight:800;
-  box-shadow:0 10px 30px rgba(0,0,0,.28);
-  transition:.18s ease;
-}
-
-.community-toast.show{
-  transform:translate(-50%,0);
-  opacity:1;
-}
 
 .before-post{
   display:flex;
@@ -895,20 +859,24 @@ body.community-master{
 
 .community-rule{
   display:grid;
-  grid-template-columns:25px 1fr;
-  gap:9px;
+  grid-template-columns:30px 1fr;
+  gap:11px;
   align-items:start;
 }
 
 .community-rule-number{
-  width:23px;
-  height:23px;
+  width:27px;
+  height:27px;
+  box-sizing:border-box;
   display:grid;
   place-items:center;
-  border:1px solid rgba(255,195,132,.55);
+  border:1.5px solid rgba(255,195,132,.62);
   border-radius:50%;
+  background:rgba(255,195,132,.07);
   color:#ffc384;
-  font-size:10px;
+  box-shadow:0 0 0 2px rgba(255,195,132,.025);
+  font-size:11px;
+  line-height:1;
   font-weight:800;
 }
 
@@ -1354,7 +1322,7 @@ body.community-master{
 </section>
 
 <section class="pinned-shelf">
-<div class="section-heading"><span>📌</span><h2>Pinned Posts</h2><a href="#" id="viewPinnedPosts">View all</a></div>
+<div class="section-heading"><span>📌</span><h2>Pinned Posts</h2></div>
 <div class="pinned-row">
 <article class="pinned-card"><div class="pinned-art">🎃</div><div class="pinned-card-body"><h3>September Show &amp; Tell</h3></div></article>
 <article class="pinned-card"><div class="pinned-art">👋</div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3></div></article>
@@ -1617,8 +1585,8 @@ body.community-master{
 <div class="community-rule"><span class="community-rule-number">1</span><div><strong>Keep it spooky & cozy</strong><span>Stay relevant to the Community's purpose.</span></div></div>
 <div class="community-rule"><span class="community-rule-number">2</span><div><strong>Credit creators</strong><span>Clearly credit work you didn't make.</span></div></div>
 <div class="community-rule"><span class="community-rule-number">3</span><div><strong>Be kind to beginners</strong><span>Constructive feedback only.</span></div></div>
+<div class="community-rule"><span class="community-rule-number">4</span><div><strong>Keep criticism constructive</strong><span>Critique the work or idea, not the person.</span></div></div>
 </div>
-<a class="sidebar-link" href="#" data-open-view="about">View all rules →</a>
 </section>
 
 <section class="community-panel">
@@ -1813,19 +1781,7 @@ const spookyState={
   muted:false
 };
 
-function communityToast(message){
-  let toast=document.getElementById('communityToast');
-  if(!toast){
-    toast=document.createElement('div');
-    toast.id='communityToast';
-    toast.className='community-toast';
-    document.body.appendChild(toast);
-  }
-  toast.textContent=message;
-  toast.classList.add('show');
-  clearTimeout(window.communityToastTimer);
-  window.communityToastTimer=setTimeout(()=>toast.classList.remove('show'),2200);
-}
+function communityToast(){/* intentionally silent in the Community UI */}
 
 function getSpookyMoreRow(){
   return [...document.querySelectorAll('#communityDropdown .community-more-row')]
