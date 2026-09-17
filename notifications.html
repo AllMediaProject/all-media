@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications | All Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="notifications.css" rel="stylesheet"/>
+
+</head>
+<body>
+<header class="site-header">
+<a aria-label="All Media home" class="brand-lockup" href="index.html">
+<img alt="" class="brand-logo" src="all-media-logo.png"/>
+<span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav aria-label="Primary navigation" class="top-nav">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="#">All Play</a>
+</nav>
+<label class="global-search">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input aria-label="Search All Media" placeholder="Search All Media…" type="search"/>
+</label>
+<div class="header-actions">
+<button aria-current="page" aria-expanded="false" aria-haspopup="dialog" aria-label="Notifications" class="header-notifications" id="headerNotificationBell" title="Notifications" type="button">
+<span class="notification-bell">🔔</span>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</button>
+<section aria-label="Recent notifications" class="notification-quick-popup" hidden="" id="notificationQuickPopup">
+<div class="quick-popup-header">
+<div>
+<h2>Quick Notifications</h2>
+<p>Recent activity</p>
+</div>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread" data-quick-id="q1">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @NightshadeArt" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button"><svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M5 12h13"></path>
+<path d="m14 7 5 5-5 5"></path>
+</svg></button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q2">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div>
+<div class="quick-preview">Painted pumpkin shelf</div>
+<div class="quick-meta">21 min ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q3">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">L</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</div>
+<div class="quick-preview">“I was wondering the exact same thing!”</div>
+<div class="quick-meta">37 min ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @LanternMoth" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button"><svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M5 12h13"></path>
+<path d="m14 7 5 5-5 5"></path>
+</svg></button>
+</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q4">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">W</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@WildRoots</strong> started supporting you.</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification unread" data-quick-id="q5">
+<span aria-hidden="true" class="quick-unread-dot"></span>
+<div class="quick-avatar">P</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@PixelWitch</strong> reblogged your post.</div>
+<div class="quick-preview">Tiny haunted house</div>
+<div class="quick-meta">1 hr ago</div>
+</div>
+</article>
+<article class="quick-notification" data-quick-id="q6">
+<div class="quick-avatar">S</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</div>
+<div class="quick-preview">“@SugarCrumbCo you might like this update.”</div>
+<div class="quick-meta">3 hr ago</div>
+<div class="quick-actions">
+<button aria-pressed="false" class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+<div class="quick-reply-line">
+<input aria-label="Reply to @ShellKeeper" maxlength="500" placeholder="Write a reply…" type="text"/>
+<button aria-label="Send reply" class="quick-send" disabled="" title="Send reply" type="button"><svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M5 12h13"></path>
+<path d="m14 7 5 5-5 5"></path>
+</svg></button>
+</div>
+</div>
+</article>
+</div>
+<a class="quick-popup-footer" href="#recentNotificationsTitle" id="quickPopupSeeMore">
+        See more notifications <span>→</span>
+</a>
+</section>
+<a aria-label="Open your profile" class="profile-cluster" href="profile.html">
+<span class="header-avatar" id="headerAvatar"></span>
+</a>
+</div>
+</header>
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities" id="pinnedCommunities">
+<button class="community-chip" data-community="Spooky Cozy" type="button">
+<span>🎃</span> Spooky Cozy
+      <span class="activity-bell" title="5 new community activities">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">5</span>
+</span>
+</button>
+<button class="community-chip" data-community="Artists" type="button">
+<span>🎨</span> Artists
+      <span class="activity-bell" title="2 new community activities">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">2</span>
+</span>
+</button>
+<button class="community-chip" data-community="Turtle Rescue" type="button">
+<span>🐢</span> Turtle Rescue
+      <span class="activity-bell" title="1 new community activity">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">1</span>
+</span>
+</button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button aria-expanded="false" class="community-tool" id="communityMoreButton" type="button">▾ More</button>
+<div class="community-dropdown" id="communityDropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-count="5" data-emoji="🎃"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Artists" data-count="2" data-emoji="🎨"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-count="1" data-emoji="🐢"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
+<div class="community-more-row" data-community="Book Club" data-count="0" data-emoji="📚"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-count="0" data-emoji="🧶"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
+<div class="community-more-row" data-community="Garden &amp; Nature" data-count="0" data-emoji="🌿"><span class="community-more-name">🌿 Garden &amp; Nature</span><button class="community-pin" type="button">Pin</button></div>
+</div>
+</div>
+<button class="community-tool" type="button">Manage Communities</button>
+</div>
+</div>
+<main class="notifications-shell" id="notifications">
+<div class="notifications-heading-row">
+<div class="notifications-title-wrap">
+<h1>Notifications</h1>
+<p>Personal updates from across your posts, Pockets, and Communities.</p>
+</div>
+<button class="mark-all" id="markAllReadButton" type="button">Mark all as read</button>
+</div>
+<section aria-labelledby="postActivityTitle" class="post-activity-section">
+<div class="post-activity-heading">
+<div>
+<h2 id="postActivityTitle">Post Activity</h2>
+<p>Recent movement across your posts — including older posts finding people again.</p>
+</div>
+<div class="post-activity-controls">
+<button aria-controls="unansweredTray" aria-expanded="false" class="post-activity-catchup-toggle" id="unansweredToggle" type="button">
+<span class="catchup-icon">💬</span>
+<span><strong id="unansweredCount">3</strong> unanswered comments</span>
+<span class="catchup-chevron">⌄</span>
+</button>
+<button aria-controls="missedLikesTray" aria-expanded="false" class="post-activity-catchup-toggle" id="missedLikesToggle" type="button">
+<span class="catchup-icon">♥</span>
+<span><strong id="missedLikesCount">5</strong> missed likes</span>
+<span class="catchup-chevron">⌄</span>
+</button>
+<span class="post-activity-hint">Most recently active</span>
+</div>
+</div>
+<div class="post-activity-catchup-tray" hidden="" id="missedLikesTray">
+<div class="catchup-tray-heading">
+<div>
+<h3>Missed likes</h3>
+<p>A few people interacted with older or quieter posts while you were away.</p>
+</div>
+</div>
+<div class="catchup-list" id="missedLikesList">
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">C</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@CozyCatCreates</strong> liked <span>Painted pumpkin shelf</span> · 21 min</div>
+<p>From a post you shared 2 days ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">R</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@RainyDayReads</strong> liked <span>Cozy games for rainy evenings</span> · 42 min</div>
+<p>This post was originally shared 1 year ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">M</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@MoonMoth</strong> liked <span>Tiny haunted house</span> · 1 hr</div>
+<p>They found this older post through Discover.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">W</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@WildRoots</strong> liked <span>Autumn sketchbook page</span> · 2 hr</div>
+<p>From a post you shared 5 days ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+<article class="catchup-item missed-like-item">
+<div class="catchup-person-avatar">S</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@ShellKeeper</strong> liked <span>Melted Ice Cream Ghost</span> · 3 hr</div>
+<p>From a post you shared 3 weeks ago.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-back" type="button">♡ Like back</button>
+</div>
+</div>
+</article>
+</div>
+<div class="catchup-empty" hidden="" id="missedLikesEmpty">No missed likes left to check.</div>
+</div>
+<div class="post-activity-catchup-tray" hidden="" id="unansweredTray">
+<div class="catchup-tray-heading">
+<div>
+<h3>Unanswered comments</h3>
+<p>Finish conversations without leaving Notifications.</p>
+</div>
+</div>
+<div class="catchup-list" id="unansweredList">
+<article class="catchup-item unanswered-item" data-catchup-id="comment-1">
+<div class="catchup-post-thumb">🎃</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@NightshadeArt</strong> on <span>Painted pumpkin shelf</span> · 8 min</div>
+<p>Okay but the tiny ghost in the corner absolutely makes this.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @NightshadeArt" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="catchup-item unanswered-item" data-catchup-id="comment-2">
+<div class="catchup-post-thumb">🏚️</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@LanternMoth</strong> on <span>Tiny haunted house</span> · 37 min</div>
+<p>I love the crooked little chimney. Was that planned or did it just happen?</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @LanternMoth" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="catchup-item unanswered-item" data-catchup-id="comment-3">
+<div class="catchup-post-thumb">🎮</div>
+<div class="catchup-main">
+<div class="catchup-context"><strong>@PixelWitch</strong> on <span>Cozy games for rainy evenings</span> · 1 hr</div>
+<p>This post found me again at exactly the right time. Adding two of these to my weekend list.</p>
+<div class="catchup-actions">
+<button aria-pressed="false" class="catchup-like-comment" type="button">♡ Like</button>
+<button class="catchup-reply-open" type="button">Reply</button>
+</div>
+<div class="catchup-reply-box">
+<textarea aria-label="Reply to @PixelWitch" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<div class="catchup-reply-footer">
+<span aria-live="polite" class="catchup-status"></span>
+<div>
+<button class="catchup-cancel" type="button">Changed my mind…</button>
+<button class="catchup-send" disabled="" type="button">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="catchup-empty" hidden="" id="unansweredEmpty">You're caught up — no unanswered comments right now.</div>
+</div>
+<div class="post-activity-strip" role="list">
+<button class="post-activity-card has-new" data-age="Posted 2 days ago" data-likes="24" data-post-id="pumpkin-shelf" data-title="Painted pumpkin shelf" data-type="Regular Post" data-unanswered="1" data-views="186" role="listitem" type="button">
+<span class="post-activity-thumb post-thumb-pumpkin">🎃</span>
+<span class="post-activity-card-copy">
+<strong>Painted pumpkin shelf</strong>
+<small>2 days ago</small>
+<span class="post-activity-views">◉ 186 views</span><span class="post-activity-total-likes">♥ 24 likes</span></span>
+<span aria-label="3 new likes and 2 new comments" class="post-activity-bubbles">
+<span>♥ 3</span><span>💬 2</span>
+</span>
+</button>
+<button class="post-activity-card has-new" data-age="Posted 8 months ago" data-likes="91" data-post-id="haunted-house" data-title="Tiny haunted house painting" data-type="Regular Post" data-unanswered="1" data-views="742" role="listitem" type="button">
+<span class="post-activity-thumb post-thumb-house">🏚️</span>
+<span class="post-activity-card-copy">
+<strong>Tiny haunted house</strong>
+<small>8 months ago</small>
+<span class="post-activity-views">◉ 742 views</span><span class="post-activity-total-likes">♥ 91 likes</span></span>
+<span aria-label="1 new comment and 1 new reblog" class="post-activity-bubbles">
+<span>💬 1</span><span>↻ 1</span>
+</span>
+</button>
+<button class="post-activity-card" data-age="Posted 3 weeks ago" data-likes="13" data-post-id="crochet-ghost" data-title="Melted Ice Cream Ghost" data-type="Regular Post" data-unanswered="0" data-views="96" role="listitem" type="button">
+<span class="post-activity-thumb post-thumb-ghost">👻</span>
+<span class="post-activity-card-copy">
+<strong>Melted Ice Cream Ghost</strong>
+<small>3 weeks ago</small>
+<span class="post-activity-views">◉ 96 views</span><span class="post-activity-total-likes">♥ 13 likes</span></span>
+</button>
+<button class="post-activity-card has-new" data-age="Posted 1 year ago" data-likes="147" data-post-id="cozy-games" data-title="Cozy games for rainy evenings" data-type="Blog" data-unanswered="1" data-views="1280" role="listitem" type="button">
+<span class="post-activity-thumb post-thumb-games">🎮</span>
+<span class="post-activity-card-copy">
+<strong>Cozy games for rainy evenings</strong>
+<small>1 year ago</small>
+<span class="post-activity-views">◉ 1,280 views</span><span class="post-activity-total-likes">♥ 147 likes</span></span>
+<span aria-label="2 new likes" class="post-activity-bubbles">
+<span>♥ 2</span>
+</span>
+</button>
+<button class="post-activity-card" data-age="Posted 5 days ago" data-likes="31" data-post-id="autumn-sketch" data-title="Autumn sketchbook page" data-type="Regular Post" data-unanswered="0" data-views="154" role="listitem" type="button">
+<span class="post-activity-thumb post-thumb-sketch">🍂</span>
+<span class="post-activity-card-copy">
+<strong>Autumn sketchbook page</strong>
+<small>5 days ago</small>
+<span class="post-activity-views">◉ 154 views</span><span class="post-activity-total-likes">♥ 31 likes</span></span>
+</button>
+</div>
+<div class="post-activity-detail" hidden="" id="postActivityDetail">
+<div class="post-activity-detail-top">
+<div class="post-activity-detail-preview" id="postActivityDetailPreview">🎃</div>
+<div class="post-activity-detail-title">
+<span class="post-activity-detail-type" id="postActivityDetailType">Regular Post</span>
+<h3 id="postActivityDetailTitle">Painted pumpkin shelf</h3>
+<p id="postActivityDetailAge">Posted 2 days ago</p>
+<div class="post-activity-detail-stats">
+<span id="postActivityViews">◉ 0 views</span><span id="postActivityLikes">♥ 0 likes</span>
+<span id="postActivityUnanswered">💬 0 unanswered</span>
+</div>
+</div>
+<button aria-label="Close post activity" class="post-activity-close" id="postActivityClose" type="button">×</button>
+</div>
+<div class="post-activity-detail-grid">
+<div class="post-activity-detail-block">
+<h4>Recent activity</h4>
+<div class="post-activity-log" id="postActivityLog"></div>
+</div>
+<div class="post-activity-detail-block">
+<h4>Where this post appears</h4>
+<div class="post-activity-locations" id="postActivityLocations"></div>
+</div>
+</div>
+<div class="post-activity-detail-footer">
+<span id="postActivityNote">This post is still finding people.</span>
+<button class="post-activity-view-post" type="button">View full post →</button>
+</div>
+</div>
+</section>
+<section aria-labelledby="recentNotificationsTitle" class="notification-stream-section">
+<div class="notification-stream-heading">
+<div>
+<h2 id="recentNotificationsTitle">Recent Notifications</h2>
+<p>Your latest personal updates and conversations.</p>
+</div>
+</div>
+<div aria-label="Notification filters" class="notification-tabs" role="tablist">
+<button aria-selected="true" class="notification-tab active" data-filter="all" role="tab" type="button">All <span class="tab-count" id="allCount"></span></button>
+<button aria-selected="false" class="notification-tab" data-filter="interaction" role="tab" type="button">Interactions <span class="tab-count" id="interactionCount"></span></button>
+<button aria-selected="false" class="notification-tab" data-filter="community" role="tab" type="button">Communities <span class="tab-count" id="communityCount"></span></button>
+</div><section class="notification-group" data-group="today">
+<h2 class="notification-group-title">Today</h2>
+<div class="notification-list">
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">N</span>
+<span class="notification-event-icon">↩</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@NightshadeArt</strong> replied to your comment.</span>
+<span class="notification-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>8 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">C</span>
+<span class="notification-event-icon">♥</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@CozyCatCreates</strong> liked your post.</span>
+<span class="notification-preview">A little painted pumpkin shelf for the Haunted Hollow 🎃</span>
+</span>
+<span class="notification-meta"><span>21 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎃</span>
+<span class="notification-event-icon">♧</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@LanternMoth</strong> replied in a Spooky Cozy discussion you follow.</span>
+<span class="notification-preview">“Show us what you’re making this week” has a new reply for you.</span>
+<span class="notification-community-label">🎃 Spooky Cozy</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>37 min</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">W</span>
+<span class="notification-event-icon">＋</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@WildRoots</strong> started supporting you.</span>
+<span class="notification-preview">They found you through the Halloween Interest.</span>
+</span>
+<span class="notification-meta"><span>1 hr</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item unread" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎨</span>
+<span class="notification-event-icon">!</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>Artists</strong> posted an announcement for members.</span>
+<span class="notification-preview">September prompt: create something using only three colors.</span>
+<span class="notification-community-label">🎨 Artists</span>
+</span>
+<span class="notification-meta"><span>2 hr</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section><section class="notification-group" data-group="week">
+<h2 class="notification-group-title">Earlier this week</h2>
+<div class="notification-list">
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">P</span>
+<span class="notification-event-icon">↻</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@PixelWitch</strong> reblogged your post.</span>
+<span class="notification-preview">Your “cozy games for rainy evenings” post was shared to their followers.</span>
+</span>
+<span class="notification-meta"><span>Mon</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">M</span>
+<span class="notification-event-icon">▱</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@MoonMoth</strong> saved your post to a Pocket.</span>
+<span class="notification-preview">Saved to “Autumn Art Inspiration.”</span>
+</span>
+<span class="notification-meta"><span>Tue</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🐢</span>
+<span class="notification-event-icon">@</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@ShellKeeper</strong> mentioned you in Turtle Rescue.</span>
+<span class="notification-preview">“@SugarCrumbCo this reminded me of the illustration you posted!”</span>
+<span class="notification-community-label">🐢 Turtle Rescue</span>
+<span class="notification-actions">
+<button aria-pressed="false" class="notification-action like-notification" type="button"><span class="heart">♡</span><span>Like</span></button>
+<button aria-expanded="false" class="notification-action reply-notification" type="button">Reply</button>
+</span>
+<button aria-expanded="false" class="quick-reply-prompt" type="button">
+<span class="quick-reply-prompt-avatar">H</span>
+<span class="quick-reply-placeholder">Write a quick reply…</span>
+</button>
+<span class="quick-reply">
+<span class="quick-reply-user"><span class="quick-reply-avatar">H</span>@SugarCrumbCo</span>
+<textarea aria-label="Write a quick reply" maxlength="500" placeholder="Write a quick reply…"></textarea>
+<span class="quick-reply-footer">
+<span aria-live="polite" class="quick-reply-status"></span>
+<span class="quick-reply-buttons">
+<button class="quick-reply-cancel" type="button">Changed my mind…</button>
+<button class="quick-reply-post" disabled="" type="button">Reply</button>
+</span>
+</span>
+</span>
+<span class="notification-after-reply">
+<span class="answered-state">Replied ✓</span>
+<span class="dot-separator">·</span>
+<button class="view-comments-link" type="button">View comments</button>
+<span class="dot-separator">·</span>
+<button class="reply-again-link" type="button">Reply again</button>
+</span>
+</span>
+<span class="notification-meta"><span>Wed</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section><section class="notification-group" data-group="older">
+<h2 class="notification-group-title">Older</h2>
+<div class="notification-list">
+<article class="notification-item" data-category="interaction" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar">G</span>
+<span class="notification-event-icon">＋</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message"><strong>@GhostlyGarden</strong> started following your Halloween Pocket.</span>
+<span class="notification-preview">Pocket: “Halloween”</span>
+</span>
+<span class="notification-meta"><span>Sep 9</span><span class="unread-dot"></span></span>
+</article>
+<article class="notification-item" data-category="community" role="button" tabindex="0">
+<span class="notification-avatar-wrap">
+<span class="notification-avatar community">🎃</span>
+<span class="notification-event-icon">✓</span>
+</span>
+<span class="notification-copy">
+<span class="notification-message">Your post was approved in <strong>Spooky Cozy</strong>.</span>
+<span class="notification-preview">“A tiny haunted house painting I finished today.”</span>
+<span class="notification-community-label">🎃 Spooky Cozy</span>
+</span>
+<span class="notification-meta"><span>Sep 7</span><span class="unread-dot"></span></span>
+</article>
+</div>
+</section><div class="notification-empty" id="notificationEmpty">
+<strong>Nothing here yet.</strong>
+    Try another notification filter.
+  </div></section>
+<div class="prototype-note">Notifications Master V1 — full-page personal notifications with Post Activity, reply catch-up, missed-like catch-up, view context, and recent activity.</div>
+</main>
+
+
+<script src="notifications.js"></script>
+</body>
+</html>
