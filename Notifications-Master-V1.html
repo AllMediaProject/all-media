@@ -3354,6 +3354,7 @@ a{color:inherit}
   const emptyState=document.getElementById("notificationEmpty");
   const markAll=document.getElementById("markAllReadButton");
   const headerCount=document.getElementById("headerUnreadCount");
+  const headerBell=document.querySelector(".header-notifications");
 
   function updateCounts(){
     const unread=notifications.filter(item=>item.classList.contains("unread")).length;
