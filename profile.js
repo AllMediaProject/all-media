@@ -275,6 +275,7 @@ function legacyApplyProfileVisibility1(){
 /* Profile-post prototype interactions.
    These are page-local on purpose; we are not loading the Home JS into Profile. */
 document.addEventListener("click",function(e){
+  if(e.target.closest(".post.regular-post")) return;
   const like=e.target.closest(".like-button");
   if(like){
     const heart=like.querySelector(".like-heart");
@@ -389,6 +390,7 @@ document.addEventListener("click",function(e){
 });
 
 document.addEventListener("click",function(e){
+  if(e.target.closest(".post.regular-post")) return;
   const postButton=e.target.closest(".comment-post-button");
   if(postButton){
     const composer=postButton.closest(".comment-composer");
@@ -1722,3 +1724,75 @@ saveProfileInfo=function(){
 };
 
 applyStoredProfileAvatar();
+
+/* =========================================================
+   PROFILE — HOME V11 REGULAR POST HANDLERS
+   Kept page-local; Profile does not load Home's JavaScript.
+========================================================= */
+function regularToggleLike(btn){
+  const count=btn.querySelector(".like-count");
+  const liked=btn.classList.toggle("liked");
+  if(count)count.textContent=String(Math.max(0,Number(count.textContent||0)+(liked?1:-1)));
+}
+function regularToggleSave(btn){
+  const saved=btn.classList.toggle("saved");
+  btn.setAttribute("aria-label",saved?"Remove saved post":"Save post");
+}
+function regularIncrementReblog(btn){
+  const count=btn.querySelector("span");if(!count)return;
+  const on=btn.dataset.reblogged==="true";
+  count.textContent=String(Math.max(0,Number(count.textContent||0)+(on?-1:1)));
+  btn.dataset.reblogged=on?"false":"true";
+}
+function regularTogglePostMenu(event,btn){
+  event.stopPropagation();
+  const menu=btn.nextElementSibling;
+  document.querySelectorAll(".regular-post-menu.open").forEach(m=>{if(m!==menu)m.classList.remove("open")});
+  menu?.classList.toggle("open");
+}
+function regularOpenCommentComposer(el){
+  const composer=el.closest(".comment-composer"),wrap=composer?.closest(".single-comment-composer");
+  if(!composer)return;composer.classList.add("active");wrap?.classList.add("open");
+  setTimeout(()=>composer.querySelector(".comment-text-area")?.focus(),0);
+}
+function regularCloseCommentComposer(el,event){
+  event?.stopPropagation();const post=el.closest(".regular-post");
+  post?.querySelector(".comment-composer")?.classList.remove("active");
+  post?.querySelector(".single-comment-composer")?.classList.remove("open");
+}
+function regularSyncComments(post,open){
+  const view=post.querySelector(".more-comments"),hide=post.querySelector(".hide-comments-inline");
+  if(view)view.style.display=open?"none":"";hide?.classList.toggle("show",open);
+}
+function regularToggleComments(btn){const post=btn.closest(".regular-post"),section=post?.querySelector(".comments-section");if(!post||!section)return;const open=section.classList.toggle("active");regularSyncComments(post,open);}
+function regularHideComments(btn){const post=btn.closest(".regular-post");post?.querySelector(".comments-section")?.classList.remove("active");if(post)regularSyncComments(post,false);}
+function regularUpdateCommentCount(post){const view=post?.querySelector(".more-comments");if(!view)return;const count=post.querySelectorAll(".comments-section .comment-item").length;view.textContent=`View ${count} more`;}
+function regularPostComment(btn,event){
+  event?.stopPropagation();const post=btn.closest(".regular-post"),field=post?.querySelector(".comment-text-area"),value=field?.value.trim();if(!post||!value)return;
+  const latest=post.querySelector(".latest-comment");
+  if(latest){latest.classList.remove("empty-comment");latest.innerHTML='<span class="comment-username">@yourusername:</span><span class="latest-comment-copy">'+escapeHTML(value)+'</span><span class="latest-comment-time">now</span>';}
+  const section=post.querySelector(".comments-section"),item=document.createElement("div");item.className="comment-item";
+  item.innerHTML='<div class="comment-avatar" aria-hidden="true">y</div><div class="comment-body"><div class="comment-author">@yourusername</div><div>'+escapeHTML(value)+'</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button" onclick="regularToggleCommentLike(this)"><svg class="comment-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button><button class="comment-action" type="button" onclick="regularReplyToTarget(this,\'@yourusername\')">Reply</button></div></div>';
+  section?.appendChild(item);field.value="";regularUpdateCommentCount(post);section?.classList.add("active");regularSyncComments(post,true);regularCloseCommentComposer(btn);
+}
+function regularToggleCommentLike(btn){btn.classList.toggle("liked");}
+function regularReplyToTarget(btn,username){const post=btn.closest(".regular-post"),composer=post?.querySelector(".comment-composer"),field=composer?.querySelector(".comment-text-area");if(!composer||!field)return;regularOpenCommentComposer(composer);field.value=username+" ";field.focus();field.setSelectionRange(field.value.length,field.value.length);}
+function togglePostHashtags(el){
+  const post=el.closest(".post"),box=post?.querySelector(".post-hashtags"),footer=post?.querySelector(".post-footer");if(!post||!box)return;
+  if(footer&&box.previousElementSibling!==footer)footer.insertAdjacentElement("afterend",box);
+  const open=!box.classList.contains("active");box.classList.toggle("active",open);el.classList.toggle("active",open);
+  const set=(name,value)=>box.style.setProperty(name,value,"important");
+  set("position","static");set("width","auto");set("max-width","none");set("margin","0 18px 12px");set("padding","10px 12px");set("gap","6px");set("box-sizing","border-box");set("flex-wrap","wrap");set("justify-content","flex-start");set("align-items","center");set("border","1px dotted rgba(255,207,159,.30)");set("border-radius","12px");set("background","rgba(255,207,159,.035)");set("display",open?"flex":"none");
+}
+document.addEventListener("click",event=>{
+  const shareButton=event.target.closest(".profile-feed .post.regular-post .share-action");
+  if(shareButton){const active=shareButton.classList.toggle("shared");shareButton.setAttribute("aria-pressed",active?"true":"false");return;}
+  if(!event.target.closest(".regular-post-menu")&&!event.target.closest(".post-menu-button"))document.querySelectorAll(".regular-post-menu.open").forEach(m=>m.classList.remove("open"));
+});
+document.addEventListener("keydown",event=>{
+  const field=event.target.closest?.(".regular-post .comment-text-area");if(!field)return;const post=field.closest(".regular-post");
+  if(event.key==="Escape"){event.preventDefault();regularCloseCommentComposer(field,event);return;}
+  if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();const button=post?.querySelector(".comment-post-button");if(button)regularPostComment(button,event);}
+});
+requestAnimationFrame(()=>document.querySelectorAll(".profile-feed .post.regular-post").forEach(post=>regularSyncComments(post,post.querySelector(".comments-section")?.classList.contains("active")||false)));
+

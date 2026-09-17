@@ -81,39 +81,68 @@
         <button class="profile-tab" onclick="setProfileTab('reblogs',this)">Reblogs</button>
         <button class="profile-tab" onclick="setProfileTab('saved',this)">Saved</button>
       </div>
-      <div id="postsPanel" class="profile-feed"><section class="feed"><article class="post">
-<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@SugarCrumbCo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">🎃 Spooky Art</div></div></div><div class="post-menu"><button class="post-menu-button">⋯</button><div class="post-menu-dropdown"><button>Edit</button><button class="delete-option">Delete</button></div></div></div>
-<div class="post-image"><span>PROFILE POST IMAGE</span></div>
-<div class="caption">A little spooky-cozy painting from the studio tonight. I wanted it to feel soft, strange, and gently haunted. 👻</div>
-
+      <div id="postsPanel" class="profile-feed"><section class="feed"><article class="post regular-post">
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">s</div>
+<div class="post-author-copy">
+<div class="post-author-line"><span class="username">@SugarCrumbCo</span><span class="post-time">· 2h ago</span><span class="post-type-bubble">POST</span></div>
+<div class="post-meta-line"><span class="topic">🎃 Spooky Art</span></div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="regularTogglePostMenu(event,this)" type="button">•••</button>
+<div class="regular-post-menu">
+<button class="post-menu-action" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" type="button">Delete</button>
+</div>
+</div>
+</header>
+<div class="post-image crop-fit"><div class="profile-v11-media-placeholder">PROFILE POST IMAGE</div></div>
+<p class="caption">A little spooky-cozy painting from the studio tonight. I wanted it to feel soft, strange, and gently haunted. 👻</p>
 <div class="interactions">
-<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
-<button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
-<button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
-<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
-<div class="interaction">↗ Share</div>
+<button class="action-pill regular-like-button" onclick="regularToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">24</span></button>
+<button class="action-pill pocket-action" onclick="showPrototypeActionNote(this,'Pocket chooser will use your real Pockets.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill community-action" onclick="showPrototypeActionNote(this,'Community chooser will use your Communities.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="regularIncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="regularToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
 </div>
-
-<div class="latest-comment-label">Latest comment</div>
-<div class="latest-comment" data-time="2m ago"><span class="comment-username">@ghostlygarden:</span> The cozy haunted feeling on this is perfect.</div>
-
+<div class="latest-comment"><span class="comment-username">@ghostlygarden:</span><span class="latest-comment-copy">The cozy haunted feeling on this is perfect.</span><span class="latest-comment-time">2m ago</span></div>
 <div class="post-footer">
-<button class="comment-button">Leave your opinion…</button>
-<div class="footer-link more-comments">💬 View 7 more comments</div>
-<div class="post-footer-actions"><div class="hashtag-link"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#acrylicpainting</span><span class="post-hashtag">#spookyart</span><button type="button" class="post-hashtag-done">Done</button></div>
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="regularOpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="regularPostComment(this,event)" type="button">POST</button><button class="comment-close-button" onclick="regularCloseCommentComposer(this,event)" type="button">CLOSE</button></div></div>
 </div>
-
-<div class="comments-section">
-<div class="comment-item"><div class="comment-author">@ghostlygarden</div><div class="comment-content">The cozy haunted feeling on this is perfect.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@SugarCrumbCo</div><div class="reply-content">Thank you!! I had so much fun adding all the tiny details.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@hauntedhome</div><div class="comment-content">The lighting is SO good.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@spookycat</div><div class="comment-content">I need one of these hanging in my house immediately.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@witchywoodland</div><div class="comment-content">The little moon detail is everything.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@graveyardgarden</div><div class="comment-content">This is exactly the kind of spooky cozy art I love.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>5</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@littlebat</div><div class="comment-content">This would look amazing beside a candle shelf.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@moonandmoss</div><div class="comment-content">Gorgeous work. I love how soft the spooky feeling is.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<button class="hide-comments-inline" onclick="regularHideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
 </div>
-
-<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button">POST</button></div></div>
+<button class="more-comments" onclick="regularToggleComments(this)" type="button">View 7 more</button>
+<div class="post-footer-actions"><button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#acrylicpainting</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#cozyhorror</span></div>
+<section class="comments-section"><div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">g</div>
+<div class="comment-body">
+<div class="comment-author">@ghostlygarden</div>
+<div>The cozy haunted feeling on this is perfect.</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="regularToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="regularReplyToTarget(this,'@ghostlygarden')" type="button">Reply</button>
+</div>
+</div>
+</div><div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">h</div>
+<div class="comment-body">
+<div class="comment-author">@hauntedhome</div>
+<div>The lighting is SO good.</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="regularToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="regularReplyToTarget(this,'@hauntedhome')" type="button">Reply</button>
+</div>
+</div>
+</div></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article></section></div>
       <div id="reblogsPanel" style="display:none"><div class="reblog-note"><strong style="color:white">Reblogs</strong><br>This is where content you chose to reblog will appear. We can add a full sample reblog card once the Profile layout is locked.</div></div>
       <div id="savedPanel" style="display:none"><div class="saved-note"><strong style="color:white">Saved — private</strong><br>Only you can see this tab and the posts you saved for later.</div></div>
@@ -308,39 +337,68 @@
         <button class="profile-tab active" onclick="setVisitorTab('posts',this)">Posts</button>
         <button class="profile-tab" onclick="setVisitorTab('reblogs',this)">Reblogs</button>
       </div>
-      <div id="otherPostsPanel" class="profile-feed"><section class="feed"><article class="post">
-<div class="post-header"><div class="profile-picture"></div><div class="post-author-copy"><div class="post-author-line"><div class="username">@AlexRivera.Photo</div><span class="post-time">2h ago</span></div><div class="post-meta-line"><div class="topic">📷 Photography</div></div></div></div>
-<div class="post-image"><span>35MM PHOTO PREVIEW</span></div>
-<div class="caption">A frame from an early-morning walk through an abandoned greenhouse. The fog did most of the work — I just happened to bring the camera.</div>
-
+      <div id="otherPostsPanel" class="profile-feed"><section class="feed"><article class="post regular-post">
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">a</div>
+<div class="post-author-copy">
+<div class="post-author-line"><span class="username">@AlexRivera.Photo</span><span class="post-time">· 2h ago</span><span class="post-type-bubble">POST</span></div>
+<div class="post-meta-line"><span class="topic">📷 Photography</span></div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="regularTogglePostMenu(event,this)" type="button">•••</button>
+<div class="regular-post-menu">
+<button class="post-menu-action" type="button">Not interested</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" type="button">Report</button>
+</div>
+</div>
+</header>
+<div class="post-image crop-fit"><div class="profile-v11-media-placeholder">35MM PHOTO PREVIEW</div></div>
+<p class="caption">A frame from an early-morning walk through an abandoned greenhouse. The fog did most of the work — I just happened to bring the camera.</p>
 <div class="interactions">
-<button class="interaction like-button"><span class="like-heart">♡</span> <span class="like-count">24</span></button>
-<button class="quick-action pocket-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h6l2 2h9v9.25a1.75 1.75 0 0 1-1.75 1.75H5.25a1.75 1.75 0 0 1-1.75-1.75Z"></path><path d="M3.5 9.5V6.75A1.75 1.75 0 0 1 5.25 5h4.2l2 2h3.3"></path></svg><span>Pocket</span></button>
-<button class="quick-action community-action" type="button"><svg class="quick-action-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9.5" r="2.5"></circle><path d="M3.5 19c.4-3.3 2.3-5 5.5-5s5.1 1.7 5.5 5"></path><path d="M14 15c.8-.7 1.9-1 3.2-1 2.2 0 3.5 1.3 3.8 3.8"></path></svg><span>Community</span></button>
-<div class="interaction reblog-counter"><span class="reblog-icon" aria-hidden="true">↻</span> 14 · Reblog</div>
-<div class="interaction">↗ Share</div>
+<button class="action-pill regular-like-button" onclick="regularToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">24</span></button>
+<button class="action-pill pocket-action" onclick="showPrototypeActionNote(this,'Pocket chooser will use your real Pockets.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill community-action" onclick="showPrototypeActionNote(this,'Community chooser will use your Communities.')" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="regularIncrementReblog(this)" type="button">↻ <span>14</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="regularToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
 </div>
-
-<div class="latest-comment-label">Latest comment</div>
-<div class="latest-comment" data-time="2m ago"><span class="comment-username">@grainandglow:</span> The light in this frame is unreal.</div>
-
+<div class="latest-comment"><span class="comment-username">@grainandglow:</span><span class="latest-comment-copy">The light in this frame is unreal.</span><span class="latest-comment-time">2m ago</span></div>
 <div class="post-footer">
-<button class="comment-button">Leave your opinion…</button>
-<div class="footer-link more-comments">💬 View 7 more comments</div>
-<div class="post-footer-actions"><div class="hashtag-link"><div class="hashtag-icon">#</div><span>Hashtags</span></div></div><div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#acrylicpainting</span><span class="post-hashtag">#spookyart</span><button type="button" class="post-hashtag-done">Done</button></div>
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="regularOpenCommentComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button" onclick="regularPostComment(this,event)" type="button">POST</button><button class="comment-close-button" onclick="regularCloseCommentComposer(this,event)" type="button">CLOSE</button></div></div>
 </div>
-
-<div class="comments-section">
-<div class="comment-item"><div class="comment-author">@grainandglow</div><div class="comment-content">The light in this frame is unreal.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>4</span></button><button class="reply-button">Reply</button></div><div class="reply-list"><div class="reply-item"><div class="reply-author">@AlexRivera.Photo</div><div class="reply-content">Thank you! I nearly walked past it because the fog was so thick.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@hauntedhome</div><div class="comment-content">The lighting is SO good.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@spookycat</div><div class="comment-content">I need one of these hanging in my house immediately.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@witchywoodland</div><div class="comment-content">The little moon detail is everything.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>2</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@graveyardgarden</div><div class="comment-content">This is exactly the kind of spooky cozy art I love.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>5</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@littlebat</div><div class="comment-content">This would look amazing beside a candle shelf.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>1</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
-<div class="comment-item"><div class="comment-author">@moonandmoss</div><div class="comment-content">Gorgeous work. I love how soft the spooky feeling is.</div><div class="comment-actions"><button class="comment-like" data-liked="false">♡ <span>3</span></button><button class="reply-button">Reply</button></div><div class="reply-composer"><textarea class="reply-input" placeholder="Reply…"></textarea><div class="reply-submit"><button class="reply-post-button">POST</button></div></div></div>
+<button class="hide-comments-inline" onclick="regularHideComments(this)" type="button">Hide comments ↑</button>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
 </div>
-
-<div class="comment-composer"><div class="comment-user"><div class="comment-profile-picture"></div><div class="comment-username-display">@yourusername</div></div><textarea class="comment-text-area" placeholder="Say hi…"></textarea><div class="comment-post-actions"><button class="comment-post-button">POST</button></div></div>
+<button class="more-comments" onclick="regularToggleComments(this)" type="button">View 7 more</button>
+<div class="post-footer-actions"><button class="hashtag-link" onclick="togglePostHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags"><span class="post-hashtag">#photography</span><span class="post-hashtag">#35mm</span><span class="post-hashtag">#filmphotography</span><span class="post-hashtag">#morningfog</span></div>
+<section class="comments-section"><div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">g</div>
+<div class="comment-body">
+<div class="comment-author">@grainandglow</div>
+<div>The light in this frame is unreal.</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="regularToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="regularReplyToTarget(this,'@grainandglow')" type="button">Reply</button>
+</div>
+</div>
+</div><div class="comment-item">
+<div aria-hidden="true" class="comment-avatar">f</div>
+<div class="comment-body">
+<div class="comment-author">@filmfolk</div>
+<div>That fog makes the whole frame feel unreal.</div>
+<div class="comment-actions">
+<button class="comment-action comment-like-button" onclick="regularToggleCommentLike(this)" type="button"><svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span>Like</span></button>
+<button class="comment-action" onclick="regularReplyToTarget(this,'@filmfolk')" type="button">Reply</button>
+</div>
+</div>
+</div></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
 </article></section></div>
       <div id="otherReblogsPanel" style="display:none"><div class="reblog-note"><strong style="color:white">Reblogs</strong><br>Visitors can see the posts this person chose to reblog. Saved content and the private Following count are not shown.</div></div>
     </main>
