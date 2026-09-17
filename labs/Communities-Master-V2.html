@@ -21,8 +21,8 @@ body.community-master{
 }
 
 .community-page{
-  width:90%;
-  max-width:1180px;
+  width:calc(100% - 48px);
+  max-width:1600px;
   margin:28px auto 80px;
 }
 
@@ -203,6 +203,9 @@ body.community-master{
 }
 
 .community-subnav{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
   display:flex;
   align-items:center;
   gap:6px;
@@ -307,20 +310,36 @@ body.community-master{
   line-height:1.55;
 }
 
-.announcement{
+.announcement-carousel{
   position:relative;
-  display:grid;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.5);
+  border-radius:14px;
+  background:#182447;
+  box-shadow:0 12px 30px rgba(0,0,0,.13);
+}
+
+.announcement-track{
+  position:relative;
+  min-height:152px;
+}
+
+.announcement-slide{
+  display:none;
   grid-template-columns:auto 1fr auto;
   gap:14px;
   align-items:center;
-  margin-bottom:14px;
-  padding:18px 20px;
-  border:1px solid rgba(255,195,132,.5);
-  border-radius:14px;
+  min-height:152px;
+  padding:18px 58px 34px 20px;
+  box-sizing:border-box;
   background:
     linear-gradient(135deg,rgba(255,195,132,.15),rgba(255,195,132,.06)),
     #182447;
-  box-shadow:0 12px 30px rgba(0,0,0,.13);
+}
+
+.announcement-slide.active{
+  display:grid;
 }
 
 .announcement-mark{
@@ -342,26 +361,89 @@ body.community-master{
   text-transform:uppercase;
 }
 
-.announcement h2{
+.announcement-slide h2{
   margin:3px 0 2px;
   font-size:18px;
   color:#f8f8f2;
 }
 
-.announcement p{
+.announcement-slide p{
   margin:0;
   color:#cbd1df;
   font-size:13px;
   line-height:1.45;
 }
 
-.announcement-close{
-  align-self:start;
-  border:0;
-  background:transparent;
-  color:#aeb7cb;
-  font-size:20px;
+.announcement-art{
+  width:74px;
+  height:74px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 30% 70%,rgba(255,195,132,.38),transparent 30%),
+    linear-gradient(135deg,#663526,#17213f 72%);
+  font-size:34px;
+}
+
+.announcement-controls{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  pointer-events:none;
+}
+
+.announcement-arrow,
+.announcement-dot{
+  pointer-events:auto;
   cursor:pointer;
+}
+
+.announcement-arrow{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:50%;
+  background:rgba(16,26,58,.78);
+  color:#ffc384;
+  font:800 14px 'Outfit',sans-serif;
+}
+
+.announcement-dots{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.announcement-dot{
+  width:7px;
+  height:7px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.28);
+}
+
+.announcement-dot.active{
+  background:#ffc384;
+  box-shadow:0 0 8px rgba(255,195,132,.35);
+}
+
+.announcement-counter{
+  position:absolute;
+  right:14px;
+  top:12px;
+  color:#8f9ab3;
+  font-size:10px;
+  font-weight:700;
 }
 
 .pinned-shelf{
@@ -966,7 +1048,7 @@ body.community-master{
 <div class="community-facts">
 <span class="community-fact">◉ Public Community</span>
 <span class="community-fact">♡ Free</span>
-<span class="community-fact">📣 Promotion Allowed</span>
+<span class="community-fact">🔗 Links: Community + Creator &amp; Shop</span>
 <span class="community-fact">12.4K members</span>
 </div>
 </div>
@@ -990,14 +1072,51 @@ body.community-master{
 <div class="community-content-grid">
 <div class="community-main">
 
-<section class="announcement" id="communityAnnouncement">
+<section class="announcement-carousel" id="communityAnnouncementCarousel" aria-label="Community announcements">
+<div class="announcement-counter" id="announcementCounter">1 / 3</div>
+<div class="announcement-track">
+
+<article class="announcement-slide active" data-announcement-type="welcome">
+<div class="announcement-mark">👋</div>
+<div>
+<div class="announcement-label">Welcome</div>
+<h2>Welcome to Spooky Cozy 🎃</h2>
+<p>A year-round place for Halloween people, cozy weirdos, artists, collectors, crafters, and anyone who never quite puts the spooky season away.</p>
+</div>
+<div class="announcement-art" aria-hidden="true">👻</div>
+</article>
+
+<article class="announcement-slide" data-announcement-type="update">
+<div class="announcement-mark">✦</div>
+<div>
+<div class="announcement-label">Community Update</div>
+<h2>October Show &amp; Tell starts next week</h2>
+<p>Share your spooky setup, art, crafts, collections, costumes, or decorating projects. The monthly prompt will stay pinned for easy access.</p>
+</div>
+<div class="announcement-art" aria-hidden="true">🕯️</div>
+</article>
+
+<article class="announcement-slide" data-announcement-type="announcement">
 <div class="announcement-mark">📣</div>
 <div>
-<div class="announcement-label">Community Announcement</div>
+<div class="announcement-label">Announcement</div>
 <h2>October Art Exchange signups close Friday 🎃</h2>
 <p>Pair up with another spooky creator, make something tiny, and mail or digitally exchange it before Halloween.</p>
 </div>
-<button class="announcement-close" id="announcementClose" type="button" aria-label="Dismiss announcement">×</button>
+<div class="announcement-art" aria-hidden="true">🎃</div>
+</article>
+
+</div>
+
+<div class="announcement-controls" aria-label="Announcement navigation">
+<button class="announcement-arrow" id="announcementPrev" type="button" aria-label="Previous announcement">‹</button>
+<div class="announcement-dots" id="announcementDots">
+<button class="announcement-dot active" type="button" aria-label="Show announcement 1" data-index="0"></button>
+<button class="announcement-dot" type="button" aria-label="Show announcement 2" data-index="1"></button>
+<button class="announcement-dot" type="button" aria-label="Show announcement 3" data-index="2"></button>
+</div>
+<button class="announcement-arrow" id="announcementNext" type="button" aria-label="Next announcement">›</button>
+</div>
 </section>
 
 <section class="pinned-shelf">
@@ -1028,7 +1147,7 @@ body.community-master{
 <section class="community-composer-preview">
 <div class="before-post">
 <div><strong>Posting in Spooky Cozy</strong><br><span>Match Halloween, Art, Cozy or Crafts.</span></div>
-<div><span>✓ Promotion allowed · ✓ Reblogs · No approval required</span></div>
+<div><span>✓ Community + Creator &amp; Shop links · ✓ Reblogs · No approval required</span></div>
 </div>
 <div class="community-composer-line">
 <div class="community-composer-avatar"></div>
@@ -1206,10 +1325,10 @@ body.community-master{
 <div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
 <div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>Members can post</strong><br>Original posts are allowed.</span></div>
 <div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>Reblogs allowed</strong><br>Eligible posts may be added here.</span></div>
-<div class="community-basic"><span class="community-basic-icon">📣</span><span><strong>Promotion allowed</strong><br>Links may be used in posts and comments.</span></div>
+<div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>Link sharing</strong><br>Community-related, Creator &amp; Shop links are allowed.</span></div>
 <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
 </div>
-<div class="promo-badge">📣 PROMOTION ALLOWED</div>
+<div class="promo-badge">🔗 COMMUNITY + CREATOR &amp; SHOP LINKS</div>
 <a class="sidebar-link" href="#">View all Community Basics →</a>
 </section>
 
@@ -1374,9 +1493,23 @@ document.querySelectorAll('[data-open-view]').forEach(link=>{
   });
 });
 
-document.getElementById('announcementClose')?.addEventListener('click',()=>{
-  document.getElementById('communityAnnouncement')?.remove();
-});
+
+const announcementSlides=[...document.querySelectorAll('.announcement-slide')];
+const announcementDots=[...document.querySelectorAll('.announcement-dot')];
+const announcementCounter=document.getElementById('announcementCounter');
+let announcementIndex=0;
+
+function showAnnouncement(index){
+  if(!announcementSlides.length)return;
+  announcementIndex=(index+announcementSlides.length)%announcementSlides.length;
+  announcementSlides.forEach((slide,i)=>slide.classList.toggle('active',i===announcementIndex));
+  announcementDots.forEach((dot,i)=>dot.classList.toggle('active',i===announcementIndex));
+  if(announcementCounter)announcementCounter.textContent=`${announcementIndex+1} / ${announcementSlides.length}`;
+}
+
+document.getElementById('announcementPrev')?.addEventListener('click',()=>showAnnouncement(announcementIndex-1));
+document.getElementById('announcementNext')?.addEventListener('click',()=>showAnnouncement(announcementIndex+1));
+announcementDots.forEach(dot=>dot.addEventListener('click',()=>showAnnouncement(Number(dot.dataset.index||0))));
 
 document.getElementById('joinButton')?.addEventListener('click',function(){
   const joined=this.classList.toggle('joined-off')===false;
