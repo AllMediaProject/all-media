@@ -6900,3 +6900,66 @@ body.discover-body .top-nav a.active{
     0 0 18px -8px rgba(255,195,132,.22)!important;
 }
 
+
+
+/* =========================================================
+   FINAL AUDIT FIXES — Discover cards
+   ========================================================= */
+
+/* Blog: expanded reading block must use the full inner card width. */
+.discover-wall.feed .post.blog-post-v11 > .blog-full-content{
+  width:auto!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  align-self:stretch!important;
+}
+
+/* Byte: keep the approved 9:16 player centered in the card. */
+.discover-wall.feed .post.byte-post-v11{
+  padding:0!important;
+}
+.discover-wall.feed .post.byte-post-v11 > .byte-stage{
+  margin:18px 18px 0!important;
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  width:auto!important;
+}
+.discover-wall.feed .post.byte-post-v11 > .byte-stage > .video-feed-player.byte-feed-player.byte-v11-feed-player{
+  position:relative!important;
+  width:41%!important;
+  max-width:none!important;
+  aspect-ratio:9 / 16!important;
+  height:auto!important;
+  margin:0!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,195,132,.38)!important;
+  border-radius:14px!important;
+  background:#000!important;
+  box-shadow:
+    0 0 0 1px rgba(255,195,132,.10),
+    0 0 24px rgba(255,195,132,.17),
+    0 10px 22px -17px rgba(0,0,0,.72),
+    inset 0 0 18px rgba(255,195,132,.025)!important;
+}
+.discover-wall.feed .post.byte-post-v11 > .byte-stage > .video-feed-player.byte-feed-player.byte-v11-feed-player > video{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  background:#000!important;
+}
+@media(max-width:700px){
+  .discover-wall.feed .post.byte-post-v11 > .byte-stage{
+    margin-left:14px!important;
+    margin-right:14px!important;
+  }
+}
+
+/* Real Discover players use the same reveal-on-hover/tap controls as Home. */
+.discover-wall.feed .discover-demo-player .video-control-overlay{
+  pointer-events:none!important;
+}
+.discover-wall.feed .discover-demo-player.controls-visible .video-control-overlay{
+  pointer-events:auto!important;
+}

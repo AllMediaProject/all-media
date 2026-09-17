@@ -212,6 +212,190 @@ function postHeader(post){
     </header>`;
 }
 
+
+/* Final audit: real Home-style video controls for Discover Video + Byte cards. */
+function videoControlIcon(name){
+  const icons={
+    play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>',
+    pause:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg>',
+    volume:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>',
+    muted:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 10l4 4M21 10l-4 4"></path></svg>',
+    fullscreen:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg>'
+  };
+  return icons[name]||"";
+}
+
+function videoControlHTML(){
+  return `<div class="video-control-overlay">
+    <div class="video-control-row">
+      <button type="button" class="video-control-button video-control-play" aria-label="Play video">${videoControlIcon("play")}</button>
+      <button type="button" class="video-control-button video-control-mute" onclick="event.stopPropagation();toggleVideoMute(this)" aria-label="Mute video">${videoControlIcon("volume")}</button>
+      <span class="video-control-time video-elapsed">0:00</span>
+      <input class="video-control-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+      <span class="video-control-time video-total">0:00</span>
+      <button type="button" class="video-control-button video-control-fullscreen" onclick="event.stopPropagation();toggleVideoFullscreen(this)" aria-label="Enter fullscreen">${videoControlIcon("fullscreen")}</button>
+    </div>
+  </div>`;
+}
+
+function formatVideoTime(seconds){
+  seconds=Math.max(0,Number(seconds)||0);
+  const hours=Math.floor(seconds/3600);
+  const minutes=Math.floor(seconds%3600/60);
+  const secs=Math.floor(seconds%60).toString().padStart(2,"0");
+  return hours?`${hours}:${minutes.toString().padStart(2,"0")}:${secs}`:`${minutes}:${secs}`;
+}
+
+function showVideoControls(shell){
+  if(!shell)return;
+  clearTimeout(shell._videoControlsTimer);
+  shell.classList.add("controls-visible");
+}
+
+function scheduleVideoControlsHide(shell,delay=700){
+  if(!shell)return;
+  clearTimeout(shell._videoControlsTimer);
+  shell._videoControlsTimer=setTimeout(()=>shell.classList.remove("controls-visible"),delay);
+}
+
+function setVideoPlayState(button,playing){
+  if(!button)return;
+  button.innerHTML=videoControlIcon(playing?"pause":"play");
+  button.classList.toggle("playing",playing);
+  button.setAttribute("aria-label",playing?"Pause video":"Play video");
+  button.title=playing?"Pause":"Play";
+}
+
+async function toggleVideoPlayback(video,event){
+  if(!video)return;
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const shell=video.closest(".video-feed-player");
+  const play=shell?.querySelector(".video-control-play");
+  const wantsPlay=video.paused||video.ended;
+  try{
+    if(wantsPlay){
+      if(video.ended)video.currentTime=0;
+      await video.play();
+      setVideoPlayState(play,true);
+    }else{
+      video.pause();
+      setVideoPlayState(play,false);
+    }
+  }catch(err){
+    setVideoPlayState(play,false);
+    const warning=shell?.querySelector(".video-playback-warning");
+    if(warning){
+      warning.textContent="This browser cannot play this video file.";
+      warning.classList.add("show");
+    }
+  }
+  showVideoControls(shell);
+  scheduleVideoControlsHide(shell);
+}
+
+function updateFeedVideoProgress(video){
+  const shell=video.closest(".video-feed-player");
+  const scrubber=shell?.querySelector(".video-control-scrubber");
+  const elapsed=shell?.querySelector(".video-elapsed");
+  const total=shell?.querySelector(".video-total");
+  const duration=Number.isFinite(video.duration)?video.duration:0;
+  const progress=duration?video.currentTime/duration*100:0;
+  if(scrubber){
+    scrubber.value=progress;
+    scrubber.style.setProperty("--video-progress",`${progress}%`);
+  }
+  if(elapsed)elapsed.textContent=formatVideoTime(video.currentTime);
+  if(total)total.textContent=formatVideoTime(duration);
+}
+
+function seekFeedVideo(scrubber){
+  const shell=scrubber.closest(".video-feed-player");
+  const video=shell?.querySelector("video");
+  if(!video||!Number.isFinite(video.duration)||video.duration<=0)return;
+  video.currentTime=video.duration*(Number(scrubber.value)||0)/100;
+  updateFeedVideoProgress(video);
+  showVideoControls(shell);
+  scheduleVideoControlsHide(shell);
+}
+
+function toggleVideoMute(button){
+  const shell=button.closest(".video-feed-player");
+  const video=shell?.querySelector("video");
+  if(!video)return;
+  video.muted=!video.muted;
+  button.innerHTML=videoControlIcon(video.muted?"muted":"volume");
+  button.setAttribute("aria-label",video.muted?"Unmute video":"Mute video");
+  showVideoControls(shell);
+  scheduleVideoControlsHide(shell);
+}
+
+function toggleVideoFullscreen(button){
+  const shell=button.closest(".video-feed-player");
+  if(!shell)return;
+  if(document.fullscreenElement||document.webkitFullscreenElement){
+    (document.exitFullscreen||document.webkitExitFullscreen)?.call(document);
+  }else{
+    (shell.requestFullscreen||shell.webkitRequestFullscreen)?.call(shell);
+  }
+  showVideoControls(shell);
+  scheduleVideoControlsHide(shell);
+}
+
+function syncFeedVideoControls(video){
+  const shell=video?.closest(".video-feed-player");
+  if(!shell||shell.dataset.controlsWired==="true")return;
+  shell.dataset.controlsWired="true";
+  const play=shell.querySelector(".video-control-play");
+  const scrubber=shell.querySelector(".video-control-scrubber");
+
+  play?.addEventListener("click",event=>toggleVideoPlayback(video,event));
+  video.addEventListener("click",event=>toggleVideoPlayback(video,event));
+  scrubber?.addEventListener("input",event=>seekFeedVideo(event.target));
+
+  shell.addEventListener("click",event=>{
+    if(event.target.closest("button,input,video"))return;
+    showVideoControls(shell);
+    scheduleVideoControlsHide(shell);
+  });
+  shell.addEventListener("mouseenter",()=>showVideoControls(shell));
+  shell.addEventListener("mousemove",()=>{
+    showVideoControls(shell);
+    scheduleVideoControlsHide(shell);
+  });
+  shell.addEventListener("mouseleave",()=>scheduleVideoControlsHide(shell,250));
+
+  video.addEventListener("loadedmetadata",()=>updateFeedVideoProgress(video));
+  video.addEventListener("durationchange",()=>updateFeedVideoProgress(video));
+  video.addEventListener("timeupdate",()=>updateFeedVideoProgress(video));
+  video.addEventListener("play",()=>setVideoPlayState(play,true));
+  video.addEventListener("pause",()=>setVideoPlayState(play,false));
+  video.addEventListener("ended",()=>{
+    video.currentTime=0;
+    setVideoPlayState(play,false);
+    updateFeedVideoProgress(video);
+    showVideoControls(shell);
+  });
+  video.addEventListener("volumechange",()=>{
+    const mute=shell.querySelector(".video-control-mute");
+    if(mute){
+      mute.innerHTML=videoControlIcon(video.muted?"muted":"volume");
+      mute.setAttribute("aria-label",video.muted?"Unmute video":"Mute video");
+    }
+  });
+  video.addEventListener("error",()=>{
+    const warning=shell.querySelector(".video-playback-warning");
+    if(warning){
+      warning.textContent="This browser cannot play this video file.";
+      warning.classList.add("show");
+    }
+  });
+
+  updateFeedVideoProgress(video);
+}
+
 function demoMedia(post){
   if(!post.media) return "";
   const art=`<div class="discover-demo-art ${post.media}">${post.icon||"✦"}</div>`;
@@ -222,48 +406,20 @@ function demoMedia(post){
 
   if(post.type==="video"){
     return `
-      <div class="video-feed-player video-v11-feed-player discover-demo-player" aria-label="Video preview">
-        ${art}
-        <div class="video-control-overlay discover-demo-controls">
-          <div class="video-control-row">
-            <button type="button" class="video-control-button video-control-play" aria-label="Play video">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
-            </button>
-            <button type="button" class="video-control-button video-control-mute" aria-label="Mute video">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>
-            </button>
-            <span class="video-control-time">0:00</span>
-            <input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Video timeline">
-            <span class="video-control-time">0:42</span>
-            <button type="button" class="video-control-button video-control-fullscreen" aria-label="Enter fullscreen">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg>
-            </button>
-          </div>
-        </div>
+      <div class="video-feed-player video-v11-feed-player discover-demo-player" aria-label="Video player preview">
+        <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" data-video-type="video/mp4"></video>
+        <div class="video-playback-warning">This browser cannot play this video file.</div>
+        ${videoControlHTML()}
       </div>`;
   }
 
   if(post.type==="byte"){
     return `
       <div class="byte-stage">
-        <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player discover-demo-player" aria-label="Byte preview">
-          ${art}
-          <div class="video-control-overlay discover-demo-controls">
-            <div class="video-control-row">
-              <button type="button" class="video-control-button video-control-play" aria-label="Play Byte">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
-              </button>
-              <button type="button" class="video-control-button video-control-mute" aria-label="Mute Byte">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>
-              </button>
-              <span class="video-control-time">0:00</span>
-              <input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Byte timeline">
-              <span class="video-control-time">0:24</span>
-              <button type="button" class="video-control-button video-control-fullscreen" aria-label="Enter fullscreen">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg>
-              </button>
-            </div>
-          </div>
+        <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player discover-demo-player" aria-label="Byte player preview">
+          <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" data-video-type="video/mp4"></video>
+          <div class="video-playback-warning">This browser cannot play this video file.</div>
+          ${videoControlHTML()}
         </div>
       </div>`;
   }
@@ -432,6 +588,7 @@ function renderDiscover(){
   });
 
   right.style.display=single?"none":"flex";
+  document.querySelectorAll(".discover-wall .video-feed-player video").forEach(syncFeedVideoControls);
 }
 
 function switchDiscoverTab(tab){

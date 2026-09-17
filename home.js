@@ -703,8 +703,26 @@ function showPocketLimitMessage(){const message=document.getElementById("pocketL
 function pocketDrawerTarget(item){return document.getElementById(item?.dataset.pocketType==="followed"?"followedPocketList":"yourPocketList")}
 function updatePocketStar(button,isFavorite){if(!button)return;button.textContent=isFavorite?"★":"☆";const item=button.closest(".pocket-item"),name=item?.dataset.pocketName||"Pocket";button.title=isFavorite?"Favorite Pocket":"Add to favorites";button.setAttribute("aria-label",isFavorite?`Remove ${name} from favorites`:`Add ${name} to favorites`)}
 function togglePocketFavorite(button){const item=button.closest(".pocket-item"),faves=document.getElementById("favesList"),isFav=button.textContent.trim()==="★",message=document.getElementById("pocketLimitMessage");if(!item||!faves)return;if(isFav){updatePocketStar(button,false);pocketDrawerTarget(item)?.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"");return}if(faves.querySelectorAll(":scope > .pocket-item").length>=6){showPocketLimitMessage();return}updatePocketStar(button,true);item.style.display="";faves.appendChild(item);if(message)message.classList.remove("show");updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
-function closePocketSettingsMenus(except=null){document.querySelectorAll(".pocket-settings-menu.open").forEach(menu=>{if(menu!==except){menu.classList.remove("open");menu.previousElementSibling?.setAttribute("aria-expanded","false")}})}
-function togglePocketSettings(event,button){event.stopPropagation();const menu=button.nextElementSibling;if(!menu)return;const opening=!menu.classList.contains("open");closePocketSettingsMenus(menu);menu.classList.toggle("open",opening);button.setAttribute("aria-expanded",String(opening))}
+function closePocketSettingsMenus(except=null){
+ document.querySelectorAll(".pocket-settings-menu.open").forEach(menu=>{
+  if(menu===except)return;
+  menu.classList.remove("open");
+  menu.closest(".pocket-item")?.classList.remove("menu-open");
+  menu.previousElementSibling?.setAttribute("aria-expanded","false");
+ });
+}
+function togglePocketSettings(event,button){
+ event.preventDefault();
+ event.stopPropagation();
+ const menu=button.nextElementSibling;
+ const item=button.closest(".pocket-item");
+ if(!menu||!item)return;
+ const opening=!menu.classList.contains("open");
+ closePocketSettingsMenus(menu);
+ menu.classList.toggle("open",opening);
+ item.classList.toggle("menu-open",opening);
+ button.setAttribute("aria-expanded",String(opening));
+}
 function editOwnedPocket(item){if(!item||item.dataset.pocketType!=="owned")return;const oldName=item.dataset.pocketName||item.querySelector(".pocket-name")?.textContent||"Pocket";const next=window.prompt("Edit Pocket name",oldName);if(next===null)return;const name=next.trim();if(!name||name===oldName)return;item.dataset.pocketName=name;const label=item.querySelector(".pocket-name");if(label)label.textContent=name;const star=item.querySelector(".pocket-star");if(star){const isFavorite=star.textContent.trim()==="★";star.setAttribute("aria-label",isFavorite?`Remove ${name} from favorites`:`Add ${name} to favorites`)}filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
 function unfollowPocket(item){if(!item||item.dataset.pocketType!=="followed")return;item.remove();updatePocketFavoriteCount();filterPockets(document.getElementById("pocketSearchInput")?.value||"")}
 function ensurePocketMenus(){document.querySelectorAll(".pockets-panel .pocket-item").forEach(item=>{let actions=item.querySelector(":scope > .pocket-row-actions");const star=item.querySelector(":scope > .pocket-star");if(!actions){actions=document.createElement("div");actions.className="pocket-row-actions";if(star){item.insertBefore(actions,star);actions.appendChild(star)}else item.appendChild(actions)}if(actions.querySelector(".pocket-menu-button"))return;const menuButton=document.createElement("button");menuButton.type="button";menuButton.className="pocket-menu-button";menuButton.textContent="⋯";menuButton.title="Pocket settings";menuButton.setAttribute("aria-label","Pocket settings");menuButton.setAttribute("aria-expanded","false");menuButton.onclick=event=>togglePocketSettings(event,menuButton);const menu=document.createElement("div");menu.className="pocket-settings-menu";const action=document.createElement("button");action.type="button";action.className="pocket-settings-action"+(item.dataset.pocketType==="followed"?" unfollow":"");action.textContent=item.dataset.pocketType==="followed"?"Unfollow":"Edit";action.onclick=event=>{event.stopPropagation();closePocketSettingsMenus();item.dataset.pocketType==="followed"?unfollowPocket(item):editOwnedPocket(item)};menu.appendChild(action);actions.append(menuButton,menu)})}

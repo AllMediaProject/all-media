@@ -8584,3 +8584,24 @@ body{min-width:320px;background:radial-gradient(circle at 48% 12%,rgba(37,63,125
     inset 0 0 0 1px rgba(255,255,255,.03),
     0 0 18px -8px rgba(255,195,132,.22)!important;
 }
+
+
+/* === FINAL AUDIT — stable Pocket row settings menu ===
+   Keep an open row above its neighbors and stop the row's hover nudge
+   from moving the Edit / Unfollow target under the pointer. */
+.pockets-panel .pocket-item.menu-open{
+  position:relative!important;
+  z-index:120!important;
+  transform:none!important;
+}
+.pockets-panel .pocket-item.menu-open:hover{
+  transform:none!important;
+}
+.pockets-panel .pocket-item.menu-open .pocket-row-actions{
+  z-index:121!important;
+}
+.pockets-panel .pocket-item.menu-open .pocket-settings-menu.open{
+  display:block!important;
+  z-index:122!important;
+  pointer-events:auto!important;
+}
