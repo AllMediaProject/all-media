@@ -1,0 +1,39 @@
+/* ============================================================
+   ALL MEDIA — POST AUTHOR PROFILE LINKS
+   Only post-author avatar + username are affected.
+   ============================================================ */
+
+.post .post-header .profile-picture[data-author-profile-link="true"],
+.post .post-header .username[data-author-profile-link="true"]{
+  cursor:pointer;
+}
+
+.post .post-header .profile-picture[data-author-profile-link="true"]{
+  transition:
+    box-shadow .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+}
+
+.post .post-header .profile-picture[data-author-profile-link="true"]:hover{
+  border-color:rgba(255,195,132,.58);
+  box-shadow:0 0 0 2px rgba(255,195,132,.12);
+  transform:translateY(-1px);
+}
+
+.post .post-header .username[data-author-profile-link="true"]{
+  transition:color .15s ease;
+}
+
+.post .post-header .username[data-author-profile-link="true"]:hover{
+  color:var(--am-peach,#ffc384);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+
+.post .post-header .profile-picture[data-author-profile-link="true"]:focus-visible,
+.post .post-header .username[data-author-profile-link="true"]:focus-visible{
+  outline:2px solid rgba(255,195,132,.68);
+  outline-offset:3px;
+  border-radius:6px;
+}
