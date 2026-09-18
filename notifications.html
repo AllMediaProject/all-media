@@ -7,6 +7,7 @@
 <title>Notifications | All Media</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="notifications.css" rel="stylesheet"/>
+<link href="notifications-community-integration.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -127,45 +128,16 @@
 </a>
 </div>
 </header>
-<div class="community-bar">
+<div class="community-bar" data-notifications-community-bar>
 <span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities" id="pinnedCommunities">
-<button class="community-chip" data-community="Spooky Cozy" type="button">
-<span>🎃</span> Spooky Cozy
-      <span class="activity-bell" title="5 new community activities">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-<span class="activity-count">5</span>
-</span>
-</button>
-<button class="community-chip" data-community="Artists" type="button">
-<span>🎨</span> Artists
-      <span class="activity-bell" title="2 new community activities">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-<span class="activity-count">2</span>
-</span>
-</button>
-<button class="community-chip" data-community="Turtle Rescue" type="button">
-<span>🐢</span> Turtle Rescue
-      <span class="activity-bell" title="1 new community activity">
-<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
-<span class="activity-count">1</span>
-</span>
-</button>
-</div>
+<div class="pinned-communities" data-notifications-pinned-communities></div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button aria-expanded="false" class="community-tool" id="communityMoreButton" type="button">▾ More</button>
-<div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-count="5" data-emoji="🎃"><span class="community-more-name">🎃 Spooky Cozy</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row" data-community="Artists" data-count="2" data-emoji="🎨"><span class="community-more-name">🎨 Artists</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-count="1" data-emoji="🐢"><span class="community-more-name">🐢 Turtle Rescue</span><button class="community-pin pinned" type="button">Pinned</button></div>
-<div class="community-more-row" data-community="Book Club" data-count="0" data-emoji="📚"><span class="community-more-name">📚 Book Club</span><button class="community-pin" type="button">Pin</button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-count="0" data-emoji="🧶"><span class="community-more-name">🧶 Crochet Corner</span><button class="community-pin" type="button">Pin</button></div>
-<div class="community-more-row" data-community="Garden &amp; Nature" data-count="0" data-emoji="🌿"><span class="community-more-name">🌿 Garden &amp; Nature</span><button class="community-pin" type="button">Pin</button></div>
+<button aria-expanded="false" class="community-tool" data-notifications-community-more type="button">▾ More</button>
+<div class="community-dropdown" data-notifications-community-dropdown></div>
 </div>
-</div>
-<button class="community-tool" type="button">Manage Communities</button>
+<button class="community-tool" data-notifications-manage-communities type="button">Manage Communities</button>
 </div>
 </div>
 <main class="notifications-shell" id="notifications">
@@ -630,6 +602,39 @@
 </main>
 
 
+
+<!-- =========================================================
+     NOTIFICATIONS ↔ COMMUNITIES PRODUCTION INTEGRATION
+========================================================= -->
+<section class="notifications-community-quick-popup" id="notificationsCommunityQuickPopup" hidden aria-live="polite">
+  <div class="notifications-community-quick-head">
+    <div>
+      <h2 id="notificationsCommunityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button id="notificationsCommunityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="notifications-community-quick-list" id="notificationsCommunityQuickList"></div>
+  <a class="notifications-community-quick-footer" id="notificationsCommunityQuickFooter" href="community-notifications.html">
+    View all from this Community →
+  </a>
+</section>
+
+<div class="notifications-manage-drawer-layer" id="notificationsManageDrawerLayer" hidden>
+  <button class="notifications-manage-drawer-backdrop" id="notificationsManageDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="notifications-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="notifications-manage-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="notificationsManageDrawerClose" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="notificationsManageDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
+
 <script src="notifications.js"></script>
+<script src="notifications-community-integration.js"></script>
 </body>
 </html>

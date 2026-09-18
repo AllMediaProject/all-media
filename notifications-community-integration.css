@@ -1,0 +1,300 @@
+/* ============================================================
+   ALL MEDIA — NOTIFICATIONS COMMUNITY PRODUCTION INTEGRATION
+   Isolated from the locked general Notifications systems.
+   ============================================================ */
+
+[data-notifications-community-dropdown]{
+  display:none;
+}
+
+[data-notifications-community-dropdown].active{
+  display:block!important;
+}
+
+[data-notifications-community-bar] .community-more-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  align-items:center;
+  padding:7px 8px;
+  cursor:pointer;
+}
+
+[data-notifications-community-bar] .community-more-name{
+  min-width:0;
+}
+
+[data-notifications-community-bar] .notifications-community-more-text{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+[data-notifications-community-bar] .community-pin{
+  width:auto!important;
+  min-width:58px;
+  justify-content:center!important;
+}
+
+[data-notifications-community-bar] .community-pin .pin-action{
+  display:none;
+}
+
+[data-notifications-community-bar] .community-more-row:hover .community-pin .pin-state{
+  display:none;
+}
+
+[data-notifications-community-bar] .community-more-row:hover .community-pin .pin-action{
+  display:inline;
+}
+
+[data-notifications-community-bar] .community-chip.dragging{
+  opacity:.55;
+}
+
+[data-notifications-community-bar] .activity-count.hidden{
+  display:none!important;
+}
+
+/* -------------------------------------------
+   Per-Community quick notifications
+   ------------------------------------------- */
+
+.notifications-community-quick-popup{
+  position:fixed;
+  z-index:5200;
+  width:min(410px,calc(100vw - 24px));
+  max-height:500px;
+  overflow:auto;
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:14px;
+  background:#131f42;
+  box-shadow:0 22px 64px rgba(0,0,0,.46);
+  text-align:left;
+}
+
+.notifications-community-quick-popup[hidden]{
+  display:none!important;
+}
+
+.notifications-community-quick-head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 15px 12px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  background:#182953;
+}
+
+.notifications-community-quick-head h2{
+  margin:0;
+  color:#f8f8f2;
+  font-size:15px;
+  font-weight:800;
+}
+
+.notifications-community-quick-head p{
+  margin:4px 0 0;
+  color:#9ba8c0;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.notifications-community-quick-head button{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  background:#101a3a;
+  color:var(--am-peach,#ffc384);
+  font:800 15px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.notifications-community-quick-list{
+  display:grid;
+}
+
+.notifications-community-quick-item{
+  position:relative;
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  padding:13px 14px;
+  border:0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  background:transparent;
+  color:#f8f8f2;
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.notifications-community-quick-item:hover{
+  background:rgba(255,195,132,.045);
+}
+
+.notifications-community-quick-item.unread::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:10px;
+  bottom:10px;
+  width:3px;
+  border-radius:999px;
+  background:var(--am-peach,#ffc384);
+}
+
+.notifications-community-quick-item-copy{
+  min-width:0;
+  display:block;
+}
+
+.notifications-community-quick-item strong{
+  display:block;
+  color:#f7f8fb;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.42;
+}
+
+.notifications-community-quick-item-copy > span{
+  display:block;
+  margin-top:4px;
+  color:#aab5c9;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.notifications-community-quick-item small{
+  color:#8593ae;
+  font-size:9.5px;
+  line-height:1.4;
+  white-space:nowrap;
+}
+
+.notifications-community-quick-empty{
+  padding:22px 15px;
+  text-align:center;
+}
+
+.notifications-community-quick-empty strong{
+  display:block;
+  color:#f7f8fb;
+  font-size:11.5px;
+}
+
+.notifications-community-quick-empty span{
+  display:block;
+  margin-top:4px;
+  color:#9ba8c0;
+  font-size:10px;
+}
+
+.notifications-community-quick-footer{
+  position:sticky;
+  bottom:0;
+  display:block;
+  padding:11px 13px;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:#101a3a;
+  color:var(--am-peach,#ffc384);
+  text-align:center;
+  text-decoration:none;
+  font-size:10.5px;
+  font-weight:800;
+}
+
+/* -------------------------------------------
+   Manage Communities drawer
+   ------------------------------------------- */
+
+.notifications-manage-drawer-layer{
+  position:fixed;
+  inset:0;
+  z-index:5100;
+}
+
+.notifications-manage-drawer-layer[hidden]{
+  display:none!important;
+}
+
+.notifications-manage-drawer-backdrop{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:rgba(4,9,26,.52);
+  cursor:default;
+}
+
+.notifications-manage-drawer{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(500px,92vw);
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  border-left:1px solid rgba(255,195,132,.28);
+  background:#101a3a;
+  box-shadow:-30px 0 72px rgba(0,0,0,.42);
+}
+
+.notifications-manage-drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:#182953;
+}
+
+.notifications-manage-drawer-head strong{
+  display:block;
+  color:#f8f8f2;
+  font-size:13px;
+}
+
+.notifications-manage-drawer-head span{
+  display:block;
+  margin-top:2px;
+  color:#8f9bb4;
+  font-size:8px;
+}
+
+.notifications-manage-drawer-head button{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  background:#101a3a;
+  color:var(--am-peach,#ffc384);
+  font:800 16px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.notifications-manage-drawer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#101a3a;
+}
+
+@media(max-width:800px){
+  .notifications-manage-drawer{
+    width:94vw;
+  }
+}
