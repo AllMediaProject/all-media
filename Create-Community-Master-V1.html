@@ -1533,7 +1533,7 @@
             <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>About complete</strong><span id="reviewAbout">About section is ready.</span></div></div>
           </div>
 
-          <div class="creation-success" id="creationSuccess">🎃 Community created in the prototype. It now appears under Your Communities.</div>
+          <div class="creation-success" id="creationSuccess">✓ Community created. It now appears under Owned &amp; Moderated and Manage Communities.</div>
         </div>
 
         <div class="form-actions">
@@ -1624,6 +1624,84 @@
 
 
 <script>
+
+/* ============================================================
+   SHARED COMMUNITY STATE
+   Prototype persistence across Create + Manage Communities.
+   ============================================================ */
+const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+
+const ALL_MEDIA_COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+};
+
+function cloneCommunityDefaults(){
+  return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));
+}
+
+function loadAllMediaCommunityState(){
+  const defaults=cloneCommunityDefaults();
+  try{
+    const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+    Object.keys(saved).forEach(slug=>{
+      defaults[slug]={...(defaults[slug]||{}),...saved[slug]};
+    });
+    Object.keys(defaults).forEach(slug=>{
+      if(defaults[slug].pinned){
+        defaults[slug].joined=true;
+        defaults[slug].notifications=true;
+      }
+    });
+  }catch(e){}
+  return defaults;
+}
+
+let allMediaCommunityState=loadAllMediaCommunityState();
+
+function saveAllMediaCommunityState(){
+  localStorage.setItem(ALL_MEDIA_COMMUNITY_STATE_KEY,JSON.stringify(allMediaCommunityState));
+}
+
+function getCommunityState(slug){
+  if(!allMediaCommunityState[slug]){
+    allMediaCommunityState[slug]={
+      name:slug,
+      icon:'◉',
+      joined:false,
+      pinned:false,
+      notifications:true,
+      role:'member'
+    };
+  }
+  return allMediaCommunityState[slug];
+}
+
+function updateCommunityState(slug,patch){
+  const current=getCommunityState(slug);
+  allMediaCommunityState[slug]={...current,...patch};
+
+  if(allMediaCommunityState[slug].pinned){
+    allMediaCommunityState[slug].joined=true;
+    allMediaCommunityState[slug].notifications=true;
+  }
+
+  if(!allMediaCommunityState[slug].joined){
+    allMediaCommunityState[slug].pinned=false;
+  }
+
+  saveAllMediaCommunityState();
+  document.dispatchEvent(new CustomEvent('allmedia:community-state-change',{
+    detail:{slug,state:allMediaCommunityState[slug]}
+  }));
+  return allMediaCommunityState[slug];
+}
+
+
 const notificationBell=document.getElementById('headerNotificationBell');
 const notificationPopup=document.getElementById('notificationQuickPopup');
 if(notificationBell&&notificationPopup){
@@ -1696,12 +1774,74 @@ function showStep(step){
 steps.forEach(btn=>btn.addEventListener('click',()=>showStep(Number(btn.dataset.step))));
 backButton.addEventListener('click',()=>showStep(currentStep-1));
 nextButton.addEventListener('click',()=>{
-  if(currentStep<5)showStep(currentStep+1);
-  else{
-    document.getElementById('creationSuccess').classList.add('active');
-    const ownedTab=document.querySelector('[data-owner-view="owned"]');
-    setTimeout(()=>ownedTab?.classList.add('has-created'),0);
+  if(currentStep<5){
+    showStep(currentStep+1);
+    return;
   }
+
+  const name=document.getElementById('communityNameInput').value.trim();
+  const description=document.getElementById('communityShortDescription').value.trim();
+  const about=document.getElementById('communityAboutInput').value.trim();
+
+  if(!name||!description||!about)return;
+
+  const slug=communitySlug(name)||('community-'+Date.now());
+
+  const rules=[...document.querySelectorAll('#ruleBuilder .rule-builder-row')].map(row=>({
+    title:row.querySelector('.rule-title-input')?.value.trim()||'Community rule',
+    explanation:row.querySelector('.rule-copy-input')?.value.trim()||''
+  }));
+
+  const officialSocials={};
+  document.querySelectorAll('.official-social-input').forEach(input=>{
+    const value=input.value.trim();
+    if(value)officialSocials[input.dataset.social]=value;
+  });
+
+  allMediaCommunityState[slug]={
+    ...(allMediaCommunityState[slug]||{}),
+    name,
+    slug,
+    icon:'◉',
+    description,
+    interests:selectedInterests(),
+    access:selectedChoice('accessChoices'),
+    posting:selectedChoice('postingChoices'),
+    originalPosts:document.getElementById('originalPostsToggle').checked,
+    reblogs:document.getElementById('reblogsToggle').checked,
+    approvalRequired:document.getElementById('approvalToggle').checked,
+    linkSharing:{
+      community:document.getElementById('communityLinksToggle').checked,
+      creatorShop:document.getElementById('creatorLinksToggle').checked,
+      social:document.getElementById('socialLinksToggle').checked,
+      comments:document.getElementById('commentLinksToggle').checked
+    },
+    rules,
+    about,
+    welcome:document.getElementById('communityWelcomeInput').value.trim(),
+    website:document.getElementById('communityWebsiteInput').value.trim(),
+    officialSocials,
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:'owner',
+    createdByPrototype:true,
+    createdAt:Date.now()
+  };
+
+  saveAllMediaCommunityState();
+  document.getElementById('creationSuccess').classList.add('active');
+
+  renderCreatedOwnedCommunities();
+
+  const ownedTab=document.querySelector('[data-owner-view="owned"]');
+  ownedTab?.classList.add('has-created');
+
+  setTimeout(()=>{
+    ownedTab?.click();
+    document.querySelector(`[data-created-community-slug="${CSS.escape(slug)}"]`)
+      ?.scrollIntoView({behavior:'smooth',block:'center'});
+  },300);
 });
 
 function chooseOne(containerId,button){
@@ -2216,6 +2356,52 @@ window.addEventListener('resize',()=>{
   }
 });
 
+
+
+function renderCreatedOwnedCommunities(){
+  const grid=document.querySelector('#owner-view-owned .owner-grid');
+  const managePanel=grid?.querySelector('.owner-manage-panel');
+  if(!grid||!managePanel)return;
+
+  grid.querySelectorAll('.owner-card[data-created-community-slug]').forEach(card=>card.remove());
+
+  Object.entries(allMediaCommunityState)
+    .filter(([slug,state])=>state.role==='owner'&&state.createdByPrototype&&slug!=='spooky-cozy')
+    .sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0))
+    .forEach(([slug,state])=>{
+      const card=document.createElement('article');
+      card.className='owner-card';
+      card.dataset.createdCommunitySlug=slug;
+
+      const interests=Array.isArray(state.interests)&&state.interests.length
+        ? state.interests.join(' · ')
+        : 'No Interests selected';
+      const ruleCount=Array.isArray(state.rules)?state.rules.length:0;
+
+      card.innerHTML=`
+        <div class="owner-card-banner">${state.icon||'◉'} ✦</div>
+        <div class="owner-card-body">
+          <h2></h2>
+          <p></p>
+          <div class="owner-card-actions">
+            <a class="form-button primary">Open Community</a>
+            <a class="form-button">Manage</a>
+          </div>
+        </div>`;
+
+      card.querySelector('h2').textContent=state.name;
+      card.querySelector('p').textContent=
+        `${state.access||'Public'} · ${interests} · ${ruleCount} rule${ruleCount===1?'':'s'}`;
+
+      const links=card.querySelectorAll('a');
+      links[0].href=communityFrontPageUrl(state.name);
+      links[1].href=`Create-Community-Master-V1.html?view=owned&community=${encodeURIComponent(slug)}`;
+
+      grid.insertBefore(card,managePanel);
+    });
+}
+
+renderCreatedOwnedCommunities();
 
 document.getElementById('manageOwnedCommunity')?.addEventListener('click',()=>{
   document.querySelector('[data-owner-view="owned"]')?.click();
