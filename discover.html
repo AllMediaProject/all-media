@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="all-media.css">
 
 <link rel="stylesheet" href="discover.css">
+<link rel="stylesheet" href="discover-community-integration.css">
 
 </head>
 
@@ -131,22 +132,44 @@
 ========================================================= -->
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities" id="pinnedCommunities">
-<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
-</div>
+<div class="pinned-communities" id="discoverPinnedCommunities"></div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
-<div class="community-dropdown" id="communityDropdown"></div>
+<button class="community-tool" id="discoverCommunityMoreButton" type="button" aria-expanded="false">▾ More</button>
+<div class="community-dropdown" id="discoverCommunityDropdown"></div>
 </div>
-<button class="community-tool">Manage Communities</button>
+<button class="community-tool" id="discoverOpenManageCommunities" type="button">Manage Communities</button>
 </div>
 </div>
 
 <div class="community-divider"></div>
+
+<section class="discover-community-quick-popup" id="discoverCommunityQuickPopup" hidden aria-live="polite">
+<div class="discover-community-quick-head">
+<div>
+<h2 id="discoverCommunityQuickTitle"></h2>
+<p>Quick Community notifications</p>
+</div>
+<button class="discover-community-quick-close" id="discoverCommunityQuickClose" type="button" aria-label="Close">×</button>
+</div>
+<div class="discover-community-quick-list" id="discoverCommunityQuickList"></div>
+<a class="discover-community-quick-footer" id="discoverCommunityQuickFooter" href="community-notifications.html">View all from this Community →</a>
+</section>
+
+<div class="discover-manage-drawer-layer" id="discoverManageCommunitiesDrawerLayer" hidden>
+<button class="discover-manage-drawer-backdrop" id="discoverManageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+<aside class="discover-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+<div class="discover-manage-drawer-head">
+<div>
+<strong>Manage Communities</strong>
+<span>Organize, pin, leave, or edit.</span>
+</div>
+<button id="discoverManageCommunitiesDrawerClose" type="button" aria-label="Close">×</button>
+</div>
+<iframe id="discoverManageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+</aside>
+</div>
 
 <!-- =========================================================
      DISCOVER-ONLY PAGE UI
@@ -227,5 +250,6 @@
 <button class="discover-refresh" onclick="refreshDiscover()">↻ Refresh</button>
 
 <script src="discover.js"></script>
+<script src="discover-community-integration.js"></script>
 </body>
 </html>
