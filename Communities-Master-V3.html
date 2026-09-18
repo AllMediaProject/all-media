@@ -1,0 +1,4397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Media — Communities Master V3</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- IMPORTANT: this master deliberately reuses the CURRENT production Home CSS
+     so the header, Communities hotbar, and locked post cards render exactly
+     like the finished All Media elements instead of being recreated. -->
+<link rel="stylesheet" href="home.css">
+<style>
+/* ============================================================
+   COMMUNITIES MASTER V3
+   Community-only styling. Global/header/hotbar/post-card styling
+   intentionally comes from home.css.
+   ============================================================ */
+
+body.community-master{
+  min-height:100vh;
+}
+
+.community-page{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  margin:28px auto 80px;
+}
+
+.community-hero{
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:18px;
+  background:#182447;
+  box-shadow:0 18px 46px rgba(0,0,0,.18);
+}
+
+.community-banner{
+  position:relative;
+  min-height:205px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 13% 80%,rgba(255,164,82,.46),transparent 18%),
+    radial-gradient(circle at 68% 35%,rgba(255,195,132,.18),transparent 24%),
+    linear-gradient(120deg,#25142b 0%,#5a2b22 36%,#1a243f 72%,#111a38 100%);
+}
+
+.community-banner::before{
+  content:"🎃  🕯️  🐈‍⬛  ✦  🏮  🍂";
+  position:absolute;
+  left:42px;
+  bottom:30px;
+  font-size:54px;
+  letter-spacing:22px;
+  filter:drop-shadow(0 9px 18px rgba(0,0,0,.35));
+  opacity:.92;
+}
+
+.community-banner::after{
+  content:"SPOOKY PEOPLE • COZY THINGS • YEAR ROUND";
+  position:absolute;
+  right:34px;
+  top:34px;
+  max-width:245px;
+  color:#ffc384;
+  font-size:17px;
+  line-height:1.55;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-align:right;
+  opacity:.84;
+}
+
+.community-identity{
+  position:relative;
+  display:flex;
+  gap:22px;
+  align-items:flex-end;
+  padding:0 28px 26px;
+}
+
+.community-avatar{
+  width:126px;
+  height:126px;
+  margin-top:-62px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:5px solid #182447;
+  outline:2px solid rgba(255,195,132,.72);
+  background:
+    radial-gradient(circle at 50% 58%,#f39b4a 0 27%,transparent 28%),
+    linear-gradient(145deg,#111a38,#26345f);
+  font-size:58px;
+  box-shadow:0 14px 30px rgba(0,0,0,.28);
+  z-index:2;
+}
+
+.community-copy{
+  min-width:0;
+  flex:1;
+  padding-top:18px;
+}
+
+.community-title-row{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.community-title-row h1{
+  margin:0;
+  font-size:34px;
+  line-height:1.08;
+  color:#f8f8f2;
+}
+
+.community-description{
+  margin:7px 0 10px;
+  color:#d7ddea;
+  font-size:15px;
+  line-height:1.5;
+}
+
+.community-interest-row,
+.community-facts,
+.community-header-actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.community-interest{
+  padding:5px 10px;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:999px;
+  background:rgba(255,195,132,.09);
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+}
+
+.community-facts{
+  margin-top:11px;
+  gap:16px;
+  color:#aeb7cb;
+  font-size:12px;
+}
+
+.community-fact{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.community-header-actions{
+  align-self:center;
+  justify-content:flex-end;
+  padding-top:18px;
+}
+
+.community-primary,
+.community-secondary,
+.community-icon-button{
+  border:1px solid rgba(255,195,132,.44);
+  color:#f8f8f2;
+  font-family:'Outfit',sans-serif;
+  font-weight:800;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.community-primary{
+  padding:10px 17px;
+  border-radius:10px;
+  background:#ffc384;
+  color:#101a3a;
+}
+
+.community-primary:hover{
+  transform:translateY(-1px);
+}
+
+.community-secondary{
+  padding:10px 14px;
+  border-radius:10px;
+  background:rgba(255,195,132,.08);
+}
+
+.community-secondary.active{
+  background:rgba(255,195,132,.16);
+  color:#ffc384;
+}
+
+.community-icon-button{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:rgba(255,195,132,.08);
+  font-size:18px;
+}
+
+.community-subnav{
+  position:relative;
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:13px;
+  padding:6px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;
+  background:#182447;
+}
+
+.community-tab{
+  border:0;
+  border-radius:9px;
+  padding:9px 16px;
+  background:transparent;
+  color:#aeb7cb;
+  font:700 13px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-tab:hover,
+.community-tab.active{
+  background:rgba(255,195,132,.12);
+  color:#ffc384;
+}
+
+.community-search-wrap{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(225px,24vw);
+  z-index:40;
+}
+
+.community-search{
+  width:100%;
+  height:34px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 11px;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.community-search input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#f8f8f2;
+  font:500 12px 'Outfit',sans-serif;
+}
+
+.community-view{
+  display:none;
+}
+
+.community-view.active{
+  display:block;
+}
+
+.community-content-grid{
+  display:grid;
+  grid-template-columns:minmax(0,880px) minmax(300px,1fr);
+  gap:18px;
+  align-items:start;
+  margin-top:18px;
+}
+
+.community-main{
+  min-width:0;
+}
+
+.community-sidebar{
+  min-width:0;
+  display:grid;
+  gap:14px;
+  position:sticky;
+  top:18px;
+  max-height:calc(100vh - 36px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-right:6px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,195,132,.45) rgba(16,26,58,.45);
+}
+
+.community-sidebar::-webkit-scrollbar{width:7px}
+.community-sidebar::-webkit-scrollbar-track{background:rgba(16,26,58,.45);border-radius:999px}
+.community-sidebar::-webkit-scrollbar-thumb{background:rgba(255,195,132,.42);border-radius:999px}
+.community-sidebar::-webkit-scrollbar-thumb:hover{background:rgba(255,195,132,.62)}
+
+.community-panel{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:#182447;
+  box-shadow:0 12px 32px rgba(0,0,0,.12);
+}
+
+.community-panel h2,
+.community-panel h3{
+  margin:0;
+  color:#f8f8f2;
+}
+
+.community-panel h2{
+  font-size:18px;
+}
+
+.community-panel h3{
+  font-size:15px;
+}
+
+.community-panel p{
+  margin:8px 0 0;
+  color:#c4cada;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.announcement-carousel{
+  position:relative;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.5);
+  border-radius:14px;
+  background:#182447;
+  box-shadow:0 12px 30px rgba(0,0,0,.13);
+}
+
+.announcement-track{
+  position:relative;
+  min-height:152px;
+}
+
+.announcement-slide{
+  display:none;
+  grid-template-columns:auto 1fr auto;
+  gap:14px;
+  align-items:center;
+  min-height:152px;
+  padding:18px 58px 34px 20px;
+  box-sizing:border-box;
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.15),rgba(255,195,132,.06)),
+    #182447;
+}
+
+.announcement-slide.active{
+  display:grid;
+}
+
+.announcement-mark{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,195,132,.14);
+  color:#ffc384;
+  font-size:20px;
+}
+
+.announcement-label{
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.announcement-slide h2{
+  margin:3px 0 2px;
+  font-size:18px;
+  color:#f8f8f2;
+}
+
+.announcement-slide p{
+  margin:0;
+  color:#cbd1df;
+  font-size:13px;
+  line-height:1.45;
+}
+
+.announcement-art{
+  width:74px;
+  height:74px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 30% 70%,rgba(255,195,132,.38),transparent 30%),
+    linear-gradient(135deg,#663526,#17213f 72%);
+  font-size:34px;
+}
+
+.announcement-controls{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  pointer-events:none;
+}
+
+.announcement-arrow,
+.announcement-dot{
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+.announcement-arrow{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:50%;
+  background:rgba(16,26,58,.78);
+  color:#ffc384;
+  font:800 14px 'Outfit',sans-serif;
+}
+
+.announcement-dots{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.announcement-dot{
+  width:7px;
+  height:7px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.28);
+}
+
+.announcement-dot.active{
+  background:#ffc384;
+  box-shadow:0 0 8px rgba(255,195,132,.35);
+}
+
+.announcement-counter{
+  position:absolute;
+  right:14px;
+  top:12px;
+  color:#8f9ab3;
+  font-size:10px;
+  font-weight:700;
+}
+
+.pinned-shelf{
+  margin-bottom:14px;
+  padding:14px 16px 16px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:#182447;
+}
+
+.section-heading{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:11px;
+}
+
+.section-heading h2{
+  margin:0;
+  font-size:17px;
+}
+
+.section-heading a{
+  margin-left:auto;
+  color:#ffc384;
+  font-size:11px;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.pinned-row{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px;
+}
+
+.pinned-card{
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  background:#101a3a;
+  cursor:pointer;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+
+.pinned-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,195,132,.42);
+  box-shadow:0 9px 20px rgba(0,0,0,.18);
+}
+
+.pinned-art{
+  position:relative;
+  height:68px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 28% 74%,rgba(255,195,132,.32),transparent 28%),
+    linear-gradient(135deg,#613325,#17213f 72%);
+  font-size:29px;
+}
+
+
+.pinned-card-body{
+  padding:8px 9px 9px;
+}
+
+.pinned-card h3{
+  margin:0;
+  overflow:hidden;
+  color:#f8f8f2;
+  font-size:10px;
+  line-height:1.3;
+  font-weight:800;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.pinned-card p{
+  display:none;
+}
+
+.current-activity{
+  display:grid;
+  grid-template-columns:1.45fr .8fr;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.activity-card{
+  padding:16px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;
+  background:#182447;
+}
+
+.activity-card.featured{
+  border-color:rgba(255,195,132,.28);
+}
+
+.activity-eyebrow{
+  color:#ffc384;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.activity-card h3{
+  margin:5px 0;
+  font-size:16px;
+}
+
+.activity-card p{
+  margin:0;
+  color:#bfc7d9;
+  font-size:12px;
+  line-height:1.45;
+}
+
+.activity-meta{
+  margin-top:11px;
+  color:#8f9ab3;
+  font-size:11px;
+}
+
+.community-composer-preview{
+  margin-bottom:14px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:#182447;
+}
+
+.quick-thought-label{
+  margin-bottom:9px;
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+
+.quick-thought-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.quick-thought-input{
+  flex:1;
+  min-width:0;
+  height:42px;
+  box-sizing:border-box;
+  padding:0 13px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  outline:none;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 12px 'Outfit',sans-serif;
+}
+
+.quick-thought-input:focus{
+  border-color:rgba(255,195,132,.5);
+  box-shadow:0 0 0 2px rgba(255,195,132,.06);
+}
+
+.quick-thought-send{
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:#ffc384;
+  color:#101a3a;
+  cursor:pointer;
+}
+
+.quick-thought-send svg{
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.quick-thought-send:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+.community-create-full{
+  flex:0 0 auto;
+  min-width:112px;
+}
+
+.community-full-composer{
+  display:none!important;
+  margin:0 0 14px!important;
+  max-width:none!important;
+}
+
+.community-full-composer.active{
+  display:block!important;
+}
+
+.community-full-composer .community-creator-context{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  margin:-5px 0 18px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.38);
+  border-radius:10px;
+  background:rgba(255,195,132,.05);
+  color:#aeb7cb;
+  font-size:11px;
+}
+
+.community-full-composer .community-creator-context strong{
+  color:#ffc384;
+}
+
+.community-full-composer .community-creator-close{
+  border:0;
+  background:transparent;
+  color:#ffc384;
+  font:800 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-full-composer .community-prototype-media{
+  margin-bottom:14px;
+  padding:15px;
+  border:1px dashed rgba(255,195,132,.3);
+  border-radius:10px;
+  background:#101a3a;
+  color:#aeb7cb;
+  text-align:center;
+  font-size:11px;
+}
+
+.community-full-composer .creator-tool-button{
+  cursor:pointer;
+}
+
+.community-full-composer .community-composer-cancel{
+  margin-right:auto;
+  border:0;
+  background:transparent;
+  color:#aeb7cb;
+  font:700 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+
+.before-post{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:11px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.42);
+  border-radius:10px;
+  background:rgba(255,195,132,.05);
+}
+
+.before-post strong{
+  color:#ffc384;
+  font-size:12px;
+}
+
+.before-post span{
+  color:#aeb7cb;
+  font-size:11px;
+}
+
+.community-composer-line{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.community-composer-avatar{
+  width:38px;
+  height:38px;
+  border:1px solid rgba(255,195,132,.36);
+  border-radius:50%;
+  background:#101a3a;
+}
+
+.community-composer-input{
+  flex:1;
+  padding:11px 13px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:#101a3a;
+  color:#aeb7cb;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.community-feed-tools{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin:0 0 12px;
+}
+
+.community-feed-filter{
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:#182447;
+  color:#aeb7cb;
+  font:700 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-feed-filter.active,
+.community-feed-filter:hover{
+  border-color:rgba(255,195,132,.35);
+  background:rgba(255,195,132,.1);
+  color:#ffc384;
+}
+
+.community-main .feed{
+  width:100%;
+  max-width:none;
+  margin:0;
+}
+
+.community-main .feed .post{
+  margin-bottom:18px;
+}
+
+/* Keep current production card design; only make the sample media clearly Community-themed. */
+.community-main .demo-moon{
+  font-size:84px;
+}
+
+.community-main .sample-community-art{
+  width:100%;
+  height:100%;
+  min-height:300px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 70% 25%,rgba(255,190,132,.28),transparent 23%),
+    linear-gradient(135deg,#612c26,#111a38 72%);
+  font-size:90px;
+}
+
+.community-main .sample-blog-cover{
+  min-height:260px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 30% 60%,rgba(255,195,132,.3),transparent 22%),
+    linear-gradient(135deg,#633625,#17213e 68%);
+  color:#ffc384;
+  font-weight:800;
+}
+
+.community-basics-list,
+.community-rules-list,
+.moderator-list{
+  display:grid;
+  gap:10px;
+  margin-top:13px;
+}
+
+.community-rules-list{
+  gap:16px;
+  margin-top:16px;
+}
+
+.community-rule{
+  padding:2px 0;
+}
+
+.community-basic{
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+  color:#d4d9e5;
+  font-size:12px;
+  line-height:1.35;
+}
+
+.community-basic-icon{
+  width:20px;
+  color:#ffc384;
+  text-align:center;
+}
+
+.community-rule{
+  display:grid;
+  grid-template-columns:30px 1fr;
+  gap:11px;
+  align-items:start;
+}
+
+.community-rule-number{
+  width:28px;
+  height:28px;
+  box-sizing:border-box;
+  display:grid;
+  place-items:center;
+  border:1.5px solid rgba(255,195,132,.6);
+  border-radius:50%;
+  background:rgba(255,195,132,.07);
+  color:#ffc384;
+  font-size:10px;
+  line-height:1;
+  font-weight:800;
+  margin:0;
+}
+
+.community-rule strong{
+  display:block;
+  color:#f8f8f2;
+  font-size:12px;
+}
+
+.community-rule > div > span{
+  display:block;
+  margin-top:2px;
+  color:#aeb7cb;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.moderator{
+  display:flex;
+  gap:9px;
+  align-items:center;
+}
+
+.moderator-avatar{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.3);
+  border-radius:50%;
+  background:#101a3a;
+}
+
+.moderator-copy strong{
+  display:block;
+  font-size:12px;
+}
+
+.moderator-copy span{
+  color:#9da7bd;
+  font-size:10px;
+}
+
+.sidebar-link{
+  display:inline-block;
+  margin-top:12px;
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.promo-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:12px;
+  padding:7px 9px;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:9px;
+  background:rgba(255,195,132,.07);
+  color:#ffc384;
+  font-size:10px;
+  font-weight:800;
+}
+
+.about-full{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:18px;
+  margin-top:18px;
+}
+
+.about-copy{
+  padding:24px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:#182447;
+}
+
+.about-copy h2{
+  margin:0 0 10px;
+}
+
+.about-copy p{
+  color:#c7cedd;
+  line-height:1.7;
+}
+
+.about-copy h3{
+  margin:24px 0 8px;
+  color:#ffc384;
+}
+
+.member-directory{
+  margin-top:18px;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:#182447;
+}
+
+.member-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:15px;
+}
+
+.member-card{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.member-avatar{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#24345f;
+}
+
+.member-card strong{
+  display:block;
+  font-size:12px;
+}
+
+.member-card span{
+  color:#9ca7bd;
+  font-size:10px;
+}
+
+.lab-note{
+  margin:0 0 12px;
+  color:#8793ad;
+  font-size:10px;
+  text-align:right;
+}
+
+/* Popup uses the same CURRENT production class names. */
+#notificationQuickPopup[hidden]{
+  display:none!important;
+}
+
+@media(max-width:1050px){
+  .community-content-grid,
+  .about-full{
+    grid-template-columns:1fr;
+  }
+  .community-sidebar{
+    position:static;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .pinned-row{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+
+@media(max-width:980px){
+  .community-subnav{
+    justify-content:flex-start;
+  }
+  .community-search-wrap{
+    margin-left:auto;
+    position:static;
+    transform:none;
+  }
+}
+
+@media(max-width:720px){
+  .community-page{
+    width:94%;
+  }
+  .community-banner{
+    min-height:150px;
+  }
+  .community-banner::before{
+    left:20px;
+    bottom:24px;
+    font-size:34px;
+    letter-spacing:10px;
+  }
+  .community-banner::after{
+    display:none;
+  }
+  .community-identity{
+    align-items:flex-start;
+    flex-direction:column;
+    padding:0 18px 20px;
+  }
+  .community-avatar{
+    width:96px;
+    height:96px;
+    margin-top:-46px;
+    font-size:46px;
+  }
+  .community-title-row h1{
+    font-size:27px;
+  }
+  .community-header-actions{
+    width:100%;
+    justify-content:flex-start;
+    padding-top:0;
+  }
+  .community-subnav{
+    overflow:auto;
+  }
+  .community-search-wrap{
+    display:none;
+  }
+  .current-activity,
+  .community-sidebar,
+  .member-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.about-basics-full{
+  margin:22px 0 6px;
+  padding:18px;
+  border:1px solid rgba(255,195,132,.2);
+  border-radius:12px;
+  background:#101a3a;
+  scroll-margin-top:22px;
+}
+
+.about-basics-full h3{
+  margin:0 0 13px!important;
+}
+
+.community-icon-button.locked{
+  opacity:.78;
+  cursor:not-allowed;
+  border-color:rgba(255,195,132,.32);
+}
+
+.community-secondary:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+@media(max-width:1050px){
+  .community-sidebar{
+    max-height:none;
+    overflow:visible;
+    padding-right:0;
+  }
+  .pinned-row{
+    grid-template-columns:repeat(5,minmax(110px,1fr));
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+}
+
+
+/* --- PINNED POST OPEN VIEW --- */
+button.pinned-card{
+  width:100%;
+  padding:0;
+  color:inherit;
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  appearance:none;
+}
+
+.pinned-post-overlay{
+  position:fixed;
+  inset:0;
+  z-index:8000;
+  display:none;
+  overflow-y:auto;
+  padding:38px 18px;
+  box-sizing:border-box;
+  background:rgba(5,10,26,.82);
+  backdrop-filter:blur(7px);
+}
+
+.pinned-post-overlay.active{
+  display:block;
+}
+
+.pinned-post-dialog{
+  position:relative;
+  width:min(780px,96vw);
+  margin:0 auto;
+}
+
+.pinned-post-close{
+  position:sticky;
+  top:0;
+  z-index:5;
+  float:right;
+  width:38px;
+  height:38px;
+  margin:0 0 -38px;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:50%;
+  background:#101a3a;
+  color:#ffc384;
+  font:800 20px/1 'Outfit',sans-serif;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.28);
+}
+
+.pinned-open-post{
+  clear:both;
+  margin:0!important;
+  box-shadow:0 24px 60px rgba(0,0,0,.34);
+}
+
+.pinned-open-media{
+  min-height:300px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 32% 72%,rgba(255,195,132,.28),transparent 28%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  font-size:84px;
+}
+
+.pinned-open-note{
+  margin:-4px 0 16px;
+  color:#ffc384;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+
+.official-community-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.official-community-link{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(255,195,132,.22);border-radius:9px;background:rgba(255,195,132,.05);color:#ffc384;text-decoration:none;font-size:10px}
+.official-community-link strong{font-size:10px}
+.official-community-links.compact{display:grid;grid-template-columns:1fr}
+.official-community-link-note{margin-top:10px!important;color:#8995ae!important;font-size:10px!important}
+
+
+/* --- Community header controls: lighter, less button-heavy --- */
+.community-header-actions{
+  gap:7px;
+}
+
+#joinButton,
+#pinButton{
+  min-height:38px;
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:none;
+  font-size:11px;
+  letter-spacing:.01em;
+}
+
+#joinButton{
+  border-color:rgba(255,195,132,.54);
+  background:rgba(255,195,132,.96);
+  color:#101a3a;
+}
+
+#joinButton:hover{
+  transform:none;
+  box-shadow:0 0 0 3px rgba(255,195,132,.06);
+}
+
+#pinButton{
+  border-color:rgba(255,195,132,.25);
+  background:rgba(255,195,132,.055);
+  color:#d8deeb;
+}
+
+#pinButton.active{
+  border-color:rgba(255,195,132,.38);
+  background:rgba(255,195,132,.095);
+  color:#ffc384;
+}
+
+#communityBell{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border-color:rgba(255,195,132,.24);
+  background:rgba(255,195,132,.05);
+  font-size:15px;
+}
+
+
+.community-search{
+  transition:border-color .15s ease,background .15s ease;
+}
+
+.community-search:focus-within{
+  border-color:rgba(255,195,132,.58);
+  background:#111d40;
+  box-shadow:0 0 0 2px rgba(255,195,132,.05);
+}
+
+.community-search-results{
+  position:absolute;
+  right:0;
+  top:calc(100% + 7px);
+  width:min(380px,82vw);
+  max-height:360px;
+  overflow:auto;
+  padding:6px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:11px;
+  background:#101a3a;
+  box-shadow:0 18px 40px rgba(0,0,0,.34);
+}
+
+.community-search-results[hidden]{display:none!important}
+
+.community-search-result{
+  width:100%;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:9px;
+  align-items:start;
+  padding:9px 10px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#dce2ee;
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.community-search-result:hover{
+  background:rgba(255,195,132,.08);
+}
+
+.community-search-result-type{
+  min-width:58px;
+  color:#ffc384;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+
+.community-search-result-copy strong{
+  display:block;
+  overflow:hidden;
+  font-size:10px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.community-search-result-copy span{
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  color:#8995ae;
+  font-size:8px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.community-search-empty{
+  padding:12px;
+  color:#8995ae;
+  font-size:9px;
+  text-align:center;
+}
+
+.community-search-flash{
+  animation:communitySearchFlash 1.5s ease;
+}
+
+@keyframes communitySearchFlash{
+  0%,100%{box-shadow:inherit}
+  35%{box-shadow:0 0 0 2px rgba(255,195,132,.46),0 12px 28px rgba(0,0,0,.18)}
+}
+
+
+/* --- About tab becomes a useful Community Guide --- */
+.community-guide{
+  display:grid;
+  gap:14px;
+  margin-top:18px;
+}
+
+.community-guide-hero{
+  position:relative;
+  overflow:hidden;
+  padding:26px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 86% 24%,rgba(255,195,132,.15),transparent 25%),
+    linear-gradient(135deg,rgba(255,195,132,.09),rgba(255,195,132,.025)),
+    #182447;
+}
+
+.community-guide-hero::after{
+  content:"🎃  🕯️  👻";
+  position:absolute;
+  right:28px;
+  top:24px;
+  font-size:28px;
+  opacity:.7;
+}
+
+.community-guide-kicker{
+  color:#ffc384;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.11em;
+}
+
+.community-guide-hero h2{
+  margin:6px 0 7px;
+  font-size:25px;
+}
+
+.community-guide-hero p{
+  max-width:780px;
+  margin:0;
+  color:#c7cedd;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.community-guide-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:16px;
+}
+
+.community-guide-actions button{
+  padding:8px 10px;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:9px;
+  background:#101a3a;
+  color:#dce2ee;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-guide-actions button:hover{
+  border-color:rgba(255,195,132,.45);
+  color:#ffc384;
+}
+
+.community-guide-grid,
+.community-guide-lower{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.community-guide-card,
+.community-guide-rules{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  background:#182447;
+}
+
+.community-guide-card{
+  display:flex;
+  gap:13px;
+}
+
+.community-guide-card-wide{
+  display:block;
+}
+
+.guide-card-icon{
+  width:37px;
+  height:37px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:50%;
+  background:rgba(255,195,132,.06);
+}
+
+.community-guide-card h3,
+.community-guide-rules h3{
+  margin:0 0 7px;
+  color:#f8f8f2;
+  font-size:15px;
+}
+
+.community-guide-card p{
+  margin:0;
+  color:#aeb7cb;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.guide-basics{
+  margin:0;
+  padding:18px;
+  border-style:solid;
+  background:#182447;
+}
+
+.guide-section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.guide-section-heading h3{
+  margin:4px 0 0!important;
+  color:#f8f8f2!important;
+}
+
+.guide-section-heading > span{
+  color:#7f8ba5;
+  font-size:8px;
+}
+
+.guide-basics-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px 14px;
+  margin-top:0;
+}
+
+.guide-basics-grid .community-basic{
+  padding:10px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:9px;
+  background:#101a3a;
+}
+
+.guide-rule-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px 18px;
+  margin-top:0;
+}
+
+.community-guide-rules{
+  border-color:rgba(255,195,132,.16);
+}
+
+@media(max-width:860px){
+  .community-guide-grid,
+  .community-guide-lower,
+  .guide-rule-grid,
+  .guide-basics-grid{
+    grid-template-columns:1fr;
+  }
+  .community-guide-hero::after{
+    opacity:.28;
+  }
+}
+
+
+/* --- Members tab --- */
+.active-members-panel{
+  margin-top:18px;
+  padding:20px;
+  border:1px solid rgba(255,195,132,.18);
+  border-radius:14px;
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.055),transparent 45%),
+    #182447;
+}
+
+.active-members-panel .section-heading{
+  align-items:flex-end;
+}
+
+.active-members-note{
+  margin-left:auto;
+  color:#7f8ba5;
+  font-size:8px;
+}
+
+.active-member-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.active-member-card{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.active-member-card strong{
+  display:block;
+  overflow:hidden;
+  font-size:10px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.active-member-card span{
+  display:block;
+  margin-top:3px;
+  color:#8995ae;
+  font-size:8px;
+  line-height:1.35;
+}
+
+.additional-member{
+  display:none;
+}
+
+.member-directory.expanded .additional-member{
+  display:flex;
+}
+
+.see-more-members{
+  display:block;
+  margin:14px auto 0;
+  padding:8px 12px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:999px;
+  background:rgba(255,195,132,.055);
+  color:#ffc384;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.see-more-members:hover{
+  background:rgba(255,195,132,.09);
+}
+
+@media(max-width:1050px){
+  .active-member-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px){
+  .active-member-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* --- Light Community polish --- */
+.community-about-panel{
+  padding:15px 16px;
+  border-color:rgba(255,195,132,.12);
+}
+
+.community-about-panel p{
+  margin-top:7px;
+  color:#b9c2d4;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.community-panel{
+  position:relative;
+}
+
+.community-panel::before{
+  content:"";
+  position:absolute;
+  left:16px;
+  right:16px;
+  top:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,195,132,.18),transparent);
+}
+
+.community-composer-preview{
+  border:1px dotted rgba(255,195,132,.52);
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.045),transparent 40%),
+    #182447;
+}
+
+.activity-card.featured{
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.055),transparent 42%),
+    #182447;
+}
+
+.activity-card[role="button"]{
+  cursor:pointer;
+}
+
+.activity-card[role="button"]:hover{
+  border-color:rgba(255,195,132,.26);
+}
+
+.pinned-shelf{
+  box-shadow:inset 0 1px 0 rgba(255,195,132,.04);
+}
+
+
+.dynamic-community-banner{
+  background:
+    radial-gradient(circle at 22% 68%,rgba(255,195,132,.22),transparent 22%),
+    radial-gradient(circle at 73% 32%,rgba(255,195,132,.11),transparent 25%),
+    linear-gradient(135deg,#1a274f,#101a3a 70%);
+}
+
+.dynamic-community-banner::before,
+.dynamic-community-banner::after{
+  content:none!important;
+}
+
+.community-empty-state{
+  padding:30px 24px;
+  border:1px dashed rgba(255,195,132,.32);
+  border-radius:14px;
+  background:rgba(255,195,132,.045);
+  text-align:center;
+}
+
+.community-empty-state strong{
+  display:block;
+  color:#f8f8f2;
+  font-size:16px;
+}
+
+.community-empty-state span{
+  display:block;
+  margin-top:7px;
+  color:#aeb7cb;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.community-empty-links{
+  color:#8f9ab3;
+  font-size:11px;
+  line-height:1.5;
+}
+
+
+.community-primary:disabled{
+  opacity:.72;
+  cursor:default;
+  transform:none!important;
+}
+
+.community-access-note{
+  color:#9ca7bd;
+  font-size:10px;
+  font-weight:700;
+}
+
+
+.community-composer-preview.posting-disabled{
+  opacity:.78;
+}
+
+.community-composer-preview.posting-disabled .quick-thought-input{
+  cursor:not-allowed;
+}
+
+.community-posting-note{
+  margin-top:8px;
+  color:#9ca7bd;
+  font-size:10px;
+  line-height:1.4;
+}
+
+
+/* ============================================================
+   COMMUNITY MASTER V3 — SIMPLIFIED ARCHITECTURE
+   ============================================================ */
+
+.community-nav-action{
+  border:0;
+  border-radius:9px;
+  padding:9px 16px;
+  background:transparent;
+  color:#aeb7cb;
+  font:700 13px 'Outfit',sans-serif;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.community-nav-action:hover{
+  background:rgba(255,195,132,.12);
+  color:#ffc384;
+}
+
+.community-overview-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+  margin-top:18px;
+}
+
+.community-overview-main{
+  min-width:0;
+}
+
+.community-info-stack{
+  position:static;
+  display:block;
+  max-height:none;
+  overflow:visible;
+  padding:0;
+}
+
+.community-info-card{
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:15px;
+  background:
+    linear-gradient(145deg,rgba(255,195,132,.035),transparent 32%),
+    #182447;
+  box-shadow:0 14px 34px rgba(0,0,0,.12);
+}
+
+.community-info-card::before{
+  content:none;
+}
+
+.community-info-section{
+  padding:18px;
+}
+
+.community-info-section h2{
+  margin:3px 0 0;
+  font-size:18px;
+}
+
+.community-info-about p{
+  margin:9px 0 0;
+  color:#c4cada;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.community-info-kicker{
+  color:#ffc384;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.community-info-divider{
+  height:1px;
+  margin:0 18px;
+  background:linear-gradient(90deg,transparent,rgba(255,195,132,.28),transparent);
+}
+
+.community-info-card .community-basics-list{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px 15px;
+  margin-top:12px;
+}
+
+.community-info-card .community-basic{
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.community-info-card .community-basic:nth-last-child(-n+2){
+  border-bottom:0;
+}
+
+.community-info-card .promo-badge{
+  margin-top:13px;
+}
+
+.community-info-card .official-community-links.compact{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:11px;
+}
+
+.community-info-card .official-community-link{
+  flex:1 1 135px;
+}
+
+.announcement-carousel{
+  margin-bottom:16px;
+}
+
+.pinned-shelf{
+  margin-bottom:16px;
+  padding:14px 15px 15px;
+}
+
+.pinned-row{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+}
+
+.pinned-card{
+  overflow:visible;
+  border:0;
+  background:transparent;
+}
+
+.pinned-card:hover{
+  transform:translateY(-2px);
+  box-shadow:none;
+}
+
+.pinned-art{
+  position:relative;
+  width:100%;
+  height:auto;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 28% 74%,rgba(255,195,132,.32),transparent 28%),
+    linear-gradient(135deg,#613325,#17213f 72%);
+}
+
+.pinned-card:hover .pinned-art{
+  border-color:rgba(255,195,132,.55);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+
+.pinned-emoji{
+  font-size:32px;
+}
+
+.pinned-type{
+  position:absolute;
+  top:7px;
+  left:7px;
+  z-index:2;
+  padding:3px 6px;
+  border:1px solid rgba(255,195,132,.35);
+  border-radius:999px;
+  background:rgba(16,26,58,.88);
+  color:#ffc384;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.pinned-card-body{
+  padding:7px 2px 0;
+}
+
+.pinned-card h3{
+  white-space:normal;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+.community-feed-section{
+  margin-top:22px;
+}
+
+.community-feed-heading-v3{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 12px;
+}
+
+.community-feed-heading-v3 h2{
+  margin:3px 0 0;
+  font-size:20px;
+}
+
+.community-feed-heading-v3 > span{
+  color:#8794ae;
+  font-size:9px;
+}
+
+.community-feed-area{
+  width:100%;
+}
+
+.community-main .feed.community-feed-masonry{
+  display:block;
+  width:100%;
+  max-width:none;
+  column-count:2;
+  column-gap:18px;
+}
+
+.community-feed-masonry > .post{
+  width:100%;
+  break-inside:avoid;
+  -webkit-column-break-inside:avoid;
+  page-break-inside:avoid;
+  margin:0 0 18px;
+}
+
+.community-full-composer.active{
+  margin-bottom:16px!important;
+}
+
+.community-guide-actions{
+  display:none!important;
+}
+
+/* integrated owner/moderator tools */
+.community-staff-layout{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin-top:18px;
+}
+
+.community-staff-card{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:#182447;
+  box-shadow:0 12px 30px rgba(0,0,0,.11);
+}
+
+.community-staff-card h2{
+  margin:4px 0 0;
+  font-size:18px;
+}
+
+.community-staff-card .section-heading{
+  margin-bottom:12px;
+}
+
+.staff-owner-note{
+  margin-left:auto;
+  color:#8794ae;
+  font-size:8px;
+}
+
+.staff-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.staff-activity-list{
+  display:grid;
+  gap:8px;
+  margin-top:14px;
+}
+
+.staff-activity-item{
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:9px;
+  align-items:start;
+  padding:9px 0;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.staff-activity-item:first-child{
+  border-top:0;
+}
+
+.staff-activity-item strong{
+  display:block;
+  font-size:10px;
+}
+
+.staff-activity-item small{
+  display:block;
+  margin-top:2px;
+  color:#8592ac;
+  font-size:8px;
+}
+
+.community-mod-chat-card{
+  grid-column:1/-1;
+}
+
+.staff-chat-intro{
+  margin:6px 0 14px;
+  color:#9ea8bd;
+  font-size:10px;
+}
+
+.mod-chat-thread{
+  display:grid;
+  gap:10px;
+}
+
+.mod-chat-message{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:9px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.mod-chat-message strong{
+  font-size:10px;
+}
+
+.mod-chat-message p{
+  margin:3px 0 0;
+  color:#c3cad9;
+  font-size:10px;
+  line-height:1.45;
+}
+
+.mod-chat-meta{
+  margin-top:7px;
+  color:#7f8ca7;
+  font-size:8px;
+}
+
+.mod-chat-meta button{
+  border:0;
+  padding:0;
+  background:transparent;
+  color:#ffc384;
+  font:700 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.mod-chat-compose{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.mod-chat-compose input{
+  flex:1;
+  min-width:0;
+  height:36px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:9px;
+  outline:0;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 10px 'Outfit',sans-serif;
+}
+
+.mod-chat-compose input:focus{
+  border-color:rgba(255,195,132,.5);
+}
+
+.mod-chat-compose button{
+  padding:0 12px;
+  border:1px solid rgba(255,195,132,.35);
+  border-radius:9px;
+  background:rgba(255,195,132,.08);
+  color:#ffc384;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+@media(max-width:1150px){
+  .community-overview-grid{
+    grid-template-columns:1fr;
+  }
+
+  .community-main .feed.community-feed-masonry{
+    column-count:1;
+  }
+
+  .community-info-card .community-basics-list{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .community-info-card .community-basics-list{
+    grid-template-columns:1fr;
+  }
+
+  .pinned-row{
+    display:flex;
+    overflow-x:auto;
+    gap:10px;
+  }
+
+  .pinned-card{
+    flex:0 0 125px;
+  }
+
+  .community-feed-heading-v3{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .community-staff-layout{
+    grid-template-columns:1fr;
+  }
+
+  .community-mod-chat-card{
+    grid-column:auto;
+  }
+
+  .community-nav-action{
+    white-space:nowrap;
+  }
+}
+
+</style>
+</head>
+<body class="community-master">
+
+<!-- ============================================================
+     CURRENT ALL MEDIA HEADER — copied from production structure.
+     Only link paths are adjusted for /labs/.
+     ============================================================ -->
+<header class="site-header">
+<a class="brand-lockup" href="index.html" aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="#">All Play</a>
+</nav>
+<label class="global-search">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+</label>
+<div class="header-actions">
+<button class="header-notifications" id="headerNotificationBell" type="button" aria-label="Notifications" aria-haspopup="dialog" aria-expanded="false" title="Notifications">
+<span class="notification-bell">🔔</span>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</button>
+<section class="notification-quick-popup" id="notificationQuickPopup" aria-label="Recent notifications" hidden>
+<div class="quick-popup-header">
+<div><h2>Quick Notifications</h2><p>Recent activity</p></div>
+<div class="quick-popup-header-actions">
+<button class="quick-mark-all-read" id="quickPopupMarkAllRead" type="button">Mark all read</button>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions"><button class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+</div>
+</article>
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy"><div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div><div class="quick-preview">Painted pumpkin shelf</div><div class="quick-meta">21 min ago</div></div>
+</article>
+</div>
+<a class="quick-popup-footer" href="notifications.html">See more notifications <span>→</span></a>
+</section>
+<a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"></span></a>
+</div>
+</header>
+
+<!-- ============================================================
+     CURRENT COMMUNITIES HOTBAR — same production structure.
+     ============================================================ -->
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities" id="masterPinnedCommunities">
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🎃</span>Spooky Cozy
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">5</span>
+</span>
+</button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🎨</span>Artists
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">2</span>
+</span>
+</button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🐢</span>Turtle Rescue
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">1</span>
+</span>
+</button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
+<div class="community-dropdown" id="communityDropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+</div>
+</div>
+<button class="community-tool" type="button" onclick="window.location.href='Manage-Communities-Master-V2.html'">Manage Communities</button>
+</div>
+</div>
+<div class="community-divider"></div>
+
+<main class="community-page">
+<div class="lab-note">COMMUNITIES MASTER V3 · simplified Community architecture</div>
+
+<section class="community-hero">
+<div class="community-banner" aria-label="Spooky Cozy community banner"></div>
+<div class="community-identity">
+<div class="community-avatar" aria-hidden="true">🎃</div>
+<div class="community-copy">
+<div class="community-title-row">
+<h1>Spooky Cozy</h1>
+<div class="community-interest-row">
+<span class="community-interest">Halloween</span>
+<span class="community-interest">Art</span>
+<span class="community-interest">Cozy</span>
+<span class="community-interest">Crafts</span>
+</div>
+</div>
+<p class="community-description">A cozy corner for people who think Halloween is a year-round lifestyle.</p>
+<div class="community-facts">
+<span class="community-fact">◉ Public Community</span>
+<span class="community-fact">♡ Free</span>
+<span class="community-fact">🔗 Links: Community + Creator &amp; Shop</span>
+<span class="community-fact">12.4K members</span>
+</div>
+</div>
+<div class="community-header-actions">
+<button class="community-primary" id="joinButton" type="button">✓ Joined</button>
+<button class="community-icon-button" id="communityBell" type="button" title="Community notifications">🔔</button>
+</div>
+</div>
+</section>
+
+<nav class="community-subnav" aria-label="Spooky Cozy">
+<button class="community-tab active" data-view="home" type="button">Home</button>
+<button class="community-tab" data-view="about" type="button">Community Guide</button>
+<button class="community-tab" data-view="members" type="button">Members</button>
+<a class="community-nav-action" id="communityEditNav" href="Create-Community-Master-V2.html?mode=edit&community=spooky-cozy" hidden>Edit</a>
+<button class="community-tab" id="communityStaffNav" data-view="moderators" type="button" hidden>Moderators</button>
+<div class="community-search-wrap">
+<label class="community-search"><span aria-hidden="true">⌕</span><input id="communitySearchInput" type="search" placeholder="Search Spooky Cozy…" autocomplete="off" aria-label="Search Spooky Cozy"></label>
+<div class="community-search-results" id="communitySearchResults" hidden></div>
+</div>
+</nav>
+
+<!-- ========================== HOME VIEW ========================== -->
+<section class="community-view active" id="community-home">
+
+<div class="community-overview-grid">
+  <div class="community-overview-main">
+<section class="announcement-carousel" id="communityAnnouncementCarousel" aria-label="Community announcements">
+<div class="announcement-counter" id="announcementCounter">1 / 3</div>
+<div class="announcement-track">
+
+<article class="announcement-slide active" data-announcement-type="welcome">
+<div class="announcement-mark">👋</div>
+<div>
+<div class="announcement-label">Welcome</div>
+<h2>Welcome to Spooky Cozy 🎃</h2>
+<p>A year-round place for Halloween people, cozy weirdos, artists, collectors, crafters, and anyone who never quite puts the spooky season away.</p>
+</div>
+<div class="announcement-art" aria-hidden="true">👻</div>
+</article>
+
+<article class="announcement-slide" data-announcement-type="update">
+<div class="announcement-mark">✦</div>
+<div>
+<div class="announcement-label">Community Update</div>
+<h2>October Show &amp; Tell starts next week</h2>
+<p>Share your spooky setup, art, crafts, collections, costumes, or decorating projects. The monthly prompt will stay pinned for easy access.</p>
+</div>
+<div class="announcement-art" aria-hidden="true">🕯️</div>
+</article>
+
+<article class="announcement-slide" data-announcement-type="announcement">
+<div class="announcement-mark">📣</div>
+<div>
+<div class="announcement-label">Announcement</div>
+<h2>October Art Exchange signups close Friday 🎃</h2>
+<p>Pair up with another spooky creator, make something tiny, and mail or digitally exchange it before Halloween.</p>
+</div>
+<div class="announcement-art" aria-hidden="true">🎃</div>
+</article>
+
+</div>
+
+<div class="announcement-controls" aria-label="Announcement navigation">
+<button class="announcement-arrow" id="announcementPrev" type="button" aria-label="Previous announcement">‹</button>
+<div class="announcement-dots" id="announcementDots">
+<button class="announcement-dot active" type="button" aria-label="Show announcement 1" data-index="0"></button>
+<button class="announcement-dot" type="button" aria-label="Show announcement 2" data-index="1"></button>
+<button class="announcement-dot" type="button" aria-label="Show announcement 3" data-index="2"></button>
+</div>
+<button class="announcement-arrow" id="announcementNext" type="button" aria-label="Next announcement">›</button>
+</div>
+</section>
+
+<section class="pinned-shelf">
+<div class="section-heading"><span>📌</span><h2>Pinned Posts</h2></div>
+<div class="pinned-row">
+<button class="pinned-card" type="button" data-pinned-id="showtell" onclick="openPinnedPost('showtell')"><div class="pinned-art"><span class="pinned-type">POST</span><span class="pinned-emoji">🎃</span></div><div class="pinned-card-body"><h3>September Show &amp; Tell</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="welcome" onclick="openPinnedPost('welcome')"><div class="pinned-art"><span class="pinned-type">POST</span><span class="pinned-emoji">👋</span></div><div class="pinned-card-body"><h3>Welcome to Spooky Cozy</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="guidelines" onclick="openPinnedPost('guidelines')"><div class="pinned-art"><span class="pinned-type">BLOG</span><span class="pinned-emoji">🧡</span></div><div class="pinned-card-body"><h3>Community Guidelines</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="resources" onclick="openPinnedPost('resources')"><div class="pinned-art"><span class="pinned-type">BLOG</span><span class="pinned-emoji">🕯️</span></div><div class="pinned-card-body"><h3>Vintage Halloween Resources</h3></div></button>
+<button class="pinned-card" type="button" data-pinned-id="exchange" onclick="openPinnedPost('exchange')"><div class="pinned-art"><span class="pinned-type">VIDEO</span><span class="pinned-emoji">🦇</span></div><div class="pinned-card-body"><h3>October Art Exchange</h3></div></button>
+</div>
+</section>
+
+<section class="community-composer-preview">
+<div class="quick-thought-label">Leave a quick thought</div>
+<div class="quick-thought-row">
+<div class="community-composer-avatar" aria-hidden="true"></div>
+<input class="quick-thought-input" id="quickThoughtInput" maxlength="500" placeholder="Share something with Spooky Cozy…" aria-label="Leave a quick thought">
+<button class="quick-thought-send" id="quickThoughtSend" type="button" aria-label="Post quick thought" title="Post quick thought" disabled>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m14 7 5 5-5 5"></path></svg>
+</button>
+<button class="community-primary community-create-full" id="openCommunityCreator" type="button">Create Post</button>
+</div>
+</section>
+
+<section class="composer mode-post community-full-composer" id="communityFullComposer">
+<div class="creator-intro"><h2>Create something</h2><p>Share a post, blog, video, or quick byte with Spooky Cozy.</p></div>
+<div class="community-creator-context"><span><strong>Posting in 🎃 Spooky Cozy</strong> · Match Halloween, Art, Cozy or Crafts.</span><button class="community-creator-close" id="closeCommunityCreatorTop" type="button">Close ×</button></div>
+
+<div class="creator-type-tabs" role="tablist" aria-label="Content type">
+<button type="button" class="creator-type-tab active" data-type="post"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.5-1 10-10-3.5-3.5-10 10L4 20Z"></path><path d="m13.5 7 3.5 3.5"></path></svg><span>POST</span></button>
+<button type="button" class="creator-type-tab" data-type="blog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h10l3 3v15H6Z"></path><path d="M9 9h6M9 13h6M9 17h4"></path></svg><span>BLOG</span></button>
+<button type="button" class="creator-type-tab" data-type="video"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="m16 10 5-3v10l-5-3Z"></path></svg><span>VIDEO</span></button>
+<button type="button" class="creator-type-tab" data-type="byte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-8 12h6l-1 8 9-13h-6Z"></path></svg><span>BYTE</span></button>
+</div>
+
+<div class="blog-title-wrap" id="communityBlogTitleWrap"><input class="blog-title-input" maxlength="120" placeholder="Blog title"><div class="blog-title-count">0 / 120</div></div>
+<div class="community-prototype-media" id="communityPrototypeMedia">Upload images · up to 6 · crop and rearrange using the existing All Media creator tools</div>
+
+<div class="post-text-wrap">
+<div class="creator-avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="11"></circle><path d="M14 55c2-13 9-19 18-19s16 6 18 19"></path><path d="M22 19c2-8 17-11 21 1-5-3-15-3-21-1Z"></path></svg></div>
+<div class="creator-writing-field"><textarea class="text-area" id="communityCreatorText" maxlength="500" placeholder="What's on your mind? Use @ to tag your friends!"></textarea><span class="textarea-resize-hint" aria-hidden="true">Drag to expand ↘</span><div class="post-char-count" id="communityCreatorCount">0 / 500</div></div>
+</div>
+
+<div class="creator-tools" aria-label="Post options">
+<div class="link-tool creator-tool"><button type="button" class="composer-option creator-tool-button"><span aria-hidden="true">🔗</span><span>Link</span><span class="creator-tool-value">Allowed here</span></button></div>
+<div class="topic-picker creator-tool"><button type="button" class="topic-toggle creator-tool-button"><span class="creator-interest-icon" aria-hidden="true">✨︎</span><span>Interest</span><span class="creator-tool-value">Halloween</span></button></div>
+<div class="hashtag-picker creator-tool"><button type="button" class="hashtag-toggle creator-tool-button"><span aria-hidden="true">#</span><span>Hashtags</span><span class="creator-tool-value"></span></button></div>
+<div class="community-picker creator-tool"><button type="button" class="community-picker-toggle creator-tool-button"><span aria-hidden="true">◉</span><span>Communities</span><span class="creator-tool-value">🎃 Spooky Cozy</span></button></div>
+</div>
+
+<div class="profile-setting">
+<div class="setting-switch-row"><span class="setting-switch-label">Show on Profile</span><label class="setting-switch"><input type="checkbox" checked><span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span><span class="switch-status">On</span></label></div>
+<div class="setting-switch-row"><span class="setting-switch-label">Allow Image Expansion</span><label class="setting-switch"><input type="checkbox" checked><span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span><span class="switch-status">On</span></label></div>
+</div>
+
+<div class="composer-actions">
+<button class="community-composer-cancel" id="closeCommunityCreatorBottom" type="button">Cancel</button>
+<span class="post-warning" id="communityCreatorWarning">Looks like your post is missing some context…</span>
+<button class="post-button" id="communityCreatorPost" type="button"><svg class="publish-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-8-8-2Z"></path><path d="m11 13 10-10"></path></svg><span class="publish-label">POST</span></button>
+</div>
+</section>
+  </div>
+
+
+<aside class="community-sidebar community-info-stack">
+  <section class="community-info-card community-about-panel">
+    <div class="community-info-section community-info-about">
+      <div class="community-info-kicker">ABOUT</div>
+      <h2>About This Community</h2>
+      <p>A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating and everything a little haunted.</p>
+    </div>
+
+    <div class="community-info-divider"></div>
+
+    <div class="community-info-section">
+      <div class="community-info-kicker">COMMUNITY BASICS</div>
+      <div class="community-basics-list">
+        <div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>Public Community</strong><br>Anyone can view before joining.</span></div>
+        <div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
+        <div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>Members can post</strong><br>Original posts are allowed.</span></div>
+        <div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>Reblogs allowed</strong><br>Eligible posts may be added here.</span></div>
+        <div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>Link sharing</strong><br>Community-related, Creator &amp; Shop links are allowed.</span></div>
+        <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
+      </div>
+      <div class="promo-badge">🔗 COMMUNITY + CREATOR &amp; SHOP LINKS</div>
+    </div>
+
+    <div class="community-info-divider"></div>
+
+    <div class="community-info-section">
+      <div class="community-info-kicker">OFFICIAL LINKS</div>
+      <div class="official-community-links compact">
+        <a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
+        <a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
+        <a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
+      </div>
+    </div>
+  </section>
+</aside>
+
+</div>
+
+<section class="community-feed-section">
+  <div class="community-feed-heading-v3">
+    <div>
+      <div class="community-info-kicker">COMMUNITY POSTS</div>
+      <h2>Latest from the Community</h2>
+    </div>
+    <span>Conversation first · no popularity ranking</span>
+  </div>
+
+  <div class="community-main community-feed-area">
+<section class="feed community-feed-masonry" id="feed">
+
+<!-- CURRENT REGULAR POST CARD STRUCTURE -->
+<article class="post regular-post">
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">m</div>
+<div class="post-author-copy">
+<div class="post-author-line">
+<span class="username">@moonlitmoth</span>
+<span class="post-time">· 12m ago</span> <span class="post-type-bubble" id="pinnedPostType">POST</span>
+</div>
+<div class="post-meta-line">
+<span class="topic">🎃 Halloween</span>
+<span class="post-community">· in 🎃 Spooky Cozy</span>
+</div>
+</div>
+<div class="post-header-right">
+<button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button>
+<div class="regular-post-menu">
+<button class="post-menu-action" type="button">Edit</button>
+<span class="post-menu-divider">|</span>
+<button class="post-menu-action post-menu-delete" type="button">Delete</button>
+</div>
+</div>
+</header>
+<div class="post-image crop-fit">
+<div class="sample-community-art" aria-label="Spooky cozy artwork placeholder">🌙🎃</div>
+</div>
+<p class="caption">Finally finished this little moon-and-pumpkin piece tonight. 🌙🎃 It feels exactly like the sort of thing that belongs in a tiny haunted cottage.</p>
+<div class="interactions">
+<button class="action-pill regular-like-button" onclick="masterToggleLike(this)" type="button">
+<svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+<span class="like-count">24</span>
+</button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>14</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="masterToggleSave(this)" type="button">
+<svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
+</button>
+</div>
+<div class="latest-comment">
+<span class="comment-username">@cryptidcorner:</span>
+<span class="latest-comment-copy">The glow on this is SO good. It looks like a tiny storybook page.</span>
+<span class="latest-comment-time">2m ago</span>
+</div>
+<div class="post-footer">
+<div class="single-comment-composer">
+<div class="comment-composer" onclick="masterOpenComposer(this)">
+<div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+<div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div>
+</div>
+<div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+</div>
+<button class="more-comments" onclick="masterToggleComments(this)" type="button">View 7 more</button>
+<div class="post-footer-actions"><button class="hashtag-link" onclick="masterToggleHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+</div>
+<div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#moonart</span></div>
+<section class="comments-section">
+<div class="comment-item"><div aria-hidden="true" class="comment-avatar">m</div><div class="comment-body"><div class="comment-author">@mossandbones</div><div>This glow is gorgeous. It feels like a tiny window into a story.</div><div class="comment-actions"><button class="comment-action comment-like-button" type="button">♡ Like</button><button class="comment-action" type="button">Reply</button></div></div></div>
+</section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+</article>
+
+<!-- CURRENT BLOG CARD STRUCTURE -->
+<article class="post blog-post blog-post-v11 sample-post">
+<header class="post-header">
+<div class="profile-picture">p</div>
+<div class="post-author-copy">
+<div class="post-author-line"><span class="username">@paperlantern</span><span class="post-time">· 54m ago</span><span class="post-type-bubble">BLOG</span></div>
+<div class="post-meta-line"><span class="topic">📚 Books</span><span class="post-community">· in 🎃 Spooky Cozy</span></div>
+</div>
+<div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="blog-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
+</header>
+<h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>Why I Keep a Tiny Autumn Sketchbook</h2>
+<div aria-label="Blog preview image placeholder" class="blog-preview-image blog-home-preview"><div class="sample-media-art sample-blog-cover"><div class="sample-media-copy">AUTUMN SKETCHBOOK</div></div></div>
+<p class="blog-excerpt blog-feed-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project…</p>
+<button class="read-blog blog-read-button" onclick="masterToggleBlog(this)" type="button">Read Blog →</button>
+<div class="blog-full-content blog-full-body"><p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p><p>Lately mine has become a tiny archive of crooked houses, sleepy moons, leaves, pumpkins and color notes.</p></div>
+<div class="interactions">
+<button class="action-pill blog-like-button" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">18</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>6</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button aria-label="Save post" class="save-action" onclick="masterToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+</div>
+<div class="latest-comment"><span class="comment-username">@bookmarkwitch:</span><span class="latest-comment-copy">This makes me want to start carrying one too.</span><span class="latest-comment-time">8m ago</span></div>
+<div class="post-footer"><div class="single-comment-composer"><div class="comment-composer" onclick="masterOpenComposer(this)"><div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div><div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div></div></div><button class="more-comments" onclick="masterToggleComments(this)" type="button">View 1 more</button><div class="post-footer-actions"><button class="hashtag-link" onclick="masterToggleHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+<div class="post-hashtags"><span class="post-hashtag">#sketchbook</span><span class="post-hashtag">#creativeprocess</span></div>
+<section class="comments-section"><div class="comment-item"><div aria-hidden="true" class="comment-avatar">b</div><div class="comment-body"><div class="comment-author">@bookmarkwitch</div><div>This makes me want to start carrying one too.</div></div></div></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+</article>
+
+<!-- CURRENT VIDEO CARD STRUCTURE -->
+<article class="post video-post-v11 sample-post" data-post-type="video">
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">r</div>
+<div class="post-author-copy"><div class="post-author-line"><span class="username">@ravenandruins</span><span class="post-time">· 2h ago</span><span class="post-type-bubble">VIDEO</span></div><div class="post-meta-line"><span class="topic">🎨 Art</span><span class="post-community">· in 🎃 Spooky Cozy</span></div></div>
+<div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="video-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
+</header>
+<h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
+<div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
+<div class="sample-community-art" style="min-height:360px;font-size:82px">🎨🌙</div>
+<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button><button type="button" class="video-control-button video-control-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">4:12</span><button type="button" class="video-control-button video-control-fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button></div></div>
+</div>
+<p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
+<div class="interactions">
+<button class="action-pill video-like-button" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">91</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>22</span> · Reblog</button><button class="share-action" type="button">↗ Share</button><button aria-label="Save post" class="save-action" onclick="masterToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+</div>
+<div class="latest-comment"><span class="comment-username">@lanternmoth:</span><span class="latest-comment-copy">The awkward middle stage is honestly my favorite part to see.</span><span class="latest-comment-time">14m ago</span></div>
+<div class="post-footer"><div class="single-comment-composer"><div class="comment-composer" onclick="masterOpenComposer(this)"><div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div><div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div></div></div><button class="more-comments" onclick="masterToggleComments(this)" type="button">View 7 more</button><div class="post-footer-actions"><button class="hashtag-link" onclick="masterToggleHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+<div class="post-hashtags"><span class="post-hashtag">#processvideo</span><span class="post-hashtag">#spookyart</span></div>
+<section class="comments-section"></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+</article>
+
+<!-- CURRENT BYTE CARD STRUCTURE -->
+<article class="post byte-post-v11 sample-post" data-post-type="byte">
+<div class="byte-stage">
+<div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+<div class="sample-community-art" style="min-height:520px;font-size:78px">🐈‍⬛🕯️</div>
+<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">0:42</span></div></div>
+</div>
+</div>
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">c</div>
+<div class="post-author-copy"><div class="post-author-line"><span class="username">@cozycryptid</span><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div><div class="post-meta-line"><span class="topic">${currentCommunityState().icon||'◉'} ${(currentCommunityState().interests||['All Interests'])[0]}</span><span class="post-community">· in ${currentCommunityState().icon||'◉'} ${currentCommunityState().name}</span></div></div>
+<div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="byte-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
+</header>
+<p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
+<div class="interactions">
+<button class="action-pill byte-like-button" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">147</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+<button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>31</span> · Reblog</button><button class="share-action" type="button">↗ Share</button><button aria-label="Save post" class="save-action" onclick="masterToggleSave(this)" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+</div>
+<div class="latest-comment"><span class="comment-username">@pumpkinwitch:</span><span class="latest-comment-copy">Please tell your familiar they have excellent taste.</span><span class="latest-comment-time">22m ago</span></div>
+<div class="post-footer"><div class="single-comment-composer"><div class="comment-composer" onclick="masterOpenComposer(this)"><div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div><div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div></div></div><button class="more-comments" onclick="masterToggleComments(this)" type="button">View 4 more</button><div class="post-footer-actions"><button class="hashtag-link" onclick="masterToggleHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+<div class="post-hashtags"><span class="post-hashtag">#blackcat</span><span class="post-hashtag">#spookycozy</span></div>
+<section class="comments-section"></section>
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+</article>
+
+</section>
+  </div>
+</section>
+
+</section>
+
+<!-- ========================== ABOUT VIEW ========================== -->
+<section class="community-view" id="community-about">
+<div class="community-guide">
+
+<section class="community-guide-hero">
+<div class="community-guide-kicker">COMMUNITY GUIDE</div>
+<h2>Welcome to Spooky Cozy 🎃</h2>
+<p>A year-round corner for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted.</p>
+</section>
+
+<div class="community-guide-grid">
+<article class="community-guide-card">
+<div class="guide-card-icon">✨</div>
+<div>
+<h3>What belongs here</h3>
+<p>Decorations and seasonal setups, crafts and DIY projects, collections and vintage finds, art and creative work, recipes and cozy treats, questions, discussion and spooky chit-chat.</p>
+</div>
+</article>
+
+<article class="community-guide-card">
+<div class="guide-card-icon">🕯️</div>
+<div>
+<h3>Community traditions</h3>
+<p>Monthly Show &amp; Tell, seasonal art exchanges, resource-sharing threads, cozy discussion prompts, and year-round Halloween inspiration.</p>
+</div>
+</article>
+</div>
+
+<section class="about-basics-full guide-basics" id="communityBasicsFull">
+<div class="guide-section-heading">
+<div>
+<div class="community-guide-kicker">BEFORE YOU POST</div>
+<h3>Community Basics</h3>
+</div>
+<span>Automatically enforced by All Media</span>
+</div>
+<div class="community-basics-list guide-basics-grid">
+<div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>Public Community</strong><br>Anyone can view before joining.</span></div>
+<div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
+<div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>Members can post</strong><br>Original posts are allowed.</span></div>
+<div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>Reblogs allowed</strong><br>Eligible posts may be added here.</span></div>
+<div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>Link sharing</strong><br>Community-related, Creator &amp; Shop links are allowed.</span></div>
+<div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
+</div>
+</section>
+
+<div class="community-guide-lower">
+<section class="community-guide-card community-guide-card-wide">
+<h3>Community Interests</h3>
+<div class="community-interest-row"><span class="community-interest">Halloween</span><span class="community-interest">Art</span><span class="community-interest">Cozy</span><span class="community-interest">Crafts</span></div>
+</section>
+
+<section class="community-guide-card community-guide-card-wide">
+<h3>Official Community Links</h3>
+<div class="official-community-links">
+<a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
+<a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
+<a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
+</div>
+<p class="official-community-link-note">These are official links chosen by the Community owner.</p>
+</section>
+</div>
+
+<section class="community-guide-rules">
+<div class="guide-section-heading">
+<div>
+<div class="community-guide-kicker">HOW WE TREAT EACH OTHER</div>
+<h3>Community Rules</h3>
+</div>
+<span>Human expectations, enforced by moderators</span>
+</div>
+<div class="community-rules-list guide-rule-grid">
+<div class="community-rule"><span class="community-rule-number">1</span><div><strong>Keep it spooky & cozy</strong><span>Posts should relate to Halloween, spooky themes, cozy horror, crafts, collecting, art or adjacent interests.</span></div></div>
+<div class="community-rule"><span class="community-rule-number">2</span><div><strong>Credit creators</strong><span>If you share work you did not make, clearly credit the original creator.</span></div></div>
+<div class="community-rule"><span class="community-rule-number">3</span><div><strong>Be kind to beginners</strong><span>Constructive advice is welcome. Mocking someone's skill level is not.</span></div></div>
+<div class="community-rule"><span class="community-rule-number">4</span><div><strong>Keep criticism constructive</strong><span>Critique the work or idea, not the person.</span></div></div>
+</div>
+</section>
+
+</div>
+</section>
+
+
+<!-- ========================== OWNER / MODERATOR VIEW ========================== -->
+<section class="community-view" id="community-moderators">
+  <div class="community-staff-layout">
+
+    <section class="community-staff-card">
+      <div class="community-info-kicker">MODERATION TEAM</div>
+      <div class="section-heading">
+        <h2>Moderators</h2>
+        <span class="staff-owner-note">Owner tools stay inside the Community.</span>
+      </div>
+      <div class="moderator-list">
+        <div class="moderator"><div class="moderator-avatar">🎃</div><div class="moderator-copy"><strong>@PumpkinWitch</strong><span>Community Owner</span></div></div>
+        <div class="moderator"><div class="moderator-avatar">🦇</div><div class="moderator-copy"><strong>@Raven</strong><span>Moderator</span></div></div>
+        <div class="moderator"><div class="moderator-avatar">👻</div><div class="moderator-copy"><strong>@Ghostie</strong><span>Moderator</span></div></div>
+      </div>
+      <div class="staff-actions owner-staff-actions">
+        <button class="community-secondary" type="button">Invite Moderator</button>
+        <button class="community-secondary" type="button">Manage Moderators</button>
+      </div>
+    </section>
+
+    <section class="community-staff-card">
+      <div class="community-info-kicker">RECENT MODERATOR ACTIVITY</div>
+      <h2>Activity History</h2>
+      <div class="staff-activity-list">
+        <div class="staff-activity-item"><span>🛡️</span><div><strong>@Raven updated a Community note</strong><small>Today · 2:14 PM</small></div></div>
+        <div class="staff-activity-item"><span>✓</span><div><strong>@PumpkinWitch approved a join request</strong><small>Yesterday · 7:42 PM</small></div></div>
+        <div class="staff-activity-item"><span>📌</span><div><strong>@Ghostie updated a pinned post</strong><small>Yesterday · 4:18 PM</small></div></div>
+      </div>
+    </section>
+
+    <section class="community-staff-card community-mod-chat-card">
+      <div class="community-info-kicker">MOD CHAT</div>
+      <h2>Team Notes</h2>
+      <p class="staff-chat-intro">A small private space for moderators to coordinate without turning Communities into a chat server.</p>
+
+      <div class="mod-chat-thread">
+        <article class="mod-chat-message">
+          <div class="moderator-avatar">🦇</div>
+          <div>
+            <strong>@Raven</strong>
+            <p>I checked the resource thread. Everything looks good — I only removed one duplicate link.</p>
+            <div class="mod-chat-meta">34m ago · <button type="button">👍 2</button> · <button type="button">Reply</button></div>
+          </div>
+        </article>
+        <article class="mod-chat-message">
+          <div class="moderator-avatar">🎃</div>
+          <div>
+            <strong>@PumpkinWitch</strong>
+            <p>Perfect, thank you. I’ll update the announcement tomorrow.</p>
+            <div class="mod-chat-meta">21m ago · <button type="button">👍 1</button> · <button type="button">Reply</button></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="mod-chat-compose">
+        <input type="text" placeholder="Leave a note for the moderator team…" aria-label="Leave a moderator note">
+        <button type="button">Post</button>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- ========================== MEMBERS VIEW ========================== -->
+<section class="community-view" id="community-members">
+
+<section class="active-members-panel">
+<div class="section-heading">
+<div>
+<div class="community-guide-kicker">CONTRIBUTING LATELY</div>
+<h2>Active Members</h2>
+</div>
+<span class="active-members-note">Recent participation, not a ranking</span>
+</div>
+<div class="active-member-grid">
+<article class="active-member-card"><div class="member-avatar">🌙</div><div><strong>@moonlitmoth</strong><span>Active in Show &amp; Tell and cozy discussion threads</span></div></article>
+<article class="active-member-card"><div class="member-avatar">🕯️</div><div><strong>@cozycryptid</strong><span>Sharing crafts, resources, and helpful replies</span></div></article>
+<article class="active-member-card"><div class="member-avatar">📚</div><div><strong>@paperlantern</strong><span>Frequently joining prompts and resource threads</span></div></article>
+<article class="active-member-card"><div class="member-avatar">🎃</div><div><strong>@PumpkinWitch</strong><span>Community owner · active in discussions this week</span></div></article>
+</div>
+</section>
+
+<section class="member-directory">
+<div class="section-heading"><h2>Members</h2><span style="margin-left:auto;color:#aeb7cb;font-size:12px">12.4K members</span></div>
+<div class="member-grid" id="communityMemberGrid">
+<div class="member-card"><div class="member-avatar">🎃</div><div><strong>@PumpkinWitch</strong><span>Owner</span></div></div>
+<div class="member-card"><div class="member-avatar">🦇</div><div><strong>@Raven</strong><span>Moderator</span></div></div>
+<div class="member-card"><div class="member-avatar">👻</div><div><strong>@Ghostie</strong><span>Moderator</span></div></div>
+<div class="member-card"><div class="member-avatar">🌙</div><div><strong>@moonlitmoth</strong><span>Member</span></div></div>
+<div class="member-card"><div class="member-avatar">📚</div><div><strong>@paperlantern</strong><span>Member</span></div></div>
+<div class="member-card"><div class="member-avatar">🕯️</div><div><strong>@cozycryptid</strong><span>Member</span></div></div>
+
+<div class="member-card additional-member"><div class="member-avatar">🧶</div><div><strong>@stitchedspirit</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🦉</div><div><strong>@midnightmaker</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🍂</div><div><strong>@autumnattic</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🖌️</div><div><strong>@cobwebcanvas</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🧡</div><div><strong>@pumpkinpatchwork</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🕸️</div><div><strong>@webandwax</strong><span>Member</span></div></div>
+</div>
+<button class="see-more-members" id="seeMoreMembers" type="button">See More Members ↓</button>
+</section>
+
+</section>
+
+<div class="pinned-post-overlay" id="pinnedPostOverlay" aria-hidden="true">
+  <div class="pinned-post-dialog" role="dialog" aria-modal="true" aria-labelledby="pinnedPostTitle">
+    <button class="pinned-post-close" id="pinnedPostClose" type="button" aria-label="Close pinned post">×</button>
+    <article class="post regular-post pinned-open-post">
+      <header class="post-header">
+        <div aria-hidden="true" class="profile-picture" id="pinnedPostAvatar">p</div>
+        <div class="post-author-copy">
+          <div class="post-author-line">
+            <span class="username" id="pinnedPostAuthor">@PumpkinWitch</span>
+            <span class="post-time" id="pinnedPostTime">· pinned</span>
+            <span class="post-type-bubble">POST</span>
+          </div>
+          <div class="post-meta-line">
+            <span class="topic">🎃 Halloween</span>
+            <span class="post-community">· in 🎃 Spooky Cozy</span>
+          </div>
+        </div>
+      </header>
+      <div class="pinned-open-note">Pinned Community Post</div>
+      <h2 class="blog-feed-title" id="pinnedPostTitle">Pinned Post</h2>
+      <div class="pinned-open-media" id="pinnedPostMedia" aria-hidden="true">🎃</div>
+      <p class="caption" id="pinnedPostCopy"></p>
+      <div class="interactions">
+        <button class="action-pill regular-like-button" onclick="masterToggleLike(this)" type="button">
+          <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+          <span class="like-count" id="pinnedPostLikes">24</span>
+        </button>
+        <button class="action-pill" type="button"><span>Pocket</span></button>
+        <button class="action-pill" type="button"><span>Community</span></button>
+        <button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span id="pinnedPostReblogs">4</span> · Reblog</button>
+        <button class="share-action" type="button">↗ Share</button>
+        <button class="save-action" onclick="masterToggleSave(this)" type="button"><span>Save</span></button>
+      </div>
+      <div class="post-footer">
+        <div class="single-comment-composer">
+          <div class="comment-composer" onclick="masterOpenComposer(this)">
+            <div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+            <div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-bottom-spacer" aria-hidden="true"></div>
+    </article>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* MASTER-ONLY interaction helpers.
+   These do NOT replace production Home JS. They simply make the prototype
+   clickable while retaining production HTML/CSS structures. */
+
+const notificationBell=document.getElementById('headerNotificationBell');
+const notificationPopup=document.getElementById('notificationQuickPopup');
+if(notificationBell && notificationPopup){
+  notificationBell.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const opening=notificationPopup.hidden;
+    notificationPopup.hidden=!opening;
+    notificationBell.setAttribute('aria-expanded',String(opening));
+  });
+  document.addEventListener('click',(e)=>{
+    if(!notificationPopup.hidden && !notificationPopup.contains(e.target) && !notificationBell.contains(e.target)){
+      notificationPopup.hidden=true;
+      notificationBell.setAttribute('aria-expanded','false');
+    }
+  });
+}
+
+function toggleCommunityDropdown(){
+  const menu=document.getElementById('communityDropdown');
+  if(!menu)return;
+  menu.classList.toggle('active');
+  menu.style.display=menu.classList.contains('active')?'block':'';
+}
+
+function toggleCommunityPin(event,button){
+  event.stopPropagation();
+  const row=button.closest('.community-more-row');
+  const name=row?.dataset.community;
+  const icon=row?.dataset.icon||'';
+
+  const currentState=currentCommunityState();
+  if(name===currentState.name){
+    if(!currentState.joined)return;
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      pinned:!currentState.pinned,
+      notifications:true
+    });
+    syncSpookyCommunityUI();
+    return;
+  }
+
+  button.classList.toggle('pinned');
+  const state=button.querySelector('.pin-state');
+  const action=button.querySelector('.pin-action');
+  const pinned=button.classList.contains('pinned');
+  if(state)state.textContent=pinned?'Pinned':'Pin';
+  if(action)action.textContent=pinned?'Unpin':'Pin';
+
+  const bar=document.getElementById('masterPinnedCommunities');
+  if(!bar||!name)return;
+  const existing=[...bar.querySelectorAll('.community-chip')].find(x=>x.dataset.community===name);
+
+  if(pinned&&!existing){
+    const chip=document.createElement('button');
+    chip.className='community-chip';
+    chip.dataset.community=name;
+    chip.dataset.icon=icon;
+    chip.innerHTML=`<span class="community-icon">${icon}</span>${name} <span class="activity-bell" title="No new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count" style="display:none">0</span></span>`;
+    bar.appendChild(chip);
+  }else if(!pinned&&existing){
+    existing.remove();
+  }
+}
+
+function openRecentActivity(event,el){
+  event.stopPropagation();
+  const count=el.querySelector('.activity-count');
+  if(count){
+    count.textContent='0';
+    count.style.display='none';
+    el.title='No new community activities';
+  }
+}
+
+document.addEventListener('click',(e)=>{
+  const menu=document.getElementById('communityDropdown');
+  if(menu && menu.classList.contains('active') && !e.target.closest('.community-menu')){
+    menu.classList.remove('active');
+    menu.style.display='';
+  }
+});
+
+document.querySelectorAll('.community-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const view=tab.dataset.view;
+    if(!view)return;
+    document.querySelectorAll('.community-tab').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.community-view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('community-'+view)?.classList.add('active');
+  });
+});
+
+document.querySelectorAll('[data-open-view]').forEach(link=>{
+  link.addEventListener('click',(e)=>{
+    e.preventDefault();
+    const view=link.dataset.openView;
+    document.querySelector(`.community-tab[data-view="${view}"]`)?.click();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+
+let announcementIndex=0;
+
+function currentAnnouncementSlides(){
+  return [...document.querySelectorAll('.announcement-slide')].filter(slide=>!slide.hidden);
+}
+
+function currentAnnouncementDots(){
+  return [...document.querySelectorAll('.announcement-dot')].filter(dot=>!dot.hidden);
+}
+
+function showAnnouncement(index){
+  const slides=currentAnnouncementSlides();
+  const dots=currentAnnouncementDots();
+  const counter=document.getElementById('announcementCounter');
+  if(!slides.length)return;
+
+  announcementIndex=(index+slides.length)%slides.length;
+  slides.forEach((slide,i)=>slide.classList.toggle('active',i===announcementIndex));
+  dots.forEach((dot,i)=>dot.classList.toggle('active',i===announcementIndex));
+
+  if(counter)counter.textContent=`${announcementIndex+1} / ${slides.length}`;
+}
+
+document.getElementById('announcementPrev')?.addEventListener('click',()=>showAnnouncement(announcementIndex-1));
+document.getElementById('announcementNext')?.addEventListener('click',()=>showAnnouncement(announcementIndex+1));
+document.getElementById('announcementDots')?.addEventListener('click',event=>{
+  const dot=event.target.closest('.announcement-dot');
+  if(dot)showAnnouncement(Number(dot.dataset.index||0));
+});
+
+
+/* ============================================================
+   SHARED COMMUNITY MEMBERSHIP STATE
+   Prototype persistence across Community + Manage Communities.
+   ============================================================ */
+const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+const ALL_MEDIA_COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+};
+function cloneCommunityDefaults(){return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));}
+function loadAllMediaCommunityState(){
+  const defaults=cloneCommunityDefaults();
+  try{
+    const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+
+    Object.keys(saved).forEach(slug=>{
+      defaults[slug]={...(defaults[slug]||{}),...saved[slug]};
+    });
+
+    Object.keys(defaults).forEach(slug=>{
+      if(defaults[slug].pinned){
+        defaults[slug].joined=true;
+        defaults[slug].notifications=true;
+      }
+    });
+  }catch(e){}
+  return defaults;
+}
+let allMediaCommunityState=loadAllMediaCommunityState();
+function saveAllMediaCommunityState(){localStorage.setItem(ALL_MEDIA_COMMUNITY_STATE_KEY,JSON.stringify(allMediaCommunityState));}
+function getCommunityState(slug){
+  if(!allMediaCommunityState[slug]) allMediaCommunityState[slug]={name:slug,icon:'◉',joined:false,pinned:false,notifications:true,role:'member'};
+  return allMediaCommunityState[slug];
+}
+function updateCommunityState(slug,patch){
+  const current=getCommunityState(slug);
+  allMediaCommunityState[slug]={...current,...patch};
+  if(allMediaCommunityState[slug].pinned){allMediaCommunityState[slug].joined=true;allMediaCommunityState[slug].notifications=true;}
+  if(!allMediaCommunityState[slug].joined) allMediaCommunityState[slug].pinned=false;
+  saveAllMediaCommunityState();
+  document.dispatchEvent(new CustomEvent('allmedia:community-state-change',{detail:{slug,state:allMediaCommunityState[slug]}}));
+  return allMediaCommunityState[slug];
+}
+window.addEventListener('storage',event=>{
+  if(event.key===ALL_MEDIA_COMMUNITY_STATE_KEY){
+    allMediaCommunityState=loadAllMediaCommunityState();
+    syncCommunityRoleNavigation();
+    document.dispatchEvent(new CustomEvent('allmedia:community-state-refresh'));
+  }
+});
+
+const requestedCommunitySlug=new URLSearchParams(window.location.search).get('community');
+const requestedCommunityState=requestedCommunitySlug
+  ? allMediaCommunityState[requestedCommunitySlug]
+  : null;
+
+const CURRENT_COMMUNITY_SLUG=
+  (requestedCommunityState?.createdByPrototype||requestedCommunityState?.prototypeExternal)
+    ? requestedCommunitySlug
+    : 'spooky-cozy';
+
+function currentCommunityState(){
+  return getCommunityState(CURRENT_COMMUNITY_SLUG);
+}
+
+function syncCommunityRoleNavigation(){
+  const state=currentCommunityState();
+  const role=state.role||'member';
+  const edit=document.getElementById('communityEditNav');
+  const staff=document.getElementById('communityStaffNav');
+
+  if(edit){
+    edit.hidden=role!=='owner';
+    edit.href=`Create-Community-Master-V2.html?mode=edit&community=${encodeURIComponent(CURRENT_COMMUNITY_SLUG)}`;
+  }
+
+  if(staff){
+    staff.hidden=!(role==='owner'||role==='moderator');
+    staff.textContent=role==='owner'?'Moderators':'Mod Chat';
+  }
+
+  document.querySelectorAll('.owner-staff-actions').forEach(actions=>{
+    actions.hidden=role!=='owner';
+  });
+
+  if(state.deleted){
+    window.location.href='Manage-Communities-Master-V2.html';
+  }
+}
+
+function spookyStateSnapshot(){
+  const state=currentCommunityState();
+  return {joined:!!state.joined,pinned:!!state.pinned,muted:!state.notifications};
+}
+
+function communityToast(){/* intentionally silent in the Community UI */}
+
+function getSpookyMoreRow(){
+  const state=currentCommunityState();
+  return [...document.querySelectorAll('#communityDropdown .community-more-row')]
+    .find(row=>row.dataset.community===state.name);
+}
+
+function addSpookyToMore(){
+  const state=currentCommunityState();
+  if(getSpookyMoreRow())return;
+  const dropdown=document.getElementById('communityDropdown');
+  if(!dropdown)return;
+
+  const row=document.createElement('div');
+  row.className='community-more-row';
+  row.dataset.community=state.name;
+  row.dataset.icon=state.icon||'◉';
+  row.setAttribute('onclick',"openCommunityFromMore(event,this)");
+  row.setAttribute('role','link');
+  row.setAttribute('tabindex','0');
+
+  row.innerHTML=`<span class="community-more-name"><span class="community-icon">${state.icon||'◉'}</span>${state.name}</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button>`;
+  dropdown.prepend(row);
+}
+
+function removeSpookyFromMore(){
+  getSpookyMoreRow()?.remove();
+}
+
+function addSpookyToHotbar(){
+  const state=currentCommunityState();
+  const bar=document.getElementById('masterPinnedCommunities');
+  if(!bar)return;
+
+  const existing=[...bar.querySelectorAll('.community-chip')]
+    .find(x=>x.dataset.community===state.name);
+
+  if(existing)return;
+
+  const chip=document.createElement('button');
+  chip.className='community-chip';
+  chip.draggable=true;
+  chip.dataset.community=state.name;
+  chip.dataset.icon=state.icon||'◉';
+  chip.setAttribute('onclick',"openCommunityFromHotbar(event,this)");
+
+  chip.innerHTML=`<span class="community-icon">${state.icon||'◉'}</span>${state.name} <span class="activity-bell" onclick="openRecentActivity(event,this)" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count" style="display:none">0</span></span>`;
+  bar.prepend(chip);
+}
+
+function removeSpookyFromHotbar(){
+  const state=currentCommunityState();
+  const bar=document.getElementById('masterPinnedCommunities');
+  const existing=[...(bar?.querySelectorAll('.community-chip')||[])]
+    .find(x=>x.dataset.community===state.name);
+  existing?.remove();
+}
+
+
+function escapeCommunityText(value){
+  return String(value??'');
+}
+
+function renderCommunityInterestPills(container,interests){
+  if(!container)return;
+  container.innerHTML='';
+
+  const values=(Array.isArray(interests)&&interests.length)
+    ? interests
+    : ['All Interests'];
+
+  values.forEach(interest=>{
+    const pill=document.createElement('span');
+    pill.className='community-interest';
+    pill.textContent=interest;
+    container.appendChild(pill);
+  });
+}
+
+function communityLinkSummary(state){
+  const sharing=state.linkSharing||{};
+  const allowed=[];
+  if(sharing.community)allowed.push('Community');
+  if(sharing.creatorShop)allowed.push('Creator & Shop');
+  if(sharing.social)allowed.push('Social');
+  return allowed.length?allowed.join(' + '):'No external links';
+}
+
+function buildBasicsMarkup(state){
+  const access=state.access||'Public';
+  const posting=state.posting||'Members';
+
+  let accessDetail='Anyone can view before joining.';
+  if(access==='Request to Join')accessDetail='People can find it, but joining needs approval.';
+  if(access==='Invite Only')accessDetail='Only invited members can enter.';
+
+  const postingDetail=
+    posting==='Members'
+      ? (state.originalPosts===false?'Members can participate, but original posts are off.':'Original posts are allowed.')
+      : posting==='Moderators'
+        ? 'Only moderators and the owner can create posts.'
+        : 'Only the Community owner can create posts.';
+
+  const reblogTitle=state.reblogs===false?'Reblogs off':'Reblogs allowed';
+  const reblogDetail=state.reblogs===false
+    ? 'Posts cannot be reblogged into this Community.'
+    : 'Eligible posts may be added here.';
+
+  const linkTitle='Link sharing';
+  const linkDetail=communityLinkSummary(state);
+
+  const approvalTitle=state.approvalRequired?'Review before publishing':'Publishes immediately';
+  const approvalDetail=state.approvalRequired
+    ? 'New posts are reviewed by moderators first.'
+    : 'No moderator approval required.';
+
+  return `
+    <div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>${escapeCommunityText(access)} Community</strong><br>${escapeCommunityText(accessDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
+    <div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>${escapeCommunityText(posting)} can post</strong><br>${escapeCommunityText(postingDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>${escapeCommunityText(reblogTitle)}</strong><br>${escapeCommunityText(reblogDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>${escapeCommunityText(linkTitle)}</strong><br>${escapeCommunityText(linkDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>${escapeCommunityText(approvalTitle)}</strong><br>${escapeCommunityText(approvalDetail)}</span></div>
+  `;
+}
+
+function buildRulesMarkup(state){
+  const rules=Array.isArray(state.rules)&&state.rules.length
+    ? state.rules
+    : [
+        {title:'No bullying',explanation:'Treat other Community members with care and respect.'},
+        {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+      ];
+
+  return rules.map((rule,index)=>`
+    <div class="community-rule">
+      <span class="community-rule-number">${index+1}</span>
+      <div>
+        <strong>${escapeCommunityText(rule.title||'Community rule')}</strong>
+        <span>${escapeCommunityText(rule.explanation||'')}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderOfficialCommunityLinks(state){
+  const links=[];
+  if(state.website)links.push({icon:'🌐',label:'Website',href:state.website});
+
+  const socials=state.officialSocials||{};
+  Object.entries(socials).forEach(([network,href])=>{
+    if(!href)return;
+    links.push({
+      icon:network.toLowerCase().includes('youtube')?'▶':'◎',
+      label:network,
+      href
+    });
+  });
+
+  document.querySelectorAll('.official-community-links').forEach(container=>{
+    if(!links.length){
+      container.innerHTML='<span class="community-empty-links">No official Community links have been added yet.</span>';
+      return;
+    }
+
+    container.innerHTML='';
+    links.forEach(link=>{
+      const a=document.createElement('a');
+      a.className='official-community-link';
+      a.href=link.href;
+      a.target='_blank';
+      a.rel='noopener noreferrer';
+      a.innerHTML=`<span>${link.icon}</span><strong></strong>`;
+      a.querySelector('strong').textContent=link.label;
+      container.appendChild(a);
+    });
+  });
+}
+
+function renderCreatedCommunityFront(){
+  const state=currentCommunityState();
+  if(!state.createdByPrototype&&!state.prototypeExternal)return;
+
+  document.title=`All Media — ${state.name}`;
+
+  const icon=state.icon||'◉';
+  const interests=Array.isArray(state.interests)&&state.interests.length
+    ? state.interests
+    : ['All Interests'];
+
+  const title=document.querySelector('.community-title-row h1');
+  if(title)title.textContent=state.name;
+
+  const avatar=document.querySelector('.community-avatar');
+  if(avatar)avatar.textContent=icon;
+
+  const banner=document.querySelector('.community-banner');
+  if(banner){
+    banner.classList.add('dynamic-community-banner');
+    banner.setAttribute('aria-label',`${state.name} Community banner`);
+  }
+
+  renderCommunityInterestPills(
+    document.querySelector('.community-title-row .community-interest-row'),
+    interests
+  );
+
+  const description=document.querySelector('.community-description');
+  if(description)description.textContent=state.description||'A new All Media Community.';
+
+  const facts=document.querySelector('.community-facts');
+  if(facts){
+    facts.innerHTML='';
+    [
+      `◉ ${state.access||'Public'} Community`,
+      '♡ Free',
+      `🔗 Links: ${communityLinkSummary(state)}`,
+      '1 member'
+    ].forEach(label=>{
+      const span=document.createElement('span');
+      span.className='community-fact';
+      span.textContent=label;
+      facts.appendChild(span);
+    });
+  }
+
+  const subnav=document.querySelector('.community-subnav');
+  if(subnav)subnav.setAttribute('aria-label',state.name);
+
+  const search=document.getElementById('communitySearchInput');
+  if(search){
+    search.placeholder=`Search ${state.name}…`;
+    search.setAttribute('aria-label',`Search ${state.name}`);
+  }
+
+  const quick=document.getElementById('quickThoughtInput');
+  if(quick)quick.placeholder=`Share something with ${state.name}…`;
+
+  const creatorIntro=document.querySelector('#communityFullComposer .creator-intro p');
+  if(creatorIntro)creatorIntro.textContent=`Share a post, blog, video, or quick byte with ${state.name}.`;
+
+  const creatorContext=document.querySelector('#communityFullComposer .community-creator-context span');
+  if(creatorContext){
+    creatorContext.innerHTML='';
+    const strong=document.createElement('strong');
+    strong.textContent=`Posting in ${icon} ${state.name}`;
+    creatorContext.appendChild(strong);
+    creatorContext.appendChild(
+      document.createTextNode(` · Match ${interests.join(', ')}.`)
+    );
+  }
+
+  const communityPickerValue=document.querySelector('#communityFullComposer .community-picker .creator-tool-value');
+  if(communityPickerValue)communityPickerValue.textContent=`${icon} ${state.name}`;
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+
+  const badge=document.querySelector('.promo-badge');
+  if(badge)badge.textContent=`🔗 ${communityLinkSummary(state).toUpperCase()}`;
+
+  const sidebarAbout=document.querySelector('.community-about-panel p');
+  if(sidebarAbout)sidebarAbout.textContent=state.about||state.description||'';
+
+  const guideHeroTitle=document.querySelector('.community-guide-hero h2');
+  if(guideHeroTitle)guideHeroTitle.textContent=state.welcome
+    ? state.welcome
+    : `Welcome to ${state.name} ${icon}`;
+
+  const guideHeroCopy=document.querySelector('.community-guide-hero p');
+  if(guideHeroCopy)guideHeroCopy.textContent=state.about||state.description||'';
+
+  const belongsCard=document.querySelector('.community-guide-grid .community-guide-card p');
+  if(belongsCard){
+    belongsCard.textContent=`Posts and conversations should match ${interests.join(', ')} and the purpose of ${state.name}.`;
+  }
+
+  const traditionsCards=document.querySelectorAll('.community-guide-grid .community-guide-card p');
+  if(traditionsCards[1]){
+    traditionsCards[1].textContent='Community traditions can grow naturally as members spend time together here.';
+  }
+
+  const guideInterestRow=document.querySelector('#community-about .community-interest-row');
+  renderCommunityInterestPills(guideInterestRow,interests);
+
+  document.querySelectorAll('.community-rules-list').forEach(list=>{
+    list.innerHTML=buildRulesMarkup(state);
+  });
+
+  renderOfficialCommunityLinks(state);
+
+  const announcement=document.getElementById('communityAnnouncementCarousel');
+  if(announcement&&!Array.isArray(state.announcements))announcement.style.display='none';
+
+  const pinnedShelf=document.querySelector('.pinned-shelf');
+  if(pinnedShelf&&!Array.isArray(state.pinnedPostIds))pinnedShelf.style.display='none';
+
+  const activity=document.querySelector('.current-activity');
+  if(activity)activity.style.display='none';
+
+  const feed=document.querySelector('.community-main .feed');
+  if(feed){
+    feed.innerHTML=`
+      <div class="community-empty-state">
+        <strong>${escapeCommunityText(state.name)} is ready.</strong>
+        <span>No posts yet. Start the first conversation whenever you’re ready.</span>
+      </div>`;
+  }
+
+  const roleLabel=state.role==='owner'?'Community Owner':state.role==='moderator'?'Moderator':'Member';
+
+  const moderatorList=document.querySelector('.moderator-list');
+  if(moderatorList){
+    if(state.role==='owner'||state.role==='moderator'){
+      moderatorList.innerHTML=`
+        <div class="moderator">
+          <div class="moderator-avatar">${icon}</div>
+          <div class="moderator-copy">
+            <strong>@yourusername</strong>
+            <span>${roleLabel}</span>
+          </div>
+        </div>`;
+    }else{
+      moderatorList.innerHTML='<div class="community-empty-links">Moderator team details will appear here.</div>';
+    }
+  }
+
+  const activePanel=document.querySelector('.active-members-panel');
+  if(activePanel){
+    const grid=activePanel.querySelector('.active-member-grid');
+    if(grid){
+      grid.innerHTML=`
+        <article class="active-member-card">
+          <div class="member-avatar">${icon}</div>
+          <div><strong>@yourusername</strong><span>${roleLabel} · active recently</span></div>
+        </article>`;
+    }
+  }
+
+  const memberGrid=document.querySelector('.member-directory .member-grid');
+  if(memberGrid){
+    memberGrid.innerHTML=`
+      <article class="member-card">
+        <div class="member-avatar">${icon}</div>
+        <div><strong>@yourusername</strong><span>${roleLabel}</span></div>
+      </article>`;
+  }
+
+  const seeMoreMembers=document.getElementById('seeMoreMembers');
+  if(seeMoreMembers)seeMoreMembers.style.display='none';
+}
+
+
+
+
+function frontDefaultRules(state){
+  if(Array.isArray(state.rules)&&state.rules.length)return state.rules;
+  if(state.name==='Spooky Cozy'){
+    return [
+      {title:'No bullying',explanation:'Treat other members with respect.'},
+      {title:'Respect others',explanation:'Keep conversation constructive and considerate.'},
+      {title:'Stay on topic',explanation:'Keep posts relevant to the Community.'},
+      {title:'Use link sharing appropriately',explanation:'Follow the Community’s allowed link categories.'}
+    ];
+  }
+  return [
+    {title:'No bullying',explanation:'Treat other Community members with care and respect.'},
+    {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+  ];
+}
+
+function applyManagedCommunityInterestsAndRules(){
+  const state=currentCommunityState();
+  const interests=(Array.isArray(state.interests)&&state.interests.length)
+    ? state.interests
+    : (state.name==='Spooky Cozy'?['Halloween','Art','Cozy','Crafts']:['All Interests']);
+
+  renderCommunityInterestPills(
+    document.querySelector('.community-title-row .community-interest-row'),
+    interests
+  );
+  renderCommunityInterestPills(
+    document.querySelector('#community-about .community-interest-row'),
+    interests
+  );
+
+  const creatorContext=document.querySelector('#communityFullComposer .community-creator-context span');
+  if(creatorContext){
+    creatorContext.innerHTML='';
+    const strong=document.createElement('strong');
+    strong.textContent=`Posting in ${state.icon||'◉'} ${state.name}`;
+    creatorContext.appendChild(strong);
+    creatorContext.appendChild(
+      document.createTextNode(
+        interests.length===1&&interests[0]==='All Interests'
+          ? ' · All Interests welcome.'
+          : ` · Match ${interests.join(', ')}.`
+      )
+    );
+  }
+
+  const rules=frontDefaultRules(state);
+  document.querySelectorAll('.community-rules-list').forEach(list=>{
+    list.innerHTML=buildRulesMarkup({...state,rules});
+  });
+}
+
+function applyManagedCommunityAnnouncementsAndPins(){
+  const state=currentCommunityState();
+  const carousel=document.getElementById('communityAnnouncementCarousel');
+  const track=carousel?.querySelector('.announcement-track');
+  const dots=document.getElementById('announcementDots');
+
+  const announcements=Array.isArray(state.announcements)
+    ? state.announcements
+    : null;
+
+  if(announcements){
+    if(!announcements.length){
+      if(carousel)carousel.style.display='none';
+    }else{
+      if(carousel)carousel.style.display='';
+      if(track){
+        track.innerHTML='';
+        announcements.slice(0,3).forEach((item,index)=>{
+          const slide=document.createElement('article');
+          slide.className='announcement-slide'+(index===0?' active':'');
+          slide.dataset.announcementType=(item.type||'Announcement').toLowerCase().replace(/\s+/g,'-');
+          slide.innerHTML=`
+            <div class="announcement-mark"></div>
+            <div>
+              <div class="announcement-label"></div>
+              <h2></h2>
+              <p></p>
+            </div>
+            <div class="announcement-art" aria-hidden="true"></div>`;
+          slide.querySelector('.announcement-mark').textContent=
+            item.type==='Welcome'?'👋':item.type==='Community Update'?'✦':'📣';
+          slide.querySelector('.announcement-label').textContent=item.type||'Announcement';
+          slide.querySelector('h2').textContent=item.title||'Announcement';
+          slide.querySelector('p').textContent=item.body||'';
+          slide.querySelector('.announcement-art').textContent=item.emoji||'📣';
+          track.appendChild(slide);
+        });
+      }
+
+      if(dots){
+        dots.innerHTML='';
+        announcements.slice(0,3).forEach((_,index)=>{
+          const dot=document.createElement('button');
+          dot.className='announcement-dot'+(index===0?' active':'');
+          dot.type='button';
+          dot.dataset.index=String(index);
+          dot.setAttribute('aria-label',`Show announcement ${index+1}`);
+          dots.appendChild(dot);
+        });
+      }
+
+      announcementIndex=0;
+      showAnnouncement(0);
+    }
+  }
+
+  const shelf=document.querySelector('.pinned-shelf');
+  const pinnedRow=shelf?.querySelector('.pinned-row');
+  const defaultIds=['showtell','welcome','guidelines','resources','exchange'];
+  const ids=Array.isArray(state.pinnedPostIds)
+    ? state.pinnedPostIds
+    : (state.name==='Spooky Cozy'?defaultIds:[]);
+
+  if(!ids.length){
+    if(shelf)shelf.style.display='none';
+  }else if(pinnedRow){
+    if(shelf)shelf.style.display='';
+    [...pinnedRow.querySelectorAll('.pinned-card')].forEach(card=>{
+      card.style.display=ids.includes(card.dataset.pinnedId)?'':'none';
+    });
+  }
+}
+
+function frontDefaultMembers(state){
+  if(Array.isArray(state.members)&&state.members.length)return state.members;
+  if(state.name==='Spooky Cozy'){
+    return [
+      {username:'@PumpkinWitch',icon:'🎃',role:'Owner',active:true,note:'Community owner · active in discussions this week'},
+      {username:'@Raven',icon:'🦇',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@Ghostie',icon:'👻',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@moonlitmoth',icon:'🌙',role:'Member',active:true,note:'Active in Show & Tell and cozy discussion threads'},
+      {username:'@paperlantern',icon:'📚',role:'Member',active:true,note:'Frequently joining prompts and resource threads'},
+      {username:'@cozycryptid',icon:'🕯️',role:'Member',active:true,note:'Sharing crafts, resources, and helpful replies'},
+      {username:'@stitchedspirit',icon:'🧶',role:'Member',active:false,note:'Member'},
+      {username:'@midnightmaker',icon:'🦉',role:'Member',active:false,note:'Member'},
+      {username:'@autumnattic',icon:'🍂',role:'Member',active:false,note:'Member'},
+      {username:'@cobwebcanvas',icon:'🖌️',role:'Member',active:false,note:'Member'},
+      {username:'@pumpkinpatchwork',icon:'🧡',role:'Member',active:false,note:'Member'},
+      {username:'@webandwax',icon:'🕸️',role:'Member',active:false,note:'Member'}
+    ];
+  }
+  return [{username:'@yourusername',icon:state.icon||'◉',role:'Owner',active:true,note:'Community Owner'}];
+}
+
+function applyManagedCommunityMembers(){
+  const state=currentCommunityState();
+  const members=frontDefaultMembers(state);
+
+  const grid=document.getElementById('communityMemberGrid');
+  if(grid){
+    grid.innerHTML='';
+    members.forEach((member,index)=>{
+      const card=document.createElement('div');
+      card.className='member-card'+(index>=6?' additional-member':'');
+      card.innerHTML='<div class="member-avatar"></div><div><strong></strong><span></span></div>';
+      card.querySelector('.member-avatar').textContent=member.icon||'◉';
+      card.querySelector('strong').textContent=member.username||'@member';
+      card.querySelector('span').textContent=member.role||'Member';
+      grid.appendChild(card);
+    });
+  }
+
+  const memberHeading=document.querySelector('.member-directory .section-heading span');
+  if(memberHeading)memberHeading.textContent=`${members.length} member${members.length===1?'':'s'}`;
+
+  const activeGrid=document.querySelector('.active-member-grid');
+  if(activeGrid){
+    const active=members.filter(member=>member.active).slice(0,4);
+    activeGrid.innerHTML='';
+    active.forEach(member=>{
+      const card=document.createElement('article');
+      card.className='active-member-card';
+      card.innerHTML='<div class="member-avatar"></div><div><strong></strong><span></span></div>';
+      card.querySelector('.member-avatar').textContent=member.icon||'◉';
+      card.querySelector('strong').textContent=member.username||'@member';
+      card.querySelector('span').textContent=member.note||`${member.role||'Member'} · active recently`;
+      activeGrid.appendChild(card);
+    });
+  }
+
+  const moderators=document.querySelector('.moderator-list');
+  if(moderators){
+    const staff=members.filter(member=>member.role==='Owner'||member.role==='Moderator');
+    moderators.innerHTML='';
+    staff.forEach(member=>{
+      const row=document.createElement('div');
+      row.className='moderator';
+      row.innerHTML='<div class="moderator-avatar"></div><div class="moderator-copy"><strong></strong><span></span></div>';
+      row.querySelector('.moderator-avatar').textContent=member.icon||'◉';
+      row.querySelector('strong').textContent=member.username||'@member';
+      row.querySelector('span').textContent=member.role==='Owner'?'Community Owner':'Moderator';
+      moderators.appendChild(row);
+    });
+  }
+
+  const seeMore=document.getElementById('seeMoreMembers');
+  if(seeMore)seeMore.style.display=members.length>6?'':'none';
+}
+
+function applyManagedCommunityLinks(){
+  renderOfficialCommunityLinks(currentCommunityState());
+}
+
+function applyManagedCommunityAccess(){
+  const state=currentCommunityState();
+  const access=state.access||'Public';
+
+  const facts=document.querySelector('.community-facts');
+  if(facts){
+    const first=facts.querySelector('.community-fact');
+    if(first)first.textContent=`◉ ${access} Community`;
+  }
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+}
+
+
+function currentUserCanCreateCommunityPosts(state){
+  if(state.originalPosts===false)return false;
+
+  const role=state.role||'member';
+  const posting=state.posting||'Members';
+
+  if(role==='owner')return true;
+  if(posting==='Members')return !!state.joined;
+  if(posting==='Moderators')return role==='moderator';
+  return false;
+}
+
+function applyManagedCommunityPosting(){
+  const state=currentCommunityState();
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+
+  const badge=document.querySelector('.promo-badge');
+  if(badge)badge.textContent=`🔗 ${communityLinkSummary(state).toUpperCase()}`;
+
+  const allowed=currentUserCanCreateCommunityPosts(state);
+  const composer=document.querySelector('.community-composer-preview');
+  const quickInput=document.getElementById('quickThoughtInput');
+  const quickSend=document.getElementById('quickThoughtSend');
+  const createButton=document.getElementById('openCommunityCreator');
+
+  composer?.classList.toggle('posting-disabled',!allowed);
+
+  if(quickInput){
+    quickInput.disabled=!allowed;
+    quickInput.title=allowed?'':'Original posts are turned off for this Community.';
+  }
+
+  if(quickSend){
+    quickSend.disabled=!allowed||!(quickInput?.value.trim());
+  }
+
+  if(createButton){
+    createButton.disabled=!allowed;
+    createButton.title=allowed?'':'Original posts are turned off for this Community.';
+  }
+
+  let note=composer?.querySelector('.community-posting-note');
+  if(!allowed&&composer){
+    if(!note){
+      note=document.createElement('div');
+      note.className='community-posting-note';
+      composer.appendChild(note);
+    }
+    note.textContent=state.originalPosts===false
+      ? 'Original posts are currently turned off for this Community.'
+      : 'Your Community role does not currently allow creating new posts.';
+  }else{
+    note?.remove();
+  }
+}
+
+function applyManagedCommunityProfile(){
+  const state=currentCommunityState();
+  if(!state?.profileEdited)return;
+
+  const title=document.querySelector('.community-title-row h1');
+  if(title&&state.name)title.textContent=state.name;
+
+  const description=document.querySelector('.community-description');
+  if(description&&state.description)description.textContent=state.description;
+
+  const sidebarAbout=document.querySelector('.community-about-panel p');
+  if(sidebarAbout&&state.about)sidebarAbout.textContent=state.about;
+
+  const guideHeroCopy=document.querySelector('.community-guide-hero p');
+  if(guideHeroCopy&&state.about)guideHeroCopy.textContent=state.about;
+
+  const guideHeroTitle=document.querySelector('.community-guide-hero h2');
+  if(guideHeroTitle&&state.welcome)guideHeroTitle.textContent=state.welcome;
+}
+
+renderCreatedCommunityFront();
+syncCommunityRoleNavigation();
+applyManagedCommunityProfile();
+applyManagedCommunityAccess();
+applyManagedCommunityPosting();
+applyManagedCommunityInterestsAndRules();
+applyManagedCommunityAnnouncementsAndPins();
+applyManagedCommunityMembers();
+applyManagedCommunityLinks();
+
+function syncSpookyCommunityUI(){
+  const snapshot=spookyStateSnapshot();
+  const state=currentCommunityState();
+  const access=state.access||'Public';
+  const join=document.getElementById('joinButton');
+  const pin=document.getElementById('pinButton');
+  const bell=document.getElementById('communityBell');
+
+  if(join){
+    join.disabled=false;
+
+    if(state.role==='owner'){
+      join.textContent='Owner';
+      join.disabled=true;
+    }else if(snapshot.joined){
+      join.textContent='✓ Joined';
+    }else if(access==='Request to Join'){
+      join.textContent=state.requestPending?'Request Pending':'Request to Join';
+      join.disabled=!!state.requestPending;
+    }else if(access==='Invite Only'){
+      join.textContent='Invite Only';
+      join.disabled=true;
+    }else{
+      join.textContent='Join';
+    }
+  }
+
+  if(pin){
+    pin.disabled=!snapshot.joined;
+    pin.classList.toggle('active',snapshot.pinned);
+    pin.textContent=snapshot.pinned?'📌 Pinned':'📌 Pin';
+  }
+
+  if(bell){
+    if(snapshot.pinned){
+      bell.textContent='🔔';
+      bell.classList.add('locked');
+      bell.title='Pinned Communities keep notifications on';
+      bell.setAttribute('aria-disabled','true');
+    }else{
+      bell.classList.remove('locked');
+      bell.textContent=snapshot.muted?'🔕':'🔔';
+      bell.title=snapshot.muted?'Community notifications muted':'Community notifications on';
+      bell.setAttribute('aria-disabled','false');
+    }
+  }
+
+  if(snapshot.joined)addSpookyToMore(); else removeSpookyFromMore();
+  if(snapshot.pinned)addSpookyToHotbar(); else removeSpookyFromHotbar();
+
+  const morePin=getSpookyMoreRow()?.querySelector('.community-pin');
+  if(morePin){
+    morePin.classList.toggle('pinned',snapshot.pinned);
+    const pinState=morePin.querySelector('.pin-state');
+    const action=morePin.querySelector('.pin-action');
+    if(pinState)pinState.textContent=snapshot.pinned?'Pinned':'Pin';
+    if(action)action.textContent=snapshot.pinned?'Unpin':'Pin';
+  }
+}
+
+document.getElementById('joinButton')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
+  const access=state.access||'Public';
+
+  if(state.role==='owner')return;
+
+  if(state.joined){
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      joined:false,
+      pinned:false,
+      notifications:true,
+      requestPending:false
+    });
+  }else if(access==='Request to Join'){
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{requestPending:true});
+  }else if(access==='Invite Only'){
+    return;
+  }else{
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      joined:true,
+      notifications:true,
+      requestPending:false
+    });
+  }
+
+  syncSpookyCommunityUI();
+});
+document.getElementById('pinButton')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG); if(!state.joined)return;
+  updateCommunityState(CURRENT_COMMUNITY_SLUG,{pinned:!state.pinned,notifications:true});
+  syncSpookyCommunityUI();
+});
+document.getElementById('communityBell')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG); if(state.pinned)return;
+  updateCommunityState(CURRENT_COMMUNITY_SLUG,{notifications:!state.notifications});
+  syncSpookyCommunityUI();
+});
+document.addEventListener('allmedia:community-state-change',event=>{if(event.detail?.slug===CURRENT_COMMUNITY_SLUG)syncSpookyCommunityUI();});
+document.addEventListener('allmedia:community-state-refresh',syncSpookyCommunityUI);
+syncSpookyCommunityUI();
+
+const quickThoughtInput=document.getElementById('quickThoughtInput');
+const quickThoughtSend=document.getElementById('quickThoughtSend');
+
+quickThoughtInput?.addEventListener('input',()=>{
+  const allowed=currentUserCanCreateCommunityPosts(currentCommunityState());
+  quickThoughtSend.disabled=!allowed||!quickThoughtInput.value.trim();
+});
+
+function buildQuickThoughtPost(message){
+  const article=document.createElement('article');
+  article.className='post regular-post';
+  article.innerHTML=`
+<header class="post-header">
+<div aria-hidden="true" class="profile-picture">y</div>
+<div class="post-author-copy">
+<div class="post-author-line"><span class="username">@yourusername</span><span class="post-time">· just now</span><span class="post-type-bubble">POST</span></div>
+<div class="post-meta-line"><span class="topic">🎃 Halloween</span><span class="post-community">· in 🎃 Spooky Cozy</span></div>
+</div>
+</header>
+<p class="caption"></p>
+<div class="interactions">
+<button class="action-pill regular-like-button" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">0</span></button>
+<button class="action-pill" type="button"><span>Pocket</span></button>
+<button class="action-pill" type="button"><span>Community</span></button>
+<button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>0</span> · Reblog</button>
+<button class="share-action" type="button">↗ Share</button>
+<button class="save-action" onclick="masterToggleSave(this)" type="button"><span>Save</span></button>
+</div>
+<div class="post-footer"><div class="post-footer-actions"><button class="hashtag-link" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+<div class="card-bottom-spacer" aria-hidden="true"></div>`;
+  article.querySelector('.caption').textContent=message;
+  return article;
+}
+
+quickThoughtSend?.addEventListener('click',()=>{
+  const message=quickThoughtInput?.value.trim();
+  if(!message)return;
+  const feed=document.getElementById('feed');
+  feed?.prepend(buildQuickThoughtPost(message));
+  quickThoughtInput.value='';
+  quickThoughtSend.disabled=true;
+  communityToast(`Quick thought posted to ${currentCommunityState().name}.`);
+});
+
+quickThoughtInput?.addEventListener('keydown',(event)=>{
+  if(event.key==='Enter'&&!event.shiftKey){
+    event.preventDefault();
+    quickThoughtSend?.click();
+  }
+});
+
+const fullCreator=document.getElementById('communityFullComposer');
+function openCommunityCreator(){
+  if(!currentUserCanCreateCommunityPosts(currentCommunityState()))return;
+  fullCreator?.classList.add('active');
+  fullCreator?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeCommunityCreator(){
+  fullCreator?.classList.remove('active');
+}
+document.getElementById('openCommunityCreator')?.addEventListener('click',openCommunityCreator);
+document.getElementById('closeCommunityCreatorTop')?.addEventListener('click',closeCommunityCreator);
+document.getElementById('closeCommunityCreatorBottom')?.addEventListener('click',closeCommunityCreator);
+
+document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    const type=tab.dataset.type||'post';
+    fullCreator?.classList.remove('mode-post','mode-blog','mode-video','mode-byte');
+    fullCreator?.classList.add('mode-'+type);
+    const titleWrap=document.getElementById('communityBlogTitleWrap');
+    if(titleWrap)titleWrap.classList.toggle('active',type==='blog');
+    const media=document.getElementById('communityPrototypeMedia');
+    if(media)media.textContent=(type==='video'||type==='byte')
+      ? (type==='byte'?'Upload Byte video · vertical 9:16 · 3 minute max':'Upload video · horizontal preview')
+      : 'Upload images · up to 6 · crop and rearrange using the existing All Media creator tools';
+    const textarea=document.getElementById('communityCreatorText');
+    if(textarea){
+      textarea.maxLength=type==='byte'?300:type==='blog'?35000:500;
+      textarea.placeholder=type==='blog'?'Write your blog… Use @ to tag your friends!':"What's on your mind? Use @ to tag your friends!";
+      textarea.dispatchEvent(new Event('input'));
+    }
+  });
+});
+
+document.getElementById('communityCreatorText')?.addEventListener('input',function(){
+  const count=document.getElementById('communityCreatorCount');
+  if(count)count.textContent=`${this.value.length} / ${this.maxLength}`;
+});
+
+document.getElementById('communityCreatorPost')?.addEventListener('click',()=>{
+  const textarea=document.getElementById('communityCreatorText');
+  const warning=document.getElementById('communityCreatorWarning');
+  const textValue=textarea?.value.trim()||'';
+  if(!textValue){
+    if(warning){
+      warning.style.display='inline';
+      setTimeout(()=>warning.style.display='',2600);
+    }
+    return;
+  }
+  communityToast(`Prototype post created in ${currentCommunityState().name}.`);
+  if(textarea)textarea.value='';
+  closeCommunityCreator();
+});
+
+
+document.querySelectorAll('.community-feed-filter').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.community-feed-filter').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+function masterToggleLike(btn){
+  btn.classList.toggle('liked');
+  const count=btn.querySelector('.like-count');
+  if(count){
+    const n=parseInt(count.textContent||'0',10);
+    count.textContent=String(n+(btn.classList.contains('liked')?1:-1));
+  }
+}
+function masterToggleSave(btn){
+  btn.classList.toggle('saved');
+  const label=btn.querySelector('span');
+  if(label)label.textContent=btn.classList.contains('saved')?'Saved':'Save';
+}
+function masterIncrement(btn){
+  const span=btn.querySelector('span');
+  if(span)span.textContent=String(parseInt(span.textContent||'0',10)+1);
+}
+function masterToggleHashtags(btn){
+  const post=btn.closest('.post');
+  const tags=post?.querySelector('.post-hashtags');
+  if(tags){
+    const shown=tags.style.display==='flex'||tags.classList.contains('active');
+    tags.style.display=shown?'none':'flex';
+    tags.classList.toggle('active',!shown);
+  }
+}
+function masterToggleComments(btn){
+  const post=btn.closest('.post');
+  const section=post?.querySelector('.comments-section');
+  if(section){
+    const now=section.classList.toggle('active');
+    section.style.display=now?'block':'';
+    btn.textContent=now?'Hide comments ↑':'View more comments';
+  }
+}
+function masterOpenComposer(el){
+  el.classList.add('active');
+}
+function masterCloseComposer(btn,event){
+  event.stopPropagation();
+  btn.closest('.comment-composer')?.classList.remove('active');
+}
+function masterToggleBlog(btn){
+  const post=btn.closest('.post');
+  const full=post?.querySelector('.blog-full-content');
+  if(!full)return;
+  const open=full.classList.toggle('active');
+  full.style.display=open?'block':'';
+  btn.textContent=open?'Close Blog ↑':'Read Blog →';
+}
+function masterToggleMenu(event,button){
+  event.stopPropagation();
+  const host=button.parentElement;
+  const menu=host?.querySelector('.regular-post-menu,.blog-v11-menu,.video-v11-menu,.byte-v11-menu');
+  if(!menu)return;
+  const open=menu.dataset.open!=='true';
+  document.querySelectorAll('.regular-post-menu,.blog-v11-menu,.video-v11-menu,.byte-v11-menu').forEach(m=>{
+    m.dataset.open='false';
+    m.style.display='';
+  });
+  menu.dataset.open=String(open);
+  if(open)menu.style.display='flex';
+}
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.regular-post-menu,.blog-v11-menu,.video-v11-menu,.byte-v11-menu').forEach(m=>{
+    m.dataset.open='false';
+    m.style.display='';
+  });
+});
+
+const pinnedPostData={
+  showtell:{
+    type:'POST',
+    title:"September Show & Tell 🎃",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"🎨🎃",
+    copy:"What are you making, decorating, collecting, baking, or working on this month? Drop it into the September Show & Tell so everyone can wander through what the Community has been up to.",
+    likes:76,
+    reblogs:12
+  },
+  welcome:{
+    type:'POST',
+    title:"Welcome to Spooky Cozy",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"👋👻",
+    copy:"Welcome in! Spooky Cozy is a year-round home for Halloween people, cozy weirdos, artists, crafters, collectors, decorators, and anybody who never quite puts the spooky season away. Start here, say hello, and make yourself comfortable.",
+    likes:124,
+    reblogs:18
+  },
+  guidelines:{
+    type:'BLOG',
+    title:"Community Guidelines",
+    author:"@Raven",
+    avatar:"🦇",
+    emoji:"🧡📖",
+    copy:"A quick guide to keeping Spooky Cozy welcoming: stay on topic, credit creators, be kind to beginners, and keep criticism constructive. Community Basics are enforced by All Media before posting; these written rules explain the culture of the space.",
+    likes:98,
+    reblogs:8
+  },
+  resources:{
+    type:'BLOG',
+    title:"Vintage Halloween Resources",
+    author:"@Ghostie",
+    avatar:"👻",
+    emoji:"🕯️📚",
+    copy:"A growing collection of vintage Halloween references, archive links, decorating inspiration, collecting resources, and useful reading shared by members. Add something helpful in the comments if you have a resource worth keeping.",
+    likes:53,
+    reblogs:21
+  },
+  exchange:{
+    type:'VIDEO',
+    title:"October Art Exchange",
+    author:"@PumpkinWitch",
+    avatar:"🎃",
+    emoji:"🦇✉️",
+    copy:"October Art Exchange signups are open. Pair up with another spooky creator, make something small, and mail or digitally exchange it before Halloween. Check the announcement carousel for the current signup deadline.",
+    likes:88,
+    reblogs:16
+  }
+};
+
+function openPinnedPost(id){
+  const data=pinnedPostData[id];
+  if(!data)return;
+  document.getElementById('pinnedPostTitle').textContent=data.title;
+  document.getElementById('pinnedPostType').textContent=data.type||'POST';
+  document.getElementById('pinnedPostAuthor').textContent=data.author;
+  document.getElementById('pinnedPostAvatar').textContent=data.avatar;
+  document.getElementById('pinnedPostMedia').textContent=data.emoji;
+  document.getElementById('pinnedPostCopy').textContent=data.copy;
+  document.getElementById('pinnedPostLikes').textContent=String(data.likes);
+  document.getElementById('pinnedPostReblogs').textContent=String(data.reblogs);
+  const overlay=document.getElementById('pinnedPostOverlay');
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+
+function closePinnedPost(){
+  const overlay=document.getElementById('pinnedPostOverlay');
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+document.getElementById('pinnedPostClose')?.addEventListener('click',closePinnedPost);
+document.getElementById('pinnedPostOverlay')?.addEventListener('click',(event)=>{
+  if(event.target===event.currentTarget)closePinnedPost();
+});
+document.addEventListener('keydown',(event)=>{
+  if(event.key==='Escape'&&document.getElementById('pinnedPostOverlay')?.classList.contains('active'))closePinnedPost();
+});
+
+
+function communitySlug(name){
+  return String(name||'').toLowerCase().trim()
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function communityFrontPageUrl(name){
+  const slug=communitySlug(name);
+  return slug==='spooky-cozy'
+    ? 'Communities-Master-V3.html'
+    : `Communities-Master-V3.html?community=${encodeURIComponent(slug)}`;
+}
+
+function openCommunityFromHotbar(event,button){
+  if(event.target.closest('.activity-bell'))return;
+  window.location.href=communityFrontPageUrl(button.dataset.community);
+}
+
+function openCommunityFromMore(event,row){
+  if(event.target.closest('.community-pin'))return;
+  window.location.href=communityFrontPageUrl(row.dataset.community);
+}
+
+document.querySelectorAll('.community-more-row').forEach(row=>{
+  row.addEventListener('keydown',event=>{
+    if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.community-pin')){
+      event.preventDefault();
+      window.location.href=communityFrontPageUrl(row.dataset.community);
+    }
+  });
+});
+
+
+/* --- Community search --- */
+const communitySearchInput=document.getElementById('communitySearchInput');
+const communitySearchResults=document.getElementById('communitySearchResults');
+
+function communitySearchItems(){
+  const items=[];
+
+  document.querySelectorAll('.pinned-card').forEach((el,i)=>{
+    items.push({
+      type:'Pinned',
+      title:el.innerText.trim(),
+      detail:'Pinned Community post',
+      element:el,
+      view:'home',
+      action:()=>el.click()
+    });
+  });
+
+  document.querySelectorAll('#community-home .post').forEach((el,i)=>{
+    const author=el.querySelector('.username')?.textContent?.trim()||'Community post';
+    const caption=el.querySelector('.caption')?.textContent?.trim()||el.innerText.trim();
+    items.push({
+      type:'Post',
+      title:author,
+      detail:caption.slice(0,95),
+      element:el,
+      view:'home'
+    });
+  });
+
+  document.querySelectorAll('#community-home .activity-card').forEach(el=>{
+    items.push({
+      type:'Conversation',
+      title:el.querySelector('h3')?.textContent?.trim()||'Community conversation',
+      detail:el.querySelector('p')?.textContent?.trim()||'',
+      element:el,
+      view:'home'
+    });
+  });
+
+  document.querySelectorAll('#community-members .member-card').forEach(el=>{
+    items.push({
+      type:'Member',
+      title:el.querySelector('strong')?.textContent?.trim()||'Member',
+      detail:el.querySelector('span')?.textContent?.trim()||'',
+      element:el,
+      view:'members'
+    });
+  });
+
+  document.querySelectorAll('.community-rule').forEach(el=>{
+    items.push({
+      type:'Rule',
+      title:el.querySelector('strong')?.textContent?.trim()||'Community rule',
+      detail:el.querySelector('div > span')?.textContent?.trim()||'',
+      element:el,
+      view:el.closest('#community-about')?'about':'home'
+    });
+  });
+
+  document.querySelectorAll('#community-about h2,#community-about h3').forEach(el=>{
+    items.push({
+      type:'Guide',
+      title:el.textContent.trim(),
+      detail:'Community Guide',
+      element:el,
+      view:'about'
+    });
+  });
+
+  return items;
+}
+
+function closeCommunitySearch(){
+  if(communitySearchResults){
+    communitySearchResults.hidden=true;
+    communitySearchResults.innerHTML='';
+  }
+}
+
+function showCommunitySearchResult(item){
+  if(item.action){
+    item.action();
+    closeCommunitySearch();
+    return;
+  }
+
+  document.querySelector(`.community-tab[data-view="${item.view}"]`)?.click();
+  setTimeout(()=>{
+    item.element?.scrollIntoView({behavior:'smooth',block:'center'});
+    item.element?.classList.add('community-search-flash');
+    setTimeout(()=>item.element?.classList.remove('community-search-flash'),1600);
+  },80);
+  closeCommunitySearch();
+}
+
+function renderCommunitySearch(){
+  if(!communitySearchInput||!communitySearchResults)return;
+  const query=communitySearchInput.value.trim().toLowerCase();
+
+  if(query.length<2){
+    closeCommunitySearch();
+    return;
+  }
+
+  const matches=communitySearchItems()
+    .filter(item=>`${item.title} ${item.detail}`.toLowerCase().includes(query))
+    .slice(0,8);
+
+  communitySearchResults.innerHTML='';
+
+  if(!matches.length){
+    communitySearchResults.innerHTML='<div class="community-search-empty">No matches in this Community.</div>';
+    communitySearchResults.hidden=false;
+    return;
+  }
+
+  matches.forEach(item=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='community-search-result';
+    button.innerHTML=`<span class="community-search-result-type">${item.type}</span><span class="community-search-result-copy"><strong></strong><span></span></span>`;
+    button.querySelector('strong').textContent=item.title;
+    button.querySelector('.community-search-result-copy span').textContent=item.detail;
+    button.addEventListener('click',()=>showCommunitySearchResult(item));
+    communitySearchResults.appendChild(button);
+  });
+
+  communitySearchResults.hidden=false;
+}
+
+communitySearchInput?.addEventListener('input',renderCommunitySearch);
+communitySearchInput?.addEventListener('keydown',event=>{
+  if(event.key==='Escape')closeCommunitySearch();
+});
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.community-search-wrap'))closeCommunitySearch();
+});
+
+
+document.querySelectorAll('[data-guide-action]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const action=button.dataset.guideAction;
+    if(action==='members'){
+      document.querySelector('.community-tab[data-view="members"]')?.click();
+      return;
+    }
+    if(action==='pinned'){
+      document.querySelector('.community-tab[data-view="home"]')?.click();
+      setTimeout(()=>document.querySelector('.pinned-shelf')?.scrollIntoView({behavior:'smooth',block:'center'}),60);
+      return;
+    }
+    if(action==='conversation'){
+      document.querySelector('.community-tab[data-view="home"]')?.click();
+      setTimeout(()=>document.querySelector('.activity-card.featured')?.scrollIntoView({behavior:'smooth',block:'center'}),60);
+    }
+  });
+});
+
+
+document.querySelector('[data-open-newcomer-guide]')?.addEventListener('click',()=>{
+  document.querySelector('.community-tab[data-view="about"]')?.click();
+  setTimeout(()=>document.querySelector('.community-guide-hero')?.scrollIntoView({behavior:'smooth',block:'start'}),60);
+});
+document.querySelector('[data-open-newcomer-guide]')?.addEventListener('keydown',event=>{
+  if(event.key==='Enter'||event.key===' '){
+    event.preventDefault();
+    event.currentTarget.click();
+  }
+});
+
+
+document.getElementById('seeMoreMembers')?.addEventListener('click',function(){
+  const directory=this.closest('.member-directory');
+  const expanded=directory.classList.toggle('expanded');
+  this.textContent=expanded?'Show Fewer Members ↑':'See More Members ↓';
+});
+
+</script>
+</body>
+</html>

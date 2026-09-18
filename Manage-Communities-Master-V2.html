@@ -709,16 +709,16 @@ function communityFrontPageUrl(name){
     .replace(/^-+|-+$/g,'');
 
   return slug==='spooky-cozy'
-    ? 'Communities-Master-V2.html'
-    : `Communities-Master-V2.html?community=${encodeURIComponent(slug)}`;
+    ? 'Communities-Master-V3.html'
+    : `Communities-Master-V3.html?community=${encodeURIComponent(slug)}`;
 }
 
 function openCommunityBySlug(slug){
   const state=communityState[slug];
   if(!state)return;
   window.location.href=slug==='spooky-cozy'
-    ? 'Communities-Master-V2.html'
-    : `Communities-Master-V2.html?community=${encodeURIComponent(slug)}`;
+    ? 'Communities-Master-V3.html'
+    : `Communities-Master-V3.html?community=${encodeURIComponent(slug)}`;
 }
 
 function joinedCommunities(){
