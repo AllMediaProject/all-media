@@ -218,6 +218,9 @@ body{min-height:100vh}
 }
 
 #notificationQuickPopup[hidden]{display:none!important}
+
+.manage-community-card.state-hidden{display:none!important}
+.mc-button.state-active{border-color:rgba(255,195,132,.4);background:rgba(255,195,132,.09);color:#ffc384}
 </style>
 </head>
 <body>
@@ -338,35 +341,35 @@ body{min-height:100vh}
   <section class="manage-view active" id="manage-pinned">
     <div class="manage-intro">
       <div><h2>Pinned Communities</h2><p>These appear directly in your Communities hotbar.</p></div>
-      <span class="manage-count">3 / 6 pinned</span>
+      <span class="manage-count" id="pinnedCommunityCount">3 / 6 pinned</span>
     </div>
 
     <div class="community-manage-list" id="pinnedManageList">
-      <article class="manage-community-card" draggable="true" data-community="Spooky Cozy">
+      <article class="manage-community-card" data-community-slug="spooky-cozy" draggable="true" data-community="Spooky Cozy">
         <div class="manage-community-icon">🎃</div>
         <div class="manage-community-copy">
           <button class="manage-community-name" type="button" onclick="goCommunity('Spooky Cozy')"><span class="drag-grip">⋮⋮</span>Spooky Cozy</button>
           <div class="manage-community-meta"><span>Joined</span><span>Notifications on while pinned</span><span>You own this Community</span></div>
         </div>
-        <div class="manage-community-actions"><button class="mc-button" type="button">📌 Pinned</button><a class="mc-button secondary" href="Create-Community-Master-V1.html?view=owned">Manage</a></div>
+        <div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">📌 Pinned</button><a class="mc-button secondary" href="Create-Community-Master-V1.html?view=owned">Manage</a></div>
       </article>
 
-      <article class="manage-community-card" draggable="true" data-community="Artists">
+      <article class="manage-community-card" data-community-slug="artists" draggable="true" data-community="Artists">
         <div class="manage-community-icon">🎨</div>
         <div class="manage-community-copy">
           <button class="manage-community-name" type="button" onclick="goCommunity('Artists')"><span class="drag-grip">⋮⋮</span>Artists</button>
           <div class="manage-community-meta"><span>Joined</span><span>Notifications on while pinned</span><span>Moderator</span></div>
         </div>
-        <div class="manage-community-actions"><button class="mc-button" type="button">📌 Pinned</button><a class="mc-button secondary" href="Create-Community-Master-V1.html?view=owned">Manage</a></div>
+        <div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">📌 Pinned</button><a class="mc-button secondary" href="Create-Community-Master-V1.html?view=owned">Manage</a></div>
       </article>
 
-      <article class="manage-community-card" draggable="true" data-community="Turtle Rescue">
+      <article class="manage-community-card" data-community-slug="turtle-rescue" draggable="true" data-community="Turtle Rescue">
         <div class="manage-community-icon">🐢</div>
         <div class="manage-community-copy">
           <button class="manage-community-name" type="button" onclick="goCommunity('Turtle Rescue')"><span class="drag-grip">⋮⋮</span>Turtle Rescue</button>
           <div class="manage-community-meta"><span>Joined</span><span>Notifications on while pinned</span></div>
         </div>
-        <div class="manage-community-actions"><button class="mc-button" type="button">📌 Pinned</button></div>
+        <div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">📌 Pinned</button></div>
       </article>
     </div>
 
@@ -376,15 +379,15 @@ body{min-height:100vh}
   <section class="manage-view" id="manage-joined">
     <div class="manage-intro">
       <div><h2>Joined Communities</h2><p>Every Community you belong to, whether pinned or not.</p></div>
-      <span class="manage-count">6 joined</span>
+      <span class="manage-count" id="joinedCommunityCount">6 joined</span>
     </div>
     <div class="community-manage-list">
-      <article class="manage-community-card"><div class="manage-community-icon">🎃</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Spooky Cozy')">Spooky Cozy</button><div class="manage-community-meta"><span>Pinned</span><span>Owner</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button">Leave</button></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">🎨</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Artists')">Artists</button><div class="manage-community-meta"><span>Pinned</span><span>Moderator</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button">Leave</button></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">🐢</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Turtle Rescue')">Turtle Rescue</button><div class="manage-community-meta"><span>Pinned</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button">Leave</button></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">📚</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Book Club')">Book Club</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button">Pin</button><button class="mc-button secondary" type="button">Leave</button></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">🧶</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Crochet Corner')">Crochet Corner</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button">Pin</button><button class="mc-button secondary" type="button">Leave</button></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">🌿</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Garden & Nature')">Garden &amp; Nature</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button">Pin</button><button class="mc-button secondary" type="button">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="spooky-cozy"><div class="manage-community-icon">🎃</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Spooky Cozy')">Spooky Cozy</button><div class="manage-community-meta"><span>Pinned</span><span>Owner</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="artists"><div class="manage-community-icon">🎨</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Artists')">Artists</button><div class="manage-community-meta"><span>Pinned</span><span>Moderator</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="turtle-rescue"><div class="manage-community-icon">🐢</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Turtle Rescue')">Turtle Rescue</button><div class="manage-community-meta"><span>Pinned</span></div></div><div class="manage-community-actions"><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="book-club"><div class="manage-community-icon">📚</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Book Club')">Book Club</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">Pin</button><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="crochet-corner"><div class="manage-community-icon">🧶</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Crochet Corner')">Crochet Corner</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">Pin</button><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
+      <article class="manage-community-card" data-community-slug="garden-and-nature"><div class="manage-community-icon">🌿</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Garden & Nature')">Garden &amp; Nature</button><div class="manage-community-meta"><span>Joined</span><span>Not pinned</span></div></div><div class="manage-community-actions"><button class="mc-button" type="button" data-community-action="toggle-pin">Pin</button><button class="mc-button secondary" type="button" data-community-action="leave">Leave</button></div></article>
     </div>
   </section>
 
@@ -394,8 +397,8 @@ body{min-height:100vh}
       <span class="manage-count">2 spaces</span>
     </div>
     <div class="community-manage-list">
-      <article class="manage-community-card"><div class="manage-community-icon">🎃</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Spooky Cozy')">Spooky Cozy</button><div class="manage-community-meta"><span>Owner</span><span>Full Community Studio access</span></div></div><div class="manage-community-actions"><a class="mc-button" href="Create-Community-Master-V1.html?view=owned">Manage Community</a></div></article>
-      <article class="manage-community-card"><div class="manage-community-icon">🎨</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Artists')">Artists</button><div class="manage-community-meta"><span>Moderator</span><span>Permissions depend on your role</span></div></div><div class="manage-community-actions"><a class="mc-button" href="Create-Community-Master-V1.html?view=owned">Open moderator tools</a></div></article>
+      <article class="manage-community-card" data-community-slug="spooky-cozy"><div class="manage-community-icon">🎃</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Spooky Cozy')">Spooky Cozy</button><div class="manage-community-meta"><span>Owner</span><span>Full Community Studio access</span></div></div><div class="manage-community-actions"><a class="mc-button" href="Create-Community-Master-V1.html?view=owned">Manage Community</a></div></article>
+      <article class="manage-community-card" data-community-slug="artists"><div class="manage-community-icon">🎨</div><div class="manage-community-copy"><button class="manage-community-name" type="button" onclick="goCommunity('Artists')">Artists</button><div class="manage-community-meta"><span>Moderator</span><span>Permissions depend on your role</span></div></div><div class="manage-community-actions"><a class="mc-button" href="Create-Community-Master-V1.html?view=owned">Open moderator tools</a></div></article>
     </div>
   </section>
 
@@ -417,6 +420,55 @@ body{min-height:100vh}
 </main>
 
 <script>
+
+/* ============================================================
+   SHARED COMMUNITY MEMBERSHIP STATE
+   Prototype persistence across Community + Manage Communities.
+   ============================================================ */
+const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+const ALL_MEDIA_COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+};
+function cloneCommunityDefaults(){return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));}
+function loadAllMediaCommunityState(){
+  const defaults=cloneCommunityDefaults();
+  try{
+    const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+    Object.keys(defaults).forEach(slug=>{
+      defaults[slug]={...defaults[slug],...(saved[slug]||{})};
+      if(defaults[slug].pinned){defaults[slug].joined=true;defaults[slug].notifications=true;}
+    });
+  }catch(e){}
+  return defaults;
+}
+let allMediaCommunityState=loadAllMediaCommunityState();
+function saveAllMediaCommunityState(){localStorage.setItem(ALL_MEDIA_COMMUNITY_STATE_KEY,JSON.stringify(allMediaCommunityState));}
+function getCommunityState(slug){
+  if(!allMediaCommunityState[slug]) allMediaCommunityState[slug]={name:slug,icon:'◉',joined:false,pinned:false,notifications:true,role:'member'};
+  return allMediaCommunityState[slug];
+}
+function updateCommunityState(slug,patch){
+  const current=getCommunityState(slug);
+  allMediaCommunityState[slug]={...current,...patch};
+  if(allMediaCommunityState[slug].pinned){allMediaCommunityState[slug].joined=true;allMediaCommunityState[slug].notifications=true;}
+  if(!allMediaCommunityState[slug].joined) allMediaCommunityState[slug].pinned=false;
+  saveAllMediaCommunityState();
+  document.dispatchEvent(new CustomEvent('allmedia:community-state-change',{detail:{slug,state:allMediaCommunityState[slug]}}));
+  return allMediaCommunityState[slug];
+}
+window.addEventListener('storage',event=>{
+  if(event.key===ALL_MEDIA_COMMUNITY_STATE_KEY){
+    allMediaCommunityState=loadAllMediaCommunityState();
+    document.dispatchEvent(new CustomEvent('allmedia:community-state-refresh'));
+  }
+});
+
+
 const notificationBell=document.getElementById('headerNotificationBell');
 const notificationPopup=document.getElementById('notificationQuickPopup');
 if(notificationBell&&notificationPopup){
@@ -498,6 +550,51 @@ document.querySelectorAll('.community-more-row').forEach(row=>{
     }
   });
 });
+
+
+function syncManageHotbarFromState(){
+  const hotbar=document.getElementById('masterPinnedCommunities'); if(!hotbar)return;
+  Object.entries(allMediaCommunityState).forEach(([slug,state])=>{
+    const existing=[...hotbar.querySelectorAll('.community-chip')].find(chip=>communitySlug(chip.dataset.community)===slug);
+    if(state.joined&&state.pinned&&!existing){
+      const chip=document.createElement('button');
+      chip.className='community-chip';chip.draggable=true;chip.dataset.community=state.name;chip.dataset.icon=state.icon||'◉';
+      chip.setAttribute('onclick',"openCommunityFromHotbar(event,this)");
+      chip.innerHTML=`<span class="community-icon">${state.icon||'◉'}</span>${state.name} <span class="activity-bell" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count" style="display:none">0</span></span>`;
+      hotbar.appendChild(chip);
+    }
+    if((!state.joined||!state.pinned)&&existing)existing.remove();
+  });
+}
+function syncManageCommunitiesFromState(){
+  document.querySelectorAll('.manage-community-card[data-community-slug]').forEach(card=>{
+    const slug=card.dataset.communitySlug; const state=getCommunityState(slug); const section=card.closest('.manage-view');
+    let visible=true;
+    if(section?.id==='manage-pinned')visible=state.joined&&state.pinned;
+    if(section?.id==='manage-joined')visible=state.joined;
+    if(section?.id==='manage-owned')visible=state.role==='owner'||state.role==='moderator';
+    card.classList.toggle('state-hidden',!visible);
+    const pinButton=card.querySelector('[data-community-action="toggle-pin"]');
+    if(pinButton){pinButton.textContent=state.pinned?'📌 Pinned':'Pin';pinButton.classList.toggle('state-active',state.pinned);}
+  });
+  const joinedCount=Object.values(allMediaCommunityState).filter(x=>x.joined).length;
+  const pinnedCount=Object.values(allMediaCommunityState).filter(x=>x.joined&&x.pinned).length;
+  const joinedLabel=document.getElementById('joinedCommunityCount'); const pinnedLabel=document.getElementById('pinnedCommunityCount');
+  if(joinedLabel)joinedLabel.textContent=`${joinedCount} joined`;
+  if(pinnedLabel)pinnedLabel.textContent=`${pinnedCount} / 6 pinned`;
+  syncManageHotbarFromState();
+}
+document.addEventListener('click',event=>{
+  const actionButton=event.target.closest('[data-community-action]'); if(!actionButton)return;
+  const card=actionButton.closest('.manage-community-card[data-community-slug]'); if(!card)return;
+  const slug=card.dataset.communitySlug; const state=getCommunityState(slug); const action=actionButton.dataset.communityAction;
+  if(action==='toggle-pin'){if(!state.joined)return;updateCommunityState(slug,{pinned:!state.pinned,notifications:true});}
+  if(action==='leave')updateCommunityState(slug,{joined:false,pinned:false,notifications:true});
+  syncManageCommunitiesFromState();
+});
+document.addEventListener('allmedia:community-state-change',syncManageCommunitiesFromState);
+document.addEventListener('allmedia:community-state-refresh',syncManageCommunitiesFromState);
+syncManageCommunitiesFromState();
 
 </script>
 </body>

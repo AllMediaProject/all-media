@@ -2394,11 +2394,10 @@ function toggleCommunityPin(event,button){
   const icon=row?.dataset.icon||'';
 
   if(name==='Spooky Cozy'){
-    if(!spookyState.joined)return;
-    spookyState.pinned=!spookyState.pinned;
-    if(spookyState.pinned)spookyState.muted=false;
+    const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
+    if(!state.joined)return;
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{pinned:!state.pinned,notifications:true});
     syncSpookyCommunityUI();
-    communityToast(spookyState.pinned?'Pinned to your Communities hotbar.':'Removed from your Communities hotbar.');
     return;
   }
 
@@ -2480,11 +2479,59 @@ document.getElementById('announcementPrev')?.addEventListener('click',()=>showAn
 document.getElementById('announcementNext')?.addEventListener('click',()=>showAnnouncement(announcementIndex+1));
 announcementDots.forEach(dot=>dot.addEventListener('click',()=>showAnnouncement(Number(dot.dataset.index||0))));
 
-const spookyState={
-  joined:true,
-  pinned:true,
-  muted:false
+
+/* ============================================================
+   SHARED COMMUNITY MEMBERSHIP STATE
+   Prototype persistence across Community + Manage Communities.
+   ============================================================ */
+const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+const ALL_MEDIA_COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
 };
+function cloneCommunityDefaults(){return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));}
+function loadAllMediaCommunityState(){
+  const defaults=cloneCommunityDefaults();
+  try{
+    const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+    Object.keys(defaults).forEach(slug=>{
+      defaults[slug]={...defaults[slug],...(saved[slug]||{})};
+      if(defaults[slug].pinned){defaults[slug].joined=true;defaults[slug].notifications=true;}
+    });
+  }catch(e){}
+  return defaults;
+}
+let allMediaCommunityState=loadAllMediaCommunityState();
+function saveAllMediaCommunityState(){localStorage.setItem(ALL_MEDIA_COMMUNITY_STATE_KEY,JSON.stringify(allMediaCommunityState));}
+function getCommunityState(slug){
+  if(!allMediaCommunityState[slug]) allMediaCommunityState[slug]={name:slug,icon:'◉',joined:false,pinned:false,notifications:true,role:'member'};
+  return allMediaCommunityState[slug];
+}
+function updateCommunityState(slug,patch){
+  const current=getCommunityState(slug);
+  allMediaCommunityState[slug]={...current,...patch};
+  if(allMediaCommunityState[slug].pinned){allMediaCommunityState[slug].joined=true;allMediaCommunityState[slug].notifications=true;}
+  if(!allMediaCommunityState[slug].joined) allMediaCommunityState[slug].pinned=false;
+  saveAllMediaCommunityState();
+  document.dispatchEvent(new CustomEvent('allmedia:community-state-change',{detail:{slug,state:allMediaCommunityState[slug]}}));
+  return allMediaCommunityState[slug];
+}
+window.addEventListener('storage',event=>{
+  if(event.key===ALL_MEDIA_COMMUNITY_STATE_KEY){
+    allMediaCommunityState=loadAllMediaCommunityState();
+    document.dispatchEvent(new CustomEvent('allmedia:community-state-refresh'));
+  }
+});
+
+const CURRENT_COMMUNITY_SLUG='spooky-cozy';
+function spookyStateSnapshot(){
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
+  return {joined:!!state.joined,pinned:!!state.pinned,muted:!state.notifications};
+}
 
 function communityToast(){/* intentionally silent in the Community UI */}
 
@@ -2519,6 +2566,7 @@ function addSpookyToHotbar(){
   chip.draggable=true;
   chip.dataset.community='Spooky Cozy';
   chip.dataset.icon='🎃';
+  chip.setAttribute('onclick',"openCommunityFromHotbar(event,this)");
   chip.innerHTML='<span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span>';
   bar.prepend(chip);
 }
@@ -2530,84 +2578,46 @@ function removeSpookyFromHotbar(){
 }
 
 function syncSpookyCommunityUI(){
+  const state=spookyStateSnapshot();
   const join=document.getElementById('joinButton');
   const pin=document.getElementById('pinButton');
   const bell=document.getElementById('communityBell');
-
-  if(join)join.textContent=spookyState.joined?'✓ Joined':'Join';
-
-  if(pin){
-    pin.disabled=!spookyState.joined;
-    pin.classList.toggle('active',spookyState.pinned);
-    pin.textContent=spookyState.pinned?'📌 Pinned':'📌 Pin';
-  }
-
+  if(join)join.textContent=state.joined?'✓ Joined':'Join';
+  if(pin){pin.disabled=!state.joined;pin.classList.toggle('active',state.pinned);pin.textContent=state.pinned?'📌 Pinned':'📌 Pin';}
   if(bell){
-    if(spookyState.pinned){
-      spookyState.muted=false;
-      bell.textContent='🔔';
-      bell.classList.add('locked');
-      bell.title='Pinned Communities keep notifications on';
-      bell.setAttribute('aria-disabled','true');
-    }else{
-      bell.classList.remove('locked');
-      bell.textContent=spookyState.muted?'🔕':'🔔';
-      bell.title=spookyState.muted?'Community notifications muted':'Community notifications on';
-      bell.setAttribute('aria-disabled','false');
-    }
+    if(state.pinned){bell.textContent='🔔';bell.classList.add('locked');bell.title='Pinned Communities keep notifications on';bell.setAttribute('aria-disabled','true');}
+    else{bell.classList.remove('locked');bell.textContent=state.muted?'🔕':'🔔';bell.title=state.muted?'Community notifications muted':'Community notifications on';bell.setAttribute('aria-disabled','false');}
   }
-
-  if(spookyState.joined)addSpookyToMore();
-  else removeSpookyFromMore();
-
-  if(spookyState.pinned)addSpookyToHotbar();
-  else removeSpookyFromHotbar();
-
+  if(state.joined)addSpookyToMore(); else removeSpookyFromMore();
+  if(state.pinned)addSpookyToHotbar(); else removeSpookyFromHotbar();
   const morePin=getSpookyMoreRow()?.querySelector('.community-pin');
   if(morePin){
-    morePin.classList.toggle('pinned',spookyState.pinned);
-    const state=morePin.querySelector('.pin-state');
+    morePin.classList.toggle('pinned',state.pinned);
+    const pinState=morePin.querySelector('.pin-state');
     const action=morePin.querySelector('.pin-action');
-    if(state)state.textContent=spookyState.pinned?'Pinned':'Pin';
-    if(action)action.textContent=spookyState.pinned?'Unpin':'Pin';
+    if(pinState)pinState.textContent=state.pinned?'Pinned':'Pin';
+    if(action)action.textContent=state.pinned?'Unpin':'Pin';
   }
 }
 
-document.getElementById('joinButton')?.addEventListener('click',function(){
-  if(spookyState.joined){
-    spookyState.joined=false;
-    spookyState.pinned=false;
-    spookyState.muted=false;
-    communityToast('You left Spooky Cozy.');
-  }else{
-    spookyState.joined=true;
-    spookyState.muted=false;
-    communityToast('Spooky Cozy added to More.');
-  }
+document.getElementById('joinButton')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
+  if(state.joined) updateCommunityState(CURRENT_COMMUNITY_SLUG,{joined:false,pinned:false,notifications:true});
+  else updateCommunityState(CURRENT_COMMUNITY_SLUG,{joined:true,notifications:true});
   syncSpookyCommunityUI();
 });
-
-document.getElementById('pinButton')?.addEventListener('click',function(){
-  if(!spookyState.joined)return;
-  spookyState.pinned=!spookyState.pinned;
-  if(spookyState.pinned){
-    spookyState.muted=false;
-    communityToast('Pinned to your Communities hotbar.');
-  }else{
-    communityToast('Removed from your Communities hotbar.');
-  }
+document.getElementById('pinButton')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG); if(!state.joined)return;
+  updateCommunityState(CURRENT_COMMUNITY_SLUG,{pinned:!state.pinned,notifications:true});
   syncSpookyCommunityUI();
 });
-
-document.getElementById('communityBell')?.addEventListener('click',function(){
-  if(spookyState.pinned){
-    communityToast('Pinned Communities keep notifications on.');
-    return;
-  }
-  spookyState.muted=!spookyState.muted;
+document.getElementById('communityBell')?.addEventListener('click',()=>{
+  const state=getCommunityState(CURRENT_COMMUNITY_SLUG); if(state.pinned)return;
+  updateCommunityState(CURRENT_COMMUNITY_SLUG,{notifications:!state.notifications});
   syncSpookyCommunityUI();
 });
-
+document.addEventListener('allmedia:community-state-change',event=>{if(event.detail?.slug===CURRENT_COMMUNITY_SLUG)syncSpookyCommunityUI();});
+document.addEventListener('allmedia:community-state-refresh',syncSpookyCommunityUI);
 syncSpookyCommunityUI();
 
 const quickThoughtInput=document.getElementById('quickThoughtInput');
