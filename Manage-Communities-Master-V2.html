@@ -562,7 +562,7 @@ body{min-height:100vh}
         <strong>Community Notifications</strong>
         <span>Catch up with activity from every Community in one place.</span>
       </div>
-      <button class="mc-button" id="viewAllCommunityNotifications" type="button" disabled>View All Community Notifications →</button>
+      <button class="mc-button" id="viewAllCommunityNotifications" type="button">View All Community Notifications →</button>
     </section>
 
     <div class="manage-note">
@@ -580,7 +580,7 @@ body{min-height:100vh}
     <button class="community-quick-close" id="communityQuickClose" type="button" aria-label="Close">×</button>
   </div>
   <div id="communityQuickList"></div>
-  <div class="community-quick-footer">Full Community Notifications will be connected later in the rebuild.</div>
+  <div class="community-quick-footer">Open Community Notifications to catch up with everything in one place.</div>
 </section>
 
 <div class="confirm-overlay" id="leaveConfirmOverlay" hidden>
@@ -595,6 +595,10 @@ body{min-height:100vh}
 </div>
 
 <script>
+document.getElementById('viewAllCommunityNotifications')?.addEventListener('click',()=>{
+  window.location.href='Community-Notifications-Master-V1.html';
+});
+
 const COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
 
 const COMMUNITY_DEFAULTS={
