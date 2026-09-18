@@ -6,6 +6,7 @@
 <title>All Media — Profile Prototype</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="profile.css">
+<link rel="stylesheet" href="profile-community-integration.css">
 
 </head>
 <body class="profile-prototype-body">
@@ -115,27 +116,16 @@
 <a class="profile-cluster" href="/all-media/profile.html" onclick="window.location.href='/all-media/profile.html';return false;" aria-label="Open your profile"><span class="header-avatar"></span></a>
 </div>
 </header>
-<div class="community-bar">
+<div class="community-bar" data-profile-community-bar>
 <span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities">
-<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
-</div>
+<div class="pinned-communities" data-profile-pinned-communities></div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
-<div class="community-dropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<button class="community-tool" data-profile-community-more type="button" aria-expanded="false">▾ More</button>
+<div class="community-dropdown" data-profile-community-dropdown></div>
 </div>
-</div>
-<button class="community-tool" type="button">Manage Communities</button>
+<button class="community-tool" data-profile-manage-communities type="button">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -463,27 +453,16 @@
 <a class="profile-cluster" href="/all-media/profile.html" onclick="window.location.href='/all-media/profile.html';return false;" aria-label="Open your profile"><span class="header-avatar"></span></a>
 </div>
 </header>
-<div class="community-bar">
+<div class="community-bar" data-profile-community-bar>
 <span class="community-label">COMMUNITIES</span>
-<div class="pinned-communities">
-<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃"><span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span></button>
-<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨"><span class="community-icon">🎨</span>Artists <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">2</span></span></button>
-<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢"><span class="community-icon">🐢</span>Turtle Rescue <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">1</span></span></button>
-</div>
+<div class="pinned-communities" data-profile-pinned-communities></div>
 <div class="community-divider-vertical"></div>
 <div class="community-tools">
 <div class="community-menu">
-<button class="community-tool" type="button" onclick="toggleCommunityDropdown(event,this)">▾ More</button>
-<div class="community-dropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Spooky Cozy from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Artists from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)" title="Unpin from hotbar" aria-label="Unpin Turtle Rescue from hotbar"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Book Club to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Crochet Corner to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)" title="Pin to hotbar" aria-label="Pin Garden & Nature to hotbar"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<button class="community-tool" data-profile-community-more type="button" aria-expanded="false">▾ More</button>
+<div class="community-dropdown" data-profile-community-dropdown></div>
 </div>
-</div>
-<button class="community-tool" type="button">Manage Communities</button>
+<button class="community-tool" data-profile-manage-communities type="button">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -1022,6 +1001,38 @@
 </div>
 </section>
 
+
+<!-- =========================================================
+     PROFILE ↔ COMMUNITIES PRODUCTION INTEGRATION
+     Shared by Your Profile and visitor Profile views.
+========================================================= -->
+<section class="profile-community-quick-popup" id="profileCommunityQuickPopup" hidden aria-live="polite">
+  <div class="profile-community-quick-head">
+    <div>
+      <h2 id="profileCommunityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button class="profile-community-quick-close" id="profileCommunityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="profile-community-quick-list" id="profileCommunityQuickList"></div>
+  <a class="profile-community-quick-footer" id="profileCommunityQuickFooter" href="community-notifications.html">View all from this Community →</a>
+</section>
+
+<div class="profile-manage-drawer-layer" id="profileManageCommunitiesDrawerLayer" hidden>
+  <button class="profile-manage-drawer-backdrop" id="profileManageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="profile-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="profile-manage-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="profileManageCommunitiesDrawerClose" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="profileManageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
+
 <script src="profile.js"></script>
+<script src="profile-community-integration.js"></script>
 </body>
 </html>
