@@ -1737,6 +1737,19 @@ button.pinned-card{
   line-height:1.5;
 }
 
+
+.community-primary:disabled{
+  opacity:.72;
+  cursor:default;
+  transform:none!important;
+}
+
+.community-access-note{
+  color:#9ca7bd;
+  font-size:10px;
+  font-weight:700;
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -2946,6 +2959,22 @@ function renderCreatedCommunityFront(){
 }
 
 
+
+function applyManagedCommunityAccess(){
+  const state=currentCommunityState();
+  const access=state.access||'Public';
+
+  const facts=document.querySelector('.community-facts');
+  if(facts){
+    const first=facts.querySelector('.community-fact');
+    if(first)first.textContent=`◉ ${access} Community`;
+  }
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+}
+
 function applyManagedCommunityProfile(){
   const state=currentCommunityState();
   if(!state?.profileEdited)return;
@@ -2968,34 +2997,93 @@ function applyManagedCommunityProfile(){
 
 renderCreatedCommunityFront();
 applyManagedCommunityProfile();
+applyManagedCommunityAccess();
 
 function syncSpookyCommunityUI(){
-  const state=spookyStateSnapshot();
+  const snapshot=spookyStateSnapshot();
+  const state=currentCommunityState();
+  const access=state.access||'Public';
   const join=document.getElementById('joinButton');
   const pin=document.getElementById('pinButton');
   const bell=document.getElementById('communityBell');
-  if(join)join.textContent=state.joined?'✓ Joined':'Join';
-  if(pin){pin.disabled=!state.joined;pin.classList.toggle('active',state.pinned);pin.textContent=state.pinned?'📌 Pinned':'📌 Pin';}
-  if(bell){
-    if(state.pinned){bell.textContent='🔔';bell.classList.add('locked');bell.title='Pinned Communities keep notifications on';bell.setAttribute('aria-disabled','true');}
-    else{bell.classList.remove('locked');bell.textContent=state.muted?'🔕':'🔔';bell.title=state.muted?'Community notifications muted':'Community notifications on';bell.setAttribute('aria-disabled','false');}
+
+  if(join){
+    join.disabled=false;
+
+    if(state.role==='owner'){
+      join.textContent='Owner';
+      join.disabled=true;
+    }else if(snapshot.joined){
+      join.textContent='✓ Joined';
+    }else if(access==='Request to Join'){
+      join.textContent=state.requestPending?'Request Pending':'Request to Join';
+      join.disabled=!!state.requestPending;
+    }else if(access==='Invite Only'){
+      join.textContent='Invite Only';
+      join.disabled=true;
+    }else{
+      join.textContent='Join';
+    }
   }
-  if(state.joined)addSpookyToMore(); else removeSpookyFromMore();
-  if(state.pinned)addSpookyToHotbar(); else removeSpookyFromHotbar();
+
+  if(pin){
+    pin.disabled=!snapshot.joined;
+    pin.classList.toggle('active',snapshot.pinned);
+    pin.textContent=snapshot.pinned?'📌 Pinned':'📌 Pin';
+  }
+
+  if(bell){
+    if(snapshot.pinned){
+      bell.textContent='🔔';
+      bell.classList.add('locked');
+      bell.title='Pinned Communities keep notifications on';
+      bell.setAttribute('aria-disabled','true');
+    }else{
+      bell.classList.remove('locked');
+      bell.textContent=snapshot.muted?'🔕':'🔔';
+      bell.title=snapshot.muted?'Community notifications muted':'Community notifications on';
+      bell.setAttribute('aria-disabled','false');
+    }
+  }
+
+  if(snapshot.joined)addSpookyToMore(); else removeSpookyFromMore();
+  if(snapshot.pinned)addSpookyToHotbar(); else removeSpookyFromHotbar();
+
   const morePin=getSpookyMoreRow()?.querySelector('.community-pin');
   if(morePin){
-    morePin.classList.toggle('pinned',state.pinned);
+    morePin.classList.toggle('pinned',snapshot.pinned);
     const pinState=morePin.querySelector('.pin-state');
     const action=morePin.querySelector('.pin-action');
-    if(pinState)pinState.textContent=state.pinned?'Pinned':'Pin';
-    if(action)action.textContent=state.pinned?'Unpin':'Pin';
+    if(pinState)pinState.textContent=snapshot.pinned?'Pinned':'Pin';
+    if(action)action.textContent=snapshot.pinned?'Unpin':'Pin';
   }
 }
 
 document.getElementById('joinButton')?.addEventListener('click',()=>{
   const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
-  if(state.joined) updateCommunityState(CURRENT_COMMUNITY_SLUG,{joined:false,pinned:false,notifications:true});
-  else updateCommunityState(CURRENT_COMMUNITY_SLUG,{joined:true,notifications:true});
+  const access=state.access||'Public';
+
+  if(state.role==='owner')return;
+
+  if(state.joined){
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      joined:false,
+      pinned:false,
+      notifications:true,
+      requestPending:false
+    });
+  }else if(access==='Request to Join'){
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{requestPending:true});
+  }else if(access==='Invite Only'){
+    return;
+  }else{
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      joined:true,
+      notifications:true,
+      requestPending:false
+    });
+  }
+
   syncSpookyCommunityUI();
 });
 document.getElementById('pinButton')?.addEventListener('click',()=>{

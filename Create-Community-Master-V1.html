@@ -952,6 +952,115 @@
 }
 
 
+
+.studio-access-group{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.studio-access-choice{
+  min-height:92px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  background:#14203e;
+  color:var(--cc-muted);
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.studio-access-choice strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-access-choice span{
+  display:block;
+  margin-top:4px;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-access-choice:hover,
+.studio-access-choice.selected{
+  border-color:rgba(255,195,132,.48);
+  background:rgba(255,195,132,.07);
+}
+
+.studio-access-choice.selected strong,
+.studio-access-choice.selected span{
+  color:var(--cc-peach);
+}
+
+.studio-access-note{
+  margin-top:9px;
+  color:#9ca8c1;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.studio-invite-box{
+  margin-top:12px;
+  padding:12px;
+  border:1px dotted rgba(255,195,132,.34);
+  border-radius:10px;
+  background:rgba(255,195,132,.04);
+}
+
+.studio-invite-box[hidden]{
+  display:none;
+}
+
+.studio-invite-box>div:first-child strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-invite-box>div:first-child span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-invite-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  gap:7px;
+  margin-top:10px;
+}
+
+.studio-invite-row input{
+  min-width:0;
+  height:34px;
+  box-sizing:border-box;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:8px;
+  outline:none;
+  background:#101a3a;
+  color:#cbd2e2;
+  font:500 9px 'Outfit',sans-serif;
+}
+
+.studio-membership-summary{
+  margin-top:12px;
+}
+
+@media(max-width:820px){
+  .studio-access-group{
+    grid-template-columns:1fr;
+  }
+  .studio-invite-row{
+    grid-template-columns:1fr;
+  }
+}
+
 .studio-profile-context{
   display:flex;
   align-items:center;
@@ -2153,6 +2262,7 @@ nextButton.addEventListener('click',()=>{
     welcome:document.getElementById('communityWelcomeInput').value.trim(),
     website:document.getElementById('communityWebsiteInput').value.trim(),
     officialSocials,
+    inviteToken:selectedChoice('accessChoices')==='Invite Only'?inviteToken:null,
     joined:true,
     pinned:false,
     notifications:true,
@@ -2848,18 +2958,53 @@ function studioPanelData(sectionKey,state){
       };
     }
 
-    case 'basics':
+    case 'basics': {
+      const access=state.access||'Public';
+      const inviteTokenValue=state.inviteToken||'';
       return {
         title:'Basics & Access',
         html:`
-          <div class="studio-detail-grid">
-            <div class="studio-detail-item"><span>Access</span><strong>${studioEscape(state.access||'Public')}</strong></div>
-            <div class="studio-detail-item"><span>Membership</span><strong>${state.joined===false?'Not joined':'Joined'}</strong></div>
+          <div class="studio-access-group" id="studioAccessChoices">
+            <button class="studio-access-choice ${access==='Public'?'selected':''}" type="button" data-access="Public">
+              <strong>Public</strong>
+              <span>Anyone can browse the Community. Joining is immediate.</span>
+            </button>
+            <button class="studio-access-choice ${access==='Request to Join'?'selected':''}" type="button" data-access="Request to Join">
+              <strong>Request to Join</strong>
+              <span>People can browse, but membership needs approval.</span>
+            </button>
+            <button class="studio-access-choice ${access==='Invite Only'?'selected':''}" type="button" data-access="Invite Only">
+              <strong>Invite Only</strong>
+              <span>Only people with an active Community invite can join.</span>
+            </button>
+          </div>
+
+          <div class="studio-access-note" id="studioAccessNote"></div>
+
+          <div class="studio-invite-box" id="studioInviteBox" ${access==='Invite Only'?'':'hidden'}>
+            <div>
+              <strong>Community invite link</strong>
+              <span>This uses a separate revocable invite token. Resetting it does not change the Community itself.</span>
+            </div>
+            <div class="studio-invite-row">
+              <input id="studioInviteLink" type="text" readonly value="${studioEscape(inviteTokenValue?`https://allmedia.example/invite/${inviteTokenValue}`:'')}">
+              <button class="form-button" id="studioCopyInvite" type="button">Copy</button>
+              <button class="form-button" id="studioResetInvite" type="button">Reset Link</button>
+            </div>
+          </div>
+
+          <div class="studio-detail-grid studio-membership-summary">
+            <div class="studio-detail-item"><span>Your role</span><strong>${studioEscape(state.role==='moderator'?'Moderator':'Owner')}</strong></div>
             <div class="studio-detail-item"><span>Notifications</span><strong>${state.notifications===false?'Off':'On'}</strong></div>
             <div class="studio-detail-item"><span>Pinned</span><strong>${state.pinned?'Yes':'No'}</strong></div>
-            <div class="studio-detail-item wide"><span>Invite behavior</span><p>${studioEscape((state.access||'Public')==='Invite Only'?'Uses a separate revocable invite link/token.':(state.access==='Request to Join'?'People request access from the Community page.':'Anyone can browse before joining.'))}</p></div>
+          </div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioBasicsSaveStatus"></span>
+            <button class="form-button primary" id="studioBasicsSave" type="button">Save Changes</button>
           </div>`
       };
+    }
 
     case 'posting':
       return {
@@ -2988,6 +3133,107 @@ function wireStudioProfileEditor(){
   });
 }
 
+
+function makeStudioInviteToken(){
+  const a=Math.random().toString(36).slice(2,6).toUpperCase();
+  const b=Math.random().toString(36).slice(2,6).toUpperCase();
+  return `CM-${a}-${b}`;
+}
+
+function studioInviteUrl(token){
+  return token?`https://allmedia.example/invite/${token}`:'';
+}
+
+function wireStudioBasicsEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  const choices=[...document.querySelectorAll('#studioAccessChoices .studio-access-choice')];
+  const note=document.getElementById('studioAccessNote');
+  const inviteBox=document.getElementById('studioInviteBox');
+  const inviteInput=document.getElementById('studioInviteLink');
+  const copyButton=document.getElementById('studioCopyInvite');
+  const resetButton=document.getElementById('studioResetInvite');
+  const saveButton=document.getElementById('studioBasicsSave');
+  const status=document.getElementById('studioBasicsSaveStatus');
+
+  let selectedAccess=state.access||'Public';
+  let workingInviteToken=state.inviteToken||'';
+
+  const syncAccessUI=()=>{
+    choices.forEach(button=>{
+      button.classList.toggle('selected',button.dataset.access===selectedAccess);
+    });
+
+    if(note){
+      note.textContent=
+        selectedAccess==='Public'
+          ? 'Public Communities can be browsed before joining, and membership is immediate.'
+          : selectedAccess==='Request to Join'
+            ? 'People can browse the Community, but joining creates a request for the owner/moderators.'
+            : 'People need a current invite link before they can join. The Community itself keeps the same internal identity.';
+    }
+
+    if(inviteBox)inviteBox.hidden=selectedAccess!=='Invite Only';
+
+    if(selectedAccess==='Invite Only'&&!workingInviteToken){
+      workingInviteToken=makeStudioInviteToken();
+    }
+
+    if(inviteInput)inviteInput.value=studioInviteUrl(workingInviteToken);
+  };
+
+  choices.forEach(button=>button.addEventListener('click',()=>{
+    selectedAccess=button.dataset.access;
+    if(status)status.textContent='';
+    syncAccessUI();
+  }));
+
+  copyButton?.addEventListener('click',async()=>{
+    if(!workingInviteToken)return;
+    const url=studioInviteUrl(workingInviteToken);
+    try{
+      await navigator.clipboard.writeText(url);
+      copyButton.textContent='Copied ✓';
+      setTimeout(()=>copyButton.textContent='Copy',1200);
+    }catch(e){
+      inviteInput?.select();
+    }
+  });
+
+  resetButton?.addEventListener('click',()=>{
+    workingInviteToken=makeStudioInviteToken();
+    if(inviteInput)inviteInput.value=studioInviteUrl(workingInviteToken);
+    if(status)status.textContent='New invite link ready. Save Changes to keep it.';
+  });
+
+  saveButton?.addEventListener('click',()=>{
+    const patch={
+      access:selectedAccess,
+      accessEdited:true
+    };
+
+    if(selectedAccess==='Invite Only'){
+      patch.inviteToken=workingInviteToken||makeStudioInviteToken();
+    }
+
+    if(selectedAccess!=='Request to Join'){
+      patch.requestPending=false;
+    }
+
+    updateCommunityState(slug,patch);
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+
+    setTimeout(()=>{
+      const saved=document.getElementById('studioBasicsSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+
+  syncAccessUI();
+}
+
 function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studioCommunitySlug()]){
   const panel=document.getElementById('studioDetailPanel');
   const title=document.getElementById('studioDetailTitle');
@@ -3001,6 +3247,9 @@ function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studio
 
   if(sectionKey==='profile'){
     wireStudioProfileEditor();
+  }
+  if(sectionKey==='basics'){
+    wireStudioBasicsEditor();
   }
 
   document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{
