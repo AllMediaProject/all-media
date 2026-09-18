@@ -1122,6 +1122,288 @@
   line-height:1.45;
 }
 
+
+.studio-all-interests,
+.studio-add-button{
+  width:100%;
+  padding:9px 11px;
+  border:1px dotted rgba(255,195,132,.38);
+  border-radius:9px;
+  background:rgba(255,195,132,.04);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.studio-all-interests.selected{
+  border-style:solid;
+  background:rgba(255,195,132,.12);
+}
+
+.studio-interest-selected{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0;
+}
+
+.studio-interest-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 8px 6px 10px;
+  border:1px solid rgba(255,195,132,.3);
+  border-radius:999px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-interest-chip button{
+  border:0;
+  background:transparent;
+  color:var(--cc-peach);
+  cursor:pointer;
+  font-size:13px;
+  line-height:1;
+}
+
+.studio-interest-search{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-interest-search input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--cc-text);
+  font:500 10px 'Outfit',sans-serif;
+}
+
+.studio-interest-suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+
+.studio-interest-suggestions button{
+  padding:6px 9px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:#14203e;
+  color:#c3cadb;
+  font:700 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-interest-suggestions button:hover{
+  border-color:rgba(255,195,132,.4);
+  color:var(--cc-peach);
+}
+
+.studio-interest-suggestions button:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.studio-interest-limit{
+  margin-top:7px;
+  color:#8996b2;
+  font-size:8px;
+}
+
+.studio-rules-editor,
+.studio-announcement-editor,
+.studio-member-editor,
+.studio-request-list,
+.studio-pin-list{
+  display:grid;
+  gap:8px;
+}
+
+.studio-rule-edit-row{
+  display:grid;
+  grid-template-columns:26px 1fr auto;
+  gap:8px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-rule-drag{
+  width:24px;
+  height:28px;
+  border:0;
+  background:transparent;
+  color:#8996b2;
+  cursor:grab;
+  font-size:14px;
+}
+
+.studio-rule-edit-fields{
+  display:grid;
+  gap:5px;
+}
+
+.studio-rule-edit-fields input,
+.studio-rule-edit-fields textarea,
+.studio-announcement-row input,
+.studio-announcement-row textarea,
+.studio-announcement-row select,
+.studio-member-role,
+.studio-text-input{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:8px;
+  outline:none;
+  background:#101a3a;
+  color:var(--cc-text);
+  font:500 9px 'Outfit',sans-serif;
+}
+
+.studio-rule-edit-fields input,
+.studio-text-input,
+.studio-member-role,
+.studio-announcement-row select{
+  height:34px;
+  padding:0 9px;
+}
+
+.studio-rule-edit-fields textarea,
+.studio-announcement-row textarea{
+  min-height:60px;
+  padding:8px 9px;
+  resize:vertical;
+}
+
+.studio-row-delete{
+  border:0;
+  background:transparent;
+  color:#d98989;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-add-button{
+  margin-top:8px;
+}
+
+.studio-announcement-row{
+  display:grid;
+  grid-template-columns:118px 1fr auto;
+  gap:8px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-announcement-fields{
+  display:grid;
+  gap:6px;
+}
+
+.studio-pin-item,
+.studio-member-row,
+.studio-request-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-pin-item span,
+.studio-member-row span,
+.studio-request-row span{
+  color:#cbd2e2;
+  font-size:9px;
+}
+
+.studio-pin-item strong,
+.studio-member-row strong,
+.studio-request-row strong{
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-member-copy{
+  min-width:0;
+  flex:1;
+}
+
+.studio-member-role{
+  width:130px;
+  flex:0 0 auto;
+}
+
+.studio-request-actions{
+  display:flex;
+  gap:6px;
+}
+
+.studio-request-actions button{
+  padding:6px 8px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:7px;
+  background:rgba(255,195,132,.05);
+  color:var(--cc-peach);
+  font:800 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-shop-placeholder{
+  margin-top:14px;
+  padding:12px;
+  border:1px dotted rgba(255,195,132,.26);
+  border-radius:9px;
+  background:rgba(255,195,132,.035);
+}
+
+.studio-shop-placeholder strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-shop-placeholder span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+@media(max-width:820px){
+  .studio-announcement-row{
+    grid-template-columns:1fr;
+  }
+  .studio-member-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .studio-member-role{
+    width:100%;
+  }
+}
+
 .studio-profile-context{
   display:flex;
   align-items:center;
@@ -3148,45 +3430,98 @@ function studioPanelData(sectionKey,state){
       };
     }
 
-    case 'interests':
+    case 'interests': {
+      const allInterests=interests.length===1&&interests[0]==='All Interests';
       return {
         title:'Interests',
-        html:interests.length
-          ? `<div class="studio-detail-pills">${interests.map(value=>`<span class="studio-detail-pill">${studioEscape(value)}</span>`).join('')}</div>`
-          : `<div class="studio-empty-note">No Interests have been saved for this Community yet.</div>`
+        html:`
+          <div class="studio-edit-heading">
+            <strong>Community Interests</strong>
+            <span>Choose up to 5 Interests, or allow all Interests. Posts must match at least one defined Interest before submission.</span>
+          </div>
+
+          <button class="studio-all-interests ${allInterests?'selected':''}" id="studioAllInterests" type="button">All Interests Welcome</button>
+
+          <div class="studio-interest-selected" id="studioInterestSelected"></div>
+
+          <div class="studio-interest-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="studioInterestSearch" type="search" placeholder="Search Interests…" autocomplete="off">
+          </div>
+
+          <div class="studio-interest-suggestions" id="studioInterestSuggestions"></div>
+          <div class="studio-interest-limit" id="studioInterestLimit"></div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioInterestsSaveStatus"></span>
+            <button class="form-button primary" id="studioInterestsSave" type="button">Save Changes</button>
+          </div>`
       };
+    }
 
     case 'rules':
       return {
         title:'Rules',
-        html:rules.length
-          ? `<div class="studio-rule-list">${rules.map((rule,index)=>`
-              <div class="studio-rule-row">
-                <span class="studio-rule-number">${index+1}</span>
-                <div><strong>${studioEscape(rule.title||'Community rule')}</strong><span>${studioEscape(rule.explanation||'')}</span></div>
-              </div>`).join('')}</div>`
-          : `<div class="studio-empty-note">No Community rules have been saved yet.</div>`
+        html:`
+          <div class="studio-edit-heading">
+            <strong>Community Rules</strong>
+            <span>Rules describe the culture and behavior expected here. Drag to reorder. At least one rule is required.</span>
+          </div>
+          <div class="studio-rules-editor" id="studioRulesEditor"></div>
+          <button class="studio-add-button" id="studioAddRule" type="button">＋ Add Rule</button>
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioRulesSaveStatus"></span>
+            <button class="form-button primary" id="studioRulesSave" type="button">Save Changes</button>
+          </div>`
       };
 
-    case 'announcements':
+    case 'announcements': {
+      const announcements=Array.isArray(state.announcements)?state.announcements:[];
+      const pinnedIds=Array.isArray(state.pinnedPostIds)
+        ? state.pinnedPostIds
+        : (state.name==='Spooky Cozy'?['showtell','welcome','guidelines','resources','exchange']:[]);
       return {
         title:'Announcements & Pins',
         html:`
-          <div class="studio-detail-grid">
-            <div class="studio-detail-item"><span>Active announcement limit</span><strong>3</strong></div>
-            <div class="studio-detail-item"><span>Pinned post limit</span><strong>5</strong></div>
-            <div class="studio-detail-item wide"><span>Current state</span><p>${state.createdByPrototype?'No announcements or pinned posts have been added yet.':'Existing Community announcements and pinned posts stay managed from this section.'}</p></div>
+          <div class="studio-edit-heading">
+            <strong>Announcements</strong>
+            <span>Up to 3 active announcements. They appear in the manual carousel at the top of the Community.</span>
+          </div>
+          <div class="studio-announcement-editor" id="studioAnnouncementEditor"></div>
+          <button class="studio-add-button" id="studioAddAnnouncement" type="button">＋ Add Announcement</button>
+
+          <div class="studio-edit-heading studio-edit-heading-spaced">
+            <strong>Pinned Posts</strong>
+            <span>Up to 5 posts can stay in the pinned shelf. This prototype can manage the existing pinned examples; new posts will eventually be pinned from their post menu.</span>
+          </div>
+          <div class="studio-pin-list" id="studioPinList" data-pinned="${studioEscape(JSON.stringify(pinnedIds))}"></div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioAnnouncementsSaveStatus"></span>
+            <button class="form-button primary" id="studioAnnouncementsSave" type="button">Save Changes</button>
           </div>`
       };
+    }
 
     case 'members':
       return {
         title:'Members & Moderators',
         html:`
-          <div class="studio-detail-grid">
-            <div class="studio-detail-item"><span>Your role</span><strong>${studioEscape(state.role==='moderator'?'Moderator':'Owner')}</strong></div>
-            <div class="studio-detail-item"><span>Membership</span><strong>${state.joined===false?'Not joined':'Active'}</strong></div>
-            <div class="studio-detail-item wide"><span>Management</span><p>Join requests, invitations, member roles and the moderation team will live here as the member system is connected.</p></div>
+          <div class="studio-edit-heading">
+            <strong>Member Roles</strong>
+            <span>Owners stay owners. Other members can be changed between Member and Moderator in this prototype.</span>
+          </div>
+          <div class="studio-member-editor" id="studioMemberEditor"></div>
+
+          <div class="studio-edit-heading studio-edit-heading-spaced">
+            <strong>Join Requests</strong>
+            <span>Request-to-Join Communities will place pending requests here.</span>
+          </div>
+          <div class="studio-request-list" id="studioRequestList"></div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioMembersSaveStatus"></span>
+            <button class="form-button primary" id="studioMembersSave" type="button">Save Role Changes</button>
           </div>`
       };
 
@@ -3194,10 +3529,40 @@ function studioPanelData(sectionKey,state){
       return {
         title:'Links & Shop',
         html:`
-          <div class="studio-detail-grid">
-            <div class="studio-detail-item wide"><span>Official website</span><p>${studioEscape(state.website||'No official website saved.')}</p></div>
-            <div class="studio-detail-item wide"><span>Official social links</span><p>${socialEntries.length?socialEntries.map(([network,value])=>`${studioEscape(network)}: ${studioEscape(value)}`).join('<br>'):'No official social links saved.'}</p></div>
-            <div class="studio-detail-item wide"><span>All Media Shop</span><p>No pinned Community Shop has been added yet.</p></div>
+          <div class="studio-edit-field">
+            <label for="studioWebsite">Official website</label>
+            <input class="studio-text-input" id="studioWebsite" type="url" value="${studioEscape(state.website||'')}" placeholder="https://…">
+            <p>Shown as an official Community resource, separate from member link-sharing permissions.</p>
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioInstagram">Instagram</label>
+            <input class="studio-text-input" id="studioInstagram" type="url" value="${studioEscape(state.officialSocials?.Instagram||'')}" placeholder="https://instagram.com/…">
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioYouTube">YouTube</label>
+            <input class="studio-text-input" id="studioYouTube" type="url" value="${studioEscape(state.officialSocials?.YouTube||'')}" placeholder="https://youtube.com/…">
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioThreads">Threads</label>
+            <input class="studio-text-input" id="studioThreads" type="url" value="${studioEscape(state.officialSocials?.Threads||'')}" placeholder="https://threads.net/…">
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioTikTok">TikTok</label>
+            <input class="studio-text-input" id="studioTikTok" type="url" value="${studioEscape(state.officialSocials?.TikTok||'')}" placeholder="https://tiktok.com/@…">
+          </div>
+
+          <div class="studio-shop-placeholder">
+            <strong>All Media Shop</strong>
+            <span>A Community can eventually pin its All Media Shop here. Shop connection is intentionally not simulated before the Shop system exists.</span>
+          </div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioLinksSaveStatus"></span>
+            <button class="form-button primary" id="studioLinksSave" type="button">Save Changes</button>
           </div>`
       };
   }
@@ -3423,6 +3788,567 @@ function wireStudioPostingEditor(){
   });
 }
 
+
+function defaultStudioRules(state){
+  if(Array.isArray(state.rules)&&state.rules.length){
+    return state.rules.map(rule=>({...rule}));
+  }
+  if(state.name==='Spooky Cozy'){
+    return [
+      {title:'No bullying',explanation:'Treat other members with respect.'},
+      {title:'Respect others',explanation:'Keep conversation constructive and considerate.'},
+      {title:'Stay on topic',explanation:'Keep posts relevant to the Community.'},
+      {title:'Use link sharing appropriately',explanation:'Follow the Community’s allowed link categories.'}
+    ];
+  }
+  return [
+    {title:'No bullying',explanation:'Treat other Community members with care and respect.'},
+    {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+  ];
+}
+
+function wireStudioInterestsEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  let allSelected=Array.isArray(state.interests)&&state.interests.length===1&&state.interests[0]==='All Interests';
+  const initial=(Array.isArray(state.interests)&&state.interests.length
+    ? state.interests
+    : (state.name==='Spooky Cozy'?['Halloween','Art','Cozy','Crafts']:[]))
+    .filter(value=>value!=='All Interests');
+
+  const selected=new Set(initial);
+  const allButton=document.getElementById('studioAllInterests');
+  const selectedBox=document.getElementById('studioInterestSelected');
+  const search=document.getElementById('studioInterestSearch');
+  const suggestions=document.getElementById('studioInterestSuggestions');
+  const limit=document.getElementById('studioInterestLimit');
+  const status=document.getElementById('studioInterestsSaveStatus');
+  const save=document.getElementById('studioInterestsSave');
+
+  const library=typeof INTEREST_LIBRARY!=='undefined'
+    ? INTEREST_LIBRARY
+    : ['Halloween','Art','Cozy','Crafts','Books','Gaming','Collecting','Music','Photography','Food','Nature','Crochet','DIY','Vintage','Horror','Writing','Technology','Travel','Fashion'];
+
+  const render=()=>{
+    allButton?.classList.toggle('selected',allSelected);
+
+    if(selectedBox){
+      selectedBox.innerHTML='';
+      if(!allSelected){
+        [...selected].forEach(name=>{
+          const chip=document.createElement('span');
+          chip.className='studio-interest-chip';
+          chip.innerHTML='<span></span><button type="button" aria-label="Remove Interest">×</button>';
+          chip.querySelector('span').textContent=name;
+          chip.querySelector('button').addEventListener('click',()=>{
+            selected.delete(name);
+            if(status)status.textContent='';
+            render();
+          });
+          selectedBox.appendChild(chip);
+        });
+      }
+    }
+
+    const query=(search?.value||'').trim().toLowerCase();
+    let matches=library.filter(name=>!selected.has(name));
+    if(query)matches=matches.filter(name=>name.toLowerCase().includes(query));
+    else matches=matches.slice(0,8);
+
+    if(suggestions){
+      suggestions.innerHTML='';
+      matches.slice(0,8).forEach(name=>{
+        const button=document.createElement('button');
+        button.type='button';
+        button.textContent=`＋ ${name}`;
+        button.disabled=!allSelected&&selected.size>=5;
+        button.addEventListener('click',()=>{
+          allSelected=false;
+          selected.add(name);
+          if(search)search.value='';
+          if(status)status.textContent='';
+          render();
+        });
+        suggestions.appendChild(button);
+      });
+    }
+
+    if(limit){
+      limit.textContent=allSelected
+        ? 'All Interests Welcome'
+        : `${selected.size} / 5 selected`;
+    }
+  };
+
+  allButton?.addEventListener('click',()=>{
+    allSelected=!allSelected;
+    if(allSelected)selected.clear();
+    if(status)status.textContent='';
+    render();
+  });
+
+  search?.addEventListener('input',render);
+
+  save?.addEventListener('click',()=>{
+    if(!allSelected&&selected.size===0){
+      if(status)status.textContent='Choose at least one Interest or select All Interests Welcome.';
+      return;
+    }
+
+    updateCommunityState(slug,{
+      interests:allSelected?['All Interests']:[...selected],
+      interestsEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+    setTimeout(()=>{
+      const saved=document.getElementById('studioInterestsSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+
+  render();
+}
+
+function wireStudioRulesEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  let rules=defaultStudioRules(state);
+  const editor=document.getElementById('studioRulesEditor');
+  const add=document.getElementById('studioAddRule');
+  const save=document.getElementById('studioRulesSave');
+  const status=document.getElementById('studioRulesSaveStatus');
+  let draggedIndex=null;
+
+  const render=()=>{
+    if(!editor)return;
+    editor.innerHTML='';
+
+    rules.forEach((rule,index)=>{
+      const row=document.createElement('div');
+      row.className='studio-rule-edit-row';
+      row.draggable=true;
+      row.dataset.index=String(index);
+      row.innerHTML=`
+        <button class="studio-rule-drag" type="button" title="Drag to reorder" aria-label="Drag rule to reorder">⋮⋮</button>
+        <div class="studio-rule-edit-fields">
+          <input maxlength="80">
+          <textarea maxlength="240"></textarea>
+        </div>
+        <button class="studio-row-delete" type="button">Delete</button>`;
+
+      const title=row.querySelector('input');
+      const explanation=row.querySelector('textarea');
+      title.value=rule.title||'';
+      explanation.value=rule.explanation||'';
+
+      title.addEventListener('input',()=>{rules[index].title=title.value;if(status)status.textContent='';});
+      explanation.addEventListener('input',()=>{rules[index].explanation=explanation.value;if(status)status.textContent='';});
+
+      row.querySelector('.studio-row-delete').addEventListener('click',()=>{
+        if(rules.length<=1){
+          if(status)status.textContent='A Community needs at least one rule.';
+          return;
+        }
+        rules.splice(index,1);
+        render();
+      });
+
+      row.addEventListener('dragstart',()=>{
+        draggedIndex=index;
+        row.classList.add('dragging');
+      });
+      row.addEventListener('dragend',()=>{
+        draggedIndex=null;
+        row.classList.remove('dragging');
+      });
+      row.addEventListener('dragover',event=>{
+        event.preventDefault();
+      });
+      row.addEventListener('drop',event=>{
+        event.preventDefault();
+        if(draggedIndex===null||draggedIndex===index)return;
+        const [moved]=rules.splice(draggedIndex,1);
+        rules.splice(index,0,moved);
+        draggedIndex=null;
+        render();
+      });
+
+      editor.appendChild(row);
+    });
+
+    if(add)add.disabled=rules.length>=10;
+  };
+
+  add?.addEventListener('click',()=>{
+    if(rules.length>=10)return;
+    rules.push({title:'New Community rule',explanation:'Explain what this rule means.'});
+    if(status)status.textContent='';
+    render();
+  });
+
+  save?.addEventListener('click',()=>{
+    const cleaned=rules.map(rule=>({
+      title:String(rule.title||'').trim(),
+      explanation:String(rule.explanation||'').trim()
+    }));
+
+    if(cleaned.some(rule=>!rule.title)){
+      if(status)status.textContent='Every rule needs a title.';
+      return;
+    }
+
+    updateCommunityState(slug,{
+      rules:cleaned,
+      rulesEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+    setTimeout(()=>{
+      const saved=document.getElementById('studioRulesSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+
+  render();
+}
+
+const STUDIO_PINNED_POSTS={
+  showtell:{title:'September Show & Tell',emoji:'🎃'},
+  welcome:{title:'Welcome to Spooky Cozy',emoji:'👋'},
+  guidelines:{title:'Community Guidelines',emoji:'🧡'},
+  resources:{title:'Vintage Halloween Resources',emoji:'🕯️'},
+  exchange:{title:'October Art Exchange',emoji:'🦇'}
+};
+
+function defaultStudioAnnouncements(state){
+  if(Array.isArray(state.announcements))return state.announcements.map(item=>({...item}));
+  if(state.name==='Spooky Cozy'){
+    return [
+      {type:'Welcome',title:'Welcome to Spooky Cozy 🎃',body:'A year-round place for Halloween people, cozy weirdos, artists, collectors, crafters, and anyone who never quite puts the spooky season away.',emoji:'👻'},
+      {type:'Community Update',title:'October Show & Tell starts next week',body:'Share your spooky setup, art, crafts, collections, costumes, or decorating projects. The monthly prompt will stay pinned for easy access.',emoji:'🕯️'},
+      {type:'Announcement',title:'October Art Exchange signups close Friday 🎃',body:'Pair up with another spooky creator, make something tiny, and mail or digitally exchange it before Halloween.',emoji:'🎃'}
+    ];
+  }
+  return [];
+}
+
+function wireStudioAnnouncementsEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  let announcements=defaultStudioAnnouncements(state);
+  let pinnedIds=Array.isArray(state.pinnedPostIds)
+    ? [...state.pinnedPostIds]
+    : (state.name==='Spooky Cozy'?Object.keys(STUDIO_PINNED_POSTS):[]);
+
+  const editor=document.getElementById('studioAnnouncementEditor');
+  const add=document.getElementById('studioAddAnnouncement');
+  const pinList=document.getElementById('studioPinList');
+  const save=document.getElementById('studioAnnouncementsSave');
+  const status=document.getElementById('studioAnnouncementsSaveStatus');
+
+  const renderAnnouncements=()=>{
+    if(!editor)return;
+    editor.innerHTML='';
+
+    if(!announcements.length){
+      const empty=document.createElement('div');
+      empty.className='studio-empty-note';
+      empty.textContent='No active announcements.';
+      editor.appendChild(empty);
+    }
+
+    announcements.forEach((item,index)=>{
+      const row=document.createElement('div');
+      row.className='studio-announcement-row';
+      row.innerHTML=`
+        <select aria-label="Announcement type">
+          <option>Welcome</option>
+          <option>Community Update</option>
+          <option>Announcement</option>
+        </select>
+        <div class="studio-announcement-fields">
+          <input maxlength="120" placeholder="Announcement title">
+          <textarea maxlength="500" placeholder="Announcement message"></textarea>
+          <input maxlength="4" placeholder="Emoji">
+        </div>
+        <button class="studio-row-delete" type="button">Archive</button>`;
+
+      const select=row.querySelector('select');
+      const inputs=row.querySelectorAll('input');
+      const textarea=row.querySelector('textarea');
+
+      select.value=item.type||'Announcement';
+      inputs[0].value=item.title||'';
+      textarea.value=item.body||'';
+      inputs[1].value=item.emoji||'📣';
+
+      select.addEventListener('change',()=>{announcements[index].type=select.value;if(status)status.textContent='';});
+      inputs[0].addEventListener('input',()=>{announcements[index].title=inputs[0].value;if(status)status.textContent='';});
+      textarea.addEventListener('input',()=>{announcements[index].body=textarea.value;if(status)status.textContent='';});
+      inputs[1].addEventListener('input',()=>{announcements[index].emoji=inputs[1].value;if(status)status.textContent='';});
+
+      row.querySelector('.studio-row-delete').addEventListener('click',()=>{
+        announcements.splice(index,1);
+        if(status)status.textContent='';
+        renderAnnouncements();
+      });
+
+      editor.appendChild(row);
+    });
+
+    if(add)add.disabled=announcements.length>=3;
+  };
+
+  const renderPins=()=>{
+    if(!pinList)return;
+    pinList.innerHTML='';
+
+    if(state.name!=='Spooky Cozy'&&!pinnedIds.length){
+      const empty=document.createElement('div');
+      empty.className='studio-empty-note';
+      empty.textContent='No posts are pinned yet.';
+      pinList.appendChild(empty);
+      return;
+    }
+
+    Object.entries(STUDIO_PINNED_POSTS).forEach(([id,data])=>{
+      if(state.name!=='Spooky Cozy'&&!pinnedIds.includes(id))return;
+
+      const row=document.createElement('label');
+      row.className='studio-pin-item';
+      row.innerHTML=`<span><strong></strong><br><span></span></span><input type="checkbox">`;
+      row.querySelector('strong').textContent=`${data.emoji} ${data.title}`;
+      row.querySelector('span span').textContent='Keep in pinned shelf';
+      const input=row.querySelector('input');
+      input.checked=pinnedIds.includes(id);
+      input.addEventListener('change',()=>{
+        if(input.checked){
+          if(pinnedIds.length>=5){
+            input.checked=false;
+            if(status)status.textContent='Pinned Posts are limited to 5.';
+            return;
+          }
+          if(!pinnedIds.includes(id))pinnedIds.push(id);
+        }else{
+          pinnedIds=pinnedIds.filter(value=>value!==id);
+        }
+        if(status)status.textContent='';
+      });
+      pinList.appendChild(row);
+    });
+  };
+
+  add?.addEventListener('click',()=>{
+    if(announcements.length>=3)return;
+    announcements.push({type:'Announcement',title:'New announcement',body:'',emoji:'📣'});
+    if(status)status.textContent='';
+    renderAnnouncements();
+  });
+
+  save?.addEventListener('click',()=>{
+    const cleaned=announcements.map(item=>({
+      type:item.type||'Announcement',
+      title:String(item.title||'').trim(),
+      body:String(item.body||'').trim(),
+      emoji:String(item.emoji||'📣').trim()||'📣'
+    })).filter(item=>item.title&&item.body);
+
+    updateCommunityState(slug,{
+      announcements:cleaned.slice(0,3),
+      pinnedPostIds:pinnedIds.slice(0,5),
+      announcementsEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+    setTimeout(()=>{
+      const saved=document.getElementById('studioAnnouncementsSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+
+  renderAnnouncements();
+  renderPins();
+}
+
+function defaultStudioMembers(state){
+  if(Array.isArray(state.members)&&state.members.length){
+    return state.members.map(member=>({...member}));
+  }
+
+  if(state.name==='Spooky Cozy'){
+    return [
+      {username:'@PumpkinWitch',icon:'🎃',role:'Owner',active:true,note:'Community owner · active in discussions this week'},
+      {username:'@Raven',icon:'🦇',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@Ghostie',icon:'👻',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@moonlitmoth',icon:'🌙',role:'Member',active:true,note:'Active in Show & Tell and cozy discussion threads'},
+      {username:'@paperlantern',icon:'📚',role:'Member',active:true,note:'Frequently joining prompts and resource threads'},
+      {username:'@cozycryptid',icon:'🕯️',role:'Member',active:true,note:'Sharing crafts, resources, and helpful replies'},
+      {username:'@stitchedspirit',icon:'🧶',role:'Member',active:false,note:'Member'},
+      {username:'@midnightmaker',icon:'🦉',role:'Member',active:false,note:'Member'},
+      {username:'@autumnattic',icon:'🍂',role:'Member',active:false,note:'Member'},
+      {username:'@cobwebcanvas',icon:'🖌️',role:'Member',active:false,note:'Member'},
+      {username:'@pumpkinpatchwork',icon:'🧡',role:'Member',active:false,note:'Member'},
+      {username:'@webandwax',icon:'🕸️',role:'Member',active:false,note:'Member'}
+    ];
+  }
+
+  return [
+    {username:'@yourusername',icon:state.icon||'◉',role:'Owner',active:true,note:'Community Owner'}
+  ];
+}
+
+function wireStudioMembersEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  let members=defaultStudioMembers(state);
+  let pendingRequests=Array.isArray(state.pendingRequests)?[...state.pendingRequests]:[];
+
+  const editor=document.getElementById('studioMemberEditor');
+  const requests=document.getElementById('studioRequestList');
+  const save=document.getElementById('studioMembersSave');
+  const status=document.getElementById('studioMembersSaveStatus');
+
+  const renderMembers=()=>{
+    if(!editor)return;
+    editor.innerHTML='';
+
+    members.forEach((member,index)=>{
+      const row=document.createElement('div');
+      row.className='studio-member-row';
+      row.innerHTML=`<div class="studio-member-copy"><strong></strong><span></span></div>`;
+
+      row.querySelector('strong').textContent=`${member.icon||'◉'} ${member.username}`;
+      row.querySelector('span').textContent=member.role==='Owner'?'Community Owner':(member.note||member.role);
+
+      if(member.role==='Owner'){
+        const fixed=document.createElement('strong');
+        fixed.textContent='Owner';
+        fixed.style.color='#ffc384';
+        row.appendChild(fixed);
+      }else{
+        const select=document.createElement('select');
+        select.className='studio-member-role';
+        select.innerHTML='<option>Member</option><option>Moderator</option>';
+        select.value=member.role==='Moderator'?'Moderator':'Member';
+        select.addEventListener('change',()=>{
+          members[index].role=select.value;
+          members[index].note=select.value;
+          if(status)status.textContent='';
+        });
+        row.appendChild(select);
+      }
+
+      editor.appendChild(row);
+    });
+  };
+
+  const renderRequests=()=>{
+    if(!requests)return;
+    requests.innerHTML='';
+
+    if(!pendingRequests.length){
+      const empty=document.createElement('div');
+      empty.className='studio-empty-note';
+      empty.textContent='No pending join requests.';
+      requests.appendChild(empty);
+      return;
+    }
+
+    pendingRequests.forEach((request,index)=>{
+      const row=document.createElement('div');
+      row.className='studio-request-row';
+      row.innerHTML=`<span><strong></strong><br><span>Wants to join this Community</span></span><div class="studio-request-actions"><button type="button" data-action="approve">Approve</button><button type="button" data-action="deny">Deny</button></div>`;
+      row.querySelector('strong').textContent=request.username||'@member';
+
+      row.querySelector('[data-action="approve"]').addEventListener('click',()=>{
+        members.push({
+          username:request.username||'@member',
+          icon:request.icon||'◉',
+          role:'Member',
+          active:false,
+          note:'Member'
+        });
+        pendingRequests.splice(index,1);
+        renderMembers();
+        renderRequests();
+        if(status)status.textContent='Request approved. Save Role Changes to keep it.';
+      });
+
+      row.querySelector('[data-action="deny"]').addEventListener('click',()=>{
+        pendingRequests.splice(index,1);
+        renderRequests();
+        if(status)status.textContent='Request denied. Save Role Changes to keep it.';
+      });
+
+      requests.appendChild(row);
+    });
+  };
+
+  save?.addEventListener('click',()=>{
+    updateCommunityState(slug,{
+      members,
+      pendingRequests,
+      membersEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+    setTimeout(()=>{
+      const saved=document.getElementById('studioMembersSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+
+  renderMembers();
+  renderRequests();
+}
+
+function wireStudioLinksEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  const website=document.getElementById('studioWebsite');
+  const instagram=document.getElementById('studioInstagram');
+  const youtube=document.getElementById('studioYouTube');
+  const threads=document.getElementById('studioThreads');
+  const tiktok=document.getElementById('studioTikTok');
+  const save=document.getElementById('studioLinksSave');
+  const status=document.getElementById('studioLinksSaveStatus');
+
+  [website,instagram,youtube,threads,tiktok].forEach(input=>input?.addEventListener('input',()=>{
+    if(status)status.textContent='';
+  }));
+
+  save?.addEventListener('click',()=>{
+    const socials={};
+    if(instagram?.value.trim())socials.Instagram=instagram.value.trim();
+    if(youtube?.value.trim())socials.YouTube=youtube.value.trim();
+    if(threads?.value.trim())socials.Threads=threads.value.trim();
+    if(tiktok?.value.trim())socials.TikTok=tiktok.value.trim();
+
+    updateCommunityState(slug,{
+      website:website?.value.trim()||'',
+      officialSocials:socials,
+      linksEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+    setTimeout(()=>{
+      const saved=document.getElementById('studioLinksSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+}
+
 function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studioCommunitySlug()]){
   const panel=document.getElementById('studioDetailPanel');
   const title=document.getElementById('studioDetailTitle');
@@ -3442,6 +4368,21 @@ function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studio
   }
   if(sectionKey==='posting'){
     wireStudioPostingEditor();
+  }
+  if(sectionKey==='interests'){
+    wireStudioInterestsEditor();
+  }
+  if(sectionKey==='rules'){
+    wireStudioRulesEditor();
+  }
+  if(sectionKey==='announcements'){
+    wireStudioAnnouncementsEditor();
+  }
+  if(sectionKey==='members'){
+    wireStudioMembersEditor();
+  }
+  if(sectionKey==='links'){
+    wireStudioLinksEditor();
   }
 
   document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{

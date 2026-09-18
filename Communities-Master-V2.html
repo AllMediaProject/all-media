@@ -2535,22 +2535,35 @@ document.querySelectorAll('[data-open-view]').forEach(link=>{
 });
 
 
-const announcementSlides=[...document.querySelectorAll('.announcement-slide')];
-const announcementDots=[...document.querySelectorAll('.announcement-dot')];
-const announcementCounter=document.getElementById('announcementCounter');
 let announcementIndex=0;
 
+function currentAnnouncementSlides(){
+  return [...document.querySelectorAll('.announcement-slide')].filter(slide=>!slide.hidden);
+}
+
+function currentAnnouncementDots(){
+  return [...document.querySelectorAll('.announcement-dot')].filter(dot=>!dot.hidden);
+}
+
 function showAnnouncement(index){
-  if(!announcementSlides.length)return;
-  announcementIndex=(index+announcementSlides.length)%announcementSlides.length;
-  announcementSlides.forEach((slide,i)=>slide.classList.toggle('active',i===announcementIndex));
-  announcementDots.forEach((dot,i)=>dot.classList.toggle('active',i===announcementIndex));
-  if(announcementCounter)announcementCounter.textContent=`${announcementIndex+1} / ${announcementSlides.length}`;
+  const slides=currentAnnouncementSlides();
+  const dots=currentAnnouncementDots();
+  const counter=document.getElementById('announcementCounter');
+  if(!slides.length)return;
+
+  announcementIndex=(index+slides.length)%slides.length;
+  slides.forEach((slide,i)=>slide.classList.toggle('active',i===announcementIndex));
+  dots.forEach((dot,i)=>dot.classList.toggle('active',i===announcementIndex));
+
+  if(counter)counter.textContent=`${announcementIndex+1} / ${slides.length}`;
 }
 
 document.getElementById('announcementPrev')?.addEventListener('click',()=>showAnnouncement(announcementIndex-1));
 document.getElementById('announcementNext')?.addEventListener('click',()=>showAnnouncement(announcementIndex+1));
-announcementDots.forEach(dot=>dot.addEventListener('click',()=>showAnnouncement(Number(dot.dataset.index||0))));
+document.getElementById('announcementDots')?.addEventListener('click',event=>{
+  const dot=event.target.closest('.announcement-dot');
+  if(dot)showAnnouncement(Number(dot.dataset.index||0));
+});
 
 
 /* ============================================================
@@ -2920,10 +2933,10 @@ function renderCreatedCommunityFront(){
   renderOfficialCommunityLinks(state);
 
   const announcement=document.getElementById('communityAnnouncementCarousel');
-  if(announcement)announcement.style.display='none';
+  if(announcement&&!Array.isArray(state.announcements))announcement.style.display='none';
 
   const pinnedShelf=document.querySelector('.pinned-shelf');
-  if(pinnedShelf)pinnedShelf.style.display='none';
+  if(pinnedShelf&&!Array.isArray(state.pinnedPostIds))pinnedShelf.style.display='none';
 
   const activity=document.querySelector('.current-activity');
   if(activity)activity.style.display='none';
@@ -2975,6 +2988,212 @@ function renderCreatedCommunityFront(){
 }
 
 
+
+
+function frontDefaultRules(state){
+  if(Array.isArray(state.rules)&&state.rules.length)return state.rules;
+  if(state.name==='Spooky Cozy'){
+    return [
+      {title:'No bullying',explanation:'Treat other members with respect.'},
+      {title:'Respect others',explanation:'Keep conversation constructive and considerate.'},
+      {title:'Stay on topic',explanation:'Keep posts relevant to the Community.'},
+      {title:'Use link sharing appropriately',explanation:'Follow the Community’s allowed link categories.'}
+    ];
+  }
+  return [
+    {title:'No bullying',explanation:'Treat other Community members with care and respect.'},
+    {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+  ];
+}
+
+function applyManagedCommunityInterestsAndRules(){
+  const state=currentCommunityState();
+  const interests=(Array.isArray(state.interests)&&state.interests.length)
+    ? state.interests
+    : (state.name==='Spooky Cozy'?['Halloween','Art','Cozy','Crafts']:['All Interests']);
+
+  renderCommunityInterestPills(
+    document.querySelector('.community-title-row .community-interest-row'),
+    interests
+  );
+  renderCommunityInterestPills(
+    document.querySelector('#community-about .community-interest-row'),
+    interests
+  );
+
+  const creatorContext=document.querySelector('#communityFullComposer .community-creator-context span');
+  if(creatorContext){
+    creatorContext.innerHTML='';
+    const strong=document.createElement('strong');
+    strong.textContent=`Posting in ${state.icon||'◉'} ${state.name}`;
+    creatorContext.appendChild(strong);
+    creatorContext.appendChild(
+      document.createTextNode(
+        interests.length===1&&interests[0]==='All Interests'
+          ? ' · All Interests welcome.'
+          : ` · Match ${interests.join(', ')}.`
+      )
+    );
+  }
+
+  const rules=frontDefaultRules(state);
+  document.querySelectorAll('.community-rules-list').forEach(list=>{
+    list.innerHTML=buildRulesMarkup({...state,rules});
+  });
+}
+
+function applyManagedCommunityAnnouncementsAndPins(){
+  const state=currentCommunityState();
+  const carousel=document.getElementById('communityAnnouncementCarousel');
+  const track=carousel?.querySelector('.announcement-track');
+  const dots=document.getElementById('announcementDots');
+
+  const announcements=Array.isArray(state.announcements)
+    ? state.announcements
+    : null;
+
+  if(announcements){
+    if(!announcements.length){
+      if(carousel)carousel.style.display='none';
+    }else{
+      if(carousel)carousel.style.display='';
+      if(track){
+        track.innerHTML='';
+        announcements.slice(0,3).forEach((item,index)=>{
+          const slide=document.createElement('article');
+          slide.className='announcement-slide'+(index===0?' active':'');
+          slide.dataset.announcementType=(item.type||'Announcement').toLowerCase().replace(/\s+/g,'-');
+          slide.innerHTML=`
+            <div class="announcement-mark"></div>
+            <div>
+              <div class="announcement-label"></div>
+              <h2></h2>
+              <p></p>
+            </div>
+            <div class="announcement-art" aria-hidden="true"></div>`;
+          slide.querySelector('.announcement-mark').textContent=
+            item.type==='Welcome'?'👋':item.type==='Community Update'?'✦':'📣';
+          slide.querySelector('.announcement-label').textContent=item.type||'Announcement';
+          slide.querySelector('h2').textContent=item.title||'Announcement';
+          slide.querySelector('p').textContent=item.body||'';
+          slide.querySelector('.announcement-art').textContent=item.emoji||'📣';
+          track.appendChild(slide);
+        });
+      }
+
+      if(dots){
+        dots.innerHTML='';
+        announcements.slice(0,3).forEach((_,index)=>{
+          const dot=document.createElement('button');
+          dot.className='announcement-dot'+(index===0?' active':'');
+          dot.type='button';
+          dot.dataset.index=String(index);
+          dot.setAttribute('aria-label',`Show announcement ${index+1}`);
+          dots.appendChild(dot);
+        });
+      }
+
+      announcementIndex=0;
+      showAnnouncement(0);
+    }
+  }
+
+  const shelf=document.querySelector('.pinned-shelf');
+  const pinnedRow=shelf?.querySelector('.pinned-row');
+  const defaultIds=['showtell','welcome','guidelines','resources','exchange'];
+  const ids=Array.isArray(state.pinnedPostIds)
+    ? state.pinnedPostIds
+    : (state.name==='Spooky Cozy'?defaultIds:[]);
+
+  if(!ids.length){
+    if(shelf)shelf.style.display='none';
+  }else if(pinnedRow){
+    if(shelf)shelf.style.display='';
+    [...pinnedRow.querySelectorAll('.pinned-card')].forEach(card=>{
+      card.style.display=ids.includes(card.dataset.pinnedId)?'':'none';
+    });
+  }
+}
+
+function frontDefaultMembers(state){
+  if(Array.isArray(state.members)&&state.members.length)return state.members;
+  if(state.name==='Spooky Cozy'){
+    return [
+      {username:'@PumpkinWitch',icon:'🎃',role:'Owner',active:true,note:'Community owner · active in discussions this week'},
+      {username:'@Raven',icon:'🦇',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@Ghostie',icon:'👻',role:'Moderator',active:false,note:'Moderator'},
+      {username:'@moonlitmoth',icon:'🌙',role:'Member',active:true,note:'Active in Show & Tell and cozy discussion threads'},
+      {username:'@paperlantern',icon:'📚',role:'Member',active:true,note:'Frequently joining prompts and resource threads'},
+      {username:'@cozycryptid',icon:'🕯️',role:'Member',active:true,note:'Sharing crafts, resources, and helpful replies'},
+      {username:'@stitchedspirit',icon:'🧶',role:'Member',active:false,note:'Member'},
+      {username:'@midnightmaker',icon:'🦉',role:'Member',active:false,note:'Member'},
+      {username:'@autumnattic',icon:'🍂',role:'Member',active:false,note:'Member'},
+      {username:'@cobwebcanvas',icon:'🖌️',role:'Member',active:false,note:'Member'},
+      {username:'@pumpkinpatchwork',icon:'🧡',role:'Member',active:false,note:'Member'},
+      {username:'@webandwax',icon:'🕸️',role:'Member',active:false,note:'Member'}
+    ];
+  }
+  return [{username:'@yourusername',icon:state.icon||'◉',role:'Owner',active:true,note:'Community Owner'}];
+}
+
+function applyManagedCommunityMembers(){
+  const state=currentCommunityState();
+  const members=frontDefaultMembers(state);
+
+  const grid=document.getElementById('communityMemberGrid');
+  if(grid){
+    grid.innerHTML='';
+    members.forEach((member,index)=>{
+      const card=document.createElement('div');
+      card.className='member-card'+(index>=6?' additional-member':'');
+      card.innerHTML='<div class="member-avatar"></div><div><strong></strong><span></span></div>';
+      card.querySelector('.member-avatar').textContent=member.icon||'◉';
+      card.querySelector('strong').textContent=member.username||'@member';
+      card.querySelector('span').textContent=member.role||'Member';
+      grid.appendChild(card);
+    });
+  }
+
+  const memberHeading=document.querySelector('.member-directory .section-heading span');
+  if(memberHeading)memberHeading.textContent=`${members.length} member${members.length===1?'':'s'}`;
+
+  const activeGrid=document.querySelector('.active-member-grid');
+  if(activeGrid){
+    const active=members.filter(member=>member.active).slice(0,4);
+    activeGrid.innerHTML='';
+    active.forEach(member=>{
+      const card=document.createElement('article');
+      card.className='active-member-card';
+      card.innerHTML='<div class="member-avatar"></div><div><strong></strong><span></span></div>';
+      card.querySelector('.member-avatar').textContent=member.icon||'◉';
+      card.querySelector('strong').textContent=member.username||'@member';
+      card.querySelector('span').textContent=member.note||`${member.role||'Member'} · active recently`;
+      activeGrid.appendChild(card);
+    });
+  }
+
+  const moderators=document.querySelector('.moderator-list');
+  if(moderators){
+    const staff=members.filter(member=>member.role==='Owner'||member.role==='Moderator');
+    moderators.innerHTML='';
+    staff.forEach(member=>{
+      const row=document.createElement('div');
+      row.className='moderator';
+      row.innerHTML='<div class="moderator-avatar"></div><div class="moderator-copy"><strong></strong><span></span></div>';
+      row.querySelector('.moderator-avatar').textContent=member.icon||'◉';
+      row.querySelector('strong').textContent=member.username||'@member';
+      row.querySelector('span').textContent=member.role==='Owner'?'Community Owner':'Moderator';
+      moderators.appendChild(row);
+    });
+  }
+
+  const seeMore=document.getElementById('seeMoreMembers');
+  if(seeMore)seeMore.style.display=members.length>6?'':'none';
+}
+
+function applyManagedCommunityLinks(){
+  renderOfficialCommunityLinks(currentCommunityState());
+}
 
 function applyManagedCommunityAccess(){
   const state=currentCommunityState();
@@ -3075,6 +3294,10 @@ renderCreatedCommunityFront();
 applyManagedCommunityProfile();
 applyManagedCommunityAccess();
 applyManagedCommunityPosting();
+applyManagedCommunityInterestsAndRules();
+applyManagedCommunityAnnouncementsAndPins();
+applyManagedCommunityMembers();
+applyManagedCommunityLinks();
 
 function syncSpookyCommunityUI(){
   const snapshot=spookyStateSnapshot();
