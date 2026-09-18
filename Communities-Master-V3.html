@@ -1983,33 +1983,7 @@ button.pinned-card{
   width:100%;
 }
 
-.community-main .feed.community-feed-masonry{
-  width:100%;
-  max-width:none;
-  margin:0;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:18px;
-  align-items:start;
-}
 
-.community-feed-column{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  min-width:0;
-}
-
-.community-feed-masonry .post{
-  width:100%!important;
-  max-width:none!important;
-  margin:0!important;
-  box-sizing:border-box!important;
-}
-
-.community-feed-masonry > .community-empty-state{
-  grid-column:1/-1;
-}
 
 .community-full-composer.active{
   margin-bottom:16px!important;
@@ -2176,13 +2150,7 @@ button.pinned-card{
     grid-template-columns:1fr;
   }
 
-  .community-main .feed.community-feed-masonry{
-    grid-template-columns:1fr;
-  }
-
-  .community-feed-column{
-    gap:18px;
-  }
+  
 
   .community-info-card .community-basics-list{
     grid-template-columns:repeat(3,minmax(0,1fr));
@@ -2245,12 +2213,98 @@ button.pinned-card{
 }
 
 
-.community-feed-section.has-posts{
-  margin-top:14px;
+
+
+/* ============================================================
+   COMMUNITY V3.3 — ADAPTIVE DISCOVER-STYLE FLOW
+   Intro modules and feed posts share the same two columns.
+   If announcements / pins are absent, posts naturally move up
+   into the freed space instead of waiting below the taller side.
+   ============================================================ */
+
+.community-flow-wall.feed{
+  width:100%;
+  max-width:none;
+  margin:18px 0 0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
 }
 
-.community-feed-section.has-posts .community-feed-heading-v3{
-  margin-bottom:10px;
+.community-flow-column{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.community-flow-left > .announcement-carousel,
+.community-flow-left > .pinned-shelf,
+.community-flow-left > .community-composer-preview,
+.community-flow-left > .community-full-composer{
+  margin:0!important;
+}
+
+.community-flow-right .community-info-stack{
+  margin:0;
+}
+
+.community-post-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  min-width:0;
+}
+
+.community-flow-wall.feed .community-post-column .post{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+
+.community-empty-feed-wrap{
+  grid-column:1/-1;
+  margin-top:2px;
+}
+
+.community-empty-feed-wrap[hidden]{
+  display:none!important;
+}
+
+.community-empty-feed-wrap .community-feed-heading-v3{
+  margin-bottom:12px;
+}
+
+.community-empty-feed-wrap .community-empty-state{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.community-flow-wall > .post[data-community-seed-post]{
+  display:none!important;
+}
+
+/* The old below-intro feed layout is no longer used in V3.3. */
+.community-overview-grid,
+.community-feed-section,
+.community-main .feed.community-feed-masonry{
+  display:contents;
+}
+
+@media(max-width:1150px){
+  .community-flow-wall.feed{
+    grid-template-columns:1fr;
+  }
+
+  .community-empty-feed-wrap{
+    grid-column:auto;
+  }
+
+  .community-flow-column{
+    gap:18px;
+  }
 }
 
 </style>
@@ -2403,8 +2457,9 @@ button.pinned-card{
 <!-- ========================== HOME VIEW ========================== -->
 <section class="community-view active" id="community-home">
 
-<div class="community-overview-grid">
-  <div class="community-overview-main">
+<section class="feed community-flow-wall" id="feed">
+
+  <div class="community-flow-column community-flow-left" id="communityFlowLeft">
 <section class="announcement-carousel" id="communityAnnouncementCarousel" aria-label="Community announcements">
 <div class="announcement-counter" id="announcementCounter">1 / 3</div>
 <div class="announcement-track">
@@ -2512,9 +2567,10 @@ button.pinned-card{
 <button class="post-button" id="communityCreatorPost" type="button"><svg class="publish-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-8-8-2Z"></path><path d="m11 13 10-10"></path></svg><span class="publish-label">POST</span></button>
 </div>
 </section>
+    <div class="community-post-column community-post-column-left" id="communityPostColumnLeft"></div>
   </div>
 
-
+  <div class="community-flow-column community-flow-right" id="communityFlowRight">
 <aside class="community-sidebar community-info-stack">
   <section class="community-info-card community-about-panel">
     <div class="community-info-section community-info-about">
@@ -2550,23 +2606,24 @@ button.pinned-card{
     </div>
   </section>
 </aside>
-
-</div>
-
-<section class="community-feed-section">
-  <div class="community-feed-heading-v3">
-    <div>
-      <div class="community-info-kicker">COMMUNITY POSTS</div>
-      <h2>Latest from the Community</h2>
-    </div>
-    <span>Conversation first · no popularity ranking</span>
+    <div class="community-post-column community-post-column-right" id="communityPostColumnRight"></div>
   </div>
 
-  <div class="community-main community-feed-area">
-<section class="feed community-feed-masonry" id="feed">
+  <div class="community-empty-feed-wrap" id="communityEmptyFeedWrap">
+    <div class="community-feed-heading-v3">
+      <div>
+        <div class="community-info-kicker">COMMUNITY POSTS</div>
+        <h2>Latest from the Community</h2>
+      </div>
+      <span>Conversation first · no popularity ranking</span>
+    </div>
+    <div class="community-empty-state" id="communityEmptyState">
+      <strong>Spooky Cozy is ready.</strong>
+      <span>No posts yet. Start the first conversation whenever you’re ready.</span>
+    </div>
+  </div>
 
-<!-- CURRENT REGULAR POST CARD STRUCTURE -->
-<article class="post regular-post">
+<article data-community-seed-post="true" class="post regular-post">
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">m</div>
 <div class="post-author-copy">
@@ -2628,8 +2685,7 @@ button.pinned-card{
 <div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-<!-- CURRENT BLOG CARD STRUCTURE -->
-<article class="post blog-post blog-post-v11 sample-post">
+<article data-community-seed-post="true" class="post blog-post blog-post-v11 sample-post">
 <header class="post-header">
 <div class="profile-picture">p</div>
 <div class="post-author-copy">
@@ -2658,8 +2714,7 @@ button.pinned-card{
 <div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-<!-- CURRENT VIDEO CARD STRUCTURE -->
-<article class="post video-post-v11 sample-post" data-post-type="video">
+<article data-community-seed-post="true" class="post video-post-v11 sample-post" data-post-type="video">
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">r</div>
 <div class="post-author-copy"><div class="post-author-line"><span class="username">@ravenandruins</span><span class="post-time">· 2h ago</span><span class="post-type-bubble">VIDEO</span></div><div class="post-meta-line"><span class="topic">🎨 Art</span><span class="post-community">· in 🎃 Spooky Cozy</span></div></div>
@@ -2684,8 +2739,7 @@ button.pinned-card{
 <div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-<!-- CURRENT BYTE CARD STRUCTURE -->
-<article class="post byte-post-v11 sample-post" data-post-type="byte">
+<article data-community-seed-post="true" class="post byte-post-v11 sample-post" data-post-type="byte">
 <div class="byte-stage">
 <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
 <div class="sample-community-art" style="min-height:520px;font-size:78px">🐈‍⬛🕯️</div>
@@ -2711,8 +2765,6 @@ button.pinned-card{
 <div class="card-bottom-spacer" aria-hidden="true"></div>
 </article>
 
-</section>
-  </div>
 </section>
 
 </section>
@@ -3590,14 +3642,7 @@ function renderCreatedCommunityFront(){
   const activity=document.querySelector('.current-activity');
   if(activity)activity.style.display='none';
 
-  const feed=document.querySelector('.community-main .feed');
-  if(feed){
-    feed.innerHTML=`
-      <div class="community-empty-state">
-        <strong>${escapeCommunityText(state.name)} is ready.</strong>
-        <span>No posts yet. Start the first conversation whenever you’re ready.</span>
-      </div>`;
-  }
+  clearCommunityFeedPosts();
 
   const roleLabel=state.role==='owner'?'Community Owner':state.role==='moderator'?'Moderator':'Member';
 
@@ -4067,93 +4112,102 @@ document.addEventListener('allmedia:community-state-refresh',syncSpookyCommunity
 syncSpookyCommunityUI();
 
 
+
 function communityFeedElement(){
   return document.getElementById('feed');
+}
+
+function communityLeftPostColumn(){
+  return document.getElementById('communityPostColumnLeft');
+}
+
+function communityRightPostColumn(){
+  return document.getElementById('communityPostColumnRight');
+}
+
+function communityEmptyFeedWrap(){
+  return document.getElementById('communityEmptyFeedWrap');
 }
 
 function currentCommunityFeedPosts(){
   const feed=communityFeedElement();
   if(!feed)return [];
 
-  const posts=[...feed.querySelectorAll('.post')];
+  const posts=[
+    ...feed.querySelectorAll(
+      '.community-post-column > .post, .post[data-community-seed-post="true"]'
+    )
+  ];
 
-  return posts.sort((a,b)=>{
-    const ai=Number(a.dataset.communityFeedOrder);
-    const bi=Number(b.dataset.communityFeedOrder);
-    const aHas=Number.isFinite(ai);
-    const bHas=Number.isFinite(bi);
+  return posts
+    .filter((post,index,array)=>array.indexOf(post)===index)
+    .sort((a,b)=>{
+      const ai=Number(a.dataset.communityFeedOrder);
+      const bi=Number(b.dataset.communityFeedOrder);
+      const aHas=Number.isFinite(ai);
+      const bHas=Number.isFinite(bi);
 
-    if(aHas&&bHas)return ai-bi;
-    if(aHas)return -1;
-    if(bHas)return 1;
-    return 0;
-  });
+      if(aHas&&bHas)return ai-bi;
+      if(aHas)return -1;
+      if(bHas)return 1;
+
+      const aSeed=a.hasAttribute('data-community-seed-post')?0:1;
+      const bSeed=b.hasAttribute('data-community-seed-post')?0:1;
+      return aSeed-bSeed;
+    });
 }
 
-function buildCommunityFeedEmptyState(){
+function updateCommunityEmptyState(){
   const state=currentCommunityState();
-  const empty=document.createElement('div');
-  empty.className='community-empty-state';
-  empty.innerHTML='<strong></strong><span></span>';
-  empty.querySelector('strong').textContent=`${state.name} is ready.`;
-  empty.querySelector('span').textContent='No posts yet. Start the first conversation whenever you’re ready.';
-  return empty;
+  const wrap=communityEmptyFeedWrap();
+  const empty=document.getElementById('communityEmptyState');
+  const count=currentCommunityFeedPosts().length;
+
+  if(wrap)wrap.hidden=count>0;
+
+  if(empty){
+    const strong=empty.querySelector('strong');
+    const span=empty.querySelector('span');
+    if(strong)strong.textContent=`${state.name} is ready.`;
+    if(span)span.textContent='No posts yet. Start the first conversation whenever you’re ready.';
+  }
 }
 
 function rebuildCommunityFeedLayout(posts){
-  const feed=communityFeedElement();
-  if(!feed)return;
+  const left=communityLeftPostColumn();
+  const right=communityRightPostColumn();
+  if(!left||!right)return;
 
-  const section=feed.closest('.community-feed-section');
+  left.innerHTML='';
+  right.innerHTML='';
+
   const ordered=posts.filter(Boolean);
 
-  feed.innerHTML='';
-  section?.classList.toggle('has-posts',ordered.length>0);
-
-  if(!ordered.length){
-    feed.appendChild(buildCommunityFeedEmptyState());
-    return;
-  }
-
-  const left=document.createElement('div');
-  const right=document.createElement('div');
-  left.className='community-feed-column community-feed-column-left';
-  right.className='community-feed-column community-feed-column-right';
-
   ordered.forEach((post,index)=>{
+    post.removeAttribute('data-community-seed-post');
     post.dataset.communityFeedOrder=String(index);
     (index%2===0?left:right).appendChild(post);
   });
 
-  feed.append(left,right);
+  updateCommunityEmptyState();
 }
 
 function syncCommunityFeedLayout(){
   const feed=communityFeedElement();
   if(!feed)return;
 
-  const directPosts=[...feed.children].filter(child=>child.classList?.contains('post'));
-
-  if(directPosts.length){
-    rebuildCommunityFeedLayout(directPosts);
-    return;
-  }
-
-  const existing=currentCommunityFeedPosts();
-
-  if(existing.length){
-    rebuildCommunityFeedLayout(existing);
-    return;
-  }
-
-  feed.querySelector('.community-empty-state')?.remove();
-  rebuildCommunityFeedLayout([]);
+  const posts=currentCommunityFeedPosts();
+  rebuildCommunityFeedLayout(posts);
 }
 
 function prependCommunityFeedPost(post){
   if(!post)return;
   const existing=currentCommunityFeedPosts();
   rebuildCommunityFeedLayout([post,...existing]);
+}
+
+function clearCommunityFeedPosts(){
+  rebuildCommunityFeedLayout([]);
 }
 
 syncCommunityFeedLayout();
