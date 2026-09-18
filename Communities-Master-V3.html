@@ -1710,6 +1710,9 @@ button.pinned-card{
 }
 
 .community-empty-state{
+  column-span:all;
+  width:100%;
+  box-sizing:border-box;
   padding:30px 24px;
   border:1px dashed rgba(255,195,132,.32);
   border-radius:14px;
@@ -2201,6 +2204,28 @@ button.pinned-card{
   .community-nav-action{
     white-space:nowrap;
   }
+}
+
+
+/* V3.1 balance polish */
+.community-info-section{
+  padding:16px 18px;
+}
+
+.community-info-card .community-basics-list{
+  gap:7px 15px;
+}
+
+.community-info-card .community-basic{
+  padding:7px 0;
+}
+
+.community-info-card .official-community-links.compact{
+  margin-top:8px;
+}
+
+.community-overview-main > :last-child{
+  margin-bottom:0;
 }
 
 </style>
@@ -3048,12 +3073,84 @@ document.getElementById('announcementDots')?.addEventListener('click',event=>{
    ============================================================ */
 const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
 const ALL_MEDIA_COMMUNITY_DEFAULTS={
-  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
-  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
-  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
-  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
-  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
-  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+  'spooky-cozy':{
+    name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'
+  },
+  'artists':{
+    name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator',
+    prototypeExternal:true,
+    description:'A welcoming Community for artists to share work, process, questions, resources, and creative conversation.',
+    about:'A shared studio-like space for artists across mediums. Share finished pieces, works in progress, techniques, resources, questions, and thoughtful feedback.',
+    welcome:'Welcome to Artists 🎨',
+    interests:['Art','Crafts','Photography'],
+    access:'Public',posting:'Members',originalPosts:true,reblogs:true,approvalRequired:false,
+    linkSharing:{community:true,creatorShop:true,social:false,comments:false},
+    announcements:[
+      {type:'Welcome',title:'Welcome to Artists',body:'Share what you make, ask questions, and get to know the artists creating alongside you.',emoji:'🎨'},
+      {type:'Community Update',title:'Monthly critique thread is open',body:'Bring one piece you want thoughtful feedback on, or stop by to help another artist.',emoji:'✏️'}
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
+  },
+  'turtle-rescue':{
+    name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member',
+    prototypeExternal:true,
+    description:'A Community for turtle rescue, rehabilitation, care questions, resources, and appreciation.',
+    about:'A people-first space for rescue stories, husbandry discussion, rehabilitation resources, care questions, and learning from one another.',
+    welcome:'Welcome to Turtle Rescue 🐢',
+    interests:['Animals','Nature'],
+    access:'Public',posting:'Members',originalPosts:true,reblogs:true,approvalRequired:false,
+    linkSharing:{community:true,creatorShop:false,social:false,comments:false},
+    announcements:[
+      {type:'Welcome',title:'Welcome to Turtle Rescue',body:'Introduce yourself, share your turtle stories, and use the Community Guide for care and resource expectations.',emoji:'🐢'},
+      {type:'Announcement',title:'Resource check-in',body:'The Community resource thread is open for useful care guides, rescue information, and rehabilitation references.',emoji:'🌿'}
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
+  },
+  'book-club':{
+    name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member',
+    prototypeExternal:true,
+    description:'A cozy reading Community for monthly picks, book discussion, recommendations, and spoiler-friendly conversation.',
+    about:'A relaxed Community for people who like reading together. Join monthly picks, swap recommendations, talk through favorite books, and keep older discussions going when someone has something new to add.',
+    welcome:'Welcome to Book Club 📚',
+    interests:['Books','Writing'],
+    access:'Public',posting:'Members',originalPosts:true,reblogs:true,approvalRequired:false,
+    linkSharing:{community:true,creatorShop:false,social:false,comments:false},
+    announcements:[
+      {type:'Welcome',title:'Welcome to Book Club',body:'Grab a book, join a discussion, or start one. Older reading threads can stay active whenever someone has something new to say.',emoji:'📚'},
+      {type:'Community Update',title:'This month’s reading thread is open',body:'Use the monthly thread for check-ins, reactions, and discussion as you read.',emoji:'☕'}
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
+  },
+  'crochet-corner':{
+    name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member',
+    prototypeExternal:true,
+    description:'A cozy Community for crochet projects, pattern questions, works in progress, tips, and inspiration.',
+    about:'Bring your current project, ask for help, share a finished piece, compare techniques, or just spend time with other people who like making things with yarn.',
+    welcome:'Welcome to Crochet Corner 🧶',
+    interests:['Crochet','Crafts','DIY'],
+    access:'Public',posting:'Members',originalPosts:true,reblogs:true,approvalRequired:false,
+    linkSharing:{community:true,creatorShop:true,social:false,comments:false},
+    announcements:[
+      {type:'Welcome',title:'Welcome to Crochet Corner',body:'Share your current project, ask for help, or show off the thing you finally finished.',emoji:'🧶'},
+      {type:'Announcement',title:'Work-in-progress thread',body:'The current WIP thread is open for progress photos, questions, and gentle encouragement.',emoji:'🪡'}
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
+  },
+  'garden-and-nature':{
+    name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member',
+    prototypeExternal:true,
+    description:'A Community for gardening, plants, wildlife, seasonal changes, and everyday outdoor discoveries.',
+    about:'A place to share gardens, plants, wildlife sightings, seasonal changes, questions, small discoveries, and things worth noticing outside.',
+    welcome:'Welcome to Garden & Nature 🌿',
+    interests:['Nature','Animals','Home & Decor'],
+    access:'Public',posting:'Members',originalPosts:true,reblogs:true,approvalRequired:false,
+    linkSharing:{community:true,creatorShop:false,social:false,comments:false},
+    announcements:[
+      {type:'Welcome',title:'Welcome to Garden & Nature',body:'Share what is growing, blooming, visiting, changing, or catching your attention outside.',emoji:'🌿'},
+      {type:'Community Update',title:'Seasonal check-in is open',body:'Show what your garden or local landscape looks like right now and compare notes with the Community.',emoji:'🍂'}
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
+  }
 };
 function cloneCommunityDefaults(){return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));}
 function loadAllMediaCommunityState(){
@@ -3103,7 +3200,7 @@ const requestedCommunityState=requestedCommunitySlug
   : null;
 
 const CURRENT_COMMUNITY_SLUG=
-  (requestedCommunityState?.createdByPrototype||requestedCommunityState?.prototypeExternal)
+  requestedCommunitySlug&&requestedCommunityState
     ? requestedCommunitySlug
     : 'spooky-cozy';
 
@@ -3323,7 +3420,11 @@ function renderOfficialCommunityLinks(state){
 
 function renderCreatedCommunityFront(){
   const state=currentCommunityState();
-  if(!state.createdByPrototype&&!state.prototypeExternal)return;
+  if(
+    CURRENT_COMMUNITY_SLUG==='spooky-cozy' &&
+    !state.createdByPrototype &&
+    !state.prototypeExternal
+  )return;
 
   document.title=`All Media — ${state.name}`;
 
@@ -3602,6 +3703,8 @@ function applyManagedCommunityAnnouncementsAndPins(){
       }
 
       announcementIndex=0;
+      const counter=document.getElementById('announcementCounter');
+      if(counter)counter.textContent=`1 / ${Math.min(announcements.length,3)}`;
       showAnnouncement(0);
     }
   }
@@ -3641,7 +3744,14 @@ function frontDefaultMembers(state){
       {username:'@webandwax',icon:'🕸️',role:'Member',active:false,note:'Member'}
     ];
   }
-  return [{username:'@yourusername',icon:state.icon||'◉',role:'Owner',active:true,note:'Community Owner'}];
+  const role=state.role==='owner'?'Owner':state.role==='moderator'?'Moderator':'Member';
+  return [{
+    username:'@yourusername',
+    icon:state.icon||'◉',
+    role,
+    active:true,
+    note:role==='Owner'?'Community Owner':role==='Moderator'?'Community Moderator':'Community member · active recently'
+  }];
 }
 
 function applyManagedCommunityMembers(){
@@ -4146,6 +4256,84 @@ const pinnedPostData={
     reblogs:16
   }
 };
+
+function applySampleCommunityPinnedContent(){
+  const state=currentCommunityState();
+  if(CURRENT_COMMUNITY_SLUG==='spooky-cozy'||state.createdByPrototype)return;
+
+  const samples={
+    showtell:{
+      type:'POST',
+      title:`Start Here: ${state.name}`,
+      author:'@communityteam',
+      avatar:state.icon||'◉',
+      emoji:`${state.icon||'◉'} ✦`,
+      copy:`New to ${state.name}? Start here, introduce yourself, and get a quick feel for the Community before jumping into the conversation.`,
+      likes:18,
+      reblogs:2
+    },
+    welcome:{
+      type:'POST',
+      title:`Welcome to ${state.name}`,
+      author:'@communityteam',
+      avatar:state.icon||'◉',
+      emoji:'👋',
+      copy:state.welcome||`Welcome to ${state.name}.`,
+      likes:32,
+      reblogs:4
+    },
+    guidelines:{
+      type:'BLOG',
+      title:'Community Guide',
+      author:'@communityteam',
+      avatar:state.icon||'◉',
+      emoji:'📖',
+      copy:`A quick guide to what belongs in ${state.name}, how to participate, and the expectations that help the Community stay useful and welcoming.`,
+      likes:21,
+      reblogs:3
+    },
+    resources:{
+      type:'BLOG',
+      title:'Community Resources',
+      author:'@communityteam',
+      avatar:state.icon||'◉',
+      emoji:'🔗',
+      copy:`Useful links, references, recommendations, and Community resources collected in one place for ${state.name}.`,
+      likes:14,
+      reblogs:5
+    },
+    exchange:{
+      type:'POST',
+      title:'Monthly Community Thread',
+      author:'@communityteam',
+      avatar:state.icon||'◉',
+      emoji:'💬',
+      copy:`The current monthly thread for ${state.name}. Drop in, catch up, and keep the conversation going.`,
+      likes:27,
+      reblogs:6
+    }
+  };
+
+  Object.entries(samples).forEach(([id,data])=>{
+    Object.assign(pinnedPostData[id],data);
+  });
+
+  document.querySelectorAll('.pinned-card').forEach(card=>{
+    const id=card.dataset.pinnedId;
+    const data=samples[id];
+    if(!data)return;
+
+    const type=card.querySelector('.pinned-type');
+    const emoji=card.querySelector('.pinned-emoji');
+    const title=card.querySelector('h3');
+
+    if(type)type.textContent=data.type;
+    if(emoji)emoji.textContent=data.emoji;
+    if(title)title.textContent=data.title;
+  });
+}
+
+applySampleCommunityPinnedContent();
 
 function openPinnedPost(id){
   const data=pinnedPostData[id];
