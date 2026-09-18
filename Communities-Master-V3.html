@@ -2979,6 +2979,37 @@ button.pinned-card{
   }
 }
 
+
+/* Pinned open post — inset title/note/media from the outer post border */
+.pinned-open-post .pinned-open-note,
+.pinned-open-post #pinnedPostTitle{
+  margin-left:18px!important;
+  margin-right:18px!important;
+}
+
+.pinned-open-post .pinned-open-media{
+  width:calc(100% - 36px)!important;
+  margin-left:18px!important;
+  margin-right:18px!important;
+  box-sizing:border-box!important;
+}
+
+
+.community-announcement-owner-tools{
+  display:flex;
+  justify-content:flex-end;
+  margin:0 0 8px;
+}
+
+.community-announcement-owner-tools[hidden]{
+  display:none!important;
+}
+
+.community-announcement-owner-tools .community-secondary{
+  min-height:31px;
+  padding:0 11px;
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -3132,6 +3163,10 @@ button.pinned-card{
 <section class="feed community-flow-wall" id="feed">
 
   <div class="community-flow-column community-flow-left" id="communityFlowLeft">
+<div class="community-announcement-owner-tools" id="communityAnnouncementOwnerTools" hidden>
+  <button class="community-secondary" id="openAnnouncementManager" type="button">＋ Add Announcement</button>
+</div>
+
 <section class="announcement-carousel" id="communityAnnouncementCarousel" aria-label="Community announcements">
 <div class="announcement-counter" id="announcementCounter">1 / 3</div>
 <div class="announcement-track">
@@ -3306,9 +3341,6 @@ button.pinned-card{
         <a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
       </div>
 
-      <div class="community-info-actions">
-        <button class="community-secondary" id="openAnnouncementManager" type="button" hidden>＋ Add Announcement</button>
-      </div>
     </div>
   </section>
 </aside>
@@ -3429,7 +3461,7 @@ button.pinned-card{
 <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
 <div aria-label="Video player preview" class="video-feed-player video-v11-feed-player community-demo-player" data-demo-duration="252">
 <div class="sample-community-art" style="min-height:360px;font-size:82px">🎨🌙</div>
-<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button><button type="button" class="video-control-button video-control-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">4:12</span><button type="button" class="video-control-button video-control-fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button></div></div>
+<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button><button type="button" class="video-control-button video-control-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Video timeline"><span class="video-control-time">4:12</span><button type="button" class="video-control-button video-control-fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button></div></div>
 </div>
 <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
 <div class="interactions">
@@ -3449,7 +3481,7 @@ button.pinned-card{
 <div class="byte-stage">
 <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player community-demo-player" aria-label="Byte player preview" data-demo-duration="42">
 <div class="sample-community-art" style="min-height:520px;font-size:78px">🐈‍⬛🕯️</div>
-<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">0:42</span></div></div>
+<div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button><button type="button" class="video-control-button video-control-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0" aria-label="Video timeline"><span class="video-control-time">0:42</span><button type="button" class="video-control-button video-control-fullscreen" aria-label="Fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button></div></div>
 </div>
 </div>
 <header class="post-header">
@@ -4113,9 +4145,15 @@ function syncCommunityRoleNavigation(){
     actions.hidden=role!=='owner';
   });
 
+  const announcementTools=document.getElementById('communityAnnouncementOwnerTools');
   const announcementButton=document.getElementById('openAnnouncementManager');
+  const creatorCanManageAnnouncements=role==='owner';
+
+  if(announcementTools){
+    announcementTools.hidden=!creatorCanManageAnnouncements;
+  }
   if(announcementButton){
-    announcementButton.hidden=!(role==='owner'||role==='moderator');
+    announcementButton.hidden=!creatorCanManageAnnouncements;
   }
 
   if(state.deleted){
@@ -5098,6 +5136,7 @@ function renderAnnouncementManagerList(){
 }
 
 function openAnnouncementManager(){
+  if((currentCommunityState().role||'member')!=='owner')return;
   renderAnnouncementManagerList();
   document.getElementById('announcementManagerOverlay').hidden=false;
 }
@@ -5114,6 +5153,7 @@ document.getElementById('announcementManagerOverlay')?.addEventListener('click',
 
 document.getElementById('saveCommunityAnnouncement')?.addEventListener('click',()=>{
   const state=currentCommunityState();
+  if((state.role||'member')!=='owner')return;
   const announcements=Array.isArray(state.announcements)?[...state.announcements]:[];
   const status=document.getElementById('announcementManagerStatus');
 
@@ -5295,12 +5335,37 @@ function initializeCommunityDemoPlayers(){
     let current=0;
     let timer=null;
     let muted=false;
+    let controlsTimer=null;
 
     const play=player.querySelector('.video-control-play');
     const mute=player.querySelector('.video-control-mute');
     const scrubber=player.querySelector('.video-control-scrubber');
     const times=[...player.querySelectorAll('.video-control-time')];
     const fullscreen=player.querySelector('.video-control-fullscreen');
+
+    function setPlayIcon(isPlaying){
+      if(!play)return;
+      play.setAttribute('aria-label',isPlaying?'Pause video':'Play video');
+      play.innerHTML=isPlaying
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"></path></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>';
+    }
+
+    function setMuteIcon(){
+      if(!mute)return;
+      mute.setAttribute('aria-label',muted?'Unmute video':'Mute video');
+      mute.innerHTML=muted
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5z"></path><path d="m17 10 4 4m0-4-4 4"></path></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg>';
+    }
+
+    function showControls(){
+      player.classList.add('controls-visible');
+      clearTimeout(controlsTimer);
+      controlsTimer=setTimeout(()=>{
+        if(timer)player.classList.remove('controls-visible');
+      },1800);
+    }
 
     function render(){
       if(times[0])times[0].textContent=formatDemoTime(current);
@@ -5312,13 +5377,16 @@ function initializeCommunityDemoPlayers(){
       if(timer)clearInterval(timer);
       timer=null;
       player.classList.remove('demo-playing');
-      if(play)play.setAttribute('aria-label','Play video');
+      setPlayIcon(false);
+      showControls();
     }
 
     function start(){
       if(timer)return;
       player.classList.add('demo-playing');
-      if(play)play.setAttribute('aria-label','Pause video');
+      setPlayIcon(true);
+      showControls();
+
       timer=setInterval(()=>{
         current+=0.5;
         if(current>=duration){
@@ -5332,32 +5400,43 @@ function initializeCommunityDemoPlayers(){
     play?.addEventListener('click',event=>{
       event.stopPropagation();
       timer?pause():start();
+      showControls();
     });
 
     mute?.addEventListener('click',event=>{
       event.stopPropagation();
       muted=!muted;
-      mute.setAttribute('aria-label',muted?'Unmute video':'Mute video');
-      mute.classList.toggle('active',muted);
+      setMuteIcon();
+      showControls();
     });
 
     scrubber?.addEventListener('input',event=>{
       event.stopPropagation();
       current=(Number(scrubber.value||0)/100)*duration;
       render();
+      showControls();
     });
 
     fullscreen?.addEventListener('click',event=>{
       event.stopPropagation();
+      showControls();
       if(player.requestFullscreen)player.requestFullscreen();
     });
 
     player.addEventListener('click',event=>{
       if(event.target.closest('.video-control-row'))return;
       timer?pause():start();
+      showControls();
     });
 
+    player.addEventListener('pointerenter',showControls);
+    player.addEventListener('pointermove',showControls);
+    player.addEventListener('focusin',showControls);
+
+    setPlayIcon(false);
+    setMuteIcon();
     render();
+    showControls();
   });
 }
 

@@ -1134,17 +1134,9 @@ function buildNotificationItem(item){
     if(item.replyable){
       const reply=document.createElement('button');
       reply.type='button';
-      reply.className='community-action primary';
+      reply.className='community-action primary reply-notification';
       reply.textContent='Reply';
-      reply.addEventListener('click',event=>{
-        event.stopPropagation();
-        const box=copy.querySelector('.community-quick-reply');
-        box?.classList.toggle('active');
-        box?.querySelector('textarea')?.focus();
-        markNotificationRead(item.id);
-        article.classList.remove('unread');
-        renderSummary();
-      });
+      reply.setAttribute('aria-expanded','false');
       actions.appendChild(reply);
     }
 
@@ -1165,76 +1157,143 @@ function buildNotificationItem(item){
   }
 
   if(item.replyable){
+    const replyAction=copy.querySelector('.reply-notification');
+
     const replyPrompt=document.createElement('button');
     replyPrompt.type='button';
-    replyPrompt.className='community-quick-reply-prompt';
-    replyPrompt.innerHTML='<span class="community-quick-reply-prompt-avatar">H</span><span>Write a quick reply…</span>';
+    replyPrompt.className='quick-reply-prompt';
+    replyPrompt.setAttribute('aria-expanded','false');
+    replyPrompt.innerHTML='<span class="quick-reply-prompt-avatar">H</span><span class="quick-reply-placeholder">Write a quick reply…</span>';
     copy.appendChild(replyPrompt);
 
-    const replyBox=document.createElement('div');
-    replyBox.className='community-quick-reply';
+    const replyBox=document.createElement('span');
+    replyBox.className='quick-reply';
 
-    const user=document.createElement('div');
-    user.className='community-quick-reply-user';
-    user.textContent='@yourusername';
+    const user=document.createElement('span');
+    user.className='quick-reply-user';
+    user.innerHTML='<span class="quick-reply-avatar">H</span>@yourusername';
 
     const textarea=document.createElement('textarea');
     textarea.maxLength=500;
     textarea.placeholder='Write a quick reply…';
     textarea.setAttribute('aria-label','Write a quick reply');
 
-    const footer=document.createElement('div');
-    footer.className='community-quick-reply-footer';
+    const footer=document.createElement('span');
+    footer.className='quick-reply-footer';
 
     const status=document.createElement('span');
-    status.className='community-quick-reply-status';
+    status.className='quick-reply-status';
 
-    const buttons=document.createElement('div');
-    buttons.className='community-quick-reply-buttons';
+    const buttons=document.createElement('span');
+    buttons.className='quick-reply-buttons';
 
     const cancel=document.createElement('button');
     cancel.type='button';
-    cancel.className='community-action';
+    cancel.className='quick-reply-cancel';
     cancel.textContent='Changed my mind…';
 
     const send=document.createElement('button');
     send.type='button';
-    send.className='community-action primary';
+    send.className='quick-reply-post';
     send.textContent='Reply';
     send.disabled=true;
 
+    const afterReply=document.createElement('span');
+    afterReply.className='notification-after-reply';
+    afterReply.innerHTML='<span class="answered-state">Replied ✓</span><span class="dot-separator">·</span><button class="view-comments-link" type="button">View comments</button><span class="dot-separator">·</span><button class="reply-again-link" type="button">Reply again</button>';
+
+    function closeOtherCommunityReplies(){
+      document.querySelectorAll('.community-notification-item .quick-reply.open').forEach(openComposer=>{
+        if(openComposer===replyBox)return;
+        openComposer.classList.remove('open');
+        const parent=openComposer.closest('.community-notification-item');
+        parent?.querySelectorAll('.reply-notification, .quick-reply-prompt')
+          .forEach(trigger=>trigger.setAttribute('aria-expanded','false'));
+      });
+    }
+
+    function openReply(){
+      closeOtherCommunityReplies();
+      afterReply.classList.remove('show');
+      replyBox.classList.add('open');
+      replyPrompt.setAttribute('aria-expanded','true');
+      replyAction?.setAttribute('aria-expanded','true');
+      textarea.focus();
+
+      markNotificationRead(item.id);
+      article.classList.remove('unread');
+      article.querySelector('.community-unread-dot')?.remove();
+      renderSummary();
+    }
+
+    function closeReply(){
+      replyBox.classList.remove('open');
+      replyPrompt.setAttribute('aria-expanded','false');
+      replyAction?.setAttribute('aria-expanded','false');
+    }
+
+    replyPrompt.addEventListener('click',event=>{
+      event.stopPropagation();
+      openReply();
+    });
+
+    replyAction?.addEventListener('click',event=>{
+      event.stopPropagation();
+      replyBox.classList.contains('open')?closeReply():openReply();
+    });
+
     textarea.addEventListener('input',()=>{
       send.disabled=!textarea.value.trim();
+      status.textContent='';
     });
 
-    cancel.addEventListener('click',()=>{
+    textarea.addEventListener('click',event=>event.stopPropagation());
+
+    cancel.addEventListener('click',event=>{
+      event.stopPropagation();
       textarea.value='';
       send.disabled=true;
-      replyBox.classList.remove('active');
+      status.textContent='';
+      closeReply();
     });
 
-    send.addEventListener('click',()=>{
-      if(!textarea.value.trim())return;
-      status.textContent='Replied ✓';
+    send.addEventListener('click',event=>{
+      event.stopPropagation();
+      const reply=textarea.value.trim();
+      if(!reply)return;
+
+      article.dataset.lastReply=reply;
+      status.textContent='Reply posted.';
       textarea.value='';
       send.disabled=true;
-      setTimeout(()=>replyBox.classList.remove('active'),650);
+
+      setTimeout(()=>{
+        closeReply();
+        replyPrompt.style.display='none';
+        if(replyAction)replyAction.style.display='none';
+        afterReply.classList.add('show');
+        status.textContent='';
+      },700);
+    });
+
+    afterReply.querySelector('.view-comments-link')?.addEventListener('click',event=>{
+      event.stopPropagation();
+      if(item.openable&&!item.deadLink)openCommunity(item.communitySlug);
+    });
+
+    afterReply.querySelector('.reply-again-link')?.addEventListener('click',event=>{
+      event.stopPropagation();
+      afterReply.classList.remove('show');
+      replyBox.classList.add('open');
+      replyPrompt.setAttribute('aria-expanded','true');
+      replyAction?.setAttribute('aria-expanded','true');
+      textarea.focus();
     });
 
     buttons.append(cancel,send);
     footer.append(status,buttons);
     replyBox.append(user,textarea,footer);
-    copy.appendChild(replyBox);
-
-    replyPrompt.addEventListener('click',event=>{
-      event.stopPropagation();
-      replyBox.classList.add('active');
-      textarea.focus();
-      markNotificationRead(item.id);
-      article.classList.remove('unread');
-      article.querySelector('.community-unread-dot')?.remove();
-      renderSummary();
-    });
+    copy.append(replyBox,afterReply);
   }
 
   const meta=document.createElement('div');
