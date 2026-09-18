@@ -234,12 +234,18 @@ body.community-master{
   color:#ffc384;
 }
 
-.community-search{
+.community-search-wrap{
   position:absolute;
   right:6px;
   top:50%;
   transform:translateY(-50%);
   width:min(300px,34vw);
+  z-index:40;
+}
+
+.community-search{
+  width:100%;
+  box-sizing:border-box;
   display:flex;
   align-items:center;
   gap:8px;
@@ -268,7 +274,7 @@ body.community-master{
 
 .community-content-grid{
   display:grid;
-  grid-template-columns:minmax(0,780px) minmax(290px,1fr);
+  grid-template-columns:minmax(0,880px) minmax(300px,1fr);
   gap:18px;
   align-items:start;
   margin-top:18px;
@@ -1051,7 +1057,7 @@ body.community-master{
   .community-subnav{
     justify-content:flex-start;
   }
-  .community-search{
+  .community-search-wrap{
     margin-left:auto;
     position:static;
     transform:none;
@@ -1096,7 +1102,7 @@ body.community-master{
   .community-subnav{
     overflow:auto;
   }
-  .community-search{
+  .community-search-wrap{
     display:none;
   }
   .current-activity,
@@ -1227,6 +1233,467 @@ button.pinned-card{
 .official-community-links.compact{display:grid;grid-template-columns:1fr}
 .official-community-link-note{margin-top:10px!important;color:#8995ae!important;font-size:10px!important}
 
+
+/* --- Community header controls: lighter, less button-heavy --- */
+.community-header-actions{
+  gap:7px;
+}
+
+#joinButton,
+#pinButton{
+  min-height:38px;
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:none;
+  font-size:11px;
+  letter-spacing:.01em;
+}
+
+#joinButton{
+  border-color:rgba(255,195,132,.54);
+  background:rgba(255,195,132,.96);
+  color:#101a3a;
+}
+
+#joinButton:hover{
+  transform:none;
+  box-shadow:0 0 0 3px rgba(255,195,132,.06);
+}
+
+#pinButton{
+  border-color:rgba(255,195,132,.25);
+  background:rgba(255,195,132,.055);
+  color:#d8deeb;
+}
+
+#pinButton.active{
+  border-color:rgba(255,195,132,.38);
+  background:rgba(255,195,132,.095);
+  color:#ffc384;
+}
+
+#communityBell{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border-color:rgba(255,195,132,.24);
+  background:rgba(255,195,132,.05);
+  font-size:15px;
+}
+
+
+.community-search{
+  transition:border-color .15s ease,background .15s ease;
+}
+
+.community-search:focus-within{
+  border-color:rgba(255,195,132,.42);
+  background:#111d40;
+}
+
+.community-search-results{
+  position:absolute;
+  right:0;
+  top:calc(100% + 7px);
+  width:min(380px,82vw);
+  max-height:360px;
+  overflow:auto;
+  padding:6px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:11px;
+  background:#101a3a;
+  box-shadow:0 18px 40px rgba(0,0,0,.34);
+}
+
+.community-search-results[hidden]{display:none!important}
+
+.community-search-result{
+  width:100%;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:9px;
+  align-items:start;
+  padding:9px 10px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#dce2ee;
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.community-search-result:hover{
+  background:rgba(255,195,132,.08);
+}
+
+.community-search-result-type{
+  min-width:58px;
+  color:#ffc384;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+
+.community-search-result-copy strong{
+  display:block;
+  overflow:hidden;
+  font-size:10px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.community-search-result-copy span{
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  color:#8995ae;
+  font-size:8px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.community-search-empty{
+  padding:12px;
+  color:#8995ae;
+  font-size:9px;
+  text-align:center;
+}
+
+.community-search-flash{
+  animation:communitySearchFlash 1.5s ease;
+}
+
+@keyframes communitySearchFlash{
+  0%,100%{box-shadow:inherit}
+  35%{box-shadow:0 0 0 2px rgba(255,195,132,.46),0 12px 28px rgba(0,0,0,.18)}
+}
+
+
+/* --- About tab becomes a useful Community Guide --- */
+.community-guide{
+  display:grid;
+  gap:14px;
+  margin-top:18px;
+}
+
+.community-guide-hero{
+  position:relative;
+  overflow:hidden;
+  padding:26px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 86% 24%,rgba(255,195,132,.15),transparent 25%),
+    linear-gradient(135deg,rgba(255,195,132,.09),rgba(255,195,132,.025)),
+    #182447;
+}
+
+.community-guide-hero::after{
+  content:"🎃  🕯️  👻";
+  position:absolute;
+  right:28px;
+  top:24px;
+  font-size:28px;
+  opacity:.7;
+}
+
+.community-guide-kicker{
+  color:#ffc384;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.11em;
+}
+
+.community-guide-hero h2{
+  margin:6px 0 7px;
+  font-size:25px;
+}
+
+.community-guide-hero p{
+  max-width:780px;
+  margin:0;
+  color:#c7cedd;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.community-guide-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:16px;
+}
+
+.community-guide-actions button{
+  padding:8px 10px;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:9px;
+  background:#101a3a;
+  color:#dce2ee;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-guide-actions button:hover{
+  border-color:rgba(255,195,132,.45);
+  color:#ffc384;
+}
+
+.community-guide-grid,
+.community-guide-lower{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.community-guide-card,
+.community-guide-rules{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  background:#182447;
+}
+
+.community-guide-card{
+  display:flex;
+  gap:13px;
+}
+
+.community-guide-card-wide{
+  display:block;
+}
+
+.guide-card-icon{
+  width:37px;
+  height:37px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:50%;
+  background:rgba(255,195,132,.06);
+}
+
+.community-guide-card h3,
+.community-guide-rules h3{
+  margin:0 0 7px;
+  color:#f8f8f2;
+  font-size:15px;
+}
+
+.community-guide-card p{
+  margin:0;
+  color:#aeb7cb;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.guide-basics{
+  margin:0;
+  padding:18px;
+  border-style:solid;
+  background:#182447;
+}
+
+.guide-section-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.guide-section-heading h3{
+  margin:4px 0 0!important;
+  color:#f8f8f2!important;
+}
+
+.guide-section-heading > span{
+  color:#7f8ba5;
+  font-size:8px;
+}
+
+.guide-basics-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px 14px;
+  margin-top:0;
+}
+
+.guide-basics-grid .community-basic{
+  padding:10px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:9px;
+  background:#101a3a;
+}
+
+.guide-rule-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px 18px;
+  margin-top:0;
+}
+
+.community-guide-rules{
+  border-color:rgba(255,195,132,.16);
+}
+
+@media(max-width:860px){
+  .community-guide-grid,
+  .community-guide-lower,
+  .guide-rule-grid,
+  .guide-basics-grid{
+    grid-template-columns:1fr;
+  }
+  .community-guide-hero::after{
+    opacity:.28;
+  }
+}
+
+
+/* --- Members tab --- */
+.active-members-panel{
+  margin-top:18px;
+  padding:20px;
+  border:1px solid rgba(255,195,132,.18);
+  border-radius:14px;
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.055),transparent 45%),
+    #182447;
+}
+
+.active-members-panel .section-heading{
+  align-items:flex-end;
+}
+
+.active-members-note{
+  margin-left:auto;
+  color:#7f8ba5;
+  font-size:8px;
+}
+
+.active-member-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.active-member-card{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.active-member-card strong{
+  display:block;
+  overflow:hidden;
+  font-size:10px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.active-member-card span{
+  display:block;
+  margin-top:3px;
+  color:#8995ae;
+  font-size:8px;
+  line-height:1.35;
+}
+
+.additional-member{
+  display:none;
+}
+
+.member-directory.expanded .additional-member{
+  display:flex;
+}
+
+.see-more-members{
+  display:block;
+  margin:14px auto 0;
+  padding:8px 12px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:999px;
+  background:rgba(255,195,132,.055);
+  color:#ffc384;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.see-more-members:hover{
+  background:rgba(255,195,132,.09);
+}
+
+@media(max-width:1050px){
+  .active-member-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px){
+  .active-member-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* --- Light Community polish --- */
+.community-about-panel{
+  padding:15px 16px;
+  border-color:rgba(255,195,132,.12);
+}
+
+.community-about-panel p{
+  margin-top:7px;
+  color:#b9c2d4;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.community-panel{
+  position:relative;
+}
+
+.community-panel::before{
+  content:"";
+  position:absolute;
+  left:16px;
+  right:16px;
+  top:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,195,132,.18),transparent);
+}
+
+.community-composer-preview{
+  border:1px dotted rgba(255,195,132,.52);
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.045),transparent 40%),
+    #182447;
+}
+
+.activity-card.featured{
+  background:
+    linear-gradient(135deg,rgba(255,195,132,.055),transparent 42%),
+    #182447;
+}
+
+.activity-card[role="button"]{
+  cursor:pointer;
+}
+
+.activity-card[role="button"]:hover{
+  border-color:rgba(255,195,132,.26);
+}
+
+.pinned-shelf{
+  box-shadow:inset 0 1px 0 rgba(255,195,132,.04);
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -1356,7 +1823,7 @@ button.pinned-card{
 </div>
 </div>
 <div class="community-header-actions">
-<button class="community-primary" id="joinButton" type="button">Joined ✓</button>
+<button class="community-primary" id="joinButton" type="button">✓ Joined</button>
 <button class="community-secondary active" id="pinButton" type="button">📌 Pinned</button>
 <button class="community-icon-button" id="communityBell" type="button" title="Community notifications">🔔</button>
 </div>
@@ -1367,7 +1834,10 @@ button.pinned-card{
 <button class="community-tab active" data-view="home" type="button">Community</button>
 <button class="community-tab" data-view="about" type="button">About</button>
 <button class="community-tab" data-view="members" type="button">Members</button>
-<label class="community-search"><span>⌕</span><input type="search" placeholder="Search Spooky Cozy…"></label>
+<div class="community-search-wrap">
+<label class="community-search"><span aria-hidden="true">⌕</span><input id="communitySearchInput" type="search" placeholder="Search Spooky Cozy…" autocomplete="off" aria-label="Search Spooky Cozy"></label>
+<div class="community-search-results" id="communitySearchResults" hidden></div>
+</div>
 </nav>
 
 <!-- ========================== HOME VIEW ========================== -->
@@ -1440,11 +1910,11 @@ button.pinned-card{
 <p>Some of us say August. Some insist on September. A suspicious number say the decorations never came down.</p>
 <div class="activity-meta">76 replies · active 8 min ago</div>
 </article>
-<article class="activity-card">
+<article class="activity-card newcomer-card" role="button" tabindex="0" data-open-newcomer-guide>
 <div class="activity-eyebrow">New here?</div>
-<h3>Say hello 👻</h3>
-<p>Introduce yourself and tell us what brought you here.</p>
-<div class="activity-meta">Meet the Community →</div>
+<h3>Start with the Community Guide 👻</h3>
+<p>See what belongs here, how posting works, Community traditions, rules, and where to meet people.</p>
+<div class="activity-meta">Start here →</div>
 </article>
 </section>
 
@@ -1671,13 +2141,12 @@ button.pinned-card{
 <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
 </div>
 <div class="promo-badge">🔗 COMMUNITY + CREATOR &amp; SHOP LINKS</div>
-<a class="sidebar-link" href="#" id="viewAllCommunityBasics">View all Community Basics →</a>
 </section>
 
-<section class="community-panel">
+<section class="community-panel community-about-panel">
 <h2>About This Community</h2>
 <p>A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating and everything a little haunted.</p>
-<a class="sidebar-link" href="#" data-open-view="about">Read more →</a>
+<a class="sidebar-link" href="#" data-open-view="about">Explore Community Guide →</a>
 </section>
 
 <section class="community-panel">
@@ -1713,13 +2182,46 @@ button.pinned-card{
 
 <!-- ========================== ABOUT VIEW ========================== -->
 <section class="community-view" id="community-about">
-<div class="about-full">
-<article class="about-copy">
-<h2>About Spooky Cozy</h2>
-<p>A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away.</p>
-<section class="about-basics-full" id="communityBasicsFull">
+<div class="community-guide">
+
+<section class="community-guide-hero">
+<div class="community-guide-kicker">COMMUNITY GUIDE</div>
+<h2>Welcome to Spooky Cozy 🎃</h2>
+<p>A year-round corner for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted.</p>
+<div class="community-guide-actions">
+<button type="button" data-guide-action="pinned">📌 Browse Pinned Posts</button>
+<button type="button" data-guide-action="members">👥 Meet Members</button>
+<button type="button" data-guide-action="conversation">💬 Join the Active Conversation</button>
+</div>
+</section>
+
+<div class="community-guide-grid">
+<article class="community-guide-card">
+<div class="guide-card-icon">✨</div>
+<div>
+<h3>What belongs here</h3>
+<p>Decorations and seasonal setups, crafts and DIY projects, collections and vintage finds, art and creative work, recipes and cozy treats, questions, discussion and spooky chit-chat.</p>
+</div>
+</article>
+
+<article class="community-guide-card">
+<div class="guide-card-icon">🕯️</div>
+<div>
+<h3>Community traditions</h3>
+<p>Monthly Show &amp; Tell, seasonal art exchanges, resource-sharing threads, cozy discussion prompts, and year-round Halloween inspiration.</p>
+</div>
+</article>
+</div>
+
+<section class="about-basics-full guide-basics" id="communityBasicsFull">
+<div class="guide-section-heading">
+<div>
+<div class="community-guide-kicker">BEFORE YOU POST</div>
 <h3>Community Basics</h3>
-<div class="community-basics-list">
+</div>
+<span>Automatically enforced by All Media</span>
+</div>
+<div class="community-basics-list guide-basics-grid">
 <div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>Public Community</strong><br>Anyone can view before joining.</span></div>
 <div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
 <div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>Members can post</strong><br>Original posts are allowed.</span></div>
@@ -1728,43 +2230,82 @@ button.pinned-card{
 <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
 </div>
 </section>
-<h3>What belongs here</h3>
-<p>Decorations and seasonal setups, crafts and DIY projects, collections and vintage finds, art and creative work, recipes and cozy treats, questions, discussion and spooky chit-chat.</p>
+
+<div class="community-guide-lower">
+<section class="community-guide-card community-guide-card-wide">
 <h3>Community Interests</h3>
 <div class="community-interest-row"><span class="community-interest">Halloween</span><span class="community-interest">Art</span><span class="community-interest">Cozy</span><span class="community-interest">Crafts</span></div>
-<h3>Community Links</h3>
+</section>
+
+<section class="community-guide-card community-guide-card-wide">
+<h3>Official Community Links</h3>
 <div class="official-community-links">
 <a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
 <a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
 <a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
 </div>
-<p class="official-community-link-note">These are official links added by the Community owner. The separate Social links permission only controls whether members may put their own social links in posts or comments.</p>
-</article>
-<aside class="community-panel">
-<h2>Community Rules</h2>
-<div class="community-rules-list">
+<p class="official-community-link-note">These are official links chosen by the Community owner.</p>
+</section>
+</div>
+
+<section class="community-guide-rules">
+<div class="guide-section-heading">
+<div>
+<div class="community-guide-kicker">HOW WE TREAT EACH OTHER</div>
+<h3>Community Rules</h3>
+</div>
+<span>Human expectations, enforced by moderators</span>
+</div>
+<div class="community-rules-list guide-rule-grid">
 <div class="community-rule"><span class="community-rule-number">1</span><div><strong>Keep it spooky & cozy</strong><span>Posts should relate to Halloween, spooky themes, cozy horror, crafts, collecting, art or adjacent interests.</span></div></div>
 <div class="community-rule"><span class="community-rule-number">2</span><div><strong>Credit creators</strong><span>If you share work you did not make, clearly credit the original creator.</span></div></div>
 <div class="community-rule"><span class="community-rule-number">3</span><div><strong>Be kind to beginners</strong><span>Constructive advice is welcome. Mocking someone's skill level is not.</span></div></div>
 <div class="community-rule"><span class="community-rule-number">4</span><div><strong>Keep criticism constructive</strong><span>Critique the work or idea, not the person.</span></div></div>
 </div>
-</aside>
+</section>
+
 </div>
 </section>
 
 <!-- ========================== MEMBERS VIEW ========================== -->
 <section class="community-view" id="community-members">
+
+<section class="active-members-panel">
+<div class="section-heading">
+<div>
+<div class="community-guide-kicker">CONTRIBUTING LATELY</div>
+<h2>Active Members</h2>
+</div>
+<span class="active-members-note">Recent participation, not a ranking</span>
+</div>
+<div class="active-member-grid">
+<article class="active-member-card"><div class="member-avatar">🌙</div><div><strong>@moonlitmoth</strong><span>Active in Show &amp; Tell and cozy discussion threads</span></div></article>
+<article class="active-member-card"><div class="member-avatar">🕯️</div><div><strong>@cozycryptid</strong><span>Sharing crafts, resources, and helpful replies</span></div></article>
+<article class="active-member-card"><div class="member-avatar">📚</div><div><strong>@paperlantern</strong><span>Frequently joining prompts and resource threads</span></div></article>
+<article class="active-member-card"><div class="member-avatar">🎃</div><div><strong>@PumpkinWitch</strong><span>Community owner · active in discussions this week</span></div></article>
+</div>
+</section>
+
 <section class="member-directory">
 <div class="section-heading"><h2>Members</h2><span style="margin-left:auto;color:#aeb7cb;font-size:12px">12.4K members</span></div>
-<div class="member-grid">
+<div class="member-grid" id="communityMemberGrid">
 <div class="member-card"><div class="member-avatar">🎃</div><div><strong>@PumpkinWitch</strong><span>Owner</span></div></div>
 <div class="member-card"><div class="member-avatar">🦇</div><div><strong>@Raven</strong><span>Moderator</span></div></div>
 <div class="member-card"><div class="member-avatar">👻</div><div><strong>@Ghostie</strong><span>Moderator</span></div></div>
 <div class="member-card"><div class="member-avatar">🌙</div><div><strong>@moonlitmoth</strong><span>Member</span></div></div>
 <div class="member-card"><div class="member-avatar">📚</div><div><strong>@paperlantern</strong><span>Member</span></div></div>
 <div class="member-card"><div class="member-avatar">🕯️</div><div><strong>@cozycryptid</strong><span>Member</span></div></div>
+
+<div class="member-card additional-member"><div class="member-avatar">🧶</div><div><strong>@stitchedspirit</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🦉</div><div><strong>@midnightmaker</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🍂</div><div><strong>@autumnattic</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🖌️</div><div><strong>@cobwebcanvas</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🧡</div><div><strong>@pumpkinpatchwork</strong><span>Member</span></div></div>
+<div class="member-card additional-member"><div class="member-avatar">🕸️</div><div><strong>@webandwax</strong><span>Member</span></div></div>
 </div>
+<button class="see-more-members" id="seeMoreMembers" type="button">See More Members ↓</button>
 </section>
+
 </section>
 
 <div class="pinned-post-overlay" id="pinnedPostOverlay" aria-hidden="true">
@@ -1991,7 +2532,7 @@ function syncSpookyCommunityUI(){
   const pin=document.getElementById('pinButton');
   const bell=document.getElementById('communityBell');
 
-  if(join)join.textContent=spookyState.joined?'Joined ✓':'Join';
+  if(join)join.textContent=spookyState.joined?'✓ Joined':'Join';
 
   if(pin){
     pin.disabled=!spookyState.joined;
@@ -2172,11 +2713,6 @@ document.getElementById('communityCreatorPost')?.addEventListener('click',()=>{
   closeCommunityCreator();
 });
 
-document.getElementById('viewAllCommunityBasics')?.addEventListener('click',(event)=>{
-  event.preventDefault();
-  document.querySelector('.community-tab[data-view="about"]')?.click();
-  setTimeout(()=>document.getElementById('communityBasicsFull')?.scrollIntoView({behavior:'smooth',block:'start'}),80);
-});
 
 document.querySelectorAll('.community-feed-filter').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -2366,6 +2902,185 @@ document.querySelectorAll('.community-more-row').forEach(row=>{
       window.location.href=communityFrontPageUrl(row.dataset.community);
     }
   });
+});
+
+
+/* --- Community search --- */
+const communitySearchInput=document.getElementById('communitySearchInput');
+const communitySearchResults=document.getElementById('communitySearchResults');
+
+function communitySearchItems(){
+  const items=[];
+
+  document.querySelectorAll('.pinned-card').forEach((el,i)=>{
+    items.push({
+      type:'Pinned',
+      title:el.innerText.trim(),
+      detail:'Pinned Community post',
+      element:el,
+      view:'home',
+      action:()=>el.click()
+    });
+  });
+
+  document.querySelectorAll('#community-home .post').forEach((el,i)=>{
+    const author=el.querySelector('.username')?.textContent?.trim()||'Community post';
+    const caption=el.querySelector('.caption')?.textContent?.trim()||el.innerText.trim();
+    items.push({
+      type:'Post',
+      title:author,
+      detail:caption.slice(0,95),
+      element:el,
+      view:'home'
+    });
+  });
+
+  document.querySelectorAll('#community-home .activity-card').forEach(el=>{
+    items.push({
+      type:'Conversation',
+      title:el.querySelector('h3')?.textContent?.trim()||'Community conversation',
+      detail:el.querySelector('p')?.textContent?.trim()||'',
+      element:el,
+      view:'home'
+    });
+  });
+
+  document.querySelectorAll('#community-members .member-card').forEach(el=>{
+    items.push({
+      type:'Member',
+      title:el.querySelector('strong')?.textContent?.trim()||'Member',
+      detail:el.querySelector('span')?.textContent?.trim()||'',
+      element:el,
+      view:'members'
+    });
+  });
+
+  document.querySelectorAll('.community-rule').forEach(el=>{
+    items.push({
+      type:'Rule',
+      title:el.querySelector('strong')?.textContent?.trim()||'Community rule',
+      detail:el.querySelector('div > span')?.textContent?.trim()||'',
+      element:el,
+      view:el.closest('#community-about')?'about':'home'
+    });
+  });
+
+  document.querySelectorAll('#community-about h2,#community-about h3').forEach(el=>{
+    items.push({
+      type:'Guide',
+      title:el.textContent.trim(),
+      detail:'Community Guide',
+      element:el,
+      view:'about'
+    });
+  });
+
+  return items;
+}
+
+function closeCommunitySearch(){
+  if(communitySearchResults){
+    communitySearchResults.hidden=true;
+    communitySearchResults.innerHTML='';
+  }
+}
+
+function showCommunitySearchResult(item){
+  if(item.action){
+    item.action();
+    closeCommunitySearch();
+    return;
+  }
+
+  document.querySelector(`.community-tab[data-view="${item.view}"]`)?.click();
+  setTimeout(()=>{
+    item.element?.scrollIntoView({behavior:'smooth',block:'center'});
+    item.element?.classList.add('community-search-flash');
+    setTimeout(()=>item.element?.classList.remove('community-search-flash'),1600);
+  },80);
+  closeCommunitySearch();
+}
+
+function renderCommunitySearch(){
+  if(!communitySearchInput||!communitySearchResults)return;
+  const query=communitySearchInput.value.trim().toLowerCase();
+
+  if(query.length<2){
+    closeCommunitySearch();
+    return;
+  }
+
+  const matches=communitySearchItems()
+    .filter(item=>`${item.title} ${item.detail}`.toLowerCase().includes(query))
+    .slice(0,8);
+
+  communitySearchResults.innerHTML='';
+
+  if(!matches.length){
+    communitySearchResults.innerHTML='<div class="community-search-empty">No matches in this Community.</div>';
+    communitySearchResults.hidden=false;
+    return;
+  }
+
+  matches.forEach(item=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='community-search-result';
+    button.innerHTML=`<span class="community-search-result-type">${item.type}</span><span class="community-search-result-copy"><strong></strong><span></span></span>`;
+    button.querySelector('strong').textContent=item.title;
+    button.querySelector('.community-search-result-copy span').textContent=item.detail;
+    button.addEventListener('click',()=>showCommunitySearchResult(item));
+    communitySearchResults.appendChild(button);
+  });
+
+  communitySearchResults.hidden=false;
+}
+
+communitySearchInput?.addEventListener('input',renderCommunitySearch);
+communitySearchInput?.addEventListener('keydown',event=>{
+  if(event.key==='Escape')closeCommunitySearch();
+});
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.community-search-wrap'))closeCommunitySearch();
+});
+
+
+document.querySelectorAll('[data-guide-action]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const action=button.dataset.guideAction;
+    if(action==='members'){
+      document.querySelector('.community-tab[data-view="members"]')?.click();
+      return;
+    }
+    if(action==='pinned'){
+      document.querySelector('.community-tab[data-view="home"]')?.click();
+      setTimeout(()=>document.querySelector('.pinned-shelf')?.scrollIntoView({behavior:'smooth',block:'center'}),60);
+      return;
+    }
+    if(action==='conversation'){
+      document.querySelector('.community-tab[data-view="home"]')?.click();
+      setTimeout(()=>document.querySelector('.activity-card.featured')?.scrollIntoView({behavior:'smooth',block:'center'}),60);
+    }
+  });
+});
+
+
+document.querySelector('[data-open-newcomer-guide]')?.addEventListener('click',()=>{
+  document.querySelector('.community-tab[data-view="about"]')?.click();
+  setTimeout(()=>document.querySelector('.community-guide-hero')?.scrollIntoView({behavior:'smooth',block:'start'}),60);
+});
+document.querySelector('[data-open-newcomer-guide]')?.addEventListener('keydown',event=>{
+  if(event.key==='Enter'||event.key===' '){
+    event.preventDefault();
+    event.currentTarget.click();
+  }
+});
+
+
+document.getElementById('seeMoreMembers')?.addEventListener('click',function(){
+  const directory=this.closest('.member-directory');
+  const expanded=directory.classList.toggle('expanded');
+  this.textContent=expanded?'Show Fewer Members ↑':'See More Members ↓';
 });
 
 </script>
