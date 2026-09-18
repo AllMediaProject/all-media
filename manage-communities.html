@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Communities | All Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css">
+<style>
+:root{
+  --mc-bg:#101a3a;
+  --mc-card:#182447;
+  --mc-deep:#111b3b;
+  --mc-peach:#ffc384;
+  --mc-text:#f8f8f2;
+  --mc-muted:#aeb7cb;
+  --mc-line:rgba(255,255,255,.10);
+  --mc-danger:#e9a0a0;
+}
+
+body{min-height:100vh}
+
+#notificationQuickPopup[hidden]{display:none!important}
+
+.manage-current{
+  border-color:rgba(255,195,132,.42)!important;
+  background:rgba(255,195,132,.09)!important;
+  color:var(--mc-peach)!important;
+}
+
+/* ============================================================
+   SIMPLE MANAGE COMMUNITIES V2
+   Uses the same visual language as the existing All Media pages.
+   ============================================================ */
+
+.manage-community-page{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  margin:28px auto 80px;
+  color:var(--mc-text);
+}
+
+.manage-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.manage-heading h1{
+  margin:0;
+  font-size:31px;
+  line-height:1.1;
+}
+
+.manage-heading p{
+  max-width:720px;
+  margin:6px 0 0;
+  color:var(--mc-muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.manage-create{
+  flex:0 0 auto;
+  padding:10px 15px;
+  border:1px solid rgba(255,195,132,.45);
+  border-radius:10px;
+  background:var(--mc-peach);
+  color:var(--mc-bg);
+  font:800 11px 'Outfit',sans-serif;
+  text-decoration:none;
+}
+
+.manage-create:hover{
+  filter:brightness(1.03);
+}
+
+.manage-organizer{
+  display:grid;
+  gap:18px;
+}
+
+.manage-section{
+  border:1px solid var(--mc-line);
+  border-radius:14px;
+  background:var(--mc-card);
+  overflow:hidden;
+}
+
+.manage-section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:15px 17px 13px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.manage-section-head h2{
+  margin:0;
+  font-size:18px;
+}
+
+.manage-section-head p{
+  margin:4px 0 0;
+  color:var(--mc-muted);
+  font-size:10px;
+}
+
+.manage-count{
+  flex:0 0 auto;
+  color:#8f9ab3;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.manage-list{
+  display:grid;
+}
+
+.manage-community-card{
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr) auto;
+  gap:13px;
+  align-items:center;
+  padding:13px 15px;
+  border-top:1px solid rgba(255,255,255,.065);
+  transition:.15s ease;
+}
+
+.manage-community-card:first-child{
+  border-top:0;
+}
+
+.manage-community-card:hover{
+  background:rgba(255,195,132,.025);
+}
+
+.manage-community-icon{
+  padding:0;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.55);
+  border-radius:50%;
+  background:var(--mc-deep);
+  color:var(--mc-text);
+  font:inherit;
+  font-size:23px;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.manage-community-icon:hover{
+  border-color:var(--mc-peach);
+  box-shadow:0 0 0 2px rgba(255,195,132,.08);
+  transform:translateY(-1px);
+}
+
+.manage-community-copy{
+  min-width:0;
+}
+
+.manage-community-name{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:0;
+  padding:0;
+  background:transparent;
+  color:var(--mc-text);
+  font:800 13px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.manage-community-name:hover{
+  color:var(--mc-peach);
+}
+
+.manage-community-description{
+  margin-top:3px;
+  color:#9ca7bd;
+  font-size:9px;
+  line-height:1.4;
+}
+
+.manage-community-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 10px;
+  margin-top:5px;
+  color:#8190aa;
+  font-size:8px;
+}
+
+.manage-role{
+  color:var(--mc-peach);
+  font-weight:800;
+}
+
+.manage-community-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.mc-button{
+  min-height:32px;
+  padding:0 10px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:8px;
+  background:rgba(255,195,132,.05);
+  color:var(--mc-peach);
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.mc-button:hover{
+  background:rgba(255,195,132,.10);
+}
+
+.mc-button.secondary{
+  border-color:rgba(255,255,255,.11);
+  color:var(--mc-muted);
+  background:var(--mc-deep);
+}
+
+.mc-button.danger{
+  border-color:rgba(233,160,160,.22);
+  color:var(--mc-danger);
+  background:rgba(233,160,160,.035);
+}
+
+.mc-button.state-active{
+  border-color:rgba(255,195,132,.42);
+  background:rgba(255,195,132,.09);
+  color:var(--mc-peach);
+}
+
+.mc-button[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.manage-empty{
+  padding:24px 18px;
+  color:#8794ad;
+  font-size:10px;
+  text-align:center;
+}
+
+.manage-notifications{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 16px;
+  border:1px dotted rgba(255,195,132,.28);
+  border-radius:11px;
+  background:rgba(255,195,132,.035);
+}
+
+.manage-notifications strong{
+  display:block;
+  font-size:12px;
+}
+
+.manage-notifications span{
+  display:block;
+  margin-top:3px;
+  color:#8f9ab3;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.manage-note{
+  color:#74829f;
+  font-size:8px;
+  line-height:1.5;
+  text-align:center;
+}
+
+/* Community-specific quick notification popup.
+   Visually related to existing Quick Notifications, but clearly Communities. */
+.community-quick-popup{
+  position:fixed;
+  z-index:1100;
+  width:360px;
+  max-height:460px;
+  overflow:auto;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:13px;
+  background:#131e3d;
+  box-shadow:0 20px 60px rgba(0,0,0,.38);
+}
+
+.community-quick-popup[hidden]{
+  display:none!important;
+}
+
+.community-quick-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 14px 11px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.community-quick-header h2{
+  margin:0;
+  font-size:14px;
+}
+
+.community-quick-header p{
+  margin:3px 0 0;
+  color:#8f9ab3;
+  font-size:8px;
+}
+
+.community-quick-close{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  background:var(--mc-deep);
+  color:#aeb7cb;
+  cursor:pointer;
+}
+
+.community-quick-item{
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr);
+  gap:9px;
+  padding:11px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.community-quick-item:last-child{
+  border-bottom:0;
+}
+
+.community-quick-icon{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:50%;
+  background:var(--mc-deep);
+}
+
+.community-quick-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.community-quick-copy p{
+  margin:3px 0 0;
+  color:#9ea9bf;
+  font-size:9px;
+  line-height:1.4;
+}
+
+.community-quick-footer{
+  padding:10px 14px;
+  color:#7d8aa5;
+  font-size:8px;
+  text-align:center;
+  background:#111b3b;
+}
+
+.confirm-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(7,12,28,.72);
+}
+
+.confirm-overlay[hidden]{
+  display:none!important;
+}
+
+.confirm-card{
+  width:min(420px,100%);
+  padding:18px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:14px;
+  background:var(--mc-card);
+  box-shadow:0 24px 70px rgba(0,0,0,.45);
+}
+
+.confirm-card h3{
+  margin:0;
+  font-size:16px;
+}
+
+.confirm-card p{
+  margin:7px 0 17px;
+  color:var(--mc-muted);
+  font-size:10px;
+  line-height:1.5;
+}
+
+.confirm-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+}
+
+@media(max-width:800px){
+  .manage-community-page{
+    width:94%;
+  }
+
+  .manage-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .manage-community-card{
+    grid-template-columns:44px 1fr;
+  }
+
+  .manage-community-icon{
+    width:42px;
+    height:42px;
+  }
+
+  .manage-community-actions{
+    grid-column:1/-1;
+    justify-content:flex-end;
+  }
+
+  .manage-notifications{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
+/* ============================================================
+   MANAGE COMMUNITIES — PANEL MODE
+   ?panel=1 keeps every organizer function but removes the full
+   page chrome so this master can live inside the right drawer.
+   ============================================================ */
+body.manage-panel-mode{
+  min-width:0;
+  overflow-x:hidden;
+  background:#101a3a;
+}
+
+body.manage-panel-mode .site-header,
+body.manage-panel-mode .community-bar{
+  display:none!important;
+}
+
+body.manage-panel-mode .manage-community-page{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:18px 14px 28px;
+  box-sizing:border-box;
+}
+
+body.manage-panel-mode .manage-heading{
+  align-items:flex-start;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+body.manage-panel-mode .manage-heading h1{
+  font-size:24px;
+}
+
+body.manage-panel-mode .manage-heading p{
+  font-size:11px;
+}
+
+body.manage-panel-mode .manage-create{
+  align-self:stretch;
+}
+
+body.manage-panel-mode .manage-organizer{
+  gap:12px;
+}
+
+body.manage-panel-mode .manage-section-head{
+  align-items:flex-start;
+}
+
+body.manage-panel-mode .manage-community-card{
+  grid-template-columns:44px minmax(0,1fr);
+  gap:10px;
+}
+
+body.manage-panel-mode .manage-community-actions{
+  grid-column:1/-1;
+  justify-content:flex-end;
+  padding-left:54px;
+}
+
+body.manage-panel-mode .manage-notifications{
+  align-items:flex-start;
+  flex-direction:column;
+}
+
+body.manage-panel-mode .manage-notifications .mc-button{
+  width:100%;
+}
+
+body.manage-panel-mode .manage-note{
+  font-size:9px;
+}
+
+
+/* ============================================================
+   FINAL MANAGE COMMUNITIES APPEARANCE TOUCH-UP
+   ============================================================ */
+
+.manage-notifications{
+  padding:16px;
+  border-color:rgba(255,195,132,.42);
+  background:linear-gradient(90deg,rgba(255,195,132,.07),rgba(255,195,132,.025));
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+
+.manage-notifications strong{
+  color:#f8f8f2;
+  font-size:13px;
+}
+
+.manage-notifications span{
+  color:#aab5ca;
+  font-size:10px;
+}
+
+.manage-notifications #viewAllCommunityNotifications{
+  min-height:38px;
+  padding:0 14px;
+  border-color:#ffc384;
+  background:#ffc384;
+  color:#101a3a;
+  font-size:10px;
+  box-shadow:0 8px 18px rgba(0,0,0,.13);
+}
+
+.manage-notifications #viewAllCommunityNotifications:hover{
+  background:#ffd19f;
+  transform:translateY(-1px);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CURRENT ALL MEDIA HEADER — same production structure used
+     by the existing Community / Manage pages.
+     ============================================================ -->
+<header class="site-header">
+<a class="brand-lockup" href="index.html" aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="#">All Play</a>
+</nav>
+<label class="global-search">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+</label>
+<div class="header-actions">
+<button class="header-notifications" id="headerNotificationBell" type="button" aria-label="Notifications" aria-haspopup="dialog" aria-expanded="false" title="Notifications">
+<span class="notification-bell">🔔</span>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</button>
+<section class="notification-quick-popup" id="notificationQuickPopup" aria-label="Recent notifications" hidden>
+<div class="quick-popup-header">
+<div><h2>Quick Notifications</h2><p>Recent activity</p></div>
+<div class="quick-popup-header-actions">
+<button class="quick-mark-all-read" id="quickPopupMarkAllRead" type="button">Mark all read</button>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions"><button class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+</div>
+</article>
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy"><div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div><div class="quick-preview">Painted pumpkin shelf</div><div class="quick-meta">21 min ago</div></div>
+</article>
+</div>
+<a class="quick-popup-footer" href="notifications.html">See more notifications <span>→</span></a>
+</section>
+<a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"></span></a>
+</div>
+</header>
+
+<!-- ============================================================
+     CURRENT COMMUNITIES HOTBAR — exact shared structure/classes.
+     Content is state-driven, but appearance matches the other pages.
+     ============================================================ -->
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities" id="masterPinnedCommunities"></div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button class="community-tool" id="communityMoreButton" type="button">▾ More</button>
+<div class="community-dropdown" id="communityDropdown"></div>
+</div>
+<button class="community-tool manage-current" type="button">Manage Communities</button>
+</div>
+</div>
+<div class="community-divider"></div>
+
+<main class="manage-community-page">
+  <div class="manage-heading">
+    <div>
+      <h1>Manage Communities</h1>
+      <p>Keep the Communities you belong to organized, pin the ones you want close by, and edit the Communities you created.</p>
+    </div>
+    <a class="manage-create" href="create-community.html">＋ Create Community</a>
+  </div>
+
+  <div class="manage-organizer">
+    <section class="manage-section">
+      <div class="manage-section-head">
+        <div>
+          <h2>Joined Communities</h2>
+          <p>Communities you belong to but do not own.</p>
+        </div>
+        <span class="manage-count" id="joinedCommunityCount"></span>
+      </div>
+      <div class="manage-list" id="joinedCommunityList"></div>
+    </section>
+
+    <section class="manage-section">
+      <div class="manage-section-head">
+        <div>
+          <h2>Your Communities</h2>
+          <p>Communities you created. Editing will use the same Community creator instead of a separate Studio.</p>
+        </div>
+        <span class="manage-count" id="ownedCommunityCount"></span>
+      </div>
+      <div class="manage-list" id="ownedCommunityList"></div>
+    </section>
+
+    <section class="manage-notifications">
+      <div>
+        <strong>Community Notifications</strong>
+        <span>Catch up with activity from every Community in one place.</span>
+      </div>
+      <button class="mc-button" id="viewAllCommunityNotifications" type="button">View All Community Notifications →</button>
+    </section>
+
+    <div class="manage-note">
+      Pinning is available here and under <strong>More</strong> in the hotbar. Both controls change the same setting.
+    </div>
+  </div>
+</main>
+
+<section class="community-quick-popup" id="communityQuickPopup" hidden aria-live="polite">
+  <div class="community-quick-header">
+    <div>
+      <h2 id="communityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button class="community-quick-close" id="communityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div id="communityQuickList"></div>
+  <div class="community-quick-footer">Open Community Notifications to catch up with everything in one place.</div>
+</section>
+
+<div class="confirm-overlay" id="leaveConfirmOverlay" hidden>
+  <div class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="leaveConfirmTitle">
+    <h3 id="leaveConfirmTitle">Leave Community?</h3>
+    <p id="leaveConfirmText"></p>
+    <div class="confirm-actions">
+      <button class="mc-button secondary" id="leaveCancel" type="button">Cancel</button>
+      <button class="mc-button danger" id="leaveConfirm" type="button">Leave Community</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MANAGE_PANEL_MODE=new URLSearchParams(window.location.search).get('panel')==='1';
+if(MANAGE_PANEL_MODE)document.body.classList.add('manage-panel-mode');
+
+function manageNavigate(url){
+  if(MANAGE_PANEL_MODE&&window.parent!==window){
+    window.parent.location.href=url;
+  }else{
+    window.location.href=url;
+  }
+}
+
+document.getElementById('viewAllCommunityNotifications')?.addEventListener('click',()=>{
+  manageNavigate('community-notifications.html');
+});
+
+document.querySelector('.manage-create')?.addEventListener('click',event=>{
+  if(!MANAGE_PANEL_MODE)return;
+  event.preventDefault();
+  manageNavigate(event.currentTarget.getAttribute('href'));
+});
+
+const COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+
+const COMMUNITY_DEFAULTS={
+  'spooky-cozy':{
+    name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,
+    role:'owner',activityCount:5,
+    description:'Halloween all year, spooky art, crafts, collecting and cozy haunted things.'
+  },
+  'artists':{
+    name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,
+    role:'moderator',activityCount:2,
+    description:'A shared space for artists across mediums.'
+  },
+  'turtle-rescue':{
+    name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,
+    role:'member',activityCount:1,
+    description:'Rescue, care, rehabilitation and turtle appreciation.'
+  },
+  'book-club':{
+    name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,
+    role:'member',activityCount:0,
+    description:'Books, reading notes and ongoing group discussions.'
+  },
+  'crochet-corner':{
+    name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,
+    role:'member',activityCount:0,
+    description:'Crochet projects, questions, patterns and inspiration.'
+  },
+  'garden-and-nature':{
+    name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,
+    role:'member',activityCount:0,
+    description:'Gardening, plants, wildlife and outdoor discoveries.'
+  }
+};
+
+const QUICK_COMMUNITY_ACTIVITY={
+  'spooky-cozy':[
+    {icon:'💬',title:'@moonlitmoth replied to you',text:'“I was thinking the same thing about decorating in August…”'},
+    {icon:'📣',title:'New Community announcement',text:'October Art Exchange signups close Friday.'},
+    {icon:'@',title:'@paperlantern mentioned you',text:'In a conversation about vintage Halloween resources.'}
+  ],
+  'artists':[
+    {icon:'💬',title:'@Raven replied in a discussion',text:'A new reply landed in a thread you participated in.'},
+    {icon:'🛡️',title:'Moderator note',text:'A Community guideline was updated.'}
+  ],
+  'turtle-rescue':[
+    {icon:'💬',title:'@shellkeeper replied to your comment',text:'A new response was added to the care discussion.'}
+  ]
+};
+
+function clone(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function loadCommunityState(){
+  const state=clone(COMMUNITY_DEFAULTS);
+
+  try{
+    const saved=JSON.parse(localStorage.getItem(COMMUNITY_STATE_KEY)||'{}');
+
+    Object.entries(saved).forEach(([slug,value])=>{
+      state[slug]={...(state[slug]||{}),...value};
+    });
+  }catch(e){}
+
+  Object.values(state).forEach(item=>{
+    if(item.pinned){
+      item.joined=true;
+      item.notifications=true;
+    }
+  });
+
+  return state;
+}
+
+let communityState=loadCommunityState();
+
+function saveCommunityState(){
+  localStorage.setItem(COMMUNITY_STATE_KEY,JSON.stringify(communityState));
+}
+
+function updateCommunityState(slug,patch){
+  communityState[slug]={
+    ...(communityState[slug]||{
+      name:slug,
+      icon:'◉',
+      joined:false,
+      pinned:false,
+      notifications:true,
+      role:'member'
+    }),
+    ...patch
+  };
+
+  if(communityState[slug].pinned){
+    communityState[slug].joined=true;
+    communityState[slug].notifications=true;
+  }
+
+  if(!communityState[slug].joined){
+    communityState[slug].pinned=false;
+  }
+
+  saveCommunityState();
+  renderEverything();
+}
+
+function communityFrontPageUrl(name){
+  const slug=String(name||'').toLowerCase().trim()
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+
+  return slug==='spooky-cozy'
+    ? 'community.html'
+    : `community.html?community=${encodeURIComponent(slug)}`;
+}
+
+function openCommunityBySlug(slug){
+  const state=communityState[slug];
+  if(!state)return;
+  manageNavigate(
+    slug==='spooky-cozy'
+      ? 'community.html'
+      : `community.html?community=${encodeURIComponent(slug)}`
+  );
+}
+
+function joinedCommunities(){
+  return Object.entries(communityState)
+    .filter(([,state])=>state.joined)
+    .sort((a,b)=>(a[1].name||'').localeCompare(b[1].name||''));
+}
+
+/* -------------------------
+   Production-style hotbar
+   ------------------------- */
+
+function activityBellMarkup(item){
+  const count=Number(item.activityCount||0);
+
+  return `
+    <span class="activity-bell" data-community-bell title="${count?`${count} new community ${count===1?'activity':'activities'}`:'No new community activity'}">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+        <path d="M10 21h4"></path>
+      </svg>
+      <span class="activity-count${count?'':' hidden'}">${count}</span>
+    </span>`;
+}
+
+function renderHotbar(){
+  const pinned=document.getElementById('masterPinnedCommunities');
+  const dropdown=document.getElementById('communityDropdown');
+
+  pinned.innerHTML='';
+  dropdown.innerHTML='';
+
+  joinedCommunities().forEach(([slug,item])=>{
+    if(item.pinned){
+      const chip=document.createElement('button');
+      chip.className='community-chip';
+      chip.type='button';
+      chip.draggable=true;
+      chip.dataset.community=item.name||slug;
+      chip.dataset.icon=item.icon||'◉';
+      chip.innerHTML=`
+        <span class="community-icon"></span>
+        <span class="community-chip-name"></span>
+        ${activityBellMarkup(item)}
+      `;
+
+      chip.querySelector('.community-icon').textContent=item.icon||'◉';
+      chip.querySelector('.community-chip-name').textContent=item.name||slug;
+
+      chip.addEventListener('click',event=>{
+        const bell=event.target.closest('[data-community-bell]');
+
+        if(bell){
+          event.stopPropagation();
+          openCommunityQuickNotifications(slug,bell);
+          return;
+        }
+
+        openCommunityBySlug(slug);
+      });
+
+      pinned.appendChild(chip);
+    }
+
+    const row=document.createElement('div');
+    row.className='community-more-row';
+    row.dataset.community=item.name||slug;
+    row.dataset.icon=item.icon||'◉';
+    row.tabIndex=0;
+    row.setAttribute('role','link');
+
+    const name=document.createElement('span');
+    name.className='community-more-name';
+    name.innerHTML='<span class="community-icon"></span><span class="community-more-text"></span>';
+    name.querySelector('.community-icon').textContent=item.icon||'◉';
+    name.querySelector('.community-more-text').textContent=item.name||slug;
+
+    const pin=document.createElement('button');
+    pin.className='community-pin'+(item.pinned?' pinned':'');
+    pin.type='button';
+    pin.innerHTML=item.pinned
+      ? '<span class="pin-state">Pinned</span><span class="pin-action">Unpin</span>'
+      : '<span class="pin-state">Pin</span><span class="pin-action">Pin</span>';
+
+    pin.addEventListener('click',event=>{
+      event.stopPropagation();
+      updateCommunityState(slug,{pinned:!item.pinned,notifications:true});
+
+      document.getElementById('communityDropdown')?.classList.add('active');
+    });
+
+    row.addEventListener('click',event=>{
+      if(event.target.closest('.community-pin'))return;
+      openCommunityBySlug(slug);
+    });
+
+    row.addEventListener('keydown',event=>{
+      if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.community-pin')){
+        event.preventDefault();
+        openCommunityBySlug(slug);
+      }
+    });
+
+    row.append(name,pin);
+    dropdown.appendChild(row);
+  });
+}
+
+function toggleCommunityDropdown(){
+  document.getElementById('communityDropdown')?.classList.toggle('active');
+}
+
+document.getElementById('communityMoreButton')?.addEventListener('click',event=>{
+  event.stopPropagation();
+  toggleCommunityDropdown();
+});
+
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.community-menu')){
+    document.getElementById('communityDropdown')?.classList.remove('active');
+  }
+
+  const communityPopup=document.getElementById('communityQuickPopup');
+  if(
+    !communityPopup.hidden &&
+    !event.target.closest('#communityQuickPopup') &&
+    !event.target.closest('[data-community-bell]')
+  ){
+    communityPopup.hidden=true;
+  }
+});
+
+/* -------------------------
+   Simplified organizer
+   ------------------------- */
+
+function buildCommunityCard(slug,item,isOwner){
+  const card=document.createElement('article');
+  card.className='manage-community-card';
+
+  const icon=document.createElement('button');
+  icon.className='manage-community-icon';
+  icon.type='button';
+  icon.textContent=item.icon||'◉';
+  icon.title=`View ${item.name||slug}`;
+  icon.setAttribute('aria-label',`View ${item.name||slug}`);
+  icon.addEventListener('click',()=>openCommunityBySlug(slug));
+
+  const copy=document.createElement('div');
+  copy.className='manage-community-copy';
+
+  const name=document.createElement('button');
+  name.className='manage-community-name';
+  name.type='button';
+  name.textContent=item.name||slug;
+  name.addEventListener('click',()=>openCommunityBySlug(slug));
+
+  const description=document.createElement('div');
+  description.className='manage-community-description';
+  description.textContent=item.description||'Community';
+
+  const meta=document.createElement('div');
+  meta.className='manage-community-meta';
+
+  const role=document.createElement('span');
+  role.className='manage-role';
+  role.textContent=isOwner?'Owner':item.role==='moderator'?'Moderator':'Joined';
+
+  const pinState=document.createElement('span');
+  pinState.textContent=item.pinned?'Pinned to hotbar':'Not pinned';
+
+  meta.append(role,pinState);
+  copy.append(name,description,meta);
+
+  const actions=document.createElement('div');
+  actions.className='manage-community-actions';
+
+  const pin=document.createElement('button');
+  pin.className='mc-button'+(item.pinned?' state-active':'');
+  pin.type='button';
+  pin.textContent=item.pinned?'📌 Pinned':'Pin';
+  pin.addEventListener('click',()=>{
+    updateCommunityState(slug,{pinned:!item.pinned,notifications:true});
+  });
+
+  actions.append(pin);
+
+  if(isOwner){
+    const edit=document.createElement('button');
+    edit.className='mc-button';
+    edit.type='button';
+    edit.textContent='Edit';
+    edit.addEventListener('click',()=>{
+      manageNavigate(`create-community.html?mode=edit&community=${encodeURIComponent(slug)}`);
+    });
+    actions.appendChild(edit);
+  }else{
+    const leave=document.createElement('button');
+    leave.className='mc-button danger';
+    leave.type='button';
+    leave.textContent='Leave';
+    leave.addEventListener('click',()=>askToLeave(slug));
+    actions.appendChild(leave);
+  }
+
+  card.append(icon,copy,actions);
+  return card;
+}
+
+function renderManageCommunities(){
+  const joinedList=document.getElementById('joinedCommunityList');
+  const ownedList=document.getElementById('ownedCommunityList');
+
+  joinedList.innerHTML='';
+  ownedList.innerHTML='';
+
+  const joined=[];
+  const owned=[];
+
+  joinedCommunities().forEach(([slug,item])=>{
+    if(item.role==='owner')owned.push([slug,item]);
+    else joined.push([slug,item]);
+  });
+
+  if(joined.length){
+    joined.forEach(([slug,item])=>{
+      joinedList.appendChild(buildCommunityCard(slug,item,false));
+    });
+  }else{
+    joinedList.innerHTML='<div class="manage-empty">No joined Communities yet.</div>';
+  }
+
+  if(owned.length){
+    owned.forEach(([slug,item])=>{
+      ownedList.appendChild(buildCommunityCard(slug,item,true));
+    });
+  }else{
+    ownedList.innerHTML='<div class="manage-empty">You have not created a Community yet.</div>';
+  }
+
+  document.getElementById('joinedCommunityCount').textContent=`${joined.length} joined`;
+  document.getElementById('ownedCommunityCount').textContent=
+    `${owned.length} ${owned.length===1?'Community':'Communities'}`;
+}
+
+/* -------------------------
+   Quick Community notifications
+   ------------------------- */
+
+function openCommunityQuickNotifications(slug,anchor){
+  const item=communityState[slug];
+  if(!item)return;
+
+  const popup=document.getElementById('communityQuickPopup');
+  const title=document.getElementById('communityQuickTitle');
+  const list=document.getElementById('communityQuickList');
+
+  title.textContent=`${item.icon||'◉'} ${item.name||slug}`;
+  list.innerHTML='';
+
+  const entries=QUICK_COMMUNITY_ACTIVITY[slug]||[];
+
+  if(entries.length){
+    entries.forEach(entry=>{
+      const row=document.createElement('article');
+      row.className='community-quick-item';
+
+      const icon=document.createElement('div');
+      icon.className='community-quick-icon';
+      icon.textContent=entry.icon||'•';
+
+      const copy=document.createElement('div');
+      copy.className='community-quick-copy';
+
+      const strong=document.createElement('strong');
+      strong.textContent=entry.title;
+
+      const p=document.createElement('p');
+      p.textContent=entry.text;
+
+      copy.append(strong,p);
+      row.append(icon,copy);
+      list.appendChild(row);
+    });
+  }else{
+    const row=document.createElement('article');
+    row.className='community-quick-item';
+
+    row.innerHTML=`
+      <div class="community-quick-icon">✓</div>
+      <div class="community-quick-copy">
+        <strong>You are caught up.</strong>
+        <p>No new Community activity needs your attention.</p>
+      </div>`;
+
+    list.appendChild(row);
+  }
+
+  item.activityCount=0;
+  saveCommunityState();
+  renderHotbar();
+
+  popup.hidden=false;
+
+  const rect=anchor.getBoundingClientRect();
+  const width=360;
+  const left=Math.min(
+    window.innerWidth-width-12,
+    Math.max(12,rect.right-width)
+  );
+
+  popup.style.left=`${left}px`;
+  popup.style.top=`${Math.min(window.innerHeight-250,rect.bottom+10)}px`;
+}
+
+document.getElementById('communityQuickClose')?.addEventListener('click',()=>{
+  document.getElementById('communityQuickPopup').hidden=true;
+});
+
+/* -------------------------
+   Leave confirmation
+   ------------------------- */
+
+let pendingLeaveSlug=null;
+
+function askToLeave(slug){
+  const item=communityState[slug];
+  if(!item)return;
+
+  pendingLeaveSlug=slug;
+
+  document.getElementById('leaveConfirmText').textContent=
+    `Leave ${item.name}? It will disappear from your joined Communities and hotbar. You can join again later if the Community allows it.`;
+
+  document.getElementById('leaveConfirmOverlay').hidden=false;
+}
+
+document.getElementById('leaveCancel')?.addEventListener('click',()=>{
+  pendingLeaveSlug=null;
+  document.getElementById('leaveConfirmOverlay').hidden=true;
+});
+
+document.getElementById('leaveConfirm')?.addEventListener('click',()=>{
+  if(pendingLeaveSlug){
+    updateCommunityState(pendingLeaveSlug,{joined:false,pinned:false});
+  }
+
+  pendingLeaveSlug=null;
+  document.getElementById('leaveConfirmOverlay').hidden=true;
+});
+
+/* -------------------------
+   Existing global notification popup
+   ------------------------- */
+
+const notificationBell=document.getElementById('headerNotificationBell');
+const notificationPopup=document.getElementById('notificationQuickPopup');
+
+if(notificationBell&&notificationPopup){
+  notificationBell.addEventListener('click',event=>{
+    event.stopPropagation();
+
+    const opening=notificationPopup.hidden;
+    notificationPopup.hidden=!opening;
+    notificationBell.setAttribute('aria-expanded',String(opening));
+  });
+
+  notificationPopup.addEventListener('click',event=>{
+    event.stopPropagation();
+  });
+
+  document.addEventListener('click',event=>{
+    if(
+      !notificationPopup.hidden &&
+      !notificationPopup.contains(event.target) &&
+      !notificationBell.contains(event.target)
+    ){
+      notificationPopup.hidden=true;
+      notificationBell.setAttribute('aria-expanded','false');
+    }
+  });
+}
+
+/* Preserve saved profile avatar in the shared header. */
+try{
+  const image=localStorage.getItem('allMediaProfileAvatar');
+  if(image){
+    document.querySelector('.header-avatar').style.backgroundImage=`url("${image}")`;
+  }
+}catch(e){}
+
+function renderEverything(){
+  renderHotbar();
+  renderManageCommunities();
+}
+
+window.addEventListener('storage',event=>{
+  if(event.key===COMMUNITY_STATE_KEY){
+    communityState=loadCommunityState();
+    renderEverything();
+  }
+});
+
+renderEverything();
+</script>
+</body>
+</html>

@@ -1,0 +1,3567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create / Edit Community | All Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css">
+<style>
+
+:root{
+  --cc-bg:#101a3a;
+  --cc-card:#182447;
+  --cc-card2:#14203e;
+  --cc-peach:#ffc384;
+  --cc-text:#f8f8f2;
+  --cc-muted:#aeb7cb;
+  --cc-line:rgba(255,255,255,.10);
+}
+
+.create-community-page{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  margin:28px auto 80px;
+  color:var(--cc-text);
+}
+
+.owner-topline{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:16px;
+}
+
+.owner-topline h1{
+  margin:0;
+  font-size:31px;
+  line-height:1.1;
+}
+
+.owner-topline p{
+  margin:6px 0 0;
+  color:var(--cc-muted);
+  font-size:13px;
+}
+
+.owner-return{
+  color:var(--cc-peach);
+  font-size:12px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.owner-mode-tabs{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:6px;
+  margin:0 0 18px;
+  border:1px solid var(--cc-line);
+  border-radius:13px;
+  background:var(--cc-card);
+}
+
+.owner-mode-tab{
+  padding:9px 14px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:var(--cc-muted);
+  font:800 12px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.owner-mode-tab.active{
+  background:rgba(255,195,132,.13);
+  color:var(--cc-peach);
+}
+
+.owner-mode-view{display:none}
+.owner-mode-view.active{display:block}
+
+.create-layout{
+  display:grid;
+  grid-template-columns:230px minmax(520px,1fr) 360px;
+  gap:18px;
+  align-items:start;
+}
+
+.create-steps,
+.create-form-card,
+.create-preview,
+.owner-card,
+.owner-manage-panel{
+  border:1px solid var(--cc-line);
+  border-radius:15px;
+  background:var(--cc-card);
+  box-shadow:0 14px 34px rgba(0,0,0,.12);
+}
+
+.create-steps{
+  position:sticky;
+  top:18px;
+  overflow:hidden;
+}
+
+.step-rail-title{
+  padding:15px 16px 11px;
+  color:var(--cc-peach);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.step-button{
+  width:100%;
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:12px 14px;
+  border:0;
+  border-top:1px solid rgba(255,255,255,.06);
+  background:transparent;
+  color:var(--cc-muted);
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.step-button.active{
+  background:rgba(255,195,132,.09);
+  color:var(--cc-text);
+}
+
+.step-button.complete .step-number{
+  border-color:rgba(255,195,132,.62);
+  background:rgba(255,195,132,.13);
+  color:var(--cc-peach);
+}
+
+.step-number{
+  width:26px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:50%;
+  font-size:10px;
+  font-weight:800;
+}
+
+.step-copy strong{
+  display:block;
+  font-size:11px;
+}
+
+.step-copy span{
+  display:block;
+  margin-top:2px;
+  font-size:9px;
+  opacity:.75;
+}
+
+.create-form-card{
+  min-width:0;
+  padding:22px;
+}
+
+.form-step{display:none}
+.form-step.active{display:block}
+
+.form-head{
+  margin-bottom:20px;
+}
+
+.form-head .eyebrow{
+  color:var(--cc-peach);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.form-head h2{
+  margin:5px 0 5px;
+  font-size:24px;
+}
+
+.form-head p{
+  margin:0;
+  color:var(--cc-muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.field{
+  margin-top:17px;
+}
+
+.field label,
+.field-title{
+  display:block;
+  margin-bottom:7px;
+  color:#e9edf7;
+  font-size:11px;
+  font-weight:800;
+}
+
+.field-note{
+  margin-top:6px;
+  color:#8996b2;
+  font-size:9px;
+  line-height:1.4;
+}
+
+.text-input,
+.textarea-input{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;
+  outline:none;
+  background:var(--cc-bg);
+  color:var(--cc-text);
+  font:500 12px 'Outfit',sans-serif;
+}
+
+.text-input{
+  height:42px;
+  padding:0 12px;
+}
+
+.textarea-input{
+  min-height:112px;
+  padding:12px;
+  resize:vertical;
+  line-height:1.55;
+}
+
+.text-input:focus,
+.textarea-input:focus{
+  border-color:rgba(255,195,132,.52);
+  box-shadow:0 0 0 2px rgba(255,195,132,.05);
+}
+
+.choice-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+
+.choice-card{
+  min-height:66px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:10px;
+  background:var(--cc-bg);
+  color:var(--cc-muted);
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.choice-card strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:11px;
+}
+
+.choice-card span{
+  display:block;
+  margin-top:3px;
+  font-size:9px;
+  line-height:1.4;
+}
+
+.choice-card.selected{
+  border-color:rgba(255,195,132,.48);
+  background:rgba(255,195,132,.08);
+}
+
+.choice-card.selected strong,
+.choice-card.selected span{
+  color:var(--cc-peach);
+}
+
+.interest-picker{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.interest-option{
+  padding:7px 10px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:var(--cc-bg);
+  color:var(--cc-muted);
+  font:800 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.interest-option.selected{
+  border-color:rgba(255,195,132,.48);
+  background:rgba(255,195,132,.09);
+  color:var(--cc-peach);
+}
+
+.upload-row{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:11px;
+}
+
+.upload-box{
+  min-height:90px;
+  display:grid;
+  place-items:center;
+  border:1px dashed rgba(255,195,132,.34);
+  border-radius:11px;
+  background:var(--cc-bg);
+  color:var(--cc-peach);
+  font-size:10px;
+  font-weight:800;
+  text-align:center;
+  cursor:pointer;
+}
+
+.setting-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.setting-row:last-child{border-bottom:0}
+
+.setting-copy strong{
+  display:block;
+  font-size:11px;
+}
+
+.setting-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--cc-muted);
+  font-size:9px;
+  line-height:1.4;
+}
+
+.switch{
+  position:relative;
+  width:42px;
+  height:23px;
+  flex:0 0 auto;
+}
+
+.switch input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.switch-track{
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  background:#0d1632;
+  cursor:pointer;
+}
+
+.switch-track::after{
+  content:"";
+  position:absolute;
+  width:17px;
+  height:17px;
+  left:2px;
+  top:2px;
+  border-radius:50%;
+  background:#8591ac;
+  transition:.16s ease;
+}
+
+.switch input:checked + .switch-track{
+  border-color:rgba(255,195,132,.5);
+  background:rgba(255,195,132,.12);
+}
+
+.switch input:checked + .switch-track::after{
+  transform:translateX(19px);
+  background:var(--cc-peach);
+}
+
+.link-permissions{
+  display:grid;
+  gap:8px;
+  padding:12px;
+  border:1px solid rgba(255,195,132,.16);
+  border-radius:10px;
+  background:rgba(255,195,132,.035);
+}
+
+.link-permission{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.link-permission strong{
+  font-size:10px;
+}
+
+.link-permission span{
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.advanced-toggle{
+  width:100%;
+  margin-top:14px;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;
+  background:var(--cc-bg);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.advanced-drawer{
+  display:none;
+  padding:4px 12px 0;
+  border-left:1px solid rgba(255,195,132,.2);
+}
+
+.advanced-drawer.active{display:block}
+
+.rule-builder{
+  display:grid;
+  gap:10px;
+}
+
+.rule-builder-row{
+  display:grid;
+  grid-template-columns:32px 1fr auto;
+  gap:9px;
+  align-items:start;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  background:var(--cc-bg);
+}
+
+.rule-builder-number{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border:1.5px solid rgba(255,195,132,.6);
+  border-radius:50%;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:10px;
+  font-weight:800;
+}
+
+.rule-fields{
+  display:grid;
+  gap:6px;
+}
+
+.rule-title-input,
+.rule-copy-input{
+  width:100%;
+  box-sizing:border-box;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--cc-text);
+  font-family:'Outfit',sans-serif;
+}
+
+.rule-title-input{
+  font-size:11px;
+  font-weight:800;
+}
+
+.rule-copy-input{
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.rule-delete{
+  border:0;
+  background:transparent;
+  color:#d98989;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.add-rule{
+  margin-top:10px;
+  padding:8px 11px;
+  border:1px dotted rgba(255,195,132,.38);
+  border-radius:9px;
+  background:rgba(255,195,132,.04);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.review-list{
+  display:grid;
+  gap:10px;
+}
+
+.review-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:var(--cc-bg);
+}
+
+.review-check{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.45);
+  border-radius:50%;
+  color:var(--cc-peach);
+  font-size:11px;
+}
+
+.review-item strong{
+  display:block;
+  font-size:11px;
+}
+
+.review-item span{
+  display:block;
+  margin-top:3px;
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.form-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.form-button{
+  padding:9px 14px;
+  border:1px solid rgba(255,195,132,.35);
+  border-radius:9px;
+  background:rgba(255,195,132,.08);
+  color:var(--cc-peach);
+  font:800 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.form-button.primary{
+  background:var(--cc-peach);
+  color:var(--cc-bg);
+}
+
+.form-button:disabled{
+  opacity:.38;
+  cursor:not-allowed;
+}
+
+.create-preview{
+  position:sticky;
+  top:18px;
+  overflow:hidden;
+}
+
+.preview-banner{
+  min-height:110px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 25% 75%,rgba(255,195,132,.34),transparent 28%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  color:var(--cc-peach);
+  font-size:28px;
+}
+
+.preview-body{
+  padding:16px;
+}
+
+.preview-icon{
+  width:70px;
+  height:70px;
+  margin-top:-52px;
+  display:grid;
+  place-items:center;
+  border:4px solid var(--cc-card);
+  outline:1px solid rgba(255,195,132,.5);
+  border-radius:50%;
+  background:var(--cc-bg);
+  font-size:34px;
+}
+
+.preview-body h3{
+  margin:10px 0 5px;
+  font-size:20px;
+}
+
+.preview-description{
+  min-height:38px;
+  color:var(--cc-muted);
+  font-size:10px;
+  line-height:1.45;
+}
+
+.preview-interests{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:10px;
+}
+
+.preview-interest{
+  padding:4px 7px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:999px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:8px;
+  font-weight:800;
+}
+
+.preview-basics{
+  display:grid;
+  gap:7px;
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.07);
+  color:#c7cede;
+  font-size:9px;
+}
+
+.preview-rule-count{
+  margin-top:12px;
+  padding:8px 9px;
+  border:1px dotted rgba(255,195,132,.3);
+  border-radius:8px;
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.preview-help{
+  padding:12px 15px;
+  border-top:1px solid rgba(255,255,255,.07);
+  color:#8591ac;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.owner-grid{
+  display:grid;
+  grid-template-columns:360px minmax(0,1fr);
+  gap:18px;
+}
+
+.owner-card{
+  overflow:hidden;
+}
+
+.owner-card-banner{
+  min-height:120px;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 25% 75%,rgba(255,195,132,.34),transparent 30%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  font-size:42px;
+}
+
+.owner-card-body{
+  padding:16px;
+}
+
+.owner-card-body h2{
+  margin:0 0 5px;
+}
+
+.owner-card-body p{
+  margin:0;
+  color:var(--cc-muted);
+  font-size:10px;
+  line-height:1.45;
+}
+
+.owner-card-actions{
+  display:flex;
+  gap:8px;
+  margin-top:13px;
+}
+
+.owner-manage-panel{
+  padding:18px;
+}
+
+.owner-manage-panel h2{
+  margin:0 0 6px;
+}
+
+.owner-manage-panel>p{
+  margin:0 0 15px;
+  color:var(--cc-muted);
+  font-size:10px;
+}
+
+.manage-sections{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.manage-section{
+  position:relative;
+  min-height:76px;
+  padding:13px 38px 13px 13px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:var(--cc-bg);
+  cursor:pointer;
+  transition:border-color .16s ease,background .16s ease,transform .16s ease;
+}
+
+.manage-section::after{
+  content:"›";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--cc-peach);
+  font-size:22px;
+  font-weight:700;
+  opacity:.72;
+}
+
+.manage-section:hover,
+.manage-section:focus-visible{
+  border-color:rgba(255,195,132,.36);
+  background:rgba(255,195,132,.055);
+  outline:none;
+}
+
+.manage-section:hover{
+  transform:translateY(-1px);
+}
+
+.manage-section.studio-section-active{
+  border-color:rgba(255,195,132,.52);
+  background:rgba(255,195,132,.09);
+}
+
+.manage-section.studio-section-active::after{
+  content:"⌄";
+}
+
+.manage-section strong{
+  display:block;
+  font-size:11px;
+}
+
+.manage-section span{
+  display:block;
+  margin-top:4px;
+  color:var(--cc-muted);
+  font-size:9px;
+  line-height:1.4;
+}
+
+.studio-detail-panel{
+  margin-top:14px;
+  padding:16px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:12px;
+  background:#101a3a;
+}
+
+.studio-detail-panel[hidden]{
+  display:none!important;
+}
+
+.studio-detail-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.studio-detail-eyebrow{
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.studio-detail-head h3{
+  margin:4px 0 0;
+  color:var(--cc-text);
+  font-size:17px;
+}
+
+.studio-detail-close{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:50%;
+  background:rgba(255,195,132,.06);
+  color:var(--cc-peach);
+  font:800 16px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.studio-detail-item{
+  min-width:0;
+  padding:11px 12px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-detail-item.wide{
+  grid-column:1/-1;
+}
+
+.studio-detail-item>span{
+  display:block;
+  margin:0 0 4px;
+  color:#8996b2;
+  font-size:9px;
+  font-weight:700;
+}
+
+.studio-detail-item>strong,
+.studio-detail-item>p{
+  display:block;
+  margin:0;
+  color:var(--cc-text);
+  font-size:10px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.studio-detail-item>p{
+  color:#c6cede;
+  font-weight:500;
+}
+
+.studio-detail-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.studio-detail-pill{
+  padding:6px 9px;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:999px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-rule-list{
+  display:grid;
+  gap:8px;
+}
+
+.studio-rule-row{
+  display:grid;
+  grid-template-columns:26px 1fr;
+  gap:9px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-rule-number{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.45);
+  border-radius:50%;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-rule-row strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-rule-row span{
+  display:block;
+  margin-top:3px;
+  color:var(--cc-muted);
+  font-size:9px;
+  line-height:1.45;
+}
+
+.studio-empty-note{
+  padding:13px;
+  border:1px dashed rgba(255,195,132,.25);
+  border-radius:9px;
+  color:var(--cc-muted);
+  font-size:10px;
+  line-height:1.5;
+  text-align:center;
+}
+
+
+
+.studio-access-group{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.studio-access-choice{
+  min-height:92px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  background:#14203e;
+  color:var(--cc-muted);
+  font-family:'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.studio-access-choice strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-access-choice span{
+  display:block;
+  margin-top:4px;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-access-choice:hover,
+.studio-access-choice.selected{
+  border-color:rgba(255,195,132,.48);
+  background:rgba(255,195,132,.07);
+}
+
+.studio-access-choice.selected strong,
+.studio-access-choice.selected span{
+  color:var(--cc-peach);
+}
+
+.studio-access-note{
+  margin-top:9px;
+  color:#9ca8c1;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.studio-invite-box{
+  margin-top:12px;
+  padding:12px;
+  border:1px dotted rgba(255,195,132,.34);
+  border-radius:10px;
+  background:rgba(255,195,132,.04);
+}
+
+.studio-invite-box[hidden]{
+  display:none;
+}
+
+.studio-invite-box>div:first-child strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-invite-box>div:first-child span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-invite-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto;
+  gap:7px;
+  margin-top:10px;
+}
+
+.studio-invite-row input{
+  min-width:0;
+  height:34px;
+  box-sizing:border-box;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:8px;
+  outline:none;
+  background:#101a3a;
+  color:#cbd2e2;
+  font:500 9px 'Outfit',sans-serif;
+}
+
+.studio-membership-summary{
+  margin-top:12px;
+}
+
+@media(max-width:820px){
+  .studio-access-group{
+    grid-template-columns:1fr;
+  }
+  .studio-invite-row{
+    grid-template-columns:1fr;
+  }
+}
+
+
+.studio-edit-heading{
+  margin-bottom:9px;
+}
+
+.studio-edit-heading-spaced{
+  margin-top:18px;
+}
+
+.studio-edit-heading strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:11px;
+}
+
+.studio-edit-heading span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-setting-list{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:#14203e;
+}
+
+.studio-setting-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:11px 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.studio-setting-row:last-child{
+  border-bottom:0;
+}
+
+.studio-setting-row>span:first-child{
+  min-width:0;
+}
+
+.studio-setting-row strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-setting-row small{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+
+.studio-all-interests,
+.studio-add-button{
+  width:100%;
+  padding:9px 11px;
+  border:1px dotted rgba(255,195,132,.38);
+  border-radius:9px;
+  background:rgba(255,195,132,.04);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.studio-all-interests.selected{
+  border-style:solid;
+  background:rgba(255,195,132,.12);
+}
+
+.studio-interest-selected{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0;
+}
+
+.studio-interest-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 8px 6px 10px;
+  border:1px solid rgba(255,195,132,.3);
+  border-radius:999px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-interest-chip button{
+  border:0;
+  background:transparent;
+  color:var(--cc-peach);
+  cursor:pointer;
+  font-size:13px;
+  line-height:1;
+}
+
+.studio-interest-search{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-interest-search input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--cc-text);
+  font:500 10px 'Outfit',sans-serif;
+}
+
+.studio-interest-suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+
+.studio-interest-suggestions button{
+  padding:6px 9px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:#14203e;
+  color:#c3cadb;
+  font:700 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-interest-suggestions button:hover{
+  border-color:rgba(255,195,132,.4);
+  color:var(--cc-peach);
+}
+
+.studio-interest-suggestions button:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.studio-interest-limit{
+  margin-top:7px;
+  color:#8996b2;
+  font-size:8px;
+}
+
+.studio-rules-editor,
+.studio-announcement-editor,
+.studio-member-editor,
+.studio-request-list,
+.studio-pin-list{
+  display:grid;
+  gap:8px;
+}
+
+.studio-rule-edit-row{
+  display:grid;
+  grid-template-columns:26px 1fr auto;
+  gap:8px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-rule-drag{
+  width:24px;
+  height:28px;
+  border:0;
+  background:transparent;
+  color:#8996b2;
+  cursor:grab;
+  font-size:14px;
+}
+
+.studio-rule-edit-fields{
+  display:grid;
+  gap:5px;
+}
+
+.studio-rule-edit-fields input,
+.studio-rule-edit-fields textarea,
+.studio-announcement-row input,
+.studio-announcement-row textarea,
+.studio-announcement-row select,
+.studio-member-role,
+.studio-text-input{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:8px;
+  outline:none;
+  background:#101a3a;
+  color:var(--cc-text);
+  font:500 9px 'Outfit',sans-serif;
+}
+
+.studio-rule-edit-fields input,
+.studio-text-input,
+.studio-member-role,
+.studio-announcement-row select{
+  height:34px;
+  padding:0 9px;
+}
+
+.studio-rule-edit-fields textarea,
+.studio-announcement-row textarea{
+  min-height:60px;
+  padding:8px 9px;
+  resize:vertical;
+}
+
+.studio-row-delete{
+  border:0;
+  background:transparent;
+  color:#d98989;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-add-button{
+  margin-top:8px;
+}
+
+.studio-announcement-row{
+  display:grid;
+  grid-template-columns:118px 1fr auto;
+  gap:8px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-announcement-fields{
+  display:grid;
+  gap:6px;
+}
+
+.studio-pin-item,
+.studio-member-row,
+.studio-request-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-pin-item span,
+.studio-member-row span,
+.studio-request-row span{
+  color:#cbd2e2;
+  font-size:9px;
+}
+
+.studio-pin-item strong,
+.studio-member-row strong,
+.studio-request-row strong{
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-member-copy{
+  min-width:0;
+  flex:1;
+}
+
+.studio-member-role{
+  width:130px;
+  flex:0 0 auto;
+}
+
+.studio-request-actions{
+  display:flex;
+  gap:6px;
+}
+
+.studio-request-actions button{
+  padding:6px 8px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:7px;
+  background:rgba(255,195,132,.05);
+  color:var(--cc-peach);
+  font:800 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-shop-placeholder{
+  margin-top:14px;
+  padding:12px;
+  border:1px dotted rgba(255,195,132,.26);
+  border-radius:9px;
+  background:rgba(255,195,132,.035);
+}
+
+.studio-shop-placeholder strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-shop-placeholder span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+@media(max-width:820px){
+  .studio-announcement-row{
+    grid-template-columns:1fr;
+  }
+  .studio-member-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .studio-member-role{
+    width:100%;
+  }
+}
+
+.studio-profile-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  padding:10px 12px;
+  border:1px solid rgba(255,195,132,.18);
+  border-radius:9px;
+  background:rgba(255,195,132,.045);
+}
+
+.studio-profile-context span{
+  color:#8996b2;
+  font-size:9px;
+  font-weight:700;
+}
+
+.studio-profile-context strong{
+  color:var(--cc-peach);
+  font-size:11px;
+}
+
+.studio-edit-field{
+  margin-top:12px;
+}
+
+.studio-edit-field label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:6px;
+  color:#e9edf7;
+  font-size:10px;
+  font-weight:800;
+}
+
+.studio-edit-field label span{
+  color:#8996b2;
+  font-size:9px;
+  font-weight:600;
+}
+
+.studio-edit-field textarea{
+  width:100%;
+  min-height:82px;
+  box-sizing:border-box;
+  padding:10px 11px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:9px;
+  outline:none;
+  resize:vertical;
+  background:#14203e;
+  color:var(--cc-text);
+  font:500 10px/1.5 'Outfit',sans-serif;
+}
+
+.studio-edit-field textarea#studioProfileAbout{
+  min-height:132px;
+}
+
+.studio-edit-field textarea:focus{
+  border-color:rgba(255,195,132,.5);
+  box-shadow:0 0 0 2px rgba(255,195,132,.05);
+}
+
+.studio-edit-field p{
+  margin:5px 0 0;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-edit-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:15px;
+  padding-top:13px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.studio-save-status{
+  margin-right:auto;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:700;
+}
+
+@media(max-width:820px){
+  .studio-detail-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.creation-success{
+  display:none;
+  margin-top:14px;
+  padding:13px;
+  border:1px solid rgba(255,195,132,.42);
+  border-radius:10px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:10px;
+  font-weight:800;
+}
+
+.creation-success.active{display:block}
+
+@media(max-width:1180px){
+  .create-layout{
+    grid-template-columns:190px minmax(0,1fr);
+  }
+  .create-preview{
+    grid-column:1/-1;
+    position:static;
+  }
+  .preview-body{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:0 12px;
+  }
+  .preview-icon{grid-row:1/5}
+}
+
+@media(max-width:820px){
+  .create-community-page{width:94%}
+  .create-layout,
+  .owner-grid{
+    grid-template-columns:1fr;
+  }
+  .create-steps{
+    position:static;
+    display:flex;
+    overflow:auto;
+  }
+  .step-rail-title{display:none}
+  .step-button{
+    min-width:170px;
+    border-top:0;
+    border-left:1px solid rgba(255,255,255,.06);
+  }
+  .choice-grid,
+  .manage-sections{
+    grid-template-columns:1fr;
+  }
+}
+
+#notificationQuickPopup[hidden]{display:none!important}
+
+.interest-limit-count{
+  margin-left:7px;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.interest-option.limit-reached:not(.selected){
+  opacity:.38;
+}
+
+#interestLimitNote.warning{
+  color:#ffc384;
+  font-weight:700;
+}
+
+.community-image-upload-grid{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:11px;
+}
+
+.community-image-upload-card{
+  min-width:0;
+  overflow:hidden;
+  padding:0;
+  border:1px dashed rgba(255,195,132,.34);
+  border-radius:11px;
+  background:var(--cc-bg);
+  color:var(--cc-text);
+  font-family:'Outfit',sans-serif;
+  cursor:pointer;
+  text-align:left;
+}
+
+.community-image-upload-card:hover{
+  border-color:rgba(255,195,132,.6);
+  background:rgba(255,195,132,.035);
+}
+
+.community-image-thumb{
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 25% 75%,rgba(255,195,132,.3),transparent 30%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  background-position:center;
+  background-size:cover;
+  color:var(--cc-peach);
+}
+
+.icon-thumb{
+  width:76px;
+  height:76px;
+  margin:13px auto 8px;
+  border:1px solid rgba(255,195,132,.42);
+  border-radius:50%;
+  font-size:30px;
+}
+
+.banner-thumb{
+  width:100%;
+  height:74px;
+  font-size:19px;
+}
+
+.community-image-upload-copy{
+  display:block;
+  padding:8px 10px 11px;
+}
+
+.community-image-upload-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.community-image-upload-copy span{
+  display:block;
+  margin-top:2px;
+  color:var(--cc-muted);
+  font-size:8px;
+}
+
+.community-image-size-notes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  margin-top:8px;
+  color:#9ca8c1;
+  font-size:8px;
+}
+
+.community-image-size-notes strong{
+  color:#dfe5f1;
+}
+
+.image-crop-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9500;
+  display:none;
+  place-items:center;
+  padding:24px;
+  box-sizing:border-box;
+  background:rgba(4,9,24,.82);
+  backdrop-filter:blur(7px);
+}
+
+.image-crop-overlay.active{
+  display:grid;
+}
+
+.image-crop-dialog{
+  width:min(720px,96vw);
+  max-height:92vh;
+  overflow:auto;
+  padding:20px;
+  box-sizing:border-box;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:16px;
+  background:#182447;
+  box-shadow:0 24px 70px rgba(0,0,0,.42);
+}
+
+.image-crop-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:15px;
+}
+
+.image-crop-head h2{
+  margin:0;
+  font-size:20px;
+}
+
+.image-crop-head p{
+  margin:4px 0 0;
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.image-crop-x{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:50%;
+  background:#101a3a;
+  color:var(--cc-peach);
+  font-size:18px;
+  cursor:pointer;
+}
+
+.image-crop-stage-wrap{
+  display:grid;
+  place-items:center;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background:#101a3a;
+}
+
+.image-crop-stage{
+  position:relative;
+  overflow:hidden;
+  touch-action:none;
+  user-select:none;
+  cursor:grab;
+  background:#0b1430;
+  box-shadow:0 0 0 1px rgba(255,195,132,.42);
+}
+
+.image-crop-stage.dragging{cursor:grabbing}
+
+.image-crop-stage.icon-mode{
+  width:min(360px,75vw);
+  aspect-ratio:1/1;
+  border-radius:50%;
+}
+
+.image-crop-stage.banner-mode{
+  width:min(620px,82vw);
+  aspect-ratio:10/3;
+  border-radius:8px;
+}
+
+.image-crop-stage img{
+  position:absolute;
+  max-width:none;
+  max-height:none;
+  pointer-events:none;
+  user-select:none;
+}
+
+.image-crop-guide{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+.image-crop-stage.icon-mode .image-crop-guide{border-radius:50%}
+
+.image-crop-help{
+  margin-top:9px;
+  color:#9da8c0;
+  font-size:8px;
+  text-align:center;
+}
+
+.image-crop-controls{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin-top:15px;
+}
+
+.image-crop-controls label{
+  color:#dfe5f1;
+  font-size:9px;
+  font-weight:800;
+}
+
+.image-crop-controls input[type="range"]{
+  width:100%;
+  accent-color:#ffc384;
+}
+
+.image-crop-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:17px;
+}
+
+.image-crop-button{
+  padding:9px 13px;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:9px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.image-crop-button.primary{
+  background:var(--cc-peach);
+  color:#101a3a;
+}
+
+.preview-banner.has-image,
+.preview-icon.has-image{
+  background-position:center;
+  background-size:cover;
+  color:transparent;
+}
+
+@media(max-width:620px){
+  .community-image-upload-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* --- Interest search --- */
+.interest-search-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:9px;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;
+  background:var(--cc-bg);
+}
+.interest-search-wrap:focus-within{border-color:rgba(255,195,132,.5);box-shadow:0 0 0 2px rgba(255,195,132,.05)}
+.interest-search-wrap svg{width:16px;height:16px;fill:none;stroke:#8d99b4;stroke-width:1.8}
+.interest-search-wrap input{width:100%;border:0;outline:0;background:transparent;color:var(--cc-text);font:500 11px 'Outfit',sans-serif}
+.selected-interest-row{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;margin-bottom:8px}
+.selected-interest-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid rgba(255,195,132,.4);border-radius:999px;background:rgba(255,195,132,.09);color:var(--cc-peach);font-size:9px;font-weight:800}
+.selected-interest-chip button{border:0;background:transparent;color:inherit;padding:0;cursor:pointer;font-size:12px;line-height:1}
+.all-interests-option{margin-bottom:10px;padding:6px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:var(--cc-bg);color:var(--cc-muted);font:800 9px 'Outfit',sans-serif;cursor:pointer}
+.all-interests-option.selected{border-color:rgba(255,195,132,.5);background:rgba(255,195,132,.1);color:var(--cc-peach)}
+.interest-suggestion-heading{margin:4px 0 7px;color:#8793ad;font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.interest-suggestions{display:flex;flex-wrap:wrap;gap:6px}
+.interest-suggestion{padding:6px 9px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:var(--cc-bg);color:var(--cc-muted);font:800 9px 'Outfit',sans-serif;cursor:pointer}
+.interest-suggestion:hover{border-color:rgba(255,195,132,.35);color:var(--cc-peach)}
+.interest-suggestion:disabled{opacity:.35;cursor:not-allowed}
+
+/* --- Invite-only access --- */
+.invite-access-panel{margin:12px 0 18px;padding:13px;border:1px solid rgba(255,195,132,.22);border-radius:11px;background:rgba(255,195,132,.045)}
+.invite-access-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.invite-access-head strong{display:block;font-size:10px}
+.invite-access-head span{display:block;margin-top:3px;color:var(--cc-muted);font-size:8px;line-height:1.4}
+.invite-community-id{white-space:nowrap!important;color:#8e9ab3!important}
+.invite-community-id strong{display:inline!important;color:var(--cc-peach);font-size:8px!important}
+.invite-link-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;margin-top:10px}
+
+/* --- Rules: edit / delete / reorder --- */
+.rule-builder-note{margin:0 0 10px;padding:9px 10px;border:1px dotted rgba(255,195,132,.25);border-radius:9px;color:var(--cc-muted);font-size:8px;line-height:1.45}
+.rule-builder-note strong{color:var(--cc-peach)}
+.rule-builder-row{grid-template-columns:24px 31px 1fr auto!important;align-items:center}
+.rule-builder-row.dragging{opacity:.45;border-color:rgba(255,195,132,.5)}
+.rule-drag-handle{border:0;background:transparent;color:#7986a4;cursor:grab;font:800 13px 'Outfit',sans-serif;padding:4px}
+.rule-drag-handle:active{cursor:grabbing}
+.rule-row-actions{display:flex;align-items:center;gap:5px}
+.rule-row-actions button{
+  height:27px;
+  padding:0 8px;
+  border:1px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:#9da8c0;
+  cursor:pointer;
+  font:800 9px 'Outfit',sans-serif;
+}
+.rule-row-actions .rule-edit:hover,
+.rule-builder-row.editing .rule-edit{
+  border-color:rgba(255,195,132,.26);
+  background:rgba(255,195,132,.08);
+  color:var(--cc-peach);
+}
+.rule-row-actions .rule-delete:hover{
+  background:rgba(225,141,141,.07);
+  color:#e18d8d;
+}
+.rule-title-input,.rule-copy-input{
+  border-bottom:1px solid transparent!important;
+  cursor:default;
+}
+.rule-builder-row.editing{
+  border-color:rgba(255,195,132,.34);
+  background:rgba(255,195,132,.035);
+}
+.rule-builder-row.editing .rule-title-input,
+.rule-builder-row.editing .rule-copy-input{
+  cursor:text;
+}
+.rule-title-input:focus,.rule-copy-input:focus{border-bottom-color:rgba(255,195,132,.34)!important}
+
+/* --- About counters and official links --- */
+.char-counter{margin-top:5px;color:#7f8ba6;font-size:8px;text-align:right}
+.official-social-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:9px}
+.official-social-grid label span{display:block;margin:0 0 5px;color:#aeb7cb;font-size:8px;font-weight:700}
+
+/* --- Review checks --- */
+.review-check{position:relative}
+.review-check::after{content:"✓";display:grid;place-items:center;width:100%;height:100%;color:var(--cc-peach);font-size:12px;font-weight:900}
+.step-button.complete .step-number{font-size:0}
+.step-button.complete .step-number::after{content:"✓";font-size:11px;color:var(--cc-peach)}
+
+@media(max-width:700px){
+  .invite-link-row{grid-template-columns:1fr}
+  .official-social-grid{grid-template-columns:1fr}
+}
+
+
+.owner-card.studio-selected{
+  border-color:rgba(255,195,132,.52);
+  box-shadow:0 0 0 2px rgba(255,195,132,.05),0 12px 28px rgba(0,0,0,.14);
+}
+
+.owner-studio-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:14px 0 2px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.32);
+  border-radius:10px;
+  background:rgba(255,195,132,.05);
+}
+
+.owner-studio-context span{
+  color:#aeb7cb;
+  font-size:11px;
+}
+
+.owner-studio-context strong{
+  color:#ffc384;
+}
+
+.owner-studio-context a{
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+/* ============================================================
+   UNIFIED CREATE / EDIT COMMUNITY
+   ============================================================ */
+.form-action-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.editor-exit-button{
+  margin-right:auto;
+}
+
+.editor-exit-button.delete-mode{
+  border-color:rgba(231,139,139,.35);
+  background:rgba(231,139,139,.06);
+  color:#efaaaa;
+}
+
+.editor-mode-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:8px;
+  padding:4px 8px;
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:999px;
+  background:rgba(255,195,132,.06);
+  color:var(--cc-peach);
+  font-size:8px;
+  font-weight:800;
+  vertical-align:middle;
+}
+
+.community-delete-overlay{
+  position:fixed;
+  inset:0;
+  z-index:2500;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:rgba(5,10,25,.76);
+}
+
+.community-delete-overlay[hidden]{
+  display:none!important;
+}
+
+.community-delete-dialog{
+  width:min(470px,100%);
+  padding:20px;
+  border:1px solid rgba(231,139,139,.26);
+  border-radius:15px;
+  background:var(--cc-card);
+  box-shadow:0 28px 80px rgba(0,0,0,.48);
+}
+
+.community-delete-dialog h2{
+  margin:0;
+  font-size:20px;
+}
+
+.community-delete-dialog p{
+  margin:8px 0 16px;
+  color:var(--cc-muted);
+  font-size:10px;
+  line-height:1.55;
+}
+
+.community-delete-confirm-label{
+  display:block;
+  margin-bottom:7px;
+  color:#e9edf7;
+  font-size:10px;
+  font-weight:800;
+}
+
+.community-delete-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:14px;
+}
+
+.community-delete-final{
+  border-color:rgba(231,139,139,.35)!important;
+  background:rgba(231,139,139,.08)!important;
+  color:#efaaaa!important;
+}
+
+.community-delete-final:not(:disabled):hover{
+  background:rgba(231,139,139,.14)!important;
+}
+
+@media(max-width:800px){
+  .form-actions{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .form-action-right{
+    justify-content:space-between;
+  }
+  .editor-exit-button{
+    margin-right:0;
+  }
+}
+
+</style>
+</head>
+<body>
+<header class="site-header">
+<a class="brand-lockup" href="index.html" aria-label="All Media home">
+<img class="brand-logo" src="all-media-logo.png" alt=""><span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+</a>
+<nav class="top-nav" aria-label="Primary navigation">
+<a href="index.html">Home</a>
+<a href="discover.html">Discover</a>
+<a href="#">All Play</a>
+</nav>
+<label class="global-search">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+</label>
+<div class="header-actions">
+<button class="header-notifications" id="headerNotificationBell" type="button" aria-label="Notifications" aria-haspopup="dialog" aria-expanded="false" title="Notifications">
+<span class="notification-bell">🔔</span>
+<span class="header-notification-count" id="headerUnreadCount">5</span>
+</button>
+<section class="notification-quick-popup" id="notificationQuickPopup" aria-label="Recent notifications" hidden>
+<div class="quick-popup-header">
+<div><h2>Quick Notifications</h2><p>Recent activity</p></div>
+<div class="quick-popup-header-actions">
+<button class="quick-mark-all-read" id="quickPopupMarkAllRead" type="button">Mark all read</button>
+<span class="quick-popup-unread" id="quickPopupUnread">5 new</span>
+</div>
+</div>
+<div class="quick-popup-list" id="quickPopupList">
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">N</div>
+<div class="quick-copy">
+<div class="quick-message"><strong>@NightshadeArt</strong> commented on your post.</div>
+<div class="quick-preview">“Okay but the tiny ghost in the corner absolutely makes this.”</div>
+<div class="quick-meta">8 min ago</div>
+<div class="quick-actions"><button class="quick-like" type="button">♡ Like</button><button class="quick-popup-reply-action" type="button">Reply</button></div>
+</div>
+</article>
+<article class="quick-notification unread">
+<span class="quick-unread-dot" aria-hidden="true"></span>
+<div class="quick-avatar">C</div>
+<div class="quick-copy"><div class="quick-message"><strong>@CozyCatCreates</strong> liked your post.</div><div class="quick-preview">Painted pumpkin shelf</div><div class="quick-meta">21 min ago</div></div>
+</article>
+</div>
+<a class="quick-popup-footer" href="notifications.html">See more notifications <span>→</span></a>
+</section>
+<a class="profile-cluster" href="profile.html" aria-label="Open your profile"><span class="header-avatar"></span></a>
+</div>
+</header>
+
+<!-- ============================================================
+     CURRENT COMMUNITIES HOTBAR — same production structure.
+     ============================================================ -->
+<div class="community-bar">
+<span class="community-label">COMMUNITIES</span>
+<div class="pinned-communities" id="masterPinnedCommunities">
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🎃</span>Spooky Cozy
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">5</span>
+</span>
+</button>
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🎨</span>Artists
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">2</span>
+</span>
+</button>
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromHotbar(event,this)">
+<span class="community-icon">🐢</span>Turtle Rescue
+<span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+<span class="activity-count">1</span>
+</span>
+</button>
+</div>
+<div class="community-divider-vertical"></div>
+<div class="community-tools">
+<div class="community-menu">
+<button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
+<div class="community-dropdown" id="communityDropdown">
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+</div>
+</div>
+<button class="community-tool" type="button" onclick="window.location.href='manage-communities.html'">Manage Communities</button>
+</div>
+</div>
+<div class="community-divider"></div>
+
+
+
+<main class="create-community-page" id="communityEditorPage">
+  <div class="owner-topline">
+    <div>
+      <h1 id="communityEditorTitle">Create Community</h1>
+      <p id="communityEditorSubtitle">Build the Community once, then use this same editor whenever you need to change it.</p>
+    </div>
+    <a class="owner-return" id="communityEditorReturn" href="manage-communities.html">← Back to Manage Communities</a>
+  </div>
+
+    <div class="create-layout">
+      <aside class="create-steps">
+        <div class="step-rail-title" id="stepRailTitle">Create a Community</div>
+        <button class="step-button active" type="button" data-step="1"><span class="step-number">1</span><span class="step-copy"><strong>Identity & Purpose</strong><span>What is this place?</span></span></button>
+        <button class="step-button" type="button" data-step="2"><span class="step-number">2</span><span class="step-copy"><strong>Basics & Access</strong><span>What can people do?</span></span></button>
+        <button class="step-button" type="button" data-step="3"><span class="step-number">3</span><span class="step-copy"><strong>Rules</strong><span>How should people participate?</span></span></button>
+        <button class="step-button" type="button" data-step="4"><span class="step-number">4</span><span class="step-copy"><strong>About</strong><span>Give it personality.</span></span></button>
+        <button class="step-button" type="button" data-step="5"><span class="step-number">5</span><span class="step-copy"><strong id="reviewStepLabel">Review & Create</strong><span>Check everything first.</span></span></button>
+      </aside>
+
+      <section class="create-form-card">
+        <div class="form-step active" data-form-step="1">
+          <div class="form-head">
+            <div class="eyebrow">Step 1 of 5</div>
+            <h2 id="identityStepTitle">Start Your Community</h2>
+            <p>First, establish what this place is. We can keep the setup simple now and expose more advanced controls later.</p>
+          </div>
+
+          <div class="field">
+            <label for="communityNameInput">Community name *</label>
+            <input class="text-input" id="communityNameInput" maxlength="50" value="Spooky Cozy" placeholder="Name your Community">
+          </div>
+
+          <div class="field">
+            <label for="communityShortDescription">Short description *</label>
+            <textarea class="textarea-input" id="communityShortDescription" maxlength="180">A cozy corner for people who think Halloween is a year-round lifestyle.</textarea>
+            <div class="field-note">This is the quick description people see in search, previews, and your Community header.</div>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Primary Interests * <span class="interest-limit-count" id="interestLimitCount">4 / 5 selected</span></div>
+
+            <label class="interest-search-wrap" for="interestSearchInput">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+              <input id="interestSearchInput" type="search" placeholder="Search Interests…" autocomplete="off">
+            </label>
+
+            <div class="selected-interest-row" id="selectedInterestRow"></div>
+
+            <button class="all-interests-option" id="allInterestsOption" type="button">All Interests Welcome</button>
+
+            <div class="interest-suggestion-heading">Suggested Interests</div>
+            <div class="interest-suggestions" id="interestSuggestions"></div>
+
+            <div class="field-note" id="interestLimitNote">Choose up to 5 Interests, or select All Interests Welcome.</div>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Community images</div>
+            <div class="community-image-upload-grid">
+              <button class="community-image-upload-card icon-upload-card" id="iconUploadButton" type="button">
+                <span class="community-image-thumb icon-thumb" id="iconUploadThumb">🎃</span>
+                <span class="community-image-upload-copy"><strong>Community icon</strong><span>Upload &amp; crop</span></span>
+              </button>
+              <button class="community-image-upload-card banner-upload-card" id="bannerUploadButton" type="button">
+                <span class="community-image-thumb banner-thumb" id="bannerUploadThumb">🎃 🕯️ 🐈‍⬛</span>
+                <span class="community-image-upload-copy"><strong>Community banner</strong><span>Upload &amp; crop</span></span>
+              </button>
+            </div>
+            <input id="iconFileInput" type="file" accept="image/*" hidden>
+            <input id="bannerFileInput" type="file" accept="image/*" hidden>
+            <div class="community-image-size-notes">
+              <span><strong>Icon:</strong> 600 × 600 px recommended · square crop</span>
+              <span><strong>Banner:</strong> 1600 × 480 px recommended · wide crop</span>
+            </div>
+            <div class="field-note">After uploading, drag the image to reposition it inside the crop. Use the zoom slider for finer control.</div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="2">
+          <div class="form-head">
+            <div class="eyebrow">Step 2 of 5</div>
+            <h2>Community Basics & Access</h2>
+            <p>These are not suggestions. They become structured settings All Media can enforce before someone posts.</p>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Who can enter?</div>
+            <div class="choice-grid" id="accessChoices">
+              <button class="choice-card selected" type="button" data-value="Public"><strong>Public</strong><span>Anyone can view and join.</span></button>
+              <button class="choice-card" type="button" data-value="Request to Join"><strong>Request to Join</strong><span>People can find it, but joining needs approval.</span></button>
+              <button class="choice-card" type="button" data-value="Invite Only"><strong>Invite Only</strong><span>Only invited members can enter.</span></button>
+            </div>
+          </div>
+
+          <section class="invite-access-panel" id="inviteAccessPanel" hidden>
+            <div class="invite-access-head">
+              <div>
+                <strong>Invite-only Community</strong>
+                <span>Each Community has a stable internal ID. Shareable invites use a separate revocable invite token — never the Community ID itself.</span>
+              </div>
+              <span class="invite-community-id">ID: <strong id="communityIdValue">cm_spooky_8f3k2q</strong></span>
+            </div>
+            <div class="invite-link-row">
+              <input class="text-input" id="inviteLinkInput" readonly value="https://allmedia.example/invite/SC-7H4P-Q2MK">
+              <button class="form-button" id="copyInviteLink" type="button">Copy</button>
+              <button class="form-button" id="resetInviteLink" type="button">Reset link</button>
+            </div>
+            <div class="field-note">For Request to Join Communities, people can share the normal Community page link and press Request to Join. Invite links are specifically for Invite Only access.</div>
+          </section>
+
+          <div class="field">
+            <div class="field-title">Who can create posts?</div>
+            <div class="choice-grid" id="postingChoices">
+              <button class="choice-card selected" type="button" data-value="Members"><strong>Members</strong><span>Any Community member can post.</span></button>
+              <button class="choice-card" type="button" data-value="Moderators"><strong>Moderators</strong><span>Members can participate, but not create posts.</span></button>
+              <button class="choice-card" type="button" data-value="Owner"><strong>Owner only</strong><span>Useful for official or shop-style Communities.</span></button>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Posting permissions</div>
+            <div class="setting-row"><div class="setting-copy"><strong>Original posts</strong><span>Members can create new posts in this Community.</span></div><label class="switch"><input id="originalPostsToggle" type="checkbox" checked><span class="switch-track"></span></label></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Reblogs into Community</strong><span>Eligible existing posts can be added here.</span></div><label class="switch"><input id="reblogsToggle" type="checkbox" checked><span class="switch-track"></span></label></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Post approval</strong><span>Require moderator approval before posts become visible.</span></div><label class="switch"><input id="approvalToggle" type="checkbox"><span class="switch-track"></span></label></div>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Link Sharing</div>
+            <div class="link-permissions">
+              <div class="link-permission"><div><strong>Community-related links</strong><br><span>Music, games, articles, resources, videos and websites related to the topic.</span></div><label class="switch"><input id="communityLinksToggle" type="checkbox" checked><span class="switch-track"></span></label></div>
+              <div class="link-permission"><div><strong>Creator & Shop links</strong><br><span>Portfolios, Ko-fi, shops, commissions, product pages and similar self-links.</span></div><label class="switch"><input id="creatorLinksToggle" type="checkbox" checked><span class="switch-track"></span></label></div>
+              <div class="link-permission"><div><strong>Social links</strong><br><span>Personal social profiles, channels, streams and similar accounts.</span></div><label class="switch"><input id="socialLinksToggle" type="checkbox"><span class="switch-track"></span></label></div>
+            </div>
+          </div>
+
+          <button class="advanced-toggle" id="advancedToggle" type="button">▾ Advanced Community Settings</button>
+          <div class="advanced-drawer" id="advancedDrawer">
+            <div class="setting-row"><div class="setting-copy"><strong>Links in comments</strong><span>Allow the selected link types inside Community comments too.</span></div><label class="switch"><input id="commentLinksToggle" type="checkbox" checked><span class="switch-track"></span></label></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Member list visible</strong><span>Members can browse who else belongs to this Community.</span></div><label class="switch"><input type="checkbox" checked><span class="switch-track"></span></label></div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="3">
+          <div class="form-head">
+            <div class="eyebrow">Step 3 of 5</div>
+            <h2>Community Rules</h2>
+            <p>Community Basics are enforced by All Media. These written rules explain the culture and expectations of the space. At least one rule is required.</p>
+          </div>
+
+          <div class="rule-builder-note">Drag rules to reorder. Use Edit to change a rule or Delete to remove it. Every new Community starts with <strong>No bullying</strong> and <strong>Respect others</strong>; they stay unless the owner deletes them.</div>
+          <div class="rule-builder" id="ruleBuilder">
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">1</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="No bullying" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Bullying, harassment, targeted cruelty, or intimidation is not allowed." maxlength="240" readonly>
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">2</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Respect others" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Disagree without attacking people. Keep conversations respectful." maxlength="240" readonly>
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">3</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Keep it spooky & cozy" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Stay relevant to the Community's purpose." maxlength="240" readonly>
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">4</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Credit creators" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Clearly credit work you didn't make." maxlength="240" readonly>
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
+              </div>
+            </div>
+          </div>
+          <button class="add-rule" id="addRuleButton" type="button">＋ Add another rule</button>
+          <div class="field-note">For this prototype, we'll cap Community rules at 10.</div>
+        </div>
+
+        <div class="form-step" data-form-step="4">
+          <div class="form-head">
+            <div class="eyebrow">Step 4 of 5</div>
+            <h2>About Your Community</h2>
+            <p>Give people a clearer sense of the culture, purpose, and what they can expect after joining.</p>
+          </div>
+
+          <div class="field">
+            <label for="communityAboutInput">About this Community *</label>
+            <textarea class="textarea-input" id="communityAboutInput" maxlength="1500">A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away.</textarea><div class="char-counter" id="communityAboutCount">0 / 1500</div>
+          </div>
+
+          <div class="field">
+            <label for="communityWelcomeInput">Welcome message</label>
+            <textarea class="textarea-input" id="communityWelcomeInput" maxlength="500">Welcome in! Say hello, tell us what you love, and make yourself comfortable.</textarea><div class="char-counter" id="communityWelcomeCount">0 / 500</div>
+            <div class="field-note">Optional. This can later be used as an evergreen Welcome announcement.</div>
+          </div>
+
+          <div class="field">
+            <div class="field-title">Official Community links</div>
+            <input class="text-input" id="communityWebsiteInput" placeholder="Website or resource link">
+            <div class="official-social-grid">
+              <label><span>Instagram</span><input class="text-input official-social-input" data-social="Instagram" placeholder="instagram.com/..."></label>
+              <label><span>YouTube</span><input class="text-input official-social-input" data-social="YouTube" placeholder="youtube.com/..."></label>
+              <label><span>TikTok</span><input class="text-input official-social-input" data-social="TikTok" placeholder="tiktok.com/@..."></label>
+              <label><span>Other</span><input class="text-input official-social-input" data-social="Other" placeholder="https://..."></label>
+            </div>
+            <div class="field-note"><strong>Important:</strong> the Social links toggle in Community Basics only controls what members may put in posts/comments. These fields are the Community's official links; when filled in, they appear in the Community's About area.</div>
+          </div>
+        </div>
+
+        <div class="form-step" data-form-step="5">
+          <div class="form-head">
+            <div class="eyebrow">Step 5 of 5</div>
+            <h2 id="reviewPageTitle">Review & Create</h2>
+            <p id="reviewPageCopy">Members will be able to understand these expectations outside the owner settings. Check the important pieces before your Community goes live.</p>
+          </div>
+
+          <div class="review-list">
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Identity complete</strong><span id="reviewIdentity">Spooky Cozy</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Interests selected</strong><span id="reviewInterests">Halloween · Art · Cozy · Crafts</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Community Basics set</strong><span id="reviewBasics">Public · Members can post · Reblogs allowed</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Rules ready</strong><span id="reviewRules">4 Community Rules</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>About complete</strong><span id="reviewAbout">About section is ready.</span></div></div>
+          </div>
+
+          <div class="creation-success" id="creationSuccess">✓ Community saved.</div>
+        </div>
+
+        <div class="form-actions">
+          <button class="form-button editor-exit-button" id="editorExitButton" type="button">Cancel</button>
+          <div class="form-action-right">
+            <button class="form-button" id="backStepButton" type="button" disabled>← Back</button>
+            <button class="form-button primary" id="nextStepButton" type="button">Continue →</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="create-preview">
+        <div class="preview-banner">🎃 🕯️ 🐈‍⬛</div>
+        <div class="preview-body">
+          <div class="preview-icon">🎃</div>
+          <h3 id="previewName">Spooky Cozy</h3>
+          <div class="preview-description" id="previewDescription">A cozy corner for people who think Halloween is a year-round lifestyle.</div>
+          <div class="preview-interests" id="previewInterests"></div>
+          <div class="preview-basics">
+            <span id="previewAccess">◉ Public Community</span>
+            <span id="previewPosting">✎ Members can post</span>
+            <span id="previewReblogs">↻ Reblogs allowed</span>
+            <span id="previewLinks">🔗 Community + Creator & Shop links</span>
+            <span id="previewApproval">✓ Publishes immediately</span>
+          </div>
+          <div class="preview-rule-count" id="previewRuleCount">4 Community Rules</div>
+        </div>
+        <div class="preview-help">This preview is intentionally compact. It shows how the Community's important expectations can be understandable before somebody joins or posts.</div>
+      </aside>
+    </div>
+
+</main>
+
+
+<div class="community-delete-overlay" id="communityDeleteOverlay" hidden>
+  <section class="community-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="communityDeleteTitle">
+    <h2 id="communityDeleteTitle">Delete this Community?</h2>
+    <p id="communityDeleteCopy">This permanently removes the Community and its content. Everyone currently in the Community will receive a notification that it was deleted. This cannot be undone.</p>
+    <label class="community-delete-confirm-label" for="communityDeleteConfirmInput">Type the Community name to confirm</label>
+    <input class="text-input" id="communityDeleteConfirmInput" autocomplete="off">
+    <div class="community-delete-actions">
+      <button class="form-button" id="communityDeleteCancel" type="button">Cancel</button>
+      <button class="form-button community-delete-final" id="communityDeleteFinal" type="button" disabled>Delete Community</button>
+    </div>
+  </section>
+</div>
+
+<div class="image-crop-overlay" id="imageCropOverlay" aria-hidden="true">
+  <section class="image-crop-dialog" role="dialog" aria-modal="true" aria-labelledby="imageCropTitle">
+    <div class="image-crop-head">
+      <div>
+        <h2 id="imageCropTitle">Adjust Community image</h2>
+        <p id="imageCropSizeNote">Drag to reposition · use Zoom to adjust the crop.</p>
+      </div>
+      <button class="image-crop-x" id="imageCropClose" type="button" aria-label="Close image cropper">×</button>
+    </div>
+    <div class="image-crop-stage-wrap">
+      <div class="image-crop-stage icon-mode" id="imageCropStage">
+        <img id="imageCropImage" alt="">
+        <span class="image-crop-guide" aria-hidden="true"></span>
+      </div>
+      <div class="image-crop-help">Drag the image until the part you want is inside the crop.</div>
+    </div>
+    <div class="image-crop-controls">
+      <label for="imageCropZoom">Zoom</label>
+      <input id="imageCropZoom" type="range" min="1" max="3" step="0.01" value="1">
+    </div>
+    <div class="image-crop-actions">
+      <button class="image-crop-button" id="imageCropCancel" type="button">Cancel</button>
+      <button class="image-crop-button primary" id="imageCropApply" type="button">Use this crop</button>
+    </div>
+  </section>
+</div>
+
+
+<script>
+
+/* ============================================================
+   SHARED COMMUNITY STATE
+   Prototype persistence across Create + Manage Communities.
+   ============================================================ */
+const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+
+const ALL_MEDIA_COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator'},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+};
+
+function cloneCommunityDefaults(){
+  return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));
+}
+
+function loadAllMediaCommunityState(){
+  const defaults=cloneCommunityDefaults();
+  try{
+    const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+    Object.keys(saved).forEach(slug=>{
+      defaults[slug]={...(defaults[slug]||{}),...saved[slug]};
+    });
+    Object.keys(defaults).forEach(slug=>{
+      if(defaults[slug].pinned){
+        defaults[slug].joined=true;
+        defaults[slug].notifications=true;
+      }
+    });
+  }catch(e){}
+  return defaults;
+}
+
+let allMediaCommunityState=loadAllMediaCommunityState();
+
+function saveAllMediaCommunityState(){
+  localStorage.setItem(ALL_MEDIA_COMMUNITY_STATE_KEY,JSON.stringify(allMediaCommunityState));
+}
+
+function getCommunityState(slug){
+  if(!allMediaCommunityState[slug]){
+    allMediaCommunityState[slug]={
+      name:slug,
+      icon:'◉',
+      joined:false,
+      pinned:false,
+      notifications:true,
+      role:'member'
+    };
+  }
+  return allMediaCommunityState[slug];
+}
+
+function updateCommunityState(slug,patch){
+  const current=getCommunityState(slug);
+  allMediaCommunityState[slug]={...current,...patch};
+
+  if(allMediaCommunityState[slug].pinned){
+    allMediaCommunityState[slug].joined=true;
+    allMediaCommunityState[slug].notifications=true;
+  }
+
+  if(!allMediaCommunityState[slug].joined){
+    allMediaCommunityState[slug].pinned=false;
+  }
+
+  saveAllMediaCommunityState();
+  document.dispatchEvent(new CustomEvent('allmedia:community-state-change',{
+    detail:{slug,state:allMediaCommunityState[slug]}
+  }));
+  return allMediaCommunityState[slug];
+}
+
+
+const notificationBell=document.getElementById('headerNotificationBell');
+const notificationPopup=document.getElementById('notificationQuickPopup');
+if(notificationBell&&notificationPopup){
+  notificationBell.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const opening=notificationPopup.hidden;
+    notificationPopup.hidden=!opening;
+    notificationBell.setAttribute('aria-expanded',String(opening));
+  });
+  document.addEventListener('click',(e)=>{
+    if(!notificationPopup.hidden&&!notificationPopup.contains(e.target)&&!notificationBell.contains(e.target)){
+      notificationPopup.hidden=true;
+      notificationBell.setAttribute('aria-expanded','false');
+    }
+  });
+}
+
+function toggleCommunityDropdown(){
+  const menu=document.getElementById('communityDropdown');
+  if(!menu)return;
+  menu.classList.toggle('active');
+  menu.style.display=menu.classList.contains('active')?'block':'';
+}
+
+function toggleCommunityPin(event,button){
+  event.stopPropagation();
+  button.classList.toggle('pinned');
+  const state=button.querySelector('.pin-state');
+  const action=button.querySelector('.pin-action');
+  const pinned=button.classList.contains('pinned');
+  if(state)state.textContent=pinned?'Pinned':'Pin';
+  if(action)action.textContent=pinned?'Unpin':'Pin';
+}
+
+function openRecentActivity(event,el){
+  event.stopPropagation();
+  const count=el.querySelector('.activity-count');
+  if(count){count.textContent='0';count.style.display='none';}
+}
+
+const COMMUNITY_EDITOR_PARAMS=new URLSearchParams(window.location.search);
+const COMMUNITY_EDITOR_MODE=COMMUNITY_EDITOR_PARAMS.get('mode')==='edit'?'edit':'create';
+const COMMUNITY_EDITOR_SLUG=COMMUNITY_EDITOR_PARAMS.get('community')||'';
+let editorOriginalSlug=COMMUNITY_EDITOR_MODE==='edit'?COMMUNITY_EDITOR_SLUG:'';
+let editorIconImage=null;
+let editorBannerImage=null;
+
+let currentStep=1;
+const steps=[...document.querySelectorAll('.step-button')];
+const formSteps=[...document.querySelectorAll('.form-step')];
+const backButton=document.getElementById('backStepButton');
+const nextButton=document.getElementById('nextStepButton');
+
+function showStep(step){
+  currentStep=Math.max(1,Math.min(5,step));
+  steps.forEach(btn=>{
+    const n=Number(btn.dataset.step);
+    btn.classList.toggle('active',n===currentStep);
+    btn.classList.toggle('complete',n<currentStep);
+  });
+  formSteps.forEach(panel=>panel.classList.toggle('active',Number(panel.dataset.formStep)===currentStep));
+  backButton.disabled=currentStep===1;
+  nextButton.textContent=currentStep===5?(COMMUNITY_EDITOR_MODE==='edit'?'Save Changes':'Create Community'):'Continue →';
+  updatePreview();
+  if(currentStep===5)updateReview();
+}
+
+steps.forEach(btn=>btn.addEventListener('click',()=>showStep(Number(btn.dataset.step))));
+backButton.addEventListener('click',()=>showStep(currentStep-1));
+nextButton.addEventListener('click',()=>{
+  if(currentStep<5){
+    showStep(currentStep+1);
+    return;
+  }
+
+  const name=document.getElementById('communityNameInput').value.trim();
+  const description=document.getElementById('communityShortDescription').value.trim();
+  const about=document.getElementById('communityAboutInput').value.trim();
+  const interests=selectedInterests();
+
+  if(!name||!description||!about||!interests.length){
+    document.getElementById('creationSuccess').textContent='Please complete the required Community details before saving.';
+    document.getElementById('creationSuccess').classList.add('active');
+    return;
+  }
+
+  const rules=[...document.querySelectorAll('#ruleBuilder .rule-builder-row')].map(row=>({
+    title:row.querySelector('.rule-title-input')?.value.trim()||'Community rule',
+    explanation:row.querySelector('.rule-copy-input')?.value.trim()||''
+  }));
+
+  if(!rules.length){
+    document.getElementById('creationSuccess').textContent='Your Community needs at least one rule.';
+    document.getElementById('creationSuccess').classList.add('active');
+    return;
+  }
+
+  const officialSocials={};
+  document.querySelectorAll('.official-social-input').forEach(input=>{
+    const value=input.value.trim();
+    if(value)officialSocials[input.dataset.social]=value;
+  });
+
+  let slug=editorOriginalSlug;
+
+  if(COMMUNITY_EDITOR_MODE==='create'){
+    const base=communitySlug(name)||('community-'+Date.now());
+    slug=base;
+    let suffix=2;
+    while(allMediaCommunityState[slug]&&!allMediaCommunityState[slug].deleted){
+      slug=`${base}-${suffix++}`;
+    }
+  }
+
+  const previous=allMediaCommunityState[slug]||{};
+  allMediaCommunityState[slug]={
+    ...previous,
+    name,
+    slug,
+    icon:previous.icon||'◉',
+    iconImage:editorIconImage||previous.iconImage||null,
+    bannerImage:editorBannerImage||previous.bannerImage||null,
+    description,
+    interests,
+    access:selectedChoice('accessChoices'),
+    posting:selectedChoice('postingChoices'),
+    originalPosts:document.getElementById('originalPostsToggle').checked,
+    reblogs:document.getElementById('reblogsToggle').checked,
+    approvalRequired:document.getElementById('approvalToggle').checked,
+    linkSharing:{
+      community:document.getElementById('communityLinksToggle').checked,
+      creatorShop:document.getElementById('creatorLinksToggle').checked,
+      social:document.getElementById('socialLinksToggle').checked,
+      comments:document.getElementById('commentLinksToggle').checked
+    },
+    rules,
+    about,
+    welcome:document.getElementById('communityWelcomeInput').value.trim(),
+    website:document.getElementById('communityWebsiteInput').value.trim(),
+    officialSocials,
+    inviteToken:selectedChoice('accessChoices')==='Invite Only'?inviteToken:null,
+    joined:true,
+    pinned:Boolean(previous.pinned),
+    notifications:true,
+    role:'owner',
+    createdByPrototype:previous.createdByPrototype!==false,
+    createdAt:previous.createdAt||Date.now(),
+    updatedAt:Date.now(),
+    deleted:false
+  };
+
+  saveAllMediaCommunityState();
+  editorOriginalSlug=slug;
+
+  const success=document.getElementById('creationSuccess');
+  success.textContent=COMMUNITY_EDITOR_MODE==='edit'
+    ? '✓ Community changes saved.'
+    : '✓ Community created. It now appears in Manage Communities.';
+  success.classList.add('active');
+
+  setTimeout(()=>{
+    window.location.href='manage-communities.html';
+  },650);
+});
+
+function chooseOne(containerId,button){
+  document.querySelectorAll('#'+containerId+' .choice-card').forEach(x=>x.classList.remove('selected'));
+  button.classList.add('selected');
+  if(containerId==='accessChoices')syncInviteAccess();
+  updatePreview();
+}
+
+document.querySelectorAll('#accessChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('accessChoices',btn)));
+
+const COMMUNITY_STABLE_ID='cm_spooky_8f3k2q';
+let inviteToken='SC-7H4P-Q2MK';
+
+function syncInviteAccess(){
+  const access=selectedChoice('accessChoices');
+  const panel=document.getElementById('inviteAccessPanel');
+  if(panel)panel.hidden=access!=='Invite Only';
+}
+
+function currentInviteUrl(){
+  return `https://allmedia.example/invite/${inviteToken}`;
+}
+
+function updateInviteLink(){
+  const input=document.getElementById('inviteLinkInput');
+  if(input)input.value=currentInviteUrl();
+}
+
+document.getElementById('copyInviteLink')?.addEventListener('click',async()=>{
+  const url=currentInviteUrl();
+  try{
+    await navigator.clipboard.writeText(url);
+    document.getElementById('copyInviteLink').textContent='Copied ✓';
+    setTimeout(()=>document.getElementById('copyInviteLink').textContent='Copy',1400);
+  }catch(e){
+    document.getElementById('inviteLinkInput')?.select();
+  }
+});
+
+document.getElementById('resetInviteLink')?.addEventListener('click',()=>{
+  const part=Math.random().toString(36).slice(2,6).toUpperCase();
+  const part2=Math.random().toString(36).slice(2,6).toUpperCase();
+  inviteToken=`SC-${part}-${part2}`;
+  updateInviteLink();
+setTimeout(syncInviteAccess,0);
+});
+
+updateInviteLink();
+
+document.querySelectorAll('#postingChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('postingChoices',btn)));
+
+const MAX_COMMUNITY_INTERESTS=5;
+const INTEREST_LIBRARY=[
+  'Halloween','Art','Cozy','Crafts','Books','Gaming','Collecting','Music','Photography',
+  'Movies & TV','Food','Home & Decor','Nature','Animals','Crochet','DIY','Vintage',
+  'Horror','Writing','Comics','Technology','Travel','Fashion','Lifestyle'
+];
+const selectedInterestSet=new Set(['Halloween','Art','Cozy','Crafts']);
+let allInterestsSelected=false;
+
+function selectedInterests(){
+  if(allInterestsSelected)return ['All Interests'];
+  return [...selectedInterestSet];
+}
+
+function renderInterestSearch(){
+  const count=document.getElementById('interestLimitCount');
+  const note=document.getElementById('interestLimitNote');
+  const selectedRow=document.getElementById('selectedInterestRow');
+  const allButton=document.getElementById('allInterestsOption');
+  const suggestions=document.getElementById('interestSuggestions');
+  const query=(document.getElementById('interestSearchInput')?.value||'').trim().toLowerCase();
+
+  selectedRow.innerHTML='';
+  if(!allInterestsSelected){
+    [...selectedInterestSet].forEach(name=>{
+      const chip=document.createElement('span');
+      chip.className='selected-interest-chip';
+      chip.innerHTML=`<span>${name}</span><button type="button" aria-label="Remove ${name}">×</button>`;
+      chip.querySelector('button').addEventListener('click',()=>{
+        selectedInterestSet.delete(name);
+        renderInterestSearch();
+        updatePreview();
+      });
+      selectedRow.appendChild(chip);
+    });
+  }
+
+  allButton.classList.toggle('selected',allInterestsSelected);
+  count.textContent=allInterestsSelected?'All Interests':`${selectedInterestSet.size} / ${MAX_COMMUNITY_INTERESTS} selected`;
+
+  let matches=INTEREST_LIBRARY.filter(name=>!selectedInterestSet.has(name));
+  if(query){
+    matches=matches
+      .filter(name=>name.toLowerCase().includes(query))
+      .sort((a,b)=>{
+        const aa=a.toLowerCase().startsWith(query)?0:1;
+        const bb=b.toLowerCase().startsWith(query)?0:1;
+        return aa-bb||a.localeCompare(b);
+      });
+  }else{
+    const suggested=['Books','Gaming','Collecting','Music','Photography','Vintage','Horror','Crochet'];
+    matches=suggested.filter(name=>!selectedInterestSet.has(name));
+  }
+
+  suggestions.innerHTML='';
+  matches.slice(0,8).forEach(name=>{
+    const btn=document.createElement('button');
+    btn.className='interest-suggestion';
+    btn.type='button';
+    btn.textContent=`＋ ${name}`;
+    btn.disabled=!allInterestsSelected&&selectedInterestSet.size>=MAX_COMMUNITY_INTERESTS;
+    btn.addEventListener('click',()=>{
+      if(selectedInterestSet.size>=MAX_COMMUNITY_INTERESTS&&!allInterestsSelected){
+        flashInterestLimit();
+        return;
+      }
+      allInterestsSelected=false;
+      selectedInterestSet.add(name);
+      document.getElementById('interestSearchInput').value='';
+      renderInterestSearch();
+      updatePreview();
+    });
+    suggestions.appendChild(btn);
+  });
+
+  if(note&&!note.classList.contains('warning')){
+    note.textContent='Choose up to 5 Interests, or select All Interests Welcome.';
+  }
+}
+
+function flashInterestLimit(){
+  const note=document.getElementById('interestLimitNote');
+  if(!note)return;
+  note.textContent='This Community already has the maximum of 5 Interests.';
+  note.classList.add('warning');
+  clearTimeout(window.interestLimitTimer);
+  window.interestLimitTimer=setTimeout(()=>{
+    note.classList.remove('warning');
+    renderInterestSearch();
+  },2200);
+}
+
+document.getElementById('interestSearchInput')?.addEventListener('input',renderInterestSearch);
+document.getElementById('allInterestsOption')?.addEventListener('click',()=>{
+  allInterestsSelected=!allInterestsSelected;
+  if(allInterestsSelected)selectedInterestSet.clear();
+  renderInterestSearch();
+  updatePreview();
+});
+
+renderInterestSearch();
+
+document.getElementById('advancedToggle').addEventListener('click',function(){
+  const drawer=document.getElementById('advancedDrawer');
+  drawer.classList.toggle('active');
+  this.textContent=drawer.classList.contains('active')?'▴ Advanced Community Settings':'▾ Advanced Community Settings';
+});
+
+function renumberRules(){
+  document.querySelectorAll('#ruleBuilder .rule-builder-row').forEach((row,i)=>{
+    row.querySelector('.rule-builder-number').textContent=String(i+1);
+  });
+  updatePreview();
+}
+
+
+const ruleBuilder=document.getElementById('ruleBuilder');
+let draggedRule=null;
+
+ruleBuilder.addEventListener('click',(event)=>{
+  const row=event.target.closest('.rule-builder-row');
+  if(!row)return;
+
+  const editButton=event.target.closest('.rule-edit');
+  if(editButton){
+    const editing=row.classList.toggle('editing');
+    row.querySelectorAll('.rule-title-input,.rule-copy-input').forEach(input=>{
+      input.readOnly=!editing;
+    });
+    editButton.textContent=editing?'Done':'Edit';
+    if(editing)row.querySelector('.rule-title-input')?.focus();
+    return;
+  }
+
+  if(event.target.closest('.rule-delete')){
+    if(ruleBuilder.querySelectorAll('.rule-builder-row').length<=1)return;
+    row.remove();
+    renumberRules();
+  }
+});
+
+ruleBuilder.addEventListener('input',updatePreview);
+
+ruleBuilder.addEventListener('dragstart',(event)=>{
+  const row=event.target.closest('.rule-builder-row');
+  if(!row)return;
+  draggedRule=row;
+  row.classList.add('dragging');
+  event.dataTransfer.effectAllowed='move';
+});
+
+ruleBuilder.addEventListener('dragend',()=>{
+  draggedRule?.classList.remove('dragging');
+  draggedRule=null;
+  renumberRules();
+});
+
+ruleBuilder.addEventListener('dragover',(event)=>{
+  event.preventDefault();
+  if(!draggedRule)return;
+  const target=event.target.closest('.rule-builder-row');
+  if(!target||target===draggedRule)return;
+  const rect=target.getBoundingClientRect();
+  const after=event.clientY>rect.top+rect.height/2;
+  target.parentElement.insertBefore(draggedRule,after?target.nextSibling:target);
+});
+
+document.getElementById('addRuleButton').addEventListener('click',()=>{
+  const count=ruleBuilder.querySelectorAll('.rule-builder-row').length;
+  if(count>=10)return;
+  const row=document.createElement('div');
+  row.className='rule-builder-row';
+  row.draggable=true;
+  row.innerHTML=`<button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button><span class="rule-builder-number">${count+1}</span><div class="rule-fields"><input class="rule-title-input" value="New Community rule" maxlength="80" readonly><input class="rule-copy-input" value="Explain what this rule means." maxlength="240" readonly></div><div class="rule-row-actions"><button class="rule-edit" type="button">Edit</button><button class="rule-delete" type="button">Delete</button></div>`;
+  ruleBuilder.appendChild(row);
+  renumberRules();
+});
+
+['communityNameInput','communityShortDescription','communityAboutInput'].forEach(id=>document.getElementById(id)?.addEventListener('input',updatePreview));
+['originalPostsToggle','reblogsToggle','approvalToggle','communityLinksToggle','creatorLinksToggle','socialLinksToggle','commentLinksToggle'].forEach(id=>document.getElementById(id)?.addEventListener('change',updatePreview));
+
+function selectedChoice(containerId){
+  return document.querySelector('#'+containerId+' .choice-card.selected')?.dataset.value||'';
+}
+
+
+function linkSummary(){
+  const values=[];
+  if(document.getElementById('communityLinksToggle').checked)values.push('Community');
+  if(document.getElementById('creatorLinksToggle').checked)values.push('Creator & Shop');
+  if(document.getElementById('socialLinksToggle').checked)values.push('Social');
+  return values.length?values.join(' + ')+' links':'No external links';
+}
+
+function updatePreview(){
+  const name=document.getElementById('communityNameInput').value.trim()||'Your Community';
+  const desc=document.getElementById('communityShortDescription').value.trim()||'Add a short description so people know what this place is for.';
+  document.getElementById('previewName').textContent=name;
+  document.getElementById('previewDescription').textContent=desc;
+
+  const interestBox=document.getElementById('previewInterests');
+  interestBox.innerHTML='';
+  selectedInterests().forEach(value=>{
+    const pill=document.createElement('span');
+    pill.className='preview-interest';
+    pill.textContent=value;
+    interestBox.appendChild(pill);
+  });
+
+  document.getElementById('previewAccess').textContent='◉ '+selectedChoice('accessChoices')+' Community';
+  document.getElementById('previewPosting').textContent='✎ '+selectedChoice('postingChoices')+' can post';
+  document.getElementById('previewReblogs').textContent=document.getElementById('reblogsToggle').checked?'↻ Reblogs allowed':'↻ No reblogs';
+  document.getElementById('previewLinks').textContent='🔗 '+linkSummary();
+  document.getElementById('previewApproval').textContent=document.getElementById('approvalToggle').checked?'✓ Moderator approval required':'✓ Publishes immediately';
+  const ruleCount=document.querySelectorAll('#ruleBuilder .rule-builder-row').length;
+  document.getElementById('previewRuleCount').textContent=`${ruleCount} Community Rule${ruleCount===1?'':'s'}`;
+}
+
+function updateReview(){
+  document.getElementById('reviewIdentity').textContent=document.getElementById('communityNameInput').value.trim()||'Community name missing';
+  document.getElementById('reviewInterests').textContent=selectedInterests().join(' · ');
+  document.getElementById('reviewBasics').textContent=`${selectedChoice('accessChoices')} · ${selectedChoice('postingChoices')} can post · ${document.getElementById('reblogsToggle').checked?'Reblogs allowed':'No reblogs'} · ${linkSummary()}`;
+  const ruleCount=document.querySelectorAll('#ruleBuilder .rule-builder-row').length;
+  document.getElementById('reviewRules').textContent=`${ruleCount} Community Rule${ruleCount===1?'':'s'}`;
+  document.getElementById('reviewAbout').textContent=document.getElementById('communityAboutInput').value.trim()?'About section is ready.':'About section needs attention.';
+}
+
+
+function setSelectedChoice(containerId,value){
+  document.querySelectorAll('#'+containerId+' .choice-card').forEach(button=>{
+    button.classList.toggle('selected',button.dataset.value===value);
+  });
+}
+
+function setRuleBuilderRules(rules){
+  const safeRules=(Array.isArray(rules)&&rules.length?rules:[
+    {title:'No bullying',explanation:'Treat other members with respect.'},
+    {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+  ]).slice(0,10);
+
+  ruleBuilder.innerHTML='';
+
+  safeRules.forEach((rule,index)=>{
+    const row=document.createElement('div');
+    row.className='rule-builder-row';
+    row.draggable=true;
+    row.innerHTML=`<button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button><span class="rule-builder-number">${index+1}</span><div class="rule-fields"><input class="rule-title-input" maxlength="80" readonly><input class="rule-copy-input" maxlength="240" readonly></div><div class="rule-row-actions"><button class="rule-edit" type="button">Edit</button><button class="rule-delete" type="button">Delete</button></div>`;
+    row.querySelector('.rule-title-input').value=rule.title||'Community rule';
+    row.querySelector('.rule-copy-input').value=rule.explanation||'';
+    ruleBuilder.appendChild(row);
+  });
+
+  renumberRules();
+}
+
+function setEditorImages(state){
+  const iconThumb=document.getElementById('iconUploadThumb');
+  const previewIcon=document.querySelector('.preview-icon');
+  const bannerThumb=document.getElementById('bannerUploadThumb');
+  const previewBanner=document.querySelector('.preview-banner');
+
+  editorIconImage=state?.iconImage||null;
+  editorBannerImage=state?.bannerImage||null;
+
+  if(editorIconImage){
+    iconThumb.style.backgroundImage=`url("${editorIconImage}")`;
+    iconThumb.textContent='';
+    previewIcon.style.backgroundImage=`url("${editorIconImage}")`;
+    previewIcon.textContent='';
+    previewIcon.classList.add('has-image');
+  }else{
+    iconThumb.style.backgroundImage='';
+    iconThumb.textContent=state?.icon||'◉';
+    previewIcon.style.backgroundImage='';
+    previewIcon.textContent=state?.icon||'◉';
+    previewIcon.classList.remove('has-image');
+  }
+
+  if(editorBannerImage){
+    bannerThumb.style.backgroundImage=`url("${editorBannerImage}")`;
+    bannerThumb.textContent='';
+    previewBanner.style.backgroundImage=`url("${editorBannerImage}")`;
+    previewBanner.textContent='';
+    previewBanner.classList.add('has-image');
+  }else{
+    bannerThumb.style.backgroundImage='';
+    bannerThumb.textContent='✦';
+    previewBanner.style.backgroundImage='';
+    previewBanner.textContent='✦';
+    previewBanner.classList.remove('has-image');
+  }
+}
+
+function applyCommunityToEditor(state){
+  document.getElementById('communityNameInput').value=state.name||'';
+  document.getElementById('communityShortDescription').value=state.description||'';
+  document.getElementById('communityAboutInput').value=state.about||'';
+  document.getElementById('communityWelcomeInput').value=state.welcome||'';
+  document.getElementById('communityWebsiteInput').value=state.website||'';
+
+  document.querySelectorAll('.official-social-input').forEach(input=>{
+    input.value=state.officialSocials?.[input.dataset.social]||'';
+  });
+
+  const interests=Array.isArray(state.interests)?state.interests:[];
+  allInterestsSelected=interests.includes('All Interests');
+  selectedInterestSet.clear();
+  interests.filter(value=>value!=='All Interests').slice(0,MAX_COMMUNITY_INTERESTS).forEach(value=>selectedInterestSet.add(value));
+
+  setSelectedChoice('accessChoices',state.access||'Public');
+  setSelectedChoice('postingChoices',state.posting||'Members');
+
+  document.getElementById('originalPostsToggle').checked=state.originalPosts!==false;
+  document.getElementById('reblogsToggle').checked=state.reblogs!==false;
+  document.getElementById('approvalToggle').checked=Boolean(state.approvalRequired);
+
+  const links=state.linkSharing||{};
+  document.getElementById('communityLinksToggle').checked=links.community!==false;
+  document.getElementById('creatorLinksToggle').checked=links.creatorShop!==false;
+  document.getElementById('socialLinksToggle').checked=Boolean(links.social);
+  document.getElementById('commentLinksToggle').checked=Boolean(links.comments);
+
+  inviteToken=state.inviteToken||inviteToken;
+  updateInviteLink();
+  syncInviteAccess();
+
+  setRuleBuilderRules(state.rules);
+  setEditorImages(state);
+  renderInterestSearch();
+  updatePreview();
+}
+
+function applyCreateEditorMode(){
+  document.getElementById('communityEditorTitle').textContent='Create Community';
+  document.getElementById('communityEditorSubtitle').textContent='Build one clear Community home. You can return to this same editor later whenever you need to change it.';
+  document.getElementById('stepRailTitle').textContent='Create a Community';
+  document.getElementById('reviewStepLabel').textContent='Review & Create';
+  document.getElementById('identityStepTitle').textContent='Start Your Community';
+  document.getElementById('reviewPageTitle').textContent='Review & Create';
+  document.getElementById('reviewPageCopy').textContent='Check the important pieces before your Community goes live.';
+  document.getElementById('editorExitButton').textContent='Cancel';
+  document.getElementById('editorExitButton').classList.remove('delete-mode');
+
+  applyCommunityToEditor({
+    name:'',
+    description:'',
+    interests:[],
+    access:'Public',
+    posting:'Members',
+    originalPosts:true,
+    reblogs:true,
+    approvalRequired:false,
+    linkSharing:{community:true,creatorShop:true,social:false,comments:false},
+    rules:[
+      {title:'No bullying',explanation:'Treat other members with respect.'},
+      {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+    ],
+    about:'',
+    welcome:'',
+    website:'',
+    officialSocials:{},
+    icon:'◉'
+  });
+}
+
+function spookyEditFallback(state){
+  return {
+    ...state,
+    name:state.name||'Spooky Cozy',
+    description:state.description||'A cozy corner for people who think Halloween is a year-round lifestyle.',
+    interests:Array.isArray(state.interests)&&state.interests.length?state.interests:['Halloween','Art','Cozy','Crafts'],
+    access:state.access||'Public',
+    posting:state.posting||'Members',
+    originalPosts:state.originalPosts!==false,
+    reblogs:state.reblogs!==false,
+    approvalRequired:Boolean(state.approvalRequired),
+    linkSharing:state.linkSharing||{community:true,creatorShop:true,social:false,comments:false},
+    rules:Array.isArray(state.rules)&&state.rules.length?state.rules:[
+      {title:'No bullying',explanation:'Treat other members with respect.'},
+      {title:'Respect others',explanation:'Keep conversation constructive and considerate.'},
+      {title:'Stay on topic',explanation:'Keep posts relevant to the Community.'},
+      {title:'Use link sharing appropriately',explanation:'Follow the Community’s allowed link categories.'}
+    ],
+    about:state.about||"A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted.",
+    welcome:state.welcome||'Welcome in! Say hello, tell us what you love, and make yourself comfortable.',
+    icon:state.icon||'🎃'
+  };
+}
+
+function applyEditEditorMode(){
+  const raw=allMediaCommunityState[editorOriginalSlug];
+
+  if(!raw||raw.deleted||raw.role!=='owner'){
+    window.location.href='manage-communities.html';
+    return;
+  }
+
+  const state=editorOriginalSlug==='spooky-cozy'?spookyEditFallback(raw):raw;
+
+  document.getElementById('communityEditorTitle').innerHTML='Edit Community <span class="editor-mode-badge">OWNER</span>';
+  document.getElementById('communityEditorSubtitle').textContent='Edit the same settings you used when creating this Community — no separate Studio required.';
+  document.getElementById('stepRailTitle').textContent='Edit Community';
+  document.getElementById('reviewStepLabel').textContent='Review & Save';
+  document.getElementById('identityStepTitle').textContent='Community Identity';
+  document.getElementById('reviewPageTitle').textContent='Review & Save';
+  document.getElementById('reviewPageCopy').textContent='Check your changes before updating the Community.';
+  document.getElementById('editorExitButton').textContent='Delete Community';
+  document.getElementById('editorExitButton').classList.add('delete-mode');
+
+  applyCommunityToEditor(state);
+}
+
+function initializeCommunityEditor(){
+  if(COMMUNITY_EDITOR_MODE==='edit')applyEditEditorMode();
+  else applyCreateEditorMode();
+
+  showStep(1);
+  updatePreview();
+}
+
+initializeCommunityEditor();
+
+function syncCharacterCounter(inputId,countId){
+  const input=document.getElementById(inputId);
+  const count=document.getElementById(countId);
+  if(!input||!count)return;
+  const render=()=>count.textContent=`${input.value.length} / ${input.maxLength}`;
+  input.addEventListener('input',render);
+  render();
+}
+syncCharacterCounter('communityAboutInput','communityAboutCount');
+syncCharacterCounter('communityWelcomeInput','communityWelcomeCount');
+
+
+/* COMMUNITY ICON / BANNER UPLOAD + CROP */
+const cropState={
+  mode:'icon',
+  img:null,
+  zoom:1,
+  dx:0,
+  dy:0,
+  baseScale:1,
+  renderedW:0,
+  renderedH:0,
+  left:0,
+  top:0,
+  pointerId:null,
+  startX:0,
+  startY:0,
+  startDx:0,
+  startDy:0
+};
+
+const cropOverlay=document.getElementById('imageCropOverlay');
+const cropStage=document.getElementById('imageCropStage');
+const cropImage=document.getElementById('imageCropImage');
+const cropZoom=document.getElementById('imageCropZoom');
+const cropTitle=document.getElementById('imageCropTitle');
+const cropSizeNote=document.getElementById('imageCropSizeNote');
+
+function openFilePicker(mode){
+  document.getElementById(mode==='icon'?'iconFileInput':'bannerFileInput')?.click();
+}
+
+document.getElementById('iconUploadButton')?.addEventListener('click',()=>openFilePicker('icon'));
+document.getElementById('bannerUploadButton')?.addEventListener('click',()=>openFilePicker('banner'));
+
+function handleCommunityImageFile(event,mode){
+  const file=event.target.files?.[0];
+  if(!file)return;
+
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      cropState.mode=mode;
+      cropState.img=img;
+      cropState.zoom=1;
+      cropState.dx=0;
+      cropState.dy=0;
+      cropZoom.value='1';
+
+      cropStage.classList.toggle('icon-mode',mode==='icon');
+      cropStage.classList.toggle('banner-mode',mode==='banner');
+      cropTitle.textContent=mode==='icon'?'Adjust Community icon':'Adjust Community banner';
+      cropSizeNote.textContent=mode==='icon'
+        ? 'Recommended 600 × 600 px · square crop · drag to reposition.'
+        : 'Recommended 1600 × 480 px · wide crop · drag to reposition.';
+
+      cropImage.src=reader.result;
+      cropOverlay.classList.add('active');
+      cropOverlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+
+      requestAnimationFrame(()=>{
+        resetCropGeometry();
+        renderCrop();
+      });
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value='';
+}
+
+document.getElementById('iconFileInput')?.addEventListener('change',e=>handleCommunityImageFile(e,'icon'));
+document.getElementById('bannerFileInput')?.addEventListener('change',e=>handleCommunityImageFile(e,'banner'));
+
+function resetCropGeometry(){
+  if(!cropState.img)return;
+  const rect=cropStage.getBoundingClientRect();
+  cropState.baseScale=Math.max(
+    rect.width/cropState.img.naturalWidth,
+    rect.height/cropState.img.naturalHeight
+  );
+  cropState.dx=0;
+  cropState.dy=0;
+}
+
+function clampCropOffsets(){
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  const renderW=cropState.img.naturalWidth*scale;
+  const renderH=cropState.img.naturalHeight*scale;
+  const maxDx=Math.max(0,(renderW-rect.width)/2);
+  const maxDy=Math.max(0,(renderH-rect.height)/2);
+  cropState.dx=Math.max(-maxDx,Math.min(maxDx,cropState.dx));
+  cropState.dy=Math.max(-maxDy,Math.min(maxDy,cropState.dy));
+}
+
+function renderCrop(){
+  if(!cropState.img)return;
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  cropState.renderedW=cropState.img.naturalWidth*scale;
+  cropState.renderedH=cropState.img.naturalHeight*scale;
+
+  clampCropOffsets();
+
+  cropState.left=(rect.width-cropState.renderedW)/2+cropState.dx;
+  cropState.top=(rect.height-cropState.renderedH)/2+cropState.dy;
+
+  cropImage.style.width=cropState.renderedW+'px';
+  cropImage.style.height=cropState.renderedH+'px';
+  cropImage.style.left=cropState.left+'px';
+  cropImage.style.top=cropState.top+'px';
+}
+
+cropZoom?.addEventListener('input',()=>{
+  cropState.zoom=Number(cropZoom.value);
+  renderCrop();
+});
+
+cropStage?.addEventListener('pointerdown',event=>{
+  if(!cropState.img)return;
+  cropState.pointerId=event.pointerId;
+  cropState.startX=event.clientX;
+  cropState.startY=event.clientY;
+  cropState.startDx=cropState.dx;
+  cropState.startDy=cropState.dy;
+  cropStage.setPointerCapture(event.pointerId);
+  cropStage.classList.add('dragging');
+});
+
+cropStage?.addEventListener('pointermove',event=>{
+  if(cropState.pointerId!==event.pointerId)return;
+  cropState.dx=cropState.startDx+(event.clientX-cropState.startX);
+  cropState.dy=cropState.startDy+(event.clientY-cropState.startY);
+  renderCrop();
+});
+
+function finishCropDrag(event){
+  if(cropState.pointerId!==event.pointerId)return;
+  cropState.pointerId=null;
+  cropStage.classList.remove('dragging');
+  try{cropStage.releasePointerCapture(event.pointerId)}catch(e){}
+}
+cropStage?.addEventListener('pointerup',finishCropDrag);
+cropStage?.addEventListener('pointercancel',finishCropDrag);
+
+function closeCropper(){
+  cropOverlay.classList.remove('active');
+  cropOverlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  cropStage.classList.remove('dragging');
+  cropState.pointerId=null;
+}
+
+document.getElementById('imageCropClose')?.addEventListener('click',closeCropper);
+document.getElementById('imageCropCancel')?.addEventListener('click',closeCropper);
+cropOverlay?.addEventListener('click',event=>{
+  if(event.target===cropOverlay)closeCropper();
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&cropOverlay?.classList.contains('active'))closeCropper();
+});
+
+function createCroppedDataURL(){
+  if(!cropState.img)return null;
+
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  const sourceX=Math.max(0,-cropState.left/scale);
+  const sourceY=Math.max(0,-cropState.top/scale);
+  const sourceW=Math.min(cropState.img.naturalWidth-sourceX,rect.width/scale);
+  const sourceH=Math.min(cropState.img.naturalHeight-sourceY,rect.height/scale);
+
+  const targetW=cropState.mode==='icon'?600:1600;
+  const targetH=cropState.mode==='icon'?600:480;
+
+  const canvas=document.createElement('canvas');
+  canvas.width=targetW;
+  canvas.height=targetH;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(
+    cropState.img,
+    sourceX,sourceY,sourceW,sourceH,
+    0,0,targetW,targetH
+  );
+  return canvas.toDataURL('image/jpeg',0.92);
+}
+
+document.getElementById('imageCropApply')?.addEventListener('click',()=>{
+  const dataURL=createCroppedDataURL();
+  if(!dataURL)return;
+
+  if(cropState.mode==='icon'){
+    editorIconImage=dataURL;
+    const uploadThumb=document.getElementById('iconUploadThumb');
+    const preview=document.querySelector('.preview-icon');
+    uploadThumb.style.backgroundImage=`url("${dataURL}")`;
+    uploadThumb.textContent='';
+    preview.style.backgroundImage=`url("${dataURL}")`;
+    preview.textContent='';
+    preview.classList.add('has-image');
+  }else{
+    editorBannerImage=dataURL;
+    const uploadThumb=document.getElementById('bannerUploadThumb');
+    const preview=document.querySelector('.preview-banner');
+    uploadThumb.style.backgroundImage=`url("${dataURL}")`;
+    uploadThumb.textContent='';
+    preview.style.backgroundImage=`url("${dataURL}")`;
+    preview.textContent='';
+    preview.classList.add('has-image');
+  }
+
+  closeCropper();
+});
+
+window.addEventListener('resize',()=>{
+  if(cropOverlay?.classList.contains('active')&&cropState.img){
+    resetCropGeometry();
+    renderCrop();
+  }
+});
+
+
+
+
+
+const COMMUNITY_NOTIFICATION_KEY='allMediaCommunityNotificationsV1';
+
+function readCommunityNotifications(){
+  try{
+    const value=JSON.parse(localStorage.getItem(COMMUNITY_NOTIFICATION_KEY)||'[]');
+    return Array.isArray(value)?value:[];
+  }catch(e){
+    return [];
+  }
+}
+
+function writeCommunityNotifications(items){
+  localStorage.setItem(COMMUNITY_NOTIFICATION_KEY,JSON.stringify(items));
+}
+
+function queueCommunityDeletionNotification(state){
+  const notifications=readCommunityNotifications();
+  notifications.unshift({
+    id:'community-deleted-'+Date.now(),
+    type:'community-deleted',
+    system:true,
+    communitySlug:editorOriginalSlug,
+    communityName:state.name||'Community',
+    communityIcon:state.icon||'◉',
+    message:`${state.name||'This Community'} was deleted by its owner. Its posts, conversations, announcements and member space are no longer available.`,
+    timestamp:Date.now(),
+    audience:'all-current-members',
+    deadLink:true,
+    replyable:false
+  });
+  writeCommunityNotifications(notifications.slice(0,100));
+}
+
+const editorExitButton=document.getElementById('editorExitButton');
+const deleteOverlay=document.getElementById('communityDeleteOverlay');
+const deleteConfirmInput=document.getElementById('communityDeleteConfirmInput');
+const deleteFinalButton=document.getElementById('communityDeleteFinal');
+
+editorExitButton?.addEventListener('click',()=>{
+  if(COMMUNITY_EDITOR_MODE==='create'){
+    window.location.href='manage-communities.html';
+    return;
+  }
+
+  const state=allMediaCommunityState[editorOriginalSlug];
+  if(!state)return;
+
+  document.getElementById('communityDeleteCopy').textContent=
+    `This permanently removes ${state.name}. Everyone currently in the Community will receive a notification that it was deleted. This cannot be undone.`;
+
+  deleteConfirmInput.value='';
+  deleteConfirmInput.placeholder=state.name||'Community name';
+  deleteFinalButton.disabled=true;
+  deleteOverlay.hidden=false;
+  setTimeout(()=>deleteConfirmInput.focus(),0);
+});
+
+deleteConfirmInput?.addEventListener('input',()=>{
+  const state=allMediaCommunityState[editorOriginalSlug];
+  deleteFinalButton.disabled=!state||deleteConfirmInput.value.trim()!==String(state.name||'').trim();
+});
+
+document.getElementById('communityDeleteCancel')?.addEventListener('click',()=>{
+  deleteOverlay.hidden=true;
+});
+
+deleteOverlay?.addEventListener('click',event=>{
+  if(event.target===deleteOverlay)deleteOverlay.hidden=true;
+});
+
+deleteFinalButton?.addEventListener('click',()=>{
+  const state=allMediaCommunityState[editorOriginalSlug];
+  if(!state||deleteConfirmInput.value.trim()!==String(state.name||'').trim())return;
+
+  queueCommunityDeletionNotification(state);
+
+  allMediaCommunityState[editorOriginalSlug]={
+    ...state,
+    joined:false,
+    pinned:false,
+    notifications:false,
+    deleted:true,
+    deletedAt:Date.now()
+  };
+
+  saveAllMediaCommunityState();
+  window.location.href='manage-communities.html';
+});
+
+
+function communitySlug(name){
+  return String(name||'').toLowerCase().trim()
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function communityFrontPageUrl(name){
+  const slug=communitySlug(name);
+  return slug==='spooky-cozy'
+    ? 'community.html'
+    : `community.html?community=${encodeURIComponent(slug)}`;
+}
+
+function openCommunityFromHotbar(event,button){
+  if(event.target.closest('.activity-bell'))return;
+  window.location.href=communityFrontPageUrl(button.dataset.community);
+}
+
+function openCommunityFromMore(event,row){
+  if(event.target.closest('.community-pin'))return;
+  window.location.href=communityFrontPageUrl(row.dataset.community);
+}
+
+document.querySelectorAll('.community-more-row').forEach(row=>{
+  row.addEventListener('keydown',event=>{
+    if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.community-pin')){
+      event.preventDefault();
+      window.location.href=communityFrontPageUrl(row.dataset.community);
+    }
+  });
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Notifications | All Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="notifications.css">
+<style>
+:root{
+  --cn-bg:#101a3a;
+  --cn-card:#182447;
+  --cn-deep:#111b3b;
+  --cn-peach:#ffc384;
+  --cn-text:#f8f8f2;
+  --cn-muted:#aeb7cb;
+  --cn-line:rgba(255,255,255,.10);
+  --cn-danger:#e7a3a3;
+}
+
+body{
+  min-height:100vh;
+}
+
+.community-notifications-shell{
+  width:calc(100% - 48px);
+  max-width:1260px;
+  margin:28px auto 80px;
+  color:var(--cn-text);
+}
+
+.community-notifications-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.community-notifications-heading h1{
+  margin:0;
+  font-size:31px;
+  line-height:1.1;
+}
+
+.community-notifications-heading p{
+  max-width:720px;
+  margin:6px 0 0;
+  color:var(--cn-muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.community-notification-heading-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.cn-button{
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:9px;
+  background:rgba(255,195,132,.06);
+  color:var(--cn-peach);
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cn-button:hover{
+  background:rgba(255,195,132,.11);
+}
+
+.cn-button.secondary{
+  border-color:rgba(255,255,255,.10);
+  background:var(--cn-deep);
+  color:var(--cn-muted);
+}
+
+.community-filter-banner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.30);
+  border-radius:10px;
+  background:rgba(255,195,132,.04);
+}
+
+.community-filter-banner[hidden]{
+  display:none!important;
+}
+
+.community-filter-banner strong{
+  color:var(--cn-peach);
+  font-size:10px;
+}
+
+.community-filter-banner span{
+  color:#8e9ab3;
+  font-size:9px;
+}
+
+.community-notification-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.community-summary-card{
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:11px;
+  background:var(--cn-card);
+}
+
+.community-summary-card strong{
+  display:block;
+  color:var(--cn-peach);
+  font-size:18px;
+}
+
+.community-summary-card span{
+  display:block;
+  margin-top:2px;
+  color:#8f9bb4;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:800;
+}
+
+.community-notification-group{
+  margin-top:20px;
+}
+
+.community-notification-group[hidden]{
+  display:none!important;
+}
+
+.community-notification-group-title{
+  margin:0 0 8px;
+  color:#8995ad;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.community-notification-list{
+  display:grid;
+  gap:8px;
+}
+
+.community-notification-item{
+  position:relative;
+  display:grid;
+  grid-template-columns:54px minmax(0,1fr) auto;
+  gap:13px;
+  align-items:start;
+  padding:13px 14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background:var(--cn-card);
+  transition:.15s ease;
+}
+
+.community-notification-item:hover{
+  border-color:rgba(255,195,132,.18);
+}
+
+.community-notification-item.unread{
+  border-color:rgba(255,195,132,.24);
+  background:
+    linear-gradient(90deg,rgba(255,195,132,.045),transparent 28%),
+    var(--cn-card);
+}
+
+.community-notification-item.unread::before{
+  content:"";
+  position:absolute;
+  left:-1px;
+  top:12px;
+  bottom:12px;
+  width:3px;
+  border-radius:99px;
+  background:var(--cn-peach);
+}
+
+.community-notification-item.system{
+  border-color:rgba(231,163,163,.18);
+  background:
+    linear-gradient(90deg,rgba(231,163,163,.035),transparent 32%),
+    var(--cn-card);
+}
+
+.community-notification-icon{
+  position:relative;
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.32);
+  border-radius:50%;
+  background:var(--cn-deep);
+  font-size:22px;
+}
+
+.community-notification-event-icon{
+  position:absolute;
+  right:-4px;
+  bottom:-3px;
+  min-width:19px;
+  height:19px;
+  padding:0 4px;
+  display:grid;
+  place-items:center;
+  border:2px solid var(--cn-card);
+  border-radius:99px;
+  background:var(--cn-peach);
+  color:var(--cn-bg);
+  font-size:8px;
+  font-weight:800;
+}
+
+.system .community-notification-event-icon{
+  background:#d99b9b;
+}
+
+.community-notification-copy{
+  min-width:0;
+}
+
+.community-notification-community{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:4px;
+}
+
+.community-notification-community button,
+.community-notification-community span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:22px;
+  padding:0 7px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:999px;
+  background:rgba(255,195,132,.055);
+  color:var(--cn-peach);
+  font:800 8px 'Outfit',sans-serif;
+}
+
+.community-notification-community button{
+  cursor:pointer;
+}
+
+.community-notification-community button:hover{
+  background:rgba(255,195,132,.11);
+}
+
+.community-notification-community .community-system-badge{
+  border-color:rgba(231,163,163,.24);
+  background:rgba(231,163,163,.04);
+  color:#e3aaaa;
+}
+
+.community-notification-message{
+  color:#eef0f6;
+  font-size:11px;
+  line-height:1.45;
+  font-weight:700;
+}
+
+.community-notification-preview{
+  display:block;
+  margin-top:3px;
+  color:#aeb7cb;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.community-notification-actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:9px;
+}
+
+.community-action{
+  min-height:28px;
+  padding:0 9px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;
+  background:var(--cn-deep);
+  color:#aeb7cb;
+  font:800 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-action:hover,
+.community-action.active{
+  border-color:rgba(255,195,132,.28);
+  color:var(--cn-peach);
+}
+
+.community-action.primary{
+  border-color:rgba(255,195,132,.28);
+  background:rgba(255,195,132,.055);
+  color:var(--cn-peach);
+}
+
+.community-quick-reply{
+  display:none;
+  margin-top:9px;
+  padding:10px;
+  border:1px solid rgba(255,195,132,.15);
+  border-radius:9px;
+  background:var(--cn-deep);
+}
+
+.community-quick-reply.active{
+  display:block;
+}
+
+.community-quick-reply-user{
+  margin-bottom:7px;
+  color:var(--cn-peach);
+  font-size:8px;
+  font-weight:800;
+}
+
+.community-quick-reply textarea{
+  width:100%;
+  min-height:70px;
+  box-sizing:border-box;
+  padding:9px 10px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:8px;
+  outline:0;
+  resize:vertical;
+  background:#0f1936;
+  color:var(--cn-text);
+  font:500 10px 'Outfit',sans-serif;
+}
+
+.community-quick-reply textarea:focus{
+  border-color:rgba(255,195,132,.42);
+}
+
+.community-quick-reply-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:7px;
+}
+
+.community-quick-reply-status{
+  color:#8793aa;
+  font-size:8px;
+}
+
+.community-quick-reply-buttons{
+  display:flex;
+  gap:6px;
+}
+
+.community-notification-meta{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#7f8ba5;
+  font-size:8px;
+  white-space:nowrap;
+}
+
+.community-unread-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--cn-peach);
+}
+
+.community-notification-empty{
+  padding:34px 24px;
+  border:1px dashed rgba(255,195,132,.20);
+  border-radius:12px;
+  color:#8d99b1;
+  text-align:center;
+  font-size:10px;
+}
+
+.community-notification-empty[hidden]{
+  display:none!important;
+}
+
+/* Filtered quick window from a Community hotbar bell */
+.cn-quick-popover{
+  position:fixed;
+  z-index:1200;
+  width:360px;
+  max-height:430px;
+  overflow:auto;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:13px;
+  background:#131e3d;
+  box-shadow:0 20px 60px rgba(0,0,0,.40);
+}
+
+.cn-quick-popover[hidden]{
+  display:none!important;
+}
+
+.cn-quick-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 13px 10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.cn-quick-head strong{
+  display:block;
+  font-size:12px;
+}
+
+.cn-quick-head span{
+  display:block;
+  margin-top:2px;
+  color:#8996af;
+  font-size:8px;
+}
+
+.cn-quick-close{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  background:var(--cn-deep);
+  color:#aeb7cb;
+  cursor:pointer;
+}
+
+.cn-quick-list{
+  display:grid;
+}
+
+.cn-quick-item{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+
+.cn-quick-item strong{
+  display:block;
+  font-size:9px;
+}
+
+.cn-quick-item p{
+  margin:3px 0 0;
+  color:#9aa5bb;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.cn-quick-footer{
+  display:block;
+  padding:10px 12px;
+  color:var(--cn-peach);
+  text-decoration:none;
+  text-align:center;
+  font-size:8px;
+  font-weight:800;
+  background:var(--cn-deep);
+}
+
+@media(max-width:800px){
+  .community-notifications-shell{
+    width:94%;
+  }
+
+  .community-notifications-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .community-notification-summary{
+    grid-template-columns:1fr;
+  }
+
+  .community-notification-item{
+    grid-template-columns:44px minmax(0,1fr);
+  }
+
+  .community-notification-icon{
+    width:40px;
+    height:40px;
+    font-size:18px;
+  }
+
+  .community-notification-meta{
+    grid-column:2;
+    justify-self:start;
+  }
+}
+
+/* Final Community notification function pass */
+.community-quick-reply-prompt{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:9px;
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#111b3b;
+  color:#8f9ab3;
+  font:500 9px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.community-quick-reply-prompt:hover{
+  border-color:rgba(255,195,132,.22);
+}
+
+.community-quick-reply-prompt-avatar{
+  width:24px;
+  height:24px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:50%;
+  color:#ffc384;
+  font-weight:800;
+}
+
+.manage-communities-drawer-layer{
+  position:fixed;
+  inset:0;
+  z-index:1300;
+}
+
+.manage-communities-drawer-layer[hidden]{
+  display:none!important;
+}
+
+.manage-communities-drawer-backdrop{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:rgba(5,10,28,.48);
+}
+
+.manage-communities-drawer{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(500px,92vw);
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  border-left:1px solid rgba(255,195,132,.25);
+  background:#101a3a;
+  box-shadow:-28px 0 70px rgba(0,0,0,.34);
+}
+
+.manage-communities-drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:#182447;
+}
+
+.manage-communities-drawer-head strong{
+  display:block;
+  font-size:13px;
+}
+
+.manage-communities-drawer-head span{
+  display:block;
+  margin-top:2px;
+  color:#8d98b0;
+  font-size:8px;
+}
+
+.manage-communities-drawer-head button{
+  width:31px;
+  height:31px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  background:#101a3a;
+  color:#ffc384;
+  cursor:pointer;
+}
+
+.manage-communities-drawer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#101a3a;
+}
+
+
+/* ============================================================
+   FINAL COMMUNITY NOTIFICATIONS APPEARANCE PASS
+   ============================================================ */
+
+.community-notifications-heading h1{font-size:33px}
+.community-notifications-heading p{font-size:13px;line-height:1.55}
+
+.community-notification-heading-actions .cn-button{
+  min-height:37px;
+  padding:0 13px;
+  font-size:10px;
+}
+
+.community-notification-heading-actions .cn-button.secondary{
+  border-color:rgba(255,195,132,.26);
+  background:rgba(255,195,132,.055);
+  color:#d6dce7;
+}
+
+.community-summary-card{
+  padding:14px 15px;
+  border-color:rgba(255,195,132,.12);
+}
+.community-summary-card strong{font-size:20px}
+.community-summary-card span{font-size:9px}
+
+.community-notification-group-title{
+  margin-bottom:9px;
+  font-size:10px;
+}
+
+.community-notification-item{
+  gap:14px;
+  padding:15px 16px;
+  border-radius:13px;
+}
+
+.community-notification-community button,
+.community-notification-community span{
+  min-height:24px;
+  padding:0 8px;
+  font-size:9px;
+}
+
+.community-notification-message{
+  font-size:12.5px;
+  line-height:1.48;
+}
+
+.community-notification-preview{
+  margin-top:4px;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.community-action{
+  min-height:30px;
+  padding:0 10px;
+  font-size:9px;
+}
+
+.community-notification-meta{font-size:9px}
+.quick-reply-prompt{min-height:38px}
+.quick-reply-placeholder{font-size:10.5px}
+.notification-after-reply{font-size:10.5px}
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand-lockup" href="index.html" aria-label="All Media home">
+    <img class="brand-logo" src="all-media-logo.png" alt="">
+    <span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+  </a>
+
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="#">All Play</a>
+  </nav>
+
+  <label class="global-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+  </label>
+
+  <div class="header-actions">
+    <button class="header-notifications" id="headerNotificationBell" type="button" aria-label="Notifications" title="Notifications">
+      <span class="notification-bell">🔔</span>
+      <span class="header-notification-count">5</span>
+    </button>
+    <a class="profile-cluster" href="profile.html" aria-label="Open your profile">
+      <span class="header-avatar" id="headerAvatar"></span>
+    </a>
+  </div>
+</header>
+
+<div class="community-bar">
+  <span class="community-label">COMMUNITIES</span>
+  <div class="pinned-communities" id="pinnedCommunities"></div>
+  <div class="community-divider-vertical"></div>
+
+  <div class="community-tools">
+    <div class="community-menu">
+      <button class="community-tool" id="communityMoreButton" type="button" aria-expanded="false">▾ More</button>
+      <div class="community-dropdown" id="communityDropdown"></div>
+    </div>
+    <button class="community-tool" id="manageCommunitiesButton" type="button">Manage Communities</button>
+  </div>
+</div>
+
+<main class="community-notifications-shell">
+  <div class="community-notifications-heading">
+    <div>
+      <h1>Community Notifications</h1>
+      <p>Activity from the Communities you belong to, kept together so Community conversation does not get lost inside your general Notifications.</p>
+    </div>
+
+    <div class="community-notification-heading-actions">
+      <button class="cn-button secondary" id="manageCommunitiesTopButton" type="button">← Manage Communities</button>
+      <button class="cn-button" id="markAllCommunityRead" type="button">Mark all as read</button>
+    </div>
+  </div>
+
+  <div class="community-filter-banner" id="communityFilterBanner" hidden>
+    <div>
+      <strong id="communityFilterTitle"></strong>
+      <span>Showing only this Community.</span>
+    </div>
+    <button class="cn-button secondary" id="clearCommunityFilter" type="button">Show all Communities</button>
+  </div>
+
+  <section class="community-notification-summary" aria-label="Community notification summary">
+    <div class="community-summary-card">
+      <strong id="communityUnreadSummary">0</strong>
+      <span>Unread</span>
+    </div>
+    <div class="community-summary-card">
+      <strong id="communityCountSummary">0</strong>
+      <span>Communities with activity</span>
+    </div>
+    <div class="community-summary-card">
+      <strong id="communityConversationSummary">0</strong>
+      <span>Conversations to answer</span>
+    </div>
+  </section>
+
+  <section class="community-notification-group" id="todayGroup">
+    <h2 class="community-notification-group-title">Today</h2>
+    <div class="community-notification-list" id="todayList"></div>
+  </section>
+
+  <section class="community-notification-group" id="weekGroup">
+    <h2 class="community-notification-group-title">Earlier this week</h2>
+    <div class="community-notification-list" id="weekList"></div>
+  </section>
+
+  <section class="community-notification-group" id="olderGroup">
+    <h2 class="community-notification-group-title">Earlier</h2>
+    <div class="community-notification-list" id="olderList"></div>
+  </section>
+
+  <div class="community-notification-empty" id="communityNotificationsEmpty" hidden>
+    You're caught up — there are no Community notifications in this view.
+  </div>
+</main>
+
+
+<div class="manage-communities-drawer-layer" id="manageCommunitiesDrawerLayer" hidden>
+  <button class="manage-communities-drawer-backdrop" id="manageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="manage-communities-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="manage-communities-drawer-head">
+      <div><strong>Manage Communities</strong><span>Organize, pin, leave, or edit.</span></div>
+      <button id="closeManageCommunitiesDrawer" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="manageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
+
+<section class="cn-quick-popover" id="communityBellPopover" hidden>
+  <div class="cn-quick-head">
+    <div>
+      <strong id="communityBellPopoverTitle"></strong>
+      <span>Quick Community notifications</span>
+    </div>
+    <button class="cn-quick-close" id="communityBellPopoverClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="cn-quick-list" id="communityBellPopoverList"></div>
+  <a class="cn-quick-footer" id="communityBellPopoverFooter" href="#">View all from this Community →</a>
+</section>
+
+<script>
+const COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
+const COMMUNITY_NOTIFICATION_KEY='allMediaCommunityNotificationsV1';
+const COMMUNITY_NOTIFICATION_READ_KEY='allMediaCommunityNotificationReadV1';
+const CURRENT_COMMUNITY_NOTIFICATION_USER='@yourusername';
+
+const COMMUNITY_DEFAULTS={
+  'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner',activityCount:5},
+  'artists':{name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator',activityCount:2},
+  'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member',activityCount:1},
+  'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member',activityCount:0},
+  'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member',activityCount:0},
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member',activityCount:0}
+};
+
+function clone(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function loadCommunityState(){
+  const state=clone(COMMUNITY_DEFAULTS);
+
+  try{
+    const saved=JSON.parse(localStorage.getItem(COMMUNITY_STATE_KEY)||'{}');
+    Object.entries(saved).forEach(([slug,value])=>{
+      state[slug]={...(state[slug]||{}),...value};
+    });
+  }catch(e){}
+
+  Object.values(state).forEach(item=>{
+    if(item.pinned){
+      item.joined=true;
+      item.notifications=true;
+    }
+  });
+
+  return state;
+}
+
+let communityState=loadCommunityState();
+
+function saveCommunityState(){
+  localStorage.setItem(COMMUNITY_STATE_KEY,JSON.stringify(communityState));
+}
+
+function joinedCommunities(){
+  return Object.entries(communityState)
+    .filter(([,state])=>state.joined&&!state.deleted)
+    .sort((a,b)=>(a[1].name||'').localeCompare(b[1].name||''));
+}
+
+function communityUrl(slug){
+  return slug==='spooky-cozy'
+    ? 'community.html'
+    : `community.html?community=${encodeURIComponent(slug)}`;
+}
+
+/* ------------------------------------------------------------
+   Notification data
+   ------------------------------------------------------------ */
+
+function sampleCommunityNotifications(){
+  const now=Date.now();
+
+  return [
+    {
+      id:'sample-spooky-reply',
+      type:'reply',
+      communitySlug:'spooky-cozy',
+      communityName:'Spooky Cozy',
+      communityIcon:'🎃',
+      title:'@LanternMoth replied in a discussion you follow.',
+      preview:'“I was wondering the exact same thing — I tried it last year and it worked really well.”',
+      timestamp:now-(18*60*1000),
+      replyable:true,
+      likeable:true,
+      openable:true
+    },
+    {
+      id:'sample-artists-announcement',
+      type:'announcement',
+      communitySlug:'artists',
+      communityName:'Artists',
+      communityIcon:'🎨',
+      title:'Artists posted a Community Update.',
+      preview:'Monthly critique thread is open. Bring one piece you want thoughtful feedback on.',
+      timestamp:now-(72*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:true
+    },
+    {
+      id:'sample-turtle-mention',
+      type:'mention',
+      communitySlug:'turtle-rescue',
+      communityName:'Turtle Rescue',
+      communityIcon:'🐢',
+      title:'@ShellKeeper mentioned you.',
+      preview:'“@yourusername you might like the care resource that was added to this thread.”',
+      timestamp:now-(3*60*60*1000),
+      replyable:true,
+      likeable:true,
+      openable:true
+    },
+    {
+      id:'sample-mod-mention',
+      type:'mod-mention',
+      communitySlug:'spooky-cozy',
+      communityName:'Spooky Cozy',
+      communityIcon:'🎃',
+      title:'@Raven mentioned you in Mod Chat.',
+      preview:'“@yourusername can you take a quick look at the October exchange note before it goes live?”',
+      recipient:'@yourusername',
+      timestamp:now-(4*60*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:true
+    },
+    {
+      id:'sample-spooky-mod',
+      type:'moderator',
+      communitySlug:'spooky-cozy',
+      communityName:'Spooky Cozy',
+      communityIcon:'🎃',
+      title:'A moderator note was added.',
+      preview:'@Raven updated a resource note for the October Art Exchange.',
+      timestamp:now-(6*60*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:true
+    },
+    {
+      id:'sample-book-thread',
+      type:'reply',
+      communitySlug:'book-club',
+      communityName:'Book Club',
+      communityIcon:'📚',
+      title:'@RainyDayReads replied in the monthly reading thread.',
+      preview:'“Chapter six completely changed how I read the opening scene.”',
+      timestamp:now-(28*60*60*1000),
+      replyable:true,
+      likeable:true,
+      openable:true
+    },
+    {
+      id:'sample-crochet-announcement',
+      type:'announcement',
+      communitySlug:'crochet-corner',
+      communityName:'Crochet Corner',
+      communityIcon:'🧶',
+      title:'Crochet Corner posted an announcement.',
+      preview:'The work-in-progress thread is open for progress photos, questions, and gentle encouragement.',
+      timestamp:now-(3*24*60*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:true
+    },
+    {
+      id:'sample-deleted-community',
+      type:'community-deleted',
+      system:true,
+      communitySlug:'deleted-candle-club',
+      communityName:'Candle Club',
+      communityIcon:'🕯️',
+      title:'🕯️ Candle Club was deleted',
+      preview:'The owner deleted this Community. Its posts, conversations, announcements, and member space are no longer available.',
+      timestamp:now-(8*24*60*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:false,
+      deadLink:true
+    }
+  ];
+}
+
+function storedCommunityNotifications(){
+  try{
+    const value=JSON.parse(localStorage.getItem(COMMUNITY_NOTIFICATION_KEY)||'[]');
+
+    if(!Array.isArray(value))return [];
+
+    return value.map((item,index)=>({
+      id:item.id||`stored-community-${index}`,
+      type:item.type||'system',
+      system:Boolean(item.system),
+      communitySlug:item.communitySlug||'deleted-community',
+      communityName:item.communityName||'Community',
+      communityIcon:item.communityIcon||'◉',
+      title:item.type==='community-deleted'
+        ? `${item.communityIcon||'◉'} ${item.communityName||'Community'} was deleted`
+        : item.title||'Community update',
+      preview:item.message||item.preview||'',
+      timestamp:Number(item.timestamp)||Date.now(),
+      replyable:item.replyable===true,
+      likeable:item.likeable===true,
+      openable:item.deadLink?false:item.openable!==false,
+      deadLink:Boolean(item.deadLink),
+      recipient:item.recipient||null
+    }));
+  }catch(e){
+    return [];
+  }
+}
+
+function allNotifications(){
+  const stored=storedCommunityNotifications();
+  const sample=sampleCommunityNotifications();
+  const seen=new Set();
+
+  return [...stored,...sample]
+    .filter(item=>!item.recipient||item.recipient===CURRENT_COMMUNITY_NOTIFICATION_USER)
+    .filter(item=>{
+      if(seen.has(item.id))return false;
+      seen.add(item.id);
+      return true;
+    })
+    .sort((a,b)=>b.timestamp-a.timestamp);
+}
+
+function readNotificationIds(){
+  try{
+    const value=JSON.parse(localStorage.getItem(COMMUNITY_NOTIFICATION_READ_KEY)||'[]');
+    return new Set(Array.isArray(value)?value:[]);
+  }catch(e){
+    return new Set();
+  }
+}
+
+let readIds=readNotificationIds();
+
+function saveReadIds(){
+  localStorage.setItem(COMMUNITY_NOTIFICATION_READ_KEY,JSON.stringify([...readIds]));
+}
+
+function markNotificationRead(id){
+  readIds.add(id);
+  saveReadIds();
+}
+
+function markAllRead(){
+  currentFilteredNotifications().forEach(item=>readIds.add(item.id));
+  saveReadIds();
+  renderNotificationStream();
+}
+
+/* ------------------------------------------------------------
+   URL filter
+   ------------------------------------------------------------ */
+
+function currentFilterSlug(){
+  return new URLSearchParams(window.location.search).get('community')||'';
+}
+
+function currentFilteredNotifications(){
+  const slug=currentFilterSlug();
+  const items=allNotifications();
+
+  if(!slug)return items;
+  return items.filter(item=>item.communitySlug===slug);
+}
+
+/* ------------------------------------------------------------
+   Rendering
+   ------------------------------------------------------------ */
+
+function eventSymbol(type){
+  if(type==='reply')return '↩';
+  if(type==='mention')return '@';
+  if(type==='announcement')return '!';
+  if(type==='moderator')return '🛡';
+  if(type==='mod-mention')return '@';
+  if(type==='community-deleted')return '×';
+  return '•';
+}
+
+function relativeTime(timestamp){
+  const delta=Math.max(0,Date.now()-timestamp);
+  const mins=Math.floor(delta/60000);
+
+  if(mins<1)return 'now';
+  if(mins<60)return `${mins} min`;
+
+  const hours=Math.floor(mins/60);
+  if(hours<24)return `${hours} hr`;
+
+  const days=Math.floor(hours/24);
+  if(days===1)return 'Yesterday';
+  if(days<7)return `${days} days`;
+
+  const weeks=Math.floor(days/7);
+  return weeks===1?'1 week':`${weeks} weeks`;
+}
+
+function groupForTimestamp(timestamp){
+  const age=Date.now()-timestamp;
+  if(age<24*60*60*1000)return 'today';
+  if(age<7*24*60*60*1000)return 'week';
+  return 'older';
+}
+
+function openCommunity(slug){
+  if(!slug||slug.startsWith('deleted-'))return;
+  window.location.href=communityUrl(slug);
+}
+
+function buildNotificationItem(item){
+  const article=document.createElement('article');
+  article.className='community-notification-item';
+
+  if(!readIds.has(item.id))article.classList.add('unread');
+  if(item.system||item.type==='community-deleted')article.classList.add('system');
+
+  article.dataset.notificationId=item.id;
+  article.dataset.communitySlug=item.communitySlug;
+
+  const icon=document.createElement('div');
+  icon.className='community-notification-icon';
+  icon.textContent=item.communityIcon||'◉';
+
+  const event=document.createElement('span');
+  event.className='community-notification-event-icon';
+  event.textContent=eventSymbol(item.type);
+  icon.appendChild(event);
+
+  const copy=document.createElement('div');
+  copy.className='community-notification-copy';
+
+  const community=document.createElement('div');
+  community.className='community-notification-community';
+
+  if(item.openable&&!item.deadLink){
+    const communityButton=document.createElement('button');
+    communityButton.type='button';
+    communityButton.textContent=`${item.communityIcon||'◉'} ${item.communityName||'Community'}`;
+    communityButton.addEventListener('click',event=>{
+      event.stopPropagation();
+      markNotificationRead(item.id);
+      openCommunity(item.communitySlug);
+    });
+    community.appendChild(communityButton);
+  }else{
+    const label=document.createElement('span');
+    label.textContent=`${item.communityIcon||'◉'} ${item.communityName||'Community'}`;
+    community.appendChild(label);
+  }
+
+  if(item.system||item.type==='community-deleted'){
+    const system=document.createElement('span');
+    system.className='community-system-badge';
+    system.textContent='SYSTEM';
+    community.appendChild(system);
+  }
+
+  const message=document.createElement('div');
+  message.className='community-notification-message';
+  message.textContent=item.title;
+
+  const preview=document.createElement('span');
+  preview.className='community-notification-preview';
+  preview.textContent=item.preview||'';
+
+  copy.append(community,message,preview);
+
+  if(item.likeable||item.replyable||item.openable){
+    const actions=document.createElement('div');
+    actions.className='community-notification-actions';
+
+    if(item.likeable){
+      const like=document.createElement('button');
+      like.type='button';
+      like.className='community-action';
+      like.textContent='♡ Like';
+      like.addEventListener('click',event=>{
+        event.stopPropagation();
+        like.classList.toggle('active');
+        like.textContent=like.classList.contains('active')?'♥ Liked':'♡ Like';
+        markNotificationRead(item.id);
+        article.classList.remove('unread');
+        renderSummary();
+      });
+      actions.appendChild(like);
+    }
+
+    if(item.replyable){
+      const reply=document.createElement('button');
+      reply.type='button';
+      reply.className='community-action primary reply-notification';
+      reply.textContent='Reply';
+      reply.setAttribute('aria-expanded','false');
+      actions.appendChild(reply);
+    }
+
+    if(item.openable&&!item.deadLink){
+      const open=document.createElement('button');
+      open.type='button';
+      open.className='community-action';
+      open.textContent=item.type==='announcement'?'Open Community':'Open conversation';
+      open.addEventListener('click',event=>{
+        event.stopPropagation();
+        markNotificationRead(item.id);
+        openCommunity(item.communitySlug);
+      });
+      actions.appendChild(open);
+    }
+
+    copy.appendChild(actions);
+  }
+
+  if(item.replyable){
+    const replyAction=copy.querySelector('.reply-notification');
+
+    const replyPrompt=document.createElement('button');
+    replyPrompt.type='button';
+    replyPrompt.className='quick-reply-prompt';
+    replyPrompt.setAttribute('aria-expanded','false');
+    replyPrompt.innerHTML='<span class="quick-reply-prompt-avatar">H</span><span class="quick-reply-placeholder">Write a quick reply…</span>';
+    copy.appendChild(replyPrompt);
+
+    const replyBox=document.createElement('span');
+    replyBox.className='quick-reply';
+
+    const user=document.createElement('span');
+    user.className='quick-reply-user';
+    user.innerHTML='<span class="quick-reply-avatar">H</span>@yourusername';
+
+    const textarea=document.createElement('textarea');
+    textarea.maxLength=500;
+    textarea.placeholder='Write a quick reply…';
+    textarea.setAttribute('aria-label','Write a quick reply');
+
+    const footer=document.createElement('span');
+    footer.className='quick-reply-footer';
+
+    const status=document.createElement('span');
+    status.className='quick-reply-status';
+
+    const buttons=document.createElement('span');
+    buttons.className='quick-reply-buttons';
+
+    const cancel=document.createElement('button');
+    cancel.type='button';
+    cancel.className='quick-reply-cancel';
+    cancel.textContent='Changed my mind…';
+
+    const send=document.createElement('button');
+    send.type='button';
+    send.className='quick-reply-post';
+    send.textContent='Reply';
+    send.disabled=true;
+
+    const afterReply=document.createElement('span');
+    afterReply.className='notification-after-reply';
+    afterReply.innerHTML='<span class="answered-state">Replied ✓</span><span class="dot-separator">·</span><button class="view-comments-link" type="button">View comments</button><span class="dot-separator">·</span><button class="reply-again-link" type="button">Reply again</button>';
+
+    function closeOtherCommunityReplies(){
+      document.querySelectorAll('.community-notification-item .quick-reply.open').forEach(openComposer=>{
+        if(openComposer===replyBox)return;
+        openComposer.classList.remove('open');
+        const parent=openComposer.closest('.community-notification-item');
+        parent?.querySelectorAll('.reply-notification, .quick-reply-prompt')
+          .forEach(trigger=>trigger.setAttribute('aria-expanded','false'));
+      });
+    }
+
+    function openReply(){
+      closeOtherCommunityReplies();
+      afterReply.classList.remove('show');
+      replyBox.classList.add('open');
+      replyPrompt.setAttribute('aria-expanded','true');
+      replyAction?.setAttribute('aria-expanded','true');
+      textarea.focus();
+
+      markNotificationRead(item.id);
+      article.classList.remove('unread');
+      article.querySelector('.community-unread-dot')?.remove();
+      renderSummary();
+    }
+
+    function closeReply(){
+      replyBox.classList.remove('open');
+      replyPrompt.setAttribute('aria-expanded','false');
+      replyAction?.setAttribute('aria-expanded','false');
+    }
+
+    replyPrompt.addEventListener('click',event=>{
+      event.stopPropagation();
+      openReply();
+    });
+
+    replyAction?.addEventListener('click',event=>{
+      event.stopPropagation();
+      replyBox.classList.contains('open')?closeReply():openReply();
+    });
+
+    textarea.addEventListener('input',()=>{
+      send.disabled=!textarea.value.trim();
+      status.textContent='';
+    });
+
+    textarea.addEventListener('click',event=>event.stopPropagation());
+
+    cancel.addEventListener('click',event=>{
+      event.stopPropagation();
+      textarea.value='';
+      send.disabled=true;
+      status.textContent='';
+      closeReply();
+    });
+
+    send.addEventListener('click',event=>{
+      event.stopPropagation();
+      const reply=textarea.value.trim();
+      if(!reply)return;
+
+      article.dataset.lastReply=reply;
+      status.textContent='Reply posted.';
+      textarea.value='';
+      send.disabled=true;
+
+      setTimeout(()=>{
+        closeReply();
+        replyPrompt.style.display='none';
+        if(replyAction)replyAction.style.display='none';
+        afterReply.classList.add('show');
+        status.textContent='';
+      },700);
+    });
+
+    afterReply.querySelector('.view-comments-link')?.addEventListener('click',event=>{
+      event.stopPropagation();
+      if(item.openable&&!item.deadLink)openCommunity(item.communitySlug);
+    });
+
+    afterReply.querySelector('.reply-again-link')?.addEventListener('click',event=>{
+      event.stopPropagation();
+      afterReply.classList.remove('show');
+      replyBox.classList.add('open');
+      replyPrompt.setAttribute('aria-expanded','true');
+      replyAction?.setAttribute('aria-expanded','true');
+      textarea.focus();
+    });
+
+    buttons.append(cancel,send);
+    footer.append(status,buttons);
+    replyBox.append(user,textarea,footer);
+    copy.append(replyBox,afterReply);
+  }
+
+  const meta=document.createElement('div');
+  meta.className='community-notification-meta';
+
+  const time=document.createElement('span');
+  time.textContent=relativeTime(item.timestamp);
+  meta.appendChild(time);
+
+  if(!readIds.has(item.id)){
+    const dot=document.createElement('span');
+    dot.className='community-unread-dot';
+    meta.appendChild(dot);
+  }
+
+  article.append(icon,copy,meta);
+
+  article.addEventListener('click',event=>{
+    if(event.target.closest('button,textarea,a'))return;
+    markNotificationRead(item.id);
+    article.classList.remove('unread');
+    article.querySelector('.community-unread-dot')?.remove();
+    renderSummary();
+  });
+
+  return article;
+}
+
+function renderSummary(){
+  const items=currentFilteredNotifications();
+  const unread=items.filter(item=>!readIds.has(item.id)).length;
+  const communities=new Set(items.map(item=>item.communitySlug)).size;
+  const replies=items.filter(item=>item.replyable&&!readIds.has(item.id)).length;
+
+  document.getElementById('communityUnreadSummary').textContent=String(unread);
+  document.getElementById('communityCountSummary').textContent=String(communities);
+  document.getElementById('communityConversationSummary').textContent=String(replies);
+}
+
+function renderFilterBanner(){
+  const slug=currentFilterSlug();
+  const banner=document.getElementById('communityFilterBanner');
+
+  if(!slug){
+    banner.hidden=true;
+    return;
+  }
+
+  const item=communityState[slug];
+  const sample=allNotifications().find(x=>x.communitySlug===slug);
+  const name=item?.name||sample?.communityName||slug;
+  const icon=item?.icon||sample?.communityIcon||'◉';
+
+  document.getElementById('communityFilterTitle').textContent=`${icon} ${name}`;
+  banner.hidden=false;
+}
+
+function renderNotificationStream(){
+  const groups={
+    today:document.getElementById('todayList'),
+    week:document.getElementById('weekList'),
+    older:document.getElementById('olderList')
+  };
+
+  Object.values(groups).forEach(list=>list.innerHTML='');
+
+  const items=currentFilteredNotifications();
+
+  items.forEach(item=>{
+    groups[groupForTimestamp(item.timestamp)].appendChild(buildNotificationItem(item));
+  });
+
+  const mapping=[
+    ['todayGroup','today'],
+    ['weekGroup','week'],
+    ['olderGroup','older']
+  ];
+
+  mapping.forEach(([groupId,key])=>{
+    document.getElementById(groupId).hidden=!groups[key].children.length;
+  });
+
+  document.getElementById('communityNotificationsEmpty').hidden=items.length>0;
+
+  renderSummary();
+  renderFilterBanner();
+}
+
+/* ------------------------------------------------------------
+   Community hotbar
+   ------------------------------------------------------------ */
+
+function renderHotbar(){
+  const pinned=document.getElementById('pinnedCommunities');
+  const dropdown=document.getElementById('communityDropdown');
+
+  pinned.innerHTML='';
+  dropdown.innerHTML='';
+
+  joinedCommunities().forEach(([slug,item])=>{
+    if(item.pinned){
+      const chip=document.createElement('button');
+      chip.className='community-chip';
+      chip.type='button';
+      chip.dataset.slug=slug;
+
+      const icon=document.createElement('span');
+      icon.textContent=item.icon||'◉';
+
+      const name=document.createTextNode(` ${item.name||slug} `);
+
+      const bell=document.createElement('span');
+      bell.className='activity-bell';
+      bell.title='Quick Community notifications';
+      bell.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>';
+
+      const count=allNotifications()
+        .filter(notification=>
+          notification.communitySlug===slug &&
+          !readIds.has(notification.id)
+        ).length;
+
+      if(count){
+        const badge=document.createElement('span');
+        badge.className='activity-count';
+        badge.textContent=String(count);
+        bell.appendChild(badge);
+      }
+
+      bell.addEventListener('click',event=>{
+        event.stopPropagation();
+        openCommunityBellPopover(slug,bell);
+      });
+
+      chip.addEventListener('click',()=>openCommunity(slug));
+      chip.append(icon,name,bell);
+      pinned.appendChild(chip);
+    }
+
+    const row=document.createElement('div');
+    row.className='community-more-row';
+    row.dataset.slug=slug;
+
+    const rowName=document.createElement('span');
+    rowName.className='community-more-name';
+    rowName.textContent=`${item.icon||'◉'} ${item.name||slug}`;
+    rowName.style.cursor='pointer';
+    rowName.addEventListener('click',()=>openCommunity(slug));
+
+    const pin=document.createElement('button');
+    pin.type='button';
+    pin.className='community-pin'+(item.pinned?' pinned':'');
+    pin.textContent=item.pinned?'Pinned':'Pin';
+
+    pin.addEventListener('click',event=>{
+      event.stopPropagation();
+      item.pinned=!item.pinned;
+      if(item.pinned){
+        item.joined=true;
+        item.notifications=true;
+      }
+      saveCommunityState();
+      renderHotbar();
+      document.getElementById('communityDropdown').classList.add('active');
+    });
+
+    row.append(rowName,pin);
+    dropdown.appendChild(row);
+  });
+}
+
+function openCommunityBellPopover(slug,anchor){
+  const popup=document.getElementById('communityBellPopover');
+  const list=document.getElementById('communityBellPopoverList');
+  const state=communityState[slug];
+
+  document.getElementById('communityBellPopoverTitle').textContent=
+    `${state?.icon||'◉'} ${state?.name||slug}`;
+
+  list.innerHTML='';
+
+  const items=allNotifications()
+    .filter(item=>item.communitySlug===slug)
+    .slice(0,3);
+
+  if(items.length){
+    items.forEach(item=>{
+      const row=document.createElement('div');
+      row.className='cn-quick-item';
+
+      const strong=document.createElement('strong');
+      strong.textContent=item.title;
+
+      const p=document.createElement('p');
+      p.textContent=item.preview||'';
+
+      row.append(strong,p);
+      list.appendChild(row);
+    });
+  }else{
+    const row=document.createElement('div');
+    row.className='cn-quick-item';
+    row.innerHTML='<strong>You are caught up.</strong><p>No recent notifications from this Community.</p>';
+    list.appendChild(row);
+  }
+
+  const footer=document.getElementById('communityBellPopoverFooter');
+  footer.href=`community-notifications.html?community=${encodeURIComponent(slug)}`;
+
+  popup.hidden=false;
+
+  const rect=anchor.getBoundingClientRect();
+  const width=360;
+  const left=Math.min(window.innerWidth-width-12,Math.max(12,rect.right-width));
+
+  popup.style.left=`${left}px`;
+  popup.style.top=`${Math.min(window.innerHeight-240,rect.bottom+10)}px`;
+}
+
+/* ------------------------------------------------------------
+   Events
+   ------------------------------------------------------------ */
+
+document.getElementById('markAllCommunityRead').addEventListener('click',markAllRead);
+
+document.getElementById('clearCommunityFilter').addEventListener('click',()=>{
+  window.location.href='community-notifications.html';
+});
+
+function openManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  const frame=document.getElementById('manageCommunitiesDrawerFrame');
+  if(!layer||!frame)return;
+  if(!frame.src)frame.src='manage-communities.html?panel=1';
+  layer.hidden=false;
+  document.body.style.overflow='hidden';
+}
+
+function closeManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  if(layer)layer.hidden=true;
+  document.body.style.overflow='';
+}
+
+document.getElementById('manageCommunitiesButton').addEventListener('click',openManageCommunitiesDrawer);
+document.getElementById('manageCommunitiesTopButton')?.addEventListener('click',openManageCommunitiesDrawer);
+document.getElementById('closeManageCommunitiesDrawer')?.addEventListener('click',closeManageCommunitiesDrawer);
+document.getElementById('manageCommunitiesDrawerBackdrop')?.addEventListener('click',closeManageCommunitiesDrawer);
+
+document.getElementById('headerNotificationBell').addEventListener('click',()=>{
+  window.location.href='notifications.html';
+});
+
+document.getElementById('communityMoreButton').addEventListener('click',event=>{
+  event.stopPropagation();
+  const dropdown=document.getElementById('communityDropdown');
+  dropdown.classList.toggle('active');
+  document.getElementById('communityMoreButton')
+    .setAttribute('aria-expanded',String(dropdown.classList.contains('active')));
+});
+
+document.getElementById('communityBellPopoverClose').addEventListener('click',()=>{
+  document.getElementById('communityBellPopover').hidden=true;
+});
+
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape')closeManageCommunitiesDrawer();
+});
+
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.community-menu')){
+    document.getElementById('communityDropdown').classList.remove('active');
+    document.getElementById('communityMoreButton').setAttribute('aria-expanded','false');
+  }
+
+  const popup=document.getElementById('communityBellPopover');
+  if(
+    !popup.hidden &&
+    !event.target.closest('#communityBellPopover') &&
+    !event.target.closest('.activity-bell')
+  ){
+    popup.hidden=true;
+  }
+});
+
+window.addEventListener('storage',event=>{
+  if(event.key===COMMUNITY_STATE_KEY){
+    communityState=loadCommunityState();
+    renderHotbar();
+  }
+
+  if(
+    event.key===COMMUNITY_NOTIFICATION_KEY ||
+    event.key===COMMUNITY_NOTIFICATION_READ_KEY
+  ){
+    readIds=readNotificationIds();
+    renderNotificationStream();
+    renderHotbar();
+  }
+});
+
+try{
+  const image=localStorage.getItem('allMediaProfileAvatar');
+  if(image){
+    document.getElementById('headerAvatar').style.backgroundImage=`url("${image}")`;
+  }
+}catch(e){}
+
+renderNotificationStream();
+renderHotbar();
+</script>
+</body>
+</html>

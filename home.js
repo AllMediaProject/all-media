@@ -654,49 +654,7 @@ function editPost(button){
     renderComposerMedia();updatePostCharCount();updateBlogTitleCount();updateBlogBodyCount();setPublishButtonLabel("SAVE CHANGES");composer.classList.add("active");feed.style.display="none";sidebarButton.textContent="CANCEL POST";sidebarButton.classList.add("cancel");composer.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function deletePost(button){ const post=button.closest(".post"); if(confirm("Delete this post?")) post.remove(); }
-const hotbar=document.querySelector(".pinned-communities");
-let draggedCommunity=null;
-function wireCommunityChip(chip){
-    chip.addEventListener("dragstart",()=>{draggedCommunity=chip;chip.classList.add("dragging")});
-    chip.addEventListener("dragend",()=>{chip.classList.remove("dragging");draggedCommunity=null})
-}
-hotbar.querySelectorAll(".community-chip").forEach(wireCommunityChip);
-function toggleCommunityPin(event,btn){
-    event.stopPropagation();
-    const row=btn.closest(".community-more-row"), name=row.dataset.community, icon=row.dataset.icon;
-    const existing=[...hotbar.querySelectorAll(".community-chip")].find(c=>c.dataset.community===name);
-    if(existing){
-        const bell=existing.querySelector(".activity-bell"),count=bell?.querySelector(".activity-count");
-        row.dataset.activityCount=count?count.textContent.trim():"0";
-        row.dataset.activityHidden=count?.classList.contains("hidden")?"true":"false";
-        existing.remove();
-        btn.classList.remove("pinned");
-        btn.innerHTML='<span class="pin-state">Pin</span><span class="pin-action">Pin</span>';
-        btn.title="Pin to hotbar";
-        btn.setAttribute("aria-label",`Pin ${name} to hotbar`);
-    }else{
-        const chip=document.createElement("button"),activityCount=row.dataset.activityCount||"0",hidden=row.dataset.activityHidden==="true"||activityCount==="0";
-        chip.className="community-chip";
-        chip.draggable=true;
-        chip.dataset.community=name;
-        chip.dataset.icon=icon;
-        chip.innerHTML=`<span class="community-icon">${icon}</span>${name} <span class="activity-bell" onclick="openRecentActivity(event,this)" title="${hidden?'No new community activity':activityCount+' new community activities'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count${hidden?' hidden':''}">${activityCount}</span></span>`;
-        wireCommunityChip(chip);
-        hotbar.appendChild(chip);
-        btn.classList.add("pinned");
-        btn.innerHTML='<span class="pin-state">Pinned</span><span class="pin-action">Unpin</span>';
-        btn.title="Unpin from hotbar";
-        btn.setAttribute("aria-label",`Unpin ${name} from hotbar`);
-        hotbar.scrollTo({left:hotbar.scrollWidth,behavior:"smooth"});
-    }
-}
-hotbar.addEventListener("dragover",e=>{
-    e.preventDefault();
-    const after=[...hotbar.querySelectorAll(".community-chip:not(.dragging)")].find(el=>e.clientX<=el.getBoundingClientRect().left+el.offsetWidth/2);
-    if(draggedCommunity) after?hotbar.insertBefore(draggedCommunity,after):hotbar.appendChild(draggedCommunity);
-});
-hotbar.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){e.preventDefault();hotbar.scrollLeft+=e.deltaY}},{passive:false});
-function openRecentActivity(event,bell){ event.stopPropagation(); const count=bell.querySelector(".activity-count"); if(count){ count.classList.add("hidden"); bell.title="No new community activity"; } }
+/* Community hotbar integration moved to community-integration.js */
 function positionPocketFlyout(){}
 function togglePocketList(button){const list=document.getElementById("pocketList");if(!list)return;const opening=list.classList.contains("collapsed");list.classList.toggle("collapsed",!opening);button?.classList.toggle("active",opening);button?.setAttribute("aria-expanded",String(opening));if(opening){requestAnimationFrame(()=>document.getElementById("pocketSearchInput")?.focus())}}
 function closePocketList(){const list=document.getElementById("pocketList"),button=document.querySelector(".pocket-list-toggle");if(!list)return;list.classList.add("collapsed");button?.classList.remove("active");button?.setAttribute("aria-expanded","false")}
