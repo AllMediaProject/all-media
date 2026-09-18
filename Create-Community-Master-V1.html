@@ -1081,6 +1081,71 @@
   }
 }
 
+
+/* --- Interest search --- */
+.interest-search-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:9px;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;
+  background:var(--cc-bg);
+}
+.interest-search-wrap:focus-within{border-color:rgba(255,195,132,.5);box-shadow:0 0 0 2px rgba(255,195,132,.05)}
+.interest-search-wrap svg{width:16px;height:16px;fill:none;stroke:#8d99b4;stroke-width:1.8}
+.interest-search-wrap input{width:100%;border:0;outline:0;background:transparent;color:var(--cc-text);font:500 11px 'Outfit',sans-serif}
+.selected-interest-row{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;margin-bottom:8px}
+.selected-interest-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid rgba(255,195,132,.4);border-radius:999px;background:rgba(255,195,132,.09);color:var(--cc-peach);font-size:9px;font-weight:800}
+.selected-interest-chip button{border:0;background:transparent;color:inherit;padding:0;cursor:pointer;font-size:12px;line-height:1}
+.all-interests-option{margin-bottom:10px;padding:6px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:var(--cc-bg);color:var(--cc-muted);font:800 9px 'Outfit',sans-serif;cursor:pointer}
+.all-interests-option.selected{border-color:rgba(255,195,132,.5);background:rgba(255,195,132,.1);color:var(--cc-peach)}
+.interest-suggestion-heading{margin:4px 0 7px;color:#8793ad;font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.interest-suggestions{display:flex;flex-wrap:wrap;gap:6px}
+.interest-suggestion{padding:6px 9px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:var(--cc-bg);color:var(--cc-muted);font:800 9px 'Outfit',sans-serif;cursor:pointer}
+.interest-suggestion:hover{border-color:rgba(255,195,132,.35);color:var(--cc-peach)}
+.interest-suggestion:disabled{opacity:.35;cursor:not-allowed}
+
+/* --- Invite-only access --- */
+.invite-access-panel{margin:12px 0 18px;padding:13px;border:1px solid rgba(255,195,132,.22);border-radius:11px;background:rgba(255,195,132,.045)}
+.invite-access-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.invite-access-head strong{display:block;font-size:10px}
+.invite-access-head span{display:block;margin-top:3px;color:var(--cc-muted);font-size:8px;line-height:1.4}
+.invite-community-id{white-space:nowrap!important;color:#8e9ab3!important}
+.invite-community-id strong{display:inline!important;color:var(--cc-peach);font-size:8px!important}
+.invite-link-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;margin-top:10px}
+
+/* --- Rules: edit / delete / reorder --- */
+.rule-builder-note{margin:0 0 10px;padding:9px 10px;border:1px dotted rgba(255,195,132,.25);border-radius:9px;color:var(--cc-muted);font-size:8px;line-height:1.45}
+.rule-builder-note strong{color:var(--cc-peach)}
+.rule-builder-row{grid-template-columns:24px 31px 1fr auto!important;align-items:center}
+.rule-builder-row.dragging{opacity:.45;border-color:rgba(255,195,132,.5)}
+.rule-drag-handle{border:0;background:transparent;color:#7986a4;cursor:grab;font:800 13px 'Outfit',sans-serif;padding:4px}
+.rule-drag-handle:active{cursor:grabbing}
+.rule-row-actions{display:flex;align-items:center;gap:2px}
+.rule-row-actions button{width:25px;height:25px;border:0;border-radius:6px;background:transparent;color:#9da8c0;cursor:pointer;font:800 12px 'Outfit',sans-serif}
+.rule-row-actions button:hover{background:rgba(255,195,132,.08);color:var(--cc-peach)}
+.rule-row-actions .rule-delete:hover{color:#e18d8d}
+.rule-title-input,.rule-copy-input{border-bottom:1px solid transparent!important}
+.rule-title-input:focus,.rule-copy-input:focus{border-bottom-color:rgba(255,195,132,.34)!important}
+
+/* --- About counters and official links --- */
+.char-counter{margin-top:5px;color:#7f8ba6;font-size:8px;text-align:right}
+.official-social-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:9px}
+.official-social-grid label span{display:block;margin:0 0 5px;color:#aeb7cb;font-size:8px;font-weight:700}
+
+/* --- Review checks --- */
+.review-check{position:relative}
+.review-check::after{content:"✓";display:grid;place-items:center;width:100%;height:100%;color:var(--cc-peach);font-size:12px;font-weight:900}
+.step-button.complete .step-number{font-size:0}
+.step-button.complete .step-number::after{content:"✓";font-size:11px;color:var(--cc-peach)}
+
+@media(max-width:700px){
+  .invite-link-row{grid-template-columns:1fr}
+  .official-social-grid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -1227,16 +1292,19 @@
 
           <div class="field">
             <div class="field-title">Primary Interests * <span class="interest-limit-count" id="interestLimitCount">4 / 5 selected</span></div>
-            <div class="interest-picker" id="interestPicker">
-              <button class="interest-option" type="button" data-interest="All Interests">All Interests Welcome</button>
-              <button class="interest-option selected" type="button" data-interest="Halloween">Halloween</button>
-              <button class="interest-option selected" type="button" data-interest="Art">Art</button>
-              <button class="interest-option selected" type="button" data-interest="Cozy">Cozy</button>
-              <button class="interest-option selected" type="button" data-interest="Crafts">Crafts</button>
-              <button class="interest-option" type="button" data-interest="Books">Books</button>
-              <button class="interest-option" type="button" data-interest="Gaming">Gaming</button>
-              <button class="interest-option" type="button" data-interest="Collecting">Collecting</button>
-            </div>
+
+            <label class="interest-search-wrap" for="interestSearchInput">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+              <input id="interestSearchInput" type="search" placeholder="Search Interests…" autocomplete="off">
+            </label>
+
+            <div class="selected-interest-row" id="selectedInterestRow"></div>
+
+            <button class="all-interests-option" id="allInterestsOption" type="button">All Interests Welcome</button>
+
+            <div class="interest-suggestion-heading">Suggested Interests</div>
+            <div class="interest-suggestions" id="interestSuggestions"></div>
+
             <div class="field-note" id="interestLimitNote">Choose up to 5 Interests, or select All Interests Welcome.</div>
           </div>
 
@@ -1278,6 +1346,22 @@
             </div>
           </div>
 
+          <section class="invite-access-panel" id="inviteAccessPanel" hidden>
+            <div class="invite-access-head">
+              <div>
+                <strong>Invite-only Community</strong>
+                <span>Each Community has a stable internal ID. Shareable invites use a separate revocable invite token — never the Community ID itself.</span>
+              </div>
+              <span class="invite-community-id">ID: <strong id="communityIdValue">cm_spooky_8f3k2q</strong></span>
+            </div>
+            <div class="invite-link-row">
+              <input class="text-input" id="inviteLinkInput" readonly value="https://allmedia.example/invite/SC-7H4P-Q2MK">
+              <button class="form-button" id="copyInviteLink" type="button">Copy</button>
+              <button class="form-button" id="resetInviteLink" type="button">Reset link</button>
+            </div>
+            <div class="field-note">For Request to Join Communities, people can share the normal Community page link and press Request to Join. Invite links are specifically for Invite Only access.</div>
+          </section>
+
           <div class="field">
             <div class="field-title">Who can create posts?</div>
             <div class="choice-grid" id="postingChoices">
@@ -1317,11 +1401,60 @@
             <p>Community Basics are enforced by All Media. These written rules explain the culture and expectations of the space. At least one rule is required.</p>
           </div>
 
+          <div class="rule-builder-note">Drag rules to reorder, or use the arrow buttons. Every new Community starts with <strong>No bullying</strong> and <strong>Respect others</strong>; they stay unless the owner deletes them.</div>
           <div class="rule-builder" id="ruleBuilder">
-            <div class="rule-builder-row"><span class="rule-builder-number">1</span><div class="rule-fields"><input class="rule-title-input" value="Keep it spooky & cozy"><input class="rule-copy-input" value="Stay relevant to the Community's purpose."></div><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>
-            <div class="rule-builder-row"><span class="rule-builder-number">2</span><div class="rule-fields"><input class="rule-title-input" value="Credit creators"><input class="rule-copy-input" value="Clearly credit work you didn't make."></div><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>
-            <div class="rule-builder-row"><span class="rule-builder-number">3</span><div class="rule-fields"><input class="rule-title-input" value="Be kind to beginners"><input class="rule-copy-input" value="Constructive feedback only."></div><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>
-            <div class="rule-builder-row"><span class="rule-builder-number">4</span><div class="rule-fields"><input class="rule-title-input" value="Keep criticism constructive"><input class="rule-copy-input" value="Critique the work or idea, not the person."></div><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">1</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="No bullying" maxlength="80">
+                <input class="rule-copy-input" value="Bullying, harassment, targeted cruelty, or intimidation is not allowed." maxlength="240">
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
+                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
+                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">2</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Respect others" maxlength="80">
+                <input class="rule-copy-input" value="Disagree without attacking people. Keep conversations respectful." maxlength="240">
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
+                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
+                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">3</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Keep it spooky & cozy" maxlength="80">
+                <input class="rule-copy-input" value="Stay relevant to the Community's purpose." maxlength="240">
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
+                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
+                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+              </div>
+            </div>
+            <div class="rule-builder-row" draggable="true">
+              <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
+              <span class="rule-builder-number">4</span>
+              <div class="rule-fields">
+                <input class="rule-title-input" value="Credit creators" maxlength="80">
+                <input class="rule-copy-input" value="Clearly credit work you didn't make." maxlength="240">
+              </div>
+              <div class="rule-row-actions">
+                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
+                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
+                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+              </div>
+            </div>
           </div>
           <button class="add-rule" id="addRuleButton" type="button">＋ Add another rule</button>
           <div class="field-note">For this prototype, we'll cap Community rules at 10.</div>
@@ -1336,19 +1469,25 @@
 
           <div class="field">
             <label for="communityAboutInput">About this Community *</label>
-            <textarea class="textarea-input" id="communityAboutInput">A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away.</textarea>
+            <textarea class="textarea-input" id="communityAboutInput" maxlength="1500">A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away.</textarea><div class="char-counter" id="communityAboutCount">0 / 1500</div>
           </div>
 
           <div class="field">
             <label for="communityWelcomeInput">Welcome message</label>
-            <textarea class="textarea-input" id="communityWelcomeInput">Welcome in! Say hello, tell us what you love, and make yourself comfortable.</textarea>
+            <textarea class="textarea-input" id="communityWelcomeInput" maxlength="500">Welcome in! Say hello, tell us what you love, and make yourself comfortable.</textarea><div class="char-counter" id="communityWelcomeCount">0 / 500</div>
             <div class="field-note">Optional. This can later be used as an evergreen Welcome announcement.</div>
           </div>
 
           <div class="field">
             <div class="field-title">Official Community links</div>
-            <input class="text-input" placeholder="Website or resource link">
-            <div class="field-note">This is for official Community resources. A pinned All Media Shop can live here later when Shops exist.</div>
+            <input class="text-input" id="communityWebsiteInput" placeholder="Website or resource link">
+            <div class="official-social-grid">
+              <label><span>Instagram</span><input class="text-input official-social-input" data-social="Instagram" placeholder="instagram.com/..."></label>
+              <label><span>YouTube</span><input class="text-input official-social-input" data-social="YouTube" placeholder="youtube.com/..."></label>
+              <label><span>TikTok</span><input class="text-input official-social-input" data-social="TikTok" placeholder="tiktok.com/@..."></label>
+              <label><span>Other</span><input class="text-input official-social-input" data-social="Other" placeholder="https://..."></label>
+            </div>
+            <div class="field-note"><strong>Important:</strong> the Social links toggle in Community Basics only controls what members may put in posts/comments. These fields are the Community's official links; when filled in, they appear in the Community's About area.</div>
           </div>
         </div>
 
@@ -1360,11 +1499,11 @@
           </div>
 
           <div class="review-list">
-            <div class="review-item"><span class="review-check">✓</span><div><strong>Identity complete</strong><span id="reviewIdentity">Spooky Cozy</span></div></div>
-            <div class="review-item"><span class="review-check">✓</span><div><strong>Interests selected</strong><span id="reviewInterests">Halloween · Art · Cozy · Crafts</span></div></div>
-            <div class="review-item"><span class="review-check">✓</span><div><strong>Community Basics set</strong><span id="reviewBasics">Public · Members can post · Reblogs allowed</span></div></div>
-            <div class="review-item"><span class="review-check">✓</span><div><strong>Rules ready</strong><span id="reviewRules">4 Community Rules</span></div></div>
-            <div class="review-item"><span class="review-check">✓</span><div><strong>About complete</strong><span id="reviewAbout">About section is ready.</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Identity complete</strong><span id="reviewIdentity">Spooky Cozy</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Interests selected</strong><span id="reviewInterests">Halloween · Art · Cozy · Crafts</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Community Basics set</strong><span id="reviewBasics">Public · Members can post · Reblogs allowed</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>Rules ready</strong><span id="reviewRules">4 Community Rules</span></div></div>
+            <div class="review-item"><span class="review-check" aria-hidden="true"></span><div><strong>About complete</strong><span id="reviewAbout">About section is ready.</span></div></div>
           </div>
 
           <div class="creation-success" id="creationSuccess">🎃 Community created in the prototype. It now appears under Your Communities.</div>
@@ -1541,36 +1680,126 @@ nextButton.addEventListener('click',()=>{
 function chooseOne(containerId,button){
   document.querySelectorAll('#'+containerId+' .choice-card').forEach(x=>x.classList.remove('selected'));
   button.classList.add('selected');
+  if(containerId==='accessChoices')syncInviteAccess();
   updatePreview();
 }
 
 document.querySelectorAll('#accessChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('accessChoices',btn)));
+
+const COMMUNITY_STABLE_ID='cm_spooky_8f3k2q';
+let inviteToken='SC-7H4P-Q2MK';
+
+function syncInviteAccess(){
+  const access=selectedChoice('accessChoices');
+  const panel=document.getElementById('inviteAccessPanel');
+  if(panel)panel.hidden=access!=='Invite Only';
+}
+
+function currentInviteUrl(){
+  return `https://allmedia.example/invite/${inviteToken}`;
+}
+
+function updateInviteLink(){
+  const input=document.getElementById('inviteLinkInput');
+  if(input)input.value=currentInviteUrl();
+}
+
+document.getElementById('copyInviteLink')?.addEventListener('click',async()=>{
+  const url=currentInviteUrl();
+  try{
+    await navigator.clipboard.writeText(url);
+    document.getElementById('copyInviteLink').textContent='Copied ✓';
+    setTimeout(()=>document.getElementById('copyInviteLink').textContent='Copy',1400);
+  }catch(e){
+    document.getElementById('inviteLinkInput')?.select();
+  }
+});
+
+document.getElementById('resetInviteLink')?.addEventListener('click',()=>{
+  const part=Math.random().toString(36).slice(2,6).toUpperCase();
+  const part2=Math.random().toString(36).slice(2,6).toUpperCase();
+  inviteToken=`SC-${part}-${part2}`;
+  updateInviteLink();
+setTimeout(syncInviteAccess,0);
+});
+
+updateInviteLink();
+
 document.querySelectorAll('#postingChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('postingChoices',btn)));
 
 const MAX_COMMUNITY_INTERESTS=5;
+const INTEREST_LIBRARY=[
+  'Halloween','Art','Cozy','Crafts','Books','Gaming','Collecting','Music','Photography',
+  'Movies & TV','Food','Home & Decor','Nature','Animals','Crochet','DIY','Vintage',
+  'Horror','Writing','Comics','Technology','Travel','Fashion','Lifestyle'
+];
+const selectedInterestSet=new Set(['Halloween','Art','Cozy','Crafts']);
+let allInterestsSelected=false;
 
-function refreshInterestLimit(){
-  const options=[...document.querySelectorAll('.interest-option')];
-  const allButton=document.querySelector('.interest-option[data-interest="All Interests"]');
-  const selectedSpecific=options.filter(x=>x!==allButton&&x.classList.contains('selected'));
+function selectedInterests(){
+  if(allInterestsSelected)return ['All Interests'];
+  return [...selectedInterestSet];
+}
+
+function renderInterestSearch(){
   const count=document.getElementById('interestLimitCount');
   const note=document.getElementById('interestLimitNote');
+  const selectedRow=document.getElementById('selectedInterestRow');
+  const allButton=document.getElementById('allInterestsOption');
+  const suggestions=document.getElementById('interestSuggestions');
+  const query=(document.getElementById('interestSearchInput')?.value||'').trim().toLowerCase();
 
-  if(allButton?.classList.contains('selected')){
-    if(count)count.textContent='All Interests';
-    options.forEach(x=>x.classList.remove('limit-reached'));
-    return;
+  selectedRow.innerHTML='';
+  if(!allInterestsSelected){
+    [...selectedInterestSet].forEach(name=>{
+      const chip=document.createElement('span');
+      chip.className='selected-interest-chip';
+      chip.innerHTML=`<span>${name}</span><button type="button" aria-label="Remove ${name}">×</button>`;
+      chip.querySelector('button').addEventListener('click',()=>{
+        selectedInterestSet.delete(name);
+        renderInterestSearch();
+        updatePreview();
+      });
+      selectedRow.appendChild(chip);
+    });
   }
 
-  if(count)count.textContent=`${selectedSpecific.length} / ${MAX_COMMUNITY_INTERESTS} selected`;
-  const atLimit=selectedSpecific.length>=MAX_COMMUNITY_INTERESTS;
+  allButton.classList.toggle('selected',allInterestsSelected);
+  count.textContent=allInterestsSelected?'All Interests':`${selectedInterestSet.size} / ${MAX_COMMUNITY_INTERESTS} selected`;
 
-  options.forEach(option=>{
-    if(option!==allButton&&!option.classList.contains('selected')){
-      option.classList.toggle('limit-reached',atLimit);
-    }else{
-      option.classList.remove('limit-reached');
-    }
+  let matches=INTEREST_LIBRARY.filter(name=>!selectedInterestSet.has(name));
+  if(query){
+    matches=matches
+      .filter(name=>name.toLowerCase().includes(query))
+      .sort((a,b)=>{
+        const aa=a.toLowerCase().startsWith(query)?0:1;
+        const bb=b.toLowerCase().startsWith(query)?0:1;
+        return aa-bb||a.localeCompare(b);
+      });
+  }else{
+    const suggested=['Books','Gaming','Collecting','Music','Photography','Vintage','Horror','Crochet'];
+    matches=suggested.filter(name=>!selectedInterestSet.has(name));
+  }
+
+  suggestions.innerHTML='';
+  matches.slice(0,8).forEach(name=>{
+    const btn=document.createElement('button');
+    btn.className='interest-suggestion';
+    btn.type='button';
+    btn.textContent=`＋ ${name}`;
+    btn.disabled=!allInterestsSelected&&selectedInterestSet.size>=MAX_COMMUNITY_INTERESTS;
+    btn.addEventListener('click',()=>{
+      if(selectedInterestSet.size>=MAX_COMMUNITY_INTERESTS&&!allInterestsSelected){
+        flashInterestLimit();
+        return;
+      }
+      allInterestsSelected=false;
+      selectedInterestSet.add(name);
+      document.getElementById('interestSearchInput').value='';
+      renderInterestSearch();
+      updatePreview();
+    });
+    suggestions.appendChild(btn);
   });
 
   if(note&&!note.classList.contains('warning')){
@@ -1586,39 +1815,19 @@ function flashInterestLimit(){
   clearTimeout(window.interestLimitTimer);
   window.interestLimitTimer=setTimeout(()=>{
     note.classList.remove('warning');
-    note.textContent='Choose up to 5 Interests, or select All Interests Welcome.';
+    renderInterestSearch();
   },2200);
 }
 
-document.querySelectorAll('.interest-option').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const allButton=document.querySelector('.interest-option[data-interest="All Interests"]');
-
-    if(btn===allButton){
-      const on=!btn.classList.contains('selected');
-      document.querySelectorAll('.interest-option').forEach(x=>x.classList.remove('selected'));
-      if(on)btn.classList.add('selected');
-    }else{
-      allButton.classList.remove('selected');
-
-      if(!btn.classList.contains('selected')){
-        const selectedSpecific=[...document.querySelectorAll('.interest-option.selected')]
-          .filter(x=>x!==allButton);
-        if(selectedSpecific.length>=MAX_COMMUNITY_INTERESTS){
-          flashInterestLimit();
-          return;
-        }
-      }
-
-      btn.classList.toggle('selected');
-    }
-
-    refreshInterestLimit();
-    updatePreview();
-  });
+document.getElementById('interestSearchInput')?.addEventListener('input',renderInterestSearch);
+document.getElementById('allInterestsOption')?.addEventListener('click',()=>{
+  allInterestsSelected=!allInterestsSelected;
+  if(allInterestsSelected)selectedInterestSet.clear();
+  renderInterestSearch();
+  updatePreview();
 });
 
-refreshInterestLimit();
+renderInterestSearch();
 
 document.getElementById('advancedToggle').addEventListener('click',function(){
   const drawer=document.getElementById('advancedDrawer');
@@ -1633,25 +1842,65 @@ function renumberRules(){
   updatePreview();
 }
 
-document.getElementById('ruleBuilder').addEventListener('click',(event)=>{
-  const del=event.target.closest('.rule-delete');
-  if(!del)return;
-  const rows=document.querySelectorAll('#ruleBuilder .rule-builder-row');
-  if(rows.length<=1)return;
-  del.closest('.rule-builder-row').remove();
+function moveRule(row,direction){
+  if(direction<0&&row.previousElementSibling){
+    row.parentElement.insertBefore(row,row.previousElementSibling);
+  }else if(direction>0&&row.nextElementSibling){
+    row.parentElement.insertBefore(row.nextElementSibling,row);
+  }
+  renumberRules();
+}
+
+const ruleBuilder=document.getElementById('ruleBuilder');
+let draggedRule=null;
+
+ruleBuilder.addEventListener('click',(event)=>{
+  const row=event.target.closest('.rule-builder-row');
+  if(!row)return;
+  if(event.target.closest('.rule-delete')){
+    if(ruleBuilder.querySelectorAll('.rule-builder-row').length<=1)return;
+    row.remove();
+    renumberRules();
+    return;
+  }
+  if(event.target.closest('.rule-move-up')){moveRule(row,-1);return;}
+  if(event.target.closest('.rule-move-down')){moveRule(row,1);return;}
+});
+
+ruleBuilder.addEventListener('input',updatePreview);
+
+ruleBuilder.addEventListener('dragstart',(event)=>{
+  const row=event.target.closest('.rule-builder-row');
+  if(!row)return;
+  draggedRule=row;
+  row.classList.add('dragging');
+  event.dataTransfer.effectAllowed='move';
+});
+
+ruleBuilder.addEventListener('dragend',()=>{
+  draggedRule?.classList.remove('dragging');
+  draggedRule=null;
   renumberRules();
 });
 
-document.getElementById('ruleBuilder').addEventListener('input',updatePreview);
+ruleBuilder.addEventListener('dragover',(event)=>{
+  event.preventDefault();
+  if(!draggedRule)return;
+  const target=event.target.closest('.rule-builder-row');
+  if(!target||target===draggedRule)return;
+  const rect=target.getBoundingClientRect();
+  const after=event.clientY>rect.top+rect.height/2;
+  target.parentElement.insertBefore(draggedRule,after?target.nextSibling:target);
+});
 
 document.getElementById('addRuleButton').addEventListener('click',()=>{
-  const builder=document.getElementById('ruleBuilder');
-  const count=builder.querySelectorAll('.rule-builder-row').length;
+  const count=ruleBuilder.querySelectorAll('.rule-builder-row').length;
   if(count>=10)return;
   const row=document.createElement('div');
   row.className='rule-builder-row';
-  row.innerHTML=`<span class="rule-builder-number">${count+1}</span><div class="rule-fields"><input class="rule-title-input" value="New Community rule"><input class="rule-copy-input" value="Explain what this rule means."></div><button class="rule-delete" type="button" aria-label="Delete rule">×</button>`;
-  builder.appendChild(row);
+  row.draggable=true;
+  row.innerHTML=`<button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button><span class="rule-builder-number">${count+1}</span><div class="rule-fields"><input class="rule-title-input" value="New Community rule" maxlength="80"><input class="rule-copy-input" value="Explain what this rule means." maxlength="240"></div><div class="rule-row-actions"><button class="rule-move-up" type="button" aria-label="Move rule up">↑</button><button class="rule-move-down" type="button" aria-label="Move rule down">↓</button><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>`;
+  ruleBuilder.appendChild(row);
   renumberRules();
 });
 
@@ -1662,10 +1911,6 @@ function selectedChoice(containerId){
   return document.querySelector('#'+containerId+' .choice-card.selected')?.dataset.value||'';
 }
 
-function selectedInterests(){
-  const selected=[...document.querySelectorAll('.interest-option.selected')].map(x=>x.dataset.interest);
-  return selected.length?selected:['Choose Interests'];
-}
 
 function linkSummary(){
   const values=[];
@@ -1710,6 +1955,18 @@ function updateReview(){
 
 updatePreview();
 showStep(1);
+
+function syncCharacterCounter(inputId,countId){
+  const input=document.getElementById(inputId);
+  const count=document.getElementById(countId);
+  if(!input||!count)return;
+  const render=()=>count.textContent=`${input.value.length} / ${input.maxLength}`;
+  input.addEventListener('input',render);
+  render();
+}
+syncCharacterCounter('communityAboutInput','communityAboutCount');
+syncCharacterCounter('communityWelcomeInput','communityWelcomeCount');
+
 
 /* COMMUNITY ICON / BANNER UPLOAD + CROP */
 const cropState={
