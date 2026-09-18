@@ -1750,6 +1750,22 @@ button.pinned-card{
   font-weight:700;
 }
 
+
+.community-composer-preview.posting-disabled{
+  opacity:.78;
+}
+
+.community-composer-preview.posting-disabled .quick-thought-input{
+  cursor:not-allowed;
+}
+
+.community-posting-note{
+  margin-top:8px;
+  color:#9ca7bd;
+  font-size:10px;
+  line-height:1.4;
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -2975,6 +2991,66 @@ function applyManagedCommunityAccess(){
   });
 }
 
+
+function currentUserCanCreateCommunityPosts(state){
+  if(state.originalPosts===false)return false;
+
+  const role=state.role||'member';
+  const posting=state.posting||'Members';
+
+  if(role==='owner')return true;
+  if(posting==='Members')return !!state.joined;
+  if(posting==='Moderators')return role==='moderator';
+  return false;
+}
+
+function applyManagedCommunityPosting(){
+  const state=currentCommunityState();
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+
+  const badge=document.querySelector('.promo-badge');
+  if(badge)badge.textContent=`🔗 ${communityLinkSummary(state).toUpperCase()}`;
+
+  const allowed=currentUserCanCreateCommunityPosts(state);
+  const composer=document.querySelector('.community-composer-preview');
+  const quickInput=document.getElementById('quickThoughtInput');
+  const quickSend=document.getElementById('quickThoughtSend');
+  const createButton=document.getElementById('openCommunityCreator');
+
+  composer?.classList.toggle('posting-disabled',!allowed);
+
+  if(quickInput){
+    quickInput.disabled=!allowed;
+    quickInput.title=allowed?'':'Original posts are turned off for this Community.';
+  }
+
+  if(quickSend){
+    quickSend.disabled=!allowed||!(quickInput?.value.trim());
+  }
+
+  if(createButton){
+    createButton.disabled=!allowed;
+    createButton.title=allowed?'':'Original posts are turned off for this Community.';
+  }
+
+  let note=composer?.querySelector('.community-posting-note');
+  if(!allowed&&composer){
+    if(!note){
+      note=document.createElement('div');
+      note.className='community-posting-note';
+      composer.appendChild(note);
+    }
+    note.textContent=state.originalPosts===false
+      ? 'Original posts are currently turned off for this Community.'
+      : 'Your Community role does not currently allow creating new posts.';
+  }else{
+    note?.remove();
+  }
+}
+
 function applyManagedCommunityProfile(){
   const state=currentCommunityState();
   if(!state?.profileEdited)return;
@@ -2998,6 +3074,7 @@ function applyManagedCommunityProfile(){
 renderCreatedCommunityFront();
 applyManagedCommunityProfile();
 applyManagedCommunityAccess();
+applyManagedCommunityPosting();
 
 function syncSpookyCommunityUI(){
   const snapshot=spookyStateSnapshot();
@@ -3104,7 +3181,8 @@ const quickThoughtInput=document.getElementById('quickThoughtInput');
 const quickThoughtSend=document.getElementById('quickThoughtSend');
 
 quickThoughtInput?.addEventListener('input',()=>{
-  quickThoughtSend.disabled=!quickThoughtInput.value.trim();
+  const allowed=currentUserCanCreateCommunityPosts(currentCommunityState());
+  quickThoughtSend.disabled=!allowed||!quickThoughtInput.value.trim();
 });
 
 function buildQuickThoughtPost(message){
@@ -3152,6 +3230,7 @@ quickThoughtInput?.addEventListener('keydown',(event)=>{
 
 const fullCreator=document.getElementById('communityFullComposer');
 function openCommunityCreator(){
+  if(!currentUserCanCreateCommunityPosts(currentCommunityState()))return;
   fullCreator?.classList.add('active');
   fullCreator?.scrollIntoView({behavior:'smooth',block:'start'});
 }

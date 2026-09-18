@@ -1061,6 +1061,67 @@
   }
 }
 
+
+.studio-edit-heading{
+  margin-bottom:9px;
+}
+
+.studio-edit-heading-spaced{
+  margin-top:18px;
+}
+
+.studio-edit-heading strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:11px;
+}
+
+.studio-edit-heading span{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-setting-list{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:#14203e;
+}
+
+.studio-setting-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:11px 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.studio-setting-row:last-child{
+  border-bottom:0;
+}
+
+.studio-setting-row>span:first-child{
+  min-width:0;
+}
+
+.studio-setting-row strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-setting-row small{
+  display:block;
+  margin-top:3px;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
 .studio-profile-context{
   display:flex;
   align-items:center;
@@ -3006,18 +3067,86 @@ function studioPanelData(sectionKey,state){
       };
     }
 
-    case 'posting':
+    case 'posting': {
+      const posting=state.posting||'Members';
+      const originalPosts=state.originalPosts!==false;
+      const reblogs=state.reblogs!==false;
+      const approvalRequired=state.approvalRequired===true;
+      const links={
+        community:state.linkSharing?.community!==false,
+        creatorShop:state.linkSharing?.creatorShop!==false,
+        social:state.linkSharing?.social===true,
+        comments:state.linkSharing?.comments!==false
+      };
+
       return {
         title:'Posting & Link Sharing',
         html:`
-          <div class="studio-detail-grid">
-            <div class="studio-detail-item"><span>Who can post</span><strong>${studioEscape(state.posting||'Members')}</strong></div>
-            <div class="studio-detail-item"><span>Original posts</span><strong>${studioBoolean(state.originalPosts,'Allowed','Off')}</strong></div>
-            <div class="studio-detail-item"><span>Reblogs</span><strong>${studioBoolean(state.reblogs,'Allowed','Off')}</strong></div>
-            <div class="studio-detail-item"><span>Approval</span><strong>${state.approvalRequired?'Review first':'Publishes immediately'}</strong></div>
-            <div class="studio-detail-item wide"><span>Link sharing</span><p>${studioEscape(studioLinkSummary(state))}</p></div>
+          <div class="studio-edit-heading">
+            <strong>Who can create posts?</strong>
+            <span>This controls who can start new posts inside the Community.</span>
+          </div>
+
+          <div class="studio-access-group" id="studioPostingChoices">
+            <button class="studio-access-choice ${posting==='Members'?'selected':''}" type="button" data-posting="Members">
+              <strong>Members</strong>
+              <span>Any Community member can create a post.</span>
+            </button>
+            <button class="studio-access-choice ${posting==='Moderators'?'selected':''}" type="button" data-posting="Moderators">
+              <strong>Moderators</strong>
+              <span>Members can participate, but only moderators and the owner can create posts.</span>
+            </button>
+            <button class="studio-access-choice ${posting==='Owner'?'selected':''}" type="button" data-posting="Owner">
+              <strong>Owner only</strong>
+              <span>Only the Community owner can create posts.</span>
+            </button>
+          </div>
+
+          <div class="studio-setting-list">
+            <label class="studio-setting-row">
+              <span><strong>Original posts</strong><small>Allow new posts to be created in this Community.</small></span>
+              <span class="switch"><input id="studioOriginalPosts" type="checkbox" ${originalPosts?'checked':''}><span class="switch-track"></span></span>
+            </label>
+            <label class="studio-setting-row">
+              <span><strong>Reblogs into Community</strong><small>Allow eligible existing posts to be added here.</small></span>
+              <span class="switch"><input id="studioReblogs" type="checkbox" ${reblogs?'checked':''}><span class="switch-track"></span></span>
+            </label>
+            <label class="studio-setting-row">
+              <span><strong>Post approval</strong><small>Require moderator approval before new posts become visible.</small></span>
+              <span class="switch"><input id="studioApproval" type="checkbox" ${approvalRequired?'checked':''}><span class="switch-track"></span></span>
+            </label>
+          </div>
+
+          <div class="studio-edit-heading studio-edit-heading-spaced">
+            <strong>Link Sharing</strong>
+            <span>Choose which kinds of member links are allowed in posts and comments.</span>
+          </div>
+
+          <div class="studio-setting-list">
+            <label class="studio-setting-row">
+              <span><strong>Community-related links</strong><small>Articles, resources, videos, websites and other links related to the Community.</small></span>
+              <span class="switch"><input id="studioCommunityLinks" type="checkbox" ${links.community?'checked':''}><span class="switch-track"></span></span>
+            </label>
+            <label class="studio-setting-row">
+              <span><strong>Creator & Shop links</strong><small>Portfolios, Ko-fi, shops, commissions and product pages.</small></span>
+              <span class="switch"><input id="studioCreatorLinks" type="checkbox" ${links.creatorShop?'checked':''}><span class="switch-track"></span></span>
+            </label>
+            <label class="studio-setting-row">
+              <span><strong>Social links</strong><small>Personal social profiles, channels, streams and similar accounts.</small></span>
+              <span class="switch"><input id="studioSocialLinks" type="checkbox" ${links.social?'checked':''}><span class="switch-track"></span></span>
+            </label>
+            <label class="studio-setting-row">
+              <span><strong>Links in comments</strong><small>Allow the selected link types inside Community comments too.</small></span>
+              <span class="switch"><input id="studioCommentLinks" type="checkbox" ${links.comments?'checked':''}><span class="switch-track"></span></span>
+            </label>
+          </div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioPostingSaveStatus"></span>
+            <button class="form-button primary" id="studioPostingSave" type="button">Save Changes</button>
           </div>`
       };
+    }
 
     case 'interests':
       return {
@@ -3234,6 +3363,66 @@ function wireStudioBasicsEditor(){
   syncAccessUI();
 }
 
+
+function wireStudioPostingEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  const postingChoices=[...document.querySelectorAll('#studioPostingChoices .studio-access-choice')];
+  const originalPosts=document.getElementById('studioOriginalPosts');
+  const reblogs=document.getElementById('studioReblogs');
+  const approval=document.getElementById('studioApproval');
+  const communityLinks=document.getElementById('studioCommunityLinks');
+  const creatorLinks=document.getElementById('studioCreatorLinks');
+  const socialLinks=document.getElementById('studioSocialLinks');
+  const commentLinks=document.getElementById('studioCommentLinks');
+  const save=document.getElementById('studioPostingSave');
+  const status=document.getElementById('studioPostingSaveStatus');
+
+  let selectedPosting=state.posting||'Members';
+
+  const clearStatus=()=>{
+    if(status)status.textContent='';
+  };
+
+  postingChoices.forEach(button=>button.addEventListener('click',()=>{
+    selectedPosting=button.dataset.posting;
+    postingChoices.forEach(choice=>{
+      choice.classList.toggle('selected',choice===button);
+    });
+    clearStatus();
+  }));
+
+  [
+    originalPosts,reblogs,approval,
+    communityLinks,creatorLinks,socialLinks,commentLinks
+  ].forEach(input=>input?.addEventListener('change',clearStatus));
+
+  save?.addEventListener('click',()=>{
+    updateCommunityState(slug,{
+      posting:selectedPosting,
+      originalPosts:!!originalPosts?.checked,
+      reblogs:!!reblogs?.checked,
+      approvalRequired:!!approval?.checked,
+      linkSharing:{
+        community:!!communityLinks?.checked,
+        creatorShop:!!creatorLinks?.checked,
+        social:!!socialLinks?.checked,
+        comments:!!commentLinks?.checked
+      },
+      postingEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+
+    setTimeout(()=>{
+      const saved=document.getElementById('studioPostingSaveStatus');
+      if(saved)saved.textContent='Saved ✓';
+    },0);
+  });
+}
+
 function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studioCommunitySlug()]){
   const panel=document.getElementById('studioDetailPanel');
   const title=document.getElementById('studioDetailTitle');
@@ -3250,6 +3439,9 @@ function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studio
   }
   if(sectionKey==='basics'){
     wireStudioBasicsEditor();
+  }
+  if(sectionKey==='posting'){
+    wireStudioPostingEditor();
   }
 
   document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{
