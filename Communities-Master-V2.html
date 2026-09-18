@@ -1203,6 +1203,13 @@ button.pinned-card{
   text-transform:uppercase;
 }
 
+
+.official-community-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.official-community-link{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(255,195,132,.22);border-radius:9px;background:rgba(255,195,132,.05);color:#ffc384;text-decoration:none;font-size:10px}
+.official-community-link strong{font-size:10px}
+.official-community-links.compact{display:grid;grid-template-columns:1fr}
+.official-community-link-note{margin-top:10px!important;color:#8995ae!important;font-size:10px!important}
+
 </style>
 </head>
 <body class="community-master">
@@ -1657,6 +1664,15 @@ button.pinned-card{
 </section>
 
 <section class="community-panel">
+<h2>Community Links</h2>
+<div class="official-community-links compact">
+<a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
+<a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
+<a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
+</div>
+</section>
+
+<section class="community-panel">
 <h2>Rules</h2>
 <div class="community-rules-list">
 <div class="community-rule"><span class="community-rule-number">1</span><div><strong>Keep it spooky & cozy</strong><span>Stay relevant to the Community's purpose.</span></div></div>
@@ -1699,8 +1715,13 @@ button.pinned-card{
 <p>Decorations and seasonal setups, crafts and DIY projects, collections and vintage finds, art and creative work, recipes and cozy treats, questions, discussion and spooky chit-chat.</p>
 <h3>Community Interests</h3>
 <div class="community-interest-row"><span class="community-interest">Halloween</span><span class="community-interest">Art</span><span class="community-interest">Cozy</span><span class="community-interest">Crafts</span></div>
-<h3>Community links</h3>
-<p>This space is ready for official links and, later, a pinned All Media Shop without cluttering the Community Home.</p>
+<h3>Community Links</h3>
+<div class="official-community-links">
+<a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
+<a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
+<a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
+</div>
+<p class="official-community-link-note">These are official links added by the Community owner. The separate Social links permission only controls whether members may put their own social links in posts or comments.</p>
 </article>
 <aside class="community-panel">
 <h2>Community Rules</h2>
