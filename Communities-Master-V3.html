@@ -2307,6 +2307,354 @@ button.pinned-card{
   }
 }
 
+
+/* ============================================================
+   COMMUNITY CREATOR — FUNCTIONAL PASS
+   ============================================================ */
+.community-type-lock-note{
+  margin:-4px 0 12px;
+  color:#7f8ba4;
+  font-size:8px;
+  text-align:right;
+}
+
+.community-creator-media{
+  margin-bottom:14px;
+}
+
+.community-media-upload{
+  width:100%;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:12px 16px;
+  border:1px dashed rgba(255,195,132,.34);
+  border-radius:11px;
+  background:#101a3a;
+  color:#ffc384;
+  font:800 11px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-media-upload:hover{
+  border-color:rgba(255,195,132,.58);
+  background:rgba(255,195,132,.045);
+}
+
+.community-media-upload-icon{
+  font-size:18px;
+}
+
+.community-media-upload small{
+  color:#8693ae;
+  font-size:8px;
+  font-weight:600;
+}
+
+.community-media-note{
+  margin-top:6px;
+  color:#8491ab;
+  font-size:8px;
+}
+
+.community-media-preview{
+  position:relative;
+  margin-top:9px;
+  padding:9px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  background:#101a3a;
+}
+
+.community-media-preview[hidden]{display:none!important}
+
+.community-media-thumbs{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:6px;
+}
+
+.community-media-thumb{
+  position:relative;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:8px;
+  background:#0c1530;
+}
+
+.community-media-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+
+.community-media-video{
+  width:min(100%,560px);
+  margin:0 auto;
+  display:block;
+  max-height:330px;
+  border-radius:9px;
+  background:#050916;
+}
+
+.community-media-video.byte-preview{
+  width:min(260px,100%);
+  aspect-ratio:9/16;
+  object-fit:contain;
+}
+
+.community-media-clear{
+  display:block;
+  margin:8px 0 0 auto;
+  border:0;
+  background:transparent;
+  color:#e6a4a4;
+  font:800 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-creator-tool{
+  position:relative;
+}
+
+.community-tool-locked .creator-tool-button:disabled{
+  opacity:.72;
+  cursor:default;
+}
+
+.community-creator-popover{
+  position:absolute;
+  left:0;
+  top:calc(100% + 8px);
+  z-index:220;
+  width:290px;
+  padding:11px;
+  border:1px solid rgba(255,195,132,.24);
+  border-radius:11px;
+  background:#111b3b;
+  box-shadow:0 18px 45px rgba(0,0,0,.34);
+}
+
+.community-creator-popover[hidden]{display:none!important}
+
+.community-creator-popover-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:9px;
+  color:#f8f8f2;
+  font-size:10px;
+  font-weight:800;
+}
+
+.community-creator-popover-title span{
+  color:#8794ae;
+  font-size:8px;
+}
+
+.community-creator-popover-input{
+  width:100%;
+  height:34px;
+  box-sizing:border-box;
+  padding:0 9px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:8px;
+  outline:0;
+  background:#101a3a;
+  color:#f8f8f2;
+  font:500 9px 'Outfit',sans-serif;
+}
+
+.community-creator-popover-input:focus{border-color:rgba(255,195,132,.50)}
+
+.community-creator-popover-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:6px;
+  margin-top:8px;
+}
+
+.community-creator-popover-actions button,
+.community-hashtag-add-row button{
+  min-height:28px;
+  padding:0 9px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:7px;
+  background:#182447;
+  color:#aeb7cb;
+  font:800 8px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.community-creator-popover-actions button.primary,
+.community-hashtag-add-row button{
+  border-color:rgba(255,195,132,.32);
+  color:#ffc384;
+}
+
+.community-creator-popover-note{
+  margin-top:8px;
+  color:#7e8ba6;
+  font-size:8px;
+  line-height:1.4;
+}
+
+.community-interest-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.community-interest-option,
+.community-hashtag-suggestion,
+.community-selected-hashtag{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;
+  background:#101a3a;
+  color:#aeb7cb;
+  font:800 8px 'Outfit',sans-serif;
+}
+
+.community-interest-option{
+  padding:6px 9px;
+  cursor:pointer;
+}
+
+.community-interest-option.selected{
+  border-color:rgba(255,195,132,.46);
+  background:rgba(255,195,132,.10);
+  color:#ffc384;
+}
+
+.community-hashtag-add-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:6px;
+}
+
+.community-selected-hashtags,
+.community-hashtag-suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:8px;
+}
+
+.community-selected-hashtag{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:5px 7px;
+  border-color:rgba(255,195,132,.28);
+  color:#ffc384;
+}
+
+.community-selected-hashtag button{
+  border:0;
+  padding:0;
+  background:transparent;
+  color:#ffc384;
+  cursor:pointer;
+}
+
+.community-hashtag-suggestion{
+  padding:5px 7px;
+  cursor:pointer;
+}
+
+.community-hashtag-suggestion:hover{
+  color:#ffc384;
+  border-color:rgba(255,195,132,.32);
+}
+
+/* published creator media */
+.community-published-media{
+  position:relative;
+  overflow:hidden;
+  margin:10px 0 12px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:10px;
+  background:#0c1530;
+}
+
+.community-published-media img{
+  width:100%;
+  max-height:520px;
+  display:block;
+  object-fit:cover;
+}
+
+.community-published-media video{
+  width:100%;
+  max-height:520px;
+  display:block;
+  background:#050916;
+}
+
+.community-published-media.byte-media{
+  width:min(68%,320px);
+  margin-left:auto;
+  margin-right:auto;
+  aspect-ratio:9/16;
+}
+
+.community-published-media.byte-media video{
+  height:100%;
+  object-fit:contain;
+}
+
+.community-published-image-slide{display:none}
+.community-published-image-slide.active{display:block}
+
+.community-published-media-arrow{
+  position:absolute;
+  top:50%;
+  z-index:3;
+  width:30px;height:30px;
+  transform:translateY(-50%);
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:50%;
+  background:rgba(16,26,58,.82);
+  color:#ffc384;
+  cursor:pointer;
+}
+.community-published-media-arrow.prev{left:8px}
+.community-published-media-arrow.next{right:8px}
+.community-published-media-dots{
+  position:absolute;
+  left:0;right:0;bottom:8px;
+  display:flex;justify-content:center;gap:5px;
+}
+.community-published-media-dot{width:6px;height:6px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.35)}
+.community-published-media-dot.active{background:#ffc384}
+
+.community-published-link{
+  display:block;
+  margin:9px 0 0;
+  padding:8px 10px;
+  overflow:hidden;
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:8px;
+  background:rgba(255,195,132,.035);
+  color:#ffc384;
+  font-size:9px;
+  text-decoration:none;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.community-full-composer .post-warning{
+  max-width:300px;
+  text-align:right;
+}
+
+@media(max-width:760px){
+  .community-media-thumbs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .community-creator-popover{position:fixed;left:12px;right:12px;bottom:12px;top:auto;width:auto}
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -2540,20 +2888,51 @@ button.pinned-card{
 <button type="button" class="creator-type-tab" data-type="video"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"></rect><path d="m16 10 5-3v10l-5-3Z"></path></svg><span>VIDEO</span></button>
 <button type="button" class="creator-type-tab" data-type="byte"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-8 12h6l-1 8 9-13h-6Z"></path></svg><span>BYTE</span></button>
 </div>
+<div class="creator-type-lock-note community-type-lock-note">Post type can’t be changed after publishing.</div>
 
-<div class="blog-title-wrap" id="communityBlogTitleWrap"><input class="blog-title-input" maxlength="120" placeholder="Blog title"><div class="blog-title-count">0 / 120</div></div>
-<div class="community-prototype-media" id="communityPrototypeMedia">Upload images · up to 6 · crop and rearrange using the existing All Media creator tools</div>
+<div class="blog-title-wrap" id="communityBlogTitleWrap"><input class="blog-title-input" id="communityCreatorTitle" maxlength="120" placeholder="Blog title"><div class="blog-title-count" id="communityCreatorTitleCount">0 / 120</div></div>
+<div class="community-creator-media" id="communityCreatorMedia">
+<input id="communityImageInput" type="file" accept="image/*" multiple hidden>
+<input id="communityVideoInput" type="file" accept="video/*" hidden>
+<button class="community-media-upload" id="communityMediaButton" type="button"><span class="community-media-upload-icon">▧</span><span id="communityMediaButtonLabel">Upload images</span><small id="communityMediaButtonHelp">Optional · up to 6 images</small></button>
+<div class="community-media-preview" id="communityMediaPreview" hidden></div>
+<div class="community-media-note" id="communityMediaNote">Images are optional for a Post.</div>
+</div>
 
 <div class="post-text-wrap">
 <div class="creator-avatar" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="24" r="11"></circle><path d="M14 55c2-13 9-19 18-19s16 6 18 19"></path><path d="M22 19c2-8 17-11 21 1-5-3-15-3-21-1Z"></path></svg></div>
 <div class="creator-writing-field"><textarea class="text-area" id="communityCreatorText" maxlength="500" placeholder="What's on your mind? Use @ to tag your friends!"></textarea><span class="textarea-resize-hint" aria-hidden="true">Drag to expand ↘</span><div class="post-char-count" id="communityCreatorCount">0 / 500</div></div>
 </div>
 
-<div class="creator-tools" aria-label="Post options">
-<div class="link-tool creator-tool"><button type="button" class="composer-option creator-tool-button"><span aria-hidden="true">🔗</span><span>Link</span><span class="creator-tool-value">Allowed here</span></button></div>
-<div class="topic-picker creator-tool"><button type="button" class="topic-toggle creator-tool-button"><span class="creator-interest-icon" aria-hidden="true">✨︎</span><span>Interest</span><span class="creator-tool-value">Halloween</span></button></div>
-<div class="hashtag-picker creator-tool"><button type="button" class="hashtag-toggle creator-tool-button"><span aria-hidden="true">#</span><span>Hashtags</span><span class="creator-tool-value"></span></button></div>
-<div class="community-picker creator-tool"><button type="button" class="community-picker-toggle creator-tool-button"><span aria-hidden="true">◉</span><span>Communities</span><span class="creator-tool-value">🎃 Spooky Cozy</span></button></div>
+<div class="creator-tools community-creator-tools" aria-label="Post options">
+<div class="link-tool creator-tool community-creator-tool" id="communityLinkTool">
+<button type="button" class="composer-option creator-tool-button" id="communityLinkToggle"><span aria-hidden="true">🔗</span><span>Link</span><span class="creator-tool-value" id="communityLinkSummary">Optional</span></button>
+<div class="community-creator-popover" id="communityLinkPopover" hidden>
+<div class="community-creator-popover-title">Attach one link</div>
+<input class="community-creator-popover-input" id="communityLinkInput" type="url" placeholder="https://…">
+<div class="community-creator-popover-actions"><button type="button" id="communityLinkRemove">Remove</button><button type="button" class="primary" id="communityLinkApply">Attach</button></div>
+<div class="community-creator-popover-note" id="communityLinkNote">One external link maximum.</div>
+</div>
+</div>
+<div class="topic-picker creator-tool community-creator-tool" id="communityInterestTool">
+<button type="button" class="topic-toggle creator-tool-button" id="communityInterestToggle"><span class="creator-interest-icon" aria-hidden="true">✨︎</span><span>Interest</span><span class="creator-tool-value" id="communityInterestSummary">Select</span></button>
+<div class="community-creator-popover community-interest-popover" id="communityInterestPopover" hidden>
+<div class="community-creator-popover-title">Community Interests <span>required</span></div>
+<div class="community-interest-options" id="communityInterestOptions"></div>
+<div class="community-creator-popover-note">Choose at least one Interest allowed by this Community.</div>
+</div>
+</div>
+<div class="hashtag-picker creator-tool community-creator-tool" id="communityHashtagTool">
+<button type="button" class="hashtag-toggle creator-tool-button" id="communityHashtagToggle"><span aria-hidden="true">#</span><span>Hashtags</span><span class="creator-tool-value" id="communityHashtagSummary">Optional</span></button>
+<div class="community-creator-popover community-hashtag-popover" id="communityHashtagPopover" hidden>
+<div class="community-creator-popover-title">Hashtags <span><b id="communityHashtagCount">0</b>/20</span></div>
+<div class="community-hashtag-add-row"><input class="community-creator-popover-input" id="communityHashtagInput" placeholder="#addahashtag" maxlength="80"><button type="button" id="communityHashtagAdd">Add</button></div>
+<div class="community-selected-hashtags" id="communitySelectedHashtags"></div>
+<div class="community-hashtag-suggestions" id="communityHashtagSuggestions"></div>
+<div class="community-creator-popover-note">Hashtags are optional and separate from Community Interests.</div>
+</div>
+</div>
+<div class="community-picker creator-tool community-creator-tool community-tool-locked"><button type="button" class="community-picker-toggle creator-tool-button" id="communityFixedPicker" disabled title="You are already posting inside this Community"><span aria-hidden="true">◉</span><span>Community</span><span class="creator-tool-value" id="communityFixedPickerValue">🎃 Spooky Cozy</span></button></div>
 </div>
 
 <div class="profile-setting">
@@ -2563,7 +2942,7 @@ button.pinned-card{
 
 <div class="composer-actions">
 <button class="community-composer-cancel" id="closeCommunityCreatorBottom" type="button">Cancel</button>
-<span class="post-warning" id="communityCreatorWarning">Looks like your post is missing some context…</span>
+<span class="post-warning" id="communityCreatorWarning" aria-live="polite">Looks like your post is missing some context…</span>
 <button class="post-button" id="communityCreatorPost" type="button"><svg class="publish-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-8-8-2Z"></path><path d="m11 13 10-10"></path></svg><span class="publish-label">POST</span></button>
 </div>
 </section>
@@ -3593,7 +3972,7 @@ function renderCreatedCommunityFront(){
     );
   }
 
-  const communityPickerValue=document.querySelector('#communityFullComposer .community-picker .creator-tool-value');
+  const communityPickerValue=document.getElementById('communityFixedPickerValue')||document.querySelector('#communityFullComposer .community-picker .creator-tool-value');
   if(communityPickerValue)communityPickerValue.textContent=`${icon} ${state.name}`;
 
   document.querySelectorAll('.community-basics-list').forEach(list=>{
@@ -4272,60 +4651,560 @@ quickThoughtInput?.addEventListener('keydown',(event)=>{
 });
 
 const fullCreator=document.getElementById('communityFullComposer');
+const communityCreatorState={
+  type:'post',
+  interests:new Set(),
+  hashtags:[],
+  link:'',
+  imageFiles:[],
+  imageUrls:[],
+  videoFile:null,
+  videoUrl:null
+};
+
+const COMMUNITY_CREATOR_INTEREST_LIBRARY=[
+  'Halloween','Art','Cozy','Crafts','Books','Gaming','Collecting','Music','Photography',
+  'Movies & TV','Food','Home & Decor','Nature','Animals','Crochet','DIY','Vintage',
+  'Horror','Writing','Comics','Technology','Travel','Fashion','Lifestyle'
+];
+
+function communityCreatorAllowedInterests(){
+  const state=currentCommunityState();
+  let values=Array.isArray(state.interests)?state.interests.filter(Boolean):[];
+  if(!values.length&&state.name==='Spooky Cozy')values=['Halloween','Art','Cozy','Crafts'];
+  if(!values.length||values.includes('All Interests'))return [...COMMUNITY_CREATOR_INTEREST_LIBRARY];
+  return values.slice(0,5);
+}
+
+function communityCreatorInterestEmoji(name){
+  const map={Halloween:'🎃',Art:'🎨',Cozy:'🕯️',Crafts:'✂️',Books:'📚',Gaming:'🎮',Collecting:'🗝️',Music:'🎵',Photography:'📷','Movies & TV':'🎬',Food:'🍴','Home & Decor':'🏠',Nature:'🌿',Animals:'🐾',Crochet:'🧶',DIY:'🛠️',Vintage:'🕰️',Horror:'👻',Writing:'✎',Comics:'💥',Technology:'💻',Travel:'✈️',Fashion:'👗',Lifestyle:'☕'};
+  return map[name]||'✨';
+}
+
+function communityCreatorLinksAllowed(){
+  const links=currentCommunityState().linkSharing||{};
+  return Boolean(links.community||links.creatorShop||links.social||links.comments);
+}
+
+function creatorSafe(value){
+  return String(value??'')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'",'&#039;');
+}
+
+function communityCreatorShowWarning(message){
+  const warning=document.getElementById('communityCreatorWarning');
+  if(!warning)return;
+  warning.textContent=message;
+  warning.style.display='inline';
+  clearTimeout(window.communityCreatorWarningTimer);
+  window.communityCreatorWarningTimer=setTimeout(()=>warning.style.display='',3400);
+}
+
+function closeCommunityCreatorPopovers(exceptId=''){
+  ['communityLinkPopover','communityInterestPopover','communityHashtagPopover'].forEach(id=>{
+    if(id!==exceptId){
+      const el=document.getElementById(id);
+      if(el)el.hidden=true;
+    }
+  });
+}
+
+function toggleCommunityCreatorPopover(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const opening=el.hidden;
+  closeCommunityCreatorPopovers(id);
+  el.hidden=!opening;
+}
+
+function renderCommunityCreatorInterests(){
+  const options=document.getElementById('communityInterestOptions');
+  const summary=document.getElementById('communityInterestSummary');
+  if(!options||!summary)return;
+
+  const allowed=communityCreatorAllowedInterests();
+  [...communityCreatorState.interests].forEach(value=>{
+    if(!allowed.includes(value))communityCreatorState.interests.delete(value);
+  });
+
+  if(!communityCreatorState.interests.size&&allowed.length){
+    communityCreatorState.interests.add(allowed[0]);
+  }
+
+  options.innerHTML='';
+  allowed.forEach(name=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='community-interest-option'+(communityCreatorState.interests.has(name)?' selected':'');
+    button.textContent=`${communityCreatorInterestEmoji(name)} ${name}`;
+    button.addEventListener('click',()=>{
+      if(communityCreatorState.interests.has(name))communityCreatorState.interests.delete(name);
+      else communityCreatorState.interests.add(name);
+      renderCommunityCreatorInterests();
+    });
+    options.appendChild(button);
+  });
+
+  const selected=[...communityCreatorState.interests];
+  summary.textContent=!selected.length?'Select':selected.length===1?selected[0]:`${selected.length} selected`;
+}
+
+function normalizeCommunityHashtag(value){
+  const clean=String(value||'').trim().replace(/^#+/,'').replace(/\s+/g,'').replace(/[^a-zA-Z0-9_\-]/g,'');
+  return clean?`#${clean}`:'';
+}
+
+function communityHashtagSuggestions(){
+  const state=currentCommunityState();
+  const raw=[state.name,...communityCreatorAllowedInterests()]
+    .map(value=>normalizeCommunityHashtag(value))
+    .filter(Boolean);
+  return [...new Set(raw)].slice(0,8);
+}
+
+function renderCommunityCreatorHashtags(){
+  const selected=document.getElementById('communitySelectedHashtags');
+  const suggestions=document.getElementById('communityHashtagSuggestions');
+  const count=document.getElementById('communityHashtagCount');
+  const summary=document.getElementById('communityHashtagSummary');
+  if(!selected||!suggestions||!count||!summary)return;
+
+  selected.innerHTML='';
+  communityCreatorState.hashtags.forEach(tag=>{
+    const chip=document.createElement('span');
+    chip.className='community-selected-hashtag';
+    const label=document.createElement('span');
+    label.textContent=tag;
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.textContent='×';
+    remove.setAttribute('aria-label',`Remove ${tag}`);
+    remove.addEventListener('click',()=>{
+      communityCreatorState.hashtags=communityCreatorState.hashtags.filter(x=>x!==tag);
+      renderCommunityCreatorHashtags();
+    });
+    chip.append(label,remove);
+    selected.appendChild(chip);
+  });
+
+  suggestions.innerHTML='';
+  communityHashtagSuggestions().filter(tag=>!communityCreatorState.hashtags.includes(tag)).forEach(tag=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='community-hashtag-suggestion';
+    button.textContent=tag;
+    button.addEventListener('click',()=>addCommunityCreatorHashtag(tag));
+    suggestions.appendChild(button);
+  });
+
+  count.textContent=String(communityCreatorState.hashtags.length);
+  summary.textContent=communityCreatorState.hashtags.length?`${communityCreatorState.hashtags.length} selected`:'Optional';
+}
+
+function addCommunityCreatorHashtag(value){
+  const tag=normalizeCommunityHashtag(value);
+  if(!tag)return;
+  if(communityCreatorState.hashtags.length>=20){
+    communityCreatorShowWarning('You can add up to 20 hashtags.');
+    return;
+  }
+  if(!communityCreatorState.hashtags.includes(tag))communityCreatorState.hashtags.push(tag);
+  const input=document.getElementById('communityHashtagInput');
+  if(input)input.value='';
+  renderCommunityCreatorHashtags();
+}
+
+function clearCommunityCreatorMedia(revoke=true){
+  if(revoke){
+    communityCreatorState.imageUrls.forEach(url=>URL.revokeObjectURL(url));
+    if(communityCreatorState.videoUrl)URL.revokeObjectURL(communityCreatorState.videoUrl);
+  }
+  communityCreatorState.imageFiles=[];
+  communityCreatorState.imageUrls=[];
+  communityCreatorState.videoFile=null;
+  communityCreatorState.videoUrl=null;
+  const imageInput=document.getElementById('communityImageInput');
+  const videoInput=document.getElementById('communityVideoInput');
+  if(imageInput)imageInput.value='';
+  if(videoInput)videoInput.value='';
+  renderCommunityCreatorMedia();
+}
+
+function renderCommunityCreatorMedia(){
+  const preview=document.getElementById('communityMediaPreview');
+  if(!preview)return;
+  preview.innerHTML='';
+
+  if(communityCreatorState.imageUrls.length){
+    const thumbs=document.createElement('div');
+    thumbs.className='community-media-thumbs';
+    communityCreatorState.imageUrls.forEach((url,index)=>{
+      const thumb=document.createElement('div');
+      thumb.className='community-media-thumb';
+      const img=document.createElement('img');
+      img.src=url;
+      img.alt=`Selected image ${index+1}`;
+      thumb.appendChild(img);
+      thumbs.appendChild(thumb);
+    });
+    preview.appendChild(thumbs);
+  }else if(communityCreatorState.videoUrl){
+    const video=document.createElement('video');
+    video.src=communityCreatorState.videoUrl;
+    video.controls=true;
+    video.muted=true;
+    video.playsInline=true;
+    video.className='community-media-video'+(communityCreatorState.type==='byte'?' byte-preview':'');
+    preview.appendChild(video);
+  }
+
+  if(communityCreatorState.imageUrls.length||communityCreatorState.videoUrl){
+    const clear=document.createElement('button');
+    clear.type='button';
+    clear.className='community-media-clear';
+    clear.textContent='Remove media';
+    clear.addEventListener('click',()=>clearCommunityCreatorMedia(true));
+    preview.appendChild(clear);
+    preview.hidden=false;
+  }else{
+    preview.hidden=true;
+  }
+}
+
+function syncCommunityCreatorType(){
+  const type=communityCreatorState.type;
+  fullCreator?.classList.remove('mode-post','mode-blog','mode-video','mode-byte');
+  fullCreator?.classList.add('mode-'+type);
+
+  const titleWrap=document.getElementById('communityBlogTitleWrap');
+  const title=document.getElementById('communityCreatorTitle');
+  const textarea=document.getElementById('communityCreatorText');
+  const buttonLabel=document.getElementById('communityMediaButtonLabel');
+  const buttonHelp=document.getElementById('communityMediaButtonHelp');
+  const note=document.getElementById('communityMediaNote');
+  const publish=document.querySelector('#communityCreatorPost .publish-label');
+
+  const needsTitle=type==='blog'||type==='video';
+  if(titleWrap)titleWrap.classList.toggle('active',needsTitle);
+  if(title){
+    title.placeholder=type==='video'?'Video title':'Blog title';
+    title.maxLength=120;
+  }
+
+  if(textarea){
+    textarea.maxLength=type==='byte'?300:type==='blog'?35000:500;
+    textarea.placeholder=type==='blog'?'Write your blog… Use @ to tag your friends!':type==='video'?'Describe your video… Use @ to tag your friends!':"What's on your mind? Use @ to tag your friends!";
+    textarea.dispatchEvent(new Event('input'));
+  }
+
+  if(type==='video'||type==='byte'){
+    if(buttonLabel)buttonLabel.textContent=type==='byte'?'Upload Byte video':'Upload video';
+    if(buttonHelp)buttonHelp.textContent=type==='byte'?'Required · vertical 9:16 · 3 minute max':'Required · one video';
+    if(note)note.textContent=type==='byte'?'A Byte needs a video and can be up to 3 minutes long.':'A Video post needs a video file.';
+  }else{
+    if(buttonLabel)buttonLabel.textContent=type==='blog'?'Upload preview image':'Upload images';
+    if(buttonHelp)buttonHelp.textContent=type==='blog'?'Optional · preview image':'Optional · up to 6 images';
+    if(note)note.textContent=type==='blog'?'A Blog preview image is optional.':'Images are optional for a Post.';
+  }
+
+  if(publish)publish.textContent=type.toUpperCase();
+  renderCommunityCreatorMedia();
+}
+
+function resetCommunityCreator({preservePublishedMedia=false}={}){
+  if(!preservePublishedMedia)clearCommunityCreatorMedia(true);
+  else{
+    communityCreatorState.imageFiles=[];
+    communityCreatorState.imageUrls=[];
+    communityCreatorState.videoFile=null;
+    communityCreatorState.videoUrl=null;
+    renderCommunityCreatorMedia();
+  }
+
+  communityCreatorState.type='post';
+  communityCreatorState.interests.clear();
+  communityCreatorState.hashtags=[];
+  communityCreatorState.link='';
+
+  document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.type==='post'));
+  const textarea=document.getElementById('communityCreatorText');
+  const title=document.getElementById('communityCreatorTitle');
+  const linkInput=document.getElementById('communityLinkInput');
+  if(textarea)textarea.value='';
+  if(title)title.value='';
+  if(linkInput)linkInput.value='';
+  document.getElementById('communityCreatorTitleCount').textContent='0 / 120';
+  document.getElementById('communityCreatorCount').textContent='0 / 500';
+
+  const allowed=communityCreatorAllowedInterests();
+  if(allowed[0])communityCreatorState.interests.add(allowed[0]);
+  renderCommunityCreatorInterests();
+  renderCommunityCreatorHashtags();
+  syncCommunityCreatorLinkUI();
+  syncCommunityCreatorType();
+  closeCommunityCreatorPopovers();
+}
+
+function syncCommunityCreatorLinkUI(){
+  const allowed=communityCreatorLinksAllowed();
+  const toggle=document.getElementById('communityLinkToggle');
+  const summary=document.getElementById('communityLinkSummary');
+  const note=document.getElementById('communityLinkNote');
+  if(toggle)toggle.disabled=!allowed;
+  if(summary)summary.textContent=!allowed?'Not allowed':communityCreatorState.link?'Attached':'Optional';
+  if(note)note.textContent=allowed?'One external link maximum.':'This Community does not allow external links.';
+  if(!allowed)communityCreatorState.link='';
+}
+
+function syncCommunityCreatorContext(){
+  const state=currentCommunityState();
+  const interests=communityCreatorAllowedInterests();
+  const context=document.querySelector('#communityFullComposer .community-creator-context span');
+  if(context){
+    context.innerHTML='';
+    const strong=document.createElement('strong');
+    strong.textContent=`Posting in ${state.icon||'◉'} ${state.name}`;
+    context.appendChild(strong);
+    context.appendChild(document.createTextNode(interests.length?` · Choose from ${interests.slice(0,5).join(', ')}.`:' · Choose an Interest.'));
+  }
+  const fixed=document.getElementById('communityFixedPickerValue');
+  if(fixed)fixed.textContent=`${state.icon||'◉'} ${state.name}`;
+}
+
 function openCommunityCreator(){
   if(!currentUserCanCreateCommunityPosts(currentCommunityState()))return;
+  syncCommunityCreatorContext();
+  renderCommunityCreatorInterests();
+  renderCommunityCreatorHashtags();
+  syncCommunityCreatorLinkUI();
   fullCreator?.classList.add('active');
   fullCreator?.scrollIntoView({behavior:'smooth',block:'start'});
 }
+
 function closeCommunityCreator(){
+  closeCommunityCreatorPopovers();
   fullCreator?.classList.remove('active');
 }
+
 document.getElementById('openCommunityCreator')?.addEventListener('click',openCommunityCreator);
 document.getElementById('closeCommunityCreatorTop')?.addEventListener('click',closeCommunityCreator);
 document.getElementById('closeCommunityCreatorBottom')?.addEventListener('click',closeCommunityCreator);
 
 document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
-    document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(x=>x.classList.remove('active'));
-    tab.classList.add('active');
     const type=tab.dataset.type||'post';
-    fullCreator?.classList.remove('mode-post','mode-blog','mode-video','mode-byte');
-    fullCreator?.classList.add('mode-'+type);
-    const titleWrap=document.getElementById('communityBlogTitleWrap');
-    if(titleWrap)titleWrap.classList.toggle('active',type==='blog');
-    const media=document.getElementById('communityPrototypeMedia');
-    if(media)media.textContent=(type==='video'||type==='byte')
-      ? (type==='byte'?'Upload Byte video · vertical 9:16 · 3 minute max':'Upload video · horizontal preview')
-      : 'Upload images · up to 6 · crop and rearrange using the existing All Media creator tools';
-    const textarea=document.getElementById('communityCreatorText');
-    if(textarea){
-      textarea.maxLength=type==='byte'?300:type==='blog'?35000:500;
-      textarea.placeholder=type==='blog'?'Write your blog… Use @ to tag your friends!':"What's on your mind? Use @ to tag your friends!";
-      textarea.dispatchEvent(new Event('input'));
-    }
+    if(type===communityCreatorState.type)return;
+    clearCommunityCreatorMedia(true);
+    communityCreatorState.type=type;
+    document.querySelectorAll('#communityFullComposer .creator-type-tab').forEach(x=>x.classList.toggle('active',x===tab));
+    syncCommunityCreatorType();
   });
 });
 
 document.getElementById('communityCreatorText')?.addEventListener('input',function(){
   const count=document.getElementById('communityCreatorCount');
-  if(count)count.textContent=`${this.value.length} / ${this.maxLength}`;
+  const title=document.getElementById('communityCreatorTitle')?.value||'';
+  if(!count)return;
+  if(communityCreatorState.type==='video')count.textContent=`${title.length+this.value.length} / 500 incl. title`;
+  else if(communityCreatorState.type==='blog')count.textContent=`${this.value.length.toLocaleString()} / 1,000 minimum · 35,000 max`;
+  else count.textContent=`${this.value.length} / ${this.maxLength}`;
 });
 
+document.getElementById('communityCreatorTitle')?.addEventListener('input',function(){
+  const count=document.getElementById('communityCreatorTitleCount');
+  if(count)count.textContent=`${this.value.length} / 120`;
+  if(communityCreatorState.type==='video')document.getElementById('communityCreatorText')?.dispatchEvent(new Event('input'));
+});
+
+document.getElementById('communityLinkToggle')?.addEventListener('click',()=>{
+  if(!communityCreatorLinksAllowed())return;
+  toggleCommunityCreatorPopover('communityLinkPopover');
+});
+document.getElementById('communityInterestToggle')?.addEventListener('click',()=>toggleCommunityCreatorPopover('communityInterestPopover'));
+document.getElementById('communityHashtagToggle')?.addEventListener('click',()=>toggleCommunityCreatorPopover('communityHashtagPopover'));
+
+document.getElementById('communityLinkApply')?.addEventListener('click',()=>{
+  const input=document.getElementById('communityLinkInput');
+  const value=input?.value.trim()||'';
+  if(!value){communityCreatorState.link='';syncCommunityCreatorLinkUI();return;}
+  try{
+    const url=new URL(value);
+    if(!/^https?:$/.test(url.protocol))throw new Error('protocol');
+    communityCreatorState.link=url.href;
+    syncCommunityCreatorLinkUI();
+    document.getElementById('communityLinkPopover').hidden=true;
+  }catch(e){communityCreatorShowWarning('Please enter a valid http:// or https:// link.');}
+});
+document.getElementById('communityLinkRemove')?.addEventListener('click',()=>{
+  communityCreatorState.link='';
+  const input=document.getElementById('communityLinkInput');
+  if(input)input.value='';
+  syncCommunityCreatorLinkUI();
+});
+
+document.getElementById('communityHashtagAdd')?.addEventListener('click',()=>addCommunityCreatorHashtag(document.getElementById('communityHashtagInput')?.value));
+document.getElementById('communityHashtagInput')?.addEventListener('keydown',event=>{
+  if(event.key==='Enter'){
+    event.preventDefault();
+    addCommunityCreatorHashtag(event.currentTarget.value);
+  }
+});
+
+document.getElementById('communityMediaButton')?.addEventListener('click',()=>{
+  const type=communityCreatorState.type;
+  document.getElementById(type==='video'||type==='byte'?'communityVideoInput':'communityImageInput')?.click();
+});
+
+document.getElementById('communityImageInput')?.addEventListener('change',event=>{
+  clearCommunityCreatorMedia(true);
+  const files=[...(event.target.files||[])].filter(file=>file.type.startsWith('image/')).slice(0,communityCreatorState.type==='blog'?1:6);
+  if((event.target.files||[]).length>6)communityCreatorShowWarning('Up to 6 images per Post.');
+  communityCreatorState.imageFiles=files;
+  communityCreatorState.imageUrls=files.map(file=>URL.createObjectURL(file));
+  renderCommunityCreatorMedia();
+});
+
+document.getElementById('communityVideoInput')?.addEventListener('change',event=>{
+  clearCommunityCreatorMedia(true);
+  const file=[...(event.target.files||[])].find(file=>file.type.startsWith('video/'));
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  if(communityCreatorState.type==='byte'){
+    const probe=document.createElement('video');
+    probe.preload='metadata';
+    probe.src=url;
+    probe.onloadedmetadata=()=>{
+      if(Number.isFinite(probe.duration)&&probe.duration>180.05){
+        URL.revokeObjectURL(url);
+        communityCreatorShowWarning('Bytes can be up to 3 minutes long.');
+        clearCommunityCreatorMedia(false);
+        return;
+      }
+      communityCreatorState.videoFile=file;
+      communityCreatorState.videoUrl=url;
+      renderCommunityCreatorMedia();
+    };
+    probe.onerror=()=>{
+      URL.revokeObjectURL(url);
+      communityCreatorShowWarning('That video could not be previewed.');
+    };
+  }else{
+    communityCreatorState.videoFile=file;
+    communityCreatorState.videoUrl=url;
+    renderCommunityCreatorMedia();
+  }
+});
+
+document.addEventListener('click',event=>{
+  if(!event.target.closest('.community-creator-tool'))closeCommunityCreatorPopovers();
+});
+
+function communityCreatorMediaHTML(payload){
+  if(payload.imageUrls?.length){
+    const slides=payload.imageUrls.map((url,index)=>`<img class="community-published-image-slide${index===0?' active':''}" src="${creatorSafe(url)}" alt="Post image ${index+1}">`).join('');
+    const controls=payload.imageUrls.length>1?`<button class="community-published-media-arrow prev" type="button" onclick="communityPublishedMediaMove(event,this,-1)">‹</button><button class="community-published-media-arrow next" type="button" onclick="communityPublishedMediaMove(event,this,1)">›</button><div class="community-published-media-dots">${payload.imageUrls.map((_,index)=>`<button class="community-published-media-dot${index===0?' active':''}" type="button" data-index="${index}"></button>`).join('')}</div>`:'';
+    return `<div class="community-published-media" data-media-index="0">${slides}${controls}</div>`;
+  }
+  if(payload.videoUrl){
+    return `<div class="community-published-media${payload.type==='byte'?' byte-media':''}"><video src="${creatorSafe(payload.videoUrl)}" controls playsinline preload="metadata"></video></div>`;
+  }
+  return '';
+}
+
+function communityPublishedMediaMove(event,button,direction){
+  event.stopPropagation();
+  const media=button.closest('.community-published-media');
+  if(!media)return;
+  const slides=[...media.querySelectorAll('.community-published-image-slide')];
+  const dots=[...media.querySelectorAll('.community-published-media-dot')];
+  if(slides.length<2)return;
+  let index=Number(media.dataset.mediaIndex||0);
+  index=(index+direction+slides.length)%slides.length;
+  media.dataset.mediaIndex=String(index);
+  slides.forEach((slide,i)=>slide.classList.toggle('active',i===index));
+  dots.forEach((dot,i)=>dot.classList.toggle('active',i===index));
+}
+
+function communityCreatorCardHeader(payload){
+  const state=currentCommunityState();
+  const interest=payload.interests[0]||'All Interests';
+  return `<header class="post-header"><div aria-hidden="true" class="profile-picture">y</div><div class="post-author-copy"><div class="post-author-line"><span class="username">@yourusername</span><span class="post-time">· just now</span><span class="post-type-bubble">${payload.type.toUpperCase()}</span></div><div class="post-meta-line"><span class="topic">${creatorSafe(communityCreatorInterestEmoji(interest))} ${creatorSafe(interest)}</span><span class="post-community">· in ${creatorSafe(state.icon||'◉')} ${creatorSafe(state.name)}</span></div></div><div class="post-header-right"><button aria-label="More options" class="post-menu-button" type="button">•••</button></div></header>`;
+}
+
+function communityCreatorInteractions(payload){
+  const likeClass=payload.type==='blog'?'blog-like-button':payload.type==='video'?'video-like-button':payload.type==='byte'?'byte-like-button':'regular-like-button';
+  const tags=payload.hashtags.map(tag=>`<span class="post-hashtag">${creatorSafe(tag)}</span>`).join('');
+  return `<div class="interactions"><button class="action-pill ${likeClass}" onclick="masterToggleLike(this)" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">0</span></button><button class="action-pill" type="button"><span>Pocket</span></button><button class="action-pill" type="button"><span>Community</span></button><button class="reblog-counter" onclick="masterIncrement(this)" type="button">↻ <span>0</span> · Reblog</button><button class="share-action" type="button">↗ Share</button><button class="save-action" onclick="masterToggleSave(this)" type="button"><span>Save</span></button></div><div class="post-footer"><div class="single-comment-composer"><div class="comment-composer" onclick="masterOpenComposer(this)"><div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div><div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" onclick="event.stopPropagation()"></textarea><div class="comment-post-actions"><button class="comment-post-button" type="button">POST</button><button class="comment-close-button" onclick="masterCloseComposer(this,event)" type="button">CLOSE</button></div></div></div></div><div class="post-footer-actions"><button class="hashtag-link" onclick="masterToggleHashtags(this)" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div><div class="post-hashtags">${tags}</div><section class="comments-section"></section><div class="card-bottom-spacer" aria-hidden="true"></div>`;
+}
+
+function buildCommunityCreatorPost(payload){
+  const article=document.createElement('article');
+  article.className='post '+(payload.type==='blog'?'blog-post-v11':payload.type==='video'?'video-post-v11':payload.type==='byte'?'byte-post-v11':'regular-post');
+  const linkHTML=payload.link?`<a class="community-published-link" href="${creatorSafe(payload.link)}" target="_blank" rel="noopener noreferrer">🔗 ${creatorSafe(payload.link)}</a>`:'';
+  const mediaHTML=communityCreatorMediaHTML(payload);
+
+  if(payload.type==='blog'){
+    const excerpt=payload.text.length>220?payload.text.slice(0,220)+'…':payload.text;
+    article.innerHTML=communityCreatorCardHeader(payload)+`<h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>${creatorSafe(payload.title)}</h2>${mediaHTML}<p class="blog-excerpt blog-feed-excerpt">${creatorSafe(excerpt)}</p><button class="read-blog blog-read-button" onclick="masterToggleBlog(this)" type="button">Read Blog →</button><div class="blog-full-content blog-full-body"><p>${creatorSafe(payload.text).replace(/\n+/g,'</p><p>')}</p></div>${linkHTML}`+communityCreatorInteractions(payload);
+  }else if(payload.type==='video'){
+    article.innerHTML=communityCreatorCardHeader(payload)+`<h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>${creatorSafe(payload.title)}</h2>${mediaHTML}<p class="video-description caption">${creatorSafe(payload.text)}</p>${linkHTML}`+communityCreatorInteractions(payload);
+  }else if(payload.type==='byte'){
+    article.innerHTML=mediaHTML+communityCreatorCardHeader(payload)+`<p class="byte-caption caption">${creatorSafe(payload.text)}</p>${linkHTML}`+communityCreatorInteractions(payload);
+  }else{
+    article.innerHTML=communityCreatorCardHeader(payload)+`${mediaHTML}<p class="caption">${creatorSafe(payload.text)}</p>${linkHTML}`+communityCreatorInteractions(payload);
+  }
+  return article;
+}
+
+function validateCommunityCreator(){
+  const type=communityCreatorState.type;
+  const text=(document.getElementById('communityCreatorText')?.value||'').trim();
+  const title=(document.getElementById('communityCreatorTitle')?.value||'').trim();
+
+  if(!text)return 'Looks like your post is missing some context…';
+  if(!communityCreatorState.interests.size)return 'Choose at least one Community Interest before posting.';
+  if(type==='blog'&&!title)return 'Your Blog needs a title.';
+  if(type==='blog'&&text.length<1000)return `Blogs need at least 1,000 characters. You have ${text.length}.`;
+  if(type==='video'&&!title)return 'Your Video needs a title.';
+  if(type==='video'&&title.length+text.length>500)return 'Video title + description can be up to 500 characters total.';
+  if((type==='video'||type==='byte')&&!communityCreatorState.videoUrl)return type==='byte'?'Upload a video before posting this Byte.':'Upload a video before posting this Video.';
+  return '';
+}
+
 document.getElementById('communityCreatorPost')?.addEventListener('click',()=>{
-  const textarea=document.getElementById('communityCreatorText');
-  const warning=document.getElementById('communityCreatorWarning');
-  const textValue=textarea?.value.trim()||'';
-  if(!textValue){
-    if(warning){
-      warning.style.display='inline';
-      setTimeout(()=>warning.style.display='',2600);
-    }
+  if(!currentUserCanCreateCommunityPosts(currentCommunityState())){
+    communityCreatorShowWarning('Your Community role does not currently allow creating posts.');
     return;
   }
-  communityToast(`Prototype post created in ${currentCommunityState().name}.`);
-  if(textarea)textarea.value='';
+
+  const error=validateCommunityCreator();
+  if(error){communityCreatorShowWarning(error);return;}
+
+  const payload={
+    type:communityCreatorState.type,
+    title:(document.getElementById('communityCreatorTitle')?.value||'').trim(),
+    text:(document.getElementById('communityCreatorText')?.value||'').trim(),
+    interests:[...communityCreatorState.interests],
+    hashtags:[...communityCreatorState.hashtags],
+    link:communityCreatorState.link,
+    imageUrls:[...communityCreatorState.imageUrls],
+    videoUrl:communityCreatorState.videoUrl
+  };
+
+  const article=buildCommunityCreatorPost(payload);
+  prependCommunityFeedPost(article);
+  resetCommunityCreator({preservePublishedMedia:true});
   closeCommunityCreator();
+  requestAnimationFrame(()=>article.scrollIntoView({behavior:'smooth',block:'start'}));
 });
+
+// Initial creator state for the current Community.
+resetCommunityCreator();
+syncCommunityCreatorContext();
 
 
 document.querySelectorAll('.community-feed-filter').forEach(btn=>{
