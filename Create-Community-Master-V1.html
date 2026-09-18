@@ -740,10 +740,46 @@
 }
 
 .manage-section{
-  padding:13px;
+  position:relative;
+  min-height:76px;
+  padding:13px 38px 13px 13px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:10px;
   background:var(--cc-bg);
+  cursor:pointer;
+  transition:border-color .16s ease,background .16s ease,transform .16s ease;
+}
+
+.manage-section::after{
+  content:"›";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--cc-peach);
+  font-size:22px;
+  font-weight:700;
+  opacity:.72;
+}
+
+.manage-section:hover,
+.manage-section:focus-visible{
+  border-color:rgba(255,195,132,.36);
+  background:rgba(255,195,132,.055);
+  outline:none;
+}
+
+.manage-section:hover{
+  transform:translateY(-1px);
+}
+
+.manage-section.studio-section-active{
+  border-color:rgba(255,195,132,.52);
+  background:rgba(255,195,132,.09);
+}
+
+.manage-section.studio-section-active::after{
+  content:"⌄";
 }
 
 .manage-section strong{
@@ -757,6 +793,259 @@
   color:var(--cc-muted);
   font-size:9px;
   line-height:1.4;
+}
+
+.studio-detail-panel{
+  margin-top:14px;
+  padding:16px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:12px;
+  background:#101a3a;
+}
+
+.studio-detail-panel[hidden]{
+  display:none!important;
+}
+
+.studio-detail-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.studio-detail-eyebrow{
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.studio-detail-head h3{
+  margin:4px 0 0;
+  color:var(--cc-text);
+  font-size:17px;
+}
+
+.studio-detail-close{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:50%;
+  background:rgba(255,195,132,.06);
+  color:var(--cc-peach);
+  font:800 16px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.studio-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.studio-detail-item{
+  min-width:0;
+  padding:11px 12px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-detail-item.wide{
+  grid-column:1/-1;
+}
+
+.studio-detail-item>span{
+  display:block;
+  margin:0 0 4px;
+  color:#8996b2;
+  font-size:9px;
+  font-weight:700;
+}
+
+.studio-detail-item>strong,
+.studio-detail-item>p{
+  display:block;
+  margin:0;
+  color:var(--cc-text);
+  font-size:10px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.studio-detail-item>p{
+  color:#c6cede;
+  font-weight:500;
+}
+
+.studio-detail-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.studio-detail-pill{
+  padding:6px 9px;
+  border:1px solid rgba(255,195,132,.26);
+  border-radius:999px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-rule-list{
+  display:grid;
+  gap:8px;
+}
+
+.studio-rule-row{
+  display:grid;
+  grid-template-columns:26px 1fr;
+  gap:9px;
+  align-items:start;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:9px;
+  background:#14203e;
+}
+
+.studio-rule-number{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.45);
+  border-radius:50%;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.studio-rule-row strong{
+  display:block;
+  color:var(--cc-text);
+  font-size:10px;
+}
+
+.studio-rule-row span{
+  display:block;
+  margin-top:3px;
+  color:var(--cc-muted);
+  font-size:9px;
+  line-height:1.45;
+}
+
+.studio-empty-note{
+  padding:13px;
+  border:1px dashed rgba(255,195,132,.25);
+  border-radius:9px;
+  color:var(--cc-muted);
+  font-size:10px;
+  line-height:1.5;
+  text-align:center;
+}
+
+
+.studio-profile-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  padding:10px 12px;
+  border:1px solid rgba(255,195,132,.18);
+  border-radius:9px;
+  background:rgba(255,195,132,.045);
+}
+
+.studio-profile-context span{
+  color:#8996b2;
+  font-size:9px;
+  font-weight:700;
+}
+
+.studio-profile-context strong{
+  color:var(--cc-peach);
+  font-size:11px;
+}
+
+.studio-edit-field{
+  margin-top:12px;
+}
+
+.studio-edit-field label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:6px;
+  color:#e9edf7;
+  font-size:10px;
+  font-weight:800;
+}
+
+.studio-edit-field label span{
+  color:#8996b2;
+  font-size:9px;
+  font-weight:600;
+}
+
+.studio-edit-field textarea{
+  width:100%;
+  min-height:82px;
+  box-sizing:border-box;
+  padding:10px 11px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:9px;
+  outline:none;
+  resize:vertical;
+  background:#14203e;
+  color:var(--cc-text);
+  font:500 10px/1.5 'Outfit',sans-serif;
+}
+
+.studio-edit-field textarea#studioProfileAbout{
+  min-height:132px;
+}
+
+.studio-edit-field textarea:focus{
+  border-color:rgba(255,195,132,.5);
+  box-shadow:0 0 0 2px rgba(255,195,132,.05);
+}
+
+.studio-edit-field p{
+  margin:5px 0 0;
+  color:#8996b2;
+  font-size:8px;
+  line-height:1.45;
+}
+
+.studio-edit-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:15px;
+  padding-top:13px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.studio-save-status{
+  margin-right:auto;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:700;
+}
+
+@media(max-width:820px){
+  .studio-detail-grid{
+    grid-template-columns:1fr;
+  }
 }
 
 .creation-success{
@@ -1614,15 +1903,25 @@
         <h2 id="communityStudioHeading">Manage Spooky Cozy</h2>
         <p id="communityStudioDescription">This gives us a home for the owner/moderator controls later without cluttering the regular Community page.</p>
         <div class="manage-sections">
-          <div class="manage-section" data-studio-section="profile"><strong>Community Profile</strong><span>Name, icon, banner, short description and About.</span></div>
-          <div class="manage-section" data-studio-section="basics"><strong>Basics & Access</strong><span>Public/private, join requests, invitations and membership.</span></div>
-          <div class="manage-section" data-studio-section="posting"><strong>Posting & Link Sharing</strong><span>Original posts, reblogs, approvals and link categories.</span></div>
-          <div class="manage-section" data-studio-section="interests"><strong>Interests</strong><span>All Interests or the required Interests that define the Community.</span></div>
-          <div class="manage-section" data-studio-section="rules"><strong>Rules</strong><span>Write, edit and reorder the rules moderators can cite later.</span></div>
-          <div class="manage-section" data-studio-section="announcements"><strong>Announcements & Pins</strong><span>Up to 3 active announcements and 5 pinned posts.</span></div>
-          <div class="manage-section" data-studio-section="members"><strong>Members & Moderators</strong><span>Requests, roles, invitations and moderation team.</span></div>
-          <div class="manage-section" data-studio-section="links"><strong>Links & Shop</strong><span>Official links and a pinned All Media Shop later.</span></div>
+          <div class="manage-section" data-studio-section="profile" role="button" tabindex="0" aria-expanded="false"><strong>Community Profile</strong><span>Name, icon, banner, short description and About.</span></div>
+          <div class="manage-section" data-studio-section="basics" role="button" tabindex="0" aria-expanded="false"><strong>Basics & Access</strong><span>Public/private, join requests, invitations and membership.</span></div>
+          <div class="manage-section" data-studio-section="posting" role="button" tabindex="0" aria-expanded="false"><strong>Posting & Link Sharing</strong><span>Original posts, reblogs, approvals and link categories.</span></div>
+          <div class="manage-section" data-studio-section="interests" role="button" tabindex="0" aria-expanded="false"><strong>Interests</strong><span>All Interests or the required Interests that define the Community.</span></div>
+          <div class="manage-section" data-studio-section="rules" role="button" tabindex="0" aria-expanded="false"><strong>Rules</strong><span>Write, edit and reorder the rules moderators can cite later.</span></div>
+          <div class="manage-section" data-studio-section="announcements" role="button" tabindex="0" aria-expanded="false"><strong>Announcements & Pins</strong><span>Up to 3 active announcements and 5 pinned posts.</span></div>
+          <div class="manage-section" data-studio-section="members" role="button" tabindex="0" aria-expanded="false"><strong>Members & Moderators</strong><span>Requests, roles, invitations and moderation team.</span></div>
+          <div class="manage-section" data-studio-section="links" role="button" tabindex="0" aria-expanded="false"><strong>Links & Shop</strong><span>Official links and a pinned All Media Shop later.</span></div>
         </div>
+        <section class="studio-detail-panel" id="studioDetailPanel" hidden aria-live="polite">
+          <div class="studio-detail-head">
+            <div>
+              <div class="studio-detail-eyebrow">Community Studio</div>
+              <h3 id="studioDetailTitle">Community Profile</h3>
+            </div>
+            <button class="studio-detail-close" id="studioDetailClose" type="button" aria-label="Close Studio panel">×</button>
+          </div>
+          <div id="studioDetailBody"></div>
+        </section>
       </section>
     </div>
   </section>
@@ -2470,6 +2769,276 @@ function studioLinkSummary(state){
   return values.length?`${values.join(' + ')} links`:'No external links';
 }
 
+
+function studioEscape(value){
+  return String(value??'')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'",'&#039;');
+}
+
+function studioBoolean(value,onLabel,offLabel){
+  return value===false?offLabel:onLabel;
+}
+
+function studioPanelData(sectionKey,state){
+  const interests=Array.isArray(state.interests)&&state.interests.length
+    ? state.interests
+    : (state.name==='Spooky Cozy'?['Halloween','Art','Cozy','Crafts']:[]);
+
+  const rules=Array.isArray(state.rules)&&state.rules.length
+    ? state.rules
+    : (state.name==='Spooky Cozy'
+      ? [
+          {title:'No bullying',explanation:'Treat other members with respect.'},
+          {title:'Respect others',explanation:'Keep conversation constructive and considerate.'},
+          {title:'Stay on topic',explanation:'Keep posts relevant to the Community.'},
+          {title:'Use link sharing appropriately',explanation:'Follow the Community’s allowed link categories.'}
+        ]
+      : []);
+
+  const socialEntries=state.officialSocials
+    ? Object.entries(state.officialSocials).filter(([,value])=>Boolean(value))
+    : [];
+
+  switch(sectionKey){
+    case 'profile': {
+      const defaultDescription=state.name==='Spooky Cozy'
+        ? 'A cozy corner for people who think Halloween is a year-round lifestyle.'
+        : '';
+      const defaultAbout=state.name==='Spooky Cozy'
+        ? "A year-round place for people who love Halloween, cozy spooky things, seasonal art, crafts, collecting, decorating, and everything a little haunted. Share what you're making, find inspiration, ask questions, and hang out with people who never quite put Halloween away."
+        : '';
+      const defaultWelcome=state.name==='Spooky Cozy'
+        ? 'Welcome in! Say hello, tell us what you love, and make yourself comfortable.'
+        : '';
+
+      return {
+        title:'Community Profile',
+        html:`
+          <div class="studio-profile-context">
+            <span>Community</span>
+            <strong>${studioEscape(state.name)}</strong>
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioProfileDescription">Short description <span id="studioProfileDescriptionCount"></span></label>
+            <textarea id="studioProfileDescription" maxlength="180">${studioEscape(state.description||defaultDescription)}</textarea>
+            <p>This is the quick description people see in Community previews and the header.</p>
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioProfileAbout">About <span id="studioProfileAboutCount"></span></label>
+            <textarea id="studioProfileAbout" maxlength="1500">${studioEscape(state.about||defaultAbout)}</textarea>
+            <p>Explain what this Community is for and what people can expect here.</p>
+          </div>
+
+          <div class="studio-edit-field">
+            <label for="studioProfileWelcome">Welcome message <span id="studioProfileWelcomeCount"></span></label>
+            <textarea id="studioProfileWelcome" maxlength="500">${studioEscape(state.welcome||defaultWelcome)}</textarea>
+            <p>Optional. This is the friendly introduction people see in the Community Guide.</p>
+          </div>
+
+          <div class="studio-edit-actions">
+            <span class="studio-save-status" id="studioProfileSaveStatus"></span>
+            <button class="form-button primary" id="studioProfileSave" type="button">Save Changes</button>
+          </div>`
+      };
+    }
+
+    case 'basics':
+      return {
+        title:'Basics & Access',
+        html:`
+          <div class="studio-detail-grid">
+            <div class="studio-detail-item"><span>Access</span><strong>${studioEscape(state.access||'Public')}</strong></div>
+            <div class="studio-detail-item"><span>Membership</span><strong>${state.joined===false?'Not joined':'Joined'}</strong></div>
+            <div class="studio-detail-item"><span>Notifications</span><strong>${state.notifications===false?'Off':'On'}</strong></div>
+            <div class="studio-detail-item"><span>Pinned</span><strong>${state.pinned?'Yes':'No'}</strong></div>
+            <div class="studio-detail-item wide"><span>Invite behavior</span><p>${studioEscape((state.access||'Public')==='Invite Only'?'Uses a separate revocable invite link/token.':(state.access==='Request to Join'?'People request access from the Community page.':'Anyone can browse before joining.'))}</p></div>
+          </div>`
+      };
+
+    case 'posting':
+      return {
+        title:'Posting & Link Sharing',
+        html:`
+          <div class="studio-detail-grid">
+            <div class="studio-detail-item"><span>Who can post</span><strong>${studioEscape(state.posting||'Members')}</strong></div>
+            <div class="studio-detail-item"><span>Original posts</span><strong>${studioBoolean(state.originalPosts,'Allowed','Off')}</strong></div>
+            <div class="studio-detail-item"><span>Reblogs</span><strong>${studioBoolean(state.reblogs,'Allowed','Off')}</strong></div>
+            <div class="studio-detail-item"><span>Approval</span><strong>${state.approvalRequired?'Review first':'Publishes immediately'}</strong></div>
+            <div class="studio-detail-item wide"><span>Link sharing</span><p>${studioEscape(studioLinkSummary(state))}</p></div>
+          </div>`
+      };
+
+    case 'interests':
+      return {
+        title:'Interests',
+        html:interests.length
+          ? `<div class="studio-detail-pills">${interests.map(value=>`<span class="studio-detail-pill">${studioEscape(value)}</span>`).join('')}</div>`
+          : `<div class="studio-empty-note">No Interests have been saved for this Community yet.</div>`
+      };
+
+    case 'rules':
+      return {
+        title:'Rules',
+        html:rules.length
+          ? `<div class="studio-rule-list">${rules.map((rule,index)=>`
+              <div class="studio-rule-row">
+                <span class="studio-rule-number">${index+1}</span>
+                <div><strong>${studioEscape(rule.title||'Community rule')}</strong><span>${studioEscape(rule.explanation||'')}</span></div>
+              </div>`).join('')}</div>`
+          : `<div class="studio-empty-note">No Community rules have been saved yet.</div>`
+      };
+
+    case 'announcements':
+      return {
+        title:'Announcements & Pins',
+        html:`
+          <div class="studio-detail-grid">
+            <div class="studio-detail-item"><span>Active announcement limit</span><strong>3</strong></div>
+            <div class="studio-detail-item"><span>Pinned post limit</span><strong>5</strong></div>
+            <div class="studio-detail-item wide"><span>Current state</span><p>${state.createdByPrototype?'No announcements or pinned posts have been added yet.':'Existing Community announcements and pinned posts stay managed from this section.'}</p></div>
+          </div>`
+      };
+
+    case 'members':
+      return {
+        title:'Members & Moderators',
+        html:`
+          <div class="studio-detail-grid">
+            <div class="studio-detail-item"><span>Your role</span><strong>${studioEscape(state.role==='moderator'?'Moderator':'Owner')}</strong></div>
+            <div class="studio-detail-item"><span>Membership</span><strong>${state.joined===false?'Not joined':'Active'}</strong></div>
+            <div class="studio-detail-item wide"><span>Management</span><p>Join requests, invitations, member roles and the moderation team will live here as the member system is connected.</p></div>
+          </div>`
+      };
+
+    case 'links':
+      return {
+        title:'Links & Shop',
+        html:`
+          <div class="studio-detail-grid">
+            <div class="studio-detail-item wide"><span>Official website</span><p>${studioEscape(state.website||'No official website saved.')}</p></div>
+            <div class="studio-detail-item wide"><span>Official social links</span><p>${socialEntries.length?socialEntries.map(([network,value])=>`${studioEscape(network)}: ${studioEscape(value)}`).join('<br>'):'No official social links saved.'}</p></div>
+            <div class="studio-detail-item wide"><span>All Media Shop</span><p>No pinned Community Shop has been added yet.</p></div>
+          </div>`
+      };
+  }
+
+  return {title:'Community Studio',html:'<div class="studio-empty-note">This Studio section is not available yet.</div>'};
+}
+
+
+function wireStudioProfileEditor(){
+  const slug=studioCommunitySlug();
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  const description=document.getElementById('studioProfileDescription');
+  const about=document.getElementById('studioProfileAbout');
+  const welcome=document.getElementById('studioProfileWelcome');
+  const save=document.getElementById('studioProfileSave');
+  const status=document.getElementById('studioProfileSaveStatus');
+
+  const countPairs=[
+    [description,document.getElementById('studioProfileDescriptionCount')],
+    [about,document.getElementById('studioProfileAboutCount')],
+    [welcome,document.getElementById('studioProfileWelcomeCount')]
+  ];
+
+  const updateCounts=()=>{
+    countPairs.forEach(([input,count])=>{
+      if(input&&count)count.textContent=`${input.value.length} / ${input.maxLength}`;
+    });
+  };
+
+  [description,about,welcome].forEach(input=>input?.addEventListener('input',()=>{
+    updateCounts();
+    if(status)status.textContent='';
+  }));
+
+  updateCounts();
+
+  save?.addEventListener('click',()=>{
+    const nextDescription=description?.value.trim()||'';
+    const nextAbout=about?.value.trim()||'';
+    const nextWelcome=welcome?.value.trim()||'';
+
+    if(!nextDescription||!nextAbout){
+      if(status)status.textContent='Short description and About are required.';
+      return;
+    }
+
+    updateCommunityState(slug,{
+      description:nextDescription,
+      about:nextAbout,
+      welcome:nextWelcome,
+      profileEdited:true
+    });
+
+    selectCommunityInStudio(slug,{updateUrl:false,scroll:false});
+
+    setTimeout(()=>{
+      const savedStatus=document.getElementById('studioProfileSaveStatus');
+      if(savedStatus)savedStatus.textContent='Saved ✓';
+    },0);
+  });
+}
+
+function renderStudioSectionPanel(sectionKey,state=allMediaCommunityState[studioCommunitySlug()]){
+  const panel=document.getElementById('studioDetailPanel');
+  const title=document.getElementById('studioDetailTitle');
+  const body=document.getElementById('studioDetailBody');
+  if(!panel||!title||!body||!state)return;
+
+  const panelData=studioPanelData(sectionKey,state);
+  title.textContent=panelData.title;
+  body.innerHTML=panelData.html;
+  panel.hidden=false;
+
+  if(sectionKey==='profile'){
+    wireStudioProfileEditor();
+  }
+
+  document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{
+    const active=section.dataset.studioSection===sectionKey;
+    section.classList.toggle('studio-section-active',active);
+    section.setAttribute('aria-expanded',active?'true':'false');
+  });
+}
+
+function openStudioSection(sectionKey){
+  const state=allMediaCommunityState[studioCommunitySlug()];
+  if(!state)return;
+  renderStudioSectionPanel(sectionKey,state);
+  document.getElementById('studioDetailPanel')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeStudioSection(){
+  const panel=document.getElementById('studioDetailPanel');
+  if(panel)panel.hidden=true;
+
+  document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{
+    section.classList.remove('studio-section-active');
+    section.setAttribute('aria-expanded','false');
+  });
+}
+
+document.querySelectorAll('.manage-section[data-studio-section]').forEach(section=>{
+  section.addEventListener('click',()=>openStudioSection(section.dataset.studioSection));
+  section.addEventListener('keydown',event=>{
+    if(event.key==='Enter'||event.key===' '){
+      event.preventDefault();
+      openStudioSection(section.dataset.studioSection);
+    }
+  });
+});
+
+document.getElementById('studioDetailClose')?.addEventListener('click',closeStudioSection);
+
 function selectCommunityInStudio(slug,{updateUrl=true,scroll=true}={}){
   const state=allMediaCommunityState[slug];
   if(!state)return;
@@ -2577,6 +3146,9 @@ function selectCommunityInStudio(slug,{updateUrl=true,scroll=true}={}){
     'links',
     `${website}${officialCount?` · ${officialCount} official social link${officialCount===1?'':'s'}`:''} · pinned All Media Shop can be added later.`
   );
+
+  const openStudioSectionKey=document.querySelector('.manage-section.studio-section-active')?.dataset.studioSection;
+  if(openStudioSectionKey)renderStudioSectionPanel(openStudioSectionKey,state);
 
   if(scroll){
     panel?.scrollIntoView({behavior:'smooth',block:'start'});

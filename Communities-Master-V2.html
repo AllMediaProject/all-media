@@ -2945,7 +2945,29 @@ function renderCreatedCommunityFront(){
   if(seeMoreMembers)seeMoreMembers.style.display='none';
 }
 
+
+function applyManagedCommunityProfile(){
+  const state=currentCommunityState();
+  if(!state?.profileEdited)return;
+
+  const title=document.querySelector('.community-title-row h1');
+  if(title&&state.name)title.textContent=state.name;
+
+  const description=document.querySelector('.community-description');
+  if(description&&state.description)description.textContent=state.description;
+
+  const sidebarAbout=document.querySelector('.community-about-panel p');
+  if(sidebarAbout&&state.about)sidebarAbout.textContent=state.about;
+
+  const guideHeroCopy=document.querySelector('.community-guide-hero p');
+  if(guideHeroCopy&&state.about)guideHeroCopy.textContent=state.about;
+
+  const guideHeroTitle=document.querySelector('.community-guide-hero h2');
+  if(guideHeroTitle&&state.welcome)guideHeroTitle.textContent=state.welcome;
+}
+
 renderCreatedCommunityFront();
+applyManagedCommunityProfile();
 
 function syncSpookyCommunityUI(){
   const state=spookyStateSnapshot();
