@@ -1,17 +1,23 @@
-ALL MEDIA — COMMUNITY OVERVIEW EMPHASIS REFINEMENT
+ALL MEDIA — REVERT ONE STEP
 
 Replace only:
 Communities-Master-V3.html
 
-This is styling only.
+This restores the version immediately BEFORE the Community Overview / Community Feed emphasis refinement.
 
-Changes:
-- Adds a full-width COMMUNITY OVERVIEW banner above the top information area.
-- Banner explicitly tells the user that announcements, pinned posts, posting tools, and Community basics are the Community's defining information.
-- Adds a subtle shared peach accent line to the important top modules.
-- Adds a clear COMMUNITY FEED marker at the point where posts begin in each adaptive column.
-- The feed markers work independently so the existing Discover-style adaptive flow is preserved.
-- No post-card markup, card type, card appearance, or functionality was changed.
+It keeps the earlier appearance pass:
+- full-width Add Announcement button
+- polished Community header/interests
+- peach-dotted About box
+- peach-dotted Quick Thought/Create Post area
+- styled Community Basics
+- pinned-post close button inset
+- softer post-area separation
+
+It removes:
+- COMMUNITY OVERVIEW banner
+- COMMUNITY FEED labels
+- extra overview/feed emphasis lines
 
 Commit message:
-Strengthen Community overview and feed separation
+Revert Community overview emphasis
