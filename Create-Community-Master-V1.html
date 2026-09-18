@@ -1177,6 +1177,39 @@
   .official-social-grid{grid-template-columns:1fr}
 }
 
+
+.owner-card.studio-selected{
+  border-color:rgba(255,195,132,.52);
+  box-shadow:0 0 0 2px rgba(255,195,132,.05),0 12px 28px rgba(0,0,0,.14);
+}
+
+.owner-studio-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:14px 0 2px;
+  padding:10px 12px;
+  border:1px dotted rgba(255,195,132,.32);
+  border-radius:10px;
+  background:rgba(255,195,132,.05);
+}
+
+.owner-studio-context span{
+  color:#aeb7cb;
+  font-size:11px;
+}
+
+.owner-studio-context strong{
+  color:#ffc384;
+}
+
+.owner-studio-context a{
+  color:#ffc384;
+  font-size:11px;
+  font-weight:800;
+  text-decoration:none;
+}
 </style>
 </head>
 <body>
@@ -1565,30 +1598,30 @@
 
   <section class="owner-mode-view" id="owner-view-owned">
     <div class="owner-grid">
-      <article class="owner-card">
+      <article class="owner-card" data-owned-community-slug="spooky-cozy">
         <div class="owner-card-banner">🎃 🕯️ 👻</div>
         <div class="owner-card-body">
           <h2>Spooky Cozy</h2>
           <p>Public · Free · Community + Creator & Shop links · 4 rules</p>
           <div class="owner-card-actions">
             <a class="form-button primary" href="Communities-Master-V2.html">Open Community</a>
-            <button class="form-button" id="manageOwnedCommunity" type="button">Manage</button>
+            <button class="form-button" id="manageOwnedCommunity" type="button" data-manage-community="spooky-cozy">Manage</button>
           </div>
         </div>
       </article>
 
       <section class="owner-manage-panel">
-        <h2>Manage Spooky Cozy</h2>
-        <p>This gives us a home for the owner/moderator controls later without cluttering the regular Community page.</p>
+        <h2 id="communityStudioHeading">Manage Spooky Cozy</h2>
+        <p id="communityStudioDescription">This gives us a home for the owner/moderator controls later without cluttering the regular Community page.</p>
         <div class="manage-sections">
-          <div class="manage-section"><strong>Community Profile</strong><span>Name, icon, banner, short description and About.</span></div>
-          <div class="manage-section"><strong>Basics & Access</strong><span>Public/private, join requests, invitations and membership.</span></div>
-          <div class="manage-section"><strong>Posting & Link Sharing</strong><span>Original posts, reblogs, approvals and link categories.</span></div>
-          <div class="manage-section"><strong>Interests</strong><span>All Interests or the required Interests that define the Community.</span></div>
-          <div class="manage-section"><strong>Rules</strong><span>Write, edit and reorder the rules moderators can cite later.</span></div>
-          <div class="manage-section"><strong>Announcements & Pins</strong><span>Up to 3 active announcements and 5 pinned posts.</span></div>
-          <div class="manage-section"><strong>Members & Moderators</strong><span>Requests, roles, invitations and moderation team.</span></div>
-          <div class="manage-section"><strong>Links & Shop</strong><span>Official links and a pinned All Media Shop later.</span></div>
+          <div class="manage-section" data-studio-section="profile"><strong>Community Profile</strong><span>Name, icon, banner, short description and About.</span></div>
+          <div class="manage-section" data-studio-section="basics"><strong>Basics & Access</strong><span>Public/private, join requests, invitations and membership.</span></div>
+          <div class="manage-section" data-studio-section="posting"><strong>Posting & Link Sharing</strong><span>Original posts, reblogs, approvals and link categories.</span></div>
+          <div class="manage-section" data-studio-section="interests"><strong>Interests</strong><span>All Interests or the required Interests that define the Community.</span></div>
+          <div class="manage-section" data-studio-section="rules"><strong>Rules</strong><span>Write, edit and reorder the rules moderators can cite later.</span></div>
+          <div class="manage-section" data-studio-section="announcements"><strong>Announcements & Pins</strong><span>Up to 3 active announcements and 5 pinned posts.</span></div>
+          <div class="manage-section" data-studio-section="members"><strong>Members & Moderators</strong><span>Requests, roles, invitations and moderation team.</span></div>
+          <div class="manage-section" data-studio-section="links"><strong>Links & Shop</strong><span>Official links and a pinned All Media Shop later.</span></div>
         </div>
       </section>
     </div>
@@ -1833,6 +1866,7 @@ nextButton.addEventListener('click',()=>{
   document.getElementById('creationSuccess').classList.add('active');
 
   renderCreatedOwnedCommunities();
+  wireStudioManageButtons();
 
   const ownedTab=document.querySelector('[data-owner-view="owned"]');
   ownedTab?.classList.add('has-created');
@@ -2372,6 +2406,7 @@ function renderCreatedOwnedCommunities(){
       const card=document.createElement('article');
       card.className='owner-card';
       card.dataset.createdCommunitySlug=slug;
+      card.dataset.ownedCommunitySlug=slug;
 
       const interests=Array.isArray(state.interests)&&state.interests.length
         ? state.interests.join(' · ')
@@ -2396,6 +2431,11 @@ function renderCreatedOwnedCommunities(){
       const links=card.querySelectorAll('a');
       links[0].href=communityFrontPageUrl(state.name);
       links[1].href=`Create-Community-Master-V1.html?view=owned&community=${encodeURIComponent(slug)}`;
+      links[1].dataset.manageCommunity=slug;
+      links[1].addEventListener('click',event=>{
+        event.preventDefault();
+        selectCommunityInStudio(slug);
+      });
 
       grid.insertBefore(card,managePanel);
     });
@@ -2403,9 +2443,169 @@ function renderCreatedOwnedCommunities(){
 
 renderCreatedOwnedCommunities();
 
-document.getElementById('manageOwnedCommunity')?.addEventListener('click',()=>{
+
+function studioCommunitySlug(){
+  const params=new URLSearchParams(window.location.search);
+  const requested=params.get('community');
+  if(requested&&allMediaCommunityState[requested])return requested;
+  return 'spooky-cozy';
+}
+
+function studioValue(value,fallback='Not set'){
+  return value===undefined||value===null||value===''?fallback:String(value);
+}
+
+function studioLinkSummary(state){
+  if(!state.linkSharing){
+    return state.name==='Spooky Cozy'
+      ? 'Community + Creator & Shop links'
+      : 'Link permissions saved with this Community.';
+  }
+
+  const values=[];
+  if(state.linkSharing.community)values.push('Community');
+  if(state.linkSharing.creatorShop)values.push('Creator & Shop');
+  if(state.linkSharing.social)values.push('Social');
+
+  return values.length?`${values.join(' + ')} links`:'No external links';
+}
+
+function selectCommunityInStudio(slug,{updateUrl=true,scroll=true}={}){
+  const state=allMediaCommunityState[slug];
+  if(!state)return;
+
+  if(updateUrl){
+    const url=new URL(window.location.href);
+    url.searchParams.set('view','owned');
+    url.searchParams.set('community',slug);
+    history.replaceState({},'',url);
+  }
+
   document.querySelector('[data-owner-view="owned"]')?.click();
-  document.querySelector('.owner-manage-panel')?.scrollIntoView({behavior:'smooth',block:'start'});
+
+  document.querySelectorAll('.owner-card[data-owned-community-slug]').forEach(card=>{
+    card.classList.toggle('studio-selected',card.dataset.ownedCommunitySlug===slug);
+  });
+
+  const heading=document.getElementById('communityStudioHeading');
+  const description=document.getElementById('communityStudioDescription');
+
+  if(heading)heading.textContent=`Manage ${state.name}`;
+  if(description){
+    description.textContent=state.role==='moderator'
+      ? `Moderator tools and settings for ${state.name}. Your available controls will depend on your moderator permissions.`
+      : `Community Studio for ${state.name}. This is where its settings and owner tools live without cluttering the public Community page.`;
+  }
+
+  const panel=document.querySelector('.owner-manage-panel');
+  if(panel){
+    let context=panel.querySelector('.owner-studio-context');
+    if(!context){
+      context=document.createElement('div');
+      context.className='owner-studio-context';
+      const desc=document.getElementById('communityStudioDescription');
+      desc?.insertAdjacentElement('afterend',context);
+    }
+
+    context.innerHTML='';
+    const left=document.createElement('span');
+    left.innerHTML=`Editing <strong></strong>`;
+    left.querySelector('strong').textContent=state.name;
+
+    const open=document.createElement('a');
+    open.href=communityFrontPageUrl(state.name);
+    open.textContent='Open Community →';
+
+    context.append(left,open);
+  }
+
+  const setSection=(key,text)=>{
+    const span=document.querySelector(`[data-studio-section="${key}"] span`);
+    if(span)span.textContent=text;
+  };
+
+  setSection(
+    'profile',
+    `${studioValue(state.description,state.name==='Spooky Cozy'
+      ? 'A cozy corner for people who think Halloween is a year-round lifestyle.'
+      : 'Community name, icon, banner, short description and About are stored here.')}`
+  );
+
+  setSection(
+    'basics',
+    `${studioValue(state.access,'Public')} access · ${state.joined===false?'Not currently joined':'Owner/moderator access active'}.`
+  );
+
+  const posting=studioValue(state.posting,'Members');
+  const approval=state.approvalRequired===true?'Review first':'Publishes immediately';
+  const reblogs=state.reblogs===false?'Reblogs off':'Reblogs allowed';
+  setSection(
+    'posting',
+    `${posting} can post · ${reblogs} · ${approval} · ${studioLinkSummary(state)}.`
+  );
+
+  const interests=Array.isArray(state.interests)&&state.interests.length
+    ? state.interests.join(' · ')
+    : (state.name==='Spooky Cozy'?'Halloween · Art · Cozy · Crafts':'No Interests saved yet');
+  setSection('interests',interests);
+
+  const ruleCount=Array.isArray(state.rules)
+    ? state.rules.length
+    : (state.name==='Spooky Cozy'?4:0);
+  setSection(
+    'rules',
+    `${ruleCount} Community rule${ruleCount===1?'':'s'} saved.`
+  );
+
+  setSection(
+    'announcements',
+    state.createdByPrototype
+      ? 'No announcements or pinned posts yet.'
+      : 'Up to 3 active announcements and 5 pinned posts.'
+  );
+
+  setSection(
+    'members',
+    `${state.role==='moderator'?'Moderator':'Owner'} access · roles, requests and invitations will live here.`
+  );
+
+  const officialCount=state.officialSocials
+    ? Object.values(state.officialSocials).filter(Boolean).length
+    : 0;
+  const website=state.website?'Website saved':'No website saved';
+  setSection(
+    'links',
+    `${website}${officialCount?` · ${officialCount} official social link${officialCount===1?'':'s'}`:''} · pinned All Media Shop can be added later.`
+  );
+
+  if(scroll){
+    panel?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function wireStudioManageButtons(){
+  document.querySelectorAll('[data-manage-community]').forEach(button=>{
+    if(button.dataset.studioWired==='true')return;
+    button.dataset.studioWired='true';
+    button.addEventListener('click',()=>{
+      selectCommunityInStudio(button.dataset.manageCommunity);
+    });
+  });
+}
+
+wireStudioManageButtons();
+
+const initialStudioParams=new URLSearchParams(window.location.search);
+if(initialStudioParams.get('view')==='owned'){
+  setTimeout(()=>{
+    renderCreatedOwnedCommunities();
+    wireStudioManageButtons();
+    selectCommunityInStudio(studioCommunitySlug(),{updateUrl:false,scroll:false});
+  },0);
+}
+
+document.getElementById('manageOwnedCommunity')?.addEventListener('click',()=>{
+  selectCommunityInStudio('spooky-cozy');
 });
 
 const studioParams=new URLSearchParams(window.location.search);
