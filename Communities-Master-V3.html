@@ -1984,19 +1984,31 @@ button.pinned-card{
 }
 
 .community-main .feed.community-feed-masonry{
-  display:block;
   width:100%;
   max-width:none;
-  column-count:2;
-  column-gap:18px;
+  margin:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
 }
 
-.community-feed-masonry > .post{
-  width:100%;
-  break-inside:avoid;
-  -webkit-column-break-inside:avoid;
-  page-break-inside:avoid;
-  margin:0 0 18px;
+.community-feed-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  min-width:0;
+}
+
+.community-feed-masonry .post{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+
+.community-feed-masonry > .community-empty-state{
+  grid-column:1/-1;
 }
 
 .community-full-composer.active{
@@ -2165,7 +2177,11 @@ button.pinned-card{
   }
 
   .community-main .feed.community-feed-masonry{
-    column-count:1;
+    grid-template-columns:1fr;
+  }
+
+  .community-feed-column{
+    gap:18px;
   }
 
   .community-info-card .community-basics-list{
@@ -2226,6 +2242,15 @@ button.pinned-card{
 
 .community-overview-main > :last-child{
   margin-bottom:0;
+}
+
+
+.community-feed-section.has-posts{
+  margin-top:14px;
+}
+
+.community-feed-section.has-posts .community-feed-heading-v3{
+  margin-bottom:10px;
 }
 
 </style>
@@ -3074,7 +3099,28 @@ document.getElementById('announcementDots')?.addEventListener('click',event=>{
 const ALL_MEDIA_COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
 const ALL_MEDIA_COMMUNITY_DEFAULTS={
   'spooky-cozy':{
-    name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner'
+    name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner',
+    announcements:[
+      {
+        type:'Welcome',
+        title:'Welcome to Spooky Cozy',
+        body:'A year-round corner for Halloween people, spooky art, crafts, collections, cozy haunts, and everything a little eerie.',
+        emoji:'🎃'
+      },
+      {
+        type:'Community Update',
+        title:'September Show & Tell is open',
+        body:'Share what you have been making, collecting, decorating, reading, baking, or enjoying lately.',
+        emoji:'🕯️'
+      },
+      {
+        type:'Announcement',
+        title:'October Art Exchange',
+        body:'The next Community art exchange is coming up. Details and signup information are pinned below.',
+        emoji:'🦇'
+      }
+    ],
+    pinnedPostIds:['showtell','welcome','guidelines','resources','exchange']
   },
   'artists':{
     name:'Artists',icon:'🎨',joined:true,pinned:true,notifications:true,role:'moderator',
@@ -3917,6 +3963,7 @@ applyManagedCommunityInterestsAndRules();
 applyManagedCommunityAnnouncementsAndPins();
 applyManagedCommunityMembers();
 applyManagedCommunityLinks();
+syncCommunityFeedLayout();
 
 function syncSpookyCommunityUI(){
   const snapshot=spookyStateSnapshot();
@@ -4019,6 +4066,98 @@ document.addEventListener('allmedia:community-state-change',event=>{if(event.det
 document.addEventListener('allmedia:community-state-refresh',syncSpookyCommunityUI);
 syncSpookyCommunityUI();
 
+
+function communityFeedElement(){
+  return document.getElementById('feed');
+}
+
+function currentCommunityFeedPosts(){
+  const feed=communityFeedElement();
+  if(!feed)return [];
+
+  const posts=[...feed.querySelectorAll('.post')];
+
+  return posts.sort((a,b)=>{
+    const ai=Number(a.dataset.communityFeedOrder);
+    const bi=Number(b.dataset.communityFeedOrder);
+    const aHas=Number.isFinite(ai);
+    const bHas=Number.isFinite(bi);
+
+    if(aHas&&bHas)return ai-bi;
+    if(aHas)return -1;
+    if(bHas)return 1;
+    return 0;
+  });
+}
+
+function buildCommunityFeedEmptyState(){
+  const state=currentCommunityState();
+  const empty=document.createElement('div');
+  empty.className='community-empty-state';
+  empty.innerHTML='<strong></strong><span></span>';
+  empty.querySelector('strong').textContent=`${state.name} is ready.`;
+  empty.querySelector('span').textContent='No posts yet. Start the first conversation whenever you’re ready.';
+  return empty;
+}
+
+function rebuildCommunityFeedLayout(posts){
+  const feed=communityFeedElement();
+  if(!feed)return;
+
+  const section=feed.closest('.community-feed-section');
+  const ordered=posts.filter(Boolean);
+
+  feed.innerHTML='';
+  section?.classList.toggle('has-posts',ordered.length>0);
+
+  if(!ordered.length){
+    feed.appendChild(buildCommunityFeedEmptyState());
+    return;
+  }
+
+  const left=document.createElement('div');
+  const right=document.createElement('div');
+  left.className='community-feed-column community-feed-column-left';
+  right.className='community-feed-column community-feed-column-right';
+
+  ordered.forEach((post,index)=>{
+    post.dataset.communityFeedOrder=String(index);
+    (index%2===0?left:right).appendChild(post);
+  });
+
+  feed.append(left,right);
+}
+
+function syncCommunityFeedLayout(){
+  const feed=communityFeedElement();
+  if(!feed)return;
+
+  const directPosts=[...feed.children].filter(child=>child.classList?.contains('post'));
+
+  if(directPosts.length){
+    rebuildCommunityFeedLayout(directPosts);
+    return;
+  }
+
+  const existing=currentCommunityFeedPosts();
+
+  if(existing.length){
+    rebuildCommunityFeedLayout(existing);
+    return;
+  }
+
+  feed.querySelector('.community-empty-state')?.remove();
+  rebuildCommunityFeedLayout([]);
+}
+
+function prependCommunityFeedPost(post){
+  if(!post)return;
+  const existing=currentCommunityFeedPosts();
+  rebuildCommunityFeedLayout([post,...existing]);
+}
+
+syncCommunityFeedLayout();
+
 const quickThoughtInput=document.getElementById('quickThoughtInput');
 const quickThoughtSend=document.getElementById('quickThoughtSend');
 
@@ -4035,7 +4174,7 @@ function buildQuickThoughtPost(message){
 <div aria-hidden="true" class="profile-picture">y</div>
 <div class="post-author-copy">
 <div class="post-author-line"><span class="username">@yourusername</span><span class="post-time">· just now</span><span class="post-type-bubble">POST</span></div>
-<div class="post-meta-line"><span class="topic">🎃 Halloween</span><span class="post-community">· in 🎃 Spooky Cozy</span></div>
+<div class="post-meta-line"><span class="topic"></span><span class="post-community"></span></div>
 </div>
 </header>
 <p class="caption"></p>
@@ -4050,14 +4189,22 @@ function buildQuickThoughtPost(message){
 <div class="post-footer"><div class="post-footer-actions"><button class="hashtag-link" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
 <div class="card-bottom-spacer" aria-hidden="true"></div>`;
   article.querySelector('.caption').textContent=message;
+
+  const state=currentCommunityState();
+  const firstInterest=(Array.isArray(state.interests)&&state.interests.length)
+    ? state.interests[0]
+    : 'All Interests';
+
+  article.querySelector('.topic').textContent=`${state.icon||'◉'} ${firstInterest}`;
+  article.querySelector('.post-community').textContent=`· in ${state.icon||'◉'} ${state.name}`;
+
   return article;
 }
 
 quickThoughtSend?.addEventListener('click',()=>{
   const message=quickThoughtInput?.value.trim();
   if(!message)return;
-  const feed=document.getElementById('feed');
-  feed?.prepend(buildQuickThoughtPost(message));
+  prependCommunityFeedPost(buildQuickThoughtPost(message));
   quickThoughtInput.value='';
   quickThoughtSend.disabled=true;
   communityToast(`Quick thought posted to ${currentCommunityState().name}.`);
