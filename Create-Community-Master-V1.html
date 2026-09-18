@@ -810,6 +810,277 @@
 }
 
 #notificationQuickPopup[hidden]{display:none!important}
+
+.interest-limit-count{
+  margin-left:7px;
+  color:var(--cc-peach);
+  font-size:9px;
+  font-weight:800;
+}
+
+.interest-option.limit-reached:not(.selected){
+  opacity:.38;
+}
+
+#interestLimitNote.warning{
+  color:#ffc384;
+  font-weight:700;
+}
+
+.community-image-upload-grid{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:11px;
+}
+
+.community-image-upload-card{
+  min-width:0;
+  overflow:hidden;
+  padding:0;
+  border:1px dashed rgba(255,195,132,.34);
+  border-radius:11px;
+  background:var(--cc-bg);
+  color:var(--cc-text);
+  font-family:'Outfit',sans-serif;
+  cursor:pointer;
+  text-align:left;
+}
+
+.community-image-upload-card:hover{
+  border-color:rgba(255,195,132,.6);
+  background:rgba(255,195,132,.035);
+}
+
+.community-image-thumb{
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 25% 75%,rgba(255,195,132,.3),transparent 30%),
+    linear-gradient(135deg,#633326,#111a38 72%);
+  background-position:center;
+  background-size:cover;
+  color:var(--cc-peach);
+}
+
+.icon-thumb{
+  width:76px;
+  height:76px;
+  margin:13px auto 8px;
+  border:1px solid rgba(255,195,132,.42);
+  border-radius:50%;
+  font-size:30px;
+}
+
+.banner-thumb{
+  width:100%;
+  height:74px;
+  font-size:19px;
+}
+
+.community-image-upload-copy{
+  display:block;
+  padding:8px 10px 11px;
+}
+
+.community-image-upload-copy strong{
+  display:block;
+  font-size:10px;
+}
+
+.community-image-upload-copy span{
+  display:block;
+  margin-top:2px;
+  color:var(--cc-muted);
+  font-size:8px;
+}
+
+.community-image-size-notes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  margin-top:8px;
+  color:#9ca8c1;
+  font-size:8px;
+}
+
+.community-image-size-notes strong{
+  color:#dfe5f1;
+}
+
+.image-crop-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9500;
+  display:none;
+  place-items:center;
+  padding:24px;
+  box-sizing:border-box;
+  background:rgba(4,9,24,.82);
+  backdrop-filter:blur(7px);
+}
+
+.image-crop-overlay.active{
+  display:grid;
+}
+
+.image-crop-dialog{
+  width:min(720px,96vw);
+  max-height:92vh;
+  overflow:auto;
+  padding:20px;
+  box-sizing:border-box;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:16px;
+  background:#182447;
+  box-shadow:0 24px 70px rgba(0,0,0,.42);
+}
+
+.image-crop-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:15px;
+}
+
+.image-crop-head h2{
+  margin:0;
+  font-size:20px;
+}
+
+.image-crop-head p{
+  margin:4px 0 0;
+  color:var(--cc-muted);
+  font-size:9px;
+}
+
+.image-crop-x{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:50%;
+  background:#101a3a;
+  color:var(--cc-peach);
+  font-size:18px;
+  cursor:pointer;
+}
+
+.image-crop-stage-wrap{
+  display:grid;
+  place-items:center;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  background:#101a3a;
+}
+
+.image-crop-stage{
+  position:relative;
+  overflow:hidden;
+  touch-action:none;
+  user-select:none;
+  cursor:grab;
+  background:#0b1430;
+  box-shadow:0 0 0 1px rgba(255,195,132,.42);
+}
+
+.image-crop-stage.dragging{cursor:grabbing}
+
+.image-crop-stage.icon-mode{
+  width:min(360px,75vw);
+  aspect-ratio:1/1;
+  border-radius:50%;
+}
+
+.image-crop-stage.banner-mode{
+  width:min(620px,82vw);
+  aspect-ratio:10/3;
+  border-radius:8px;
+}
+
+.image-crop-stage img{
+  position:absolute;
+  max-width:none;
+  max-height:none;
+  pointer-events:none;
+  user-select:none;
+}
+
+.image-crop-guide{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+.image-crop-stage.icon-mode .image-crop-guide{border-radius:50%}
+
+.image-crop-help{
+  margin-top:9px;
+  color:#9da8c0;
+  font-size:8px;
+  text-align:center;
+}
+
+.image-crop-controls{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:10px;
+  align-items:center;
+  margin-top:15px;
+}
+
+.image-crop-controls label{
+  color:#dfe5f1;
+  font-size:9px;
+  font-weight:800;
+}
+
+.image-crop-controls input[type="range"]{
+  width:100%;
+  accent-color:#ffc384;
+}
+
+.image-crop-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:17px;
+}
+
+.image-crop-button{
+  padding:9px 13px;
+  border:1px solid rgba(255,195,132,.34);
+  border-radius:9px;
+  background:rgba(255,195,132,.07);
+  color:var(--cc-peach);
+  font:800 10px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.image-crop-button.primary{
+  background:var(--cc-peach);
+  color:#101a3a;
+}
+
+.preview-banner.has-image,
+.preview-icon.has-image{
+  background-position:center;
+  background-size:cover;
+  color:transparent;
+}
+
+@media(max-width:620px){
+  .community-image-upload-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -955,7 +1226,7 @@
           </div>
 
           <div class="field">
-            <div class="field-title">Primary Interests *</div>
+            <div class="field-title">Primary Interests * <span class="interest-limit-count" id="interestLimitCount">4 / 5 selected</span></div>
             <div class="interest-picker" id="interestPicker">
               <button class="interest-option" type="button" data-interest="All Interests">All Interests Welcome</button>
               <button class="interest-option selected" type="button" data-interest="Halloween">Halloween</button>
@@ -966,15 +1237,28 @@
               <button class="interest-option" type="button" data-interest="Gaming">Gaming</button>
               <button class="interest-option" type="button" data-interest="Collecting">Collecting</button>
             </div>
+            <div class="field-note" id="interestLimitNote">Choose up to 5 Interests, or select All Interests Welcome.</div>
           </div>
 
           <div class="field">
-            <div class="field-title">Community image</div>
-            <div class="upload-row">
-              <div class="upload-box">＋<br>Icon</div>
-              <div class="upload-box">＋ Add optional Community banner</div>
+            <div class="field-title">Community images</div>
+            <div class="community-image-upload-grid">
+              <button class="community-image-upload-card icon-upload-card" id="iconUploadButton" type="button">
+                <span class="community-image-thumb icon-thumb" id="iconUploadThumb">🎃</span>
+                <span class="community-image-upload-copy"><strong>Community icon</strong><span>Upload &amp; crop</span></span>
+              </button>
+              <button class="community-image-upload-card banner-upload-card" id="bannerUploadButton" type="button">
+                <span class="community-image-thumb banner-thumb" id="bannerUploadThumb">🎃 🕯️ 🐈‍⬛</span>
+                <span class="community-image-upload-copy"><strong>Community banner</strong><span>Upload &amp; crop</span></span>
+              </button>
             </div>
-            <div class="field-note">Images are optional during creation. All Media can use a simple placeholder until the owner customizes them.</div>
+            <input id="iconFileInput" type="file" accept="image/*" hidden>
+            <input id="bannerFileInput" type="file" accept="image/*" hidden>
+            <div class="community-image-size-notes">
+              <span><strong>Icon:</strong> 600 × 600 px recommended · square crop</span>
+              <span><strong>Banner:</strong> 1600 × 480 px recommended · wide crop</span>
+            </div>
+            <div class="field-note">After uploading, drag the image to reposition it inside the crop. Use the zoom slider for finer control.</div>
           </div>
         </div>
 
@@ -1145,6 +1429,34 @@
   </section>
 </main>
 
+<div class="image-crop-overlay" id="imageCropOverlay" aria-hidden="true">
+  <section class="image-crop-dialog" role="dialog" aria-modal="true" aria-labelledby="imageCropTitle">
+    <div class="image-crop-head">
+      <div>
+        <h2 id="imageCropTitle">Adjust Community image</h2>
+        <p id="imageCropSizeNote">Drag to reposition · use Zoom to adjust the crop.</p>
+      </div>
+      <button class="image-crop-x" id="imageCropClose" type="button" aria-label="Close image cropper">×</button>
+    </div>
+    <div class="image-crop-stage-wrap">
+      <div class="image-crop-stage icon-mode" id="imageCropStage">
+        <img id="imageCropImage" alt="">
+        <span class="image-crop-guide" aria-hidden="true"></span>
+      </div>
+      <div class="image-crop-help">Drag the image until the part you want is inside the crop.</div>
+    </div>
+    <div class="image-crop-controls">
+      <label for="imageCropZoom">Zoom</label>
+      <input id="imageCropZoom" type="range" min="1" max="3" step="0.01" value="1">
+    </div>
+    <div class="image-crop-actions">
+      <button class="image-crop-button" id="imageCropCancel" type="button">Cancel</button>
+      <button class="image-crop-button primary" id="imageCropApply" type="button">Use this crop</button>
+    </div>
+  </section>
+</div>
+
+
 <script>
 const notificationBell=document.getElementById('headerNotificationBell');
 const notificationPopup=document.getElementById('notificationQuickPopup');
@@ -1235,20 +1547,78 @@ function chooseOne(containerId,button){
 document.querySelectorAll('#accessChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('accessChoices',btn)));
 document.querySelectorAll('#postingChoices .choice-card').forEach(btn=>btn.addEventListener('click',()=>chooseOne('postingChoices',btn)));
 
+const MAX_COMMUNITY_INTERESTS=5;
+
+function refreshInterestLimit(){
+  const options=[...document.querySelectorAll('.interest-option')];
+  const allButton=document.querySelector('.interest-option[data-interest="All Interests"]');
+  const selectedSpecific=options.filter(x=>x!==allButton&&x.classList.contains('selected'));
+  const count=document.getElementById('interestLimitCount');
+  const note=document.getElementById('interestLimitNote');
+
+  if(allButton?.classList.contains('selected')){
+    if(count)count.textContent='All Interests';
+    options.forEach(x=>x.classList.remove('limit-reached'));
+    return;
+  }
+
+  if(count)count.textContent=`${selectedSpecific.length} / ${MAX_COMMUNITY_INTERESTS} selected`;
+  const atLimit=selectedSpecific.length>=MAX_COMMUNITY_INTERESTS;
+
+  options.forEach(option=>{
+    if(option!==allButton&&!option.classList.contains('selected')){
+      option.classList.toggle('limit-reached',atLimit);
+    }else{
+      option.classList.remove('limit-reached');
+    }
+  });
+
+  if(note&&!note.classList.contains('warning')){
+    note.textContent='Choose up to 5 Interests, or select All Interests Welcome.';
+  }
+}
+
+function flashInterestLimit(){
+  const note=document.getElementById('interestLimitNote');
+  if(!note)return;
+  note.textContent='This Community already has the maximum of 5 Interests.';
+  note.classList.add('warning');
+  clearTimeout(window.interestLimitTimer);
+  window.interestLimitTimer=setTimeout(()=>{
+    note.classList.remove('warning');
+    note.textContent='Choose up to 5 Interests, or select All Interests Welcome.';
+  },2200);
+}
+
 document.querySelectorAll('.interest-option').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const allButton=document.querySelector('.interest-option[data-interest="All Interests"]');
+
     if(btn===allButton){
       const on=!btn.classList.contains('selected');
       document.querySelectorAll('.interest-option').forEach(x=>x.classList.remove('selected'));
       if(on)btn.classList.add('selected');
     }else{
       allButton.classList.remove('selected');
+
+      if(!btn.classList.contains('selected')){
+        const selectedSpecific=[...document.querySelectorAll('.interest-option.selected')]
+          .filter(x=>x!==allButton);
+        if(selectedSpecific.length>=MAX_COMMUNITY_INTERESTS){
+          flashInterestLimit();
+          return;
+        }
+      }
+
       btn.classList.toggle('selected');
     }
+
+    refreshInterestLimit();
     updatePreview();
   });
 });
+
+refreshInterestLimit();
 
 document.getElementById('advancedToggle').addEventListener('click',function(){
   const drawer=document.getElementById('advancedDrawer');
@@ -1340,6 +1710,227 @@ function updateReview(){
 
 updatePreview();
 showStep(1);
+
+/* COMMUNITY ICON / BANNER UPLOAD + CROP */
+const cropState={
+  mode:'icon',
+  img:null,
+  zoom:1,
+  dx:0,
+  dy:0,
+  baseScale:1,
+  renderedW:0,
+  renderedH:0,
+  left:0,
+  top:0,
+  pointerId:null,
+  startX:0,
+  startY:0,
+  startDx:0,
+  startDy:0
+};
+
+const cropOverlay=document.getElementById('imageCropOverlay');
+const cropStage=document.getElementById('imageCropStage');
+const cropImage=document.getElementById('imageCropImage');
+const cropZoom=document.getElementById('imageCropZoom');
+const cropTitle=document.getElementById('imageCropTitle');
+const cropSizeNote=document.getElementById('imageCropSizeNote');
+
+function openFilePicker(mode){
+  document.getElementById(mode==='icon'?'iconFileInput':'bannerFileInput')?.click();
+}
+
+document.getElementById('iconUploadButton')?.addEventListener('click',()=>openFilePicker('icon'));
+document.getElementById('bannerUploadButton')?.addEventListener('click',()=>openFilePicker('banner'));
+
+function handleCommunityImageFile(event,mode){
+  const file=event.target.files?.[0];
+  if(!file)return;
+
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      cropState.mode=mode;
+      cropState.img=img;
+      cropState.zoom=1;
+      cropState.dx=0;
+      cropState.dy=0;
+      cropZoom.value='1';
+
+      cropStage.classList.toggle('icon-mode',mode==='icon');
+      cropStage.classList.toggle('banner-mode',mode==='banner');
+      cropTitle.textContent=mode==='icon'?'Adjust Community icon':'Adjust Community banner';
+      cropSizeNote.textContent=mode==='icon'
+        ? 'Recommended 600 × 600 px · square crop · drag to reposition.'
+        : 'Recommended 1600 × 480 px · wide crop · drag to reposition.';
+
+      cropImage.src=reader.result;
+      cropOverlay.classList.add('active');
+      cropOverlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+
+      requestAnimationFrame(()=>{
+        resetCropGeometry();
+        renderCrop();
+      });
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+  event.target.value='';
+}
+
+document.getElementById('iconFileInput')?.addEventListener('change',e=>handleCommunityImageFile(e,'icon'));
+document.getElementById('bannerFileInput')?.addEventListener('change',e=>handleCommunityImageFile(e,'banner'));
+
+function resetCropGeometry(){
+  if(!cropState.img)return;
+  const rect=cropStage.getBoundingClientRect();
+  cropState.baseScale=Math.max(
+    rect.width/cropState.img.naturalWidth,
+    rect.height/cropState.img.naturalHeight
+  );
+  cropState.dx=0;
+  cropState.dy=0;
+}
+
+function clampCropOffsets(){
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  const renderW=cropState.img.naturalWidth*scale;
+  const renderH=cropState.img.naturalHeight*scale;
+  const maxDx=Math.max(0,(renderW-rect.width)/2);
+  const maxDy=Math.max(0,(renderH-rect.height)/2);
+  cropState.dx=Math.max(-maxDx,Math.min(maxDx,cropState.dx));
+  cropState.dy=Math.max(-maxDy,Math.min(maxDy,cropState.dy));
+}
+
+function renderCrop(){
+  if(!cropState.img)return;
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  cropState.renderedW=cropState.img.naturalWidth*scale;
+  cropState.renderedH=cropState.img.naturalHeight*scale;
+
+  clampCropOffsets();
+
+  cropState.left=(rect.width-cropState.renderedW)/2+cropState.dx;
+  cropState.top=(rect.height-cropState.renderedH)/2+cropState.dy;
+
+  cropImage.style.width=cropState.renderedW+'px';
+  cropImage.style.height=cropState.renderedH+'px';
+  cropImage.style.left=cropState.left+'px';
+  cropImage.style.top=cropState.top+'px';
+}
+
+cropZoom?.addEventListener('input',()=>{
+  cropState.zoom=Number(cropZoom.value);
+  renderCrop();
+});
+
+cropStage?.addEventListener('pointerdown',event=>{
+  if(!cropState.img)return;
+  cropState.pointerId=event.pointerId;
+  cropState.startX=event.clientX;
+  cropState.startY=event.clientY;
+  cropState.startDx=cropState.dx;
+  cropState.startDy=cropState.dy;
+  cropStage.setPointerCapture(event.pointerId);
+  cropStage.classList.add('dragging');
+});
+
+cropStage?.addEventListener('pointermove',event=>{
+  if(cropState.pointerId!==event.pointerId)return;
+  cropState.dx=cropState.startDx+(event.clientX-cropState.startX);
+  cropState.dy=cropState.startDy+(event.clientY-cropState.startY);
+  renderCrop();
+});
+
+function finishCropDrag(event){
+  if(cropState.pointerId!==event.pointerId)return;
+  cropState.pointerId=null;
+  cropStage.classList.remove('dragging');
+  try{cropStage.releasePointerCapture(event.pointerId)}catch(e){}
+}
+cropStage?.addEventListener('pointerup',finishCropDrag);
+cropStage?.addEventListener('pointercancel',finishCropDrag);
+
+function closeCropper(){
+  cropOverlay.classList.remove('active');
+  cropOverlay.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  cropStage.classList.remove('dragging');
+  cropState.pointerId=null;
+}
+
+document.getElementById('imageCropClose')?.addEventListener('click',closeCropper);
+document.getElementById('imageCropCancel')?.addEventListener('click',closeCropper);
+cropOverlay?.addEventListener('click',event=>{
+  if(event.target===cropOverlay)closeCropper();
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&cropOverlay?.classList.contains('active'))closeCropper();
+});
+
+function createCroppedDataURL(){
+  if(!cropState.img)return null;
+
+  const rect=cropStage.getBoundingClientRect();
+  const scale=cropState.baseScale*cropState.zoom;
+  const sourceX=Math.max(0,-cropState.left/scale);
+  const sourceY=Math.max(0,-cropState.top/scale);
+  const sourceW=Math.min(cropState.img.naturalWidth-sourceX,rect.width/scale);
+  const sourceH=Math.min(cropState.img.naturalHeight-sourceY,rect.height/scale);
+
+  const targetW=cropState.mode==='icon'?600:1600;
+  const targetH=cropState.mode==='icon'?600:480;
+
+  const canvas=document.createElement('canvas');
+  canvas.width=targetW;
+  canvas.height=targetH;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(
+    cropState.img,
+    sourceX,sourceY,sourceW,sourceH,
+    0,0,targetW,targetH
+  );
+  return canvas.toDataURL('image/jpeg',0.92);
+}
+
+document.getElementById('imageCropApply')?.addEventListener('click',()=>{
+  const dataURL=createCroppedDataURL();
+  if(!dataURL)return;
+
+  if(cropState.mode==='icon'){
+    const uploadThumb=document.getElementById('iconUploadThumb');
+    const preview=document.querySelector('.preview-icon');
+    uploadThumb.style.backgroundImage=`url("${dataURL}")`;
+    uploadThumb.textContent='';
+    preview.style.backgroundImage=`url("${dataURL}")`;
+    preview.textContent='';
+    preview.classList.add('has-image');
+  }else{
+    const uploadThumb=document.getElementById('bannerUploadThumb');
+    const preview=document.querySelector('.preview-banner');
+    uploadThumb.style.backgroundImage=`url("${dataURL}")`;
+    uploadThumb.textContent='';
+    preview.style.backgroundImage=`url("${dataURL}")`;
+    preview.textContent='';
+    preview.classList.add('has-image');
+  }
+
+  closeCropper();
+});
+
+window.addEventListener('resize',()=>{
+  if(cropOverlay?.classList.contains('active')&&cropState.img){
+    resetCropGeometry();
+    renderCrop();
+  }
+});
+
 </script>
 </body>
 </html>
