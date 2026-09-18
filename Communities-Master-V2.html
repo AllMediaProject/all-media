@@ -1696,6 +1696,47 @@ button.pinned-card{
   box-shadow:inset 0 1px 0 rgba(255,195,132,.04);
 }
 
+
+.dynamic-community-banner{
+  background:
+    radial-gradient(circle at 22% 68%,rgba(255,195,132,.22),transparent 22%),
+    radial-gradient(circle at 73% 32%,rgba(255,195,132,.11),transparent 25%),
+    linear-gradient(135deg,#1a274f,#101a3a 70%);
+}
+
+.dynamic-community-banner::before,
+.dynamic-community-banner::after{
+  content:none!important;
+}
+
+.community-empty-state{
+  padding:30px 24px;
+  border:1px dashed rgba(255,195,132,.32);
+  border-radius:14px;
+  background:rgba(255,195,132,.045);
+  text-align:center;
+}
+
+.community-empty-state strong{
+  display:block;
+  color:#f8f8f2;
+  font-size:16px;
+}
+
+.community-empty-state span{
+  display:block;
+  margin-top:7px;
+  color:#aeb7cb;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.community-empty-links{
+  color:#8f9ab3;
+  font-size:11px;
+  line-height:1.5;
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -2111,7 +2152,7 @@ button.pinned-card{
 </div>
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">c</div>
-<div class="post-author-copy"><div class="post-author-line"><span class="username">@cozycryptid</span><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div><div class="post-meta-line"><span class="topic">🎃 Halloween</span><span class="post-community">· in 🎃 Spooky Cozy</span></div></div>
+<div class="post-author-copy"><div class="post-author-line"><span class="username">@cozycryptid</span><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div><div class="post-meta-line"><span class="topic">${currentCommunityState().icon||'◉'} ${(currentCommunityState().interests||['All Interests'])[0]}</span><span class="post-community">· in ${currentCommunityState().icon||'◉'} ${currentCommunityState().name}</span></div></div>
 <div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="byte-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
 </header>
 <p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
@@ -2393,10 +2434,13 @@ function toggleCommunityPin(event,button){
   const name=row?.dataset.community;
   const icon=row?.dataset.icon||'';
 
-  if(name==='Spooky Cozy'){
-    const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
-    if(!state.joined)return;
-    updateCommunityState(CURRENT_COMMUNITY_SLUG,{pinned:!state.pinned,notifications:true});
+  const currentState=currentCommunityState();
+  if(name===currentState.name){
+    if(!currentState.joined)return;
+    updateCommunityState(CURRENT_COMMUNITY_SLUG,{
+      pinned:!currentState.pinned,
+      notifications:true
+    });
     syncSpookyCommunityUI();
     return;
   }
@@ -2498,9 +2542,16 @@ function loadAllMediaCommunityState(){
   const defaults=cloneCommunityDefaults();
   try{
     const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+
+    Object.keys(saved).forEach(slug=>{
+      defaults[slug]={...(defaults[slug]||{}),...saved[slug]};
+    });
+
     Object.keys(defaults).forEach(slug=>{
-      defaults[slug]={...defaults[slug],...(saved[slug]||{})};
-      if(defaults[slug].pinned){defaults[slug].joined=true;defaults[slug].notifications=true;}
+      if(defaults[slug].pinned){
+        defaults[slug].joined=true;
+        defaults[slug].notifications=true;
+      }
     });
   }catch(e){}
   return defaults;
@@ -2527,28 +2578,48 @@ window.addEventListener('storage',event=>{
   }
 });
 
-const CURRENT_COMMUNITY_SLUG='spooky-cozy';
+const requestedCommunitySlug=new URLSearchParams(window.location.search).get('community');
+const requestedCommunityState=requestedCommunitySlug
+  ? allMediaCommunityState[requestedCommunitySlug]
+  : null;
+
+const CURRENT_COMMUNITY_SLUG=
+  requestedCommunityState?.createdByPrototype
+    ? requestedCommunitySlug
+    : 'spooky-cozy';
+
+function currentCommunityState(){
+  return getCommunityState(CURRENT_COMMUNITY_SLUG);
+}
+
 function spookyStateSnapshot(){
-  const state=getCommunityState(CURRENT_COMMUNITY_SLUG);
+  const state=currentCommunityState();
   return {joined:!!state.joined,pinned:!!state.pinned,muted:!state.notifications};
 }
 
 function communityToast(){/* intentionally silent in the Community UI */}
 
 function getSpookyMoreRow(){
+  const state=currentCommunityState();
   return [...document.querySelectorAll('#communityDropdown .community-more-row')]
-    .find(row=>row.dataset.community==='Spooky Cozy');
+    .find(row=>row.dataset.community===state.name);
 }
 
 function addSpookyToMore(){
+  const state=currentCommunityState();
   if(getSpookyMoreRow())return;
   const dropdown=document.getElementById('communityDropdown');
   if(!dropdown)return;
+
   const row=document.createElement('div');
   row.className='community-more-row';
-  row.dataset.community='Spooky Cozy';
-  row.dataset.icon='🎃';
-  row.innerHTML='<span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button>';
+  row.dataset.community=state.name;
+  row.dataset.icon=state.icon||'◉';
+  row.setAttribute('onclick',"openCommunityFromMore(event,this)");
+  row.setAttribute('role','link');
+  row.setAttribute('tabindex','0');
+
+  row.innerHTML=`<span class="community-more-name"><span class="community-icon">${state.icon||'◉'}</span>${state.name}</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button>`;
   dropdown.prepend(row);
 }
 
@@ -2557,25 +2628,324 @@ function removeSpookyFromMore(){
 }
 
 function addSpookyToHotbar(){
+  const state=currentCommunityState();
   const bar=document.getElementById('masterPinnedCommunities');
   if(!bar)return;
-  const existing=[...bar.querySelectorAll('.community-chip')].find(x=>x.dataset.community==='Spooky Cozy');
+
+  const existing=[...bar.querySelectorAll('.community-chip')]
+    .find(x=>x.dataset.community===state.name);
+
   if(existing)return;
+
   const chip=document.createElement('button');
   chip.className='community-chip';
   chip.draggable=true;
-  chip.dataset.community='Spooky Cozy';
-  chip.dataset.icon='🎃';
+  chip.dataset.community=state.name;
+  chip.dataset.icon=state.icon||'◉';
   chip.setAttribute('onclick',"openCommunityFromHotbar(event,this)");
-  chip.innerHTML='<span class="community-icon">🎃</span>Spooky Cozy <span class="activity-bell" onclick="openRecentActivity(event,this)" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count">5</span></span>';
+
+  chip.innerHTML=`<span class="community-icon">${state.icon||'◉'}</span>${state.name} <span class="activity-bell" onclick="openRecentActivity(event,this)" title="Community notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg><span class="activity-count" style="display:none">0</span></span>`;
   bar.prepend(chip);
 }
 
 function removeSpookyFromHotbar(){
+  const state=currentCommunityState();
   const bar=document.getElementById('masterPinnedCommunities');
-  const existing=[...(bar?.querySelectorAll('.community-chip')||[])].find(x=>x.dataset.community==='Spooky Cozy');
+  const existing=[...(bar?.querySelectorAll('.community-chip')||[])]
+    .find(x=>x.dataset.community===state.name);
   existing?.remove();
 }
+
+
+function escapeCommunityText(value){
+  return String(value??'');
+}
+
+function renderCommunityInterestPills(container,interests){
+  if(!container)return;
+  container.innerHTML='';
+
+  const values=(Array.isArray(interests)&&interests.length)
+    ? interests
+    : ['All Interests'];
+
+  values.forEach(interest=>{
+    const pill=document.createElement('span');
+    pill.className='community-interest';
+    pill.textContent=interest;
+    container.appendChild(pill);
+  });
+}
+
+function communityLinkSummary(state){
+  const sharing=state.linkSharing||{};
+  const allowed=[];
+  if(sharing.community)allowed.push('Community');
+  if(sharing.creatorShop)allowed.push('Creator & Shop');
+  if(sharing.social)allowed.push('Social');
+  return allowed.length?allowed.join(' + '):'No external links';
+}
+
+function buildBasicsMarkup(state){
+  const access=state.access||'Public';
+  const posting=state.posting||'Members';
+
+  let accessDetail='Anyone can view before joining.';
+  if(access==='Request to Join')accessDetail='People can find it, but joining needs approval.';
+  if(access==='Invite Only')accessDetail='Only invited members can enter.';
+
+  const postingDetail=
+    posting==='Members'
+      ? (state.originalPosts===false?'Members can participate, but original posts are off.':'Original posts are allowed.')
+      : posting==='Moderators'
+        ? 'Only moderators and the owner can create posts.'
+        : 'Only the Community owner can create posts.';
+
+  const reblogTitle=state.reblogs===false?'Reblogs off':'Reblogs allowed';
+  const reblogDetail=state.reblogs===false
+    ? 'Posts cannot be reblogged into this Community.'
+    : 'Eligible posts may be added here.';
+
+  const linkTitle='Link sharing';
+  const linkDetail=communityLinkSummary(state);
+
+  const approvalTitle=state.approvalRequired?'Review before publishing':'Publishes immediately';
+  const approvalDetail=state.approvalRequired
+    ? 'New posts are reviewed by moderators first.'
+    : 'No moderator approval required.';
+
+  return `
+    <div class="community-basic"><span class="community-basic-icon">◉</span><span><strong>${escapeCommunityText(access)} Community</strong><br>${escapeCommunityText(accessDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">♡</span><span><strong>Free to join</strong><br>No paid membership required.</span></div>
+    <div class="community-basic"><span class="community-basic-icon">✎</span><span><strong>${escapeCommunityText(posting)} can post</strong><br>${escapeCommunityText(postingDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">↻</span><span><strong>${escapeCommunityText(reblogTitle)}</strong><br>${escapeCommunityText(reblogDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>${escapeCommunityText(linkTitle)}</strong><br>${escapeCommunityText(linkDetail)}</span></div>
+    <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>${escapeCommunityText(approvalTitle)}</strong><br>${escapeCommunityText(approvalDetail)}</span></div>
+  `;
+}
+
+function buildRulesMarkup(state){
+  const rules=Array.isArray(state.rules)&&state.rules.length
+    ? state.rules
+    : [
+        {title:'No bullying',explanation:'Treat other Community members with care and respect.'},
+        {title:'Respect others',explanation:'Keep conversation constructive and considerate.'}
+      ];
+
+  return rules.map((rule,index)=>`
+    <div class="community-rule">
+      <span class="community-rule-number">${index+1}</span>
+      <div>
+        <strong>${escapeCommunityText(rule.title||'Community rule')}</strong>
+        <span>${escapeCommunityText(rule.explanation||'')}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderOfficialCommunityLinks(state){
+  const links=[];
+  if(state.website)links.push({icon:'🌐',label:'Website',href:state.website});
+
+  const socials=state.officialSocials||{};
+  Object.entries(socials).forEach(([network,href])=>{
+    if(!href)return;
+    links.push({
+      icon:network.toLowerCase().includes('youtube')?'▶':'◎',
+      label:network,
+      href
+    });
+  });
+
+  document.querySelectorAll('.official-community-links').forEach(container=>{
+    if(!links.length){
+      container.innerHTML='<span class="community-empty-links">No official Community links have been added yet.</span>';
+      return;
+    }
+
+    container.innerHTML='';
+    links.forEach(link=>{
+      const a=document.createElement('a');
+      a.className='official-community-link';
+      a.href=link.href;
+      a.target='_blank';
+      a.rel='noopener noreferrer';
+      a.innerHTML=`<span>${link.icon}</span><strong></strong>`;
+      a.querySelector('strong').textContent=link.label;
+      container.appendChild(a);
+    });
+  });
+}
+
+function renderCreatedCommunityFront(){
+  const state=currentCommunityState();
+  if(!state.createdByPrototype)return;
+
+  document.title=`All Media — ${state.name}`;
+
+  const icon=state.icon||'◉';
+  const interests=Array.isArray(state.interests)&&state.interests.length
+    ? state.interests
+    : ['All Interests'];
+
+  const title=document.querySelector('.community-title-row h1');
+  if(title)title.textContent=state.name;
+
+  const avatar=document.querySelector('.community-avatar');
+  if(avatar)avatar.textContent=icon;
+
+  const banner=document.querySelector('.community-banner');
+  if(banner){
+    banner.classList.add('dynamic-community-banner');
+    banner.setAttribute('aria-label',`${state.name} Community banner`);
+  }
+
+  renderCommunityInterestPills(
+    document.querySelector('.community-title-row .community-interest-row'),
+    interests
+  );
+
+  const description=document.querySelector('.community-description');
+  if(description)description.textContent=state.description||'A new All Media Community.';
+
+  const facts=document.querySelector('.community-facts');
+  if(facts){
+    facts.innerHTML='';
+    [
+      `◉ ${state.access||'Public'} Community`,
+      '♡ Free',
+      `🔗 Links: ${communityLinkSummary(state)}`,
+      '1 member'
+    ].forEach(label=>{
+      const span=document.createElement('span');
+      span.className='community-fact';
+      span.textContent=label;
+      facts.appendChild(span);
+    });
+  }
+
+  const subnav=document.querySelector('.community-subnav');
+  if(subnav)subnav.setAttribute('aria-label',state.name);
+
+  const search=document.getElementById('communitySearchInput');
+  if(search){
+    search.placeholder=`Search ${state.name}…`;
+    search.setAttribute('aria-label',`Search ${state.name}`);
+  }
+
+  const quick=document.getElementById('quickThoughtInput');
+  if(quick)quick.placeholder=`Share something with ${state.name}…`;
+
+  const creatorIntro=document.querySelector('#communityFullComposer .creator-intro p');
+  if(creatorIntro)creatorIntro.textContent=`Share a post, blog, video, or quick byte with ${state.name}.`;
+
+  const creatorContext=document.querySelector('#communityFullComposer .community-creator-context span');
+  if(creatorContext){
+    creatorContext.innerHTML='';
+    const strong=document.createElement('strong');
+    strong.textContent=`Posting in ${icon} ${state.name}`;
+    creatorContext.appendChild(strong);
+    creatorContext.appendChild(
+      document.createTextNode(` · Match ${interests.join(', ')}.`)
+    );
+  }
+
+  const communityPickerValue=document.querySelector('#communityFullComposer .community-picker .creator-tool-value');
+  if(communityPickerValue)communityPickerValue.textContent=`${icon} ${state.name}`;
+
+  document.querySelectorAll('.community-basics-list').forEach(list=>{
+    list.innerHTML=buildBasicsMarkup(state);
+  });
+
+  const badge=document.querySelector('.promo-badge');
+  if(badge)badge.textContent=`🔗 ${communityLinkSummary(state).toUpperCase()}`;
+
+  const sidebarAbout=document.querySelector('.community-about-panel p');
+  if(sidebarAbout)sidebarAbout.textContent=state.about||state.description||'';
+
+  const guideHeroTitle=document.querySelector('.community-guide-hero h2');
+  if(guideHeroTitle)guideHeroTitle.textContent=state.welcome
+    ? state.welcome
+    : `Welcome to ${state.name} ${icon}`;
+
+  const guideHeroCopy=document.querySelector('.community-guide-hero p');
+  if(guideHeroCopy)guideHeroCopy.textContent=state.about||state.description||'';
+
+  const belongsCard=document.querySelector('.community-guide-grid .community-guide-card p');
+  if(belongsCard){
+    belongsCard.textContent=`Posts and conversations should match ${interests.join(', ')} and the purpose of ${state.name}.`;
+  }
+
+  const traditionsCards=document.querySelectorAll('.community-guide-grid .community-guide-card p');
+  if(traditionsCards[1]){
+    traditionsCards[1].textContent='Community traditions can grow naturally as members spend time together here.';
+  }
+
+  const guideInterestRow=document.querySelector('#community-about .community-interest-row');
+  renderCommunityInterestPills(guideInterestRow,interests);
+
+  document.querySelectorAll('.community-rules-list').forEach(list=>{
+    list.innerHTML=buildRulesMarkup(state);
+  });
+
+  renderOfficialCommunityLinks(state);
+
+  const announcement=document.getElementById('communityAnnouncementCarousel');
+  if(announcement)announcement.style.display='none';
+
+  const pinnedShelf=document.querySelector('.pinned-shelf');
+  if(pinnedShelf)pinnedShelf.style.display='none';
+
+  const activity=document.querySelector('.current-activity');
+  if(activity)activity.style.display='none';
+
+  const feed=document.querySelector('.community-main .feed');
+  if(feed){
+    feed.innerHTML=`
+      <div class="community-empty-state">
+        <strong>${escapeCommunityText(state.name)} is ready.</strong>
+        <span>No posts yet. Start the first conversation whenever you’re ready.</span>
+      </div>`;
+  }
+
+  const moderatorList=document.querySelector('.moderator-list');
+  if(moderatorList){
+    moderatorList.innerHTML=`
+      <div class="moderator">
+        <div class="moderator-avatar">${icon}</div>
+        <div class="moderator-copy">
+          <strong>@yourusername</strong>
+          <span>Community Owner</span>
+        </div>
+      </div>`;
+  }
+
+  const activePanel=document.querySelector('.active-members-panel');
+  if(activePanel){
+    const grid=activePanel.querySelector('.active-member-grid');
+    if(grid){
+      grid.innerHTML=`
+        <article class="active-member-card">
+          <div class="member-avatar">${icon}</div>
+          <div><strong>@yourusername</strong><span>Community Owner · created this space</span></div>
+        </article>`;
+    }
+  }
+
+  const memberGrid=document.querySelector('.member-directory .member-grid');
+  if(memberGrid){
+    memberGrid.innerHTML=`
+      <article class="member-card">
+        <div class="member-avatar">${icon}</div>
+        <div><strong>@yourusername</strong><span>Community Owner</span></div>
+      </article>`;
+  }
+
+  const seeMoreMembers=document.getElementById('seeMoreMembers');
+  if(seeMoreMembers)seeMoreMembers.style.display='none';
+}
+
+renderCreatedCommunityFront();
 
 function syncSpookyCommunityUI(){
   const state=spookyStateSnapshot();
@@ -2660,7 +3030,7 @@ quickThoughtSend?.addEventListener('click',()=>{
   feed?.prepend(buildQuickThoughtPost(message));
   quickThoughtInput.value='';
   quickThoughtSend.disabled=true;
-  communityToast('Quick thought posted to Spooky Cozy.');
+  communityToast(`Quick thought posted to ${currentCommunityState().name}.`);
 });
 
 quickThoughtInput?.addEventListener('keydown',(event)=>{
@@ -2720,7 +3090,7 @@ document.getElementById('communityCreatorPost')?.addEventListener('click',()=>{
     }
     return;
   }
-  communityToast('Prototype post created in Spooky Cozy.');
+  communityToast(`Prototype post created in ${currentCommunityState().name}.`);
   if(textarea)textarea.value='';
   closeCommunityCreator();
 });
