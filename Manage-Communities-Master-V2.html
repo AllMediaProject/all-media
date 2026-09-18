@@ -450,6 +450,82 @@ body{min-height:100vh}
     flex-direction:column;
   }
 }
+
+/* ============================================================
+   MANAGE COMMUNITIES — PANEL MODE
+   ?panel=1 keeps every organizer function but removes the full
+   page chrome so this master can live inside the right drawer.
+   ============================================================ */
+body.manage-panel-mode{
+  min-width:0;
+  overflow-x:hidden;
+  background:#101a3a;
+}
+
+body.manage-panel-mode .site-header,
+body.manage-panel-mode .community-bar{
+  display:none!important;
+}
+
+body.manage-panel-mode .manage-community-page{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:18px 14px 28px;
+  box-sizing:border-box;
+}
+
+body.manage-panel-mode .manage-heading{
+  align-items:flex-start;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+body.manage-panel-mode .manage-heading h1{
+  font-size:24px;
+}
+
+body.manage-panel-mode .manage-heading p{
+  font-size:11px;
+}
+
+body.manage-panel-mode .manage-create{
+  align-self:stretch;
+}
+
+body.manage-panel-mode .manage-organizer{
+  gap:12px;
+}
+
+body.manage-panel-mode .manage-section-head{
+  align-items:flex-start;
+}
+
+body.manage-panel-mode .manage-community-card{
+  grid-template-columns:44px minmax(0,1fr);
+  gap:10px;
+}
+
+body.manage-panel-mode .manage-community-actions{
+  grid-column:1/-1;
+  justify-content:flex-end;
+  padding-left:54px;
+}
+
+body.manage-panel-mode .manage-notifications{
+  align-items:flex-start;
+  flex-direction:column;
+}
+
+body.manage-panel-mode .manage-notifications .mc-button{
+  width:100%;
+}
+
+body.manage-panel-mode .manage-note{
+  font-size:9px;
+}
+
 </style>
 </head>
 <body>
@@ -595,8 +671,25 @@ body{min-height:100vh}
 </div>
 
 <script>
+const MANAGE_PANEL_MODE=new URLSearchParams(window.location.search).get('panel')==='1';
+if(MANAGE_PANEL_MODE)document.body.classList.add('manage-panel-mode');
+
+function manageNavigate(url){
+  if(MANAGE_PANEL_MODE&&window.parent!==window){
+    window.parent.location.href=url;
+  }else{
+    window.location.href=url;
+  }
+}
+
 document.getElementById('viewAllCommunityNotifications')?.addEventListener('click',()=>{
-  window.location.href='Community-Notifications-Master-V1.html';
+  manageNavigate('Community-Notifications-Master-V1.html');
+});
+
+document.querySelector('.manage-create')?.addEventListener('click',event=>{
+  if(!MANAGE_PANEL_MODE)return;
+  event.preventDefault();
+  manageNavigate(event.currentTarget.getAttribute('href'));
 });
 
 const COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
@@ -720,9 +813,11 @@ function communityFrontPageUrl(name){
 function openCommunityBySlug(slug){
   const state=communityState[slug];
   if(!state)return;
-  window.location.href=slug==='spooky-cozy'
-    ? 'Communities-Master-V3.html'
-    : `Communities-Master-V3.html?community=${encodeURIComponent(slug)}`;
+  manageNavigate(
+    slug==='spooky-cozy'
+      ? 'Communities-Master-V3.html'
+      : `Communities-Master-V3.html?community=${encodeURIComponent(slug)}`
+  );
 }
 
 function joinedCommunities(){
@@ -916,7 +1011,7 @@ function buildCommunityCard(slug,item,isOwner){
     edit.type='button';
     edit.textContent='Edit';
     edit.addEventListener('click',()=>{
-      window.location.href=`Create-Community-Master-V2.html?mode=edit&community=${encodeURIComponent(slug)}`;
+      manageNavigate(`Create-Community-Master-V2.html?mode=edit&community=${encodeURIComponent(slug)}`);
     });
     actions.appendChild(edit);
   }else{

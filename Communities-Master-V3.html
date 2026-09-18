@@ -2655,6 +2655,330 @@ button.pinned-card{
   .community-creator-popover{position:fixed;left:12px;right:12px;bottom:12px;top:auto;width:auto}
 }
 
+
+/* ============================================================
+   COMMUNITY FINAL FUNCTION PASS
+   Appearance polish intentionally comes later.
+   ============================================================ */
+
+.community-info-actions{
+  margin-top:12px;
+}
+
+.community-info-actions .community-secondary{
+  width:100%;
+}
+
+.community-functional-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1300;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(5,10,28,.72);
+  backdrop-filter:blur(8px);
+}
+
+.community-functional-overlay[hidden]{
+  display:none!important;
+}
+
+.community-functional-dialog{
+  width:min(720px,94vw);
+  max-height:min(820px,90vh);
+  overflow:auto;
+  box-sizing:border-box;
+  padding:18px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:15px;
+  background:#111b3b;
+  box-shadow:0 26px 80px rgba(0,0,0,.45);
+}
+
+.community-functional-dialog-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:14px;
+}
+
+.community-functional-dialog-head h2{
+  margin:3px 0 0;
+  font-size:21px;
+}
+
+.community-functional-dialog-head p{
+  margin:5px 0 0;
+  max-width:560px;
+  color:#9fa9bd;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.community-functional-close{
+  width:34px;
+  height:34px;
+  flex:0 0 auto;
+  border:1px solid rgba(255,195,132,.20);
+  border-radius:50%;
+  background:#182447;
+  color:#ffc384;
+  font:800 17px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.announcement-manager-existing{
+  display:grid;
+  gap:7px;
+  margin-bottom:14px;
+}
+
+.announcement-manager-existing-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+  padding:9px 10px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+  background:#182447;
+}
+
+.announcement-manager-existing-row strong{
+  display:block;
+  font-size:10px;
+}
+
+.announcement-manager-existing-row span{
+  display:block;
+  margin-top:2px;
+  color:#8995ad;
+  font-size:8px;
+}
+
+.announcement-manager-existing-row button{
+  border:0;
+  background:transparent;
+  color:#e5a5a5;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.announcement-manager-form{
+  display:grid;
+  gap:10px;
+}
+
+.announcement-manager-form label{
+  display:grid;
+  gap:5px;
+  color:#cbd1de;
+  font-size:9px;
+  font-weight:800;
+}
+
+.announcement-manager-form input,
+.announcement-manager-form select,
+.announcement-manager-form textarea{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:9px;
+  outline:0;
+  padding:9px 10px;
+  background:#0f1936;
+  color:#f8f8f2;
+  font:500 10px 'Outfit',sans-serif;
+}
+
+.announcement-manager-form textarea{
+  min-height:78px;
+  resize:vertical;
+}
+
+.announcement-manager-form input:focus,
+.announcement-manager-form select:focus,
+.announcement-manager-form textarea:focus{
+  border-color:rgba(255,195,132,.45);
+}
+
+.announcement-manager-status{
+  min-height:16px;
+  color:#e5a5a5;
+  font-size:9px;
+}
+
+.announcement-read-more{
+  margin-top:8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#ffc384;
+  font:800 9px 'Outfit',sans-serif;
+  cursor:pointer;
+}
+
+.announcement-reader-summary{
+  margin:0 0 12px;
+  color:#c9d0df;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.announcement-reader-details{
+  color:#e3e6ee;
+  font-size:11px;
+  line-height:1.7;
+  white-space:pre-wrap;
+}
+
+.manage-communities-drawer-layer{
+  position:fixed;
+  inset:0;
+  z-index:1250;
+}
+
+.manage-communities-drawer-layer[hidden]{
+  display:none!important;
+}
+
+.manage-communities-drawer-backdrop{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:rgba(5,10,28,.48);
+  cursor:default;
+}
+
+.manage-communities-drawer{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(500px,92vw);
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  border-left:1px solid rgba(255,195,132,.25);
+  background:#101a3a;
+  box-shadow:-28px 0 70px rgba(0,0,0,.34);
+}
+
+.manage-communities-drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:#182447;
+}
+
+.manage-communities-drawer-head strong{
+  display:block;
+  font-size:13px;
+}
+
+.manage-communities-drawer-head span{
+  display:block;
+  margin-top:2px;
+  color:#8d98b0;
+  font-size:8px;
+}
+
+.manage-communities-drawer-head button{
+  width:31px;
+  height:31px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  background:#101a3a;
+  color:#ffc384;
+  cursor:pointer;
+}
+
+.manage-communities-drawer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#101a3a;
+}
+
+.mod-chat-mention-wrap{
+  position:relative;
+  flex:0 0 auto;
+}
+
+.mod-chat-mention-button{
+  width:36px;
+  height:36px;
+  padding:0!important;
+  display:grid;
+  place-items:center;
+  font-size:15px!important;
+}
+
+.mod-chat-mention-menu{
+  position:absolute;
+  left:0;
+  bottom:44px;
+  z-index:40;
+  width:190px;
+  padding:6px;
+  border:1px solid rgba(255,195,132,.25);
+  border-radius:10px;
+  background:#101a3a;
+  box-shadow:0 14px 34px rgba(0,0,0,.28);
+}
+
+.mod-chat-mention-menu[hidden]{
+  display:none!important;
+}
+
+.mod-chat-mention-option{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px!important;
+  border:0!important;
+  background:transparent!important;
+  color:#e5e7ef!important;
+  text-align:left;
+  cursor:pointer;
+}
+
+.mod-chat-mention-option:hover{
+  background:rgba(255,195,132,.08)!important;
+  color:#ffc384!important;
+}
+
+.community-demo-player{
+  position:relative;
+  overflow:hidden;
+}
+
+.community-demo-player .sample-community-art{
+  display:grid!important;
+  place-items:center!important;
+  color:#ffc384!important;
+  background:
+    radial-gradient(circle at 65% 30%,rgba(255,195,132,.18),transparent 25%),
+    linear-gradient(135deg,#32213a,#101a3a 70%)!important;
+}
+
+.community-demo-player.demo-playing .sample-community-art{
+  filter:brightness(1.08);
+}
+
+@media(max-width:760px){
+  .manage-communities-drawer{
+    width:94vw;
+  }
+}
+
 </style>
 </head>
 <body class="community-master">
@@ -2753,7 +3077,7 @@ button.pinned-card{
 <div class="community-more-row" data-community="Garden & Nature" data-icon="🌿" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
 </div>
 </div>
-<button class="community-tool" type="button" onclick="window.location.href='Manage-Communities-Master-V2.html'">Manage Communities</button>
+<button class="community-tool" id="openManageCommunitiesDrawer" type="button">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -2970,7 +3294,6 @@ button.pinned-card{
         <div class="community-basic"><span class="community-basic-icon">🔗</span><span><strong>Link sharing</strong><br>Community-related, Creator &amp; Shop links are allowed.</span></div>
         <div class="community-basic"><span class="community-basic-icon">✓</span><span><strong>Publishes immediately</strong><br>No moderator approval required.</span></div>
       </div>
-      <div class="promo-badge">🔗 COMMUNITY + CREATOR &amp; SHOP LINKS</div>
     </div>
 
     <div class="community-info-divider"></div>
@@ -2981,6 +3304,10 @@ button.pinned-card{
         <a href="#" class="official-community-link"><span>🌐</span><strong>Website</strong></a>
         <a href="#" class="official-community-link"><span>◎</span><strong>Instagram</strong></a>
         <a href="#" class="official-community-link"><span>▶</span><strong>YouTube</strong></a>
+      </div>
+
+      <div class="community-info-actions">
+        <button class="community-secondary" id="openAnnouncementManager" type="button" hidden>＋ Add Announcement</button>
       </div>
     </div>
   </section>
@@ -3100,7 +3427,7 @@ button.pinned-card{
 <div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="video-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
 </header>
 <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
-<div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
+<div aria-label="Video player preview" class="video-feed-player video-v11-feed-player community-demo-player" data-demo-duration="252">
 <div class="sample-community-art" style="min-height:360px;font-size:82px">🎨🌙</div>
 <div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button><button type="button" class="video-control-button video-control-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">4:12</span><button type="button" class="video-control-button video-control-fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button></div></div>
 </div>
@@ -3120,14 +3447,14 @@ button.pinned-card{
 
 <article data-community-seed-post="true" class="post byte-post-v11 sample-post" data-post-type="byte">
 <div class="byte-stage">
-<div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+<div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player community-demo-player" aria-label="Byte player preview" data-demo-duration="42">
 <div class="sample-community-art" style="min-height:520px;font-size:78px">🐈‍⬛🕯️</div>
 <div class="video-control-overlay"><div class="video-control-row"><button type="button" class="video-control-button video-control-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></button><span class="video-control-time">0:00</span><input class="video-control-scrubber" type="range" min="0" max="100" value="0"><span class="video-control-time">0:42</span></div></div>
 </div>
 </div>
 <header class="post-header">
 <div aria-hidden="true" class="profile-picture">c</div>
-<div class="post-author-copy"><div class="post-author-line"><span class="username">@cozycryptid</span><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div><div class="post-meta-line"><span class="topic">${currentCommunityState().icon||'◉'} ${(currentCommunityState().interests||['All Interests'])[0]}</span><span class="post-community">· in ${currentCommunityState().icon||'◉'} ${currentCommunityState().name}</span></div></div>
+<div class="post-author-copy"><div class="post-author-line"><span class="username">@cozycryptid</span><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div><div class="post-meta-line"><span class="topic" data-byte-community-topic>🎃 Halloween</span><span class="post-community" data-byte-community-name>· in 🎃 Spooky Cozy</span></div></div>
 <div class="post-header-right"><button aria-label="More options" class="post-menu-button" onclick="masterToggleMenu(event,this)" type="button">•••</button><div class="byte-v11-menu"><button class="post-menu-action" type="button">Edit</button><span class="post-menu-divider">|</span><button class="post-menu-action post-menu-delete" type="button">Delete</button></div></div>
 </header>
 <p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
@@ -3286,9 +3613,13 @@ button.pinned-card{
         </article>
       </div>
 
-      <div class="mod-chat-compose">
-        <input type="text" placeholder="Leave a note for the moderator team…" aria-label="Leave a moderator note">
-        <button type="button">Post</button>
+      <div class="mod-chat-compose" id="modChatCompose">
+        <div class="mod-chat-mention-wrap">
+          <button class="mod-chat-mention-button" id="modChatMentionButton" type="button" aria-expanded="false" title="Mention a moderator">@</button>
+          <div class="mod-chat-mention-menu" id="modChatMentionMenu" hidden></div>
+        </div>
+        <input id="modChatInput" type="text" maxlength="500" placeholder="Leave a note for the moderator team…" aria-label="Leave a moderator note">
+        <button id="modChatPostButton" type="button">Post</button>
       </div>
     </section>
 
@@ -3335,6 +3666,82 @@ button.pinned-card{
 </section>
 
 </section>
+
+
+<!-- ========================== ANNOUNCEMENT MANAGER ========================== -->
+<div class="community-functional-overlay" id="announcementManagerOverlay" hidden>
+  <section class="community-functional-dialog announcement-manager-dialog" role="dialog" aria-modal="true" aria-labelledby="announcementManagerTitle">
+    <div class="community-functional-dialog-head">
+      <div>
+        <div class="community-info-kicker">COMMUNITY ANNOUNCEMENTS</div>
+        <h2 id="announcementManagerTitle">Add Announcement</h2>
+        <p>Keep a quick update short, or add optional full details for a Read more view. Up to 3 active announcements.</p>
+      </div>
+      <button class="community-functional-close" id="closeAnnouncementManager" type="button" aria-label="Close">×</button>
+    </div>
+
+    <div class="announcement-manager-existing" id="announcementManagerExisting"></div>
+
+    <div class="announcement-manager-form">
+      <label>Type
+        <select id="announcementManagerType">
+          <option>Welcome</option>
+          <option>Community Update</option>
+          <option>Announcement</option>
+        </select>
+      </label>
+
+      <label>Title
+        <input id="announcementManagerTitleInput" maxlength="120" placeholder="Announcement title">
+      </label>
+
+      <label>Quick summary
+        <textarea id="announcementManagerSummary" maxlength="360" placeholder="The short version shown in the announcement carousel."></textarea>
+      </label>
+
+      <label>Full announcement · optional
+        <textarea id="announcementManagerDetails" maxlength="5000" placeholder="Add longer details only when this announcement needs a Read more view."></textarea>
+      </label>
+
+      <label>Emoji · optional
+        <input id="announcementManagerEmoji" maxlength="8" placeholder="📣">
+      </label>
+
+      <div class="announcement-manager-status" id="announcementManagerStatus"></div>
+      <button class="community-primary" id="saveCommunityAnnouncement" type="button">Add Announcement</button>
+    </div>
+  </section>
+</div>
+
+<!-- ========================== ANNOUNCEMENT READER ========================== -->
+<div class="community-functional-overlay" id="announcementReaderOverlay" hidden>
+  <section class="community-functional-dialog announcement-reader-dialog" role="dialog" aria-modal="true" aria-labelledby="announcementReaderTitle">
+    <div class="community-functional-dialog-head">
+      <div>
+        <div class="community-info-kicker" id="announcementReaderType">ANNOUNCEMENT</div>
+        <h2 id="announcementReaderTitle"></h2>
+      </div>
+      <button class="community-functional-close" id="closeAnnouncementReader" type="button" aria-label="Close">×</button>
+    </div>
+    <p class="announcement-reader-summary" id="announcementReaderSummary"></p>
+    <div class="announcement-reader-details" id="announcementReaderDetails"></div>
+  </section>
+</div>
+
+<!-- ========================== MANAGE COMMUNITIES DRAWER ========================== -->
+<div class="manage-communities-drawer-layer" id="manageCommunitiesDrawerLayer" hidden>
+  <button class="manage-communities-drawer-backdrop" id="manageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="manage-communities-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="manage-communities-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="closeManageCommunitiesDrawer" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="manageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
 
 <div class="pinned-post-overlay" id="pinnedPostOverlay" aria-hidden="true">
   <div class="pinned-post-dialog" role="dialog" aria-modal="true" aria-labelledby="pinnedPostTitle">
@@ -3548,6 +3955,7 @@ const ALL_MEDIA_COMMUNITY_DEFAULTS={
         type:'Announcement',
         title:'October Art Exchange',
         body:'The next Community art exchange is coming up. Details and signup information are pinned below.',
+        details:'Signups stay open through Friday. After signup closes, each participant will be paired with another Community member. You can make a small physical piece or choose a digital exchange. Please keep the project manageable, communicate clearly with your exchange partner, and use the pinned Art Exchange post for questions and updates.',
         emoji:'🦇'
       }
     ],
@@ -3704,6 +4112,11 @@ function syncCommunityRoleNavigation(){
   document.querySelectorAll('.owner-staff-actions').forEach(actions=>{
     actions.hidden=role!=='owner';
   });
+
+  const announcementButton=document.getElementById('openAnnouncementManager');
+  if(announcementButton){
+    announcementButton.hidden=!(role==='owner'||role==='moderator');
+  }
 
   if(state.deleted){
     window.location.href='Manage-Communities-Master-V2.html';
@@ -4148,6 +4561,7 @@ function applyManagedCommunityAnnouncementsAndPins(){
               <div class="announcement-label"></div>
               <h2></h2>
               <p></p>
+              <button class="announcement-read-more" type="button" hidden>Read more →</button>
             </div>
             <div class="announcement-art" aria-hidden="true"></div>`;
           slide.querySelector('.announcement-mark').textContent=
@@ -4156,6 +4570,16 @@ function applyManagedCommunityAnnouncementsAndPins(){
           slide.querySelector('h2').textContent=item.title||'Announcement';
           slide.querySelector('p').textContent=item.body||'';
           slide.querySelector('.announcement-art').textContent=item.emoji||'📣';
+
+          const readMore=slide.querySelector('.announcement-read-more');
+          if(readMore&&item.details){
+            readMore.hidden=false;
+            readMore.addEventListener('click',event=>{
+              event.stopPropagation();
+              openCommunityAnnouncementDetail(index);
+            });
+          }
+
           track.appendChild(slide);
         });
       }
@@ -4590,6 +5014,378 @@ function clearCommunityFeedPosts(){
 }
 
 syncCommunityFeedLayout();
+
+
+/* ============================================================
+   COMMUNITY FINAL FUNCTION PASS
+   ============================================================ */
+
+const COMMUNITY_NOTIFICATION_KEY='allMediaCommunityNotificationsV1';
+
+/* ----- Manage Communities right drawer ----- */
+function openManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  const frame=document.getElementById('manageCommunitiesDrawerFrame');
+  if(!layer||!frame)return;
+  if(!frame.src)frame.src='Manage-Communities-Master-V2.html?panel=1';
+  layer.hidden=false;
+  document.body.style.overflow='hidden';
+}
+
+function closeManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  if(layer)layer.hidden=true;
+  document.body.style.overflow='';
+}
+
+document.getElementById('openManageCommunitiesDrawer')?.addEventListener('click',openManageCommunitiesDrawer);
+document.getElementById('closeManageCommunitiesDrawer')?.addEventListener('click',closeManageCommunitiesDrawer);
+document.getElementById('manageCommunitiesDrawerBackdrop')?.addEventListener('click',closeManageCommunitiesDrawer);
+
+/* ----- Announcement manager / reader ----- */
+function announcementTypeEmoji(type){
+  if(type==='Welcome')return '👋';
+  if(type==='Community Update')return '✦';
+  return '📣';
+}
+
+function renderAnnouncementManagerList(){
+  const state=currentCommunityState();
+  const list=document.getElementById('announcementManagerExisting');
+  const status=document.getElementById('announcementManagerStatus');
+  if(!list)return;
+
+  const announcements=Array.isArray(state.announcements)?state.announcements:[];
+  list.innerHTML='';
+
+  if(!announcements.length){
+    const empty=document.createElement('div');
+    empty.className='community-empty-links';
+    empty.textContent='No active announcements yet.';
+    list.appendChild(empty);
+  }else{
+    announcements.forEach((item,index)=>{
+      const row=document.createElement('div');
+      row.className='announcement-manager-existing-row';
+
+      const copy=document.createElement('div');
+      const title=document.createElement('strong');
+      title.textContent=`${item.emoji||announcementTypeEmoji(item.type)} ${item.title||'Announcement'}`;
+      const meta=document.createElement('span');
+      meta.textContent=`${item.type||'Announcement'}${item.details?' · full announcement':' · quick announcement'}`;
+      copy.append(title,meta);
+
+      const remove=document.createElement('button');
+      remove.type='button';
+      remove.textContent='Remove';
+      remove.addEventListener('click',()=>{
+        const next=announcements.filter((_,i)=>i!==index);
+        updateCommunityState(CURRENT_COMMUNITY_SLUG,{announcements:next});
+        applyManagedCommunityAnnouncementsAndPins();
+        renderAnnouncementManagerList();
+      });
+
+      row.append(copy,remove);
+      list.appendChild(row);
+    });
+  }
+
+  if(status){
+    status.textContent=announcements.length>=3
+      ? '3 / 3 active. Remove one before adding another.'
+      : `${announcements.length} / 3 active`;
+  }
+}
+
+function openAnnouncementManager(){
+  renderAnnouncementManagerList();
+  document.getElementById('announcementManagerOverlay').hidden=false;
+}
+
+function closeAnnouncementManager(){
+  document.getElementById('announcementManagerOverlay').hidden=true;
+}
+
+document.getElementById('openAnnouncementManager')?.addEventListener('click',openAnnouncementManager);
+document.getElementById('closeAnnouncementManager')?.addEventListener('click',closeAnnouncementManager);
+document.getElementById('announcementManagerOverlay')?.addEventListener('click',event=>{
+  if(event.target.id==='announcementManagerOverlay')closeAnnouncementManager();
+});
+
+document.getElementById('saveCommunityAnnouncement')?.addEventListener('click',()=>{
+  const state=currentCommunityState();
+  const announcements=Array.isArray(state.announcements)?[...state.announcements]:[];
+  const status=document.getElementById('announcementManagerStatus');
+
+  if(announcements.length>=3){
+    if(status)status.textContent='3 / 3 active. Remove one before adding another.';
+    return;
+  }
+
+  const type=document.getElementById('announcementManagerType')?.value||'Announcement';
+  const title=(document.getElementById('announcementManagerTitleInput')?.value||'').trim();
+  const body=(document.getElementById('announcementManagerSummary')?.value||'').trim();
+  const details=(document.getElementById('announcementManagerDetails')?.value||'').trim();
+  const emoji=(document.getElementById('announcementManagerEmoji')?.value||'').trim()||announcementTypeEmoji(type);
+
+  if(!title||!body){
+    if(status)status.textContent='Add a title and quick summary first.';
+    return;
+  }
+
+  announcements.push({type,title,body,details,emoji});
+  updateCommunityState(CURRENT_COMMUNITY_SLUG,{announcements});
+  applyManagedCommunityAnnouncementsAndPins();
+  renderAnnouncementManagerList();
+
+  ['announcementManagerTitleInput','announcementManagerSummary','announcementManagerDetails','announcementManagerEmoji'].forEach(id=>{
+    const input=document.getElementById(id);
+    if(input)input.value='';
+  });
+});
+
+function openCommunityAnnouncementDetail(index){
+  const announcements=Array.isArray(currentCommunityState().announcements)
+    ? currentCommunityState().announcements
+    : [];
+  const item=announcements[index];
+  if(!item)return;
+
+  document.getElementById('announcementReaderType').textContent=(item.type||'Announcement').toUpperCase();
+  document.getElementById('announcementReaderTitle').textContent=item.title||'Announcement';
+  document.getElementById('announcementReaderSummary').textContent=item.body||'';
+  document.getElementById('announcementReaderDetails').textContent=item.details||'';
+  document.getElementById('announcementReaderOverlay').hidden=false;
+}
+
+function closeAnnouncementReader(){
+  document.getElementById('announcementReaderOverlay').hidden=true;
+}
+
+document.getElementById('closeAnnouncementReader')?.addEventListener('click',closeAnnouncementReader);
+document.getElementById('announcementReaderOverlay')?.addEventListener('click',event=>{
+  if(event.target.id==='announcementReaderOverlay')closeAnnouncementReader();
+});
+
+/* ----- Mod Chat @ mentions + lightweight posting ----- */
+let selectedModMentions=new Set();
+
+function modChatStaff(){
+  return frontDefaultMembers(currentCommunityState())
+    .filter(member=>member.role==='Owner'||member.role==='Moderator');
+}
+
+function renderModMentionMenu(){
+  const menu=document.getElementById('modChatMentionMenu');
+  if(!menu)return;
+  menu.innerHTML='';
+
+  modChatStaff().forEach(member=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='mod-chat-mention-option';
+    button.innerHTML=`<span>${member.icon||'◉'}</span><span>${member.username||'@moderator'}</span>`;
+    button.addEventListener('click',()=>{
+      const input=document.getElementById('modChatInput');
+      const username=member.username||'@moderator';
+      if(input){
+        const before=input.value.trimEnd();
+        input.value=(before?before+' ':'')+username+' ';
+        input.focus();
+      }
+      selectedModMentions.add(username);
+      menu.hidden=true;
+      document.getElementById('modChatMentionButton')?.setAttribute('aria-expanded','false');
+    });
+    menu.appendChild(button);
+  });
+}
+
+document.getElementById('modChatMentionButton')?.addEventListener('click',event=>{
+  event.stopPropagation();
+  const menu=document.getElementById('modChatMentionMenu');
+  if(!menu)return;
+  renderModMentionMenu();
+  menu.hidden=!menu.hidden;
+  document.getElementById('modChatMentionButton')
+    ?.setAttribute('aria-expanded',String(!menu.hidden));
+});
+
+function saveModMentionNotification(recipient,message){
+  let items=[];
+  try{
+    const parsed=JSON.parse(localStorage.getItem(COMMUNITY_NOTIFICATION_KEY)||'[]');
+    if(Array.isArray(parsed))items=parsed;
+  }catch(e){}
+
+  const state=currentCommunityState();
+  items.unshift({
+    id:`mod-mention-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
+    type:'mod-mention',
+    communitySlug:CURRENT_COMMUNITY_SLUG,
+    communityName:state.name,
+    communityIcon:state.icon||'◉',
+    title:`@yourusername mentioned you in Mod Chat.`,
+    message,
+    preview:message,
+    recipient,
+    timestamp:Date.now(),
+    replyable:false,
+    likeable:false,
+    openable:true
+  });
+
+  localStorage.setItem(COMMUNITY_NOTIFICATION_KEY,JSON.stringify(items));
+}
+
+document.getElementById('modChatPostButton')?.addEventListener('click',()=>{
+  const input=document.getElementById('modChatInput');
+  const text=(input?.value||'').trim();
+  if(!text)return;
+
+  const thread=document.querySelector('.community-mod-chat-card .mod-chat-thread');
+  if(thread){
+    const row=document.createElement('article');
+    row.className='mod-chat-message';
+    row.innerHTML=`
+      <div class="moderator-avatar">${currentCommunityState().icon||'◉'}</div>
+      <div>
+        <strong>@yourusername</strong>
+        <p></p>
+        <div class="mod-chat-meta">just now · <button type="button">👍 0</button> · <button type="button">Reply</button></div>
+      </div>`;
+    row.querySelector('p').textContent=text;
+    thread.appendChild(row);
+  }
+
+  const mentioned=[...selectedModMentions].filter(username=>text.includes(username));
+  mentioned.forEach(username=>saveModMentionNotification(username,text));
+
+  selectedModMentions.clear();
+  if(input)input.value='';
+});
+
+/* ----- Fix sample Community metadata + demo Video / Byte controls ----- */
+function syncCommunitySamplePostMeta(){
+  const state=currentCommunityState();
+  const firstInterest=(Array.isArray(state.interests)&&state.interests.length)
+    ? state.interests[0]
+    : (state.name==='Spooky Cozy'?'Halloween':'All Interests');
+
+  document.querySelectorAll('[data-byte-community-topic]').forEach(el=>{
+    el.textContent=`${state.icon||'◉'} ${firstInterest}`;
+  });
+
+  document.querySelectorAll('[data-byte-community-name]').forEach(el=>{
+    el.textContent=`· in ${state.icon||'◉'} ${state.name}`;
+  });
+}
+
+function formatDemoTime(seconds){
+  const value=Math.max(0,Math.floor(seconds||0));
+  return `${Math.floor(value/60)}:${String(value%60).padStart(2,'0')}`;
+}
+
+function initializeCommunityDemoPlayers(){
+  document.querySelectorAll('.community-demo-player').forEach(player=>{
+    if(player.dataset.demoReady==='true')return;
+    player.dataset.demoReady='true';
+
+    const duration=Number(player.dataset.demoDuration||0);
+    let current=0;
+    let timer=null;
+    let muted=false;
+
+    const play=player.querySelector('.video-control-play');
+    const mute=player.querySelector('.video-control-mute');
+    const scrubber=player.querySelector('.video-control-scrubber');
+    const times=[...player.querySelectorAll('.video-control-time')];
+    const fullscreen=player.querySelector('.video-control-fullscreen');
+
+    function render(){
+      if(times[0])times[0].textContent=formatDemoTime(current);
+      if(times[1])times[1].textContent=formatDemoTime(duration);
+      if(scrubber)scrubber.value=duration?String((current/duration)*100):'0';
+    }
+
+    function pause(){
+      if(timer)clearInterval(timer);
+      timer=null;
+      player.classList.remove('demo-playing');
+      if(play)play.setAttribute('aria-label','Play video');
+    }
+
+    function start(){
+      if(timer)return;
+      player.classList.add('demo-playing');
+      if(play)play.setAttribute('aria-label','Pause video');
+      timer=setInterval(()=>{
+        current+=0.5;
+        if(current>=duration){
+          current=0;
+          pause();
+        }
+        render();
+      },500);
+    }
+
+    play?.addEventListener('click',event=>{
+      event.stopPropagation();
+      timer?pause():start();
+    });
+
+    mute?.addEventListener('click',event=>{
+      event.stopPropagation();
+      muted=!muted;
+      mute.setAttribute('aria-label',muted?'Unmute video':'Mute video');
+      mute.classList.toggle('active',muted);
+    });
+
+    scrubber?.addEventListener('input',event=>{
+      event.stopPropagation();
+      current=(Number(scrubber.value||0)/100)*duration;
+      render();
+    });
+
+    fullscreen?.addEventListener('click',event=>{
+      event.stopPropagation();
+      if(player.requestFullscreen)player.requestFullscreen();
+    });
+
+    player.addEventListener('click',event=>{
+      if(event.target.closest('.video-control-row'))return;
+      timer?pause():start();
+    });
+
+    render();
+  });
+}
+
+syncCommunitySamplePostMeta();
+initializeCommunityDemoPlayers();
+
+document.addEventListener('allmedia:community-state-change',event=>{
+  if(event.detail?.slug===CURRENT_COMMUNITY_SLUG){
+    syncCommunitySamplePostMeta();
+    renderAnnouncementManagerList();
+  }
+});
+
+document.addEventListener('click',event=>{
+  const menu=document.getElementById('modChatMentionMenu');
+  if(menu&&!menu.hidden&&!event.target.closest('.mod-chat-mention-wrap')){
+    menu.hidden=true;
+    document.getElementById('modChatMentionButton')?.setAttribute('aria-expanded','false');
+  }
+});
+
+document.addEventListener('keydown',event=>{
+  if(event.key!=='Escape')return;
+  closeManageCommunitiesDrawer();
+  closeAnnouncementManager();
+  closeAnnouncementReader();
+});
+
 
 const quickThoughtInput=document.getElementById('quickThoughtInput');
 const quickThoughtSend=document.getElementById('quickThoughtSend');

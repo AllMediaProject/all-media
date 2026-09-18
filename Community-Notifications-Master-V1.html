@@ -517,6 +517,111 @@ body{
     justify-self:start;
   }
 }
+
+/* Final Community notification function pass */
+.community-quick-reply-prompt{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:9px;
+  padding:8px 10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:#111b3b;
+  color:#8f9ab3;
+  font:500 9px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
+
+.community-quick-reply-prompt:hover{
+  border-color:rgba(255,195,132,.22);
+}
+
+.community-quick-reply-prompt-avatar{
+  width:24px;
+  height:24px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,195,132,.30);
+  border-radius:50%;
+  color:#ffc384;
+  font-weight:800;
+}
+
+.manage-communities-drawer-layer{
+  position:fixed;
+  inset:0;
+  z-index:1300;
+}
+
+.manage-communities-drawer-layer[hidden]{
+  display:none!important;
+}
+
+.manage-communities-drawer-backdrop{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:rgba(5,10,28,.48);
+}
+
+.manage-communities-drawer{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(500px,92vw);
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  border-left:1px solid rgba(255,195,132,.25);
+  background:#101a3a;
+  box-shadow:-28px 0 70px rgba(0,0,0,.34);
+}
+
+.manage-communities-drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 14px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:#182447;
+}
+
+.manage-communities-drawer-head strong{
+  display:block;
+  font-size:13px;
+}
+
+.manage-communities-drawer-head span{
+  display:block;
+  margin-top:2px;
+  color:#8d98b0;
+  font-size:8px;
+}
+
+.manage-communities-drawer-head button{
+  width:31px;
+  height:31px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50%;
+  background:#101a3a;
+  color:#ffc384;
+  cursor:pointer;
+}
+
+.manage-communities-drawer iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  background:#101a3a;
+}
+
 </style>
 </head>
 <body>
@@ -571,7 +676,7 @@ body{
     </div>
 
     <div class="community-notification-heading-actions">
-      <a class="cn-button secondary" href="Manage-Communities-Master-V2.html">← Manage Communities</a>
+      <button class="cn-button secondary" id="manageCommunitiesTopButton" type="button">← Manage Communities</button>
       <button class="cn-button" id="markAllCommunityRead" type="button">Mark all as read</button>
     </div>
   </div>
@@ -619,6 +724,18 @@ body{
   </div>
 </main>
 
+
+<div class="manage-communities-drawer-layer" id="manageCommunitiesDrawerLayer" hidden>
+  <button class="manage-communities-drawer-backdrop" id="manageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="manage-communities-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="manage-communities-drawer-head">
+      <div><strong>Manage Communities</strong><span>Organize, pin, leave, or edit.</span></div>
+      <button id="closeManageCommunitiesDrawer" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="manageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
+
 <section class="cn-quick-popover" id="communityBellPopover" hidden>
   <div class="cn-quick-head">
     <div>
@@ -635,6 +752,7 @@ body{
 const COMMUNITY_STATE_KEY='allMediaCommunityStateV1';
 const COMMUNITY_NOTIFICATION_KEY='allMediaCommunityNotificationsV1';
 const COMMUNITY_NOTIFICATION_READ_KEY='allMediaCommunityNotificationReadV1';
+const CURRENT_COMMUNITY_NOTIFICATION_USER='@yourusername';
 
 const COMMUNITY_DEFAULTS={
   'spooky-cozy':{name:'Spooky Cozy',icon:'🎃',joined:true,pinned:true,notifications:true,role:'owner',activityCount:5},
@@ -735,6 +853,20 @@ function sampleCommunityNotifications(){
       openable:true
     },
     {
+      id:'sample-mod-mention',
+      type:'mod-mention',
+      communitySlug:'spooky-cozy',
+      communityName:'Spooky Cozy',
+      communityIcon:'🎃',
+      title:'@Raven mentioned you in Mod Chat.',
+      preview:'“@yourusername can you take a quick look at the October exchange note before it goes live?”',
+      recipient:'@yourusername',
+      timestamp:now-(4*60*60*1000),
+      replyable:false,
+      likeable:false,
+      openable:true
+    },
+    {
       id:'sample-spooky-mod',
       type:'moderator',
       communitySlug:'spooky-cozy',
@@ -812,7 +944,8 @@ function storedCommunityNotifications(){
       replyable:item.replyable===true,
       likeable:item.likeable===true,
       openable:item.deadLink?false:item.openable!==false,
-      deadLink:Boolean(item.deadLink)
+      deadLink:Boolean(item.deadLink),
+      recipient:item.recipient||null
     }));
   }catch(e){
     return [];
@@ -825,6 +958,7 @@ function allNotifications(){
   const seen=new Set();
 
   return [...stored,...sample]
+    .filter(item=>!item.recipient||item.recipient===CURRENT_COMMUNITY_NOTIFICATION_USER)
     .filter(item=>{
       if(seen.has(item.id))return false;
       seen.add(item.id);
@@ -884,6 +1018,7 @@ function eventSymbol(type){
   if(type==='mention')return '@';
   if(type==='announcement')return '!';
   if(type==='moderator')return '🛡';
+  if(type==='mod-mention')return '@';
   if(type==='community-deleted')return '×';
   return '•';
 }
@@ -1030,6 +1165,12 @@ function buildNotificationItem(item){
   }
 
   if(item.replyable){
+    const replyPrompt=document.createElement('button');
+    replyPrompt.type='button';
+    replyPrompt.className='community-quick-reply-prompt';
+    replyPrompt.innerHTML='<span class="community-quick-reply-prompt-avatar">H</span><span>Write a quick reply…</span>';
+    copy.appendChild(replyPrompt);
+
     const replyBox=document.createElement('div');
     replyBox.className='community-quick-reply';
 
@@ -1084,6 +1225,16 @@ function buildNotificationItem(item){
     footer.append(status,buttons);
     replyBox.append(user,textarea,footer);
     copy.appendChild(replyBox);
+
+    replyPrompt.addEventListener('click',event=>{
+      event.stopPropagation();
+      replyBox.classList.add('active');
+      textarea.focus();
+      markNotificationRead(item.id);
+      article.classList.remove('unread');
+      article.querySelector('.community-unread-dot')?.remove();
+      renderSummary();
+    });
   }
 
   const meta=document.createElement('div');
@@ -1313,9 +1464,25 @@ document.getElementById('clearCommunityFilter').addEventListener('click',()=>{
   window.location.href='Community-Notifications-Master-V1.html';
 });
 
-document.getElementById('manageCommunitiesButton').addEventListener('click',()=>{
-  window.location.href='Manage-Communities-Master-V2.html';
-});
+function openManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  const frame=document.getElementById('manageCommunitiesDrawerFrame');
+  if(!layer||!frame)return;
+  if(!frame.src)frame.src='Manage-Communities-Master-V2.html?panel=1';
+  layer.hidden=false;
+  document.body.style.overflow='hidden';
+}
+
+function closeManageCommunitiesDrawer(){
+  const layer=document.getElementById('manageCommunitiesDrawerLayer');
+  if(layer)layer.hidden=true;
+  document.body.style.overflow='';
+}
+
+document.getElementById('manageCommunitiesButton').addEventListener('click',openManageCommunitiesDrawer);
+document.getElementById('manageCommunitiesTopButton')?.addEventListener('click',openManageCommunitiesDrawer);
+document.getElementById('closeManageCommunitiesDrawer')?.addEventListener('click',closeManageCommunitiesDrawer);
+document.getElementById('manageCommunitiesDrawerBackdrop')?.addEventListener('click',closeManageCommunitiesDrawer);
 
 document.getElementById('headerNotificationBell').addEventListener('click',()=>{
   window.location.href='notifications.html';
@@ -1331,6 +1498,10 @@ document.getElementById('communityMoreButton').addEventListener('click',event=>{
 
 document.getElementById('communityBellPopoverClose').addEventListener('click',()=>{
   document.getElementById('communityBellPopover').hidden=true;
+});
+
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape')closeManageCommunitiesDrawer();
 });
 
 document.addEventListener('click',event=>{
