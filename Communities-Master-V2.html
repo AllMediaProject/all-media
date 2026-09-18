@@ -203,11 +203,13 @@ body.community-master{
 }
 
 .community-subnav{
+  position:relative;
   width:100%;
   max-width:none;
   box-sizing:border-box;
   display:flex;
   align-items:center;
+  justify-content:center;
   gap:6px;
   margin-top:13px;
   padding:6px;
@@ -233,7 +235,10 @@ body.community-master{
 }
 
 .community-search{
-  margin-left:auto;
+  position:absolute;
+  right:6px;
+  top:50%;
+  transform:translateY(-50%);
   width:min(300px,34vw);
   display:flex;
   align-items:center;
@@ -865,19 +870,19 @@ body.community-master{
 }
 
 .community-rule-number{
-  width:27px;
-  height:27px;
+  width:28px;
+  height:28px;
   box-sizing:border-box;
   display:grid;
   place-items:center;
-  border:1.5px solid rgba(255,195,132,.62);
+  border:1.5px solid rgba(255,195,132,.6);
   border-radius:50%;
   background:rgba(255,195,132,.07);
   color:#ffc384;
-  box-shadow:0 0 0 2px rgba(255,195,132,.025);
-  font-size:11px;
+  font-size:10px;
   line-height:1;
   font-weight:800;
+  margin:0;
 }
 
 .community-rule strong{
@@ -886,7 +891,7 @@ body.community-master{
   font-size:12px;
 }
 
-.community-rule span{
+.community-rule > div > span{
   display:block;
   margin-top:2px;
   color:#aeb7cb;
@@ -1038,6 +1043,18 @@ body.community-master{
   }
   .pinned-row{
     grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+
+@media(max-width:980px){
+  .community-subnav{
+    justify-content:flex-start;
+  }
+  .community-search{
+    margin-left:auto;
+    position:static;
+    transform:none;
   }
 }
 
@@ -1273,21 +1290,21 @@ button.pinned-card{
 <div class="community-bar">
 <span class="community-label">COMMUNITIES</span>
 <div class="pinned-communities" id="masterPinnedCommunities">
-<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃">
+<button class="community-chip" draggable="true" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromHotbar(event,this)">
 <span class="community-icon">🎃</span>Spooky Cozy
 <span class="activity-bell" onclick="openRecentActivity(event,this)" title="5 new community activities">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
 <span class="activity-count">5</span>
 </span>
 </button>
-<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨">
+<button class="community-chip" draggable="true" data-community="Artists" data-icon="🎨" onclick="openCommunityFromHotbar(event,this)">
 <span class="community-icon">🎨</span>Artists
 <span class="activity-bell" onclick="openRecentActivity(event,this)" title="2 new community activities">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
 <span class="activity-count">2</span>
 </span>
 </button>
-<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢">
+<button class="community-chip" draggable="true" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromHotbar(event,this)">
 <span class="community-icon">🐢</span>Turtle Rescue
 <span class="activity-bell" onclick="openRecentActivity(event,this)" title="1 new community activity">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
@@ -1300,15 +1317,15 @@ button.pinned-card{
 <div class="community-menu">
 <button class="community-tool" onclick="toggleCommunityDropdown()">▾ More</button>
 <div class="community-dropdown" id="communityDropdown">
-<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Artists" data-icon="🎨"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
-<div class="community-more-row" data-community="Book Club" data-icon="📚"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
-<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Spooky Cozy" data-icon="🎃" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎃</span>Spooky Cozy</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Artists" data-icon="🎨" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🎨</span>Artists</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Turtle Rescue" data-icon="🐢" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🐢</span>Turtle Rescue</span><button class="community-pin pinned" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pinned</span><span class="pin-action">Unpin</span></button></div>
+<div class="community-more-row" data-community="Book Club" data-icon="📚" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">📚</span>Book Club</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Crochet Corner" data-icon="🧶" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🧶</span>Crochet Corner</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
+<div class="community-more-row" data-community="Garden & Nature" data-icon="🌿" onclick="openCommunityFromMore(event,this)" role="link" tabindex="0"><span class="community-more-name"><span class="community-icon">🌿</span>Garden & Nature</span><button class="community-pin" onclick="toggleCommunityPin(event,this)"><span class="pin-state">Pin</span><span class="pin-action">Pin</span></button></div>
 </div>
 </div>
-<button class="community-tool">Manage Communities</button>
+<button class="community-tool" type="button" onclick="window.location.href='Manage-Communities-Master-V1.html'">Manage Communities</button>
 </div>
 </div>
 <div class="community-divider"></div>
@@ -2315,6 +2332,40 @@ document.getElementById('pinnedPostOverlay')?.addEventListener('click',(event)=>
 });
 document.addEventListener('keydown',(event)=>{
   if(event.key==='Escape'&&document.getElementById('pinnedPostOverlay')?.classList.contains('active'))closePinnedPost();
+});
+
+
+function communitySlug(name){
+  return String(name||'').toLowerCase().trim()
+    .replace(/&/g,'and')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function communityFrontPageUrl(name){
+  const slug=communitySlug(name);
+  return slug==='spooky-cozy'
+    ? 'Communities-Master-V2.html'
+    : `Communities-Master-V2.html?community=${encodeURIComponent(slug)}`;
+}
+
+function openCommunityFromHotbar(event,button){
+  if(event.target.closest('.activity-bell'))return;
+  window.location.href=communityFrontPageUrl(button.dataset.community);
+}
+
+function openCommunityFromMore(event,row){
+  if(event.target.closest('.community-pin'))return;
+  window.location.href=communityFrontPageUrl(row.dataset.community);
+}
+
+document.querySelectorAll('.community-more-row').forEach(row=>{
+  row.addEventListener('keydown',event=>{
+    if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.community-pin')){
+      event.preventDefault();
+      window.location.href=communityFrontPageUrl(row.dataset.community);
+    }
+  });
 });
 
 </script>
