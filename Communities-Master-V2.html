@@ -2626,7 +2626,7 @@ const requestedCommunityState=requestedCommunitySlug
   : null;
 
 const CURRENT_COMMUNITY_SLUG=
-  requestedCommunityState?.createdByPrototype
+  (requestedCommunityState?.createdByPrototype||requestedCommunityState?.prototypeExternal)
     ? requestedCommunitySlug
     : 'spooky-cozy';
 
@@ -2821,7 +2821,7 @@ function renderOfficialCommunityLinks(state){
 
 function renderCreatedCommunityFront(){
   const state=currentCommunityState();
-  if(!state.createdByPrototype)return;
+  if(!state.createdByPrototype&&!state.prototypeExternal)return;
 
   document.title=`All Media — ${state.name}`;
 
@@ -2950,16 +2950,22 @@ function renderCreatedCommunityFront(){
       </div>`;
   }
 
+  const roleLabel=state.role==='owner'?'Community Owner':state.role==='moderator'?'Moderator':'Member';
+
   const moderatorList=document.querySelector('.moderator-list');
   if(moderatorList){
-    moderatorList.innerHTML=`
-      <div class="moderator">
-        <div class="moderator-avatar">${icon}</div>
-        <div class="moderator-copy">
-          <strong>@yourusername</strong>
-          <span>Community Owner</span>
-        </div>
-      </div>`;
+    if(state.role==='owner'||state.role==='moderator'){
+      moderatorList.innerHTML=`
+        <div class="moderator">
+          <div class="moderator-avatar">${icon}</div>
+          <div class="moderator-copy">
+            <strong>@yourusername</strong>
+            <span>${roleLabel}</span>
+          </div>
+        </div>`;
+    }else{
+      moderatorList.innerHTML='<div class="community-empty-links">Moderator team details will appear here.</div>';
+    }
   }
 
   const activePanel=document.querySelector('.active-members-panel');
@@ -2969,7 +2975,7 @@ function renderCreatedCommunityFront(){
       grid.innerHTML=`
         <article class="active-member-card">
           <div class="member-avatar">${icon}</div>
-          <div><strong>@yourusername</strong><span>Community Owner · created this space</span></div>
+          <div><strong>@yourusername</strong><span>${roleLabel} · active recently</span></div>
         </article>`;
     }
   }
@@ -2979,7 +2985,7 @@ function renderCreatedCommunityFront(){
     memberGrid.innerHTML=`
       <article class="member-card">
         <div class="member-avatar">${icon}</div>
-        <div><strong>@yourusername</strong><span>Community Owner</span></div>
+        <div><strong>@yourusername</strong><span>${roleLabel}</span></div>
       </article>`;
   }
 

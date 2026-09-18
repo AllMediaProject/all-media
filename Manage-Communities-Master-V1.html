@@ -221,6 +221,20 @@ body{min-height:100vh}
 
 .manage-community-card.state-hidden{display:none!important}
 .mc-button.state-active{border-color:rgba(255,195,132,.4);background:rgba(255,195,132,.09);color:#ffc384}
+
+.request-empty{
+  padding:12px;
+  border:1px dashed rgba(255,195,132,.18);
+  border-radius:9px;
+  color:#8f9ab3;
+  font-size:10px;
+  text-align:center;
+}
+
+.request-item + .request-item{
+  margin-top:8px;
+}
+
 </style>
 </head>
 <body>
@@ -405,15 +419,16 @@ body{min-height:100vh}
   <section class="manage-view" id="manage-requests">
     <div class="manage-intro">
       <div><h2>Requests &amp; Invites</h2><p>Keep pending membership actions in one predictable place.</p></div>
+      <span class="manage-count" id="requestInviteCount">0 pending</span>
     </div>
     <div class="request-group">
       <section class="request-panel">
         <h3>Your Join Requests</h3>
-        <div class="request-item"><div class="request-copy"><strong>🕯️ Haunted Home Decor</strong><span>Request sent yesterday · awaiting moderator review</span></div><button class="mc-button secondary" type="button">Cancel request</button></div>
+        <div id="joinRequestList"></div>
       </section>
       <section class="request-panel">
         <h3>Community Invites</h3>
-        <div class="request-item"><div class="request-copy"><strong>🦇 Midnight Makers</strong><span>@Raven invited you · invite-only Community</span></div><div class="manage-community-actions"><button class="mc-button" type="button">Accept</button><button class="mc-button secondary" type="button">Decline</button></div></div>
+        <div id="communityInviteList"></div>
       </section>
     </div>
   </section>
@@ -432,16 +447,50 @@ const ALL_MEDIA_COMMUNITY_DEFAULTS={
   'turtle-rescue':{name:'Turtle Rescue',icon:'🐢',joined:true,pinned:true,notifications:true,role:'member'},
   'book-club':{name:'Book Club',icon:'📚',joined:true,pinned:false,notifications:true,role:'member'},
   'crochet-corner':{name:'Crochet Corner',icon:'🧶',joined:true,pinned:false,notifications:true,role:'member'},
-  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'}
+  'garden-and-nature':{name:'Garden & Nature',icon:'🌿',joined:true,pinned:false,notifications:true,role:'member'},
+  'haunted-home-decor':{
+    name:'Haunted Home Decor',
+    icon:'🕯️',
+    joined:false,
+    pinned:false,
+    notifications:true,
+    role:'member',
+    access:'Request to Join',
+    requestPending:true,
+    prototypeExternal:true,
+    description:'Spooky interiors, seasonal decorating, DIY displays, and haunted-home inspiration.',
+    interests:['Halloween','Home & Decor','DIY']
+  },
+  'midnight-makers':{
+    name:'Midnight Makers',
+    icon:'🦇',
+    joined:false,
+    pinned:false,
+    notifications:true,
+    role:'member',
+    access:'Invite Only',
+    inviteReceived:true,
+    inviteFrom:'@Raven',
+    prototypeExternal:true,
+    description:'A late-night creative space for artists, crafters, writers, and makers.',
+    interests:['Art','Crafts','Writing']
+  }
 };
 function cloneCommunityDefaults(){return JSON.parse(JSON.stringify(ALL_MEDIA_COMMUNITY_DEFAULTS));}
 function loadAllMediaCommunityState(){
   const defaults=cloneCommunityDefaults();
   try{
     const saved=JSON.parse(localStorage.getItem(ALL_MEDIA_COMMUNITY_STATE_KEY)||'{}');
+
+    Object.keys(saved).forEach(slug=>{
+      defaults[slug]={...(defaults[slug]||{}),...saved[slug]};
+    });
+
     Object.keys(defaults).forEach(slug=>{
-      defaults[slug]={...defaults[slug],...(saved[slug]||{})};
-      if(defaults[slug].pinned){defaults[slug].joined=true;defaults[slug].notifications=true;}
+      if(defaults[slug].pinned){
+        defaults[slug].joined=true;
+        defaults[slug].notifications=true;
+      }
     });
   }catch(e){}
   return defaults;
@@ -567,77 +616,188 @@ function syncManageHotbarFromState(){
   });
 }
 
+const STATIC_MANAGE_COMMUNITY_SLUGS=new Set([
+  'spooky-cozy','artists','turtle-rescue',
+  'book-club','crochet-corner','garden-and-nature'
+]);
+
+function buildGeneratedManageCard(slug,state,{pinnedView=false,ownedView=false}={}){
+  const card=document.createElement('article');
+  card.className='manage-community-card';
+  card.dataset.communitySlug=slug;
+  card.dataset.generatedCommunity='true';
+
+  const roleLabel=state.role==='owner'?'Owner':state.role==='moderator'?'Moderator':'Member';
+
+  card.innerHTML=`
+    <div class="manage-community-icon"></div>
+    <div class="manage-community-copy">
+      <button class="manage-community-name" type="button"></button>
+      <div class="manage-community-meta"></div>
+    </div>
+    <div class="manage-community-actions"></div>`;
+
+  card.querySelector('.manage-community-icon').textContent=state.icon||'◉';
+
+  const nameButton=card.querySelector('.manage-community-name');
+  nameButton.textContent=state.name||slug;
+  nameButton.addEventListener('click',()=>goCommunity(state.name||slug));
+
+  const meta=card.querySelector('.manage-community-meta');
+  const actions=card.querySelector('.manage-community-actions');
+
+  if(ownedView){
+    meta.innerHTML=`<span>${roleLabel}</span><span>${state.role==='owner'?'Full Community Studio access':'Permissions depend on your role'}</span>`;
+    const manageLink=document.createElement('a');
+    manageLink.className='mc-button';
+    manageLink.href=`Create-Community-Master-V1.html?view=owned&community=${encodeURIComponent(slug)}`;
+    manageLink.textContent=state.role==='owner'?'Manage Community':'Open moderator tools';
+    actions.appendChild(manageLink);
+    return card;
+  }
+
+  if(pinnedView){
+    meta.innerHTML=`<span>Joined</span><span>Notifications on while pinned</span><span>${roleLabel}</span>`;
+  }else{
+    meta.innerHTML=`<span>${state.pinned?'Pinned':'Joined'}</span><span>${roleLabel}</span>`;
+  }
+
+  const pinButton=document.createElement('button');
+  pinButton.className='mc-button';
+  pinButton.type='button';
+  pinButton.dataset.communityAction='toggle-pin';
+  pinButton.textContent=state.pinned?'📌 Pinned':'Pin';
+  actions.appendChild(pinButton);
+
+  if(!pinnedView&&state.role!=='owner'){
+    const leaveButton=document.createElement('button');
+    leaveButton.className='mc-button secondary';
+    leaveButton.type='button';
+    leaveButton.dataset.communityAction='leave';
+    leaveButton.textContent='Leave';
+    actions.appendChild(leaveButton);
+  }
+
+  if(state.role==='owner'||state.role==='moderator'){
+    const manageLink=document.createElement('a');
+    manageLink.className='mc-button secondary';
+    manageLink.href=`Create-Community-Master-V1.html?view=owned&community=${encodeURIComponent(slug)}`;
+    manageLink.textContent='Manage';
+    actions.appendChild(manageLink);
+  }
+
+  return card;
+}
+
 function renderCreatedCommunitiesInManage(){
+  const pinnedList=document.getElementById('pinnedManageList');
   const joinedList=document.getElementById('joinedManageList');
   const ownedList=document.getElementById('ownedManageList');
-  if(!joinedList||!ownedList)return;
+  if(!pinnedList||!joinedList||!ownedList)return;
 
-  joinedList.querySelectorAll('[data-generated-community="true"]').forEach(card=>card.remove());
-  ownedList.querySelectorAll('[data-generated-community="true"]').forEach(card=>card.remove());
+  [pinnedList,joinedList,ownedList].forEach(list=>{
+    list.querySelectorAll('[data-generated-community="true"]').forEach(card=>card.remove());
+  });
 
   Object.entries(allMediaCommunityState)
-    .filter(([slug,state])=>state.createdByPrototype)
+    .filter(([slug])=>!STATIC_MANAGE_COMMUNITY_SLUGS.has(slug))
     .sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0))
     .forEach(([slug,state])=>{
+      if(state.joined&&state.pinned){
+        pinnedList.appendChild(buildGeneratedManageCard(slug,state,{pinnedView:true}));
+      }
+
       if(state.joined){
-        const joinedCard=document.createElement('article');
-        joinedCard.className='manage-community-card';
-        joinedCard.dataset.communitySlug=slug;
-        joinedCard.dataset.generatedCommunity='true';
-
-        joinedCard.innerHTML=`
-          <div class="manage-community-icon"></div>
-          <div class="manage-community-copy">
-            <button class="manage-community-name" type="button"></button>
-            <div class="manage-community-meta">
-              <span>${state.pinned?'Pinned':'Joined'}</span>
-              <span>Owner</span>
-            </div>
-          </div>
-          <div class="manage-community-actions">
-            <button class="mc-button" type="button" data-community-action="toggle-pin">${state.pinned?'📌 Pinned':'Pin'}</button>
-            <button class="mc-button secondary" type="button" data-community-action="leave">Leave</button>
-          </div>`;
-
-        joinedCard.querySelector('.manage-community-icon').textContent=state.icon||'◉';
-        const nameButton=joinedCard.querySelector('.manage-community-name');
-        nameButton.textContent=state.name;
-        nameButton.addEventListener('click',()=>goCommunity(state.name));
-
-        joinedList.appendChild(joinedCard);
+        joinedList.appendChild(buildGeneratedManageCard(slug,state));
       }
 
       if(state.role==='owner'||state.role==='moderator'){
-        const ownedCard=document.createElement('article');
-        ownedCard.className='manage-community-card';
-        ownedCard.dataset.communitySlug=slug;
-        ownedCard.dataset.generatedCommunity='true';
-
-        ownedCard.innerHTML=`
-          <div class="manage-community-icon"></div>
-          <div class="manage-community-copy">
-            <button class="manage-community-name" type="button"></button>
-            <div class="manage-community-meta">
-              <span>${state.role==='owner'?'Owner':'Moderator'}</span>
-              <span>${state.role==='owner'?'Full Community Studio access':'Permissions depend on your role'}</span>
-            </div>
-          </div>
-          <div class="manage-community-actions">
-            <a class="mc-button">${state.role==='owner'?'Manage Community':'Open moderator tools'}</a>
-          </div>`;
-
-        ownedCard.querySelector('.manage-community-icon').textContent=state.icon||'◉';
-
-        const nameButton=ownedCard.querySelector('.manage-community-name');
-        nameButton.textContent=state.name;
-        nameButton.addEventListener('click',()=>goCommunity(state.name));
-
-        ownedCard.querySelector('a').href=
-          `Create-Community-Master-V1.html?view=owned&community=${encodeURIComponent(slug)}`;
-
-        ownedList.appendChild(ownedCard);
+        ownedList.appendChild(buildGeneratedManageCard(slug,state,{ownedView:true}));
       }
     });
+}
+
+function renderManageRequestsAndInvites(){
+  const requestList=document.getElementById('joinRequestList');
+  const inviteList=document.getElementById('communityInviteList');
+  const countLabel=document.getElementById('requestInviteCount');
+  if(!requestList||!inviteList)return;
+
+  requestList.innerHTML='';
+  inviteList.innerHTML='';
+
+  const requests=Object.entries(allMediaCommunityState)
+    .filter(([,state])=>state.requestPending&&!state.joined);
+
+  const invites=Object.entries(allMediaCommunityState)
+    .filter(([,state])=>state.inviteReceived&&!state.joined);
+
+  if(!requests.length){
+    requestList.innerHTML='<div class="request-empty">No pending join requests.</div>';
+  }else{
+    requests.forEach(([slug,state])=>{
+      const item=document.createElement('div');
+      item.className='request-item';
+      item.innerHTML=`
+        <div class="request-copy">
+          <strong></strong>
+          <span>Request sent · awaiting moderator review</span>
+        </div>
+        <button class="mc-button secondary" type="button">Cancel request</button>`;
+
+      item.querySelector('strong').textContent=`${state.icon||'◉'} ${state.name||slug}`;
+      item.querySelector('button').addEventListener('click',()=>{
+        updateCommunityState(slug,{requestPending:false});
+        syncManageCommunitiesFromState();
+      });
+
+      requestList.appendChild(item);
+    });
+  }
+
+  if(!invites.length){
+    inviteList.innerHTML='<div class="request-empty">No Community invites.</div>';
+  }else{
+    invites.forEach(([slug,state])=>{
+      const item=document.createElement('div');
+      item.className='request-item';
+      item.innerHTML=`
+        <div class="request-copy">
+          <strong></strong>
+          <span></span>
+        </div>
+        <div class="manage-community-actions">
+          <button class="mc-button" type="button" data-invite-action="accept">Accept</button>
+          <button class="mc-button secondary" type="button" data-invite-action="decline">Decline</button>
+        </div>`;
+
+      item.querySelector('strong').textContent=`${state.icon||'◉'} ${state.name||slug}`;
+      item.querySelector('.request-copy span').textContent=
+        `${state.inviteFrom||'A Community moderator'} invited you · ${state.access||'Invite Only'} Community`;
+
+      item.querySelector('[data-invite-action="accept"]').addEventListener('click',()=>{
+        updateCommunityState(slug,{
+          inviteReceived:false,
+          joined:true,
+          pinned:false,
+          notifications:true,
+          role:state.role||'member'
+        });
+        syncManageCommunitiesFromState();
+        document.querySelector('.manage-tab[data-manage-view="joined"]')?.click();
+      });
+
+      item.querySelector('[data-invite-action="decline"]').addEventListener('click',()=>{
+        updateCommunityState(slug,{inviteReceived:false});
+        syncManageCommunitiesFromState();
+      });
+
+      inviteList.appendChild(item);
+    });
+  }
+
+  const total=requests.length+invites.length;
+  if(countLabel)countLabel.textContent=`${total} pending`;
 }
 
 function syncManageCommunitiesFromState(){
@@ -661,6 +821,7 @@ function syncManageCommunitiesFromState(){
   if(joinedLabel)joinedLabel.textContent=`${joinedCount} joined`;
   if(pinnedLabel)pinnedLabel.textContent=`${pinnedCount} / 6 pinned`;
   if(ownedLabel)ownedLabel.textContent=`${ownedCount} space${ownedCount===1?'':'s'}`;
+  renderManageRequestsAndInvites();
   syncManageHotbarFromState();
 }
 document.addEventListener('click',event=>{
