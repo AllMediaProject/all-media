@@ -53,11 +53,14 @@
 }
 
 .owner-mode-tabs{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
   display:flex;
   align-items:center;
   gap:7px;
   padding:6px;
-  margin-bottom:18px;
+  margin:0 0 18px;
   border:1px solid var(--cc-line);
   border-radius:13px;
   background:var(--cc-card);
@@ -1123,11 +1126,39 @@
 .rule-builder-row.dragging{opacity:.45;border-color:rgba(255,195,132,.5)}
 .rule-drag-handle{border:0;background:transparent;color:#7986a4;cursor:grab;font:800 13px 'Outfit',sans-serif;padding:4px}
 .rule-drag-handle:active{cursor:grabbing}
-.rule-row-actions{display:flex;align-items:center;gap:2px}
-.rule-row-actions button{width:25px;height:25px;border:0;border-radius:6px;background:transparent;color:#9da8c0;cursor:pointer;font:800 12px 'Outfit',sans-serif}
-.rule-row-actions button:hover{background:rgba(255,195,132,.08);color:var(--cc-peach)}
-.rule-row-actions .rule-delete:hover{color:#e18d8d}
-.rule-title-input,.rule-copy-input{border-bottom:1px solid transparent!important}
+.rule-row-actions{display:flex;align-items:center;gap:5px}
+.rule-row-actions button{
+  height:27px;
+  padding:0 8px;
+  border:1px solid transparent;
+  border-radius:7px;
+  background:transparent;
+  color:#9da8c0;
+  cursor:pointer;
+  font:800 9px 'Outfit',sans-serif;
+}
+.rule-row-actions .rule-edit:hover,
+.rule-builder-row.editing .rule-edit{
+  border-color:rgba(255,195,132,.26);
+  background:rgba(255,195,132,.08);
+  color:var(--cc-peach);
+}
+.rule-row-actions .rule-delete:hover{
+  background:rgba(225,141,141,.07);
+  color:#e18d8d;
+}
+.rule-title-input,.rule-copy-input{
+  border-bottom:1px solid transparent!important;
+  cursor:default;
+}
+.rule-builder-row.editing{
+  border-color:rgba(255,195,132,.34);
+  background:rgba(255,195,132,.035);
+}
+.rule-builder-row.editing .rule-title-input,
+.rule-builder-row.editing .rule-copy-input{
+  cursor:text;
+}
 .rule-title-input:focus,.rule-copy-input:focus{border-bottom-color:rgba(255,195,132,.34)!important}
 
 /* --- About counters and official links --- */
@@ -1401,58 +1432,54 @@
             <p>Community Basics are enforced by All Media. These written rules explain the culture and expectations of the space. At least one rule is required.</p>
           </div>
 
-          <div class="rule-builder-note">Drag rules to reorder, or use the arrow buttons. Every new Community starts with <strong>No bullying</strong> and <strong>Respect others</strong>; they stay unless the owner deletes them.</div>
+          <div class="rule-builder-note">Drag rules to reorder. Use Edit to change a rule or Delete to remove it. Every new Community starts with <strong>No bullying</strong> and <strong>Respect others</strong>; they stay unless the owner deletes them.</div>
           <div class="rule-builder" id="ruleBuilder">
             <div class="rule-builder-row" draggable="true">
               <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
               <span class="rule-builder-number">1</span>
               <div class="rule-fields">
-                <input class="rule-title-input" value="No bullying" maxlength="80">
-                <input class="rule-copy-input" value="Bullying, harassment, targeted cruelty, or intimidation is not allowed." maxlength="240">
+                <input class="rule-title-input" value="No bullying" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Bullying, harassment, targeted cruelty, or intimidation is not allowed." maxlength="240" readonly>
               </div>
               <div class="rule-row-actions">
-                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
-                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
-                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
               </div>
             </div>
             <div class="rule-builder-row" draggable="true">
               <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
               <span class="rule-builder-number">2</span>
               <div class="rule-fields">
-                <input class="rule-title-input" value="Respect others" maxlength="80">
-                <input class="rule-copy-input" value="Disagree without attacking people. Keep conversations respectful." maxlength="240">
+                <input class="rule-title-input" value="Respect others" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Disagree without attacking people. Keep conversations respectful." maxlength="240" readonly>
               </div>
               <div class="rule-row-actions">
-                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
-                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
-                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
               </div>
             </div>
             <div class="rule-builder-row" draggable="true">
               <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
               <span class="rule-builder-number">3</span>
               <div class="rule-fields">
-                <input class="rule-title-input" value="Keep it spooky & cozy" maxlength="80">
-                <input class="rule-copy-input" value="Stay relevant to the Community's purpose." maxlength="240">
+                <input class="rule-title-input" value="Keep it spooky & cozy" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Stay relevant to the Community's purpose." maxlength="240" readonly>
               </div>
               <div class="rule-row-actions">
-                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
-                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
-                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
               </div>
             </div>
             <div class="rule-builder-row" draggable="true">
               <button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button>
               <span class="rule-builder-number">4</span>
               <div class="rule-fields">
-                <input class="rule-title-input" value="Credit creators" maxlength="80">
-                <input class="rule-copy-input" value="Clearly credit work you didn't make." maxlength="240">
+                <input class="rule-title-input" value="Credit creators" maxlength="80" readonly>
+                <input class="rule-copy-input" value="Clearly credit work you didn't make." maxlength="240" readonly>
               </div>
               <div class="rule-row-actions">
-                <button class="rule-move-up" type="button" aria-label="Move rule up">↑</button>
-                <button class="rule-move-down" type="button" aria-label="Move rule down">↓</button>
-                <button class="rule-delete" type="button" aria-label="Delete rule">×</button>
+                <button class="rule-edit" type="button">Edit</button>
+                <button class="rule-delete" type="button">Delete</button>
               </div>
             </div>
           </div>
@@ -1842,14 +1869,6 @@ function renumberRules(){
   updatePreview();
 }
 
-function moveRule(row,direction){
-  if(direction<0&&row.previousElementSibling){
-    row.parentElement.insertBefore(row,row.previousElementSibling);
-  }else if(direction>0&&row.nextElementSibling){
-    row.parentElement.insertBefore(row.nextElementSibling,row);
-  }
-  renumberRules();
-}
 
 const ruleBuilder=document.getElementById('ruleBuilder');
 let draggedRule=null;
@@ -1857,14 +1876,23 @@ let draggedRule=null;
 ruleBuilder.addEventListener('click',(event)=>{
   const row=event.target.closest('.rule-builder-row');
   if(!row)return;
+
+  const editButton=event.target.closest('.rule-edit');
+  if(editButton){
+    const editing=row.classList.toggle('editing');
+    row.querySelectorAll('.rule-title-input,.rule-copy-input').forEach(input=>{
+      input.readOnly=!editing;
+    });
+    editButton.textContent=editing?'Done':'Edit';
+    if(editing)row.querySelector('.rule-title-input')?.focus();
+    return;
+  }
+
   if(event.target.closest('.rule-delete')){
     if(ruleBuilder.querySelectorAll('.rule-builder-row').length<=1)return;
     row.remove();
     renumberRules();
-    return;
   }
-  if(event.target.closest('.rule-move-up')){moveRule(row,-1);return;}
-  if(event.target.closest('.rule-move-down')){moveRule(row,1);return;}
 });
 
 ruleBuilder.addEventListener('input',updatePreview);
@@ -1899,7 +1927,7 @@ document.getElementById('addRuleButton').addEventListener('click',()=>{
   const row=document.createElement('div');
   row.className='rule-builder-row';
   row.draggable=true;
-  row.innerHTML=`<button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button><span class="rule-builder-number">${count+1}</span><div class="rule-fields"><input class="rule-title-input" value="New Community rule" maxlength="80"><input class="rule-copy-input" value="Explain what this rule means." maxlength="240"></div><div class="rule-row-actions"><button class="rule-move-up" type="button" aria-label="Move rule up">↑</button><button class="rule-move-down" type="button" aria-label="Move rule down">↓</button><button class="rule-delete" type="button" aria-label="Delete rule">×</button></div>`;
+  row.innerHTML=`<button class="rule-drag-handle" type="button" aria-label="Drag rule to reorder" title="Drag to reorder">⋮⋮</button><span class="rule-builder-number">${count+1}</span><div class="rule-fields"><input class="rule-title-input" value="New Community rule" maxlength="80" readonly><input class="rule-copy-input" value="Explain what this rule means." maxlength="240" readonly></div><div class="rule-row-actions"><button class="rule-edit" type="button">Edit</button><button class="rule-delete" type="button">Delete</button></div>`;
   ruleBuilder.appendChild(row);
   renumberRules();
 });
