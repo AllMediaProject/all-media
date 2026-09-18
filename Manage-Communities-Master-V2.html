@@ -531,7 +531,7 @@ body{min-height:100vh}
       <h1>Manage Communities</h1>
       <p>Keep the Communities you belong to organized, pin the ones you want close by, and edit the Communities you created.</p>
     </div>
-    <a class="manage-create" href="Create-Community-Master-V1.html">＋ Create Community</a>
+    <a class="manage-create" href="Create-Community-Master-V2.html">＋ Create Community</a>
   </div>
 
   <div class="manage-organizer">
@@ -716,7 +716,9 @@ function communityFrontPageUrl(name){
 function openCommunityBySlug(slug){
   const state=communityState[slug];
   if(!state)return;
-  window.location.href=communityFrontPageUrl(state.name||slug);
+  window.location.href=slug==='spooky-cozy'
+    ? 'Communities-Master-V2.html'
+    : `Communities-Master-V2.html?community=${encodeURIComponent(slug)}`;
 }
 
 function joinedCommunities(){
@@ -909,8 +911,9 @@ function buildCommunityCard(slug,item,isOwner){
     edit.className='mc-button';
     edit.type='button';
     edit.textContent='Edit';
-    edit.disabled=true;
-    edit.title='Create/Edit Community is the next rebuild step.';
+    edit.addEventListener('click',()=>{
+      window.location.href=`Create-Community-Master-V2.html?mode=edit&community=${encodeURIComponent(slug)}`;
+    });
     actions.appendChild(edit);
   }else{
     const leave=document.createElement('button');
