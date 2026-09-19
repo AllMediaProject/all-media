@@ -3,6 +3,7 @@ const STATE_KEY="allMediaCommunityStateV1";
 const NOTIFICATION_KEY="allMediaCommunityNotificationsV1";
 const READ_KEY="allMediaCommunityNotificationReadV1";
 const PIN_ORDER_KEY="allMediaCommunityPinOrderV1";
+const SHARED_POSTS_KEY="allMediaCommunitySharedPostsV1";
 
 const DEFAULTS={
   "spooky-cozy":{name:"Spooky Cozy",icon:"🎃",joined:true,pinned:true,notifications:true,role:"owner",description:"Halloween all year, spooky art, crafts, collecting and cozy haunted things."},
@@ -498,10 +499,176 @@ document.addEventListener("keydown",event=>{
 });
 
 
+
+/* Pocket-like Community share state for Home feed cards. */
+function communityReadJSON(key,fallback){
+  try{
+    return JSON.parse(
+      localStorage.getItem(key)||
+      JSON.stringify(fallback)
+    );
+  }catch(error){
+    return fallback;
+  }
+}
+
+function communityWriteJSON(key,value){
+  try{
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+  }catch(error){}
+}
+
+function communityPostHash(text){
+  let h=2166136261;
+
+  for(let i=0;i<text.length;i++){
+    h^=text.charCodeAt(i);
+    h=Math.imul(h,16777619);
+  }
+
+  return (h>>>0).toString(36);
+}
+
+function communityPostId(post){
+  if(post.dataset.communityPostId){
+    return post.dataset.communityPostId;
+  }
+
+  const id="c_"+communityPostHash([
+    post.querySelector(".username")?.textContent||"",
+    post.querySelector(".blog-title,.video-title")?.textContent||"",
+    post.querySelector(".caption,.blog-excerpt,.video-description,.byte-caption")?.textContent||"",
+    post.querySelector("img")?.src||"",
+    post.querySelector("video")?.src||""
+  ].join("|"));
+
+  post.dataset.communityPostId=id;
+  return id;
+}
+
+function communitySharedMap(){
+  return communityReadJSON(
+    SHARED_POSTS_KEY,
+    {}
+  );
+}
+
+function communityPostSnapshot(post){
+  const clone=post.cloneNode(true);
+
+  [clone,...clone.querySelectorAll("*")]
+    .forEach(el=>{
+      [...el.attributes].forEach(attribute=>{
+        if(/^on/i.test(attribute.name)){
+          el.removeAttribute(attribute.name);
+        }
+      });
+
+      if(el.id){
+        el.removeAttribute("id");
+      }
+    });
+
+  clone.querySelectorAll(
+    ".active,.open,.show,.shared,.saved,.pocketed,.community-shared"
+  ).forEach(el=>{
+    el.classList.remove(
+      "active",
+      "open",
+      "show",
+      "shared",
+      "saved",
+      "pocketed",
+      "community-shared"
+    );
+  });
+
+  return clone.outerHTML;
+}
+
+function isPostInCommunity(slug,post){
+  const id=communityPostId(post);
+
+  return (
+    communitySharedMap()[slug]||[]
+  ).some(entry=>entry.id===id);
+}
+
+function isPostSharedAnywhere(id){
+  return Object.values(
+    communitySharedMap()
+  ).some(
+    list=>(list||[]).some(
+      entry=>entry.id===id
+    )
+  );
+}
+
+function addPostToCommunity(slug,post){
+  const map=communitySharedMap();
+  const id=communityPostId(post);
+  const list=map[slug]||[];
+
+  if(!list.some(entry=>entry.id===id)){
+    list.unshift({
+      id,
+      html:communityPostSnapshot(post),
+      sharedAt:Date.now()
+    });
+  }
+
+  map[slug]=list;
+
+  communityWriteJSON(
+    SHARED_POSTS_KEY,
+    map
+  );
+}
+
+function removePostFromCommunity(slug,post){
+  const map=communitySharedMap();
+  const id=communityPostId(post);
+
+  map[slug]=(map[slug]||[])
+    .filter(entry=>entry.id!==id);
+
+  communityWriteJSON(
+    SHARED_POSTS_KEY,
+    map
+  );
+}
+
+function syncFeedCommunityButton(post){
+  if(!post)return;
+
+  normalizeFeedCommunityButtons(post);
+
+  const active=isPostSharedAnywhere(
+    communityPostId(post)
+  );
+
+  post.querySelectorAll(
+    ".community-action"
+  ).forEach(button=>{
+    button.classList.toggle(
+      "community-shared",
+      active
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      String(active)
+    );
+  });
+}
+
 /* =========================================================
    HOME FEED — COMMUNITY CHOOSER
-   Step 1: matching chooser only. Actual Community sharing
-   will be connected after this popup is visually approved.
+   Matching chooser + persistent add/remove sharing state.
+   Interaction intentionally mirrors the Pocket chooser.
 ========================================================= */
 
 const COMMUNITY_INTEREST_DEFAULTS={
@@ -797,6 +964,12 @@ function ensureFeedCommunityChooserStyles(){
       font-size:10px;
       text-align:center;
     }
+
+    .feed .post .community-action.community-shared{
+      border-color:#ffc384!important;
+      background:rgba(255,195,132,.11)!important;
+      color:#ffc384!important;
+    }
   `;
 
   document.head.appendChild(style);
@@ -841,20 +1014,39 @@ function feedCommunityChooser(){
     const choice=event.target.closest(".am-community-choice");
     if(!choice)return;
 
-    panel.querySelectorAll(".am-community-choice.selected")
-      .forEach(other=>{
-        if(other!==choice){
-          other.classList.remove("selected");
-          other.querySelector(".am-community-choice-check").textContent="";
-        }
-      });
+    const post=panel._post;
+    if(!post)return;
 
-    choice.classList.add("selected");
-    choice.querySelector(".am-community-choice-check").textContent="✓";
-
+    const slug=choice.dataset.communitySlug;
     const name=choice.dataset.communityName||"Community";
-    panel.querySelector(".am-community-chooser-note").textContent=
-      `Selected ${name}.`;
+
+    if(isPostInCommunity(slug,post)){
+      removePostFromCommunity(slug,post);
+
+      choice.classList.remove("selected");
+      choice.querySelector(
+        ".am-community-choice-check"
+      ).textContent="";
+
+      panel.querySelector(
+        ".am-community-chooser-note"
+      ).textContent=
+        `Removed from ${name}.`;
+    }else{
+      addPostToCommunity(slug,post);
+
+      choice.classList.add("selected");
+      choice.querySelector(
+        ".am-community-choice-check"
+      ).textContent="✓";
+
+      panel.querySelector(
+        ".am-community-chooser-note"
+      ).textContent=
+        `Shared to ${name}.`;
+    }
+
+    syncFeedCommunityButton(post);
   });
 
   return panel;
@@ -910,18 +1102,26 @@ function openFeedCommunityChooser(button){
   note.textContent="";
 
   function render(entries){
-    list.innerHTML=entries.map(({slug,item})=>`
-      <button
-        class="am-community-choice"
-        type="button"
-        data-community-slug="${slug}"
-        data-community-name="${String(item.name||slug).replace(/"/g,"&quot;")}"
-      >
-        <span class="am-community-choice-icon">${item.icon||"◉"}</span>
-        <span class="am-community-choice-name">${item.name||slug}</span>
-        <span class="am-community-choice-check"></span>
-      </button>
-    `).join("");
+    list.innerHTML=entries.map(({slug,item})=>{
+      const selected=
+        isPostInCommunity(
+          slug,
+          post
+        );
+
+      return `
+        <button
+          class="am-community-choice${selected?" selected":""}"
+          type="button"
+          data-community-slug="${slug}"
+          data-community-name="${String(item.name||slug).replace(/"/g,"&quot;")}"
+        >
+          <span class="am-community-choice-icon">${item.icon||"◉"}</span>
+          <span class="am-community-choice-name">${item.name||slug}</span>
+          <span class="am-community-choice-check">${selected?"✓":""}</span>
+        </button>
+      `;
+    }).join("");
   }
 
   if(!all.length){
@@ -988,6 +1188,12 @@ requestAnimationFrame(()=>{
   try{
     ensureFeedCommunityChooserStyles();
     normalizeFeedCommunityButtons();
+
+    document.querySelectorAll(
+      ".feed .post"
+    ).forEach(
+      syncFeedCommunityButton
+    );
   }catch(error){
     console.error("[Community chooser] startup failed:",error);
   }
@@ -1000,11 +1206,11 @@ try{
         if(node.nodeType!==1)return;
 
         if(node.matches?.(".feed .post")){
-          normalizeFeedCommunityButtons(node);
+          syncFeedCommunityButton(node);
         }
 
         node.querySelectorAll?.(".feed .post").forEach(post=>{
-          normalizeFeedCommunityButtons(post);
+          syncFeedCommunityButton(post);
         });
       });
     });
