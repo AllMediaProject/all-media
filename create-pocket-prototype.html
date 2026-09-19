@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<title>Create a Pocket | All Media</title>
+<style>
+:root{
+  --bg:#101a3a;--card:#182447;--card2:#14264f;--panel:#102143;
+  --peach:#ffc384;--peach2:#ffb477;--text:#f8f8f2;--muted:#aeb9d3;
+  --muted2:#8793ad;--line:rgba(255,255,255,.085);--danger:#f0aaa5;
+  --shadow:0 18px 48px rgba(2,8,24,.34)
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  background:radial-gradient(circle at 20% -10%,rgba(73,102,185,.17),transparent 34rem),var(--bg);
+  font-family:'Outfit',system-ui,sans-serif
+}
+button,input,textarea{font:inherit}
+button{color:inherit}
+a{color:inherit;text-decoration:none}
+.site-header{
+  height:72px;display:grid;grid-template-columns:auto auto minmax(260px,520px) auto;align-items:center;
+  gap:25px;padding:0 34px;position:sticky;top:0;z-index:50;background:rgba(16,26,58,.96);
+  border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(14px)
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.055em}
+.logo-mark{width:38px;height:38px;border:2px solid #fff;border-radius:44% 44% 49% 49%;position:relative;background:#20325d}
+.logo-mark:before{content:"★";position:absolute;inset:0;display:grid;place-items:center;color:var(--peach);font-size:18px;transform:rotate(-8deg)}
+.logo-mark:after{content:"";position:absolute;left:7px;right:7px;top:10px;border-top:2px dashed rgba(255,255,255,.7)}
+.brand span span{font-weight:500}.top-nav{display:flex;align-items:center;gap:18px}.top-nav a{color:#cbd5ec;font-size:14px;font-weight:700}.top-nav a:hover{color:var(--peach)}
+.search{height:40px;display:flex;align-items:center;gap:9px;padding:0 14px;border-radius:999px;background:#0e1836;border:1px solid rgba(88,116,186,.38)}
+.search svg{width:18px;fill:none;stroke:#9fafcf;stroke-width:2}.search input{width:100%;border:0;outline:0;background:transparent;color:#fff}
+.header-actions{display:flex;align-items:center;gap:10px}.header-round{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,195,132,.55);background:#152447;display:grid;place-items:center}.header-avatar{font-weight:900;color:var(--peach)}
+.page{max-width:980px;margin:34px auto 80px;padding:0 24px}
+.page-intro{text-align:center;margin-bottom:20px}
+.page-intro .kicker{color:var(--peach);font-size:10px;font-weight:900;letter-spacing:.15em}
+.page-intro h1{margin:6px 0 7px;font-size:31px}
+.page-intro p{margin:0 auto;color:#9dabca;max-width:620px;font-size:13px;line-height:1.5}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px 0 15px}
+.step-pill{
+  min-height:42px;display:flex;align-items:center;gap:8px;padding:8px 11px;
+  border:1px solid rgba(75,103,176,.28);border-radius:12px;background:#132348;color:#8392b4;
+  font-size:10px;font-weight:800
+}
+.step-pill .num{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#0f1d3d;color:#8fa0c3}
+.step-pill.active{border-color:rgba(255,195,132,.55);background:rgba(255,195,132,.055);color:#fff}
+.step-pill.active .num,.step-pill.done .num{background:var(--peach);color:#112044}
+.step-pill.done{color:#cbd5ec}
+.form-card{
+  padding:24px;border:1px solid rgba(255,195,132,.22);border-radius:20px;
+  background:linear-gradient(145deg,#172950,#122143);box-shadow:var(--shadow)
+}
+.form-step{display:none}.form-step.active{display:block}
+.form-head{margin-bottom:20px}.eyebrow{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.13em}.form-head h2{margin:4px 0 5px;font-size:23px}.form-head p{margin:0;color:#95a3c2;font-size:11px;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{margin-bottom:16px}
+.label{display:flex;justify-content:space-between;gap:10px;margin:0 0 7px;color:#cbd5e8;font-size:10px;font-weight:800;letter-spacing:.02em}
+.label small{color:#7f8eaf;font-weight:600}.input,.textarea,.searchbox{
+  width:100%;border:1px solid rgba(81,111,186,.32);border-radius:11px;background:#0f1d3d;
+  color:#fff;outline:0
+}
+.input{height:43px;padding:0 12px}.textarea{min-height:110px;padding:11px 12px;resize:vertical}
+.input:focus,.textarea:focus,.searchbox:focus-within{border-color:rgba(255,195,132,.65);box-shadow:0 0 0 3px rgba(255,195,132,.06)}
+.icon-box{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.icon-choice{
+  aspect-ratio:1;border:1px solid rgba(80,109,183,.25);border-radius:10px;background:#101f40;
+  font-size:20px;cursor:pointer
+}
+.icon-choice.selected{border-color:var(--peach);background:rgba(255,195,132,.09);box-shadow:0 0 0 2px rgba(255,195,132,.08)}
+.cover-stage{
+  height:220px;position:relative;overflow:hidden;border-radius:14px;border:1px dashed rgba(255,195,132,.35);
+  background:linear-gradient(145deg,#101e3d,#21365e);display:grid;place-items:center
+}
+.cover-empty{text-align:center;color:#91a0bf;font-size:11px}.cover-empty strong{display:block;color:#dfe5f3;font-size:13px;margin-bottom:3px}
+.cover-stage img{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;transform-origin:center;touch-action:none;cursor:grab;user-select:none}
+.cover-stage.dragging img{cursor:grabbing}
+.cover-controls{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin-top:9px;color:#8e9cbc;font-size:9px}
+.cover-controls input{width:100%}
+.upload-row{display:flex;gap:8px;margin-top:9px}.small-btn,.primary,.secondary{
+  min-height:39px;padding:0 13px;border-radius:10px;font-size:10px;font-weight:850;cursor:pointer
+}
+.small-btn,.secondary{border:1px solid rgba(255,195,132,.32);background:#13254a;color:#f5f6f2}.primary{border:1px solid var(--peach);background:var(--peach);color:#112044}
+.helper{margin-top:7px;color:#7f8eaf;font-size:9px;line-height:1.45}
+.lens-note{margin:0 0 18px;padding:11px 13px;border:1px dashed rgba(255,195,132,.28);border-radius:11px;background:rgba(255,195,132,.035);color:#aeb9d3;font-size:10px;line-height:1.5}
+.lens-note strong{color:var(--peach)}
+.section-title-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:20px 0 8px}.section-title-row h3{margin:0;font-size:15px}.section-title-row span{color:#7f8eaf;font-size:9px}
+.searchbox{height:40px;display:flex;align-items:center;padding:0 10px;margin-bottom:9px}.searchbox input{width:100%;border:0;outline:0;background:transparent;color:#fff}
+.pill-list{display:flex;flex-wrap:wrap;gap:7px}
+.choice-pill{
+  padding:7px 10px;border:1px solid rgba(88,117,190,.28);border-radius:999px;background:#101f40;
+  color:#c5cfe4;font-size:10px;font-weight:750;cursor:pointer
+}
+.choice-pill.selected{border-color:rgba(255,195,132,.6);background:rgba(255,195,132,.08);color:var(--peach)}
+.selected-row{min-height:40px;margin:9px 0 0;padding:9px;border-radius:11px;background:#0f1d3d;border:1px solid rgba(255,255,255,.055)}
+.selected-row.empty:before{content:"Nothing selected yet.";color:#6f7e9e;font-size:9px}
+.selected-chip{display:inline-flex;align-items:center;gap:5px;margin:2px;padding:6px 8px;border-radius:999px;background:#1a315f;color:#e1e6f1;font-size:9px}.selected-chip button{border:0;background:transparent;color:#9baaca;cursor:pointer;padding:0}
+.privacy-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.privacy-card{
+  min-height:112px;text-align:left;padding:15px;border:1px solid rgba(83,112,184,.27);border-radius:13px;background:#101f40;cursor:pointer
+}
+.privacy-card:hover{border-color:rgba(255,195,132,.38)}.privacy-card.selected{border-color:var(--peach);background:rgba(255,195,132,.065);box-shadow:0 0 0 2px rgba(255,195,132,.06)}
+.privacy-card strong{display:block;font-size:13px}.privacy-card span{display:block;margin-top:6px;color:#8f9dbd;font-size:10px;line-height:1.45}
+.review{
+  overflow:hidden;border:1px solid rgba(255,195,132,.25);border-radius:16px;background:#13264b
+}
+.review-cover{height:125px;background:linear-gradient(135deg,#172b54,#0f1e3f 58%,#243860);position:relative;overflow:hidden;display:grid;place-items:center;font-size:45px}
+.review-cover img{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;transform-origin:center}
+.review-body{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:0 17px 17px}
+.review-icon{width:64px;height:64px;margin-top:-30px;z-index:2;display:grid;place-items:center;border-radius:16px;border:3px solid #13264b;background:#20335e;font-size:30px}
+.review-copy{padding-top:12px}.review-copy h3{margin:0;font-size:19px}.review-copy p{margin:6px 0;color:#aeb9d3;font-size:10px;line-height:1.45}
+.review-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.review-chip{padding:5px 7px;border-radius:999px;background:#101f40;color:#c7d0e5;font-size:8px}
+.empty-reminder{margin-top:13px;padding:11px 12px;border-radius:11px;background:rgba(255,195,132,.04);border:1px dashed rgba(255,195,132,.25);color:#9cabc9;font-size:10px;line-height:1.5}
+.form-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;padding-top:17px;border-top:1px solid rgba(255,255,255,.065)}
+.right-actions{display:flex;gap:8px}.validation{min-height:16px;margin-top:10px;color:#f0aaa5;font-size:9px;font-weight:700}
+.charcount{text-align:right;color:#7786a7;font-size:8px;margin-top:4px}
+@media(max-width:760px){
+  .site-header{grid-template-columns:auto 1fr auto;padding:0 16px}.top-nav,.search{display:none}.page{padding:0 14px}.steps{grid-template-columns:1fr 1fr}
+  .grid2,.privacy-grid{grid-template-columns:1fr}.icon-box{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="logo-mark"></span><span><span>ALL</span> MEDIA</span></a>
+  <nav class="top-nav"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">All Play</a></nav>
+  <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="search" placeholder="Search All Media…"></label>
+  <div class="header-actions"><button class="header-round" type="button">🔔</button><a class="header-round header-avatar" href="profile.html">H</a></div>
+</header>
+
+<main class="page">
+  <header class="page-intro">
+    <div class="kicker">POCKETS</div>
+    <h1 id="pageTitle">Create a Pocket</h1>
+    <p>Build a small curated window into one corner of All Media. Pockets are simple by design — choose the lens, then hand-pick the posts that belong.</p>
+  </header>
+
+  <div class="steps">
+    <div class="step-pill active" data-step-pill="1"><span class="num">1</span>Identity</div>
+    <div class="step-pill" data-step-pill="2"><span class="num">2</span>Lens</div>
+    <div class="step-pill" data-step-pill="3"><span class="num">3</span>Privacy</div>
+    <div class="step-pill" data-step-pill="4"><span class="num">4</span>Review</div>
+  </div>
+
+  <section class="form-card">
+    <div class="form-step active" data-step="1">
+      <div class="form-head"><div class="eyebrow">STEP 1 OF 4</div><h2>Give this little world an identity</h2><p>Keep it light. A Pocket only needs enough identity to make its corner recognizable.</p></div>
+
+      <div class="field">
+        <div class="label"><span>Pocket icon · required</span><small>small marker used around All Media</small></div>
+        <div class="icon-box" id="iconChoices"></div>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <div class="label"><span>Pocket name · required</span><small>max 60</small></div>
+          <input class="input" id="pocketName" maxlength="60" placeholder="Tiny Haunted Art">
+          <div class="charcount"><span id="nameCount">0</span>/60</div>
+        </div>
+        <div class="field">
+          <div class="label"><span>Custom icon · optional</span><small>one emoji</small></div>
+          <input class="input" id="customIcon" maxlength="4" placeholder="🪟">
+          <div class="helper">If you enter one here, it replaces the selected icon.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label"><span>Short description · required</span><small>max 300</small></div>
+        <textarea class="textarea" id="pocketDescription" maxlength="300" placeholder="A small window into spooky little paintings, cozy rooms, crooked houses, moons, pumpkins, and art that feels gently haunted."></textarea>
+        <div class="charcount"><span id="descriptionCount">0</span>/300</div>
+      </div>
+
+      <div class="field">
+        <div class="label"><span>Cover image · optional</span><small>one wide crop</small></div>
+        <div class="cover-stage" id="coverStage">
+          <div class="cover-empty" id="coverEmpty"><strong>No cover needed.</strong>Your Pocket will still look finished without one.</div>
+          <img id="coverImg" alt="" draggable="false" hidden>
+        </div>
+        <div class="cover-controls" id="coverControls" hidden><span>Zoom</span><input id="coverZoom" type="range" min="1" max="2.2" step=".01" value="1"><span id="zoomValue">100%</span></div>
+        <div class="upload-row">
+          <button class="small-btn" id="uploadCoverBtn" type="button">Upload cover</button>
+          <button class="small-btn" id="removeCoverBtn" type="button" hidden>Remove cover</button>
+          <input id="coverInput" type="file" accept="image/*" hidden>
+        </div>
+        <div class="helper">Drag the image to reposition it. Use Zoom for the crop. No extra crop modes.</div>
+      </div>
+      <div class="validation" id="step1Validation"></div>
+    </div>
+
+    <div class="form-step" data-step="2">
+      <div class="form-head"><div class="eyebrow">STEP 2 OF 4</div><h2>Choose the Pocket Lens</h2><p>The lens explains the corner you are curating. It does not automatically fill the Pocket.</p></div>
+
+      <div class="lens-note"><strong>Your lens describes the Pocket.</strong> Posts are added separately when you choose <b>Pocket</b> on a post.</div>
+
+      <div class="section-title-row"><h3>Interests · required</h3><span>Choose 1–5</span></div>
+      <div class="searchbox"><input id="interestSearch" type="search" placeholder="Search Interests…"></div>
+      <div class="pill-list" id="interestChoices"></div>
+      <div class="selected-row empty" id="selectedInterests"></div>
+
+      <div class="section-title-row"><h3>Creators · optional</h3><span>Choose up to 5</span></div>
+      <div class="helper" style="margin:-2px 0 8px">Choose people whose work helps define this corner. Their posts are not automatically added.</div>
+      <div class="searchbox"><input id="creatorSearch" type="search" placeholder="Search creators…"></div>
+      <div class="pill-list" id="creatorChoices"></div>
+      <div class="selected-row empty" id="selectedCreators"></div>
+      <div class="validation" id="step2Validation"></div>
+    </div>
+
+    <div class="form-step" data-step="3">
+      <div class="form-head"><div class="eyebrow">STEP 3 OF 4</div><h2>Who can see this Pocket?</h2><p>No posting permissions or roles here. You curate the Pocket; everyone else simply views or follows when allowed.</p></div>
+
+      <div class="privacy-grid" id="privacyGrid">
+        <button class="privacy-card selected" type="button" data-privacy="public" data-label="Public"><strong>🌎 Public</strong><span>Anyone can view and follow this Pocket.</span></button>
+        <button class="privacy-card" type="button" data-privacy="private" data-label="Private"><strong>🔒 Private</strong><span>Only you can view this Pocket.</span></button>
+        <button class="privacy-card" type="button" data-privacy="invite" data-label="Invite Only"><strong>✉️ Invite Only</strong><span>Only people you invite can view and follow.</span></button>
+        <button class="privacy-card" type="button" data-privacy="request" data-label="Request to Follow"><strong>🤝 Request to Follow</strong><span>People request access and you approve them.</span></button>
+      </div>
+    </div>
+
+    <div class="form-step" data-step="4">
+      <div class="form-head"><div class="eyebrow">STEP 4 OF 4</div><h2>Review your Pocket</h2><p>This is the identity visitors will see before they move into the hand-picked collection.</p></div>
+
+      <div class="review">
+        <div class="review-cover" id="reviewCover"><span id="reviewCoverFallback">🌙 🎃 ✦</span><img id="reviewCoverImg" alt="" hidden></div>
+        <div class="review-body">
+          <div class="review-icon" id="reviewIcon">🪟</div>
+          <div class="review-copy"><h3 id="reviewName">Untitled Pocket</h3><p id="reviewDescription">Your description will appear here.</p><div class="review-meta" id="reviewMeta"></div></div>
+        </div>
+      </div>
+
+      <div class="empty-reminder"><b>Your Pocket starts empty.</b> Once it is created, explore All Media and use the <b>Pocket</b> button on Post, Blog, Video, or Byte cards to curate what belongs here.</div>
+    </div>
+
+    <div class="form-actions">
+      <button class="secondary" id="cancelBtn" type="button">Cancel</button>
+      <div class="right-actions">
+        <button class="secondary" id="backBtn" type="button" hidden>Back</button>
+        <button class="primary" id="nextBtn" type="button">Continue</button>
+        <button class="primary" id="createBtn" type="button" hidden>Create Pocket</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const interests=[
+  {name:"Art",emoji:"🎨"},{name:"Halloween",emoji:"🎃"},{name:"Cozy",emoji:"✨"},{name:"Horror",emoji:"👻"},
+  {name:"Crochet",emoji:"🧶"},{name:"Nature",emoji:"🌲"},{name:"Books",emoji:"📚"},{name:"Photography",emoji:"📷"},
+  {name:"Home & Decor",emoji:"🏠"},{name:"Gaming",emoji:"🎮"},{name:"Music",emoji:"🎵"},{name:"Animals",emoji:"🐾"}
+];
+const creators=[
+  {handle:"@moonlitmoth",name:"Moonlit Moth"},{handle:"@ravenandruins",name:"Raven & Ruins"},{handle:"@cozycryptid",name:"Cozy Cryptid"},
+  {handle:"@paperlantern",name:"Paper Lantern"},{handle:"@NightshadeArt",name:"Nightshade Art"},{handle:"@WildRoots",name:"Wild Roots"},
+  {handle:"@threadorbit",name:"Thread Orbit"},{handle:"@littletrails",name:"Little Trails"}
+];
+const icons=["🪟","🎃","👻","🌙","✨","🎨","🧶","🌲","📚","🏠","🕯️","🪴","⭐","🦇","🍂","🕸️"];
+const state={
+  step:1,icon:"🪟",name:"",description:"",interests:[],creators:[],privacy:"public",privacyLabel:"Public",
+  cover:"",coverZoom:1,coverX:0,coverY:0
+};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+function renderIcons(){
+  $("#iconChoices").innerHTML=icons.map(icon=>`<button class="icon-choice ${state.icon===icon?"selected":""}" type="button" data-icon="${icon}">${icon}</button>`).join("");
+}
+function renderInterestChoices(q=""){
+  q=q.trim().toLowerCase();
+  $("#interestChoices").innerHTML=interests.filter(x=>!q||x.name.toLowerCase().includes(q)).map(x=>`<button class="choice-pill ${state.interests.some(y=>y.name===x.name)?"selected":""}" type="button" data-interest="${x.name}">${x.emoji} ${x.name}</button>`).join("");
+}
+function renderCreatorChoices(q=""){
+  q=q.trim().toLowerCase();
+  $("#creatorChoices").innerHTML=creators.filter(x=>!q||(`${x.handle} ${x.name}`).toLowerCase().includes(q)).map(x=>`<button class="choice-pill ${state.creators.some(y=>y.handle===x.handle)?"selected":""}" type="button" data-creator="${x.handle}">${x.handle}</button>`).join("");
+}
+function renderSelected(){
+  const i=$("#selectedInterests"),c=$("#selectedCreators");
+  i.classList.toggle("empty",!state.interests.length);
+  c.classList.toggle("empty",!state.creators.length);
+  i.innerHTML=state.interests.map(x=>`<span class="selected-chip">${x.emoji} ${x.name}<button type="button" data-remove-interest="${x.name}">×</button></span>`).join("");
+  c.innerHTML=state.creators.map(x=>`<span class="selected-chip">${x.handle}<button type="button" data-remove-creator="${x.handle}">×</button></span>`).join("");
+}
+function iconValue(){
+  return $("#customIcon").value.trim() || state.icon || "🪟";
+}
+function syncBasic(){
+  state.name=$("#pocketName").value.trim();
+  state.description=$("#pocketDescription").value.trim();
+  $("#nameCount").textContent=$("#pocketName").value.length;
+  $("#descriptionCount").textContent=$("#pocketDescription").value.length;
+}
+function setStep(n){
+  state.step=n;
+  $$(".form-step").forEach(el=>el.classList.toggle("active",Number(el.dataset.step)===n));
+  $$(".step-pill").forEach(el=>{
+    const v=Number(el.dataset.stepPill);el.classList.toggle("active",v===n);el.classList.toggle("done",v<n);
+  });
+  $("#backBtn").hidden=n===1;$("#nextBtn").hidden=n===4;$("#createBtn").hidden=n!==4;
+  if(n===4)renderReview();
+  scrollTo({top:0,behavior:"smooth"});
+}
+function validateStep(){
+  syncBasic();
+  $("#step1Validation").textContent="";$("#step2Validation").textContent="";
+  if(state.step===1){
+    if(!state.name){$("#step1Validation").textContent="Give your Pocket a name.";return false}
+    if(!state.description){$("#step1Validation").textContent="Add a short description for this Pocket.";return false}
+  }
+  if(state.step===2 && state.interests.length<1){$("#step2Validation").textContent="Choose at least one Interest for the Pocket Lens.";return false}
+  return true;
+}
+function renderReview(){
+  syncBasic();
+  $("#reviewIcon").textContent=iconValue();
+  $("#reviewName").textContent=state.name||"Untitled Pocket";
+  $("#reviewDescription").textContent=state.description||"Your description will appear here.";
+  const chips=[`▱ ${state.privacyLabel}`,...state.interests.map(x=>`${x.emoji} ${x.name}`),...state.creators.map(x=>x.handle)];
+  $("#reviewMeta").innerHTML=chips.map(x=>`<span class="review-chip">${x}</span>`).join("");
+  if(state.cover){
+    $("#reviewCoverImg").src=state.cover;$("#reviewCoverImg").hidden=false;$("#reviewCoverFallback").hidden=true;
+    $("#reviewCoverImg").style.transform=`translate(calc(-50% + ${state.coverX}px),calc(-50% + ${state.coverY}px)) scale(${state.coverZoom})`;
+  }else{
+    $("#reviewCoverImg").hidden=true;$("#reviewCoverFallback").hidden=false;
+  }
+}
+renderIcons();renderInterestChoices();renderCreatorChoices();renderSelected();
+
+$("#iconChoices").onclick=e=>{
+  const b=e.target.closest("[data-icon]");if(!b)return;state.icon=b.dataset.icon;$("#customIcon").value="";renderIcons()
+};
+$("#customIcon").oninput=()=>{if($("#customIcon").value.trim())$$(".icon-choice").forEach(b=>b.classList.remove("selected"))};
+$("#pocketName").oninput=syncBasic;$("#pocketDescription").oninput=syncBasic;
+
+$("#interestSearch").oninput=e=>renderInterestChoices(e.target.value);
+$("#creatorSearch").oninput=e=>renderCreatorChoices(e.target.value);
+$("#interestChoices").onclick=e=>{
+  const b=e.target.closest("[data-interest]");if(!b)return;
+  const item=interests.find(x=>x.name===b.dataset.interest);const i=state.interests.findIndex(x=>x.name===item.name);
+  if(i>=0)state.interests.splice(i,1);else if(state.interests.length<5)state.interests.push(item);
+  renderInterestChoices($("#interestSearch").value);renderSelected();
+};
+$("#creatorChoices").onclick=e=>{
+  const b=e.target.closest("[data-creator]");if(!b)return;
+  const item=creators.find(x=>x.handle===b.dataset.creator);const i=state.creators.findIndex(x=>x.handle===item.handle);
+  if(i>=0)state.creators.splice(i,1);else if(state.creators.length<5)state.creators.push(item);
+  renderCreatorChoices($("#creatorSearch").value);renderSelected();
+};
+document.addEventListener("click",e=>{
+  const ri=e.target.closest("[data-remove-interest]");if(ri){state.interests=state.interests.filter(x=>x.name!==ri.dataset.removeInterest);renderInterestChoices($("#interestSearch").value);renderSelected()}
+  const rc=e.target.closest("[data-remove-creator]");if(rc){state.creators=state.creators.filter(x=>x.handle!==rc.dataset.removeCreator);renderCreatorChoices($("#creatorSearch").value);renderSelected()}
+});
+$("#privacyGrid").onclick=e=>{
+  const card=e.target.closest(".privacy-card");if(!card)return;
+  state.privacy=card.dataset.privacy;state.privacyLabel=card.dataset.label;
+  $$(".privacy-card").forEach(x=>x.classList.toggle("selected",x===card));
+};
+
+$("#nextBtn").onclick=()=>{if(validateStep())setStep(state.step+1)};
+$("#backBtn").onclick=()=>setStep(state.step-1);
+$("#cancelBtn").onclick=()=>location.href="pocket-page-prototype.html";
+
+let coverPointer=null;
+function updateCoverTransform(){
+  const img=$("#coverImg");
+  img.style.transform=`translate(calc(-50% + ${state.coverX}px),calc(-50% + ${state.coverY}px)) scale(${state.coverZoom})`;
+  $("#zoomValue").textContent=Math.round(state.coverZoom*100)+"%";
+}
+$("#uploadCoverBtn").onclick=()=>$("#coverInput").click();
+$("#coverInput").onchange=e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    state.cover=ev.target.result;state.coverZoom=1;state.coverX=0;state.coverY=0;
+    $("#coverImg").src=state.cover;$("#coverImg").hidden=false;$("#coverEmpty").hidden=true;
+    $("#coverControls").hidden=false;$("#removeCoverBtn").hidden=false;updateCoverTransform()
+  };
+  reader.readAsDataURL(file)
+};
+$("#removeCoverBtn").onclick=()=>{
+  state.cover="";state.coverZoom=1;state.coverX=0;state.coverY=0;
+  $("#coverImg").hidden=true;$("#coverEmpty").hidden=false;$("#coverControls").hidden=true;$("#removeCoverBtn").hidden=true;$("#coverInput").value=""
+};
+$("#coverZoom").oninput=e=>{state.coverZoom=Number(e.target.value);updateCoverTransform()};
+$("#coverStage").onpointerdown=e=>{
+  if(!state.cover || e.target!==$("#coverImg"))return;
+  coverPointer={id:e.pointerId,x:e.clientX,y:e.clientY,startX:state.coverX,startY:state.coverY};
+  $("#coverStage").classList.add("dragging");$("#coverStage").setPointerCapture?.(e.pointerId)
+};
+$("#coverStage").onpointermove=e=>{
+  if(!coverPointer||e.pointerId!==coverPointer.id)return;
+  state.coverX=coverPointer.startX+(e.clientX-coverPointer.x);state.coverY=coverPointer.startY+(e.clientY-coverPointer.y);updateCoverTransform()
+};
+function endCover(e){if(!coverPointer||e.pointerId!==coverPointer.id)return;coverPointer=null;$("#coverStage").classList.remove("dragging")}
+$("#coverStage").onpointerup=endCover;$("#coverStage").onpointercancel=endCover;
+
+function loadEdit(){
+  if(new URLSearchParams(location.search).get("edit")!=="1")return;
+  let data=null;try{data=JSON.parse(localStorage.getItem("allMediaPocketPrototypeV1")||"null")}catch(e){}
+  if(!data)return;
+  Object.assign(state,data);$("#pageTitle").textContent="Edit Pocket";
+  $("#pocketName").value=state.name||"";$("#pocketDescription").value=state.description||"";$("#customIcon").value="";
+  renderIcons();renderInterestChoices();renderCreatorChoices();renderSelected();syncBasic();
+  $$(".privacy-card").forEach(c=>c.classList.toggle("selected",c.dataset.privacy===state.privacy));
+  if(state.cover){
+    $("#coverImg").src=state.cover;$("#coverImg").hidden=false;$("#coverEmpty").hidden=true;$("#coverControls").hidden=false;$("#removeCoverBtn").hidden=false;
+    $("#coverZoom").value=state.coverZoom||1;updateCoverTransform()
+  }
+  $("#createBtn").textContent="Save Pocket";
+}
+loadEdit();
+
+$("#createBtn").onclick=()=>{
+  syncBasic();
+  const data={...state,icon:iconValue(),name:state.name,description:state.description};
+  try{localStorage.setItem("allMediaPocketPrototypeV1",JSON.stringify(data))}catch(e){}
+  const edit=new URLSearchParams(location.search).get("edit")==="1";
+  location.href=`pocket-page-prototype.html?${edit?"created":"new"}=1&owner=1`;
+};
+</script>
+</body>
+</html>

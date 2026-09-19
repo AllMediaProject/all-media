@@ -1,0 +1,77 @@
+ALL MEDIA — POCKETS PROTOTYPE V1
+
+THIS IS A REVIEW PROTOTYPE ONLY.
+Do not upload these two prototype files to the production repo yet unless you intentionally want to preview them on GitHub Pages.
+
+FILES
+- pocket-page-prototype.html
+- create-pocket-prototype.html
+
+LOCKED IDEA USED
+A Pocket is a curated view into one singular world or corner of All Media.
+
+POCKET LENS
+- Interests: required, 1–5
+- Creators: optional, 0–5
+- Communities are NOT part of the Pocket Lens.
+- Lens selections never auto-fill the Pocket.
+
+POCKET CONTENT
+- No Create Post box.
+- Other people cannot post into your Pocket.
+- Posts are curated into Pockets from elsewhere in All Media using the Pocket action.
+- Original author / Interest / Community context remains visible.
+- Owner can remove curated items.
+- Visitors can follow when privacy permits.
+
+PRIVACY
+- Public
+- Private
+- Invite Only
+- Request to Follow
+
+CREATOR
+Four lightweight steps:
+1. Identity
+2. Lens
+3. Privacy
+4. Review
+
+Identity includes:
+- required icon
+- name
+- short description
+- optional wide cover
+- one crop only, drag + zoom
+
+PROTOTYPE FUNCTIONS
+Pocket page:
+- Owner / Visitor preview toggle
+- Follow Pocket toggle
+- Edit Pocket link
+- Remove from Pocket
+- sample Like interaction
+- creator/profile links
+- empty-state mode after creating a Pocket
+
+Pocket Creator:
+- fully navigable four steps
+- required validation
+- emoji/icon picker
+- optional custom emoji
+- cover image upload, drag reposition, zoom
+- Interest search/select max 5
+- Creator search/select max 5
+- four privacy choices
+- review preview
+- localStorage prototype save
+- Create opens the Pocket page in empty-state mode
+- Edit Pocket reopens the creator with saved prototype values
+
+NEXT AFTER APPROVAL
+1. Refine appearance/functionality from review.
+2. Build Manage Pockets around Your Pockets + Following.
+3. Connect Home Pocket panel clicks / Add New Pocket.
+4. Connect feed-card Pocket chooser.
+5. Connect feed-card Community chooser to only allowed Communities.
+6. Split production CSS/JS only after the Pocket pages are locked.
