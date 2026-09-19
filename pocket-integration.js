@@ -465,6 +465,74 @@
     $(".pocket-icon",item).textContent=data.emoji||data.icon||"▱";
   }
 
+  function deleteCreatedPocket(item){
+    if(!item||item.dataset.pocketIntegrated!=="true")return;
+
+    const name=
+      item.dataset.pocketName||
+      $(".pocket-name",item)?.textContent?.trim()||
+      "Pocket";
+
+    const saved=savedMap();
+    delete saved[key(name)];
+    writeJSON(SAVED_KEY,saved);
+
+    const registry=readJSON(REGISTRY_KEY,{});
+    delete registry[key(name)];
+    writeJSON(REGISTRY_KEY,registry);
+
+    try{localStorage.removeItem(CREATED_KEY)}catch{}
+
+    item.remove();
+    window.updatePocketFavoriteCount?.();
+    window.filterPockets?.(
+      document.getElementById("pocketSearchInput")?.value||""
+    );
+  }
+
+  function enhancePocketMenus(){
+    try{window.ensurePocketMenus?.()}catch(error){console.error(error)}
+
+    $$('.pockets-panel .pocket-item[data-pocket-integrated="true"]').forEach(item=>{
+      const menu=$(".pocket-settings-menu",item);
+      if(!menu)return;
+
+      const edit=[...menu.querySelectorAll(".pocket-settings-action")].find(
+        button=>button.textContent.trim()==="Edit"
+      );
+
+      if(edit&&!edit.dataset.integratedPocketEdit){
+        edit.dataset.integratedPocketEdit="true";
+        edit.onclick=event=>{
+          event.stopPropagation();
+          window.closePocketSettingsMenus?.();
+          location.href=`${CREATE_PAGE}?edit=1`;
+        };
+      }
+
+      if(menu.querySelector(".pocket-delete-action"))return;
+
+      const remove=document.createElement("button");
+      remove.type="button";
+      remove.className="pocket-settings-action unfollow pocket-delete-action";
+      remove.textContent="Delete";
+      remove.onclick=event=>{
+        event.stopPropagation();
+        window.closePocketSettingsMenus?.();
+
+        const name=
+          item.dataset.pocketName||
+          $(".pocket-name",item)?.textContent?.trim()||
+          "this Pocket";
+
+        if(!window.confirm(`Delete ${name}? This removes the Pocket and its saved posts.`))return;
+        deleteCreatedPocket(item);
+      };
+
+      menu.appendChild(remove);
+    });
+  }
+
   function syncRegistry(){
     const registry={};
 
@@ -575,17 +643,35 @@
     try{normalizePocketButtons()}catch(e){console.error(e)}
     try{ensureStyles()}catch(e){console.error(e)}
     try{syncCreatedPocket()}catch(e){console.error(e)}
+    try{enhancePocketMenus()}catch(e){console.error(e)}
     try{syncRegistry()}catch(e){console.error(e)}
     try{$$(".feed .post").forEach(syncButton)}catch(e){console.error(e)}
   });
 
   new MutationObserver(records=>{
+    let pocketAdded=false;
+
     for(const record of records){
       for(const node of record.addedNodes){
         if(node.nodeType!==1)continue;
+
         if(node.matches?.(".feed .post"))syncButton(node);
         node.querySelectorAll?.(".feed .post").forEach(syncButton);
+
+        if(
+          node.matches?.(".pockets-panel .pocket-item")||
+          node.querySelector?.(".pockets-panel .pocket-item")
+        ){
+          pocketAdded=true;
+        }
       }
+    }
+
+    if(pocketAdded){
+      requestAnimationFrame(()=>{
+        try{enhancePocketMenus()}catch(error){console.error(error)}
+        try{syncRegistry()}catch(error){console.error(error)}
+      });
     }
   }).observe(document.body,{childList:true,subtree:true});
 })();
