@@ -327,12 +327,9 @@ a{text-decoration:none}
   padding:0 28px;
 }
 .pocket-hero{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(240px,340px);
-  gap:28px;
-  align-items:center;
+  display:block;
   padding:24px;
-  border:1px solid rgba(255,195,132,.22);
+  border:1px solid var(--peach);
   border-radius:20px;
   background:linear-gradient(145deg,rgba(23,42,84,.92),rgba(17,33,67,.94));
   box-shadow:0 14px 36px rgba(2,8,24,.22);
@@ -341,11 +338,15 @@ a{text-decoration:none}
 .pocket-identity{display:flex;align-items:flex-start;gap:18px}
 .pocket-icon-large{
   width:86px;height:86px;flex:0 0 86px;
-  display:grid;place-items:center;border-radius:20px;
-  border:1px solid rgba(255,195,132,.72);
+  position:relative;display:grid;place-items:center;overflow:hidden;border-radius:50%;
+  border:2px solid var(--peach);
   background:#172a54;font-size:42px;
   box-shadow:0 10px 22px rgba(0,0,0,.20)
 }
+.pocket-icon-large img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block
+}
+.pocket-icon-large .pocket-emoji{position:relative;z-index:1}
 .hero-copy{min-width:0;padding-top:2px}
 .hero-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.14em}
 .hero-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -372,22 +373,8 @@ a{text-decoration:none}
 .primary{border:1px solid var(--peach);background:var(--peach);color:#112044}
 .secondary{border:1px solid rgba(255,195,132,.36);background:#13264d;color:#f7f7f3}
 .secondary:hover{border-color:rgba(255,195,132,.75)}
-.pocket-image-wrap{
-  min-height:150px;aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:16px;
-  border:1px solid rgba(255,195,132,.34);background:linear-gradient(145deg,#101d3d,#23365f);
-  box-shadow:0 10px 24px rgba(0,0,0,.18)
-}
-.pocket-image-wrap[hidden]{display:none}
-.pocket-image-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cover-art{
-  position:absolute;inset:0;display:grid;place-items:center;
-  background:
-    radial-gradient(circle at 28% 40%,rgba(255,195,132,.22),transparent 22%),
-    radial-gradient(circle at 70% 65%,rgba(98,118,197,.28),transparent 28%),
-    linear-gradient(125deg,#172b54,#0f1e3f 58%,#243860);
-  font-size:54px;letter-spacing:10px
-}
-.pocket-details{margin-top:14px;border:1px solid rgba(255,195,132,.26);border-radius:16px;background:rgba(19,36,72,.76);overflow:hidden}
+
+.pocket-details{margin-top:14px;border:1px dashed var(--peach);border-radius:16px;background:rgba(19,36,72,.76);overflow:hidden}
 .pocket-details-toggle{
   width:100%;min-height:50px;padding:0 16px;border:0;background:transparent;color:#f8f8f2;
   display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;text-align:left
@@ -484,7 +471,7 @@ a{text-decoration:none}
 @media(max-width:900px){
   .site-header{width:calc(100% - 24px);grid-template-columns:max-content 1fr max-content;gap:14px;padding:11px 14px}.brand-logo{width:50px;height:50px}.brand-name{font-size:22px}.top-nav{display:none}.global-search{grid-column:1/-1;grid-row:2;height:42px}.community-bar{width:calc(100% - 24px);align-items:flex-start;flex-wrap:wrap}.pinned-communities{order:3;width:100%}.community-divider-vertical{display:none}.community-tools{margin-left:auto}
   .page,.prototype-strip{padding-left:16px;padding-right:16px}
-  .pocket-hero{grid-template-columns:1fr;padding:18px}.pocket-image-wrap{max-width:520px;width:100%}
+  .pocket-hero{padding:18px}
   .pocket-identity{align-items:flex-start}.pocket-detail-row{grid-template-columns:1fr;gap:5px}
   .wall{grid-template-columns:1fr}.column{display:contents}
   .media.byte{max-width:86%}
@@ -597,7 +584,7 @@ a{text-decoration:none}
   <section class="pocket-hero">
     <div class="pocket-summary">
       <div class="pocket-identity">
-        <div class="pocket-icon-large" id="pocketIcon" title="Pocket emoji">🎃</div>
+        <div class="pocket-icon-large" id="pocketIcon" title="Pocket image or emoji"><span class="pocket-emoji" id="pocketEmoji">🎃</span><img id="pocketPhoto" alt="Pocket image" hidden></div>
 
         <div class="hero-copy">
           <div class="hero-kicker">POCKET</div>
@@ -620,11 +607,6 @@ a{text-decoration:none}
         <button class="primary" id="followPocketBtn" type="button" hidden>＋ Follow Pocket</button>
         <div class="hero-meta"><span class="count-strong" id="itemCount">4 saved posts</span><span>·</span><span id="followerCount">238 followers</span></div>
       </div>
-    </div>
-
-    <div class="pocket-image-wrap" id="pocketImageWrap">
-      <div class="cover-art" id="defaultCoverArt">🌙 🎃 ✦</div>
-      <img id="coverImage" alt="Pocket image" hidden>
     </div>
   </section>
 
@@ -836,21 +818,22 @@ function applyCreatedPocket(){
   if(!data)return;
 
   $("#pocketName").textContent=data.name||"Untitled Pocket";
-  $("#pocketIcon").textContent=data.icon||"▱";
+  $("#pocketEmoji").textContent=data.icon||"▱";
   $("#pocketDescription").textContent=data.description||"";
   { const p=data.privacyLabel||data.privacy||"Public"; $("#privacyBadge").textContent=/pocket/i.test(p)?p:`${p} Pocket`; }
   renderDetailItems($("#interestChips"),(data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),"No topics selected");
   renderDetailItems($("#hashtagChips"),(data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),"No hashtags selected");
   renderDetailItems($("#creatorChips"),(data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),"No creators selected");
 
+  const pocketPhoto=$("#pocketPhoto");
+  const pocketEmoji=$("#pocketEmoji");
   if(data.cover){
-    $("#pocketImageWrap").hidden=false;
-    $("#coverImage").src=data.cover;
-    $("#coverImage").hidden=false;
-    $("#defaultCoverArt").hidden=true;
-    $("#coverImage").style.transform=`translate(${data.coverX||0}px,${data.coverY||0}px) scale(${data.coverZoom||1})`;
+    pocketPhoto.src=data.cover;
+    pocketPhoto.hidden=false;
+    pocketEmoji.hidden=true;
   }else{
-    $("#pocketImageWrap").hidden=true;
+    pocketPhoto.hidden=true;
+    pocketEmoji.hidden=false;
   }
 
   $("#pocketWall").hidden=true;
