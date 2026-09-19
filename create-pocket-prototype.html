@@ -617,7 +617,7 @@ $("#privacyGrid").onclick=e=>{
 
 $("#nextBtn").onclick=()=>{if(validateStep())setStep(state.step+1)};
 $("#backBtn").onclick=()=>setStep(state.step-1);
-$("#cancelBtn").onclick=()=>location.href="Pocket-V1-5-Production-Cards.html";
+$("#cancelBtn").onclick=()=>location.href="pocket-page-prototype.html";
 
 function loadEdit(){
   if(new URLSearchParams(location.search).get("edit")!=="1")return;
@@ -665,7 +665,7 @@ $("#createBtn").onclick=()=>{
   };
   try{localStorage.setItem("allMediaPocketPrototypeV1",JSON.stringify(data))}catch(e){}
   const edit=new URLSearchParams(location.search).get("edit")==="1";
-  location.href=`Pocket-V1-5-Production-Cards.html?${edit?"created":"new"}=1&owner=1`;
+  location.href=`pocket-page-prototype.html?${edit?"created":"new"}=1&owner=1`;
 };
 
 try{
