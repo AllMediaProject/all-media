@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>All Media — Audit Package Builder</title>
+<style>
+  :root{
+    --bg:#101a3a;
+    --card:#182447;
+    --deep:#111b3b;
+    --peach:#ffc384;
+    --text:#f8f8f2;
+    --muted:#aeb7cb;
+    --line:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;padding:28px;
+    background:var(--bg);color:var(--text);
+    font-family:Arial,sans-serif;
+  }
+  main{
+    width:min(760px,100%);margin:0 auto;padding:24px;
+    border:1px solid rgba(255,195,132,.35);
+    border-radius:18px;background:var(--card);
+  }
+  h1{margin:0 0 8px;font-size:26px}
+  p{color:var(--muted);line-height:1.55}
+  .box{
+    margin:18px 0;padding:15px;border:1px solid var(--line);
+    border-radius:12px;background:var(--deep);
+  }
+  button{
+    width:100%;padding:14px 18px;border:1px solid var(--peach);
+    border-radius:11px;background:var(--peach);color:var(--bg);
+    font-weight:800;font-size:15px;cursor:pointer;
+  }
+  button:disabled{opacity:.55;cursor:wait}
+  #status{white-space:pre-wrap;font-family:monospace;font-size:12px;line-height:1.6}
+  .ok{color:var(--peach)}
+  code{color:var(--peach)}
+</style>
+</head>
+<body>
+<main>
+  <h1>All Media — Audit Package Builder</h1>
+  <p>
+    This pulls the current files directly from
+    <code>AllMediaProject/all-media</code> on the <code>main</code> branch,
+    adds the audit fixture loader to each affected page, and downloads one
+    upload-ready ZIP.
+  </p>
+
+  <div class="box">
+    <strong>This does not edit GitHub.</strong>
+    <p>
+      It only reads the current public files and builds a ZIP on your computer.
+      Your live site is untouched until you upload the generated replacements.
+    </p>
+  </div>
+
+  <button id="buildBtn" type="button">Build Upload-Ready ZIP</button>
+
+  <div class="box">
+    <div id="status">Ready.</div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const OWNER = "AllMediaProject";
+  const REPO = "all-media";
+  const BRANCH = "main";
+  const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+
+  const HTML_FILES = [
+    "index.html",
+    "discover.html",
+    "profile.html",
+    "community.html",
+    "manage-communities.html",
+    "create-community.html",
+    "community-notifications.html",
+    "notifications.html",
+    "pocket-page-prototype.html"
+  ];
+
+  const EXTRA_FILES = [
+    "audit-fixtures.js",
+    "README-AUDIT-FIXTURES.txt"
+  ];
+
+  const LOADER = '<script src="audit-fixtures.js"><\/script>';
+
+  const status = document.getElementById("status");
+  const button = document.getElementById("buildBtn");
+
+  function log(message){
+    status.textContent += `\n${message}`;
+  }
+
+  async function fetchText(path){
+    const url = RAW + encodeURIComponent(path).replace(/%2F/g,"/") + `?audit=${Date.now()}`;
+    const response = await fetch(url, {cache:"no-store"});
+    if(!response.ok){
+      throw new Error(`${path}: HTTP ${response.status}`);
+    }
+    return await response.text();
+  }
+
+  function wireHtml(path, text){
+    if(text.includes('src="audit-fixtures.js"') || text.includes("src='audit-fixtures.js'")){
+      return text;
+    }
+
+    const lower = text.toLowerCase();
+    const index = lower.lastIndexOf("</body>");
+
+    if(index < 0){
+      throw new Error(`${path}: could not find </body>`);
+    }
+
+    return text.slice(0,index) + "\n" + LOADER + "\n" + text.slice(index);
+  }
+
+  function utf8(text){
+    return new TextEncoder().encode(text);
+  }
+
+  function crcTable(){
+    const table = new Uint32Array(256);
+    for(let n=0;n<256;n++){
+      let c=n;
+      for(let k=0;k<8;k++){
+        c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);
+      }
+      table[n]=c>>>0;
+    }
+    return table;
+  }
+
+  const CRC_TABLE = crcTable();
+
+  function crc32(bytes){
+    let c=0xFFFFFFFF;
+    for(const b of bytes){
+      c=CRC_TABLE[(c^b)&0xFF]^(c>>>8);
+    }
+    return (c^0xFFFFFFFF)>>>0;
+  }
+
+  function u16(n){
+    return new Uint8Array([n&255,(n>>>8)&255]);
+  }
+
+  function u32(n){
+    return new Uint8Array([
+      n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255
+    ]);
+  }
+
+  function concat(parts){
+    const length=parts.reduce((sum,p)=>sum+p.length,0);
+    const out=new Uint8Array(length);
+    let offset=0;
+    for(const part of parts){
+      out.set(part,offset);
+      offset+=part.length;
+    }
+    return out;
+  }
+
+  function dosTimeDate(date=new Date()){
+    const year=Math.max(1980,date.getFullYear());
+    const time=((date.getHours()&31)<<11)|((date.getMinutes()&63)<<5)|((Math.floor(date.getSeconds()/2))&31);
+    const day=((year-1980)&127)<<9 | ((date.getMonth()+1)&15)<<5 | (date.getDate()&31);
+    return {time,date:day};
+  }
+
+  function buildZip(files){
+    const locals=[];
+    const centrals=[];
+    let offset=0;
+    const stamp=dosTimeDate();
+
+    for(const file of files){
+      const name=utf8(file.name);
+      const data=utf8(file.text);
+      const crc=crc32(data);
+
+      const local=concat([
+        u32(0x04034b50),
+        u16(20),
+        u16(0x0800),
+        u16(0),
+        u16(stamp.time),
+        u16(stamp.date),
+        u32(crc),
+        u32(data.length),
+        u32(data.length),
+        u16(name.length),
+        u16(0),
+        name,
+        data
+      ]);
+
+      locals.push(local);
+
+      const central=concat([
+        u32(0x02014b50),
+        u16(20),
+        u16(20),
+        u16(0x0800),
+        u16(0),
+        u16(stamp.time),
+        u16(stamp.date),
+        u32(crc),
+        u32(data.length),
+        u32(data.length),
+        u16(name.length),
+        u16(0),
+        u16(0),
+        u16(0),
+        u16(0),
+        u32(0),
+        u32(offset),
+        name
+      ]);
+
+      centrals.push(central);
+      offset+=local.length;
+    }
+
+    const centralData=concat(centrals);
+    const localData=concat(locals);
+
+    const end=concat([
+      u32(0x06054b50),
+      u16(0),
+      u16(0),
+      u16(files.length),
+      u16(files.length),
+      u32(centralData.length),
+      u32(localData.length),
+      u16(0)
+    ]);
+
+    return concat([localData,centralData,end]);
+  }
+
+  function download(bytes, filename){
+    const blob=new Blob([bytes],{type:"application/zip"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+
+  button.addEventListener("click", async () => {
+    button.disabled=true;
+    status.textContent="Building from current GitHub main…";
+
+    try{
+      const files=[];
+
+      for(const path of HTML_FILES){
+        log(`Fetching ${path}…`);
+        const source=await fetchText(path);
+        const wired=wireHtml(path,source);
+        files.push({name:path,text:wired});
+        log(`✓ ${path}`);
+      }
+
+      for(const path of EXTRA_FILES){
+        log(`Fetching ${path}…`);
+        const text=await fetchText(path);
+        files.push({name:path,text});
+        log(`✓ ${path}`);
+      }
+
+      const instructions = [
+        "ALL MEDIA — AUDIT READY UPLOAD",
+        "",
+        "Upload every file in this ZIP to the ROOT of:",
+        "https://github.com/AllMediaProject/all-media",
+        "",
+        "These are full replacement files built from the current main branch.",
+        "",
+        "Included:",
+        ...HTML_FILES.map(x=>"- "+x),
+        ...EXTRA_FILES.map(x=>"- "+x),
+        "",
+        "No manual HTML edits are required.",
+        "No JS rename is required.",
+        "",
+        "Expected first-load behavior:",
+        "- The first page may refresh itself ONCE so Community state reloads.",
+        "",
+        "Known audit items deliberately NOT fixed here:",
+        "- Pocket / Community buttons on Discover",
+        "- Pocket / Community buttons on Profile",
+        "- Pocket / Community buttons on Pocket pages",
+        "- Pocket / Community buttons on Community pages",
+        "",
+        "Commit message:",
+        "Prepare clean audit fixture environment",
+        ""
+      ].join("\n");
+
+      files.push({
+        name:"UPLOAD-INSTRUCTIONS.txt",
+        text:instructions
+      });
+
+      log("Creating ZIP…");
+      const zip=buildZip(files);
+      download(zip,"all-media-audit-ready-upload.zip");
+
+      log("\n✓ DONE — your upload-ready ZIP should be downloading now.");
+      status.classList.add("ok");
+    }catch(error){
+      console.error(error);
+      log(`\nERROR: ${error.message}`);
+      log("Nothing on GitHub was changed.");
+    }finally{
+      button.disabled=false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
