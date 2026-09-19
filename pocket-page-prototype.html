@@ -2231,6 +2231,7 @@ document.addEventListener("click",e=>{
   if(remove){
     e.stopPropagation();
     const entry=remove.closest(".pocket-entry");
+    removeDynamicPocketRecord(entry);
     entry?.remove();
     updateCount();
     toast("Removed from this Pocket.");
@@ -2251,7 +2252,7 @@ document.addEventListener("click",e=>{
 });
 
 function updateCount(){
-  const count=$$(".pocket-entry").length;
+  const count=$$(".pocket-entry:not([hidden])").length;
   $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
   if(!count){$("#pocketWall").hidden=true;$("#emptyPocket").hidden=false;}
 }
@@ -2373,6 +2374,199 @@ function applyCreatedPocket(){
   setView(visitorMode?"visitor":"owner");
 }
 applyCreatedPocket();
+
+
+/* =========================================================
+   POCKET INTEGRATION — SAVED POSTS FROM HOME
+   Prototype sample cards stay available when no ?pocket= is supplied.
+========================================================= */
+const POCKET_SAVED_POSTS_KEY="allMediaPocketSavedPostsV1";
+const POCKET_REGISTRY_KEY="allMediaPocketRegistryV1";
+
+function pocketIntegrationRead(key,fallback){
+  try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}
+  catch(e){return fallback}
+}
+function pocketIntegrationWrite(key,value){
+  try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}
+}
+function pocketIntegrationKey(name){
+  return String(name||"").trim().toLowerCase();
+}
+function selectedIntegratedPocketName(){
+  return new URLSearchParams(location.search).get("pocket")||"";
+}
+function removeDynamicPocketRecord(entry){
+  if(!entry?.classList.contains("dynamic-pocket-entry"))return;
+
+  const pocketName=selectedIntegratedPocketName();
+  const postId=entry.dataset.savedPostId;
+  if(!pocketName||!postId)return;
+
+  const map=pocketIntegrationRead(POCKET_SAVED_POSTS_KEY,{});
+  const key=pocketIntegrationKey(pocketName);
+  map[key]=(map[key]||[]).filter(record=>record.id!==postId);
+  pocketIntegrationWrite(POCKET_SAVED_POSTS_KEY,map);
+}
+
+function pocketIntegratedOptionsMenu(){
+  const wrap=document.createElement("div");
+  wrap.className="pocket-post-options owner-only";
+  wrap.style.cssText="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;";
+  wrap.innerHTML=`
+    <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+      style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+    <div class="pocket-post-menu" hidden
+      style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+      <button class="pocket-remove-option" type="button"
+        style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+    </div>
+  `;
+  return wrap;
+}
+
+function prepareIntegratedPocketCard(entry){
+  const post=entry.querySelector(".post");
+  if(!post)return;
+
+  post.querySelectorAll(".post-header-right,.regular-post-menu,.blog-v11-menu,.video-v11-menu,.byte-v11-menu,.post-menu-dropdown,.post-menu").forEach(el=>el.remove());
+
+  const header=post.querySelector(".post-header");
+  if(header&&!header.querySelector(".pocket-post-options")){
+    header.appendChild(pocketIntegratedOptionsMenu());
+  }
+
+  const like=post.querySelector(".regular-like-button,.blog-like-button,.video-like-button,.byte-like-button,.like-button");
+  like?.classList.add("pocket-demo-like");
+
+  post.querySelector(".more-comments")?.classList.add("pocket-demo-more-comments");
+  post.querySelector(".hashtag-link")?.classList.add("pocket-demo-hashtags");
+  post.querySelector(".comment-composer")?.classList.add("pocket-demo-comment");
+  post.querySelector(".comment-post-button")?.classList.add("pocket-demo-comment-post");
+  post.querySelector(".comment-close-button")?.classList.add("pocket-demo-comment-close");
+  post.querySelector(".hide-comments-inline")?.classList.add("pocket-demo-hide-comments");
+  post.querySelectorAll(".comment-like-button").forEach(el=>el.classList.add("pocket-demo-comment-like"));
+  post.querySelectorAll(".comment-actions .comment-action:not(.comment-like-button)").forEach(el=>el.classList.add("pocket-demo-reply"));
+
+  post.querySelectorAll(".interactions button").forEach(button=>{
+    const text=button.textContent.trim().toLowerCase();
+
+    if(text.includes("pocket")||button.classList.contains("pocket-action")){
+      button.classList.add("pocket-action","pocket-icon-only");
+      button.setAttribute("aria-label","Add to Pocket");
+      button.setAttribute("title","Add to Pocket");
+      button.querySelectorAll("span").forEach(span=>{
+        if(span.textContent.trim().toLowerCase()==="pocket")span.remove();
+      });
+    }
+
+    if(text.includes("community")||button.classList.contains("community-action")){
+      button.classList.add("community-action","pocket-icon-only");
+      button.setAttribute("aria-label","Share to Community");
+      button.setAttribute("title","Share to Community");
+      button.querySelectorAll("span").forEach(span=>{
+        if(span.textContent.trim().toLowerCase()==="community")span.remove();
+      });
+    }
+  });
+
+  post.querySelector(".comments-section")?.classList.remove("active");
+  post.querySelector(".post-hashtags")?.classList.remove("active");
+  post.querySelector(".comment-composer")?.classList.remove("active");
+  post.querySelector(".single-comment-composer")?.classList.remove("open");
+
+  const more=post.querySelector(".pocket-demo-more-comments");
+  if(more){
+    more.dataset.originalLabel=more.textContent.trim();
+    more.dataset.closedLabel=more.textContent.trim();
+  }
+}
+
+function applyIntegratedPocketMeta(name){
+  const registry=pocketIntegrationRead(POCKET_REGISTRY_KEY,{});
+  const meta=registry[pocketIntegrationKey(name)]||{name,emoji:"▱",type:"owned"};
+  const created=pocketIntegrationRead("allMediaPocketPrototypeV1",null);
+  const createdMatches=created?.name&&pocketIntegrationKey(created.name)===pocketIntegrationKey(name);
+  const data=createdMatches?created:meta;
+
+  $("#pocketName").textContent=data.name||name;
+  document.title=`${data.name||name} · Pocket | All Media`;
+
+  if(createdMatches){
+    $("#pocketDescription").textContent=data.description||"";
+    const privacy=data.privacyLabel||data.privacy||"Public";
+    $("#privacyBadge").textContent=/pocket/i.test(privacy)?privacy:`${privacy} Pocket`;
+
+    renderDetailItems(
+      $("#interestChips"),
+      (data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),
+      "No topics selected"
+    );
+    renderDetailItems(
+      $("#hashtagChips"),
+      (data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),
+      "No hashtags selected"
+    );
+    renderDetailItems(
+      $("#creatorChips"),
+      (data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),
+      "No creators selected"
+    );
+    renderPocketIdentity(data);
+  }else{
+    $("#pocketDescription").textContent="A curated Pocket on All Media.";
+    $("#privacyBadge").textContent=meta.type==="followed"?"Public Pocket":"Public Pocket";
+    renderDetailItems($("#interestChips"),[],"No topics selected");
+    renderDetailItems($("#hashtagChips"),[],"No hashtags selected");
+    renderDetailItems($("#creatorChips"),[],"No creators selected");
+    renderPocketIdentity({
+      identityType:meta.photo?"photo":"emoji",
+      photo:meta.photo||"",
+      emoji:meta.emoji||"▱"
+    });
+  }
+}
+
+function renderIntegratedPocketPosts(){
+  const name=selectedIntegratedPocketName();
+  if(!name)return;
+
+  const wall=$("#pocketWall");
+  const empty=$("#emptyPocket");
+
+  // The original four cards are design samples only. Hide them on real Pocket routes.
+  wall.querySelectorAll(".pocket-entry:not(.dynamic-pocket-entry)").forEach(entry=>{
+    entry.hidden=true;
+  });
+
+  wall.querySelectorAll(".dynamic-pocket-entry").forEach(entry=>entry.remove());
+
+  applyIntegratedPocketMeta(name);
+
+  const map=pocketIntegrationRead(POCKET_SAVED_POSTS_KEY,{});
+  const records=map[pocketIntegrationKey(name)]||[];
+
+  records.forEach(record=>{
+    const entry=document.createElement("div");
+    entry.className="pocket-entry dynamic-pocket-entry";
+    entry.dataset.savedPostId=record.id;
+    entry.innerHTML=record.html;
+    prepareIntegratedPocketCard(entry);
+    wall.appendChild(entry);
+  });
+
+  const count=records.length;
+  $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
+  wall.hidden=count===0;
+  empty.hidden=count!==0;
+  $("#collectionTitle").textContent=count?"A hand-picked little world":"Your Pocket starts empty";
+
+  const visitor=new URLSearchParams(location.search).get("visitor")==="1";
+  setView(visitor?"visitor":"owner");
+}
+
+renderIntegratedPocketPosts();
+
 
 try{
   const savedHeaderAvatar=localStorage.getItem("allMediaProfileAvatar");
