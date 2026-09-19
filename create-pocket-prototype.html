@@ -43,13 +43,129 @@ a{color:inherit;text-decoration:none}
 .notification-bell{font-size:22px}.header-notification-count{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 4px;display:grid;place-items:center;border-radius:999px;background:var(--peach);color:#101a3a;font-size:9px;font-weight:800}
 .profile-cluster{display:flex}.header-avatar{width:48px;height:48px;border:2px solid rgba(255,195,132,.88);border-radius:50%;background:linear-gradient(145deg,#53648f,#263b73);background-size:cover;background-position:center}
 
-/* Approved Community hotbar */
-.community-bar{width:calc(100% - 48px);max-width:1600px;min-height:64px;margin:8px auto 0;padding:9px 18px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#14234a,#102044);border:1px solid rgba(65,105,208,.18);border-radius:16px;box-shadow:0 10px 26px rgba(2,8,24,.25)}
-.community-label{font-size:14px;font-weight:800;white-space:nowrap}.community-label::before{content:"♧";margin-right:9px;color:var(--peach);font-size:22px;vertical-align:-2px}
-.pinned-communities{display:flex;align-items:center;gap:8px;flex:1;min-width:0;overflow-x:auto}.community-chip{flex:0 0 auto;padding:7px 12px;border:1px dashed rgba(255,180,119,.9);border-radius:999px;background:rgba(8,18,44,.32);font-size:12px;font-weight:700}
-.community-divider-vertical{width:1px;height:28px;background:rgba(65,105,208,.25)}.community-tools{display:flex;align-items:center;gap:8px}.community-menu{position:relative}.community-tool{padding:8px 13px;border:1px solid rgba(65,105,208,.48);border-radius:999px;background:rgba(8,18,44,.25);color:#dbe4fa;font-size:11px;font-weight:700}
-.community-dropdown{display:none;position:absolute;top:42px;right:0;z-index:80;width:265px;padding:8px;border:1px solid rgba(255,195,132,.28);border-radius:14px;background:#122348}.community-dropdown.active,.community-dropdown.open{display:block}
-.community-divider{width:calc(100% - 48px);max-width:1600px;height:1px;margin:8px auto 0;background:rgba(65,105,208,.13)}
+/* =========================================================
+   APPROVED COMMUNITY HOTBAR
+========================================================= */
+.community-bar{
+  position:relative;
+  z-index:50;
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:64px;
+  margin:8px auto 0;
+  padding:9px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:linear-gradient(135deg,#14234a,#102044);
+  border:1px solid rgba(65,105,208,.18);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(2,8,24,.25);
+}
+.community-label{
+  flex:0 0 auto;
+  color:var(--am-text);
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.community-label::before{
+  content:"♧";
+  margin-right:9px;
+  color:var(--am-peach);
+  font-size:22px;
+  vertical-align:-2px;
+}
+.pinned-communities{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  padding:3px 2px;
+}
+.community-chip{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 12px;
+  border:1px dashed rgba(255,180,119,.9);
+  border-radius:999px;
+  background:rgba(8,18,44,.32);
+  color:var(--am-text);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.community-chip:hover{background:rgba(255,180,119,.08)}
+.activity-bell{
+  position:relative;
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  color:var(--am-peach);
+}
+.activity-bell svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.activity-count{
+  position:absolute;
+  top:-3px;
+  right:-6px;
+  min-width:14px;
+  height:14px;
+  padding:0 3px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:8px;
+  font-weight:800;
+}
+.activity-count.hidden{display:none}
+.community-divider-vertical{
+  width:1px;
+  height:28px;
+  flex:0 0 1px;
+  background:rgba(65,105,208,.25);
+}
+.community-tools{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.community-menu{position:relative}
+.community-tool{
+  padding:8px 13px;
+  border:1px solid rgba(65,105,208,.48);
+  border-radius:999px;
+  background:rgba(8,18,44,.25);
+  color:#dbe4fa;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}
+.community-dropdown{
+  display:none;
+  position:absolute;
+  top:42px;
+  right:0;
+  z-index:80;
+  width:265px;
+  padding:8px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:14px;
+  background:#122348;
+  box-shadow:0 18px 42px rgba(0,0,0,.36);
+}
+.community-dropdown.open,.community-dropdown.active{display:block}
+.community-divider{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  height:1px;
+  margin:8px auto 0;
+  background:rgba(65,105,208,.13);
+}
+
 
 .page{max-width:980px;margin:30px auto 80px;padding:0 24px}
 .page-intro{text-align:center;margin-bottom:20px}.page-intro .kicker{color:var(--peach);font-size:10px;font-weight:900;letter-spacing:.15em}.page-intro h1{margin:6px 0 7px;font-size:31px}.page-intro p{max-width:650px;margin:0 auto;color:#9dabca;font-size:13px;line-height:1.5}
@@ -83,17 +199,55 @@ a{color:inherit;text-decoration:none}
 <div class="community-bar">
   <span class="community-label">COMMUNITIES</span>
   <div class="pinned-communities" id="homePinnedCommunities">
-    <button class="community-chip" type="button" onclick="location.href='community.html'">🎃 Spooky Cozy</button>
-    <button class="community-chip" type="button" onclick="location.href='community.html?community=artists'">🎨 Artists</button>
-    <button class="community-chip" type="button" onclick="location.href='community.html?community=turtle-rescue'">🐢 Turtle Rescue</button>
+    <button class="community-chip" type="button" onclick="location.href='community.html'">
+      <span class="community-icon">🎃</span>
+      <span class="community-chip-name">Spooky Cozy</span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=artists'">
+      <span class="community-icon">🎨</span>
+      <span class="community-chip-name">Artists</span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=turtle-rescue'">
+      <span class="community-icon">🐢</span>
+      <span class="community-chip-name">Turtle Rescue</span>
+    </button>
   </div>
   <div class="community-divider-vertical"></div>
   <div class="community-tools">
-    <div class="community-menu"><button class="community-tool" id="communityMoreButton" type="button" aria-expanded="false">▾ More</button><div class="community-dropdown" id="communityDropdown"></div></div>
+    <div class="community-menu">
+      <button class="community-tool" id="communityMoreButton" type="button" aria-expanded="false">▾ More</button>
+      <div class="community-dropdown" id="communityDropdown"></div>
+    </div>
     <button class="community-tool" id="openManageCommunitiesDrawer" type="button">Manage Communities</button>
   </div>
 </div>
 <div class="community-divider"></div>
+
+<section class="home-community-quick-popup" id="homeCommunityQuickPopup" hidden aria-live="polite">
+  <div class="home-community-quick-head">
+    <div>
+      <h2 id="homeCommunityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button class="home-community-quick-close" id="homeCommunityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="home-community-quick-list" id="homeCommunityQuickList"></div>
+  <a class="home-community-quick-footer" id="homeCommunityQuickFooter" href="community-notifications.html">View all from this Community →</a>
+</section>
+
+<div class="home-manage-drawer-layer" id="homeManageCommunitiesDrawerLayer" hidden>
+  <button class="home-manage-drawer-backdrop" id="homeManageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="home-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="home-manage-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="homeManageCommunitiesDrawerClose" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="homeManageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
+</div>
 
 <main class="page">
   <header class="page-intro">
