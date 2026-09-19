@@ -184,7 +184,104 @@ function normalizePocketButtons(root=document){
 
     return result;
   }
+function pocketSignalWords(value){
+  const words=String(value||"")
+    .toLowerCase()
+    .replace(/^#/,"")
+    .match(/[a-z0-9]+/g)||[];
 
+  const whole=words.join("");
+
+  return [...new Set(
+    [...words,whole].filter(Boolean)
+  )];
+}
+
+function pocketHashtagSignal(value){
+  return String(value||"")
+    .toLowerCase()
+    .replace(/^#/,"")
+    .replace(/[^a-z0-9]+/g,"");
+}
+
+function postPocketMatchData(post){
+  const topics=new Set();
+  const hashtags=new Set();
+
+  $$(".topic",post).forEach(el=>{
+    pocketSignalWords(el.textContent)
+      .forEach(signal=>topics.add(signal));
+  });
+
+  $$(".post-hashtags .post-hashtag",post)
+    .forEach(el=>{
+      const signal=
+        pocketHashtagSignal(el.textContent);
+
+      if(signal){
+        hashtags.add(signal);
+      }
+    });
+
+  return {topics,hashtags};
+}
+
+function pocketMatchData(pocket){
+  const registry=
+    readJSON(REGISTRY_KEY,{});
+
+  const meta=
+    registry[key(pocket.name)]||{};
+
+  const topics=new Set();
+  const hashtags=new Set();
+
+  // Fallback for older prototype Pockets that
+  // don't have saved Topic metadata yet.
+  pocketSignalWords(pocket.name)
+    .forEach(signal=>topics.add(signal));
+
+  (meta.interests||[]).forEach(item=>{
+    const value=
+      typeof item==="string"
+        ? item
+        : item?.name;
+
+    pocketSignalWords(value)
+      .forEach(signal=>topics.add(signal));
+  });
+
+  (meta.hashtags||[]).forEach(tag=>{
+    const signal=
+      pocketHashtagSignal(tag);
+
+    if(signal){
+      hashtags.add(signal);
+    }
+  });
+
+  return {topics,hashtags};
+}
+
+function pocketMatchesPost(pocket,post){
+  const postData=
+    postPocketMatchData(post);
+
+  const pocketData=
+    pocketMatchData(pocket);
+
+  const topicMatch=
+    [...postData.topics].some(
+      signal=>pocketData.topics.has(signal)
+    );
+
+  const hashtagMatch=
+    [...postData.hashtags].some(
+      signal=>pocketData.hashtags.has(signal)
+    );
+
+  return topicMatch||hashtagMatch;
+}
   function ensureStyles(){
     if($("#pocketChooserStyles"))return;
 
@@ -259,7 +356,25 @@ function normalizePocketButtons(root=document){
 .am-pocket-list::-webkit-scrollbar-thumb:hover{
   background:rgba(255,195,132,.48);
 }
+.am-pocket-show-all{
+  width:100%;
+  margin-top:7px;
+  padding:7px 8px;
+  border:0;
+  background:transparent;
+  color:#9aa7c2;
+  font:700 9px 'Outfit',sans-serif;
+  text-align:left;
+  cursor:pointer;
+}
 
+.am-pocket-show-all:hover{
+  color:#ffc384;
+}
+
+.am-pocket-show-all[hidden]{
+  display:none!important;
+}
       .am-pocket-choice{
         width:100%;
         min-height:42px;
@@ -365,9 +480,13 @@ function normalizePocketButtons(root=document){
 
       <div class="am-pocket-list"></div>
 
-      
+<button
+  class="am-pocket-show-all"
+  type="button"
+  hidden
+>Show all Pockets</button>
 
-      <div class="am-pocket-note"></div>
+<div class="am-pocket-note"></div>
     `;
 
     document.body.appendChild(panel);
@@ -415,144 +534,122 @@ function normalizePocketButtons(root=document){
   }
 
   function openChooser(button){
-    ensureStyles();
+  ensureStyles();
 
-    const post=button.closest(".feed .post");
+  const post=
+    button.closest(".feed .post");
 
-    if(!post)return;
+  if(!post)return;
 
-    const panel=chooser();
-    const list=$(".am-pocket-list",panel);
-    const pockets=ownedPockets();
-
-    panel._post=post;
-
-    $(".am-pocket-note",panel).textContent="";
-
-    if(!pockets.length){
-      list.innerHTML=
-        '<div style="padding:12px 8px;color:#8995af;font-size:10px;text-align:center">Create a Pocket first.</div>';
-    }else{
-      list.innerHTML=pockets.map(p=>{
-
-        const selected=isInPocket(p.name,post);
-
-        return `
-          <button
-            class="am-pocket-choice${selected?" selected":""}"
-            type="button"
-            data-name="${p.name.replace(/"/g,"&quot;")}"
-          >
-            <span class="am-pocket-icon">${p.emoji}</span>
-            <span>${p.name}</span>
-            <span class="am-pocket-check">${selected?"✓":""}</span>
-          </button>
-        `;
-      }).join("");
-    }
-
-    panel.hidden=false;
-
-    const r=button.getBoundingClientRect();
-
-    const w=panel.offsetWidth||290;
-    const h=panel.offsetHeight||250;
-    const pad=10;
-
-    let left=Math.min(
-      window.innerWidth-w-pad,
-      Math.max(pad,r.left)
-    );
-
-    let top=r.bottom+7;
-
-    if(top+h>window.innerHeight-pad){
-      top=Math.max(
-        pad,
-        r.top-h-7
-      );
-    }
-
-    panel.style.left=`${left}px`;
-    panel.style.top=`${top}px`;
+  try{
+    syncRegistry();
+  }catch(e){
+    console.error(e);
   }
 
-  function pocketUrl(item){
-    const name=
-      item.dataset.pocketName||
-      $(".pocket-name",item)?.textContent?.trim()||
-      "Pocket";
+  const panel=chooser();
+  const list=
+    $(".am-pocket-list",panel);
 
-    const q=new URLSearchParams({
-      pocket:name
-    });
+  const showAll=
+    $(".am-pocket-show-all",panel);
 
-    q.set(
-      item.dataset.pocketType==="followed"
-        ?"visitor"
-        :"owner",
-      "1"
-    );
+  const pockets=
+    ownedPockets();
 
-    if(item.dataset.pocketIntegrated==="true"){
-      q.set("created","1");
-    }
+  panel._post=post;
 
-    return `${POCKET_PAGE}?${q.toString()}`;
-  }
+  $(".am-pocket-note",panel)
+    .textContent="";
 
-  function syncCreatedPocket(){
-    const data=readJSON(CREATED_KEY,null);
-    const list=$("#yourPocketList");
+  function renderChoices(items){
+    list.innerHTML=items.map(p=>{
 
-    if(!data?.name||!list)return;
+      const selected=
+        isInPocket(p.name,post);
 
-    let item=
-      list.querySelector(
-        '[data-pocket-integrated="true"]'
-      );
-
-    if(!item){
-      item=document.createElement("div");
-
-      item.className="pocket-item";
-      item.dataset.pocketType="owned";
-      item.dataset.pocketIntegrated="true";
-
-      item.innerHTML=`
-        <span class="pocket-label">
-          <span class="pocket-icon"></span>
-          <span class="pocket-name"></span>
-        </span>
-
+      return `
         <button
-          class="pocket-star"
+          class="am-pocket-choice${selected?" selected":""}"
           type="button"
-          title="Add to favorites"
-        >☆</button>
+          data-name="${p.name.replace(/"/g,"&quot;")}"
+        >
+          <span class="am-pocket-icon">${p.emoji}</span>
+          <span>${p.name}</span>
+          <span class="am-pocket-check">${selected?"✓":""}</span>
+        </button>
       `;
-
-      list.prepend(item);
-
-      $(".pocket-star",item).onclick=e=>{
-        e.stopPropagation();
-
-        window.togglePocketFavorite?.(
-          e.currentTarget
-        );
-      };
-    }
-
-    item.dataset.pocketName=data.name;
-
-    $(".pocket-name",item).textContent=
-      data.name;
-
-    $(".pocket-icon",item).textContent=
-      data.emoji||
-      data.icon||
-      "▱";
+    }).join("");
   }
+
+  if(!pockets.length){
+    list.innerHTML=
+      '<div style="padding:12px 8px;color:#8995af;font-size:10px;text-align:center">You do not have any Pockets yet.</div>';
+
+    showAll.hidden=true;
+  }else{
+    const matches=
+      pockets.filter(
+        pocket=>pocketMatchesPost(pocket,post)
+      );
+
+    if(
+      matches.length &&
+      matches.length<pockets.length
+    ){
+      renderChoices(matches);
+
+      showAll.hidden=false;
+
+      showAll.textContent=
+        `Show all Pockets (${pockets.length})`;
+
+      showAll.onclick=()=>{
+        renderChoices(pockets);
+        showAll.hidden=true;
+      };
+    }else{
+      // If every Pocket matches OR nothing matches,
+      // simply show the complete list.
+      renderChoices(pockets);
+
+      showAll.hidden=true;
+    }
+  }
+
+  panel.hidden=false;
+
+  const r=
+    button.getBoundingClientRect();
+
+  const w=
+    panel.offsetWidth||290;
+
+  const h=
+    panel.offsetHeight||250;
+
+  const pad=10;
+
+  let left=Math.min(
+    window.innerWidth-w-pad,
+    Math.max(pad,r.left)
+  );
+
+  let top=r.bottom+7;
+
+  if(
+    top+h >
+    window.innerHeight-pad
+  ){
+    top=Math.max(
+      pad,
+      r.top-h-7
+    );
+  }
+
+  panel.style.left=`${left}px`;
+  panel.style.top=`${top}px`;
+}
 
   function syncRegistry(){
     const registry={};
