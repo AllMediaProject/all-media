@@ -436,28 +436,6 @@ a{text-decoration:none}
   gap:6px;
   margin:0;
 }
-.pocket-entry-meta{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  min-width:0;
-  padding:0 4px 2px;
-  color:#8793ad;
-  font-size:7.5px;
-  line-height:1.25;
-}
-.pocket-entry-meta span{min-width:0}
-.pocket-entry-meta strong{color:#b9c4de;font-weight:700}
-.remove-link{
-  flex:0 0 auto;
-  border:0;
-  background:transparent;
-  color:#f2aaa4;
-  font-size:7.5px;
-  font-weight:800;
-  cursor:pointer;
-}
 .pocket-entry .post{
   width:100%!important;
   min-width:0!important;
@@ -805,10 +783,6 @@ a{text-decoration:none}
   .pocket-feed{grid-template-columns:1fr}
   .pocket-entry .post{padding:15px!important}
 }
-  .pocket-entry{margin-bottom:14px}
-  .pocket-entry .post{padding:16px!important}
-}
-
 @media(max-width:900px){
   .site-header{width:calc(100% - 24px);grid-template-columns:max-content 1fr max-content;gap:14px;padding:11px 14px}.brand-logo{width:50px;height:50px}.brand-name{font-size:22px}.top-nav{display:none}.global-search{grid-column:1/-1;grid-row:2;height:42px}.community-bar{width:calc(100% - 24px);align-items:flex-start;flex-wrap:wrap}.pinned-communities{order:3;width:100%}.community-divider-vertical{display:none}.community-tools{margin-left:auto}
   .page,.prototype-strip{padding-left:16px;padding-right:16px}
@@ -1326,6 +1300,7 @@ a{text-decoration:none}
   height:2px!important;
 }
 
+
 </style>
 </head>
 <body>
@@ -1530,11 +1505,7 @@ a{text-decoration:none}
   <section class="feed pocket-feed" id="pocketWall">
 
     <div class="pocket-entry">
-      <div class="pocket-entry-meta">
-        <span><strong>Added to this Pocket</strong> · 3d ago</span>
-        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
-      </div>
-      <article class="post regular-post">
+<article class="post regular-post">
         <header class="post-header">
           <a class="profile-picture" href="profile.html?user=moonlitmoth" aria-label="Open @moonlitmoth profile">m</a>
           <div class="post-author-copy">
@@ -1548,6 +1519,16 @@ a{text-decoration:none}
               <a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a>
             </div>
           </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
         </header>
 
         <div class="post-image crop-fit">
@@ -1648,11 +1629,7 @@ a{text-decoration:none}
     </div>
 
     <div class="pocket-entry">
-      <div class="pocket-entry-meta">
-        <span><strong>Added to this Pocket</strong> · 5d ago</span>
-        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
-      </div>
-      <article class="post blog-post blog-post-v11 sample-post">
+<article class="post blog-post blog-post-v11 sample-post">
         <header class="post-header">
           <a class="profile-picture" href="profile.html?user=paperlantern" aria-label="Open @paperlantern profile">p</a>
           <div class="post-author-copy">
@@ -1666,6 +1643,16 @@ a{text-decoration:none}
               <a class="post-community" href="community.html?community=book-club">· in 📚 Book Club</a>
             </div>
           </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
         </header>
 
         <h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>Why I Keep a Tiny Autumn Sketchbook</h2>
@@ -1754,17 +1741,23 @@ a{text-decoration:none}
     </div>
 
     <div class="pocket-entry">
-      <div class="pocket-entry-meta">
-        <span><strong>Added to this Pocket</strong> · 2w ago</span>
-        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
-      </div>
-      <article class="post video-post-v11 sample-post" data-post-type="video">
+<article class="post video-post-v11 sample-post" data-post-type="video">
         <header class="post-header">
           <a class="profile-picture" href="profile.html?user=ravenandruins" aria-label="Open @ravenandruins profile">r</a>
           <div class="post-author-copy">
             <div class="post-author-line"><a class="username" href="profile.html?user=ravenandruins">@ravenandruins</a><span class="post-time">· 2h ago</span><span class="post-type-bubble">VIDEO</span></div>
             <div class="post-meta-line"><span class="topic">🎨 Art</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
           </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
         </header>
         <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
         <div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
@@ -1868,11 +1861,7 @@ a{text-decoration:none}
     </div>
 
     <div class="pocket-entry">
-      <div class="pocket-entry-meta">
-        <span><strong>Added to this Pocket</strong> · 1w ago</span>
-        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
-      </div>
-      <article class="post byte-post-v11 sample-post" data-post-type="byte">
+<article class="post byte-post-v11 sample-post" data-post-type="byte">
         <div class="byte-stage">
           <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
             <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
@@ -1895,6 +1884,16 @@ a{text-decoration:none}
             <div class="post-author-line"><a class="username" href="profile.html?user=cozycryptid">@cozycryptid</a><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div>
             <div class="post-meta-line"><span class="topic">🎃 Halloween</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
           </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
         </header>
         <p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
         <div class="interactions">
@@ -2020,13 +2019,6 @@ $("#followPocketBtn").onclick=function(){
 $("#editPocketBtn").onclick=()=>location.href="create-pocket-prototype.html?edit=1";
 
 document.addEventListener("click",e=>{
-  const remove=e.target.closest(".remove-link");
-  if(remove){
-    remove.closest(".pocket-entry")?.remove();
-    updateCount();
-    toast("Removed from this Pocket.");
-    return;
-  }
 
   const more=e.target.closest(".more-detail-btn");
   if(more){
@@ -2199,6 +2191,63 @@ document.addEventListener("click",e=>{
 $$(".pocket-demo-more-comments").forEach(btn=>{
   btn.dataset.originalLabel=btn.textContent.trim();
   btn.dataset.closedLabel=btn.textContent.trim();
+});
+
+
+
+// Pocket-card options menu — self-contained so page CSS cannot expose it accidentally.
+document.addEventListener("click",e=>{
+  const menuButton=e.target.closest(".pocket-post-menu-button");
+
+  if(menuButton){
+    e.stopPropagation();
+    const options=menuButton.closest(".pocket-post-options");
+    const menu=options?.querySelector(".pocket-post-menu");
+    if(!menu)return;
+
+    const shouldOpen=menu.hidden;
+
+    $$(".pocket-post-menu").forEach(other=>{
+      other.hidden=true;
+      other.style.display="none";
+    });
+    $$(".pocket-post-menu-button").forEach(other=>{
+      other.setAttribute("aria-expanded","false");
+      other.style.background="rgba(255,255,255,.04)";
+      other.style.color="rgba(255,255,255,.48)";
+    });
+
+    if(shouldOpen){
+      menu.hidden=false;
+      menu.style.display="block";
+      menuButton.setAttribute("aria-expanded","true");
+      menuButton.style.background="rgba(255,207,159,.08)";
+      menuButton.style.color="#ffcf9f";
+    }
+    return;
+  }
+
+  const remove=e.target.closest(".pocket-remove-option");
+  if(remove){
+    e.stopPropagation();
+    const entry=remove.closest(".pocket-entry");
+    entry?.remove();
+    updateCount();
+    toast("Removed from this Pocket.");
+    return;
+  }
+
+  if(!e.target.closest(".pocket-post-options")){
+    $$(".pocket-post-menu").forEach(menu=>{
+      menu.hidden=true;
+      menu.style.display="none";
+    });
+    $$(".pocket-post-menu-button").forEach(button=>{
+      button.setAttribute("aria-expanded","false");
+      button.style.background="rgba(255,255,255,.04)";
+      button.style.color="rgba(255,255,255,.48)";
+    });
+  }
 });
 
 function updateCount(){
