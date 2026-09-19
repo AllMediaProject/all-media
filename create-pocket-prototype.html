@@ -186,6 +186,36 @@ a{color:inherit;text-decoration:none}
 .form-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;padding-top:17px;border-top:1px solid rgba(255,255,255,.065)}.right-actions{display:flex;gap:8px}.validation{min-height:16px;margin-top:10px;color:var(--danger);font-size:9px;font-weight:700}
 @media(max-width:900px){.site-header{width:calc(100% - 24px);grid-template-columns:max-content 1fr max-content;gap:14px;padding:11px 14px}.brand-logo{width:50px;height:50px}.brand-name{font-size:22px}.top-nav{display:none}.global-search{grid-column:1/-1;grid-row:2;height:42px}.community-bar{width:calc(100% - 24px);flex-wrap:wrap}.pinned-communities{order:3;width:100%}.community-divider-vertical{display:none}.community-tools{margin-left:auto}}
 @media(max-width:700px){.page{padding:0 14px}.steps{grid-template-columns:1fr 1fr}.identity-switch,.privacy-grid{grid-template-columns:1fr}.emoji-row,.review-identity{grid-template-columns:1fr}.identity-preview,.review-icon{margin:auto}}
+
+.hashtag-recommendations{
+  margin-top:10px;
+  padding:11px;
+  border:1px dashed rgba(255,195,132,.30);
+  border-radius:12px;
+  background:rgba(255,195,132,.025);
+}
+.hashtag-recommendations[hidden]{display:none}
+.hashtag-recommendation-label{
+  margin:0 0 8px;
+  color:#8f9dbd;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.03em;
+}
+.hashtag-recommendations .choice-pill{
+  border-color:rgba(255,195,132,.22);
+}
+.hashtag-recommendations .choice-pill:hover{
+  border-color:rgba(255,195,132,.60);
+  background:rgba(255,195,132,.08);
+  color:var(--peach);
+}
+.hashtag-recommendations .choice-pill.selected{
+  border-color:var(--peach);
+  background:rgba(255,195,132,.10);
+  color:var(--peach);
+}
+
 </style>
 </head>
 <body>
@@ -323,10 +353,16 @@ a{color:inherit;text-decoration:none}
 
       <div class="section-title-row"><h3>Hashtags</h3><span>No limit</span></div>
       <div class="hashtag-add">
-        <input class="input" id="hashtagInput" placeholder="#spookyart">
+        <input class="input" id="hashtagInput" placeholder="Search or add a hashtag…">
         <button class="small-btn" id="addHashtagBtn" type="button">Add hashtag</button>
       </div>
-      <div class="helper">Type a hashtag and press Enter or Add hashtag.</div>
+      <div class="helper">Start typing to see recommended hashtags, or add your own.</div>
+
+      <div class="hashtag-recommendations" id="hashtagRecommendations" hidden>
+        <div class="hashtag-recommendation-label">Recommended hashtags</div>
+        <div class="pill-list" id="hashtagRecommendationChoices"></div>
+      </div>
+
       <div class="selected-row empty" id="selectedHashtags"></div>
 
       <div class="section-title-row"><h3>Creators</h3><span>No limit</span></div>
@@ -386,6 +422,53 @@ const state={
   interests:[],hashtags:[],creators:[],privacy:"public",privacyLabel:"Public"
 };
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+
+const hashtagCatalog=[
+  "#halloween","#halloweenart","#halloweendecor","#halloweenvibes","#halloweenaesthetic",
+  "#halloweencrochet","#halloweenartist","#halloweenhome","#halloweencrafts","#halloween2026",
+  "#spooky","#spookyart","#spookycozy","#spookyseason","#spookyaesthetic","#spookydecor",
+  "#cozy","#cozyart","#cozyhome","#cozyvibes","#cozyaesthetic",
+  "#autumn","#autumnart","#autumnvibes","#autumnaesthetic","#fallart","#fallvibes",
+  "#darkacademia","#gothic","#gothicart","#gothichome","#haunted","#hauntedhouse",
+  "#witchy","#witchyart","#witchyvibes","#witchcore","#moonart","#moonlight",
+  "#crochet","#crochetart","#crochetlove","#crochetpattern","#crochetcommunity",
+  "#illustration","#illustrationart","#digitalart","#traditionalart","#artistsonsocial",
+  "#books","#bookart","#bookish","#booklover","#bookcommunity",
+  "#nature","#natureart","#forest","#forestcore","#gardening","#gardenlife",
+  "#photography","#artphotography","#creativeprocess","#sketchbook","#smallartist",
+  "#pumpkin","#pumpkinart","#pumpkinseason","#blackcat","#ghost","#ghostart",
+  "#cottagecore","#cottageart","#whimsical","#whimsicalart","#fantasyart"
+];
+
+function renderHashtagRecommendations(query=""){
+  const panel=$("#hashtagRecommendations");
+  const choices=$("#hashtagRecommendationChoices");
+  const clean=query.trim().replace(/^#/,"").toLowerCase();
+
+  if(!clean){
+    panel.hidden=true;
+    choices.innerHTML="";
+    return;
+  }
+
+  const matches=hashtagCatalog.filter(tag=>{
+    const normalized=tag.slice(1).toLowerCase();
+    return normalized.includes(clean);
+  });
+
+  if(!matches.length){
+    panel.hidden=true;
+    choices.innerHTML="";
+    return;
+  }
+
+  panel.hidden=false;
+  choices.innerHTML=matches.map(tag=>{
+    const selected=state.hashtags.some(x=>x.toLowerCase()===tag.toLowerCase());
+    return `<button class="choice-pill ${selected?"selected":""}" type="button" data-recommended-hashtag="${tag}">${tag}</button>`;
+  }).join("");
+}
 
 function normalizeHashtag(value){
   let tag=value.trim().replace(/\s+/g,"");
@@ -499,19 +582,31 @@ $("#creatorChoices").onclick=e=>{
   i>=0?state.creators.splice(i,1):state.creators.push(item);
   renderCreatorChoices($("#creatorSearch").value);renderSelected();
 };
-function addHashtag(){
-  const tag=normalizeHashtag($("#hashtagInput").value);
+function addHashtag(value=$("#hashtagInput").value){
+  const tag=normalizeHashtag(value);
   if(!tag)return;
   if(!state.hashtags.some(x=>x.toLowerCase()===tag.toLowerCase()))state.hashtags.push(tag);
   $("#hashtagInput").value="";
   renderSelected();
+  renderHashtagRecommendations("");
 }
-$("#addHashtagBtn").onclick=addHashtag;
-$("#hashtagInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();addHashtag()}});
+$("#addHashtagBtn").onclick=()=>addHashtag();
+$("#hashtagInput").addEventListener("input",e=>renderHashtagRecommendations(e.target.value));
+$("#hashtagInput").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    e.preventDefault();
+    addHashtag();
+  }
+});
+$("#hashtagRecommendationChoices").onclick=e=>{
+  const b=e.target.closest("[data-recommended-hashtag]");
+  if(!b)return;
+  addHashtag(b.dataset.recommendedHashtag);
+};
 
 document.addEventListener("click",e=>{
   const ri=e.target.closest("[data-remove-interest]");if(ri){state.interests=state.interests.filter(x=>x.name!==ri.dataset.removeInterest);renderInterestChoices($("#interestSearch").value);renderSelected()}
-  const rh=e.target.closest("[data-remove-hashtag]");if(rh){state.hashtags=state.hashtags.filter(x=>x!==rh.dataset.removeHashtag);renderSelected()}
+  const rh=e.target.closest("[data-remove-hashtag]");if(rh){state.hashtags=state.hashtags.filter(x=>x!==rh.dataset.removeHashtag);renderSelected();renderHashtagRecommendations($("#hashtagInput").value)}
   const rc=e.target.closest("[data-remove-creator]");if(rc){state.creators=state.creators.filter(x=>x.handle!==rc.dataset.removeCreator);renderCreatorChoices($("#creatorSearch").value);renderSelected()}
 });
 $("#privacyGrid").onclick=e=>{
@@ -557,7 +652,7 @@ function loadEdit(){
   $$(".privacy-card").forEach(c=>c.classList.toggle("selected",c.dataset.privacy===state.privacy));
   $("#createBtn").textContent="Save Pocket";
 }
-renderInterestChoices();renderCreatorChoices();renderSelected();syncBasic();loadEdit();
+renderInterestChoices();renderCreatorChoices();renderSelected();renderHashtagRecommendations("");syncBasic();loadEdit();
 
 $("#createBtn").onclick=()=>{
   syncBasic();
