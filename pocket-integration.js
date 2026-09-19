@@ -513,10 +513,11 @@
   syncAllPocketActions();
 
   document.addEventListener("click",event=>{
-    const pocketButton=event.target.closest(".feed .post .pocket-action");
+    const pocketButton=event.target.closest?.(".feed .post .pocket-action");
     if(pocketButton){
       event.preventDefault();
       event.stopPropagation();
+      event.stopImmediatePropagation();
       openChooser(pocketButton);
       return;
     }
@@ -544,7 +545,7 @@
     if(panel && !panel.hidden && !event.target.closest("#amPocketChooser")){
       closeChooser();
     }
-  });
+  },true);
 
   window.addEventListener("resize",closeChooser);
   window.addEventListener("scroll",closeChooser,true);
