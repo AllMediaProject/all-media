@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<title>Tiny Haunted Art · Pocket | All Media</title>
+<style>
+:root{
+  --bg:#101a3a;
+  --card:#182447;
+  --card2:#14264f;
+  --panel:#102143;
+  --peach:#ffc384;
+  --peach2:#ffb477;
+  --text:#f8f8f2;
+  --muted:#aeb9d3;
+  --muted2:#8793ad;
+  --blue:#3e5faa;
+  --line:rgba(255,255,255,.085);
+  --shadow:0 18px 48px rgba(2,8,24,.34);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% -10%,rgba(73,102,185,.17),transparent 34rem),
+    radial-gradient(circle at 82% 20%,rgba(255,195,132,.055),transparent 26rem),
+    var(--bg);
+  color:var(--text);
+  font-family:'Outfit',system-ui,sans-serif;
+}
+button,input{font:inherit}
+button,a{color:inherit}
+a{text-decoration:none}
+.site-header{
+  height:72px;
+  display:grid;
+  grid-template-columns:auto auto minmax(260px,520px) auto;
+  align-items:center;
+  gap:25px;
+  padding:0 34px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(16,26,58,.96);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(14px);
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.055em}
+.logo-mark{
+  width:38px;height:38px;border:2px solid #fff;border-radius:44% 44% 49% 49%;
+  position:relative;background:#20325d;box-shadow:inset 0 -8px 0 rgba(255,195,132,.12)
+}
+.logo-mark:before{content:"★";position:absolute;inset:0;display:grid;place-items:center;color:var(--peach);font-size:18px;transform:rotate(-8deg)}
+.logo-mark:after{content:"";position:absolute;left:7px;right:7px;top:10px;border-top:2px dashed rgba(255,255,255,.7)}
+.brand span span{font-weight:500}
+.top-nav{display:flex;align-items:center;gap:18px}
+.top-nav a{color:#cbd5ec;font-size:14px;font-weight:700}
+.top-nav a:hover{color:var(--peach)}
+.search{
+  height:40px;display:flex;align-items:center;gap:9px;padding:0 14px;border-radius:999px;
+  background:#0e1836;border:1px solid rgba(88,116,186,.38)
+}
+.search svg{width:18px;fill:none;stroke:#9fafcf;stroke-width:2}
+.search input{width:100%;border:0;outline:0;background:transparent;color:#fff}
+.header-actions{display:flex;align-items:center;gap:10px}
+.header-round{
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,195,132,.55);
+  background:#152447;display:grid;place-items:center;cursor:pointer
+}
+.header-avatar{font-weight:900;color:var(--peach)}
+.community-hotbar{
+  min-height:52px;display:flex;align-items:center;gap:8px;padding:8px 34px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(12,22,50,.72)
+}
+.hot-label{font-size:9px;font-weight:800;color:#8191b4;letter-spacing:.11em;margin-right:4px}
+.community-chip{
+  display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid rgba(73,105,186,.36);
+  border-radius:999px;background:#14264c;color:#dbe3f5;font-size:11px;font-weight:700
+}
+.community-chip .bell{color:var(--peach);font-size:10px}
+.more-chip{margin-left:auto;color:var(--peach)}
+.prototype-strip{
+  max-width:1440px;margin:18px auto 0;padding:0 28px;display:flex;justify-content:flex-end
+}
+.prototype-control{
+  display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:11px;
+  border:1px dashed rgba(255,195,132,.35);background:rgba(255,195,132,.035);
+  color:var(--muted);font-size:10px
+}
+.prototype-control strong{color:var(--peach);letter-spacing:.07em}
+.prototype-control button{
+  border:1px solid rgba(255,255,255,.1);background:#132348;color:#cbd5ec;
+  border-radius:999px;padding:6px 9px;font-size:10px;font-weight:800;cursor:pointer
+}
+.prototype-control button.active{background:var(--peach);color:#112044;border-color:var(--peach)}
+.page{
+  max-width:1440px;
+  margin:14px auto 70px;
+  padding:0 28px;
+}
+.pocket-hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(240px,340px);
+  gap:28px;
+  align-items:center;
+  padding:24px;
+  border:1px solid rgba(255,195,132,.22);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(23,42,84,.92),rgba(17,33,67,.94));
+  box-shadow:0 14px 36px rgba(2,8,24,.22);
+}
+.pocket-summary{min-width:0}
+.pocket-identity{display:flex;align-items:flex-start;gap:18px}
+.pocket-icon-large{
+  width:86px;height:86px;flex:0 0 86px;
+  display:grid;place-items:center;border-radius:20px;
+  border:1px solid rgba(255,195,132,.72);
+  background:#172a54;font-size:42px;
+  box-shadow:0 10px 22px rgba(0,0,0,.20)
+}
+.hero-copy{min-width:0;padding-top:2px}
+.hero-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.14em}
+.hero-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hero-title-row h1{margin:3px 0 4px;font-size:31px;line-height:1.05}
+.creator-line{display:flex;align-items:center;gap:7px;margin-top:7px;color:#aeb9d3;font-size:12px}
+.creator-line a{color:#f8f8f2;font-weight:800}
+.creator-avatar{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  border:1px solid rgba(255,195,132,.75);background:linear-gradient(145deg,#607bb8,#2e477f);
+  color:#fff;font-size:10px;font-weight:900
+}
+.creator-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-description{max-width:720px;margin:10px 0 0;color:#c7d0e5;font-size:14px;line-height:1.5}
+.hero-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.privacy-badge{
+  min-height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 12px;border-radius:999px;
+  border:1px solid rgba(255,195,132,.28);color:#e4e9f4;background:#102143;font-size:10px;font-weight:800
+}
+.hero-meta{color:#aab5cf;font-size:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-meta .count-strong{color:#f2f4fa;font-weight:800}
+.primary,.secondary{
+  min-height:38px;padding:0 14px;border-radius:11px;font-weight:850;font-size:11px;cursor:pointer
+}
+.primary{border:1px solid var(--peach);background:var(--peach);color:#112044}
+.secondary{border:1px solid rgba(255,195,132,.36);background:#13264d;color:#f7f7f3}
+.secondary:hover{border-color:rgba(255,195,132,.75)}
+.pocket-image-wrap{
+  min-height:150px;aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:16px;
+  border:1px solid rgba(255,195,132,.34);background:linear-gradient(145deg,#101d3d,#23365f);
+  box-shadow:0 10px 24px rgba(0,0,0,.18)
+}
+.pocket-image-wrap[hidden]{display:none}
+.pocket-image-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover-art{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 28% 40%,rgba(255,195,132,.22),transparent 22%),
+    radial-gradient(circle at 70% 65%,rgba(98,118,197,.28),transparent 28%),
+    linear-gradient(125deg,#172b54,#0f1e3f 58%,#243860);
+  font-size:54px;letter-spacing:10px
+}
+.pocket-details{margin-top:14px;border:1px solid rgba(255,195,132,.26);border-radius:16px;background:rgba(19,36,72,.76);overflow:hidden}
+.pocket-details-toggle{
+  width:100%;min-height:50px;padding:0 16px;border:0;background:transparent;color:#f8f8f2;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;text-align:left
+}
+.pocket-details-toggle:hover{background:rgba(255,195,132,.035)}
+.pocket-details-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900}
+.pocket-details-title .tag-icon{color:var(--peach);font-size:15px}
+.pocket-details-state{display:flex;align-items:center;gap:9px;color:#b7c2db;font-size:10px;font-weight:800}
+.pocket-details-chevron{display:inline-block;color:var(--peach);font-size:16px;transition:transform .18s ease}
+.pocket-details.open .pocket-details-chevron{transform:rotate(180deg)}
+.pocket-details-panel{padding:3px 16px 16px;border-top:1px solid rgba(255,255,255,.055)}
+.pocket-detail-row{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;align-items:start;padding-top:12px}
+.pocket-detail-label{display:flex;align-items:center;gap:7px;color:#d6ddec;font-size:10px;font-weight:800;padding-top:6px}
+.pocket-detail-label .row-icon{width:18px;color:var(--peach);font-size:15px;text-align:center}
+.detail-values{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.chip{
+  padding:7px 10px;border:1px solid rgba(93,126,208,.28);border-radius:999px;
+  background:#101f40;color:#d8e0f2;font-size:10px;font-weight:750
+}
+.creator-chip{display:flex;align-items:center;gap:6px}
+.creator-dot{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#314a83;border:1px solid rgba(255,195,132,.45);color:#fff;font-size:8px;font-weight:900}
+.detail-extra{display:none}
+.detail-values.expanded .detail-extra{display:inline-flex}
+.more-detail-btn{
+  min-height:31px;padding:0 10px;border:1px solid rgba(255,195,132,.34);border-radius:999px;
+  background:#102143;color:#ffd3a5;font-size:9px;font-weight:850;cursor:pointer
+}
+.more-detail-btn[hidden]{display:none}
+.collection-head{
+  margin:28px 2px 14px;display:flex;align-items:end;justify-content:space-between;gap:16px
+}
+.collection-head h2{margin:3px 0 0;font-size:21px}
+.collection-head p{margin:0;color:#8793ad;font-size:10px}
+.collection-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.13em}
+.wall{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.column{display:flex;flex-direction:column;gap:18px}
+.curated-card{
+  border:1px solid rgba(71,100,177,.26);border-radius:17px;background:var(--card);
+  box-shadow:0 14px 30px rgba(2,8,24,.18);overflow:hidden
+}
+.curated-note{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.055);
+  background:rgba(255,195,132,.035);color:#8e9bbc;font-size:9px
+}
+.curated-note strong{color:#b9c4de;font-weight:700}
+.remove-link{border:0;background:transparent;color:#f2aaa4;font-size:9px;font-weight:800;cursor:pointer}
+.post-header{display:flex;gap:10px;padding:14px 15px 8px;align-items:flex-start}
+.profile-picture{
+  width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(255,195,132,.55);background:linear-gradient(145deg,#607bb8,#2e477f);
+  font-size:12px;font-weight:900
+}
+.post-author-copy{min-width:0;flex:1}
+.post-author-line{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.username{font-weight:850;font-size:11px}
+.post-time{color:#7f8eaf;font-size:9px}
+.post-type{margin-left:auto;padding:3px 6px;border-radius:999px;background:#112140;color:var(--peach);font-size:8px;font-weight:900}
+.post-meta{margin-top:3px;color:#91a0bf;font-size:9px}
+.media{
+  margin:8px 14px 0;overflow:hidden;border-radius:12px;border:1px solid rgba(255,195,132,.20);
+  background:linear-gradient(145deg,#101d3d,#23365f);display:grid;place-items:center
+}
+.media.short{height:220px}.media.tall{height:320px}.media.byte{height:440px;max-width:70%;margin-left:auto;margin-right:auto}
+.media .art{font-size:56px;text-align:center;line-height:1.2}
+.media small{display:block;margin-top:8px;color:#9eaccb;font-size:9px;letter-spacing:.08em}
+.card-title{padding:12px 15px 0;font-size:17px;font-weight:850}
+.caption{padding:11px 15px 13px;margin:0;color:#c9d1e3;font-size:11px;line-height:1.55}
+.interactions{display:flex;align-items:center;gap:6px;padding:0 14px 12px;flex-wrap:wrap}
+.action{
+  min-height:30px;padding:0 9px;border:1px solid rgba(89,117,190,.28);border-radius:999px;
+  background:#122243;color:#bec9e1;font-size:9px;font-weight:800;cursor:pointer
+}
+.action:hover{border-color:rgba(255,195,132,.5);color:var(--peach)}
+.action.like.liked{color:var(--peach);border-color:rgba(255,195,132,.42)}
+.action.text{margin-left:auto;border:0;background:transparent}
+.latest{margin:0 14px 12px;padding:9px 10px;border-radius:10px;background:#132445;color:#aeb9d3;font-size:9px}
+.latest strong{color:#e3e8f3}
+.empty-pocket{
+  padding:55px 28px;border:1px dashed rgba(255,195,132,.32);border-radius:18px;
+  background:rgba(255,195,132,.025);text-align:center
+}
+.empty-pocket .empty-icon{font-size:40px}
+.empty-pocket strong{display:block;margin-top:10px;font-size:19px}
+.empty-pocket p{max-width:520px;margin:7px auto 0;color:#95a3c2;font-size:12px;line-height:1.5}
+.empty-pocket .primary{margin-top:15px}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
+  padding:10px 14px;border-radius:10px;border:1px solid rgba(255,195,132,.4);
+  background:#13264c;color:#f8f8f2;font-size:10px;opacity:0;pointer-events:none;
+  transition:.18s;z-index:100
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){
+  .site-header{grid-template-columns:auto 1fr auto;padding:0 16px}.top-nav{display:none}.search{display:none}
+  .community-hotbar{padding:8px 16px;overflow:auto}.hot-label{display:none}
+  .page,.prototype-strip{padding-left:16px;padding-right:16px}
+  .pocket-hero{grid-template-columns:1fr;padding:18px}.pocket-image-wrap{max-width:520px;width:100%}
+  .pocket-identity{align-items:flex-start}.pocket-detail-row{grid-template-columns:1fr;gap:5px}
+  .wall{grid-template-columns:1fr}.column{display:contents}
+  .media.byte{max-width:86%}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="logo-mark"></span><span><span>ALL</span> MEDIA</span></a>
+  <nav class="top-nav"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">All Play</a></nav>
+  <label class="search">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input type="search" placeholder="Search All Media…">
+  </label>
+  <div class="header-actions"><button class="header-round" aria-label="Notifications">🔔</button><a class="header-round header-avatar" href="profile.html">H</a></div>
+</header>
+
+<div class="community-hotbar">
+  <span class="hot-label">PINNED COMMUNITIES</span>
+  <a class="community-chip" href="community.html">🎃 Spooky Cozy <span class="bell">🔔 3</span></a>
+  <a class="community-chip" href="community.html?community=artists">🎨 Artists <span class="bell">🔔 1</span></a>
+  <a class="community-chip" href="community.html?community=turtle-rescue">🐢 Turtle Rescue</a>
+  <button class="community-chip more-chip" type="button">More ▾</button>
+</div>
+
+<div class="prototype-strip">
+  <div class="prototype-control">
+    <strong>PROTOTYPE VIEW</strong>
+    <button id="ownerViewBtn" class="active" type="button">Owner</button>
+    <button id="visitorViewBtn" type="button">Visitor</button>
+  </div>
+</div>
+
+<main class="page">
+  <section class="pocket-hero">
+    <div class="pocket-summary">
+      <div class="pocket-identity">
+        <div class="pocket-icon-large" id="pocketIcon" title="Pocket emoji">🎃</div>
+
+        <div class="hero-copy">
+          <div class="hero-kicker">POCKET</div>
+          <div class="hero-title-row">
+            <h1 id="pocketName">Tiny Haunted Art</h1>
+          </div>
+
+          <div class="creator-line">
+            <span class="creator-avatar" aria-hidden="true">H</span>
+            <span>Curated by <a id="pocketCreator" href="profile.html?user=yourusername">@yourusername</a></span>
+          </div>
+
+          <p class="hero-description" id="pocketDescription">A small collection of spooky art, cozy rooms, crooked houses, moons, pumpkins, and art that feels gently haunted.</p>
+        </div>
+      </div>
+
+      <div class="hero-controls">
+        <span class="privacy-badge">◉ <span id="privacyBadge">Public Pocket</span></span>
+        <button class="secondary" id="editPocketBtn" type="button">Edit Pocket</button>
+        <button class="primary" id="followPocketBtn" type="button" hidden>＋ Follow Pocket</button>
+        <div class="hero-meta"><span class="count-strong" id="itemCount">4 saved posts</span><span>·</span><span id="followerCount">238 followers</span></div>
+      </div>
+    </div>
+
+    <div class="pocket-image-wrap" id="pocketImageWrap">
+      <div class="cover-art" id="defaultCoverArt">🌙 🎃 ✦</div>
+      <img id="coverImage" alt="Pocket image" hidden>
+    </div>
+  </section>
+
+  <section class="pocket-details" id="pocketDetails">
+    <button class="pocket-details-toggle" id="pocketDetailsToggle" type="button" aria-expanded="false" aria-controls="pocketDetailsPanel">
+      <span class="pocket-details-title"><span class="tag-icon">◇</span>Inside this Pocket</span>
+      <span class="pocket-details-state"><span id="detailsStateText">Show details</span><span class="pocket-details-chevron">⌄</span></span>
+    </button>
+
+    <div class="pocket-details-panel" id="pocketDetailsPanel" hidden>
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">◇</span>Topics</div>
+        <div class="detail-values" id="interestChips">
+          <span class="chip">🎃 Halloween</span>
+          <span class="chip">🎨 Art</span>
+          <span class="chip">✨ Cozy</span>
+          <span class="chip">Dark Academia</span>
+          <span class="chip">Illustration</span>
+          <span class="chip detail-extra">Nature</span>
+          <span class="chip detail-extra">Gothic</span>
+          <span class="chip detail-extra">Autumn</span>
+          <button class="more-detail-btn" type="button">+3 more⌄</button>
+        </div>
+      </div>
+
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">#</span>Hashtags</div>
+        <div class="detail-values" id="hashtagChips">
+          <span class="chip">#halloween</span>
+          <span class="chip">#spookyart</span>
+          <span class="chip">#cozy</span>
+          <span class="chip">#darkacademia</span>
+          <span class="chip">#illustration</span>
+          <span class="chip detail-extra">#pumpkins</span>
+          <span class="chip detail-extra">#hauntedhome</span>
+          <button class="more-detail-btn" type="button">+2 more⌄</button>
+        </div>
+      </div>
+
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">○</span>Creators</div>
+        <div class="detail-values" id="creatorChips">
+          <a class="chip creator-chip" href="profile.html?user=moonlitmoth"><span class="creator-dot">M</span>@moonlitmoth</a>
+          <a class="chip creator-chip" href="profile.html?user=ravenandruins"><span class="creator-dot">R</span>@ravenandruins</a>
+          <a class="chip creator-chip" href="profile.html?user=inkandivy"><span class="creator-dot">I</span>@inkandivy</a>
+          <a class="chip creator-chip" href="profile.html?user=pagesandpumpkins"><span class="creator-dot">P</span>@pagesandpumpkins</a>
+          <a class="chip creator-chip" href="profile.html?user=crowandfern"><span class="creator-dot">C</span>@crowandfern</a>
+          <a class="chip creator-chip detail-extra" href="profile.html?user=thewhimsicalwolf"><span class="creator-dot">W</span>@thewhimsicalwolf</a>
+          <button class="more-detail-btn" type="button">+1 more⌄</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="collection-head">
+    <div>
+      <div class="collection-kicker">CURATED IN THIS POCKET</div>
+      <h2 id="collectionTitle">A hand-picked little world</h2>
+    </div>
+    <p>Posts stay connected to their original creators and Communities.</p>
+  </div>
+
+  <section id="emptyPocket" class="empty-pocket" hidden>
+    <div class="empty-icon">▱</div>
+    <strong>Your Pocket is ready.</strong>
+    <p>Explore All Media and choose <b>Pocket</b> on a post to start building this little corner. Nothing is added automatically from the Pocket Lens.</p>
+    <a class="primary" href="discover.html" style="display:inline-flex;align-items:center">Explore All Media</a>
+  </section>
+
+  <section class="wall" id="pocketWall">
+    <div class="column">
+      <article class="curated-card">
+        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 3d ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=moonlitmoth">m</a>
+          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=moonlitmoth">@moonlitmoth</a><span class="post-time">· 12m ago</span><span class="post-type">POST</span></div><div class="post-meta">🎨 Art · in 🎃 Spooky Cozy</div></div>
+        </header>
+        <div class="media short"><div class="art">🌙🎃<small>MOON-AND-PUMPKIN PAINTING</small></div></div>
+        <p class="caption">Finally finished this little moon-and-pumpkin piece tonight. It feels exactly like the sort of thing that belongs in a tiny haunted cottage.</p>
+        <div class="interactions"><button class="action like" type="button">♡ 24</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 14 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+        <div class="latest"><strong>@cryptidcorner:</strong> The glow on this is SO good. It looks like a tiny storybook page.</div>
+      </article>
+
+      <article class="curated-card">
+        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 1w ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=cozycryptid">c</a>
+          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=cozycryptid">@cozycryptid</a><span class="post-time">· 3h ago</span><span class="post-type">BYTE</span></div><div class="post-meta">🎃 Halloween · in 🎃 Spooky Cozy</div></div>
+        </header>
+        <div class="media byte"><div class="art">🐈‍⬛🕯️<small>BYTE PREVIEW · 0:42</small></div></div>
+        <p class="caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
+        <div class="interactions"><button class="action like" type="button">♡ 147</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 31 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+      </article>
+    </div>
+
+    <div class="column">
+      <article class="curated-card">
+        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 5d ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=paperlantern">p</a>
+          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=paperlantern">@paperlantern</a><span class="post-time">· 54m ago</span><span class="post-type">BLOG</span></div><div class="post-meta">📚 Books</div></div>
+        </header>
+        <div class="card-title">✦ Why I Keep a Tiny Autumn Sketchbook</div>
+        <div class="media tall"><div class="art">📖🍂<small>AUTUMN SKETCHBOOK</small></div></div>
+        <p class="caption">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project…</p>
+        <div class="interactions"><button class="action like" type="button">♡ 18</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 6 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+      </article>
+
+      <article class="curated-card">
+        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 2w ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=ravenandruins">r</a>
+          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=ravenandruins">@ravenandruins</a><span class="post-time">· 2h ago</span><span class="post-type">VIDEO</span></div><div class="post-meta">🎨 Art · in 🎃 Spooky Cozy</div></div>
+        </header>
+        <div class="card-title">▶ Painting a Spooky Window From Start to Finish</div>
+        <div class="media short"><div class="art">🎨🌙<small>VIDEO PREVIEW · 4:12</small></div></div>
+        <p class="caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
+        <div class="interactions"><button class="action like" type="button">♡ 91</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 22 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const ownerBtn=$("#ownerViewBtn"),visitorBtn=$("#visitorViewBtn");
+let visitorMode=false;
+
+function toast(message){
+  const el=$("#toast");el.textContent=message;el.classList.add("show");
+  clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1800);
+}
+function setView(mode){
+  visitorMode=mode==="visitor";
+  ownerBtn.classList.toggle("active",!visitorMode);
+  visitorBtn.classList.toggle("active",visitorMode);
+  $("#editPocketBtn").hidden=visitorMode;
+  $("#followPocketBtn").hidden=!visitorMode;
+  $$(".owner-only").forEach(el=>el.hidden=visitorMode);
+}
+ownerBtn.onclick=()=>setView("owner");
+visitorBtn.onclick=()=>setView("visitor");
+
+$("#followPocketBtn").onclick=function(){
+  const following=this.dataset.following==="1";
+  this.dataset.following=following?"0":"1";
+  this.textContent=following?"＋ Follow Pocket":"✓ Following";
+  const count=$("#followerCount"),n=parseInt(count.textContent)||238;
+  count.textContent=`${Math.max(0,n+(following?-1:1))} followers`;
+};
+$("#editPocketBtn").onclick=()=>location.href="create-pocket-prototype.html?edit=1";
+
+document.addEventListener("click",e=>{
+  const like=e.target.closest(".action.like");
+  if(like){
+    const m=like.textContent.match(/(\d+)/);const n=m?Number(m[1]):0;
+    const liked=like.classList.toggle("liked");
+    like.textContent=`${liked?"♥":"♡"} ${Math.max(0,n+(liked?1:-1))}`;
+  }
+  const remove=e.target.closest(".remove-link");
+  if(remove){
+    remove.closest(".curated-card").remove();
+    updateCount();
+    toast("Removed from this Pocket.");
+  }
+});
+
+function updateCount(){
+  const count=$$(".curated-card").length;
+  $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
+  if(!count){$("#pocketWall").hidden=true;$("#emptyPocket").hidden=false;}
+}
+
+function setPocketDetails(open){
+  const box=$("#pocketDetails"),panel=$("#pocketDetailsPanel"),toggle=$("#pocketDetailsToggle");
+  box.classList.toggle("open",open);
+  panel.hidden=!open;
+  toggle.setAttribute("aria-expanded",String(open));
+  $("#detailsStateText").textContent=open?"Hide details":"Show details";
+}
+
+$("#pocketDetailsToggle").onclick=()=>setPocketDetails($("#pocketDetailsPanel").hidden);
+
+document.addEventListener("click",e=>{
+  const btn=e.target.closest(".more-detail-btn");
+  if(!btn)return;
+  const values=btn.closest(".detail-values");
+  const expanded=values.classList.toggle("expanded");
+  const extras=values.querySelectorAll(".detail-extra").length;
+  btn.textContent=expanded?"Show less⌃":`+${extras} more⌄`;
+});
+
+function renderDetailItems(container,items,emptyText){
+  const visible=5;
+  if(!items.length){container.innerHTML=`<span class="chip">${emptyText}</span>`;return;}
+  container.innerHTML=items.map((html,i)=>i<visible?html:html.replace('class="chip','class="chip detail-extra')).join("");
+  const extra=Math.max(0,items.length-visible);
+  if(extra)container.insertAdjacentHTML("beforeend",`<button class="more-detail-btn" type="button">+${extra} more⌄</button>`);
+}
+
+function applyCreatedPocket(){
+  const params=new URLSearchParams(location.search);
+  if(params.get("new")!=="1" && params.get("created")!=="1")return;
+  let data=null;
+  try{data=JSON.parse(localStorage.getItem("allMediaPocketPrototypeV1")||"null")}catch(e){}
+  if(!data)return;
+
+  $("#pocketName").textContent=data.name||"Untitled Pocket";
+  $("#pocketIcon").textContent=data.icon||"▱";
+  $("#pocketDescription").textContent=data.description||"";
+  { const p=data.privacyLabel||data.privacy||"Public"; $("#privacyBadge").textContent=/pocket/i.test(p)?p:`${p} Pocket`; }
+  renderDetailItems($("#interestChips"),(data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),"No topics selected");
+  renderDetailItems($("#hashtagChips"),(data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),"No hashtags selected");
+  renderDetailItems($("#creatorChips"),(data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),"No creators selected");
+
+  if(data.cover){
+    $("#pocketImageWrap").hidden=false;
+    $("#coverImage").src=data.cover;
+    $("#coverImage").hidden=false;
+    $("#defaultCoverArt").hidden=true;
+    $("#coverImage").style.transform=`translate(${data.coverX||0}px,${data.coverY||0}px) scale(${data.coverZoom||1})`;
+  }else{
+    $("#pocketImageWrap").hidden=true;
+  }
+
+  $("#pocketWall").hidden=true;
+  $("#emptyPocket").hidden=false;
+  $("#itemCount").textContent="0 saved posts";
+  $("#collectionTitle").textContent="Your Pocket starts empty";
+  document.title=`${data.name||"Pocket"} · Pocket | All Media`;
+}
+applyCreatedPocket();
+setPocketDetails(false);
+setView(new URLSearchParams(location.search).get("visitor")==="1"?"visitor":"owner");
+</script>
+</body>
+</html>
