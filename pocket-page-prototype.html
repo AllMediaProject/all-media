@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="community-integration.css">
+<link rel="stylesheet" href="https://allmediaproject.github.io/all-media/home.css">
 
 <title>Tiny Haunted Art · Pocket | All Media</title>
 <style>
@@ -23,6 +25,16 @@
   --blue:#3e5faa;
   --line:rgba(255,255,255,.085);
   --shadow:0 18px 48px rgba(2,8,24,.34);
+  --am-bg:#0b1533;
+  --am-bg-deep:#08122c;
+  --am-panel:#14234a;
+  --am-panel-2:#182953;
+  --am-blue:#4169d0;
+  --am-peach:#ffc384;
+  --am-peach-2:#ffb477;
+  --am-text:#f8f8f2;
+  --am-muted:#aeb7cb;
+  --am-border:rgba(65,105,208,.25);
 }
 *{box-sizing:border-box}
 html{background:var(--bg)}
@@ -39,55 +51,263 @@ body{
 button,input{font:inherit}
 button,a{color:inherit}
 a{text-decoration:none}
+
+/* =========================================================
+   APPROVED ALL MEDIA HEADER
+========================================================= */
 .site-header{
-  height:72px;
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:92px;
+  margin:12px auto 0;
+  padding:13px 20px;
   display:grid;
-  grid-template-columns:auto auto minmax(260px,520px) auto;
+  grid-template-columns:max-content minmax(390px,1fr) minmax(250px,340px) max-content;
   align-items:center;
-  gap:25px;
-  padding:0 34px;
-  position:sticky;
-  top:0;
+  gap:24px;
+  background:linear-gradient(135deg,#14234a,#101f43);
+  border:1px solid rgba(65,105,208,.2);
+  border-radius:18px;
+  box-shadow:0 16px 36px rgba(2,8,24,.34),inset 0 1px rgba(255,255,255,.025);
+}
+.brand-lockup{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--am-text);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.brand-logo{width:62px;height:62px;object-fit:contain;display:block}
+.brand-name{font-size:29px;font-weight:800;letter-spacing:.01em}
+.brand-name strong{color:var(--am-peach);font-weight:800}
+.top-nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:34px;
+}
+.top-nav a{
+  position:relative;
+  padding:12px 0;
+  color:#c0cae2;
+  font-size:15px;
+  font-weight:700;
+  text-decoration:none;
+}
+.top-nav a:hover{color:var(--am-peach)}
+.global-search{
+  height:48px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 15px;
+  border:2px solid rgba(255,195,132,.9);
+  border-radius:14px;
+  background:rgba(8,18,44,.48);
+  box-shadow:inset 0 1px 7px rgba(0,0,0,.16);
+}
+.global-search svg{
+  width:21px;height:21px;fill:none;stroke:var(--am-peach);
+  stroke-width:2;stroke-linecap:round;flex:0 0 auto;
+}
+.global-search input{
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--am-text);
+  font:600 14px 'Outfit',sans-serif;
+}
+.global-search input::placeholder{color:#c1c8da;opacity:.88}
+.header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  white-space:nowrap;
+}
+.header-notifications{
+  position:relative;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 44px;
+  padding:0;
+  border:1px solid rgba(255,195,132,.78);
+  border-radius:50%;
+  background:rgba(255,195,132,.08);
+  color:inherit;
+  text-decoration:none;
+  box-shadow:0 0 14px rgba(255,195,132,.10);
+  cursor:pointer;
+}
+.header-notifications:hover{background:rgba(255,195,132,.12)}
+.notification-bell{display:block;font-size:22px;line-height:1;transform:translateY(1px)}
+.header-notification-count{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:9px;
+  font-weight:800;
+  line-height:1;
+}
+.profile-cluster{
+  display:flex;
+  align-items:center;
+  padding:0;
+  border:0;
+  background:none;
+  text-decoration:none;
+}
+.header-avatar{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid rgba(255,195,132,.88);
+  border-radius:50%;
+  background:linear-gradient(145deg,#53648f,#263b73);
+  background-size:cover;
+  background-position:center;
+}
+
+/* =========================================================
+   APPROVED COMMUNITY HOTBAR
+========================================================= */
+.community-bar{
+  position:relative;
   z-index:50;
-  background:rgba(16,26,58,.96);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(14px);
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:64px;
+  margin:8px auto 0;
+  padding:9px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:linear-gradient(135deg,#14234a,#102044);
+  border:1px solid rgba(65,105,208,.18);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(2,8,24,.25);
 }
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.055em}
-.logo-mark{
-  width:38px;height:38px;border:2px solid #fff;border-radius:44% 44% 49% 49%;
-  position:relative;background:#20325d;box-shadow:inset 0 -8px 0 rgba(255,195,132,.12)
+.community-label{
+  flex:0 0 auto;
+  color:var(--am-text);
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
 }
-.logo-mark:before{content:"★";position:absolute;inset:0;display:grid;place-items:center;color:var(--peach);font-size:18px;transform:rotate(-8deg)}
-.logo-mark:after{content:"";position:absolute;left:7px;right:7px;top:10px;border-top:2px dashed rgba(255,255,255,.7)}
-.brand span span{font-weight:500}
-.top-nav{display:flex;align-items:center;gap:18px}
-.top-nav a{color:#cbd5ec;font-size:14px;font-weight:700}
-.top-nav a:hover{color:var(--peach)}
-.search{
-  height:40px;display:flex;align-items:center;gap:9px;padding:0 14px;border-radius:999px;
-  background:#0e1836;border:1px solid rgba(88,116,186,.38)
+.community-label::before{
+  content:"♧";
+  margin-right:9px;
+  color:var(--am-peach);
+  font-size:22px;
+  vertical-align:-2px;
 }
-.search svg{width:18px;fill:none;stroke:#9fafcf;stroke-width:2}
-.search input{width:100%;border:0;outline:0;background:transparent;color:#fff}
-.header-actions{display:flex;align-items:center;gap:10px}
-.header-round{
-  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,195,132,.55);
-  background:#152447;display:grid;place-items:center;cursor:pointer
+.pinned-communities{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  padding:3px 2px;
 }
-.header-avatar{font-weight:900;color:var(--peach)}
-.community-hotbar{
-  min-height:52px;display:flex;align-items:center;gap:8px;padding:8px 34px;
-  border-bottom:1px solid rgba(255,255,255,.06);
-  background:rgba(12,22,50,.72)
-}
-.hot-label{font-size:9px;font-weight:800;color:#8191b4;letter-spacing:.11em;margin-right:4px}
 .community-chip{
-  display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid rgba(73,105,186,.36);
-  border-radius:999px;background:#14264c;color:#dbe3f5;font-size:11px;font-weight:700
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 12px;
+  border:1px dashed rgba(255,180,119,.9);
+  border-radius:999px;
+  background:rgba(8,18,44,.32);
+  color:var(--am-text);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
 }
-.community-chip .bell{color:var(--peach);font-size:10px}
-.more-chip{margin-left:auto;color:var(--peach)}
+.community-chip:hover{background:rgba(255,180,119,.08)}
+.activity-bell{
+  position:relative;
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  color:var(--am-peach);
+}
+.activity-bell svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.activity-count{
+  position:absolute;
+  top:-3px;
+  right:-6px;
+  min-width:14px;
+  height:14px;
+  padding:0 3px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:8px;
+  font-weight:800;
+}
+.activity-count.hidden{display:none}
+.community-divider-vertical{
+  width:1px;
+  height:28px;
+  flex:0 0 1px;
+  background:rgba(65,105,208,.25);
+}
+.community-tools{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.community-menu{position:relative}
+.community-tool{
+  padding:8px 13px;
+  border:1px solid rgba(65,105,208,.48);
+  border-radius:999px;
+  background:rgba(8,18,44,.25);
+  color:#dbe4fa;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}
+.community-dropdown{
+  display:none;
+  position:absolute;
+  top:42px;
+  right:0;
+  z-index:80;
+  width:265px;
+  padding:8px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:14px;
+  background:#122348;
+  box-shadow:0 18px 42px rgba(0,0,0,.36);
+}
+.community-dropdown.open,.community-dropdown.active{display:block}
+.community-divider{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  height:1px;
+  margin:8px auto 0;
+  background:rgba(65,105,208,.13);
+}
+
 .prototype-strip{
   max-width:1440px;margin:18px auto 0;padding:0 28px;display:flex;justify-content:flex-end
 }
@@ -108,128 +328,98 @@ a{text-decoration:none}
   padding:0 28px;
 }
 .pocket-hero{
-  overflow:hidden;
-  border:1px solid rgba(255,195,132,.30);
-  border-radius:22px;
-  background:linear-gradient(145deg,#172a54,#112143);
-  box-shadow:var(--shadow);
+  display:block;
+  padding:24px;
+  border:1px solid var(--peach);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(23,42,84,.92),rgba(17,33,67,.94));
+  box-shadow:0 14px 36px rgba(2,8,24,.22);
 }
-.cover{
-  height:200px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 28% 40%,rgba(255,195,132,.26),transparent 18%),
-    radial-gradient(circle at 70% 65%,rgba(98,118,197,.32),transparent 25%),
-    linear-gradient(125deg,#172b54,#0f1e3f 58%,#243860);
-}
-.cover:after{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,transparent 36%,rgba(10,20,44,.66) 100%)
-}
-.cover-art{
-  position:absolute;inset:0;display:grid;place-items:center;
-  font-size:84px;letter-spacing:18px;filter:drop-shadow(0 20px 24px rgba(0,0,0,.2))
-}
-.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-body{
-  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;
-  padding:0 28px 26px;
-  align-items:start;
-}
+.pocket-summary{min-width:0}
+.pocket-identity{display:flex;align-items:flex-start;gap:18px}
 .pocket-icon-large{
-  width:88px;height:88px;margin-top:-44px;z-index:2;
-  display:grid;place-items:center;border-radius:22px;
-  border:3px solid #122044;background:#20325c;font-size:43px;
-  box-shadow:0 12px 28px rgba(0,0,0,.28)
+  width:86px;height:86px;flex:0 0 86px;
+  position:relative;display:grid;place-items:center;overflow:hidden;border-radius:50%;
+  border:2px solid var(--peach);
+  background:#172a54;font-size:42px;
+  box-shadow:0 10px 22px rgba(0,0,0,.20)
 }
-.hero-copy{padding-top:18px}
+.pocket-icon-large img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block
+}
+.pocket-icon-large .pocket-emoji{position:relative;z-index:1}
+.hero-copy{min-width:0;padding-top:2px}
 .hero-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.14em}
 .hero-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.hero-title-row h1{margin:3px 0 2px;font-size:31px;line-height:1}
-.privacy-badge{
-  padding:5px 8px;border-radius:999px;border:1px solid rgba(255,195,132,.3);
-  color:#ffd6ad;background:rgba(255,195,132,.055);font-size:9px;font-weight:800
+.hero-title-row h1{margin:3px 0 4px;font-size:31px;line-height:1.05}
+.creator-line{display:flex;align-items:center;gap:7px;margin-top:7px;color:#aeb9d3;font-size:12px}
+.creator-line a{color:#f8f8f2;font-weight:800}
+.creator-avatar{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  border:1px solid rgba(255,195,132,.75);background:linear-gradient(145deg,#607bb8,#2e477f);
+  color:#fff;font-size:10px;font-weight:900
 }
-.creator-line{margin-top:8px;color:#aeb9d3;font-size:12px}
-.creator-line a{color:var(--peach);font-weight:800}
-.hero-description{max-width:780px;margin:10px 0 0;color:#c7d0e5;font-size:14px;line-height:1.55}
-.hero-meta{margin-top:10px;color:#8793ad;font-size:11px}
-.hero-actions{padding-top:19px;display:flex;gap:8px}
+.creator-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-description{max-width:720px;margin:10px 0 0;color:#c7d0e5;font-size:14px;line-height:1.5}
+.hero-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.privacy-badge{
+  min-height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 12px;border-radius:999px;
+  border:1px solid rgba(255,195,132,.28);color:#e4e9f4;background:#102143;font-size:10px;font-weight:800
+}
+.hero-meta{color:#aab5cf;font-size:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-meta .count-strong{color:#f2f4fa;font-weight:800}
 .primary,.secondary{
-  min-height:39px;padding:0 14px;border-radius:11px;font-weight:850;font-size:11px;cursor:pointer
+  min-height:38px;padding:0 14px;border-radius:11px;font-weight:850;font-size:11px;cursor:pointer
 }
 .primary{border:1px solid var(--peach);background:var(--peach);color:#112044}
 .secondary{border:1px solid rgba(255,195,132,.36);background:#13264d;color:#f7f7f3}
 .secondary:hover{border-color:rgba(255,195,132,.75)}
-.pocket-lens{
-  display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;
-  padding:18px 20px;border:1px solid rgba(255,195,132,.20);border-radius:18px;
-  background:rgba(19,36,72,.82)
+
+.pocket-details{margin-top:14px;border:1px dashed var(--peach);border-radius:16px;background:rgba(19,36,72,.76);overflow:hidden}
+.pocket-details-toggle{
+  width:100%;min-height:50px;padding:0 16px;border:0;background:transparent;color:#f8f8f2;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;text-align:left
 }
-.lens-head{grid-column:1/-1;display:flex;align-items:end;justify-content:space-between;gap:20px}
-.lens-eyebrow{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.13em}
-.lens-head h2{margin:3px 0 0;font-size:18px}
-.lens-head p{margin:0;color:#8f9dbd;font-size:10px}
-.lens-section h3{margin:0 0 8px;color:#94a3c6;font-size:9px;letter-spacing:.12em}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
+.pocket-details-toggle:hover{background:rgba(255,195,132,.035)}
+.pocket-details-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900}
+.pocket-details-title .tag-icon{color:var(--peach);font-size:15px}
+.pocket-details-state{display:flex;align-items:center;gap:9px;color:#b7c2db;font-size:10px;font-weight:800}
+.pocket-details-chevron{display:inline-block;color:var(--peach);font-size:16px;transition:transform .18s ease}
+.pocket-details.open .pocket-details-chevron{transform:rotate(180deg)}
+.pocket-details-panel{padding:3px 16px 16px;border-top:1px solid rgba(255,255,255,.055)}
+.pocket-detail-row{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;align-items:start;padding-top:12px}
+.pocket-detail-label{display:flex;align-items:center;gap:7px;color:#d6ddec;font-size:10px;font-weight:800;padding-top:6px}
+.pocket-detail-label .row-icon{width:18px;color:var(--peach);font-size:15px;text-align:center}
+.detail-values{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .chip{
-  padding:7px 10px;border:1px solid rgba(93,126,208,.25);border-radius:999px;
+  padding:7px 10px;border:1px solid rgba(93,126,208,.28);border-radius:999px;
   background:#101f40;color:#d8e0f2;font-size:10px;font-weight:750
 }
 .creator-chip{display:flex;align-items:center;gap:6px}
 .creator-dot{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#314a83;border:1px solid rgba(255,195,132,.45);color:#fff;font-size:8px;font-weight:900}
+.detail-extra{display:none}
+.detail-values.expanded .detail-extra{display:inline-flex}
+.more-detail-btn{
+  min-height:31px;padding:0 10px;border:1px solid rgba(255,195,132,.34);border-radius:999px;
+  background:#102143;color:#ffd3a5;font-size:9px;font-weight:850;cursor:pointer
+}
+.more-detail-btn[hidden]{display:none}
 .collection-head{
   margin:28px 2px 14px;display:flex;align-items:end;justify-content:space-between;gap:16px
 }
 .collection-head h2{margin:3px 0 0;font-size:21px}
 .collection-head p{margin:0;color:#8793ad;font-size:10px}
 .collection-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.13em}
-.wall{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.column{display:flex;flex-direction:column;gap:18px}
-.curated-card{
-  border:1px solid rgba(71,100,177,.26);border-radius:17px;background:var(--card);
-  box-shadow:0 14px 30px rgba(2,8,24,.18);overflow:hidden
+.pocket-feed{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.pocket-entry{display:flex;flex-direction:column;gap:7px}
+.pocket-entry-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 5px;
+  color:#8793ad;font-size:9px
 }
-.curated-note{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.055);
-  background:rgba(255,195,132,.035);color:#8e9bbc;font-size:9px
-}
-.curated-note strong{color:#b9c4de;font-weight:700}
+.pocket-entry-meta strong{color:#b9c4de;font-weight:700}
 .remove-link{border:0;background:transparent;color:#f2aaa4;font-size:9px;font-weight:800;cursor:pointer}
-.post-header{display:flex;gap:10px;padding:14px 15px 8px;align-items:flex-start}
-.profile-picture{
-  width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;
-  border:1px solid rgba(255,195,132,.55);background:linear-gradient(145deg,#607bb8,#2e477f);
-  font-size:12px;font-weight:900
-}
-.post-author-copy{min-width:0;flex:1}
-.post-author-line{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.username{font-weight:850;font-size:11px}
-.post-time{color:#7f8eaf;font-size:9px}
-.post-type{margin-left:auto;padding:3px 6px;border-radius:999px;background:#112140;color:var(--peach);font-size:8px;font-weight:900}
-.post-meta{margin-top:3px;color:#91a0bf;font-size:9px}
-.media{
-  margin:8px 14px 0;overflow:hidden;border-radius:12px;border:1px solid rgba(255,195,132,.20);
-  background:linear-gradient(145deg,#101d3d,#23365f);display:grid;place-items:center
-}
-.media.short{height:220px}.media.tall{height:320px}.media.byte{height:440px;max-width:70%;margin-left:auto;margin-right:auto}
-.media .art{font-size:56px;text-align:center;line-height:1.2}
-.media small{display:block;margin-top:8px;color:#9eaccb;font-size:9px;letter-spacing:.08em}
-.card-title{padding:12px 15px 0;font-size:17px;font-weight:850}
-.caption{padding:11px 15px 13px;margin:0;color:#c9d1e3;font-size:11px;line-height:1.55}
-.interactions{display:flex;align-items:center;gap:6px;padding:0 14px 12px;flex-wrap:wrap}
-.action{
-  min-height:30px;padding:0 9px;border:1px solid rgba(89,117,190,.28);border-radius:999px;
-  background:#122243;color:#bec9e1;font-size:9px;font-weight:800;cursor:pointer
-}
-.action:hover{border-color:rgba(255,195,132,.5);color:var(--peach)}
-.action.like.liked{color:var(--peach);border-color:rgba(255,195,132,.42)}
-.action.text{margin-left:auto;border:0;background:transparent}
-.latest{margin:0 14px 12px;padding:9px 10px;border-radius:10px;background:#132445;color:#aeb9d3;font-size:9px}
-.latest strong{color:#e3e8f3}
+.pocket-entry .post{width:100%;margin:0}
+.pocket-entry .post .profile-picture{cursor:pointer}
 .empty-pocket{
   padding:55px 28px;border:1px dashed rgba(255,195,132,.32);border-radius:18px;
   background:rgba(255,195,132,.025);text-align:center
@@ -246,33 +436,105 @@ a{text-decoration:none}
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:900px){
-  .site-header{grid-template-columns:auto 1fr auto;padding:0 16px}.top-nav{display:none}.search{display:none}
-  .community-hotbar{padding:8px 16px;overflow:auto}.hot-label{display:none}
+  .site-header{width:calc(100% - 24px);grid-template-columns:max-content 1fr max-content;gap:14px;padding:11px 14px}.brand-logo{width:50px;height:50px}.brand-name{font-size:22px}.top-nav{display:none}.global-search{grid-column:1/-1;grid-row:2;height:42px}.community-bar{width:calc(100% - 24px);align-items:flex-start;flex-wrap:wrap}.pinned-communities{order:3;width:100%}.community-divider-vertical{display:none}.community-tools{margin-left:auto}
   .page,.prototype-strip{padding-left:16px;padding-right:16px}
-  .hero-body{grid-template-columns:auto 1fr;padding:0 18px 20px}.hero-actions{grid-column:1/-1;padding-top:0}
-  .pocket-lens{grid-template-columns:1fr}.lens-head{grid-column:1}
-  .wall{grid-template-columns:1fr}.column{display:contents}
-  .media.byte{max-width:86%}
+  .pocket-hero{padding:18px}
+  .pocket-identity{align-items:flex-start}.pocket-detail-row{grid-template-columns:1fr;gap:5px}
 }
 </style>
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="index.html"><span class="logo-mark"></span><span><span>ALL</span> MEDIA</span></a>
-  <nav class="top-nav"><a href="index.html">Home</a><a href="discover.html">Discover</a><a href="#">All Play</a></nav>
-  <label class="search">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-    <input type="search" placeholder="Search All Media…">
+  <a class="brand-lockup" href="index.html" aria-label="All Media home">
+    <img class="brand-logo" src="all-media-logo.png" alt="">
+    <span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+  </a>
+
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="#">All Play</a>
+  </nav>
+
+  <label class="global-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
   </label>
-  <div class="header-actions"><button class="header-round" aria-label="Notifications">🔔</button><a class="header-round header-avatar" href="profile.html">H</a></div>
+
+  <div class="header-actions">
+    <button class="header-notifications" type="button" aria-label="Notifications" title="Notifications" onclick="location.href='notifications.html'">
+      <span class="notification-bell">🔔</span>
+      <span class="header-notification-count">5</span>
+    </button>
+    <a class="profile-cluster" href="profile.html" aria-label="Open your profile">
+      <span class="header-avatar" id="headerAvatar"></span>
+    </a>
+  </div>
 </header>
 
-<div class="community-hotbar">
-  <span class="hot-label">PINNED COMMUNITIES</span>
-  <a class="community-chip" href="community.html">🎃 Spooky Cozy <span class="bell">🔔 3</span></a>
-  <a class="community-chip" href="community.html?community=artists">🎨 Artists <span class="bell">🔔 1</span></a>
-  <a class="community-chip" href="community.html?community=turtle-rescue">🐢 Turtle Rescue</a>
-  <button class="community-chip more-chip" type="button">More ▾</button>
+<div class="community-bar">
+  <span class="community-label">COMMUNITIES</span>
+  <div class="pinned-communities" id="homePinnedCommunities">
+    <button class="community-chip" type="button" onclick="location.href='community.html'">
+      <span class="community-icon">🎃</span><span class="community-chip-name">Spooky Cozy</span>
+      <span class="activity-bell" aria-label="3 unread notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">3</span>
+      </span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=artists'">
+      <span class="community-icon">🎨</span><span class="community-chip-name">Artists</span>
+      <span class="activity-bell" aria-label="1 unread notification">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">1</span>
+      </span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=turtle-rescue'">
+      <span class="community-icon">🐢</span><span class="community-chip-name">Turtle Rescue</span>
+      <span class="activity-bell" aria-label="No unread notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count hidden">0</span>
+      </span>
+    </button>
+  </div>
+  <div class="community-divider-vertical"></div>
+  <div class="community-tools">
+    <div class="community-menu">
+      <button class="community-tool" id="communityMoreButton" type="button" aria-expanded="false">▾ More</button>
+      <div class="community-dropdown" id="communityDropdown"></div>
+    </div>
+    <button class="community-tool" id="openManageCommunitiesDrawer" type="button">Manage Communities</button>
+  </div>
+</div>
+<div class="community-divider"></div>
+
+<section class="home-community-quick-popup" id="homeCommunityQuickPopup" hidden aria-live="polite">
+  <div class="home-community-quick-head">
+    <div>
+      <h2 id="homeCommunityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button class="home-community-quick-close" id="homeCommunityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="home-community-quick-list" id="homeCommunityQuickList"></div>
+  <a class="home-community-quick-footer" id="homeCommunityQuickFooter" href="community-notifications.html">View all from this Community →</a>
+</section>
+
+<div class="home-manage-drawer-layer" id="homeManageCommunitiesDrawerLayer" hidden>
+  <button class="home-manage-drawer-backdrop" id="homeManageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="home-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="home-manage-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="homeManageCommunitiesDrawerClose" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="homeManageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
 </div>
 
 <div class="prototype-strip">
@@ -285,55 +547,81 @@ a{text-decoration:none}
 
 <main class="page">
   <section class="pocket-hero">
-    <div class="cover" id="pocketCover">
-      <div class="cover-art" id="defaultCoverArt">🌙 🎃 ✦</div>
-      <img id="coverImage" alt="" hidden>
-    </div>
+    <div class="pocket-summary">
+      <div class="pocket-identity">
+        <div class="pocket-icon-large" id="pocketIcon" title="Pocket image or emoji"><span class="pocket-emoji" id="pocketEmoji">🎃</span><img id="pocketPhoto" alt="Pocket image" hidden></div>
 
-    <div class="hero-body">
-      <div class="pocket-icon-large" id="pocketIcon">🪟</div>
+        <div class="hero-copy">
+          <div class="hero-kicker">POCKET</div>
+          <div class="hero-title-row">
+            <h1 id="pocketName">Tiny Haunted Art</h1>
+          </div>
 
-      <div class="hero-copy">
-        <div class="hero-kicker">POCKET</div>
-        <div class="hero-title-row">
-          <h1 id="pocketName">Tiny Haunted Art</h1>
-          <span class="privacy-badge" id="privacyBadge">Public</span>
+          <div class="creator-line">
+            <span class="creator-avatar" aria-hidden="true">H</span>
+            <span>Curated by <a id="pocketCreator" href="profile.html?user=yourusername">@yourusername</a></span>
+          </div>
+
+          <p class="hero-description" id="pocketDescription">A small collection of spooky art, cozy rooms, crooked houses, moons, pumpkins, and art that feels gently haunted.</p>
         </div>
-        <div class="creator-line">Pocket by <a id="pocketCreator" href="profile.html?user=yourusername">@yourusername</a></div>
-        <p class="hero-description" id="pocketDescription">A small window into spooky little paintings, cozy rooms, crooked houses, moons, pumpkins, and art that feels gently haunted.</p>
-        <div class="hero-meta"><span id="followerCount">238 followers</span> · <span id="itemCount">4 curated posts</span></div>
       </div>
 
-      <div class="hero-actions">
+      <div class="hero-controls">
+        <span class="privacy-badge">◉ <span id="privacyBadge">Public Pocket</span></span>
         <button class="secondary" id="editPocketBtn" type="button">Edit Pocket</button>
         <button class="primary" id="followPocketBtn" type="button" hidden>＋ Follow Pocket</button>
+        <div class="hero-meta"><span class="count-strong" id="itemCount">4 saved posts</span><span>·</span><span id="followerCount">238 followers</span></div>
       </div>
     </div>
   </section>
 
-  <section class="pocket-lens">
-    <div class="lens-head">
-      <div>
-        <div class="lens-eyebrow">THE POCKET LENS</div>
-        <h2>This little corner looks through…</h2>
-      </div>
-      <p>Context for the Pocket — not an automatic feed.</p>
-    </div>
+  <section class="pocket-details" id="pocketDetails">
+    <button class="pocket-details-toggle" id="pocketDetailsToggle" type="button" aria-expanded="false" aria-controls="pocketDetailsPanel">
+      <span class="pocket-details-title"><span class="tag-icon">◇</span>Inside this Pocket</span>
+      <span class="pocket-details-state"><span id="detailsStateText">Show details</span><span class="pocket-details-chevron">⌄</span></span>
+    </button>
 
-    <div class="lens-section">
-      <h3>INTERESTS</h3>
-      <div class="chips" id="interestChips">
-        <span class="chip">🎃 Halloween</span>
-        <span class="chip">🎨 Art</span>
-        <span class="chip">✨ Cozy</span>
+    <div class="pocket-details-panel" id="pocketDetailsPanel" hidden>
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">◇</span>Topics</div>
+        <div class="detail-values" id="interestChips">
+          <span class="chip">🎃 Halloween</span>
+          <span class="chip">🎨 Art</span>
+          <span class="chip">✨ Cozy</span>
+          <span class="chip">Dark Academia</span>
+          <span class="chip">Illustration</span>
+          <span class="chip detail-extra">Nature</span>
+          <span class="chip detail-extra">Gothic</span>
+          <span class="chip detail-extra">Autumn</span>
+          <button class="more-detail-btn" type="button">+3 more⌄</button>
+        </div>
       </div>
-    </div>
 
-    <div class="lens-section">
-      <h3>CREATORS · OPTIONAL</h3>
-      <div class="chips" id="creatorChips">
-        <a class="chip creator-chip" href="profile.html?user=moonlitmoth"><span class="creator-dot">M</span>@moonlitmoth</a>
-        <a class="chip creator-chip" href="profile.html?user=ravenandruins"><span class="creator-dot">R</span>@ravenandruins</a>
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">#</span>Hashtags</div>
+        <div class="detail-values" id="hashtagChips">
+          <span class="chip">#halloween</span>
+          <span class="chip">#spookyart</span>
+          <span class="chip">#cozy</span>
+          <span class="chip">#darkacademia</span>
+          <span class="chip">#illustration</span>
+          <span class="chip detail-extra">#pumpkins</span>
+          <span class="chip detail-extra">#hauntedhome</span>
+          <button class="more-detail-btn" type="button">+2 more⌄</button>
+        </div>
+      </div>
+
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">○</span>Creators</div>
+        <div class="detail-values" id="creatorChips">
+          <a class="chip creator-chip" href="profile.html?user=moonlitmoth"><span class="creator-dot">M</span>@moonlitmoth</a>
+          <a class="chip creator-chip" href="profile.html?user=ravenandruins"><span class="creator-dot">R</span>@ravenandruins</a>
+          <a class="chip creator-chip" href="profile.html?user=inkandivy"><span class="creator-dot">I</span>@inkandivy</a>
+          <a class="chip creator-chip" href="profile.html?user=pagesandpumpkins"><span class="creator-dot">P</span>@pagesandpumpkins</a>
+          <a class="chip creator-chip" href="profile.html?user=crowandfern"><span class="creator-dot">C</span>@crowandfern</a>
+          <a class="chip creator-chip detail-extra" href="profile.html?user=thewhimsicalwolf"><span class="creator-dot">W</span>@thewhimsicalwolf</a>
+          <button class="more-detail-btn" type="button">+1 more⌄</button>
+        </div>
       </div>
     </div>
   </section>
@@ -353,58 +641,244 @@ a{text-decoration:none}
     <a class="primary" href="discover.html" style="display:inline-flex;align-items:center">Explore All Media</a>
   </section>
 
-  <section class="wall" id="pocketWall">
-    <div class="column">
-      <article class="curated-card">
-        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 3d ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
-        <header class="post-header">
-          <a class="profile-picture" href="profile.html?user=moonlitmoth">m</a>
-          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=moonlitmoth">@moonlitmoth</a><span class="post-time">· 12m ago</span><span class="post-type">POST</span></div><div class="post-meta">🎨 Art · in 🎃 Spooky Cozy</div></div>
-        </header>
-        <div class="media short"><div class="art">🌙🎃<small>MOON-AND-PUMPKIN PAINTING</small></div></div>
-        <p class="caption">Finally finished this little moon-and-pumpkin piece tonight. It feels exactly like the sort of thing that belongs in a tiny haunted cottage.</p>
-        <div class="interactions"><button class="action like" type="button">♡ 24</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 14 · Reblog</button><button class="action" type="button">↗ Share</button></div>
-        <div class="latest"><strong>@cryptidcorner:</strong> The glow on this is SO good. It looks like a tiny storybook page.</div>
-      </article>
 
-      <article class="curated-card">
-        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 1w ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+  <section class="feed pocket-feed" id="pocketWall">
+
+    <div class="pocket-entry">
+      <div class="pocket-entry-meta">
+        <span><strong>Added to this Pocket</strong> · 3d ago</span>
+        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
+      </div>
+      <article class="post regular-post">
         <header class="post-header">
-          <a class="profile-picture" href="profile.html?user=cozycryptid">c</a>
-          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=cozycryptid">@cozycryptid</a><span class="post-time">· 3h ago</span><span class="post-type">BYTE</span></div><div class="post-meta">🎃 Halloween · in 🎃 Spooky Cozy</div></div>
+          <a class="profile-picture" href="profile.html?user=moonlitmoth" aria-label="Open @moonlitmoth profile">m</a>
+          <div class="post-author-copy">
+            <div class="post-author-line">
+              <a class="username" href="profile.html?user=moonlitmoth">@moonlitmoth</a>
+              <span class="post-time">· 12m ago</span>
+              <span class="post-type-bubble">POST</span>
+            </div>
+            <div class="post-meta-line">
+              <span class="topic">🎨 Art</span>
+              <a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a>
+            </div>
+          </div>
         </header>
-        <div class="media byte"><div class="art">🐈‍⬛🕯️<small>BYTE PREVIEW · 0:42</small></div></div>
-        <p class="caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
-        <div class="interactions"><button class="action like" type="button">♡ 147</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 31 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+
+        <div class="post-image crop-fit">
+          <div aria-label="Moon artwork placeholder" class="demo-moon">🌙</div>
+        </div>
+
+        <p class="caption">Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!</p>
+
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button">
+            <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+            <span class="like-count">24</span>
+          </button>
+          <button class="action-pill" type="button">
+            <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span>
+          </button>
+          <button class="action-pill" type="button">
+            <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
+          </button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>14</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button">
+            <svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
+          </button>
+        </div>
+
+        <div class="latest-comment">
+          <span class="comment-username">@cryptidcorner:</span>
+          <span class="latest-comment-copy">I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!</span>
+          <span class="latest-comment-time">2m ago</span>
+        </div>
+
+        <div class="post-footer">
+          <div class="single-comment-composer">
+            <div class="comment-composer pocket-demo-comment">
+              <div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+              <div class="comment-expanded-state">
+                <textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea>
+                <div class="comment-post-actions">
+                  <button class="comment-post-button pocket-demo-comment-post" type="button">POST</button>
+                  <button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button>
+                </div>
+              </div>
+            </div>
+            <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+            <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+          </div>
+          <button class="more-comments pocket-demo-more-comments" type="button">View 7 more</button>
+          <div class="post-footer-actions">
+            <button class="hashtag-link pocket-demo-hashtags" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button>
+          </div>
+        </div>
+
+        <div class="post-hashtags">
+          <span class="post-hashtag">#halloweenart</span>
+          <span class="post-hashtag">#spookyart</span>
+          <span class="post-hashtag">#moonart</span>
+          <span class="post-hashtag">#hauntedhouse</span>
+        </div>
+        <div class="card-bottom-spacer" aria-hidden="true"></div>
       </article>
     </div>
 
-    <div class="column">
-      <article class="curated-card">
-        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 5d ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
+    <div class="pocket-entry">
+      <div class="pocket-entry-meta">
+        <span><strong>Added to this Pocket</strong> · 5d ago</span>
+        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
+      </div>
+      <article class="post blog-post blog-post-v11 sample-post">
         <header class="post-header">
-          <a class="profile-picture" href="profile.html?user=paperlantern">p</a>
-          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=paperlantern">@paperlantern</a><span class="post-time">· 54m ago</span><span class="post-type">BLOG</span></div><div class="post-meta">📚 Books</div></div>
+          <a class="profile-picture" href="profile.html?user=paperlantern" aria-label="Open @paperlantern profile">p</a>
+          <div class="post-author-copy">
+            <div class="post-author-line">
+              <a class="username" href="profile.html?user=paperlantern">@paperlantern</a>
+              <span class="post-time">· 54m ago</span>
+              <span class="post-type-bubble">BLOG</span>
+            </div>
+            <div class="post-meta-line">
+              <span class="topic">📚 Books</span>
+              <a class="post-community" href="community.html?community=book-club">· in 📚 Book Club</a>
+            </div>
+          </div>
         </header>
-        <div class="card-title">✦ Why I Keep a Tiny Autumn Sketchbook</div>
-        <div class="media tall"><div class="art">📖🍂<small>AUTUMN SKETCHBOOK</small></div></div>
-        <p class="caption">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project…</p>
-        <div class="interactions"><button class="action like" type="button">♡ 18</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 6 · Reblog</button><button class="action" type="button">↗ Share</button></div>
-      </article>
 
-      <article class="curated-card">
-        <div class="curated-note"><span><strong>Added to this Pocket</strong> · 2w ago</span><button class="remove-link owner-only" type="button">Remove from Pocket</button></div>
-        <header class="post-header">
-          <a class="profile-picture" href="profile.html?user=ravenandruins">r</a>
-          <div class="post-author-copy"><div class="post-author-line"><a class="username" href="profile.html?user=ravenandruins">@ravenandruins</a><span class="post-time">· 2h ago</span><span class="post-type">VIDEO</span></div><div class="post-meta">🎨 Art · in 🎃 Spooky Cozy</div></div>
-        </header>
-        <div class="card-title">▶ Painting a Spooky Window From Start to Finish</div>
-        <div class="media short"><div class="art">🎨🌙<small>VIDEO PREVIEW · 4:12</small></div></div>
-        <p class="caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
-        <div class="interactions"><button class="action like" type="button">♡ 91</button><button class="action" type="button">▱ Pocket</button><button class="action" type="button">◌ Community</button><button class="action text" type="button">↻ 22 · Reblog</button><button class="action" type="button">↗ Share</button></div>
+        <h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>Why I Keep a Tiny Autumn Sketchbook</h2>
+        <div aria-label="Blog preview image placeholder" class="blog-preview-image blog-home-preview">
+          <div class="sample-media-art sample-blog-cover"><div class="sample-media-copy">HOME PREVIEW IMAGE</div></div>
+        </div>
+        <p class="blog-excerpt blog-feed-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits…</p>
+        <button class="read-blog blog-read-button pocket-demo-blog-toggle" type="button">Read Blog →</button>
+        <div class="blog-full-content blog-full-body">
+          <p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p>
+          <p>Lately I have been filling mine with crooked little houses, sleepy moons, leaves, color notes, and scraps of ideas I might come back to later.</p>
+        </div>
+
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button">
+            <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+            <span class="like-count">18</span>
+          </button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>6</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+
+        <div class="latest-comment"><span class="comment-username">@bookmarkwitch:</span><span class="latest-comment-copy">This makes me want to start carrying one too.</span><span class="latest-comment-time">8m ago</span></div>
+        <div class="post-footer">
+          <div class="single-comment-composer">
+            <div class="comment-composer pocket-demo-comment">
+              <div class="comment-compact-state"><span class="comment-mini-avatar"></span><span>Say hi... share what you feel</span></div>
+              <div class="comment-expanded-state"><textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea><div class="comment-post-actions"><button class="comment-post-button pocket-demo-comment-post" type="button">POST</button><button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button></div></div>
+            </div>
+            <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+            <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+          </div>
+          <button class="more-comments pocket-demo-more-comments" type="button">View 1 more</button>
+          <div class="post-footer-actions"><button class="hashtag-link pocket-demo-hashtags" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div>
+        </div>
+        <div class="post-hashtags"><span class="post-hashtag">#sketchbook</span><span class="post-hashtag">#creativeprocess</span></div>
+        <div class="card-bottom-spacer" aria-hidden="true"></div>
       </article>
     </div>
+
+    <div class="pocket-entry">
+      <div class="pocket-entry-meta">
+        <span><strong>Added to this Pocket</strong> · 2w ago</span>
+        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
+      </div>
+      <article class="post video-post-v11 sample-post" data-post-type="video">
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=ravenandruins" aria-label="Open @ravenandruins profile">r</a>
+          <div class="post-author-copy">
+            <div class="post-author-line"><a class="username" href="profile.html?user=ravenandruins">@ravenandruins</a><span class="post-time">· 2h ago</span><span class="post-type-bubble">VIDEO</span></div>
+            <div class="post-meta-line"><span class="topic">🎨 Art</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
+          </div>
+        </header>
+        <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
+        <div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
+          <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+          <div class="video-playback-warning">This browser cannot play this video file.</div>
+          <div class="video-control-overlay">
+            <div class="video-control-row">
+              <button type="button" class="video-control-button pocket-demo-video-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+              <button type="button" class="video-control-button pocket-demo-video-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+              <span class="video-control-time video-elapsed">0:00</span>
+              <input class="video-control-scrubber pocket-demo-video-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+              <span class="video-control-time video-total">0:00</span>
+              <button type="button" class="video-control-button pocket-demo-video-fullscreen" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+            </div>
+          </div>
+        </div>
+        <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">91</span></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>22</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+        <div class="latest-comment"><span class="comment-username">@cryptidcorner:</span><span class="latest-comment-copy">The glow in this is perfect.</span><span class="latest-comment-time">2m ago</span></div>
+        <div class="post-footer"><div class="post-footer-actions"><button class="hashtag-link pocket-demo-hashtags" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+        <div class="post-hashtags"><span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#moonart</span></div>
+        <div class="card-bottom-spacer" aria-hidden="true"></div>
+      </article>
+    </div>
+
+    <div class="pocket-entry">
+      <div class="pocket-entry-meta">
+        <span><strong>Added to this Pocket</strong> · 1w ago</span>
+        <button class="remove-link owner-only" type="button">Remove from Pocket</button>
+      </div>
+      <article class="post byte-post-v11 sample-post" data-post-type="byte">
+        <div class="byte-stage">
+          <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+            <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+            <div class="video-playback-warning">This browser cannot play this video file.</div>
+            <div class="video-control-overlay">
+              <div class="video-control-row">
+                <button type="button" class="video-control-button pocket-demo-video-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+                <button type="button" class="video-control-button pocket-demo-video-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+                <span class="video-control-time video-elapsed">0:00</span>
+                <input class="video-control-scrubber pocket-demo-video-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+                <span class="video-control-time video-total">0:00</span>
+                <button type="button" class="video-control-button pocket-demo-video-fullscreen" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=cozycryptid" aria-label="Open @cozycryptid profile">c</a>
+          <div class="post-author-copy">
+            <div class="post-author-line"><a class="username" href="profile.html?user=cozycryptid">@cozycryptid</a><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div>
+            <div class="post-meta-line"><span class="topic">🎃 Halloween</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
+          </div>
+        </header>
+        <p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">147</span></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg><span>Pocket</span></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>31</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+        <div class="latest-comment"><span class="comment-username">@cryptidcorner:</span><span class="latest-comment-copy">This is exactly the cozy spooky energy I needed today.</span><span class="latest-comment-time">5m ago</span></div>
+        <div class="post-footer"><div class="post-footer-actions"><button class="hashtag-link pocket-demo-hashtags" type="button"><span class="hashtag-icon">#</span><span>Hashtags</span></button></div></div>
+        <div class="post-hashtags"><span class="post-hashtag">#spookycozy</span><span class="post-hashtag">#blackcat</span><span class="post-hashtag">#halloween</span></div>
+        <div class="card-bottom-spacer" aria-hidden="true"></div>
+      </article>
+    </div>
+
   </section>
+
 </main>
 
 <div class="toast" id="toast"></div>
@@ -424,7 +898,8 @@ function setView(mode){
   ownerBtn.classList.toggle("active",!visitorMode);
   visitorBtn.classList.toggle("active",visitorMode);
   $("#editPocketBtn").hidden=visitorMode;
-  $("#followPocketBtn").hidden=!visitorMode;
+  const isPrivate=$("#privacyBadge")?.textContent.toLowerCase().includes("private");
+  $("#followPocketBtn").hidden=!visitorMode||isPrivate;
   $$(".owner-only").forEach(el=>el.hidden=visitorMode);
 }
 ownerBtn.onclick=()=>setView("owner");
@@ -440,24 +915,203 @@ $("#followPocketBtn").onclick=function(){
 $("#editPocketBtn").onclick=()=>location.href="create-pocket-prototype.html?edit=1";
 
 document.addEventListener("click",e=>{
-  const like=e.target.closest(".action.like");
-  if(like){
-    const m=like.textContent.match(/(\d+)/);const n=m?Number(m[1]):0;
-    const liked=like.classList.toggle("liked");
-    like.textContent=`${liked?"♥":"♡"} ${Math.max(0,n+(liked?1:-1))}`;
-  }
   const remove=e.target.closest(".remove-link");
   if(remove){
-    remove.closest(".curated-card").remove();
+    remove.closest(".pocket-entry")?.remove();
     updateCount();
     toast("Removed from this Pocket.");
+    return;
+  }
+
+  const more=e.target.closest(".more-detail-btn");
+  if(more){
+    const values=more.closest(".detail-values");
+    const expanded=values.classList.toggle("expanded");
+    const hiddenCount=values.querySelectorAll(".detail-extra").length;
+    more.textContent=expanded?"Show less⌃":`+${hiddenCount} more⌄`;
+    return;
+  }
+
+  const like=e.target.closest(".pocket-demo-like");
+  if(like){
+    const count=like.querySelector(".like-count");
+    const liked=like.classList.toggle("liked");
+    const n=Number(count?.textContent||0);
+    if(count)count.textContent=String(Math.max(0,n+(liked?1:-1)));
+    return;
+  }
+
+  const reblog=e.target.closest(".pocket-demo-reblog");
+  if(reblog){
+    const count=reblog.querySelector("span");
+    if(count)count.textContent=String(Number(count.textContent||0)+1);
+    return;
+  }
+
+  const save=e.target.closest(".pocket-demo-save");
+  if(save){
+    save.classList.toggle("saved");
+    return;
+  }
+
+  const tags=e.target.closest(".pocket-demo-hashtags");
+  if(tags){
+    tags.closest(".post")?.querySelector(".post-hashtags")?.classList.toggle("active");
+    return;
+  }
+
+  const blogToggle=e.target.closest(".pocket-demo-blog-toggle");
+  if(blogToggle){
+    const post=blogToggle.closest(".post");
+    const body=post?.querySelector(".blog-full-body");
+    const excerpt=post?.querySelector(".blog-feed-excerpt");
+    const open=!body?.classList.contains("active");
+    body?.classList.toggle("active",open);
+    excerpt?.classList.toggle("hidden",open);
+    blogToggle.textContent=open?"Close Blog ↑":"Read Blog →";
+    return;
+  }
+
+  const composer=e.target.closest(".pocket-demo-comment");
+  if(composer&&!e.target.closest("textarea,button")){
+    composer.classList.add("active");
+    composer.closest(".single-comment-composer")?.classList.add("open");
+    composer.querySelector("textarea")?.focus();
+    return;
+  }
+
+  if(e.target.closest(".pocket-demo-comment-close")){
+    const composer=e.target.closest(".comment-composer");
+    composer?.classList.remove("active");
+    composer?.closest(".single-comment-composer")?.classList.remove("open");
+    return;
+  }
+
+  if(e.target.closest(".pocket-demo-comment-post")){
+    const composer=e.target.closest(".comment-composer");
+    const input=composer?.querySelector("textarea");
+    if(input?.value.trim()){
+      input.value="";
+      toast("Comment posted.");
+      composer.classList.remove("active");
+      composer.closest(".single-comment-composer")?.classList.remove("open");
+    }
+    return;
+  }
+
+  const play=e.target.closest(".pocket-demo-video-play");
+  if(play){
+    const video=play.closest(".video-feed-player")?.querySelector("video");
+    if(video){
+      video.paused?video.play():video.pause();
+    }
+    return;
+  }
+
+  const mute=e.target.closest(".pocket-demo-video-mute");
+  if(mute){
+    const video=mute.closest(".video-feed-player")?.querySelector("video");
+    if(video)video.muted=!video.muted;
+    return;
+  }
+
+  const full=e.target.closest(".pocket-demo-video-fullscreen");
+  if(full){
+    const video=full.closest(".video-feed-player")?.querySelector("video");
+    video?.requestFullscreen?.();
   }
 });
 
+$$(".video-feed-player video").forEach(video=>{
+  const shell=video.closest(".video-feed-player");
+  const scrub=shell?.querySelector(".pocket-demo-video-scrubber");
+  const elapsed=shell?.querySelector(".video-elapsed");
+  const total=shell?.querySelector(".video-total");
+  const fmt=s=>{if(!Number.isFinite(s))return "0:00";const m=Math.floor(s/60),sec=Math.floor(s%60);return `${m}:${String(sec).padStart(2,"0")}`};
+  video.addEventListener("loadedmetadata",()=>{if(total)total.textContent=fmt(video.duration)});
+  video.addEventListener("timeupdate",()=>{
+    if(elapsed)elapsed.textContent=fmt(video.currentTime);
+    if(scrub&&video.duration)scrub.value=String((video.currentTime/video.duration)*100);
+  });
+  scrub?.addEventListener("input",()=>{if(video.duration)video.currentTime=(Number(scrub.value)/100)*video.duration});
+});
+
 function updateCount(){
-  const count=$$(".curated-card").length;
-  $("#itemCount").textContent=`${count} curated post${count===1?"":"s"}`;
+  const count=$$(".pocket-entry").length;
+  $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
   if(!count){$("#pocketWall").hidden=true;$("#emptyPocket").hidden=false;}
+}
+
+function setPocketDetails(open){
+  const box=$("#pocketDetails"),panel=$("#pocketDetailsPanel"),toggle=$("#pocketDetailsToggle");
+  box.classList.toggle("open",open);
+  panel.hidden=!open;
+  toggle.setAttribute("aria-expanded",String(open));
+  $("#detailsStateText").textContent=open?"Hide details":"Show details";
+}
+
+$("#pocketDetailsToggle").onclick=()=>setPocketDetails($("#pocketDetailsPanel").hidden);
+
+document.addEventListener("click",e=>{
+  const btn=e.target.closest(".more-detail-btn");
+  if(!btn)return;
+  const values=btn.closest(".detail-values");
+  const expanded=values.classList.toggle("expanded");
+  const extras=values.querySelectorAll(".detail-extra").length;
+  btn.textContent=expanded?"Show less⌃":`+${extras} more⌄`;
+});
+
+function renderDetailItems(container,items,emptyText){
+  const visible=5;
+  if(!items.length){container.innerHTML=`<span class="chip">${emptyText}</span>`;return;}
+  container.innerHTML=items.map((html,i)=>i<visible?html:html.replace('class="chip','class="chip detail-extra')).join("");
+  const extra=Math.max(0,items.length-visible);
+  if(extra)container.insertAdjacentHTML("beforeend",`<button class="more-detail-btn" type="button">+${extra} more⌄</button>`);
+}
+
+
+function renderPocketDetailList(container,items,type){
+  if(!container)return;
+  container.innerHTML="";
+  if(!items.length){
+    const empty=document.createElement("span");
+    empty.className="chip";
+    empty.textContent=type==="hashtag"?"No hashtags selected":type==="creator"?"No creators selected":"No topics selected";
+    container.appendChild(empty);
+    return;
+  }
+
+  const visibleCount=5;
+  items.forEach((item,index)=>{
+    let el;
+    if(type==="creator"){
+      el=document.createElement("a");
+      el.href=`profile.html?user=${encodeURIComponent((item.handle||"").replace(/^@/,""))}`;
+      el.className="chip creator-chip"+(index>=visibleCount?" detail-extra":"");
+      const dot=document.createElement("span");
+      dot.className="creator-dot";
+      dot.textContent=(item.name||item.handle||"?").replace(/^@/,"").charAt(0).toUpperCase();
+      el.append(dot,document.createTextNode(item.handle||item.name||"Creator"));
+    }else{
+      el=document.createElement("span");
+      el.className="chip"+(index>=visibleCount?" detail-extra":"");
+      if(type==="hashtag"){
+        const raw=typeof item==="string"?item:(item.tag||item.name||"");
+        el.textContent=raw.startsWith("#")?raw:`#${raw}`;
+      }else{
+        el.textContent=typeof item==="string"?item:`${item.emoji||""}${item.emoji?" ":""}${item.name||""}`;
+      }
+    }
+    container.appendChild(el);
+  });
+
+  if(items.length>visibleCount){
+    const btn=document.createElement("button");
+    btn.className="more-detail-btn";
+    btn.type="button";
+    btn.textContent=`+${items.length-visibleCount} more⌄`;
+    container.appendChild(btn);
+  }
 }
 
 function applyCreatedPocket(){
@@ -468,27 +1122,46 @@ function applyCreatedPocket(){
   if(!data)return;
 
   $("#pocketName").textContent=data.name||"Untitled Pocket";
-  $("#pocketIcon").textContent=data.icon||"▱";
+  $("#pocketEmoji").textContent=data.emoji||data.icon||"▱";
   $("#pocketDescription").textContent=data.description||"";
-  $("#privacyBadge").textContent=data.privacyLabel||data.privacy||"Public";
-  $("#interestChips").innerHTML=(data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`).join("");
-  $("#creatorChips").innerHTML=(data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`).join("") || '<span class="chip">No creators selected</span>';
+  { const p=data.privacyLabel||data.privacy||"Public"; $("#privacyBadge").textContent=/pocket/i.test(p)?p:`${p} Pocket`; }
+  renderDetailItems($("#interestChips"),(data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),"No topics selected");
+  renderDetailItems($("#hashtagChips"),(data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),"No hashtags selected");
+  renderDetailItems($("#creatorChips"),(data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),"No creators selected");
 
-  if(data.cover){
-    $("#coverImage").src=data.cover;
-    $("#coverImage").hidden=false;
-    $("#defaultCoverArt").hidden=true;
-    $("#coverImage").style.transform=`translate(${data.coverX||0}px,${data.coverY||0}px) scale(${data.coverZoom||1})`;
+  const pocketPhoto=$("#pocketPhoto");
+  const pocketEmoji=$("#pocketEmoji");
+  const identityType=data.identityType||(data.photo||data.cover?"photo":"emoji");
+  const photo=data.photo||data.cover||"";
+  if(identityType==="photo"&&photo){
+    pocketPhoto.src=photo;
+    pocketPhoto.hidden=false;
+    pocketEmoji.hidden=true;
+  }else{
+    pocketPhoto.hidden=true;
+    pocketEmoji.hidden=false;
   }
 
   $("#pocketWall").hidden=true;
   $("#emptyPocket").hidden=false;
-  $("#itemCount").textContent="0 curated posts";
+  $("#itemCount").textContent="0 saved posts";
   $("#collectionTitle").textContent="Your Pocket starts empty";
   document.title=`${data.name||"Pocket"} · Pocket | All Media`;
+  setView(visitorMode?"visitor":"owner");
 }
 applyCreatedPocket();
+
+try{
+  const savedHeaderAvatar=localStorage.getItem("allMediaProfileAvatar");
+  if(savedHeaderAvatar){
+    const headerAvatar=document.getElementById("headerAvatar");
+    if(headerAvatar)headerAvatar.style.backgroundImage=`url("${savedHeaderAvatar}")`;
+  }
+}catch(e){}
+
+setPocketDetails(false);
 setView(new URLSearchParams(location.search).get("visitor")==="1"?"visitor":"owner");
 </script>
+<script src="community-integration.js"></script>
 </body>
 </html>
