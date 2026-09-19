@@ -234,11 +234,31 @@ function normalizePocketButtons(root=document){
       }
 
       .am-pocket-list{
-        display:grid;
-        gap:5px;
-        max-height:260px;
-        overflow:auto;
-      }
+  display:grid;
+  gap:5px;
+  max-height:min(360px,55vh);
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:4px;
+  scrollbar-gutter:stable;
+}
+
+.am-pocket-list::-webkit-scrollbar{
+  width:6px;
+}
+
+.am-pocket-list::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.am-pocket-list::-webkit-scrollbar-thumb{
+  background:rgba(255,195,132,.28);
+  border-radius:999px;
+}
+
+.am-pocket-list::-webkit-scrollbar-thumb:hover{
+  background:rgba(255,195,132,.48);
+}
 
       .am-pocket-choice{
         width:100%;
@@ -345,10 +365,7 @@ function normalizePocketButtons(root=document){
 
       <div class="am-pocket-list"></div>
 
-      <button
-        class="am-pocket-create"
-        type="button"
-      >＋ Create New Pocket</button>
+      
 
       <div class="am-pocket-note"></div>
     `;
@@ -359,9 +376,6 @@ function normalizePocketButtons(root=document){
       panel.hidden=true;
     };
 
-    $(".am-pocket-create",panel).onclick=()=>{
-      location.href=CREATE_PAGE;
-    };
 
     panel.addEventListener("click",e=>{
       const choice=e.target.closest(".am-pocket-choice");
