@@ -497,5 +497,521 @@ document.addEventListener("keydown",event=>{
   closeManageDrawer();
 });
 
+
+/* =========================================================
+   HOME FEED — COMMUNITY CHOOSER
+   Step 1: matching chooser only. Actual Community sharing
+   will be connected after this popup is visually approved.
+========================================================= */
+
+const COMMUNITY_INTEREST_DEFAULTS={
+  "spooky-cozy":["Halloween","Art","Cozy","Crafts"],
+  "artists":["Art","Crafts","Photography"],
+  "turtle-rescue":["Animals","Nature"],
+  "book-club":["Books","Writing"],
+  "crochet-corner":["Crochet","Crafts","DIY"],
+  "garden-and-nature":["Nature","Animals","Home & Decor"]
+};
+
+function communitySignalWords(value){
+  const words=String(value||"")
+    .toLowerCase()
+    .replace(/^#/,"")
+    .match(/[a-z0-9]+/g)||[];
+
+  const joined=words.join("");
+  return [...new Set([...words,joined].filter(Boolean))];
+}
+
+function communityPostSignals(post){
+  const strong=new Set();
+  const loose=new Set();
+
+  post.querySelectorAll(".topic").forEach(el=>{
+    communitySignalWords(el.textContent).forEach(signal=>strong.add(signal));
+  });
+
+  post.querySelectorAll(".post-hashtag").forEach(el=>{
+    communitySignalWords(el.textContent).forEach(signal=>loose.add(signal));
+  });
+
+  return {strong,loose};
+}
+
+function communityItemSignals(slug,item){
+  const strong=new Set();
+  const loose=new Set();
+
+  const interests=
+    Array.isArray(item?.interests)&&item.interests.length
+      ?item.interests
+      :(COMMUNITY_INTEREST_DEFAULTS[slug]||[]);
+
+  interests.forEach(value=>{
+    communitySignalWords(
+      typeof value==="string" ? value : value?.name
+    ).forEach(signal=>strong.add(signal));
+  });
+
+  (Array.isArray(item?.hashtags)?item.hashtags:[]).forEach(value=>{
+    communitySignalWords(value).forEach(signal=>loose.add(signal));
+  });
+
+  communitySignalWords(item?.name||slug)
+    .forEach(signal=>loose.add(signal));
+
+  communitySignalWords(item?.description||"")
+    .forEach(signal=>loose.add(signal));
+
+  return {strong,loose};
+}
+
+function communityMatchScore(slug,item,post){
+  const postSignals=communityPostSignals(post);
+  const itemSignals=communityItemSignals(slug,item);
+  let score=0;
+
+  postSignals.strong.forEach(signal=>{
+    if(itemSignals.strong.has(signal))score+=10;
+    else if(itemSignals.loose.has(signal))score+=5;
+  });
+
+  postSignals.loose.forEach(postSignal=>{
+    itemSignals.strong.forEach(itemSignal=>{
+      if(
+        postSignal===itemSignal ||
+        postSignal.includes(itemSignal) ||
+        itemSignal.includes(postSignal)
+      ){
+        score+=3;
+      }
+    });
+
+    if(itemSignals.loose.has(postSignal))score+=2;
+  });
+
+  return score;
+}
+
+function findFeedCommunityButton(target){
+  const button=target.closest?.(".feed .post .interactions button");
+  if(!button)return null;
+
+  if(button.classList.contains("community-action")){
+    return button;
+  }
+
+  const isCommunity=[...button.querySelectorAll("span")].some(
+    span=>span.textContent.trim().toLowerCase()==="community"
+  );
+
+  if(!isCommunity)return null;
+
+  button.classList.add("community-action");
+  return button;
+}
+
+function normalizeFeedCommunityButtons(root=document){
+  root.querySelectorAll?.(".feed .post .interactions button").forEach(button=>{
+    if(button.classList.contains("community-action"))return;
+
+    const isCommunity=[...button.querySelectorAll("span")].some(
+      span=>span.textContent.trim().toLowerCase()==="community"
+    );
+
+    if(isCommunity)button.classList.add("community-action");
+  });
+}
+
+function ensureFeedCommunityChooserStyles(){
+  if(document.getElementById("amCommunityChooserStyles"))return;
+
+  const style=document.createElement("style");
+  style.id="amCommunityChooserStyles";
+  style.textContent=`
+    .am-community-chooser{
+      position:fixed;
+      z-index:10000;
+      width:min(290px,calc(100vw - 24px));
+      padding:10px;
+      border:1px solid rgba(255,195,132,.35);
+      border-radius:14px;
+      background:linear-gradient(145deg,#182a53,#101e40);
+      box-shadow:0 18px 42px rgba(0,0,0,.42);
+      color:#f8f8f2;
+      font-family:'Outfit',sans-serif;
+    }
+
+    .am-community-chooser[hidden]{
+      display:none!important;
+    }
+
+    .am-community-chooser-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:3px 3px 8px;
+    }
+
+    .am-community-chooser-head strong{
+      font-size:11px;
+      letter-spacing:.08em;
+      color:#ffc384;
+    }
+
+    .am-community-chooser-close{
+      width:25px;
+      height:25px;
+      border:0;
+      border-radius:50%;
+      background:rgba(255,255,255,.05);
+      color:#aeb7cb;
+      cursor:pointer;
+    }
+
+    .am-community-chooser-close:hover{
+      color:#ffc384;
+      background:rgba(255,195,132,.08);
+    }
+
+    .am-community-chooser-list{
+      display:grid;
+      gap:5px;
+      max-height:min(360px,55vh);
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding-right:4px;
+      scrollbar-gutter:stable;
+    }
+
+    .am-community-chooser-list::-webkit-scrollbar{
+      width:6px;
+    }
+
+    .am-community-chooser-list::-webkit-scrollbar-track{
+      background:transparent;
+    }
+
+    .am-community-chooser-list::-webkit-scrollbar-thumb{
+      background:rgba(255,195,132,.28);
+      border-radius:999px;
+    }
+
+    .am-community-chooser-list::-webkit-scrollbar-thumb:hover{
+      background:rgba(255,195,132,.48);
+    }
+
+    .am-community-choice{
+      width:100%;
+      min-height:42px;
+      padding:7px 8px;
+      display:grid;
+      grid-template-columns:28px minmax(0,1fr) 18px;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:10px;
+      background:rgba(255,255,255,.025);
+      color:#eef2fb;
+      text-align:left;
+      cursor:pointer;
+    }
+
+    .am-community-choice:hover{
+      border-color:rgba(255,195,132,.38);
+      background:rgba(255,195,132,.06);
+    }
+
+    .am-community-choice.selected{
+      border-color:#ffc384;
+      background:rgba(255,195,132,.10);
+      color:#ffc384;
+    }
+
+    .am-community-choice-icon{
+      width:28px;
+      height:28px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#26365f;
+      font-size:15px;
+    }
+
+    .am-community-choice-name{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .am-community-choice-check{
+      width:18px;
+      height:18px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:50%;
+      font-size:10px;
+      color:transparent;
+    }
+
+    .am-community-choice.selected .am-community-choice-check{
+      background:#ffc384;
+      border-color:#ffc384;
+      color:#101a3a;
+    }
+
+    .am-community-show-all{
+      width:100%;
+      margin-top:7px;
+      padding:7px 8px;
+      border:0;
+      background:transparent;
+      color:#9aa7c2;
+      font:700 9px 'Outfit',sans-serif;
+      text-align:left;
+      cursor:pointer;
+    }
+
+    .am-community-show-all:hover{
+      color:#ffc384;
+    }
+
+    .am-community-show-all[hidden]{
+      display:none!important;
+    }
+
+    .am-community-chooser-note{
+      min-height:15px;
+      padding:6px 3px 0;
+      color:#8f9dbd;
+      font-size:9px;
+    }
+
+    .am-community-chooser-empty{
+      padding:12px 8px;
+      color:#8995af;
+      font-size:10px;
+      text-align:center;
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+function feedCommunityChooser(){
+  let panel=document.getElementById("amCommunityChooser");
+  if(panel)return panel;
+
+  panel=document.createElement("div");
+  panel.id="amCommunityChooser";
+  panel.className="am-community-chooser";
+  panel.hidden=true;
+
+  panel.innerHTML=`
+    <div class="am-community-chooser-head">
+      <strong>SHARE TO COMMUNITY</strong>
+      <button
+        class="am-community-chooser-close"
+        type="button"
+        aria-label="Close"
+      >×</button>
+    </div>
+
+    <div class="am-community-chooser-list"></div>
+
+    <button
+      class="am-community-show-all"
+      type="button"
+      hidden
+    >Show all Communities</button>
+
+    <div class="am-community-chooser-note"></div>
+  `;
+
+  document.body.appendChild(panel);
+
+  panel.querySelector(".am-community-chooser-close")
+    ?.addEventListener("click",()=>{panel.hidden=true;});
+
+  panel.addEventListener("click",event=>{
+    const choice=event.target.closest(".am-community-choice");
+    if(!choice)return;
+
+    panel.querySelectorAll(".am-community-choice.selected")
+      .forEach(other=>{
+        if(other!==choice){
+          other.classList.remove("selected");
+          other.querySelector(".am-community-choice-check").textContent="";
+        }
+      });
+
+    choice.classList.add("selected");
+    choice.querySelector(".am-community-choice-check").textContent="✓";
+
+    const name=choice.dataset.communityName||"Community";
+    panel.querySelector(".am-community-chooser-note").textContent=
+      `Selected ${name}.`;
+  });
+
+  return panel;
+}
+
+function positionFeedCommunityChooser(panel,button){
+  panel.hidden=false;
+
+  const rect=button.getBoundingClientRect();
+  const width=panel.offsetWidth||290;
+  const height=panel.offsetHeight||250;
+  const pad=10;
+
+  const left=Math.min(
+    window.innerWidth-width-pad,
+    Math.max(pad,rect.left)
+  );
+
+  let top=rect.bottom+7;
+
+  if(top+height>window.innerHeight-pad){
+    top=Math.max(pad,rect.top-height-7);
+  }
+
+  panel.style.left=`${left}px`;
+  panel.style.top=`${top}px`;
+}
+
+function openFeedCommunityChooser(button){
+  ensureFeedCommunityChooserStyles();
+
+  const post=button.closest(".feed .post");
+  if(!post)return;
+
+  const panel=feedCommunityChooser();
+  const list=panel.querySelector(".am-community-chooser-list");
+  const showAll=panel.querySelector(".am-community-show-all");
+  const note=panel.querySelector(".am-community-chooser-note");
+
+  const all=joinedCommunities()
+    .filter(([,item])=>item.reblogs!==false)
+    .map(([slug,item])=>({
+      slug,
+      item,
+      score:communityMatchScore(slug,item,post)
+    }));
+
+  const matches=all
+    .filter(entry=>entry.score>0)
+    .sort((a,b)=>b.score-a.score || (a.item.name||"").localeCompare(b.item.name||""));
+
+  panel._post=post;
+  note.textContent="";
+
+  function render(entries){
+    list.innerHTML=entries.map(({slug,item})=>`
+      <button
+        class="am-community-choice"
+        type="button"
+        data-community-slug="${slug}"
+        data-community-name="${String(item.name||slug).replace(/"/g,"&quot;")}"
+      >
+        <span class="am-community-choice-icon">${item.icon||"◉"}</span>
+        <span class="am-community-choice-name">${item.name||slug}</span>
+        <span class="am-community-choice-check"></span>
+      </button>
+    `).join("");
+  }
+
+  if(!all.length){
+    list.innerHTML=
+      '<div class="am-community-chooser-empty">You have not joined any Communities that can accept this post.</div>';
+    showAll.hidden=true;
+  }else if(matches.length && matches.length<all.length){
+    render(matches);
+    showAll.hidden=false;
+    showAll.textContent=`Show all Communities (${all.length})`;
+    showAll.onclick=()=>{
+      render(all);
+      showAll.hidden=true;
+      note.textContent="";
+      positionFeedCommunityChooser(panel,button);
+    };
+  }else{
+    render(matches.length?matches:all);
+    showAll.hidden=true;
+  }
+
+  positionFeedCommunityChooser(panel,button);
+}
+
+function closeFeedCommunityChooser(){
+  const panel=document.getElementById("amCommunityChooser");
+  if(panel)panel.hidden=true;
+}
+
+document.addEventListener("click",event=>{
+  const communityButton=findFeedCommunityButton(event.target);
+
+  if(communityButton){
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    try{
+      openFeedCommunityChooser(communityButton);
+    }catch(error){
+      console.error("[Community chooser] failed:",error);
+    }
+    return;
+  }
+
+  const panel=document.getElementById("amCommunityChooser");
+  if(
+    panel &&
+    !panel.hidden &&
+    !event.target.closest("#amCommunityChooser")
+  ){
+    closeFeedCommunityChooser();
+  }
+},true);
+
+window.addEventListener("resize",closeFeedCommunityChooser);
+window.addEventListener("scroll",closeFeedCommunityChooser,true);
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")closeFeedCommunityChooser();
+});
+
+requestAnimationFrame(()=>{
+  try{
+    ensureFeedCommunityChooserStyles();
+    normalizeFeedCommunityButtons();
+  }catch(error){
+    console.error("[Community chooser] startup failed:",error);
+  }
+});
+
+try{
+  new MutationObserver(records=>{
+    records.forEach(record=>{
+      record.addedNodes.forEach(node=>{
+        if(node.nodeType!==1)return;
+
+        if(node.matches?.(".feed .post")){
+          normalizeFeedCommunityButtons(node);
+        }
+
+        node.querySelectorAll?.(".feed .post").forEach(post=>{
+          normalizeFeedCommunityButtons(post);
+        });
+      });
+    });
+  }).observe(document.body,{childList:true,subtree:true});
+}catch(error){
+  console.error("[Community chooser] observer failed:",error);
+}
+
 renderCommunities();
 })();
