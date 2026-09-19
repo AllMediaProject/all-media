@@ -116,7 +116,27 @@
       x=>x.id===id
     );
   }
+function isPocketButton(button){
+  if(!button)return false;
 
+  if(button.classList.contains("pocket-action")){
+    return true;
+  }
+
+  return [...button.querySelectorAll("span")].some(
+    span=>span.textContent.trim().toLowerCase()==="pocket"
+  );
+}
+
+function normalizePocketButtons(root=document){
+  root.querySelectorAll?.(
+    ".feed .post .interactions button"
+  ).forEach(button=>{
+    if(isPocketButton(button)){
+      button.classList.add("pocket-action");
+    }
+  });
+}
   function syncButton(post){
     const active=isSavedAnywhere(postId(post));
 
@@ -667,8 +687,14 @@
   );
 
   requestAnimationFrame(()=>{
-    try{
-      ensureStyles();
+  try{
+    normalizePocketButtons();
+  }catch(e){
+    console.error(e);
+  }
+
+  try{
+    ensureStyles();
     }catch(e){
       console.error(e);
     }
