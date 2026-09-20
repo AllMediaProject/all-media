@@ -1,53 +1,2371 @@
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>All Media — Pocket Page Cleanup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="community-integration.css">
+<link rel="stylesheet" href="https://allmediaproject.github.io/all-media/home.css">
+
+<title>Tiny Haunted Art · Pocket | All Media</title>
 <style>
-:root{--bg:#101a3a;--card:#182447;--peach:#ffc384;--text:#f8f8f2;--muted:#aeb7cb}
+:root{
+  --bg:#101a3a;
+  --card:#182447;
+  --card2:#14264f;
+  --panel:#102143;
+  --peach:#ffc384;
+  --peach2:#ffb477;
+  --text:#f8f8f2;
+  --muted:#aeb9d3;
+  --muted2:#8793ad;
+  --blue:#3e5faa;
+  --line:rgba(255,255,255,.085);
+  --shadow:0 18px 48px rgba(2,8,24,.34);
+  --am-bg:#0b1533;
+  --am-bg-deep:#08122c;
+  --am-panel:#14234a;
+  --am-panel-2:#182953;
+  --am-blue:#4169d0;
+  --am-peach:#ffc384;
+  --am-peach-2:#ffb477;
+  --am-text:#f8f8f2;
+  --am-muted:#aeb7cb;
+  --am-border:rgba(65,105,208,.25);
+}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;padding:28px;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-main{width:min(760px,100%);margin:auto;padding:24px;border:1px solid rgba(255,195,132,.35);border-radius:18px;background:var(--card)}
-h1{margin:0 0 8px}
-p{line-height:1.55;color:var(--muted)}
-.notice{margin:18px 0;padding:15px;border:1px solid rgba(255,195,132,.22);border-radius:12px;background:rgba(0,0,0,.14)}
-button{width:100%;padding:14px;border:0;border-radius:11px;background:var(--peach);color:var(--bg);font-weight:800;font-size:15px;cursor:pointer}
-button:disabled{opacity:.55}
-#status{margin-top:16px;white-space:pre-wrap;font:12px/1.6 monospace;color:var(--muted)}
-code{color:var(--peach)}
+html{background:var(--bg)}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% -10%,rgba(73,102,185,.17),transparent 34rem),
+    radial-gradient(circle at 82% 20%,rgba(255,195,132,.055),transparent 26rem),
+    var(--bg);
+  color:var(--text);
+  font-family:'Outfit',system-ui,sans-serif;
+}
+button,input{font:inherit}
+button,a{color:inherit}
+a{text-decoration:none}
+
+/* =========================================================
+   APPROVED ALL MEDIA HEADER
+========================================================= */
+.site-header{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:92px;
+  margin:12px auto 0;
+  padding:13px 20px;
+  display:grid;
+  grid-template-columns:max-content minmax(390px,1fr) minmax(250px,340px) max-content;
+  align-items:center;
+  gap:24px;
+  background:linear-gradient(135deg,#14234a,#101f43);
+  border:1px solid rgba(65,105,208,.2);
+  border-radius:18px;
+  box-shadow:0 16px 36px rgba(2,8,24,.34),inset 0 1px rgba(255,255,255,.025);
+}
+.brand-lockup{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--am-text);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.brand-logo{width:62px;height:62px;object-fit:contain;display:block}
+.brand-name{font-size:29px;font-weight:800;letter-spacing:.01em}
+.brand-name strong{color:var(--am-peach);font-weight:800}
+.top-nav{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:34px;
+}
+.top-nav a{
+  position:relative;
+  padding:12px 0;
+  color:#c0cae2;
+  font-size:15px;
+  font-weight:700;
+  text-decoration:none;
+}
+.top-nav a:hover{color:var(--am-peach)}
+.global-search{
+  height:48px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 15px;
+  border:2px solid rgba(255,195,132,.9);
+  border-radius:14px;
+  background:rgba(8,18,44,.48);
+  box-shadow:inset 0 1px 7px rgba(0,0,0,.16);
+}
+.global-search svg{
+  width:21px;height:21px;fill:none;stroke:var(--am-peach);
+  stroke-width:2;stroke-linecap:round;flex:0 0 auto;
+}
+.global-search input{
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--am-text);
+  font:600 14px 'Outfit',sans-serif;
+}
+.global-search input::placeholder{color:#c1c8da;opacity:.88}
+.header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  white-space:nowrap;
+}
+.header-notifications{
+  position:relative;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 44px;
+  padding:0;
+  border:1px solid rgba(255,195,132,.78);
+  border-radius:50%;
+  background:rgba(255,195,132,.08);
+  color:inherit;
+  text-decoration:none;
+  box-shadow:0 0 14px rgba(255,195,132,.10);
+  cursor:pointer;
+}
+.header-notifications:hover{background:rgba(255,195,132,.12)}
+.notification-bell{display:block;font-size:22px;line-height:1;transform:translateY(1px)}
+.header-notification-count{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:9px;
+  font-weight:800;
+  line-height:1;
+}
+.profile-cluster{
+  display:flex;
+  align-items:center;
+  padding:0;
+  border:0;
+  background:none;
+  text-decoration:none;
+}
+.header-avatar{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid rgba(255,195,132,.88);
+  border-radius:50%;
+  background:linear-gradient(145deg,#53648f,#263b73);
+  background-size:cover;
+  background-position:center;
+}
+
+/* =========================================================
+   APPROVED COMMUNITY HOTBAR
+========================================================= */
+.community-bar{
+  position:relative;
+  z-index:50;
+  width:calc(100% - 48px);
+  max-width:1600px;
+  min-height:64px;
+  margin:8px auto 0;
+  padding:9px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:linear-gradient(135deg,#14234a,#102044);
+  border:1px solid rgba(65,105,208,.18);
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(2,8,24,.25);
+}
+.community-label{
+  flex:0 0 auto;
+  color:var(--am-text);
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.community-label::before{
+  content:"♧";
+  margin-right:9px;
+  color:var(--am-peach);
+  font-size:22px;
+  vertical-align:-2px;
+}
+.pinned-communities{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1 1 auto;
+  min-width:0;
+  overflow-x:auto;
+  padding:3px 2px;
+}
+.community-chip{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 12px;
+  border:1px dashed rgba(255,180,119,.9);
+  border-radius:999px;
+  background:rgba(8,18,44,.32);
+  color:var(--am-text);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.community-chip:hover{background:rgba(255,180,119,.08)}
+.activity-bell{
+  position:relative;
+  width:22px;
+  height:22px;
+  display:grid;
+  place-items:center;
+  color:var(--am-peach);
+}
+.activity-bell svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.activity-count{
+  position:absolute;
+  top:-3px;
+  right:-6px;
+  min-width:14px;
+  height:14px;
+  padding:0 3px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  background:var(--am-peach);
+  color:#101a3a;
+  font-size:8px;
+  font-weight:800;
+}
+.activity-count.hidden{display:none}
+.community-divider-vertical{
+  width:1px;
+  height:28px;
+  flex:0 0 1px;
+  background:rgba(65,105,208,.25);
+}
+.community-tools{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.community-menu{position:relative}
+.community-tool{
+  padding:8px 13px;
+  border:1px solid rgba(65,105,208,.48);
+  border-radius:999px;
+  background:rgba(8,18,44,.25);
+  color:#dbe4fa;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+.community-tool:hover{border-color:rgba(255,195,132,.7);color:var(--am-peach)}
+.community-dropdown{
+  display:none;
+  position:absolute;
+  top:42px;
+  right:0;
+  z-index:80;
+  width:265px;
+  padding:8px;
+  border:1px solid rgba(255,195,132,.28);
+  border-radius:14px;
+  background:#122348;
+  box-shadow:0 18px 42px rgba(0,0,0,.36);
+}
+.community-dropdown.open,.community-dropdown.active{display:block}
+.community-divider{
+  width:calc(100% - 48px);
+  max-width:1600px;
+  height:1px;
+  margin:8px auto 0;
+  background:rgba(65,105,208,.13);
+}
+
+.prototype-strip{
+  max-width:1440px;margin:18px auto 0;padding:0 28px;display:flex;justify-content:flex-end
+}
+.prototype-control{
+  display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:11px;
+  border:1px dashed rgba(255,195,132,.35);background:rgba(255,195,132,.035);
+  color:var(--muted);font-size:10px
+}
+.prototype-control strong{color:var(--peach);letter-spacing:.07em}
+.prototype-control button{
+  border:1px solid rgba(255,255,255,.1);background:#132348;color:#cbd5ec;
+  border-radius:999px;padding:6px 9px;font-size:10px;font-weight:800;cursor:pointer
+}
+.prototype-control button.active{background:var(--peach);color:#112044;border-color:var(--peach)}
+.page{
+  max-width:1440px;
+  margin:14px auto 70px;
+  padding:0 28px;
+}
+.pocket-hero{
+  display:block;
+  padding:24px;
+  border:1px solid var(--peach);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(23,42,84,.92),rgba(17,33,67,.94));
+  box-shadow:0 14px 36px rgba(2,8,24,.22);
+}
+.pocket-summary{min-width:0}
+.pocket-identity{display:flex;align-items:flex-start;gap:18px}
+.pocket-icon-large{
+  width:86px;
+  height:86px;
+  flex:0 0 86px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-radius:50%;
+  border:2px solid var(--peach);
+  background-color:#172a54;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  color:#fff;
+  font-size:42px;
+  line-height:1;
+  box-shadow:0 10px 22px rgba(0,0,0,.20);
+}
+
+.hero-copy{min-width:0;padding-top:2px}
+.hero-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.14em}
+.hero-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hero-title-row h1{margin:3px 0 4px;font-size:31px;line-height:1.05}
+.creator-line{display:flex;align-items:center;gap:7px;margin-top:7px;color:#aeb9d3;font-size:12px}
+.creator-line a{color:#f8f8f2;font-weight:800}
+.creator-avatar{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  border:1px solid rgba(255,195,132,.75);background:linear-gradient(145deg,#607bb8,#2e477f);
+  color:#fff;font-size:10px;font-weight:900
+}
+.creator-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-description{max-width:720px;margin:10px 0 0;color:#c7d0e5;font-size:14px;line-height:1.5}
+.hero-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.privacy-badge{
+  min-height:38px;display:inline-flex;align-items:center;gap:7px;padding:0 12px;border-radius:999px;
+  border:1px solid rgba(255,195,132,.28);color:#e4e9f4;background:#102143;font-size:10px;font-weight:800
+}
+.hero-meta{color:#aab5cf;font-size:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hero-meta .count-strong{color:#f2f4fa;font-weight:800}
+.primary,.secondary{
+  min-height:38px;padding:0 14px;border-radius:11px;font-weight:850;font-size:11px;cursor:pointer
+}
+.primary{border:1px solid var(--peach);background:var(--peach);color:#112044}
+.secondary{border:1px solid rgba(255,195,132,.36);background:#13264d;color:#f7f7f3}
+.secondary:hover{border-color:rgba(255,195,132,.75)}
+
+.pocket-details{margin-top:14px;border:1px dashed var(--peach);border-radius:16px;background:rgba(19,36,72,.76);overflow:hidden}
+.pocket-details-toggle{
+  width:100%;min-height:50px;padding:0 16px;border:0;background:transparent;color:#f8f8f2;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;text-align:left
+}
+.pocket-details-toggle:hover{background:rgba(255,195,132,.035)}
+.pocket-details-title{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:900}
+.pocket-details-title .tag-icon{color:var(--peach);font-size:15px}
+.pocket-details-state{display:flex;align-items:center;gap:9px;color:#b7c2db;font-size:10px;font-weight:800}
+.pocket-details-chevron{display:inline-block;color:var(--peach);font-size:16px;transition:transform .18s ease}
+.pocket-details.open .pocket-details-chevron{transform:rotate(180deg)}
+.pocket-details-panel{padding:3px 16px 16px;border-top:1px solid rgba(255,255,255,.055)}
+.pocket-detail-row{display:grid;grid-template-columns:94px minmax(0,1fr);gap:12px;align-items:start;padding-top:12px}
+.pocket-detail-label{display:flex;align-items:center;gap:7px;color:#d6ddec;font-size:10px;font-weight:800;padding-top:6px}
+.pocket-detail-label .row-icon{width:18px;color:var(--peach);font-size:15px;text-align:center}
+.detail-values{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.chip{
+  padding:7px 10px;border:1px solid rgba(93,126,208,.28);border-radius:999px;
+  background:#101f40;color:#d8e0f2;font-size:10px;font-weight:750
+}
+.creator-chip{display:flex;align-items:center;gap:6px}
+.creator-dot{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:#314a83;border:1px solid rgba(255,195,132,.45);color:#fff;font-size:8px;font-weight:900}
+.detail-extra{display:none}
+.detail-values.expanded .detail-extra{display:inline-flex}
+.more-detail-btn{
+  min-height:31px;padding:0 10px;border:1px solid rgba(255,195,132,.34);border-radius:999px;
+  background:#102143;color:#ffd3a5;font-size:9px;font-weight:850;cursor:pointer
+}
+.more-detail-btn[hidden]{display:none}
+.collection-head{
+  margin:28px 2px 14px;display:flex;align-items:end;justify-content:space-between;gap:16px
+}
+.collection-head h2{margin:3px 0 0;font-size:21px}
+.collection-head p{margin:0;color:#8793ad;font-size:10px}
+.collection-kicker{color:var(--peach);font-size:9px;font-weight:900;letter-spacing:.13em}
+
+.pocket-feed{
+  width:100%;
+  max-width:none;
+  margin:0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  align-items:start;
+}
+.pocket-entry{
+  min-width:0;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin:0;
+}
+.pocket-entry .post{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:13px 13px 12px!important;
+  border-radius:15px!important;
+  overflow:hidden!important;
+}
+.pocket-entry .post *{min-width:0}
+.pocket-entry .post .profile-picture{cursor:pointer}
+
+/* Pocket wall scale: production cards, deliberately resized for 3-across browsing. */
+.pocket-feed .post-header{
+  display:grid!important;
+  grid-template-columns:34px minmax(0,1fr) auto!important;
+  gap:7px!important;
+  align-items:start!important;
+  margin-bottom:8px!important;
+}
+.pocket-feed .profile-picture{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  flex:0 0 34px!important;
+  border-width:1.5px!important;
+  font-size:10px!important;
+}
+.pocket-feed .post-author-copy{min-width:0!important}
+.pocket-feed .post-author-line{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:3px!important;
+  min-width:0!important;
+}
+.pocket-feed .username{
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:10.5px!important;
+  line-height:1.15!important;
+}
+.pocket-feed .post-time{
+  font-size:7.5px!important;
+  line-height:1.1!important;
+}
+.pocket-feed .post-type-bubble{
+  padding:2px 5px!important;
+  border-radius:999px!important;
+  font-size:6.5px!important;
+  line-height:1.2!important;
+  letter-spacing:.02em!important;
+}
+.pocket-feed .post-meta-line{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:3px!important;
+  margin-top:3px!important;
+  font-size:7.5px!important;
+  line-height:1.2!important;
+}
+.pocket-feed .topic,
+.pocket-feed .post-community{
+  font-size:7.5px!important;
+  line-height:1.2!important;
+}
+.pocket-feed .post-header-right{align-self:start!important}
+.pocket-feed .post-menu-button{
+  width:25px!important;
+  height:25px!important;
+  min-width:25px!important;
+  padding:0!important;
+  font-size:11px!important;
+}
+
+/* Media */
+.pocket-feed .post-image,
+.pocket-feed .blog-preview-image,
+.pocket-feed .video-feed-player,
+.pocket-feed .byte-stage{
+  width:100%!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  border-radius:11px!important;
+  overflow:hidden!important;
+}
+.pocket-feed .post-image{
+  min-height:190px!important;
+}
+.pocket-feed .post-image.crop-fit{
+  height:220px!important;
+}
+.pocket-feed .blog-preview-image{
+  min-height:150px!important;
+  height:170px!important;
+}
+.pocket-feed .video-feed-player{
+  aspect-ratio:16/9!important;
+  min-height:0!important;
+}
+.pocket-feed .video-feed-player video{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+}
+.pocket-feed .byte-stage{
+  display:flex!important;
+  justify-content:center!important;
+  padding:0!important;
+}
+.pocket-feed .byte-feed-player,
+.pocket-feed .byte-v11-feed-player{
+  width:min(78%,220px)!important;
+  max-width:220px!important;
+  aspect-ratio:9/16!important;
+  margin:0 auto!important;
+}
+.pocket-feed .byte-feed-player video{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+}
+
+/* Copy */
+.pocket-feed .blog-feed-title,
+.pocket-feed .video-title{
+  margin:8px 0!important;
+  font-size:13.5px!important;
+  line-height:1.22!important;
+  letter-spacing:-.01em!important;
+}
+.pocket-feed .video-title-icon,
+.pocket-feed .blog-title-star{font-size:.85em!important}
+.pocket-feed .caption,
+.pocket-feed .video-description,
+.pocket-feed .byte-caption,
+.pocket-feed .blog-excerpt,
+.pocket-feed .blog-full-content{
+  margin:8px 0!important;
+  font-size:10px!important;
+  line-height:1.38!important;
+}
+.pocket-feed .blog-excerpt{
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:4!important;
+  overflow:hidden!important;
+}
+.pocket-feed .blog-full-content p{
+  margin:0 0 8px!important;
+  font-size:10px!important;
+  line-height:1.4!important;
+}
+.pocket-feed .blog-read-button{
+  min-height:28px!important;
+  margin:2px 0 7px!important;
+  padding:5px 8px!important;
+  font-size:8px!important;
+  border-radius:8px!important;
+}
+
+/* Player controls */
+.pocket-feed .video-control-overlay{padding:5px!important}
+.pocket-feed .video-control-row{gap:4px!important}
+.pocket-feed .video-control-button{
+  width:24px!important;
+  height:24px!important;
+  min-width:24px!important;
+  padding:4px!important;
+}
+.pocket-feed .video-control-button svg{width:13px!important;height:13px!important}
+.pocket-feed .video-control-time{font-size:6.5px!important}
+.pocket-feed .video-control-scrubber{min-width:35px!important}
+
+/* Interaction row */
+.pocket-feed .interactions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:5px!important;
+  margin:9px 0 0!important;
+  align-items:stretch!important;
+}
+.pocket-feed .action-pill,
+.pocket-feed .reblog-counter,
+.pocket-feed .share-action,
+.pocket-feed .save-action{
+  width:100%!important;
+  min-width:0!important;
+  min-height:27px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  padding:4px 5px!important;
+  border-radius:999px!important;
+  font-size:7.5px!important;
+  line-height:1.1!important;
+  white-space:nowrap!important;
+}
+.pocket-feed .action-pill svg,
+.pocket-feed .save-action svg,
+.pocket-feed .like-heart{
+  width:12px!important;
+  height:12px!important;
+  flex:0 0 12px!important;
+}
+.pocket-feed .reblog-counter,
+.pocket-feed .share-action{
+  text-align:center!important;
+}
+
+
+/* Pocket wall interaction sizing — stronger than production card selectors. */
+.pocket-feed .post .interactions{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:5px!important;
+  margin:9px 0 0!important;
+  align-items:stretch!important;
+}
+.pocket-feed .post .action-pill,
+.pocket-feed .post .reblog-counter,
+.pocket-feed .post .share-action,
+.pocket-feed .post .save-action{
+  width:100%!important;
+  min-width:0!important;
+  min-height:27px!important;
+  max-height:27px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  padding:3px 4px!important;
+  border-radius:999px!important;
+  font-size:7.25px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.pocket-feed .post .community-action{
+  padding-left:3px!important;
+  padding-right:3px!important;
+  gap:2px!important;
+  font-size:6.8px!important;
+  letter-spacing:-.01em!important;
+}
+.pocket-feed .post .community-action .action-icon{
+  width:10px!important;
+  height:10px!important;
+  flex:0 0 10px!important;
+}
+.pocket-feed .post .community-action span{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Latest comment */
+.pocket-feed .latest-comment{
+  display:block!important;
+  margin:8px 0 0!important;
+  padding:7px 8px!important;
+  border-radius:9px!important;
+  font-size:8px!important;
+  line-height:1.35!important;
+}
+.pocket-feed .comment-username,
+.pocket-feed .latest-comment-copy,
+.pocket-feed .latest-comment-time{
+  font-size:8px!important;
+}
+.pocket-feed .latest-comment-time{
+  display:block!important;
+  margin-top:2px!important;
+}
+
+/* Comment composer/footer */
+.pocket-feed .post-footer{margin-top:8px!important}
+.pocket-feed .single-comment-composer{margin:0!important}
+.pocket-feed .comment-composer{
+  min-height:32px!important;
+  border-radius:9px!important;
+}
+.pocket-feed .comment-compact-state{
+  gap:6px!important;
+  padding:6px 8px!important;
+  font-size:8px!important;
+}
+.pocket-feed .comment-mini-avatar{
+  width:22px!important;
+  height:22px!important;
+  min-width:22px!important;
+}
+.pocket-feed .comment-text-area{
+  min-height:62px!important;
+  padding:8px!important;
+  font-size:9px!important;
+}
+.pocket-feed .comment-post-actions{gap:5px!important}
+.pocket-feed .comment-post-button,
+.pocket-feed .comment-close-button{
+  min-height:25px!important;
+  padding:4px 7px!important;
+  font-size:7px!important;
+}
+.pocket-feed .comment-helper{display:none!important}
+.pocket-feed .hide-comments-inline{font-size:7px!important}
+.pocket-feed .more-comments,
+.pocket-feed .hashtag-link{
+  min-height:25px!important;
+  padding:4px 6px!important;
+  font-size:7.5px!important;
+}
+.pocket-feed .post-footer-actions{gap:5px!important}
+.pocket-feed .hashtag-icon{
+  width:18px!important;
+  height:18px!important;
+  min-width:18px!important;
+  font-size:10px!important;
+}
+
+/* Hashtags */
+.pocket-feed .post-hashtags{
+  gap:4px!important;
+  margin-top:6px!important;
+  padding:7px!important;
+  border-radius:9px!important;
+}
+.pocket-feed .post-hashtag{
+  padding:3px 5px!important;
+  border-radius:999px!important;
+  font-size:7px!important;
+}
+.pocket-feed .card-bottom-spacer{height:2px!important}
+
+/* Keep the wall 3-across for normal desktop widths. */
+@media(max-width:900px){
+  .pocket-feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+}
+@media(max-width:620px){
+  .pocket-feed{grid-template-columns:1fr}
+  .pocket-entry .post{padding:15px!important}
+}
+@media(max-width:900px){
+  .site-header{width:calc(100% - 24px);grid-template-columns:max-content 1fr max-content;gap:14px;padding:11px 14px}.brand-logo{width:50px;height:50px}.brand-name{font-size:22px}.top-nav{display:none}.global-search{grid-column:1/-1;grid-row:2;height:42px}.community-bar{width:calc(100% - 24px);align-items:flex-start;flex-wrap:wrap}.pinned-communities{order:3;width:100%}.community-divider-vertical{display:none}.community-tools{margin-left:auto}
+  .page,.prototype-strip{padding-left:16px;padding-right:16px}
+  .pocket-hero{padding:18px}
+  .pocket-identity{align-items:flex-start}.pocket-detail-row{grid-template-columns:1fr;gap:5px}
+}
+
+/* Final compact interaction row for 3-column Pocket cards. */
+.pocket-feed .post .interactions{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:5px!important;
+  margin:9px 0 0!important;
+  overflow:visible!important;
+}
+
+.pocket-feed .post .action-pill,
+.pocket-feed .post .reblog-counter,
+.pocket-feed .post .share-action,
+.pocket-feed .post .save-action{
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  min-height:27px!important;
+  max-height:27px!important;
+  flex:0 0 auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  padding:4px 7px!important;
+  border-radius:999px!important;
+  font-size:7.2px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+}
+
+/* Give the text-heavy Community control just enough room without dominating. */
+.pocket-feed .post .community-action{
+  padding-left:6px!important;
+  padding-right:6px!important;
+  gap:3px!important;
+  font-size:7px!important;
+}
+
+.pocket-feed .post .community-action .action-icon{
+  width:10px!important;
+  height:10px!important;
+  flex:0 0 10px!important;
+}
+
+/* Plain-text actions stay compact so the whole row fits. */
+.pocket-feed .post .reblog-counter{
+  padding-left:3px!important;
+  padding-right:3px!important;
+  border:0!important;
+  background:transparent!important;
+}
+.pocket-feed .post .share-action{
+  padding-left:3px!important;
+  padding-right:3px!important;
+  border:0!important;
+  background:transparent!important;
+}
+.pocket-feed .post .save-action{
+  padding-left:3px!important;
+  padding-right:3px!important;
+  border:0!important;
+  background:transparent!important;
+}
+
+.pocket-feed .post .save-action .save-bookmark{
+  width:10px!important;
+  height:10px!important;
+  flex:0 0 10px!important;
+}
+
+/* Tiny safety reduction only for narrower desktop cards. */
+@media(max-width:1200px) and (min-width:901px){
+  .pocket-feed .post .interactions{gap:4px!important}
+  .pocket-feed .post .action-pill,
+  .pocket-feed .post .reblog-counter,
+  .pocket-feed .post .share-action,
+  .pocket-feed .post .save-action{
+    padding-left:5px!important;
+    padding-right:5px!important;
+    font-size:6.8px!important;
+  }
+  .pocket-feed .post .reblog-counter,
+  .pocket-feed .post .share-action,
+  .pocket-feed .post .save-action{
+    padding-left:2px!important;
+    padding-right:2px!important;
+  }
+}
+
+
+/* Pocket-page-only compact icon pills for Pocket + Community. */
+.pocket-feed .post .pocket-icon-only{
+  width:28px!important;
+  min-width:28px!important;
+  max-width:28px!important;
+  height:27px!important;
+  min-height:27px!important;
+  max-height:27px!important;
+  flex:0 0 28px!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:999px!important;
+  overflow:hidden!important;
+}
+.pocket-feed .post .pocket-icon-only .action-icon{
+  width:12px!important;
+  height:12px!important;
+  min-width:12px!important;
+  flex:0 0 12px!important;
+  margin:0!important;
+}
+.pocket-feed .post .pocket-action.pocket-icon-only,
+.pocket-feed .post .community-action.pocket-icon-only{
+  padding:0!important;
+  gap:0!important;
+  font-size:0!important;
+}
+
+
+/* Pocket wall: make every hashtag drawer match the full-width Home/Video treatment. */
+.pocket-feed .post > .post-hashtags{
+  display:none!important;
+  position:static!important;
+  width:100%!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  margin:8px 0 0!important;
+  padding:9px 10px!important;
+  gap:5px!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  border:1px dotted rgba(255,207,159,.30)!important;
+  border-radius:11px!important;
+  background:rgba(255,207,159,.035)!important;
+}
+.pocket-feed .post > .post-hashtags.active{
+  display:flex!important;
+}
+.pocket-feed .post > .post-hashtags .post-hashtag{
+  margin:0!important;
+  padding:4px 7px!important;
+  border:1px solid rgba(255,207,159,.20)!important;
+  border-radius:999px!important;
+  background:rgba(255,207,159,.10)!important;
+  color:#ffcf9f!important;
+  font-size:7px!important;
+  line-height:1.2!important;
+}
+.pocket-feed .post .hashtag-link.active{
+  border-color:rgba(255,207,159,.20)!important;
+  background:rgba(255,207,159,.08)!important;
+  color:#ffcf9f!important;
+}
+
+/* Pocket wall Like state: mirror Home's peach liked response. */
+.pocket-feed .post .pocket-demo-like.liked{
+  border-color:#ffcf9f!important;
+  background:rgba(255,207,159,.12)!important;
+  color:#ffcf9f!important;
+  box-shadow:0 0 10px rgba(255,207,159,.08)!important;
+}
+.pocket-feed .post .pocket-demo-like.liked .like-heart{
+  color:#ffcf9f!important;
+}
+.pocket-feed .post .pocket-demo-like.liked .like-heart path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+
+
+/* =========================================================
+   POCKET WALL — UNIFIED FEED FOOTER
+   Interaction bar above this point is intentionally untouched.
+========================================================= */
+.pocket-feed .post > .latest-comment{
+  width:auto!important;
+  min-height:31px!important;
+  margin:8px 0 0!important;
+  padding:0 9px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.05)!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.032)!important;
+  color:rgba(255,255,255,.58)!important;
+  font-size:7.5px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+.pocket-feed .post > .latest-comment .comment-username{
+  flex:none!important;
+  color:rgba(255,255,255,.86)!important;
+  font-size:7.5px!important;
+  font-weight:700!important;
+}
+.pocket-feed .post > .latest-comment .latest-comment-copy{
+  min-width:0!important;
+  flex:1 1 auto!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:7.5px!important;
+}
+.pocket-feed .post > .latest-comment .latest-comment-time{
+  margin-left:auto!important;
+  padding-left:6px!important;
+  flex:none!important;
+  color:rgba(255,255,255,.28)!important;
+  font-size:6.5px!important;
+}
+
+.pocket-feed .post > .post-footer{
+  position:relative!important;
+  width:100%!important;
+  margin:0!important;
+  padding:8px 0 9px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) max-content max-content!important;
+  align-items:center!important;
+  gap:6px!important;
+}
+
+.pocket-feed .post > .post-footer .single-comment-composer{
+  min-width:0!important;
+  width:100%!important;
+}
+
+.pocket-feed .post > .post-footer .comment-composer{
+  position:relative!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:31px!important;
+  margin:0!important;
+  padding:0 8px!important;
+  display:flex!important;
+  align-items:center!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.042)!important;
+  box-shadow:none!important;
+  cursor:text!important;
+}
+.pocket-feed .post > .post-footer .comment-composer:hover{
+  border-color:rgba(255,207,159,.20)!important;
+  background:rgba(255,207,159,.052)!important;
+}
+
+.pocket-feed .post > .post-footer .comment-compact-state{
+  width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:0!important;
+  color:rgba(255,255,255,.38)!important;
+  font-size:7.5px!important;
+  line-height:1.15!important;
+}
+.pocket-feed .post > .post-footer .comment-mini-avatar{
+  width:20px!important;
+  height:20px!important;
+  min-width:20px!important;
+  flex:0 0 20px!important;
+  border:1px solid rgba(255,207,159,.20)!important;
+  border-radius:50%!important;
+  background:#26365f!important;
+}
+.pocket-feed .post > .post-footer .comment-expanded-state{
+  display:none!important;
+  width:100%!important;
+}
+.pocket-feed .post > .post-footer .comment-composer.active{
+  min-height:70px!important;
+  padding:8px 8px 29px!important;
+  align-items:flex-start!important;
+  border-color:rgba(255,207,159,.46)!important;
+  background:#14264f!important;
+  box-shadow:0 0 0 2px rgba(255,207,159,.10)!important;
+}
+.pocket-feed .post > .post-footer .comment-composer.active .comment-compact-state{
+  display:none!important;
+}
+.pocket-feed .post > .post-footer .comment-composer.active .comment-expanded-state{
+  display:block!important;
+}
+.pocket-feed .post > .post-footer .comment-text-area{
+  width:100%!important;
+  min-height:36px!important;
+  padding:0 55px 0 0!important;
+  resize:none!important;
+  border:0!important;
+  outline:0!important;
+  background:transparent!important;
+  color:#fff!important;
+  font:400 8px/1.4 'Outfit',sans-serif!important;
+}
+.pocket-feed .post > .post-footer .comment-post-actions{
+  position:absolute!important;
+  right:6px!important;
+  bottom:6px!important;
+  display:flex!important;
+  gap:4px!important;
+}
+.pocket-feed .post > .post-footer .comment-post-button,
+.pocket-feed .post > .post-footer .comment-close-button{
+  height:23px!important;
+  min-height:23px!important;
+  padding:0 8px!important;
+  border-radius:999px!important;
+  font:800 7px 'Outfit',sans-serif!important;
+}
+.pocket-feed .post > .post-footer .comment-post-button{
+  border:1px solid #ffcf9f!important;
+  background:#ffcf9f!important;
+  color:#101a3a!important;
+}
+.pocket-feed .post > .post-footer .comment-close-button{
+  border:1px solid rgba(255,255,255,.10)!important;
+  background:rgba(255,255,255,.04)!important;
+  color:rgba(255,255,255,.52)!important;
+}
+.pocket-feed .post > .post-footer .comment-helper{
+  display:none!important;
+  margin:4px 2px 0!important;
+  color:rgba(255,207,159,.42)!important;
+  font-size:6.5px!important;
+}
+.pocket-feed .post > .post-footer .single-comment-composer.open .comment-helper{
+  display:flex!important;
+}
+.pocket-feed .post > .post-footer .hide-comments-inline{
+  display:none!important;
+  margin:4px 0 0 2px!important;
+  padding:0!important;
+  border:0!important;
+  background:none!important;
+  color:rgba(255,255,255,.33)!important;
+  font:500 7px 'Outfit',sans-serif!important;
+}
+.pocket-feed .post > .post-footer .hide-comments-inline.show{
+  display:block!important;
+}
+
+.pocket-feed .post > .post-footer .more-comments{
+  width:auto!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:0!important;
+  align-self:center!important;
+  border:0!important;
+  background:none!important;
+  color:rgba(255,255,255,.33)!important;
+  font:500 7.5px 'Outfit',sans-serif!important;
+  white-space:nowrap!important;
+}
+.pocket-feed .post:has(> .comments-section.active) > .post-footer .more-comments{
+  color:#ffcf9f!important;
+}
+
+.pocket-feed .post > .post-footer .post-footer-actions{
+  margin:0!important;
+  padding:0!important;
+  align-self:center!important;
+}
+.pocket-feed .post > .post-footer .hashtag-link{
+  width:auto!important;
+  min-width:0!important;
+  height:28px!important;
+  min-height:28px!important;
+  margin:0!important;
+  padding:0 8px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.043)!important;
+  color:rgba(255,255,255,.50)!important;
+  font:600 7.5px 'Outfit',sans-serif!important;
+}
+.pocket-feed .post > .post-footer .hashtag-link:hover,
+.pocket-feed .post > .post-footer .hashtag-link.active{
+  border-color:rgba(255,207,159,.20)!important;
+  background:rgba(255,207,159,.08)!important;
+  color:#ffcf9f!important;
+}
+.pocket-feed .post > .post-footer .hashtag-icon{
+  width:16px!important;
+  height:16px!important;
+  min-width:16px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid currentColor!important;
+  border-radius:50%!important;
+  font-size:9px!important;
+  font-weight:800!important;
+}
+
+/* One identical hashtag drawer for every post type. */
+.pocket-feed .post > .post-hashtags{
+  display:none!important;
+  position:static!important;
+  width:100%!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+  margin:0 0 9px!important;
+  padding:8px 9px!important;
+  gap:5px!important;
+  flex-wrap:wrap!important;
+  border:1px dotted rgba(255,207,159,.30)!important;
+  border-radius:10px!important;
+  background:rgba(255,207,159,.035)!important;
+}
+.pocket-feed .post > .post-hashtags.active{
+  display:flex!important;
+}
+.pocket-feed .post > .post-hashtags .post-hashtag{
+  margin:0!important;
+  padding:3px 6px!important;
+  border:1px solid rgba(255,207,159,.20)!important;
+  border-radius:999px!important;
+  background:rgba(255,207,159,.10)!important;
+  color:#ffcf9f!important;
+  font-size:7px!important;
+  line-height:1.2!important;
+}
+
+/* One identical comments drawer for every post type. */
+.pocket-feed .post > .comments-section{
+  display:none!important;
+  width:100%!important;
+  margin:0 0 9px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+.pocket-feed .post > .comments-section.active{
+  display:block!important;
+}
+.pocket-feed .post > .comments-section .comment-item{
+  width:100%!important;
+  padding:8px 0!important;
+  display:grid!important;
+  grid-template-columns:23px minmax(0,1fr)!important;
+  gap:7px!important;
+  align-items:start!important;
+  border-top:1px solid rgba(255,255,255,.06)!important;
+  color:#dfe6f6!important;
+  font-size:8px!important;
+  line-height:1.35!important;
+}
+.pocket-feed .post > .comments-section .comment-avatar{
+  width:23px!important;
+  height:23px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(255,207,159,.34)!important;
+  border-radius:50%!important;
+  background:linear-gradient(145deg,#243b68,#142446)!important;
+  color:#ffcf9f!important;
+  font-size:8px!important;
+  font-weight:800!important;
+}
+.pocket-feed .post > .comments-section .comment-author{
+  margin-bottom:2px!important;
+  color:#fff!important;
+  font-size:8px!important;
+  font-weight:700!important;
+}
+.pocket-feed .post > .comments-section .comment-actions{
+  margin-top:5px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+}
+.pocket-feed .post > .comments-section .comment-action{
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  border:0!important;
+  background:none!important;
+  color:rgba(255,255,255,.34)!important;
+  font:600 7px 'Outfit',sans-serif!important;
+}
+.pocket-feed .post > .comments-section .comment-like-icon{
+  width:10px!important;
+  height:10px!important;
+}
+.pocket-feed .post > .comments-section .comment-like-button.liked{
+  color:#ffcf9f!important;
+}
+.pocket-feed .post > .comments-section .comment-like-button.liked .comment-like-icon path{
+  fill:currentColor!important;
+  stroke:currentColor!important;
+}
+.pocket-feed .post > .card-bottom-spacer{
+  height:2px!important;
+}
+
+
+
+/* === POCKET PAGE AUDIT RECOVERY === */
+.prototype-strip{display:none!important}
+#pocketWall[hidden]{display:none!important}
+.pocket-entry[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
-<main>
-<h1>Pocket page cleanup + AUD-008</h1>
-<p>This builds a replacement from the current live <code>pocket-page-prototype.html</code>.</p>
+<header class="site-header">
+  <a class="brand-lockup" href="index.html" aria-label="All Media home">
+    <img class="brand-logo" src="all-media-logo.png" alt="">
+    <span class="brand-name"><span>ALL</span> <strong>MEDIA</strong></span>
+  </a>
 
-<div class="notice">
-<strong>This fixes three Pocket-page problems:</strong><br><br>
-1. A brand-new Pocket really starts with an empty saved-post list.<br>
-2. Sample cards cannot show underneath the empty state.<br>
-3. The visible PROTOTYPE VIEW strip is hidden from the real interface.<br><br>
-This RUN-ME file is <strong>not</strong> what you upload.
+  <nav class="top-nav" aria-label="Primary navigation">
+    <a href="index.html">Home</a>
+    <a href="discover.html">Discover</a>
+    <a href="#">All Play</a>
+  </nav>
+
+  <label class="global-search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input type="search" placeholder="Search All Media…" aria-label="Search All Media">
+  </label>
+
+  <div class="header-actions">
+    <button class="header-notifications" type="button" aria-label="Notifications" title="Notifications" onclick="location.href='notifications.html'">
+      <span class="notification-bell">🔔</span>
+      <span class="header-notification-count">5</span>
+    </button>
+    <a class="profile-cluster" href="profile.html" aria-label="Open your profile">
+      <span class="header-avatar" id="headerAvatar"></span>
+    </a>
+  </div>
+</header>
+
+<div class="community-bar">
+  <span class="community-label">COMMUNITIES</span>
+  <div class="pinned-communities" id="homePinnedCommunities">
+    <button class="community-chip" type="button" onclick="location.href='community.html'">
+      <span class="community-icon">🎃</span><span class="community-chip-name">Spooky Cozy</span>
+      <span class="activity-bell" aria-label="3 unread notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">3</span>
+      </span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=artists'">
+      <span class="community-icon">🎨</span><span class="community-chip-name">Artists</span>
+      <span class="activity-bell" aria-label="1 unread notification">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count">1</span>
+      </span>
+    </button>
+    <button class="community-chip" type="button" onclick="location.href='community.html?community=turtle-rescue'">
+      <span class="community-icon">🐢</span><span class="community-chip-name">Turtle Rescue</span>
+      <span class="activity-bell" aria-label="No unread notifications">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="activity-count hidden">0</span>
+      </span>
+    </button>
+  </div>
+  <div class="community-divider-vertical"></div>
+  <div class="community-tools">
+    <div class="community-menu">
+      <button class="community-tool" id="communityMoreButton" type="button" aria-expanded="false">▾ More</button>
+      <div class="community-dropdown" id="communityDropdown"></div>
+    </div>
+    <button class="community-tool" id="openManageCommunitiesDrawer" type="button">Manage Communities</button>
+  </div>
+</div>
+<div class="community-divider"></div>
+
+<section class="home-community-quick-popup" id="homeCommunityQuickPopup" hidden aria-live="polite">
+  <div class="home-community-quick-head">
+    <div>
+      <h2 id="homeCommunityQuickTitle"></h2>
+      <p>Quick Community notifications</p>
+    </div>
+    <button class="home-community-quick-close" id="homeCommunityQuickClose" type="button" aria-label="Close">×</button>
+  </div>
+  <div class="home-community-quick-list" id="homeCommunityQuickList"></div>
+  <a class="home-community-quick-footer" id="homeCommunityQuickFooter" href="community-notifications.html">View all from this Community →</a>
+</section>
+
+<div class="home-manage-drawer-layer" id="homeManageCommunitiesDrawerLayer" hidden>
+  <button class="home-manage-drawer-backdrop" id="homeManageCommunitiesDrawerBackdrop" type="button" aria-label="Close Manage Communities"></button>
+  <aside class="home-manage-drawer" role="dialog" aria-modal="true" aria-label="Manage Communities">
+    <div class="home-manage-drawer-head">
+      <div>
+        <strong>Manage Communities</strong>
+        <span>Organize, pin, leave, or edit.</span>
+      </div>
+      <button id="homeManageCommunitiesDrawerClose" type="button" aria-label="Close">×</button>
+    </div>
+    <iframe id="homeManageCommunitiesDrawerFrame" title="Manage Communities" loading="lazy"></iframe>
+  </aside>
 </div>
 
-<button id="go">Build corrected Pocket page</button>
-<div id="status">Ready.</div>
+<div class="prototype-strip">
+  <div class="prototype-control">
+    <strong>PROTOTYPE VIEW</strong>
+    <button id="ownerViewBtn" class="active" type="button">Owner</button>
+    <button id="visitorViewBtn" type="button">Visitor</button>
+  </div>
+</div>
+
+<main class="page">
+  <section class="pocket-hero">
+    <div class="pocket-summary">
+      <div class="pocket-identity">
+        <div class="pocket-icon-large" id="pocketIcon" title="Pocket image or emoji">🎃</div>
+
+        <div class="hero-copy">
+          <div class="hero-kicker">POCKET</div>
+          <div class="hero-title-row">
+            <h1 id="pocketName">Tiny Haunted Art</h1>
+          </div>
+
+          <div class="creator-line">
+            <span class="creator-avatar" aria-hidden="true">H</span>
+            <span>Curated by <a id="pocketCreator" href="profile.html?user=yourusername">@yourusername</a></span>
+          </div>
+
+          <p class="hero-description" id="pocketDescription">A small collection of spooky art, cozy rooms, crooked houses, moons, pumpkins, and art that feels gently haunted.</p>
+        </div>
+      </div>
+
+      <div class="hero-controls">
+        <span class="privacy-badge">◉ <span id="privacyBadge">Public Pocket</span></span>
+        <button class="secondary" id="editPocketBtn" type="button">Edit Pocket</button>
+        <button class="primary" id="followPocketBtn" type="button" hidden>＋ Follow Pocket</button>
+        <div class="hero-meta"><span class="count-strong" id="itemCount">4 saved posts</span><span>·</span><span id="followerCount">238 followers</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pocket-details" id="pocketDetails">
+    <button class="pocket-details-toggle" id="pocketDetailsToggle" type="button" aria-expanded="false" aria-controls="pocketDetailsPanel">
+      <span class="pocket-details-title"><span class="tag-icon">◇</span>Inside this Pocket</span>
+      <span class="pocket-details-state"><span id="detailsStateText">Show details</span><span class="pocket-details-chevron">⌄</span></span>
+    </button>
+
+    <div class="pocket-details-panel" id="pocketDetailsPanel" hidden>
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">◇</span>Topics</div>
+        <div class="detail-values" id="interestChips">
+          <span class="chip">🎃 Halloween</span>
+          <span class="chip">🎨 Art</span>
+          <span class="chip">✨ Cozy</span>
+          <span class="chip">Dark Academia</span>
+          <span class="chip">Illustration</span>
+          <span class="chip detail-extra">Nature</span>
+          <span class="chip detail-extra">Gothic</span>
+          <span class="chip detail-extra">Autumn</span>
+          <button class="more-detail-btn" type="button">+3 more⌄</button>
+        </div>
+      </div>
+
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">#</span>Hashtags</div>
+        <div class="detail-values" id="hashtagChips">
+          <span class="chip">#halloween</span>
+          <span class="chip">#spookyart</span>
+          <span class="chip">#cozy</span>
+          <span class="chip">#darkacademia</span>
+          <span class="chip">#illustration</span>
+          <span class="chip detail-extra">#pumpkins</span>
+          <span class="chip detail-extra">#hauntedhome</span>
+          <button class="more-detail-btn" type="button">+2 more⌄</button>
+        </div>
+      </div>
+
+      <div class="pocket-detail-row">
+        <div class="pocket-detail-label"><span class="row-icon">○</span>Creators</div>
+        <div class="detail-values" id="creatorChips">
+          <a class="chip creator-chip" href="profile.html?user=moonlitmoth"><span class="creator-dot">M</span>@moonlitmoth</a>
+          <a class="chip creator-chip" href="profile.html?user=ravenandruins"><span class="creator-dot">R</span>@ravenandruins</a>
+          <a class="chip creator-chip" href="profile.html?user=inkandivy"><span class="creator-dot">I</span>@inkandivy</a>
+          <a class="chip creator-chip" href="profile.html?user=pagesandpumpkins"><span class="creator-dot">P</span>@pagesandpumpkins</a>
+          <a class="chip creator-chip" href="profile.html?user=crowandfern"><span class="creator-dot">C</span>@crowandfern</a>
+          <a class="chip creator-chip detail-extra" href="profile.html?user=thewhimsicalwolf"><span class="creator-dot">W</span>@thewhimsicalwolf</a>
+          <button class="more-detail-btn" type="button">+1 more⌄</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="collection-head">
+    <div>
+      <div class="collection-kicker">CURATED IN THIS POCKET</div>
+      <h2 id="collectionTitle">A hand-picked little world</h2>
+    </div>
+    <p>Posts stay connected to their original creators and Communities.</p>
+  </div>
+
+  <section id="emptyPocket" class="empty-pocket" hidden>
+    <div class="empty-icon">▱</div>
+    <strong>Your Pocket is ready.</strong>
+    <p>Explore All Media and choose <b>Pocket</b> on a post to start building this little corner. Nothing is added automatically from the Pocket Lens.</p>
+    <a class="primary" href="discover.html" style="display:inline-flex;align-items:center">Explore All Media</a>
+  </section>
+
+
+  <section class="feed pocket-feed" id="pocketWall">
+
+    <div class="pocket-entry">
+<article class="post regular-post">
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=moonlitmoth" aria-label="Open @moonlitmoth profile">m</a>
+          <div class="post-author-copy">
+            <div class="post-author-line">
+              <a class="username" href="profile.html?user=moonlitmoth">@moonlitmoth</a>
+              <span class="post-time">· 12m ago</span>
+              <span class="post-type-bubble">POST</span>
+            </div>
+            <div class="post-meta-line">
+              <span class="topic">🎨 Art</span>
+              <a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a>
+            </div>
+          </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
+        </header>
+
+        <div class="post-image crop-fit">
+          <div aria-label="Moon artwork placeholder" class="demo-moon">🌙</div>
+        </div>
+
+        <p class="caption">Finally finished this little piece tonight. 🌙 I wanted it to feel like something you might find tucked away in an old haunted house!</p>
+
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button" aria-pressed="false">
+            <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+            <span class="like-count">24</span>
+          </button>
+          <button class="action-pill pocket-action pocket-icon-only" type="button" aria-label="Add to Pocket" title="Add to Pocket"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg></button>
+          <button class="action-pill pocket-action pocket-icon-only" type="button" aria-label="Add to Pocket" title="Add to Pocket"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg><span>Community</span>
+          </button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>14</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button">
+            <svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span>
+          </button>
+        </div>
+
+<div class="latest-comment">
+  <span class="comment-username">@cryptidcorner:</span>
+  <span class="latest-comment-copy">I LOVE this! The little details are perfect and the whole thing has such a beautiful haunted-house feeling to it!</span>
+  <span class="latest-comment-time">2m ago</span>
+</div>
+
+<div class="post-footer">
+  <div class="single-comment-composer">
+    <div class="comment-composer pocket-demo-comment">
+      <div class="comment-compact-state">
+        <span class="comment-mini-avatar"></span>
+        <span>Say hi... share what you feel</span>
+      </div>
+      <div class="comment-expanded-state">
+        <textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea>
+        <div class="comment-post-actions">
+          <button class="comment-post-button pocket-demo-comment-post" type="button">POST</button>
+          <button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button>
+        </div>
+      </div>
+    </div>
+    <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+    <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+  </div>
+
+  <button class="more-comments pocket-demo-more-comments" type="button">View 7 more</button>
+
+  <div class="post-footer-actions">
+    <button class="hashtag-link pocket-demo-hashtags" type="button" aria-expanded="false">
+      <span class="hashtag-icon">#</span>
+      <span>Hashtags</span>
+    </button>
+  </div>
+</div>
+
+<div class="post-hashtags">
+  <span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#moonart</span><span class="post-hashtag">#hauntedhouse</span>
+</div>
+
+<section class="comments-section">
+  
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">m</div>
+  <div class="comment-body">
+    <div class="comment-author">@mossandbones</div>
+    <div>This glow is gorgeous. It feels like a tiny window into a story.</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">s</div>
+  <div class="comment-body">
+    <div class="comment-author">@softcryptid</div>
+    <div>The little moon is SO good. 🌙</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+
+      </article>
+    </div>
+
+    <div class="pocket-entry">
+<article class="post blog-post blog-post-v11 sample-post">
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=paperlantern" aria-label="Open @paperlantern profile">p</a>
+          <div class="post-author-copy">
+            <div class="post-author-line">
+              <a class="username" href="profile.html?user=paperlantern">@paperlantern</a>
+              <span class="post-time">· 54m ago</span>
+              <span class="post-type-bubble">BLOG</span>
+            </div>
+            <div class="post-meta-line">
+              <span class="topic">📚 Books</span>
+              <a class="post-community" href="community.html?community=book-club">· in 📚 Book Club</a>
+            </div>
+          </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
+        </header>
+
+        <h2 class="blog-title blog-feed-title"><span aria-hidden="true" class="blog-title-star">✦</span>Why I Keep a Tiny Autumn Sketchbook</h2>
+        <div aria-label="Blog preview image placeholder" class="blog-preview-image blog-home-preview">
+          <div class="sample-media-art sample-blog-cover"><div class="sample-media-copy">HOME PREVIEW IMAGE</div></div>
+        </div>
+        <p class="blog-excerpt blog-feed-excerpt">I started carrying a tiny sketchbook this fall because I wanted somewhere to put all the little ideas that never felt big enough for a full project. It has slowly become one of my favorite creative habits…</p>
+        <button class="read-blog blog-read-button pocket-demo-blog-toggle" type="button">Read Blog →</button>
+        <div class="blog-full-content blog-full-body">
+          <p>There is something about a tiny sketchbook that makes drawing feel less serious. A page does not have to become a finished piece, and an idea does not have to prove that it deserves a whole canvas.</p>
+          <p>Lately I have been filling mine with crooked little houses, sleepy moons, leaves, color notes, and scraps of ideas I might come back to later.</p>
+        </div>
+
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button" aria-pressed="false">
+            <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+            <span class="like-count">18</span>
+          </button>
+          <button class="action-pill community-action pocket-icon-only" type="button" aria-label="Share to Community" title="Share to Community"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg></button>
+          <button class="action-pill pocket-action pocket-icon-only" type="button" aria-label="Add to Pocket" title="Add to Pocket"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>6</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+
+<div class="latest-comment">
+  <span class="comment-username">@bookmarkwitch:</span>
+  <span class="latest-comment-copy">This makes me want to start carrying one too.</span>
+  <span class="latest-comment-time">8m ago</span>
+</div>
+
+<div class="post-footer">
+  <div class="single-comment-composer">
+    <div class="comment-composer pocket-demo-comment">
+      <div class="comment-compact-state">
+        <span class="comment-mini-avatar"></span>
+        <span>Say hi... share what you feel</span>
+      </div>
+      <div class="comment-expanded-state">
+        <textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea>
+        <div class="comment-post-actions">
+          <button class="comment-post-button pocket-demo-comment-post" type="button">POST</button>
+          <button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button>
+        </div>
+      </div>
+    </div>
+    <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+    <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+  </div>
+
+  <button class="more-comments pocket-demo-more-comments" type="button">View 1 more</button>
+
+  <div class="post-footer-actions">
+    <button class="hashtag-link pocket-demo-hashtags" type="button" aria-expanded="false">
+      <span class="hashtag-icon">#</span>
+      <span>Hashtags</span>
+    </button>
+  </div>
+</div>
+
+<div class="post-hashtags">
+  <span class="post-hashtag">#sketchbook</span><span class="post-hashtag">#creativeprocess</span>
+</div>
+
+<section class="comments-section">
+  
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">b</div>
+  <div class="comment-body">
+    <div class="comment-author">@bookmarkwitch</div>
+    <div>This makes me want to start carrying one too.</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+
+      </article>
+    </div>
+
+    <div class="pocket-entry">
+<article class="post video-post-v11 sample-post" data-post-type="video">
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=ravenandruins" aria-label="Open @ravenandruins profile">r</a>
+          <div class="post-author-copy">
+            <div class="post-author-line"><a class="username" href="profile.html?user=ravenandruins">@ravenandruins</a><span class="post-time">· 2h ago</span><span class="post-type-bubble">VIDEO</span></div>
+            <div class="post-meta-line"><span class="topic">🎨 Art</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
+          </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
+        </header>
+        <h2 class="video-title"><span aria-hidden="true" class="video-title-icon">▶</span>Painting a Spooky Window From Start to Finish</h2>
+        <div aria-label="Video player preview" class="video-feed-player video-v11-feed-player">
+          <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+          <div class="video-playback-warning">This browser cannot play this video file.</div>
+          <div class="video-control-overlay">
+            <div class="video-control-row">
+              <button type="button" class="video-control-button pocket-demo-video-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+              <button type="button" class="video-control-button pocket-demo-video-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+              <span class="video-control-time video-elapsed">0:00</span>
+              <input class="video-control-scrubber pocket-demo-video-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+              <span class="video-control-time video-total">0:00</span>
+              <button type="button" class="video-control-button pocket-demo-video-fullscreen" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+            </div>
+          </div>
+        </div>
+        <p class="video-description caption">A quiet full-process painting video from the first background layer through the final little highlights.</p>
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button" aria-pressed="false"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">91</span></button>
+          <button class="action-pill community-action pocket-icon-only" type="button" aria-label="Share to Community" title="Share to Community"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg></button>
+          <button class="action-pill pocket-action pocket-icon-only" type="button" aria-label="Add to Pocket" title="Add to Pocket"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>22</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+
+<div class="latest-comment">
+  <span class="comment-username">@cryptidcorner:</span>
+  <span class="latest-comment-copy">The glow in this is perfect.</span>
+  <span class="latest-comment-time">2m ago</span>
+</div>
+
+<div class="post-footer">
+  <div class="single-comment-composer">
+    <div class="comment-composer pocket-demo-comment">
+      <div class="comment-compact-state">
+        <span class="comment-mini-avatar"></span>
+        <span>Say hi... share what you feel</span>
+      </div>
+      <div class="comment-expanded-state">
+        <textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea>
+        <div class="comment-post-actions">
+          <button class="comment-post-button pocket-demo-comment-post" type="button">POST</button>
+          <button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button>
+        </div>
+      </div>
+    </div>
+    <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+    <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+  </div>
+
+  <button class="more-comments pocket-demo-more-comments" type="button">View 7 more</button>
+
+  <div class="post-footer-actions">
+    <button class="hashtag-link pocket-demo-hashtags" type="button" aria-expanded="false">
+      <span class="hashtag-icon">#</span>
+      <span>Hashtags</span>
+    </button>
+  </div>
+</div>
+
+<div class="post-hashtags">
+  <span class="post-hashtag">#halloweenart</span><span class="post-hashtag">#spookyart</span><span class="post-hashtag">#moonart</span>
+</div>
+
+<section class="comments-section">
+  
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">m</div>
+  <div class="comment-body">
+    <div class="comment-author">@mossandbones</div>
+    <div>This glow is gorgeous. It feels like a tiny window into a story.</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">s</div>
+  <div class="comment-body">
+    <div class="comment-author">@softcryptid</div>
+    <div>The atmosphere in this is so good.</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+
+      </article>
+    </div>
+
+    <div class="pocket-entry">
+<article class="post byte-post-v11 sample-post" data-post-type="byte">
+        <div class="byte-stage">
+          <div class="byte-preview video-feed-player byte-feed-player byte-v11-feed-player" aria-label="Byte player preview">
+            <video preload="metadata" playsinline src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+            <div class="video-playback-warning">This browser cannot play this video file.</div>
+            <div class="video-control-overlay">
+              <div class="video-control-row">
+                <button type="button" class="video-control-button pocket-demo-video-play" aria-label="Play video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+                <button type="button" class="video-control-button pocket-demo-video-mute" aria-label="Mute video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path></svg></button>
+                <span class="video-control-time video-elapsed">0:00</span>
+                <input class="video-control-scrubber pocket-demo-video-scrubber" type="range" min="0" max="100" step="0.1" value="0" aria-label="Video timeline">
+                <span class="video-control-time video-total">0:00</span>
+                <button type="button" class="video-control-button pocket-demo-video-fullscreen" aria-label="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <header class="post-header">
+          <a class="profile-picture" href="profile.html?user=cozycryptid" aria-label="Open @cozycryptid profile">c</a>
+          <div class="post-author-copy">
+            <div class="post-author-line"><a class="username" href="profile.html?user=cozycryptid">@cozycryptid</a><span class="post-time">· 3h ago</span><span class="post-type-bubble">BYTE</span></div>
+            <div class="post-meta-line"><span class="topic">🎃 Halloween</span><a class="post-community" href="community.html">· in 🎃 Spooky Cozy</a></div>
+          </div>
+        
+          <div class="pocket-post-options owner-only" style="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;">
+  <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+    style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+  <div class="pocket-post-menu" hidden
+    style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+    <button class="pocket-remove-option" type="button"
+      style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+  </div>
+</div>
+        </header>
+        <p class="byte-caption caption">My familiar approves of tonight's candle-and-pumpkin setup. 🐈‍⬛🕯️</p>
+        <div class="interactions">
+          <button class="action-pill pocket-demo-like" type="button" aria-pressed="false"><svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg><span class="like-count">147</span></button>
+          <button class="action-pill community-action pocket-icon-only" type="button" aria-label="Share to Community" title="Share to Community"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4Z"></path><path d="M8 4v6"></path></svg></button>
+          <button class="action-pill" type="button"><svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path><path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path></svg></button>
+          <button class="reblog-counter pocket-demo-reblog" type="button">↻ <span>31</span> · Reblog</button>
+          <button class="share-action" type="button">↗ Share</button>
+          <button aria-label="Save post" class="save-action pocket-demo-save" type="button"><svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24"><path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path></svg><span>Save</span></button>
+        </div>
+
+<div class="latest-comment">
+  <span class="comment-username">@cryptidcorner:</span>
+  <span class="latest-comment-copy">This is exactly the cozy spooky energy I needed today.</span>
+  <span class="latest-comment-time">5m ago</span>
+</div>
+
+<div class="post-footer">
+  <div class="single-comment-composer">
+    <div class="comment-composer pocket-demo-comment">
+      <div class="comment-compact-state">
+        <span class="comment-mini-avatar"></span>
+        <span>Say hi... share what you feel</span>
+      </div>
+      <div class="comment-expanded-state">
+        <textarea class="comment-text-area" maxlength="500" placeholder="Say hi... share what you feel"></textarea>
+        <div class="comment-post-actions">
+          <button class="comment-post-button pocket-demo-comment-post" type="button">POST</button>
+          <button class="comment-close-button pocket-demo-comment-close" type="button">CLOSE</button>
+        </div>
+      </div>
+    </div>
+    <button class="hide-comments-inline pocket-demo-hide-comments" type="button">Hide comments ↑</button>
+    <div class="comment-helper"><span>Press Esc to close · ↵ to post</span></div>
+  </div>
+
+  <button class="more-comments pocket-demo-more-comments" type="button">View 7 more</button>
+
+  <div class="post-footer-actions">
+    <button class="hashtag-link pocket-demo-hashtags" type="button" aria-expanded="false">
+      <span class="hashtag-icon">#</span>
+      <span>Hashtags</span>
+    </button>
+  </div>
+</div>
+
+<div class="post-hashtags">
+  <span class="post-hashtag">#spookycozy</span><span class="post-hashtag">#blackcat</span><span class="post-hashtag">#halloween</span>
+</div>
+
+<section class="comments-section">
+  
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">m</div>
+  <div class="comment-body">
+    <div class="comment-author">@mossandbones</div>
+    <div>Tiny perfect spooky moment.</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+<div class="comment-item">
+  <div aria-hidden="true" class="comment-avatar">s</div>
+  <div class="comment-body">
+    <div class="comment-author">@softcryptid</div>
+    <div>The cat makes this. 🐈‍⬛</div>
+    <div class="comment-actions">
+      <button class="comment-action comment-like-button pocket-demo-comment-like" type="button">
+        <svg aria-hidden="true" class="comment-like-icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg>
+        <span>Like</span>
+      </button>
+      <button class="comment-action pocket-demo-reply" type="button">Reply</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="card-bottom-spacer" aria-hidden="true"></div>
+
+      </article>
+    </div>
+
+  </section>
+
 </main>
 
+<div class="toast" id="toast"></div>
+
 <script>
-(() => {
-  const RAW =
-    "https://raw.githubusercontent.com/AllMediaProject/all-media/main/pocket-page-prototype.html";
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const ownerBtn=$("#ownerViewBtn"),visitorBtn=$("#visitorViewBtn");
+let visitorMode=false;
 
-  const CREATE_ANCHOR = `  if(!data)return;
+function toast(message){
+  const el=$("#toast");el.textContent=message;el.classList.add("show");
+  clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1800);
+}
+function setView(mode){
+  visitorMode=mode==="visitor";
+  ownerBtn.classList.toggle("active",!visitorMode);
+  visitorBtn.classList.toggle("active",visitorMode);
+  $("#editPocketBtn").hidden=visitorMode;
+  const isPrivate=$("#privacyBadge")?.textContent.toLowerCase().includes("private");
+  $("#followPocketBtn").hidden=!visitorMode||isPrivate;
+  $$(".owner-only").forEach(el=>el.hidden=visitorMode);
+}
+ownerBtn.onclick=()=>setView("owner");
+visitorBtn.onclick=()=>setView("visitor");
 
-  $("#pocketName").textContent=data.name||"Untitled Pocket";`;
+$("#followPocketBtn").onclick=function(){
+  const following=this.dataset.following==="1";
+  this.dataset.following=following?"0":"1";
+  this.textContent=following?"＋ Follow Pocket":"✓ Following";
+  const count=$("#followerCount"),n=parseInt(count.textContent)||238;
+  count.textContent=`${Math.max(0,n+(following?-1:1))} followers`;
+};
+$("#editPocketBtn").onclick=()=>location.href="create-pocket-prototype.html?edit=1";
 
-  const CREATE_PATCH = `  if(!data)return;
+document.addEventListener("click",e=>{
+
+  const more=e.target.closest(".more-detail-btn");
+  if(more){
+    const values=more.closest(".detail-values");
+    const expanded=values.classList.toggle("expanded");
+    const hiddenCount=values.querySelectorAll(".detail-extra").length;
+    more.textContent=expanded?"Show less⌃":`+${hiddenCount} more⌄`;
+    return;
+  }
+
+  const like=e.target.closest(".pocket-demo-like");
+  if(like){
+    const count=like.querySelector(".like-count");
+    const liked=like.classList.toggle("liked");
+    like.setAttribute("aria-pressed",String(liked));
+    const n=Number(count?.textContent||0);
+    if(count)count.textContent=String(Math.max(0,n+(liked?1:-1)));
+    return;
+  }
+
+  const reblog=e.target.closest(".pocket-demo-reblog");
+  if(reblog){
+    const count=reblog.querySelector("span");
+    if(count)count.textContent=String(Number(count.textContent||0)+1);
+    return;
+  }
+
+  const save=e.target.closest(".pocket-demo-save");
+  if(save){
+    save.classList.toggle("saved");
+    return;
+  }
+
+  const tags=e.target.closest(".pocket-demo-hashtags");
+  if(tags){
+    const panel=tags.closest(".post")?.querySelector(".post-hashtags");
+    if(panel){
+      const open=panel.classList.toggle("active");
+      tags.classList.toggle("active",open);
+      tags.setAttribute("aria-expanded",String(open));
+    }
+    return;
+  }
+
+  const blogToggle=e.target.closest(".pocket-demo-blog-toggle");
+  if(blogToggle){
+    const post=blogToggle.closest(".post");
+    const body=post?.querySelector(".blog-full-body");
+    const excerpt=post?.querySelector(".blog-feed-excerpt");
+    const open=!body?.classList.contains("active");
+    body?.classList.toggle("active",open);
+    excerpt?.classList.toggle("hidden",open);
+    blogToggle.textContent=open?"Close Blog ↑":"Read Blog →";
+    return;
+  }
+
+  const composer=e.target.closest(".pocket-demo-comment");
+  if(composer&&!e.target.closest("textarea,button")){
+    composer.classList.add("active");
+    composer.closest(".single-comment-composer")?.classList.add("open");
+    composer.querySelector("textarea")?.focus();
+    return;
+  }
+
+  if(e.target.closest(".pocket-demo-comment-close")){
+    const composer=e.target.closest(".comment-composer");
+    composer?.classList.remove("active");
+    composer?.closest(".single-comment-composer")?.classList.remove("open");
+    return;
+  }
+
+  if(e.target.closest(".pocket-demo-comment-post")){
+    const composer=e.target.closest(".comment-composer");
+    const input=composer?.querySelector("textarea");
+    if(input?.value.trim()){
+      input.value="";
+      toast("Comment posted.");
+      composer.classList.remove("active");
+      composer.closest(".single-comment-composer")?.classList.remove("open");
+    }
+    return;
+  }
+
+  const play=e.target.closest(".pocket-demo-video-play");
+  if(play){
+    const video=play.closest(".video-feed-player")?.querySelector("video");
+    if(video){
+      video.paused?video.play():video.pause();
+    }
+    return;
+  }
+
+  const mute=e.target.closest(".pocket-demo-video-mute");
+  if(mute){
+    const video=mute.closest(".video-feed-player")?.querySelector("video");
+    if(video)video.muted=!video.muted;
+    return;
+  }
+
+  const full=e.target.closest(".pocket-demo-video-fullscreen");
+  if(full){
+    const video=full.closest(".video-feed-player")?.querySelector("video");
+    video?.requestFullscreen?.();
+  }
+});
+
+$$(".video-feed-player video").forEach(video=>{
+  const shell=video.closest(".video-feed-player");
+  const scrub=shell?.querySelector(".pocket-demo-video-scrubber");
+  const elapsed=shell?.querySelector(".video-elapsed");
+  const total=shell?.querySelector(".video-total");
+  const fmt=s=>{if(!Number.isFinite(s))return "0:00";const m=Math.floor(s/60),sec=Math.floor(s%60);return `${m}:${String(sec).padStart(2,"0")}`};
+  video.addEventListener("loadedmetadata",()=>{if(total)total.textContent=fmt(video.duration)});
+  video.addEventListener("timeupdate",()=>{
+    if(elapsed)elapsed.textContent=fmt(video.currentTime);
+    if(scrub&&video.duration)scrub.value=String((video.currentTime/video.duration)*100);
+  });
+  scrub?.addEventListener("input",()=>{if(video.duration)video.currentTime=(Number(scrub.value)/100)*video.duration});
+});
+
+
+// Unified Pocket footer behavior — mirrors the feed pattern below interactions.
+document.addEventListener("click",e=>{
+  const more=e.target.closest(".pocket-demo-more-comments");
+  if(more){
+    const post=more.closest(".post");
+    const comments=post?.querySelector(":scope > .comments-section");
+    const hide=post?.querySelector(".pocket-demo-hide-comments");
+    if(comments){
+      const open=comments.classList.toggle("active");
+      more.textContent=open?"Hide comments ↑":more.dataset.closedLabel||more.textContent;
+      if(!more.dataset.closedLabel && open) more.dataset.closedLabel="View comments";
+      if(hide)hide.classList.toggle("show",open);
+    }
+    return;
+  }
+
+  const hide=e.target.closest(".pocket-demo-hide-comments");
+  if(hide){
+    const post=hide.closest(".post");
+    post?.querySelector(":scope > .comments-section")?.classList.remove("active");
+    const more=post?.querySelector(".pocket-demo-more-comments");
+    if(more){
+      more.textContent=more.dataset.originalLabel||more.dataset.closedLabel||"View comments";
+    }
+    hide.classList.remove("show");
+    return;
+  }
+
+  const commentLike=e.target.closest(".pocket-demo-comment-like");
+  if(commentLike){
+    commentLike.classList.toggle("liked");
+    return;
+  }
+
+  const reply=e.target.closest(".pocket-demo-reply");
+  if(reply){
+    const post=reply.closest(".post");
+    const composer=post?.querySelector(".pocket-demo-comment");
+    if(composer){
+      composer.classList.add("active");
+      composer.closest(".single-comment-composer")?.classList.add("open");
+      composer.querySelector("textarea")?.focus();
+    }
+    return;
+  }
+});
+
+// Preserve each card's closed "View X more" label.
+$$(".pocket-demo-more-comments").forEach(btn=>{
+  btn.dataset.originalLabel=btn.textContent.trim();
+  btn.dataset.closedLabel=btn.textContent.trim();
+});
+
+
+
+// Pocket-card options menu — self-contained so page CSS cannot expose it accidentally.
+document.addEventListener("click",e=>{
+  const menuButton=e.target.closest(".pocket-post-menu-button");
+
+  if(menuButton){
+    e.stopPropagation();
+    const options=menuButton.closest(".pocket-post-options");
+    const menu=options?.querySelector(".pocket-post-menu");
+    if(!menu)return;
+
+    const shouldOpen=menu.hidden;
+
+    $$(".pocket-post-menu").forEach(other=>{
+      other.hidden=true;
+      other.style.display="none";
+    });
+    $$(".pocket-post-menu-button").forEach(other=>{
+      other.setAttribute("aria-expanded","false");
+      other.style.background="rgba(255,255,255,.04)";
+      other.style.color="rgba(255,255,255,.48)";
+    });
+
+    if(shouldOpen){
+      menu.hidden=false;
+      menu.style.display="block";
+      menuButton.setAttribute("aria-expanded","true");
+      menuButton.style.background="rgba(255,207,159,.08)";
+      menuButton.style.color="#ffcf9f";
+    }
+    return;
+  }
+
+  const remove=e.target.closest(".pocket-remove-option");
+  if(remove){
+    e.stopPropagation();
+    const entry=remove.closest(".pocket-entry");
+    removeDynamicPocketRecord(entry);
+    entry?.remove();
+    updateCount();
+    toast("Removed from this Pocket.");
+    return;
+  }
+
+  if(!e.target.closest(".pocket-post-options")){
+    $$(".pocket-post-menu").forEach(menu=>{
+      menu.hidden=true;
+      menu.style.display="none";
+    });
+    $$(".pocket-post-menu-button").forEach(button=>{
+      button.setAttribute("aria-expanded","false");
+      button.style.background="rgba(255,255,255,.04)";
+      button.style.color="rgba(255,255,255,.48)";
+    });
+  }
+});
+
+function updateCount(){
+  const count=$$(".pocket-entry:not([hidden])").length;
+  $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
+  if(!count){$("#pocketWall").hidden=true;$("#emptyPocket").hidden=false;}
+}
+
+function setPocketDetails(open){
+  const box=$("#pocketDetails"),panel=$("#pocketDetailsPanel"),toggle=$("#pocketDetailsToggle");
+  box.classList.toggle("open",open);
+  panel.hidden=!open;
+  toggle.setAttribute("aria-expanded",String(open));
+  $("#detailsStateText").textContent=open?"Hide details":"Show details";
+}
+
+$("#pocketDetailsToggle").onclick=()=>setPocketDetails($("#pocketDetailsPanel").hidden);
+
+document.addEventListener("click",e=>{
+  const btn=e.target.closest(".more-detail-btn");
+  if(!btn)return;
+  const values=btn.closest(".detail-values");
+  const expanded=values.classList.toggle("expanded");
+  const extras=values.querySelectorAll(".detail-extra").length;
+  btn.textContent=expanded?"Show less⌃":`+${extras} more⌄`;
+});
+
+function renderDetailItems(container,items,emptyText){
+  const visible=5;
+  if(!items.length){container.innerHTML=`<span class="chip">${emptyText}</span>`;return;}
+  container.innerHTML=items.map((html,i)=>i<visible?html:html.replace('class="chip','class="chip detail-extra')).join("");
+  const extra=Math.max(0,items.length-visible);
+  if(extra)container.insertAdjacentHTML("beforeend",`<button class="more-detail-btn" type="button">+${extra} more⌄</button>`);
+}
+
+
+function renderPocketDetailList(container,items,type){
+  if(!container)return;
+  container.innerHTML="";
+  if(!items.length){
+    const empty=document.createElement("span");
+    empty.className="chip";
+    empty.textContent=type==="hashtag"?"No hashtags selected":type==="creator"?"No creators selected":"No topics selected";
+    container.appendChild(empty);
+    return;
+  }
+
+  const visibleCount=5;
+  items.forEach((item,index)=>{
+    let el;
+    if(type==="creator"){
+      el=document.createElement("a");
+      el.href=`profile.html?user=${encodeURIComponent((item.handle||"").replace(/^@/,""))}`;
+      el.className="chip creator-chip"+(index>=visibleCount?" detail-extra":"");
+      const dot=document.createElement("span");
+      dot.className="creator-dot";
+      dot.textContent=(item.name||item.handle||"?").replace(/^@/,"").charAt(0).toUpperCase();
+      el.append(dot,document.createTextNode(item.handle||item.name||"Creator"));
+    }else{
+      el=document.createElement("span");
+      el.className="chip"+(index>=visibleCount?" detail-extra":"");
+      if(type==="hashtag"){
+        const raw=typeof item==="string"?item:(item.tag||item.name||"");
+        el.textContent=raw.startsWith("#")?raw:`#${raw}`;
+      }else{
+        el.textContent=typeof item==="string"?item:`${item.emoji||""}${item.emoji?" ":""}${item.name||""}`;
+      }
+    }
+    container.appendChild(el);
+  });
+
+  if(items.length>visibleCount){
+    const btn=document.createElement("button");
+    btn.className="more-detail-btn";
+    btn.type="button";
+    btn.textContent=`+${items.length-visibleCount} more⌄`;
+    container.appendChild(btn);
+  }
+}
+
+
+
+
+
+function renderPocketIdentity(data){
+  const icon=$("#pocketIcon");
+  if(!icon)return;
+
+  const photo=data.photo||data.cover||"";
+  const emoji=data.emoji||data.icon||"🎃";
+  const wantsPhoto=data.identityType==="photo" && Boolean(photo);
+
+  icon.style.backgroundImage="none";
+  icon.textContent="";
+
+  if(wantsPhoto){
+    icon.style.backgroundImage=`url("${photo}")`;
+  }else{
+    icon.textContent=emoji;
+  }
+}
+
+function applyCreatedPocket(){
+  const params=new URLSearchParams(location.search);
+  if(params.get("new")!=="1" && params.get("created")!=="1")return;
+  let data=null;
+  try{data=JSON.parse(localStorage.getItem("allMediaPocketPrototypeV1")||"null")}catch(e){}
+  if(!data)return;
 
   /* AUD-008: a newly created Pocket must begin with no saved posts.
-     This only runs on the initial creation visit. Edits and normal
+     This runs only on the initial creation visit. Edits and normal
      Pocket opens preserve existing saved content. */
   if(params.get("new")==="1"){
     try{
@@ -60,78 +2378,227 @@ This RUN-ME file is <strong>not</strong> what you upload.
     }catch(e){}
   }
 
-  $("#pocketName").textContent=data.name||"Untitled Pocket";`;
+  $("#pocketName").textContent=data.name||"Untitled Pocket";
+  $("#pocketDescription").textContent=data.description||"";
+  { const p=data.privacyLabel||data.privacy||"Public"; $("#privacyBadge").textContent=/pocket/i.test(p)?p:`${p} Pocket`; }
+  renderDetailItems($("#interestChips"),(data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),"No topics selected");
+  renderDetailItems($("#hashtagChips"),(data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),"No hashtags selected");
+  renderDetailItems($("#creatorChips"),(data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),"No creators selected");
+  renderPocketIdentity(data);
 
-  const CSS_PATCH = `
-/* === FINAL POCKET PAGE AUDIT CLEANUP === */
-.prototype-strip{display:none!important}
-.pocket-feed[hidden]{display:none!important}
-`;
+  $("#pocketWall").hidden=true;
+  $("#emptyPocket").hidden=false;
+  $("#itemCount").textContent="0 saved posts";
+  $("#collectionTitle").textContent="Your Pocket starts empty";
+  document.title=`${data.name||"Pocket"} · Pocket | All Media`;
+  setView(visitorMode?"visitor":"owner");
+}
+applyCreatedPocket();
 
-  const button = document.getElementById("go");
-  const status = document.getElementById("status");
 
-  button.onclick = async () => {
-    button.disabled = true;
-    status.textContent = "Fetching current pocket-page-prototype.html from GitHub…";
+/* =========================================================
+   POCKET INTEGRATION — SAVED POSTS FROM HOME
+   Prototype sample cards stay available when no ?pocket= is supplied.
+========================================================= */
+const POCKET_SAVED_POSTS_KEY="allMediaPocketSavedPostsV1";
+const POCKET_REGISTRY_KEY="allMediaPocketRegistryV1";
 
-    try{
-      const res = await fetch(RAW + "?pocketcleanup=" + Date.now(), {cache:"no-store"});
-      if(!res.ok) throw new Error("GitHub returned HTTP " + res.status);
+function pocketIntegrationRead(key,fallback){
+  try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}
+  catch(e){return fallback}
+}
+function pocketIntegrationWrite(key,value){
+  try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}
+}
+function pocketIntegrationKey(name){
+  return String(name||"").trim().toLowerCase();
+}
+function selectedIntegratedPocketName(){
+  return new URLSearchParams(location.search).get("pocket")||"";
+}
+function removeDynamicPocketRecord(entry){
+  if(!entry?.classList.contains("dynamic-pocket-entry"))return;
 
-      let source = await res.text();
+  const pocketName=selectedIntegratedPocketName();
+  const postId=entry.dataset.savedPostId;
+  if(!pocketName||!postId)return;
 
-      if(!source.includes("<!DOCTYPE html>") && !source.includes("<!doctype html>")){
-        throw new Error("Safety check failed: fetched file is not HTML.");
-      }
+  const map=pocketIntegrationRead(POCKET_SAVED_POSTS_KEY,{});
+  const key=pocketIntegrationKey(pocketName);
+  map[key]=(map[key]||[]).filter(record=>record.id!==postId);
+  pocketIntegrationWrite(POCKET_SAVED_POSTS_KEY,map);
+}
 
-      if(!source.includes("AUD-008: a newly created Pocket must begin with no saved posts.")){
-        if(!source.includes(CREATE_ANCHOR)){
-          throw new Error("Safety check failed: Pocket creation anchor not found.");
-        }
-        source = source.replace(CREATE_ANCHOR, CREATE_PATCH);
-        status.textContent += "\n✓ Added real new-Pocket storage reset.";
-      }else{
-        status.textContent += "\n✓ New-Pocket storage reset already present.";
-      }
+function pocketIntegratedOptionsMenu(){
+  const wrap=document.createElement("div");
+  wrap.className="pocket-post-options owner-only";
+  wrap.style.cssText="position:relative;margin-left:auto;align-self:start;flex:0 0 auto;";
+  wrap.innerHTML=`
+    <button class="pocket-post-menu-button" type="button" aria-label="Pocket post options" aria-expanded="false"
+      style="width:25px;height:25px;min-width:25px;padding:0;display:grid;place-items:center;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.48);font:800 11px/1 'Outfit',sans-serif;cursor:pointer;">•••</button>
+    <div class="pocket-post-menu" hidden
+      style="display:none;position:absolute;top:30px;right:0;z-index:50;min-width:128px;padding:5px;border:1px solid rgba(255,207,159,.20);border-radius:9px;background:linear-gradient(145deg,#182a53,#101e40);box-shadow:0 10px 26px rgba(0,0,0,.34);white-space:nowrap;">
+      <button class="pocket-remove-option" type="button"
+        style="width:100%;padding:7px 9px;border:0;border-radius:7px;background:transparent;color:#f0aaa5;font:700 8px 'Outfit',sans-serif;text-align:left;cursor:pointer;">Remove from Pocket</button>
+    </div>
+  `;
+  return wrap;
+}
 
-      if(!source.includes("/* === FINAL POCKET PAGE AUDIT CLEANUP === */")){
-        const styleClose = source.lastIndexOf("</style>");
-        if(styleClose < 0) throw new Error("Safety check failed: closing style tag not found.");
-        source = source.slice(0, styleClose) + CSS_PATCH + "\n" + source.slice(styleClose);
-        status.textContent += "\n✓ Added empty-feed hidden rule.";
-        status.textContent += "\n✓ Hid Prototype View strip.";
-      }else{
-        status.textContent += "\n✓ Pocket-page cleanup CSS already present.";
-      }
+function prepareIntegratedPocketCard(entry){
+  const post=entry.querySelector(".post");
+  if(!post)return;
 
-      const blob = new Blob([source], {type:"text/plain;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "pocket-page-prototype-CLEAN-FIXED.txt";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),1500);
+  post.querySelectorAll(".post-header-right,.regular-post-menu,.blog-v11-menu,.video-v11-menu,.byte-v11-menu,.post-menu-dropdown,.post-menu").forEach(el=>el.remove());
 
-      status.textContent +=
-        "\n\n✓ DONE\n\n" +
-        "NEXT:\n" +
-        "1. Rename pocket-page-prototype-CLEAN-FIXED.txt to pocket-page-prototype.html\n" +
-        "2. Upload that renamed file to the repo root\n" +
-        "3. Replace the current pocket-page-prototype.html\n" +
-        "4. Commit: Fix AUD-008 Pocket empty state and page cleanup";
-    }catch(err){
-      console.error(err);
-      status.textContent =
-        "ERROR: " + err.message +
-        "\n\nNothing was changed on GitHub.";
-    }finally{
-      button.disabled = false;
+  const header=post.querySelector(".post-header");
+  if(header&&!header.querySelector(".pocket-post-options")){
+    header.appendChild(pocketIntegratedOptionsMenu());
+  }
+
+  const like=post.querySelector(".regular-like-button,.blog-like-button,.video-like-button,.byte-like-button,.like-button");
+  like?.classList.add("pocket-demo-like");
+
+  post.querySelector(".more-comments")?.classList.add("pocket-demo-more-comments");
+  post.querySelector(".hashtag-link")?.classList.add("pocket-demo-hashtags");
+  post.querySelector(".comment-composer")?.classList.add("pocket-demo-comment");
+  post.querySelector(".comment-post-button")?.classList.add("pocket-demo-comment-post");
+  post.querySelector(".comment-close-button")?.classList.add("pocket-demo-comment-close");
+  post.querySelector(".hide-comments-inline")?.classList.add("pocket-demo-hide-comments");
+  post.querySelectorAll(".comment-like-button").forEach(el=>el.classList.add("pocket-demo-comment-like"));
+  post.querySelectorAll(".comment-actions .comment-action:not(.comment-like-button)").forEach(el=>el.classList.add("pocket-demo-reply"));
+
+  post.querySelectorAll(".interactions button").forEach(button=>{
+    const text=button.textContent.trim().toLowerCase();
+
+    if(text.includes("pocket")||button.classList.contains("pocket-action")){
+      button.classList.add("pocket-action","pocket-icon-only");
+      button.setAttribute("aria-label","Add to Pocket");
+      button.setAttribute("title","Add to Pocket");
+      button.querySelectorAll("span").forEach(span=>{
+        if(span.textContent.trim().toLowerCase()==="pocket")span.remove();
+      });
     }
-  };
-})();
+
+    if(text.includes("community")||button.classList.contains("community-action")){
+      button.classList.add("community-action","pocket-icon-only");
+      button.setAttribute("aria-label","Share to Community");
+      button.setAttribute("title","Share to Community");
+      button.querySelectorAll("span").forEach(span=>{
+        if(span.textContent.trim().toLowerCase()==="community")span.remove();
+      });
+    }
+  });
+
+  post.querySelector(".comments-section")?.classList.remove("active");
+  post.querySelector(".post-hashtags")?.classList.remove("active");
+  post.querySelector(".comment-composer")?.classList.remove("active");
+  post.querySelector(".single-comment-composer")?.classList.remove("open");
+
+  const more=post.querySelector(".pocket-demo-more-comments");
+  if(more){
+    more.dataset.originalLabel=more.textContent.trim();
+    more.dataset.closedLabel=more.textContent.trim();
+  }
+}
+
+function applyIntegratedPocketMeta(name){
+  const registry=pocketIntegrationRead(POCKET_REGISTRY_KEY,{});
+  const meta=registry[pocketIntegrationKey(name)]||{name,emoji:"▱",type:"owned"};
+  const created=pocketIntegrationRead("allMediaPocketPrototypeV1",null);
+  const createdMatches=created?.name&&pocketIntegrationKey(created.name)===pocketIntegrationKey(name);
+  const data=createdMatches?created:meta;
+
+  $("#pocketName").textContent=data.name||name;
+  document.title=`${data.name||name} · Pocket | All Media`;
+
+  if(createdMatches){
+    $("#pocketDescription").textContent=data.description||"";
+    const privacy=data.privacyLabel||data.privacy||"Public";
+    $("#privacyBadge").textContent=/pocket/i.test(privacy)?privacy:`${privacy} Pocket`;
+
+    renderDetailItems(
+      $("#interestChips"),
+      (data.interests||[]).map(x=>`<span class="chip">${x.emoji||"#"} ${x.name}</span>`),
+      "No topics selected"
+    );
+    renderDetailItems(
+      $("#hashtagChips"),
+      (data.hashtags||[]).map(x=>`<span class="chip">${String(x).startsWith("#")?x:`#${x}`}</span>`),
+      "No hashtags selected"
+    );
+    renderDetailItems(
+      $("#creatorChips"),
+      (data.creators||[]).map(x=>`<a class="chip creator-chip" href="profile.html?user=${encodeURIComponent(x.handle.replace(/^@/,""))}"><span class="creator-dot">${(x.name||x.handle).charAt(0).toUpperCase()}</span>${x.handle}</a>`),
+      "No creators selected"
+    );
+    renderPocketIdentity(data);
+  }else{
+    $("#pocketDescription").textContent="A curated Pocket on All Media.";
+    $("#privacyBadge").textContent=meta.type==="followed"?"Public Pocket":"Public Pocket";
+    renderDetailItems($("#interestChips"),[],"No topics selected");
+    renderDetailItems($("#hashtagChips"),[],"No hashtags selected");
+    renderDetailItems($("#creatorChips"),[],"No creators selected");
+    renderPocketIdentity({
+      identityType:meta.photo?"photo":"emoji",
+      photo:meta.photo||"",
+      emoji:meta.emoji||"▱"
+    });
+  }
+}
+
+function renderIntegratedPocketPosts(){
+  const name=selectedIntegratedPocketName();
+  if(!name)return;
+
+  const wall=$("#pocketWall");
+  const empty=$("#emptyPocket");
+
+  // The original four cards are design samples only. Hide them on real Pocket routes.
+  wall.querySelectorAll(".pocket-entry:not(.dynamic-pocket-entry)").forEach(entry=>{
+    entry.hidden=true;
+  });
+
+  wall.querySelectorAll(".dynamic-pocket-entry").forEach(entry=>entry.remove());
+
+  applyIntegratedPocketMeta(name);
+
+  const map=pocketIntegrationRead(POCKET_SAVED_POSTS_KEY,{});
+  const records=map[pocketIntegrationKey(name)]||[];
+
+  records.forEach(record=>{
+    const entry=document.createElement("div");
+    entry.className="pocket-entry dynamic-pocket-entry";
+    entry.dataset.savedPostId=record.id;
+    entry.innerHTML=record.html;
+    prepareIntegratedPocketCard(entry);
+    wall.appendChild(entry);
+  });
+
+  const count=records.length;
+  $("#itemCount").textContent=`${count} saved post${count===1?"":"s"}`;
+  wall.hidden=count===0;
+  empty.hidden=count!==0;
+  $("#collectionTitle").textContent=count?"A hand-picked little world":"Your Pocket starts empty";
+
+  const visitor=new URLSearchParams(location.search).get("visitor")==="1";
+  setView(visitor?"visitor":"owner");
+}
+
+renderIntegratedPocketPosts();
+
+
+try{
+  const savedHeaderAvatar=localStorage.getItem("allMediaProfileAvatar");
+  if(savedHeaderAvatar){
+    const headerAvatar=document.getElementById("headerAvatar");
+    if(headerAvatar)headerAvatar.style.backgroundImage=`url("${savedHeaderAvatar}")`;
+  }
+}catch(e){}
+
+setPocketDetails(false);
+setView(new URLSearchParams(location.search).get("visitor")==="1"?"visitor":"owner");
 </script>
+<script src="community-integration.js"></script>
 </body>
 </html>
