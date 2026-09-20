@@ -2564,7 +2564,7 @@ function renderIntegratedPocketPosts(){
   applyIntegratedPocketMeta(name);
 
   const map=pocketIntegrationRead(POCKET_SAVED_POSTS_KEY,{});
-  const records=map[pocketIntegrationKey(name)]||[];
+  const records=[...(map[pocketIntegrationKey(name)]||[])].sort((a,b)=>(Number(b.addedAt)||0)-(Number(a.addedAt)||0));
 
   records.forEach(record=>{
     const entry=document.createElement("div");
