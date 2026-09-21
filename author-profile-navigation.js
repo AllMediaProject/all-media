@@ -1970,6 +1970,39 @@ function communityPageSetPinned(
   }
 
   syncCommunityPageHotbar();
+
+
+/* =========================================================
+   AUD-017 — PROFILE REGULAR POST PEACH PREVIEW OUTLINE
+   Profile-only final authority rule. This restores the approved
+   peach edge/glow without changing card layout or uploaded-media
+   crop framing.
+========================================================= */
+
+function ensureProfileRegularPostPreviewOutline(){
+  if(!document.querySelector(".profile-feed"))return;
+  if(document.getElementById("aud017ProfileRegularPostOutline"))return;
+
+  const style=document.createElement("style");
+  style.id="aud017ProfileRegularPostOutline";
+  style.textContent=`
+    .profile-feed .post.regular-post > .post-image:not(.has-upload){
+      border:1px solid rgba(255,195,132,.38)!important;
+      border-radius:14px!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.10),
+        0 0 24px rgba(255,195,132,.17),
+        0 10px 22px -17px rgba(0,0,0,.72),
+        inset 0 0 18px rgba(255,195,132,.025)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+ensureProfileRegularPostPreviewOutline();
+
+
 }
 
 /*
