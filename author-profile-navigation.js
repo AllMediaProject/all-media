@@ -266,6 +266,305 @@ function renderSharedCommunityPosts(){
   }
 }
 
+
+/* =========================================================
+   AUD-011 — REAL REBLOG STORAGE + PROFILE REBLOGS
+   One shared Reblog system for Home, Discover, Community, and
+   Profile cards. Reblog is a toggle and persists in localStorage.
+========================================================= */
+
+const PROFILE_REBLOGS_KEY="allMediaProfileReblogsV1";
+
+function readProfileReblogs(){
+  try{
+    const value=JSON.parse(
+      localStorage.getItem(PROFILE_REBLOGS_KEY)||"[]"
+    );
+    return Array.isArray(value)?value:[];
+  }catch(error){
+    return [];
+  }
+}
+
+function writeProfileReblogs(records){
+  try{
+    localStorage.setItem(
+      PROFILE_REBLOGS_KEY,
+      JSON.stringify(records)
+    );
+  }catch(error){}
+}
+
+function reblogPostHash(text){
+  let h=2166136261;
+
+  for(let i=0;i<text.length;i++){
+    h^=text.charCodeAt(i);
+    h=Math.imul(h,16777619);
+  }
+
+  return (h>>>0).toString(36);
+}
+
+function reblogPostId(post){
+  if(!post)return "";
+
+  if(post.dataset.profileReblogId){
+    return post.dataset.profileReblogId;
+  }
+
+  const id="r_"+reblogPostHash([
+    post.querySelector(".username")?.textContent||"",
+    post.querySelector(".blog-title,.video-title")?.textContent||"",
+    post.querySelector(
+      ".caption,.blog-excerpt,.video-description,.byte-caption"
+    )?.textContent||"",
+    post.querySelector("img")?.src||"",
+    post.querySelector("video")?.src||""
+  ].join("|"));
+
+  post.dataset.profileReblogId=id;
+  return id;
+}
+
+function snapshotReblogPost(post){
+  const clone=post.cloneNode(true);
+
+  clone.removeAttribute("data-profile-reblog-rendered");
+
+  [clone,...clone.querySelectorAll("*")].forEach(el=>{
+    if(el.id)el.removeAttribute("id");
+  });
+
+  clone.querySelectorAll(
+    ".active,.open,.show,.saved,.shared,.pocketed,.community-shared"
+  ).forEach(el=>{
+    el.classList.remove(
+      "active",
+      "open",
+      "show",
+      "saved",
+      "shared",
+      "pocketed",
+      "community-shared"
+    );
+  });
+
+  clone.querySelectorAll(".comments-section").forEach(el=>{
+    el.classList.remove("active");
+    el.style.display="";
+  });
+
+  clone.querySelectorAll(
+    ".comment-composer,.single-comment-composer"
+  ).forEach(el=>{
+    el.classList.remove("active","open");
+  });
+
+  const reblog=clone.querySelector(".reblog-counter");
+  if(reblog){
+    reblog.dataset.reblogged="true";
+    reblog.classList.add("reblogged");
+  }
+
+  return clone.outerHTML;
+}
+
+function reblogRecordForId(id,records=readProfileReblogs()){
+  return records.find(record=>record.id===id)||null;
+}
+
+function setReblogButtonState(button,on,count){
+  if(!button)return;
+
+  button.dataset.reblogged=on?"true":"false";
+  button.classList.toggle("reblogged",on);
+  button.classList.toggle("active",on);
+  button.setAttribute("aria-pressed",String(on));
+
+  const countEl=button.querySelector("span");
+  if(countEl && Number.isFinite(Number(count))){
+    countEl.textContent=String(
+      Math.max(0,Number(count))
+    );
+  }
+}
+
+function syncReblogButtons(){
+  const records=readProfileReblogs();
+  const byId=new Map(records.map(record=>[record.id,record]));
+
+  document.querySelectorAll(".post .reblog-counter").forEach(button=>{
+    const post=button.closest(".post");
+    if(!post)return;
+
+    const record=byId.get(reblogPostId(post));
+
+    if(record){
+      setReblogButtonState(
+        button,
+        true,
+        Number(record.count)
+      );
+    }else{
+      button.dataset.reblogged="false";
+      button.classList.remove("reblogged","active");
+      button.setAttribute("aria-pressed","false");
+    }
+  });
+}
+
+function profileReblogPostNode(record){
+  if(!record?.html)return null;
+
+  const template=document.createElement("template");
+  template.innerHTML=String(record.html).trim();
+
+  const post=
+    template.content.querySelector(".post")||
+    template.content.firstElementChild;
+
+  if(!(post instanceof Element))return null;
+
+  post.dataset.profileReblogRendered="true";
+  post.dataset.profileReblogId=record.id||"";
+
+  const reblog=post.querySelector(".reblog-counter");
+  if(reblog){
+    setReblogButtonState(
+      reblog,
+      true,
+      Number(record.count)
+    );
+  }
+
+  return post;
+}
+
+function renderProfileReblogs(){
+  const panel=document.getElementById("reblogsPanel");
+  if(!panel)return;
+
+  const records=readProfileReblogs()
+    .slice()
+    .sort(
+      (a,b)=>
+        (Number(b.rebloggedAt)||0)-
+        (Number(a.rebloggedAt)||0)
+    );
+
+  panel.classList.add("profile-feed");
+  panel.innerHTML="";
+
+  if(!records.length){
+    const note=document.createElement("div");
+    note.className="reblog-note";
+    note.innerHTML=
+      '<strong style="color:white">Reblogs</strong><br>'+
+      "Posts you reblog will appear here.";
+    panel.appendChild(note);
+    return;
+  }
+
+  const feed=document.createElement("section");
+  feed.className="feed am-profile-reblogs-feed";
+
+  records.forEach(record=>{
+    const post=profileReblogPostNode(record);
+    if(post)feed.appendChild(post);
+  });
+
+  panel.appendChild(feed);
+  decorate(panel);
+}
+
+function toggleStoredReblog(button,post){
+  const id=reblogPostId(post);
+  if(!id)return;
+
+  const records=readProfileReblogs();
+  const index=records.findIndex(record=>record.id===id);
+  const countEl=button.querySelector("span");
+  const visibleCount=Math.max(
+    0,
+    Number(countEl?.textContent||0)
+  );
+
+  if(index>=0){
+    const nextCount=Math.max(0,visibleCount-1);
+    records.splice(index,1);
+    writeProfileReblogs(records);
+
+    document.querySelectorAll(".post").forEach(otherPost=>{
+      if(reblogPostId(otherPost)!==id)return;
+      setReblogButtonState(
+        otherPost.querySelector(".reblog-counter"),
+        false,
+        nextCount
+      );
+    });
+
+    renderProfileReblogs();
+    return;
+  }
+
+  const nextCount=visibleCount+1;
+  setReblogButtonState(button,true,nextCount);
+
+  const record={
+    id,
+    html:snapshotReblogPost(post),
+    rebloggedAt:Date.now(),
+    count:nextCount
+  };
+
+  records.unshift(record);
+  writeProfileReblogs(records);
+
+  document.querySelectorAll(".post").forEach(otherPost=>{
+    if(reblogPostId(otherPost)!==id)return;
+    setReblogButtonState(
+      otherPost.querySelector(".reblog-counter"),
+      true,
+      nextCount
+    );
+  });
+
+  renderProfileReblogs();
+}
+
+/*
+  Capture phase intentionally owns Reblog before the older page-local
+  inline handlers run. This prevents double increments and gives all
+  four surfaces one consistent toggle behavior.
+*/
+document.addEventListener("click",event=>{
+  const button=event.target.closest?.(
+    ".post .reblog-counter"
+  );
+
+  if(!button)return;
+
+  const post=button.closest(".post");
+  if(!post)return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+
+  toggleStoredReblog(button,post);
+},true);
+
+renderProfileReblogs();
+syncReblogButtons();
+
+window.addEventListener("storage",event=>{
+  if(event.key!==PROFILE_REBLOGS_KEY)return;
+  renderProfileReblogs();
+  syncReblogButtons();
+});
+
+
 renderSharedCommunityPosts();
 decorate();
 
