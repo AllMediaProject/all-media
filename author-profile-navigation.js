@@ -560,6 +560,265 @@ syncReblogButtons();
 
 
 /* =========================================================
+   AUD-013 — REAL SAVED POSTS + PROFILE SAVED TAB
+   Saved is private to the current user. One persistent toggle
+   works across Home, Discover, Community, Profile, and copied cards.
+========================================================= */
+
+const PROFILE_SAVED_POSTS_KEY="allMediaProfileSavedPostsV1";
+
+function readProfileSavedPosts(){
+  try{
+    const value=JSON.parse(
+      localStorage.getItem(PROFILE_SAVED_POSTS_KEY)||"[]"
+    );
+    return Array.isArray(value)?value:[];
+  }catch(error){
+    return [];
+  }
+}
+
+function writeProfileSavedPosts(records){
+  try{
+    localStorage.setItem(
+      PROFILE_SAVED_POSTS_KEY,
+      JSON.stringify(records)
+    );
+  }catch(error){}
+}
+
+function profileSavedPostId(post){
+  if(!post)return "";
+
+  if(post.dataset.profileSavedPostId){
+    return post.dataset.profileSavedPostId;
+  }
+
+  const id="s_"+reblogPostHash([
+    post.querySelector(".username")?.textContent||"",
+    post.querySelector(".blog-title,.video-title")?.textContent||"",
+    post.querySelector(
+      ".caption,.blog-excerpt,.video-description,.byte-caption"
+    )?.textContent||"",
+    post.querySelector("img")?.src||"",
+    post.querySelector("video")?.src||""
+  ].join("|"));
+
+  post.dataset.profileSavedPostId=id;
+  return id;
+}
+
+function setSavedButtonState(button,on){
+  if(!button)return;
+
+  button.classList.toggle("saved",on);
+  button.setAttribute(
+    "aria-label",
+    on?"Remove saved post":"Save post"
+  );
+  button.setAttribute("aria-pressed",String(on));
+
+  const label=button.querySelector("span");
+  if(label){
+    label.textContent=on?"Saved":"Save";
+  }
+}
+
+function snapshotSavedPost(post){
+  const clone=post.cloneNode(true);
+
+  clone.removeAttribute("data-profile-saved-rendered");
+
+  [clone,...clone.querySelectorAll("*")].forEach(el=>{
+    if(el.id)el.removeAttribute("id");
+  });
+
+  clone.querySelectorAll(
+    ".active,.open,.show,.shared,.pocketed,.community-shared"
+  ).forEach(el=>{
+    el.classList.remove(
+      "active",
+      "open",
+      "show",
+      "shared",
+      "pocketed",
+      "community-shared"
+    );
+  });
+
+  clone.querySelectorAll(".comments-section").forEach(el=>{
+    el.classList.remove("active");
+    el.style.display="";
+  });
+
+  clone.querySelectorAll(
+    ".comment-composer,.single-comment-composer"
+  ).forEach(el=>{
+    el.classList.remove("active","open");
+  });
+
+  setSavedButtonState(
+    clone.querySelector(".save-action"),
+    true
+  );
+
+  return clone.outerHTML;
+}
+
+function syncSavedButtons(){
+  const records=readProfileSavedPosts();
+  const ids=new Set(records.map(record=>record.id));
+
+  document.querySelectorAll(".post .save-action").forEach(button=>{
+    const post=button.closest(".post");
+    if(!post)return;
+
+    setSavedButtonState(
+      button,
+      ids.has(profileSavedPostId(post))
+    );
+  });
+}
+
+function profileSavedPostNode(record){
+  if(!record?.html)return null;
+
+  const template=document.createElement("template");
+  template.innerHTML=String(record.html).trim();
+
+  const post=
+    template.content.querySelector(".post")||
+    template.content.firstElementChild;
+
+  if(!(post instanceof Element))return null;
+
+  post.dataset.profileSavedRendered="true";
+  post.dataset.profileSavedPostId=record.id||"";
+
+  setSavedButtonState(
+    post.querySelector(".save-action"),
+    true
+  );
+
+  return post;
+}
+
+function renderProfileSavedPosts(){
+  const panel=document.getElementById("savedPanel");
+  if(!panel)return;
+
+  const records=readProfileSavedPosts()
+    .slice()
+    .sort(
+      (a,b)=>
+        (Number(b.savedAt)||0)-
+        (Number(a.savedAt)||0)
+    );
+
+  panel.classList.add("profile-feed");
+  panel.innerHTML="";
+
+  if(!records.length){
+    const note=document.createElement("div");
+    note.className="saved-note";
+    note.innerHTML=
+      '<strong style="color:white">Saved — private</strong><br>'+
+      "Only you can see this tab and the posts you save for later.";
+    panel.appendChild(note);
+    return;
+  }
+
+  const feed=document.createElement("section");
+  feed.className="feed am-profile-saved-feed";
+
+  records.forEach(record=>{
+    const post=profileSavedPostNode(record);
+    if(post)feed.appendChild(post);
+  });
+
+  panel.appendChild(feed);
+  decorate(panel);
+}
+
+function toggleStoredSavedPost(button,post){
+  const id=profileSavedPostId(post);
+  if(!id)return;
+
+  const records=readProfileSavedPosts();
+  const index=records.findIndex(record=>record.id===id);
+
+  if(index>=0){
+    records.splice(index,1);
+    writeProfileSavedPosts(records);
+
+    document.querySelectorAll(".post").forEach(otherPost=>{
+      if(profileSavedPostId(otherPost)!==id)return;
+      setSavedButtonState(
+        otherPost.querySelector(".save-action"),
+        false
+      );
+    });
+
+    renderProfileSavedPosts();
+    return;
+  }
+
+  setSavedButtonState(button,true);
+
+  records.unshift({
+    id,
+    html:snapshotSavedPost(post),
+    savedAt:Date.now()
+  });
+
+  writeProfileSavedPosts(records);
+
+  document.querySelectorAll(".post").forEach(otherPost=>{
+    if(profileSavedPostId(otherPost)!==id)return;
+    setSavedButtonState(
+      otherPost.querySelector(".save-action"),
+      true
+    );
+  });
+
+  renderProfileSavedPosts();
+}
+
+/*
+  Capture phase owns Save before older page-local visual-only handlers.
+  This prevents double toggles and gives every supported surface the
+  same persistent Saved behavior.
+*/
+document.addEventListener("click",event=>{
+  const button=event.target.closest?.(
+    ".post .save-action"
+  );
+
+  if(!button)return;
+
+  const post=button.closest(".post");
+  if(!post)return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+
+  toggleStoredSavedPost(button,post);
+},true);
+
+renderProfileSavedPosts();
+syncSavedButtons();
+
+window.addEventListener("storage",event=>{
+  if(event.key!==PROFILE_SAVED_POSTS_KEY)return;
+  renderProfileSavedPosts();
+  syncSavedButtons();
+});
+
+
+
+
+/* =========================================================
    AUD-012 — WORKING SHARE ACTION
    Uses the browser/device share sheet when available.
    Otherwise copies useful post context + the current page link.
