@@ -1285,6 +1285,38 @@ function crossPagePocketChooser(){
     }
 
     syncCrossPagePocketButtons();
+
+
+/* =========================================================
+   AUD-015 — DISCOVER REGULAR POST PEACH PREVIEW OUTLINE
+   Discover-only final authority rule. Card layout and crop sizing
+   stay untouched; this restores the approved peach frame/glow.
+========================================================= */
+
+function ensureDiscoverRegularPostPreviewOutline(){
+  if(!document.querySelector(".discover-wall.feed"))return;
+  if(document.getElementById("aud015DiscoverRegularPostOutline"))return;
+
+  const style=document.createElement("style");
+  style.id="aud015DiscoverRegularPostOutline";
+  style.textContent=`
+    .discover-wall.feed .post.regular-post > .post-image{
+      border:1px solid rgba(255,195,132,.38)!important;
+      border-radius:14px!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.10),
+        0 0 24px rgba(255,195,132,.17),
+        0 10px 22px -17px rgba(0,0,0,.72),
+        inset 0 0 18px rgba(255,195,132,.025)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+ensureDiscoverRegularPostPreviewOutline();
+
+
   });
 
   return panel;
@@ -1498,6 +1530,38 @@ window.addEventListener(
 
 syncCrossPagePocketButtons();
 
+
+/* =========================================================
+   AUD-015 — DISCOVER REGULAR POST PEACH PREVIEW OUTLINE
+   Discover-only final authority rule. Card layout and crop sizing
+   stay untouched; this restores the approved peach frame/glow.
+========================================================= */
+
+function ensureDiscoverRegularPostPreviewOutline(){
+  if(!document.querySelector(".discover-wall.feed"))return;
+  if(document.getElementById("aud015DiscoverRegularPostOutline"))return;
+
+  const style=document.createElement("style");
+  style.id="aud015DiscoverRegularPostOutline";
+  style.textContent=`
+    .discover-wall.feed .post.regular-post > .post-image{
+      border:1px solid rgba(255,195,132,.38)!important;
+      border-radius:14px!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.10),
+        0 0 24px rgba(255,195,132,.17),
+        0 10px 22px -17px rgba(0,0,0,.72),
+        inset 0 0 18px rgba(255,195,132,.025)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+ensureDiscoverRegularPostPreviewOutline();
+
+
+
 window.addEventListener("storage",event=>{
   if(
     event.key===CROSS_PAGE_POCKET_SAVED_KEY ||
@@ -1505,6 +1569,38 @@ window.addEventListener("storage",event=>{
     event.key===CROSS_PAGE_POCKET_CREATED_KEY
   ){
     syncCrossPagePocketButtons();
+
+
+/* =========================================================
+   AUD-015 — DISCOVER REGULAR POST PEACH PREVIEW OUTLINE
+   Discover-only final authority rule. Card layout and crop sizing
+   stay untouched; this restores the approved peach frame/glow.
+========================================================= */
+
+function ensureDiscoverRegularPostPreviewOutline(){
+  if(!document.querySelector(".discover-wall.feed"))return;
+  if(document.getElementById("aud015DiscoverRegularPostOutline"))return;
+
+  const style=document.createElement("style");
+  style.id="aud015DiscoverRegularPostOutline";
+  style.textContent=`
+    .discover-wall.feed .post.regular-post > .post-image{
+      border:1px solid rgba(255,195,132,.38)!important;
+      border-radius:14px!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.10),
+        0 0 24px rgba(255,195,132,.17),
+        0 10px 22px -17px rgba(0,0,0,.72),
+        inset 0 0 18px rgba(255,195,132,.025)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+ensureDiscoverRegularPostPreviewOutline();
+
+
   }
 });
 
