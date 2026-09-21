@@ -558,6 +558,166 @@ document.addEventListener("click",event=>{
 renderProfileReblogs();
 syncReblogButtons();
 
+
+/* =========================================================
+   AUD-012 — WORKING SHARE ACTION
+   Uses the browser/device share sheet when available.
+   Otherwise copies useful post context + the current page link.
+   Individual permanent post URLs do not exist yet.
+========================================================= */
+
+const shareFeedbackTimers=new WeakMap();
+
+function postShareCopy(post){
+  const author=
+    post?.querySelector(".username")?.textContent?.trim()||
+    "All Media";
+
+  const title=
+    post?.querySelector(".blog-title,.video-title")?.textContent?.trim()||
+    "";
+
+  const body=
+    post?.querySelector(
+      ".caption,.blog-excerpt,.video-description,.byte-caption"
+    )?.textContent?.trim()||
+    "";
+
+  const mainText=[title,body]
+    .filter(Boolean)
+    .join(" — ")
+    .replace(/\s+/g," ")
+    .trim();
+
+  const clipped=
+    mainText.length>240
+      ?mainText.slice(0,237).trimEnd()+"…"
+      :mainText;
+
+  return [author,clipped]
+    .filter(Boolean)
+    .join(": ");
+}
+
+function postShareTitle(post){
+  const author=
+    post?.querySelector(".username")?.textContent?.trim();
+
+  const title=
+    post?.querySelector(".blog-title,.video-title")?.textContent?.trim();
+
+  if(title)return `${title} | All Media`;
+  if(author)return `${author} on All Media`;
+  return "All Media";
+}
+
+function flashShareButton(button,label){
+  if(!button)return;
+
+  const previousTimer=shareFeedbackTimers.get(button);
+  if(previousTimer)clearTimeout(previousTimer);
+
+  if(!button.dataset.shareOriginalText){
+    button.dataset.shareOriginalText=button.textContent;
+  }
+
+  button.textContent=label;
+
+  const timer=setTimeout(()=>{
+    button.textContent=
+      button.dataset.shareOriginalText||
+      "↗ Share";
+    shareFeedbackTimers.delete(button);
+  },1400);
+
+  shareFeedbackTimers.set(button,timer);
+}
+
+async function copyShareFallback(text){
+  if(navigator.clipboard?.writeText){
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  const area=document.createElement("textarea");
+  area.value=text;
+  area.setAttribute("readonly","");
+  area.style.position="fixed";
+  area.style.opacity="0";
+  area.style.pointerEvents="none";
+  document.body.appendChild(area);
+  area.select();
+
+  let copied=false;
+  try{
+    copied=document.execCommand("copy");
+  }catch(error){}
+
+  area.remove();
+  return copied;
+}
+
+async function sharePostFromCard(button,post){
+  const pageUrl=window.location.href;
+  const text=postShareCopy(post);
+  const title=postShareTitle(post);
+
+  if(typeof navigator.share==="function"){
+    try{
+      await navigator.share({
+        title,
+        text,
+        url:pageUrl
+      });
+      flashShareButton(button,"✓ Shared");
+      return;
+    }catch(error){
+      if(error?.name==="AbortError")return;
+      // Fall through to clipboard if the device share sheet fails.
+    }
+  }
+
+  try{
+    const clipboardText=
+      [text,pageUrl]
+        .filter(Boolean)
+        .join("\n");
+
+    const copied=await copyShareFallback(clipboardText);
+
+    flashShareButton(
+      button,
+      copied?"✓ Copied":"Share unavailable"
+    );
+  }catch(error){
+    flashShareButton(button,"Share unavailable");
+  }
+}
+
+/*
+  Capture phase owns Share before older page-local prototype handlers.
+  This keeps Home, Discover, Profile, Community, and Reblog copies
+  consistent without changing any card markup.
+*/
+document.addEventListener("click",event=>{
+  const button=event.target.closest?.(
+    ".post .share-action"
+  );
+
+  if(!button)return;
+
+  const post=button.closest(".post");
+  if(!post)return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+
+  sharePostFromCard(button,post);
+},true);
+
+
+
 window.addEventListener("storage",event=>{
   if(event.key!==PROFILE_REBLOGS_KEY)return;
   renderProfileReblogs();
