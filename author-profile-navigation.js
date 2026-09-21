@@ -1317,6 +1317,871 @@ function ensureDiscoverRegularPostPreviewOutline(){
 ensureDiscoverRegularPostPreviewOutline();
 
 
+/* =========================================================
+   AUD-016 — COMMUNITY PAGE HOTBAR STATE PERSISTENCE
+   community.html has an older built-in hotbar. This adapter makes
+   it consume the same shared Community state + pin order used by
+   Home / Discover / Profile instead of snapping back to defaults.
+========================================================= */
+
+const COMMUNITY_PAGE_STATE_KEY="allMediaCommunityStateV1";
+const COMMUNITY_PAGE_PIN_ORDER_KEY="allMediaCommunityPinOrderV1";
+
+const COMMUNITY_PAGE_DEFAULT_STATE={
+  "spooky-cozy":{
+    name:"Spooky Cozy",
+    icon:"🎃",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"owner"
+  },
+  "artists":{
+    name:"Artists",
+    icon:"🎨",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"moderator"
+  },
+  "turtle-rescue":{
+    name:"Turtle Rescue",
+    icon:"🐢",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"member"
+  },
+  "book-club":{
+    name:"Book Club",
+    icon:"📚",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "crochet-corner":{
+    name:"Crochet Corner",
+    icon:"🧶",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "garden-and-nature":{
+    name:"Garden & Nature",
+    icon:"🌿",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  }
+};
+
+function communityPageClone(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function communityPageReadState(){
+  const state=communityPageClone(
+    COMMUNITY_PAGE_DEFAULT_STATE
+  );
+
+  try{
+    const saved=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_STATE_KEY
+      )||"{}"
+    );
+
+    Object.entries(saved).forEach(
+      ([slug,value])=>{
+        state[slug]={
+          ...(state[slug]||{}),
+          ...(value||{})
+        };
+      }
+    );
+  }catch(error){}
+
+  Object.values(state).forEach(item=>{
+    if(item.pinned){
+      item.joined=true;
+      item.notifications=true;
+    }
+
+    if(!item.joined){
+      item.pinned=false;
+    }
+  });
+
+  return state;
+}
+
+function communityPageWriteState(state){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_STATE_KEY,
+      JSON.stringify(state)
+    );
+  }catch(error){}
+}
+
+function communityPageReadPinOrder(state){
+  let stored=[];
+
+  try{
+    const value=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+      )||"[]"
+    );
+
+    if(Array.isArray(value)){
+      stored=value;
+    }
+  }catch(error){}
+
+  const pinned=Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        item?.pinned &&
+        !item?.deleted
+    )
+    .map(([slug])=>slug);
+
+  const normalized=stored.filter(
+    slug=>pinned.includes(slug)
+  );
+
+  pinned.forEach(slug=>{
+    if(!normalized.includes(slug)){
+      normalized.push(slug);
+    }
+  });
+
+  return normalized;
+}
+
+function communityPageWritePinOrder(order){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_PIN_ORDER_KEY,
+      JSON.stringify(order)
+    );
+  }catch(error){}
+}
+
+function communityPageSlugForName(name,state){
+  const normalized=String(name||"")
+    .trim()
+    .toLowerCase();
+
+  const match=Object.entries(state)
+    .find(
+      ([,item])=>
+        String(item?.name||"")
+          .trim()
+          .toLowerCase()===normalized
+    );
+
+  if(match)return match[0];
+
+  return normalized
+    .replace(/&/g,"and")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"");
+}
+
+function communityPageUrl(slug){
+  return slug==="spooky-cozy"
+    ?"community.html"
+    :`community.html?community=${encodeURIComponent(slug)}`;
+}
+
+function communityPageExistingBellMarkup(name){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  if(!bar)return "";
+
+  const existing=[
+    ...bar.querySelectorAll(".community-chip")
+  ].find(
+    chip=>
+      String(chip.dataset.community||"")
+        .trim()
+        .toLowerCase()===
+      String(name||"")
+        .trim()
+        .toLowerCase()
+  );
+
+  return existing
+    ?.querySelector(".activity-bell")
+    ?.outerHTML||"";
+}
+
+function communityPageDefaultBellMarkup(){
+  return `
+    <span
+      class="activity-bell"
+      title="No new community activities"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+        <path d="M10 21h4"></path>
+      </svg>
+      <span
+        class="activity-count"
+        style="display:none"
+      >0</span>
+    </span>
+  `;
+}
+
+function communityPageMoreRowForSlug(slug,state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return null;
+
+  return [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].find(row=>{
+    const rowName=row.dataset.community||"";
+    return communityPageSlugForName(
+      rowName,
+      state
+    )===slug;
+  });
+}
+
+function communityPageEnsureMoreRows(state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return;
+
+  Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        !item?.deleted
+    )
+    .sort(
+      (a,b)=>
+        String(a[1]?.name||"")
+          .localeCompare(
+            String(b[1]?.name||"")
+          )
+    )
+    .forEach(([slug,item])=>{
+      let row=
+        communityPageMoreRowForSlug(
+          slug,
+          state
+        );
+
+      if(!row){
+        row=document.createElement("div");
+        row.className="community-more-row";
+        row.dataset.community=
+          item.name||slug;
+        row.dataset.icon=
+          item.icon||"◉";
+        row.setAttribute("role","link");
+        row.tabIndex=0;
+
+        row.innerHTML=`
+          <span class="community-more-name">
+            <span class="community-icon"></span>
+            <span class="community-more-text"></span>
+          </span>
+          <button
+            class="community-pin"
+            type="button"
+          >
+            <span class="pin-state">Pin</span>
+            <span class="pin-action">Pin</span>
+          </button>
+        `;
+
+        dropdown.appendChild(row);
+      }
+
+      row.dataset.community=
+        item.name||slug;
+      row.dataset.icon=
+        item.icon||"◉";
+      row.dataset.communitySlug=slug;
+
+      const icon=
+        row.querySelector(
+          ".community-icon"
+        );
+
+      if(icon){
+        icon.textContent=
+          item.icon||"◉";
+      }
+
+      const text=
+        row.querySelector(
+          ".community-more-text"
+        );
+
+      if(text){
+        text.textContent=
+          item.name||slug;
+      }else{
+        const nameWrap=
+          row.querySelector(
+            ".community-more-name"
+          );
+
+        if(nameWrap){
+          nameWrap.innerHTML=
+            '<span class="community-icon"></span>'+
+            '<span class="community-more-text"></span>';
+
+          nameWrap.querySelector(
+            ".community-icon"
+          ).textContent=
+            item.icon||"◉";
+
+          nameWrap.querySelector(
+            ".community-more-text"
+          ).textContent=
+            item.name||slug;
+        }
+      }
+
+      const pin=
+        row.querySelector(
+          ".community-pin"
+        );
+
+      if(pin){
+        pin.classList.toggle(
+          "pinned",
+          !!item.pinned
+        );
+
+        const stateLabel=
+          pin.querySelector(
+            ".pin-state"
+          );
+
+        const actionLabel=
+          pin.querySelector(
+            ".pin-action"
+          );
+
+        if(stateLabel){
+          stateLabel.textContent=
+            item.pinned
+              ?"Pinned"
+              :"Pin";
+        }
+
+        if(actionLabel){
+          actionLabel.textContent=
+            item.pinned
+              ?"Unpin"
+              :"Pin";
+        }
+      }
+    });
+
+  [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].forEach(row=>{
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      item.deleted
+    ){
+      row.remove();
+    }
+  });
+}
+
+let communityPageDraggedChip=null;
+
+function communityPageWireChip(chip){
+  if(
+    !chip ||
+    chip.dataset.aud016Wired==="true"
+  ){
+    return;
+  }
+
+  chip.dataset.aud016Wired="true";
+  chip.draggable=true;
+
+  chip.addEventListener(
+    "dragstart",
+    event=>{
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        event.preventDefault();
+        return;
+      }
+
+      communityPageDraggedChip=chip;
+      chip.classList.add("dragging");
+    }
+  );
+
+  chip.addEventListener(
+    "dragend",
+    ()=>{
+      chip.classList.remove("dragging");
+
+      const bar=
+        document.getElementById(
+          "masterPinnedCommunities"
+        );
+
+      if(bar){
+        const order=[
+          ...bar.querySelectorAll(
+            ".community-chip"
+          )
+        ].map(
+          item=>
+            item.dataset.communitySlug
+        ).filter(Boolean);
+
+        communityPageWritePinOrder(
+          order
+        );
+      }
+
+      communityPageDraggedChip=null;
+    }
+  );
+}
+
+function syncCommunityPageHotbar(){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  const dropdown=
+    document.getElementById(
+      "communityDropdown"
+    );
+
+  if(!bar || !dropdown)return;
+
+  const state=
+    communityPageReadState();
+
+  /*
+    Capture the current bells before rebuilding so the Community
+    page keeps its existing visible activity counts.
+  */
+  const bellByName=new Map();
+
+  bar.querySelectorAll(
+    ".community-chip"
+  ).forEach(chip=>{
+    const name=
+      chip.dataset.community||
+      chip.querySelector(
+        ".community-chip-name"
+      )?.textContent||
+      chip.textContent;
+
+    const bell=
+      chip.querySelector(
+        ".activity-bell"
+      )?.outerHTML;
+
+    if(name && bell){
+      bellByName.set(
+        String(name).trim().toLowerCase(),
+        bell
+      );
+    }
+  });
+
+  communityPageEnsureMoreRows(state);
+
+  const order=
+    communityPageReadPinOrder(
+      state
+    );
+
+  bar.innerHTML="";
+
+  order.forEach(slug=>{
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      !item.pinned ||
+      item.deleted
+    ){
+      return;
+    }
+
+    const chip=
+      document.createElement("button");
+
+    chip.type="button";
+    chip.className="community-chip";
+    chip.dataset.community=
+      item.name||slug;
+    chip.dataset.communitySlug=slug;
+    chip.dataset.icon=
+      item.icon||"◉";
+
+    const bell=
+      bellByName.get(
+        String(item.name||slug)
+          .trim()
+          .toLowerCase()
+      )||
+      communityPageDefaultBellMarkup();
+
+    chip.innerHTML=`
+      <span class="community-icon"></span>
+      <span class="community-chip-name"></span>
+      ${bell}
+    `;
+
+    chip.querySelector(
+      ".community-icon"
+    ).textContent=
+      item.icon||"◉";
+
+    chip.querySelector(
+      ".community-chip-name"
+    ).textContent=
+      item.name||slug;
+
+    communityPageWireChip(chip);
+    bar.appendChild(chip);
+  });
+}
+
+function communityPageSetPinned(
+  slug,
+  pinned
+){
+  const state=
+    communityPageReadState();
+
+  if(!state[slug])return;
+
+  /*
+    Keep the Community page's own internal state synchronized too.
+    updateCommunityState is defined by community.html itself.
+  */
+  if(
+    typeof window.updateCommunityState===
+    "function"
+  ){
+    window.updateCommunityState(
+      slug,
+      {
+        pinned,
+        joined:pinned
+          ?true
+          :state[slug].joined,
+        notifications:pinned
+          ?true
+          :state[slug].notifications
+      }
+    );
+  }else{
+    state[slug]={
+      ...state[slug],
+      pinned,
+      joined:pinned
+        ?true
+        :state[slug].joined,
+      notifications:pinned
+        ?true
+        :state[slug].notifications
+    };
+
+    communityPageWriteState(
+      state
+    );
+  }
+
+  const latest=
+    communityPageReadState();
+
+  const order=
+    communityPageReadPinOrder(
+      latest
+    );
+
+  if(
+    pinned &&
+    !order.includes(slug)
+  ){
+    order.push(slug);
+  }
+
+  if(!pinned){
+    const index=
+      order.indexOf(slug);
+
+    if(index>=0){
+      order.splice(index,1);
+    }
+  }
+
+  communityPageWritePinOrder(order);
+
+  if(
+    typeof window.syncSpookyCommunityUI===
+    "function"
+  ){
+    try{
+      window.syncSpookyCommunityUI();
+    }catch(error){}
+  }
+
+  syncCommunityPageHotbar();
+}
+
+/*
+  Own Community-page hotbar interactions before the old inline
+  handlers run. This prevents the legacy DOM-only Pin/Unpin code
+  from diverging from shared state.
+*/
+document.addEventListener(
+  "click",
+  event=>{
+    const bar=
+      document.getElementById(
+        "masterPinnedCommunities"
+      );
+
+    const dropdown=
+      document.getElementById(
+        "communityDropdown"
+      );
+
+    if(!bar || !dropdown)return;
+
+    const pin=
+      event.target.closest(
+        "#communityDropdown .community-pin"
+      );
+
+    if(pin){
+      const row=
+        pin.closest(
+          ".community-more-row"
+        );
+
+      if(!row)return;
+
+      const state=
+        communityPageReadState();
+
+      const slug=
+        row.dataset.communitySlug||
+        communityPageSlugForName(
+          row.dataset.community,
+          state
+        );
+
+      if(!state[slug])return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      communityPageSetPinned(
+        slug,
+        !state[slug].pinned
+      );
+
+      dropdown.classList.add(
+        "active"
+      );
+
+      dropdown.style.display="block";
+      return;
+    }
+
+    const chip=
+      event.target.closest(
+        "#masterPinnedCommunities .community-chip"
+      );
+
+    if(chip){
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        return;
+      }
+
+      const slug=
+        chip.dataset.communitySlug;
+
+      if(!slug)return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      window.location.href=
+        communityPageUrl(slug);
+    }
+  },
+  true
+);
+
+document.addEventListener(
+  "keydown",
+  event=>{
+    const row=
+      event.target.closest?.(
+        "#communityDropdown .community-more-row"
+      );
+
+    if(
+      !row ||
+      event.target.closest(
+        ".community-pin"
+      ) ||
+      !(
+        event.key==="Enter" ||
+        event.key===" "
+      )
+    ){
+      return;
+    }
+
+    const state=
+      communityPageReadState();
+
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    if(!state[slug])return;
+
+    event.preventDefault();
+
+    window.location.href=
+      communityPageUrl(slug);
+  }
+);
+
+const communityPageHotbar=
+  document.getElementById(
+    "masterPinnedCommunities"
+  );
+
+communityPageHotbar?.addEventListener(
+  "dragover",
+  event=>{
+    event.preventDefault();
+
+    const after=[
+      ...communityPageHotbar.querySelectorAll(
+        ".community-chip:not(.dragging)"
+      )
+    ].find(
+      item=>
+        event.clientX<=
+        item.getBoundingClientRect().left+
+        item.offsetWidth/2
+    );
+
+    if(communityPageDraggedChip){
+      after
+        ?communityPageHotbar.insertBefore(
+            communityPageDraggedChip,
+            after
+          )
+        :communityPageHotbar.appendChild(
+            communityPageDraggedChip
+          );
+    }
+  }
+);
+
+communityPageHotbar?.addEventListener(
+  "wheel",
+  event=>{
+    if(
+      Math.abs(event.deltaY)>
+      Math.abs(event.deltaX)
+    ){
+      event.preventDefault();
+      communityPageHotbar.scrollLeft+=
+        event.deltaY;
+    }
+  },
+  {passive:false}
+);
+
+syncCommunityPageHotbar();
+
+document.addEventListener(
+  "allmedia:community-state-change",
+  syncCommunityPageHotbar
+);
+
+document.addEventListener(
+  "allmedia:community-state-refresh",
+  syncCommunityPageHotbar
+);
+
+window.addEventListener(
+  "storage",
+  event=>{
+    if(
+      event.key===
+        COMMUNITY_PAGE_STATE_KEY ||
+      event.key===
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+    ){
+      syncCommunityPageHotbar();
+    }
+  }
+);
+
+
+
+
   });
 
   return panel;
@@ -1561,6 +2426,871 @@ function ensureDiscoverRegularPostPreviewOutline(){
 ensureDiscoverRegularPostPreviewOutline();
 
 
+/* =========================================================
+   AUD-016 — COMMUNITY PAGE HOTBAR STATE PERSISTENCE
+   community.html has an older built-in hotbar. This adapter makes
+   it consume the same shared Community state + pin order used by
+   Home / Discover / Profile instead of snapping back to defaults.
+========================================================= */
+
+const COMMUNITY_PAGE_STATE_KEY="allMediaCommunityStateV1";
+const COMMUNITY_PAGE_PIN_ORDER_KEY="allMediaCommunityPinOrderV1";
+
+const COMMUNITY_PAGE_DEFAULT_STATE={
+  "spooky-cozy":{
+    name:"Spooky Cozy",
+    icon:"🎃",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"owner"
+  },
+  "artists":{
+    name:"Artists",
+    icon:"🎨",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"moderator"
+  },
+  "turtle-rescue":{
+    name:"Turtle Rescue",
+    icon:"🐢",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"member"
+  },
+  "book-club":{
+    name:"Book Club",
+    icon:"📚",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "crochet-corner":{
+    name:"Crochet Corner",
+    icon:"🧶",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "garden-and-nature":{
+    name:"Garden & Nature",
+    icon:"🌿",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  }
+};
+
+function communityPageClone(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function communityPageReadState(){
+  const state=communityPageClone(
+    COMMUNITY_PAGE_DEFAULT_STATE
+  );
+
+  try{
+    const saved=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_STATE_KEY
+      )||"{}"
+    );
+
+    Object.entries(saved).forEach(
+      ([slug,value])=>{
+        state[slug]={
+          ...(state[slug]||{}),
+          ...(value||{})
+        };
+      }
+    );
+  }catch(error){}
+
+  Object.values(state).forEach(item=>{
+    if(item.pinned){
+      item.joined=true;
+      item.notifications=true;
+    }
+
+    if(!item.joined){
+      item.pinned=false;
+    }
+  });
+
+  return state;
+}
+
+function communityPageWriteState(state){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_STATE_KEY,
+      JSON.stringify(state)
+    );
+  }catch(error){}
+}
+
+function communityPageReadPinOrder(state){
+  let stored=[];
+
+  try{
+    const value=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+      )||"[]"
+    );
+
+    if(Array.isArray(value)){
+      stored=value;
+    }
+  }catch(error){}
+
+  const pinned=Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        item?.pinned &&
+        !item?.deleted
+    )
+    .map(([slug])=>slug);
+
+  const normalized=stored.filter(
+    slug=>pinned.includes(slug)
+  );
+
+  pinned.forEach(slug=>{
+    if(!normalized.includes(slug)){
+      normalized.push(slug);
+    }
+  });
+
+  return normalized;
+}
+
+function communityPageWritePinOrder(order){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_PIN_ORDER_KEY,
+      JSON.stringify(order)
+    );
+  }catch(error){}
+}
+
+function communityPageSlugForName(name,state){
+  const normalized=String(name||"")
+    .trim()
+    .toLowerCase();
+
+  const match=Object.entries(state)
+    .find(
+      ([,item])=>
+        String(item?.name||"")
+          .trim()
+          .toLowerCase()===normalized
+    );
+
+  if(match)return match[0];
+
+  return normalized
+    .replace(/&/g,"and")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"");
+}
+
+function communityPageUrl(slug){
+  return slug==="spooky-cozy"
+    ?"community.html"
+    :`community.html?community=${encodeURIComponent(slug)}`;
+}
+
+function communityPageExistingBellMarkup(name){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  if(!bar)return "";
+
+  const existing=[
+    ...bar.querySelectorAll(".community-chip")
+  ].find(
+    chip=>
+      String(chip.dataset.community||"")
+        .trim()
+        .toLowerCase()===
+      String(name||"")
+        .trim()
+        .toLowerCase()
+  );
+
+  return existing
+    ?.querySelector(".activity-bell")
+    ?.outerHTML||"";
+}
+
+function communityPageDefaultBellMarkup(){
+  return `
+    <span
+      class="activity-bell"
+      title="No new community activities"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+        <path d="M10 21h4"></path>
+      </svg>
+      <span
+        class="activity-count"
+        style="display:none"
+      >0</span>
+    </span>
+  `;
+}
+
+function communityPageMoreRowForSlug(slug,state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return null;
+
+  return [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].find(row=>{
+    const rowName=row.dataset.community||"";
+    return communityPageSlugForName(
+      rowName,
+      state
+    )===slug;
+  });
+}
+
+function communityPageEnsureMoreRows(state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return;
+
+  Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        !item?.deleted
+    )
+    .sort(
+      (a,b)=>
+        String(a[1]?.name||"")
+          .localeCompare(
+            String(b[1]?.name||"")
+          )
+    )
+    .forEach(([slug,item])=>{
+      let row=
+        communityPageMoreRowForSlug(
+          slug,
+          state
+        );
+
+      if(!row){
+        row=document.createElement("div");
+        row.className="community-more-row";
+        row.dataset.community=
+          item.name||slug;
+        row.dataset.icon=
+          item.icon||"◉";
+        row.setAttribute("role","link");
+        row.tabIndex=0;
+
+        row.innerHTML=`
+          <span class="community-more-name">
+            <span class="community-icon"></span>
+            <span class="community-more-text"></span>
+          </span>
+          <button
+            class="community-pin"
+            type="button"
+          >
+            <span class="pin-state">Pin</span>
+            <span class="pin-action">Pin</span>
+          </button>
+        `;
+
+        dropdown.appendChild(row);
+      }
+
+      row.dataset.community=
+        item.name||slug;
+      row.dataset.icon=
+        item.icon||"◉";
+      row.dataset.communitySlug=slug;
+
+      const icon=
+        row.querySelector(
+          ".community-icon"
+        );
+
+      if(icon){
+        icon.textContent=
+          item.icon||"◉";
+      }
+
+      const text=
+        row.querySelector(
+          ".community-more-text"
+        );
+
+      if(text){
+        text.textContent=
+          item.name||slug;
+      }else{
+        const nameWrap=
+          row.querySelector(
+            ".community-more-name"
+          );
+
+        if(nameWrap){
+          nameWrap.innerHTML=
+            '<span class="community-icon"></span>'+
+            '<span class="community-more-text"></span>';
+
+          nameWrap.querySelector(
+            ".community-icon"
+          ).textContent=
+            item.icon||"◉";
+
+          nameWrap.querySelector(
+            ".community-more-text"
+          ).textContent=
+            item.name||slug;
+        }
+      }
+
+      const pin=
+        row.querySelector(
+          ".community-pin"
+        );
+
+      if(pin){
+        pin.classList.toggle(
+          "pinned",
+          !!item.pinned
+        );
+
+        const stateLabel=
+          pin.querySelector(
+            ".pin-state"
+          );
+
+        const actionLabel=
+          pin.querySelector(
+            ".pin-action"
+          );
+
+        if(stateLabel){
+          stateLabel.textContent=
+            item.pinned
+              ?"Pinned"
+              :"Pin";
+        }
+
+        if(actionLabel){
+          actionLabel.textContent=
+            item.pinned
+              ?"Unpin"
+              :"Pin";
+        }
+      }
+    });
+
+  [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].forEach(row=>{
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      item.deleted
+    ){
+      row.remove();
+    }
+  });
+}
+
+let communityPageDraggedChip=null;
+
+function communityPageWireChip(chip){
+  if(
+    !chip ||
+    chip.dataset.aud016Wired==="true"
+  ){
+    return;
+  }
+
+  chip.dataset.aud016Wired="true";
+  chip.draggable=true;
+
+  chip.addEventListener(
+    "dragstart",
+    event=>{
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        event.preventDefault();
+        return;
+      }
+
+      communityPageDraggedChip=chip;
+      chip.classList.add("dragging");
+    }
+  );
+
+  chip.addEventListener(
+    "dragend",
+    ()=>{
+      chip.classList.remove("dragging");
+
+      const bar=
+        document.getElementById(
+          "masterPinnedCommunities"
+        );
+
+      if(bar){
+        const order=[
+          ...bar.querySelectorAll(
+            ".community-chip"
+          )
+        ].map(
+          item=>
+            item.dataset.communitySlug
+        ).filter(Boolean);
+
+        communityPageWritePinOrder(
+          order
+        );
+      }
+
+      communityPageDraggedChip=null;
+    }
+  );
+}
+
+function syncCommunityPageHotbar(){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  const dropdown=
+    document.getElementById(
+      "communityDropdown"
+    );
+
+  if(!bar || !dropdown)return;
+
+  const state=
+    communityPageReadState();
+
+  /*
+    Capture the current bells before rebuilding so the Community
+    page keeps its existing visible activity counts.
+  */
+  const bellByName=new Map();
+
+  bar.querySelectorAll(
+    ".community-chip"
+  ).forEach(chip=>{
+    const name=
+      chip.dataset.community||
+      chip.querySelector(
+        ".community-chip-name"
+      )?.textContent||
+      chip.textContent;
+
+    const bell=
+      chip.querySelector(
+        ".activity-bell"
+      )?.outerHTML;
+
+    if(name && bell){
+      bellByName.set(
+        String(name).trim().toLowerCase(),
+        bell
+      );
+    }
+  });
+
+  communityPageEnsureMoreRows(state);
+
+  const order=
+    communityPageReadPinOrder(
+      state
+    );
+
+  bar.innerHTML="";
+
+  order.forEach(slug=>{
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      !item.pinned ||
+      item.deleted
+    ){
+      return;
+    }
+
+    const chip=
+      document.createElement("button");
+
+    chip.type="button";
+    chip.className="community-chip";
+    chip.dataset.community=
+      item.name||slug;
+    chip.dataset.communitySlug=slug;
+    chip.dataset.icon=
+      item.icon||"◉";
+
+    const bell=
+      bellByName.get(
+        String(item.name||slug)
+          .trim()
+          .toLowerCase()
+      )||
+      communityPageDefaultBellMarkup();
+
+    chip.innerHTML=`
+      <span class="community-icon"></span>
+      <span class="community-chip-name"></span>
+      ${bell}
+    `;
+
+    chip.querySelector(
+      ".community-icon"
+    ).textContent=
+      item.icon||"◉";
+
+    chip.querySelector(
+      ".community-chip-name"
+    ).textContent=
+      item.name||slug;
+
+    communityPageWireChip(chip);
+    bar.appendChild(chip);
+  });
+}
+
+function communityPageSetPinned(
+  slug,
+  pinned
+){
+  const state=
+    communityPageReadState();
+
+  if(!state[slug])return;
+
+  /*
+    Keep the Community page's own internal state synchronized too.
+    updateCommunityState is defined by community.html itself.
+  */
+  if(
+    typeof window.updateCommunityState===
+    "function"
+  ){
+    window.updateCommunityState(
+      slug,
+      {
+        pinned,
+        joined:pinned
+          ?true
+          :state[slug].joined,
+        notifications:pinned
+          ?true
+          :state[slug].notifications
+      }
+    );
+  }else{
+    state[slug]={
+      ...state[slug],
+      pinned,
+      joined:pinned
+        ?true
+        :state[slug].joined,
+      notifications:pinned
+        ?true
+        :state[slug].notifications
+    };
+
+    communityPageWriteState(
+      state
+    );
+  }
+
+  const latest=
+    communityPageReadState();
+
+  const order=
+    communityPageReadPinOrder(
+      latest
+    );
+
+  if(
+    pinned &&
+    !order.includes(slug)
+  ){
+    order.push(slug);
+  }
+
+  if(!pinned){
+    const index=
+      order.indexOf(slug);
+
+    if(index>=0){
+      order.splice(index,1);
+    }
+  }
+
+  communityPageWritePinOrder(order);
+
+  if(
+    typeof window.syncSpookyCommunityUI===
+    "function"
+  ){
+    try{
+      window.syncSpookyCommunityUI();
+    }catch(error){}
+  }
+
+  syncCommunityPageHotbar();
+}
+
+/*
+  Own Community-page hotbar interactions before the old inline
+  handlers run. This prevents the legacy DOM-only Pin/Unpin code
+  from diverging from shared state.
+*/
+document.addEventListener(
+  "click",
+  event=>{
+    const bar=
+      document.getElementById(
+        "masterPinnedCommunities"
+      );
+
+    const dropdown=
+      document.getElementById(
+        "communityDropdown"
+      );
+
+    if(!bar || !dropdown)return;
+
+    const pin=
+      event.target.closest(
+        "#communityDropdown .community-pin"
+      );
+
+    if(pin){
+      const row=
+        pin.closest(
+          ".community-more-row"
+        );
+
+      if(!row)return;
+
+      const state=
+        communityPageReadState();
+
+      const slug=
+        row.dataset.communitySlug||
+        communityPageSlugForName(
+          row.dataset.community,
+          state
+        );
+
+      if(!state[slug])return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      communityPageSetPinned(
+        slug,
+        !state[slug].pinned
+      );
+
+      dropdown.classList.add(
+        "active"
+      );
+
+      dropdown.style.display="block";
+      return;
+    }
+
+    const chip=
+      event.target.closest(
+        "#masterPinnedCommunities .community-chip"
+      );
+
+    if(chip){
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        return;
+      }
+
+      const slug=
+        chip.dataset.communitySlug;
+
+      if(!slug)return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      window.location.href=
+        communityPageUrl(slug);
+    }
+  },
+  true
+);
+
+document.addEventListener(
+  "keydown",
+  event=>{
+    const row=
+      event.target.closest?.(
+        "#communityDropdown .community-more-row"
+      );
+
+    if(
+      !row ||
+      event.target.closest(
+        ".community-pin"
+      ) ||
+      !(
+        event.key==="Enter" ||
+        event.key===" "
+      )
+    ){
+      return;
+    }
+
+    const state=
+      communityPageReadState();
+
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    if(!state[slug])return;
+
+    event.preventDefault();
+
+    window.location.href=
+      communityPageUrl(slug);
+  }
+);
+
+const communityPageHotbar=
+  document.getElementById(
+    "masterPinnedCommunities"
+  );
+
+communityPageHotbar?.addEventListener(
+  "dragover",
+  event=>{
+    event.preventDefault();
+
+    const after=[
+      ...communityPageHotbar.querySelectorAll(
+        ".community-chip:not(.dragging)"
+      )
+    ].find(
+      item=>
+        event.clientX<=
+        item.getBoundingClientRect().left+
+        item.offsetWidth/2
+    );
+
+    if(communityPageDraggedChip){
+      after
+        ?communityPageHotbar.insertBefore(
+            communityPageDraggedChip,
+            after
+          )
+        :communityPageHotbar.appendChild(
+            communityPageDraggedChip
+          );
+    }
+  }
+);
+
+communityPageHotbar?.addEventListener(
+  "wheel",
+  event=>{
+    if(
+      Math.abs(event.deltaY)>
+      Math.abs(event.deltaX)
+    ){
+      event.preventDefault();
+      communityPageHotbar.scrollLeft+=
+        event.deltaY;
+    }
+  },
+  {passive:false}
+);
+
+syncCommunityPageHotbar();
+
+document.addEventListener(
+  "allmedia:community-state-change",
+  syncCommunityPageHotbar
+);
+
+document.addEventListener(
+  "allmedia:community-state-refresh",
+  syncCommunityPageHotbar
+);
+
+window.addEventListener(
+  "storage",
+  event=>{
+    if(
+      event.key===
+        COMMUNITY_PAGE_STATE_KEY ||
+      event.key===
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+    ){
+      syncCommunityPageHotbar();
+    }
+  }
+);
+
+
+
+
 
 window.addEventListener("storage",event=>{
   if(
@@ -1599,6 +3329,871 @@ function ensureDiscoverRegularPostPreviewOutline(){
 }
 
 ensureDiscoverRegularPostPreviewOutline();
+
+
+/* =========================================================
+   AUD-016 — COMMUNITY PAGE HOTBAR STATE PERSISTENCE
+   community.html has an older built-in hotbar. This adapter makes
+   it consume the same shared Community state + pin order used by
+   Home / Discover / Profile instead of snapping back to defaults.
+========================================================= */
+
+const COMMUNITY_PAGE_STATE_KEY="allMediaCommunityStateV1";
+const COMMUNITY_PAGE_PIN_ORDER_KEY="allMediaCommunityPinOrderV1";
+
+const COMMUNITY_PAGE_DEFAULT_STATE={
+  "spooky-cozy":{
+    name:"Spooky Cozy",
+    icon:"🎃",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"owner"
+  },
+  "artists":{
+    name:"Artists",
+    icon:"🎨",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"moderator"
+  },
+  "turtle-rescue":{
+    name:"Turtle Rescue",
+    icon:"🐢",
+    joined:true,
+    pinned:true,
+    notifications:true,
+    role:"member"
+  },
+  "book-club":{
+    name:"Book Club",
+    icon:"📚",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "crochet-corner":{
+    name:"Crochet Corner",
+    icon:"🧶",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  },
+  "garden-and-nature":{
+    name:"Garden & Nature",
+    icon:"🌿",
+    joined:true,
+    pinned:false,
+    notifications:true,
+    role:"member"
+  }
+};
+
+function communityPageClone(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function communityPageReadState(){
+  const state=communityPageClone(
+    COMMUNITY_PAGE_DEFAULT_STATE
+  );
+
+  try{
+    const saved=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_STATE_KEY
+      )||"{}"
+    );
+
+    Object.entries(saved).forEach(
+      ([slug,value])=>{
+        state[slug]={
+          ...(state[slug]||{}),
+          ...(value||{})
+        };
+      }
+    );
+  }catch(error){}
+
+  Object.values(state).forEach(item=>{
+    if(item.pinned){
+      item.joined=true;
+      item.notifications=true;
+    }
+
+    if(!item.joined){
+      item.pinned=false;
+    }
+  });
+
+  return state;
+}
+
+function communityPageWriteState(state){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_STATE_KEY,
+      JSON.stringify(state)
+    );
+  }catch(error){}
+}
+
+function communityPageReadPinOrder(state){
+  let stored=[];
+
+  try{
+    const value=JSON.parse(
+      localStorage.getItem(
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+      )||"[]"
+    );
+
+    if(Array.isArray(value)){
+      stored=value;
+    }
+  }catch(error){}
+
+  const pinned=Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        item?.pinned &&
+        !item?.deleted
+    )
+    .map(([slug])=>slug);
+
+  const normalized=stored.filter(
+    slug=>pinned.includes(slug)
+  );
+
+  pinned.forEach(slug=>{
+    if(!normalized.includes(slug)){
+      normalized.push(slug);
+    }
+  });
+
+  return normalized;
+}
+
+function communityPageWritePinOrder(order){
+  try{
+    localStorage.setItem(
+      COMMUNITY_PAGE_PIN_ORDER_KEY,
+      JSON.stringify(order)
+    );
+  }catch(error){}
+}
+
+function communityPageSlugForName(name,state){
+  const normalized=String(name||"")
+    .trim()
+    .toLowerCase();
+
+  const match=Object.entries(state)
+    .find(
+      ([,item])=>
+        String(item?.name||"")
+          .trim()
+          .toLowerCase()===normalized
+    );
+
+  if(match)return match[0];
+
+  return normalized
+    .replace(/&/g,"and")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"");
+}
+
+function communityPageUrl(slug){
+  return slug==="spooky-cozy"
+    ?"community.html"
+    :`community.html?community=${encodeURIComponent(slug)}`;
+}
+
+function communityPageExistingBellMarkup(name){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  if(!bar)return "";
+
+  const existing=[
+    ...bar.querySelectorAll(".community-chip")
+  ].find(
+    chip=>
+      String(chip.dataset.community||"")
+        .trim()
+        .toLowerCase()===
+      String(name||"")
+        .trim()
+        .toLowerCase()
+  );
+
+  return existing
+    ?.querySelector(".activity-bell")
+    ?.outerHTML||"";
+}
+
+function communityPageDefaultBellMarkup(){
+  return `
+    <span
+      class="activity-bell"
+      title="No new community activities"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+        <path d="M10 21h4"></path>
+      </svg>
+      <span
+        class="activity-count"
+        style="display:none"
+      >0</span>
+    </span>
+  `;
+}
+
+function communityPageMoreRowForSlug(slug,state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return null;
+
+  return [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].find(row=>{
+    const rowName=row.dataset.community||"";
+    return communityPageSlugForName(
+      rowName,
+      state
+    )===slug;
+  });
+}
+
+function communityPageEnsureMoreRows(state){
+  const dropdown=
+    document.getElementById("communityDropdown");
+
+  if(!dropdown)return;
+
+  Object.entries(state)
+    .filter(
+      ([,item])=>
+        item?.joined &&
+        !item?.deleted
+    )
+    .sort(
+      (a,b)=>
+        String(a[1]?.name||"")
+          .localeCompare(
+            String(b[1]?.name||"")
+          )
+    )
+    .forEach(([slug,item])=>{
+      let row=
+        communityPageMoreRowForSlug(
+          slug,
+          state
+        );
+
+      if(!row){
+        row=document.createElement("div");
+        row.className="community-more-row";
+        row.dataset.community=
+          item.name||slug;
+        row.dataset.icon=
+          item.icon||"◉";
+        row.setAttribute("role","link");
+        row.tabIndex=0;
+
+        row.innerHTML=`
+          <span class="community-more-name">
+            <span class="community-icon"></span>
+            <span class="community-more-text"></span>
+          </span>
+          <button
+            class="community-pin"
+            type="button"
+          >
+            <span class="pin-state">Pin</span>
+            <span class="pin-action">Pin</span>
+          </button>
+        `;
+
+        dropdown.appendChild(row);
+      }
+
+      row.dataset.community=
+        item.name||slug;
+      row.dataset.icon=
+        item.icon||"◉";
+      row.dataset.communitySlug=slug;
+
+      const icon=
+        row.querySelector(
+          ".community-icon"
+        );
+
+      if(icon){
+        icon.textContent=
+          item.icon||"◉";
+      }
+
+      const text=
+        row.querySelector(
+          ".community-more-text"
+        );
+
+      if(text){
+        text.textContent=
+          item.name||slug;
+      }else{
+        const nameWrap=
+          row.querySelector(
+            ".community-more-name"
+          );
+
+        if(nameWrap){
+          nameWrap.innerHTML=
+            '<span class="community-icon"></span>'+
+            '<span class="community-more-text"></span>';
+
+          nameWrap.querySelector(
+            ".community-icon"
+          ).textContent=
+            item.icon||"◉";
+
+          nameWrap.querySelector(
+            ".community-more-text"
+          ).textContent=
+            item.name||slug;
+        }
+      }
+
+      const pin=
+        row.querySelector(
+          ".community-pin"
+        );
+
+      if(pin){
+        pin.classList.toggle(
+          "pinned",
+          !!item.pinned
+        );
+
+        const stateLabel=
+          pin.querySelector(
+            ".pin-state"
+          );
+
+        const actionLabel=
+          pin.querySelector(
+            ".pin-action"
+          );
+
+        if(stateLabel){
+          stateLabel.textContent=
+            item.pinned
+              ?"Pinned"
+              :"Pin";
+        }
+
+        if(actionLabel){
+          actionLabel.textContent=
+            item.pinned
+              ?"Unpin"
+              :"Pin";
+        }
+      }
+    });
+
+  [...dropdown.querySelectorAll(
+    ".community-more-row"
+  )].forEach(row=>{
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      item.deleted
+    ){
+      row.remove();
+    }
+  });
+}
+
+let communityPageDraggedChip=null;
+
+function communityPageWireChip(chip){
+  if(
+    !chip ||
+    chip.dataset.aud016Wired==="true"
+  ){
+    return;
+  }
+
+  chip.dataset.aud016Wired="true";
+  chip.draggable=true;
+
+  chip.addEventListener(
+    "dragstart",
+    event=>{
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        event.preventDefault();
+        return;
+      }
+
+      communityPageDraggedChip=chip;
+      chip.classList.add("dragging");
+    }
+  );
+
+  chip.addEventListener(
+    "dragend",
+    ()=>{
+      chip.classList.remove("dragging");
+
+      const bar=
+        document.getElementById(
+          "masterPinnedCommunities"
+        );
+
+      if(bar){
+        const order=[
+          ...bar.querySelectorAll(
+            ".community-chip"
+          )
+        ].map(
+          item=>
+            item.dataset.communitySlug
+        ).filter(Boolean);
+
+        communityPageWritePinOrder(
+          order
+        );
+      }
+
+      communityPageDraggedChip=null;
+    }
+  );
+}
+
+function syncCommunityPageHotbar(){
+  const bar=
+    document.getElementById(
+      "masterPinnedCommunities"
+    );
+
+  const dropdown=
+    document.getElementById(
+      "communityDropdown"
+    );
+
+  if(!bar || !dropdown)return;
+
+  const state=
+    communityPageReadState();
+
+  /*
+    Capture the current bells before rebuilding so the Community
+    page keeps its existing visible activity counts.
+  */
+  const bellByName=new Map();
+
+  bar.querySelectorAll(
+    ".community-chip"
+  ).forEach(chip=>{
+    const name=
+      chip.dataset.community||
+      chip.querySelector(
+        ".community-chip-name"
+      )?.textContent||
+      chip.textContent;
+
+    const bell=
+      chip.querySelector(
+        ".activity-bell"
+      )?.outerHTML;
+
+    if(name && bell){
+      bellByName.set(
+        String(name).trim().toLowerCase(),
+        bell
+      );
+    }
+  });
+
+  communityPageEnsureMoreRows(state);
+
+  const order=
+    communityPageReadPinOrder(
+      state
+    );
+
+  bar.innerHTML="";
+
+  order.forEach(slug=>{
+    const item=state[slug];
+
+    if(
+      !item ||
+      !item.joined ||
+      !item.pinned ||
+      item.deleted
+    ){
+      return;
+    }
+
+    const chip=
+      document.createElement("button");
+
+    chip.type="button";
+    chip.className="community-chip";
+    chip.dataset.community=
+      item.name||slug;
+    chip.dataset.communitySlug=slug;
+    chip.dataset.icon=
+      item.icon||"◉";
+
+    const bell=
+      bellByName.get(
+        String(item.name||slug)
+          .trim()
+          .toLowerCase()
+      )||
+      communityPageDefaultBellMarkup();
+
+    chip.innerHTML=`
+      <span class="community-icon"></span>
+      <span class="community-chip-name"></span>
+      ${bell}
+    `;
+
+    chip.querySelector(
+      ".community-icon"
+    ).textContent=
+      item.icon||"◉";
+
+    chip.querySelector(
+      ".community-chip-name"
+    ).textContent=
+      item.name||slug;
+
+    communityPageWireChip(chip);
+    bar.appendChild(chip);
+  });
+}
+
+function communityPageSetPinned(
+  slug,
+  pinned
+){
+  const state=
+    communityPageReadState();
+
+  if(!state[slug])return;
+
+  /*
+    Keep the Community page's own internal state synchronized too.
+    updateCommunityState is defined by community.html itself.
+  */
+  if(
+    typeof window.updateCommunityState===
+    "function"
+  ){
+    window.updateCommunityState(
+      slug,
+      {
+        pinned,
+        joined:pinned
+          ?true
+          :state[slug].joined,
+        notifications:pinned
+          ?true
+          :state[slug].notifications
+      }
+    );
+  }else{
+    state[slug]={
+      ...state[slug],
+      pinned,
+      joined:pinned
+        ?true
+        :state[slug].joined,
+      notifications:pinned
+        ?true
+        :state[slug].notifications
+    };
+
+    communityPageWriteState(
+      state
+    );
+  }
+
+  const latest=
+    communityPageReadState();
+
+  const order=
+    communityPageReadPinOrder(
+      latest
+    );
+
+  if(
+    pinned &&
+    !order.includes(slug)
+  ){
+    order.push(slug);
+  }
+
+  if(!pinned){
+    const index=
+      order.indexOf(slug);
+
+    if(index>=0){
+      order.splice(index,1);
+    }
+  }
+
+  communityPageWritePinOrder(order);
+
+  if(
+    typeof window.syncSpookyCommunityUI===
+    "function"
+  ){
+    try{
+      window.syncSpookyCommunityUI();
+    }catch(error){}
+  }
+
+  syncCommunityPageHotbar();
+}
+
+/*
+  Own Community-page hotbar interactions before the old inline
+  handlers run. This prevents the legacy DOM-only Pin/Unpin code
+  from diverging from shared state.
+*/
+document.addEventListener(
+  "click",
+  event=>{
+    const bar=
+      document.getElementById(
+        "masterPinnedCommunities"
+      );
+
+    const dropdown=
+      document.getElementById(
+        "communityDropdown"
+      );
+
+    if(!bar || !dropdown)return;
+
+    const pin=
+      event.target.closest(
+        "#communityDropdown .community-pin"
+      );
+
+    if(pin){
+      const row=
+        pin.closest(
+          ".community-more-row"
+        );
+
+      if(!row)return;
+
+      const state=
+        communityPageReadState();
+
+      const slug=
+        row.dataset.communitySlug||
+        communityPageSlugForName(
+          row.dataset.community,
+          state
+        );
+
+      if(!state[slug])return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      communityPageSetPinned(
+        slug,
+        !state[slug].pinned
+      );
+
+      dropdown.classList.add(
+        "active"
+      );
+
+      dropdown.style.display="block";
+      return;
+    }
+
+    const chip=
+      event.target.closest(
+        "#masterPinnedCommunities .community-chip"
+      );
+
+    if(chip){
+      if(
+        event.target.closest(
+          ".activity-bell"
+        )
+      ){
+        return;
+      }
+
+      const slug=
+        chip.dataset.communitySlug;
+
+      if(!slug)return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      window.location.href=
+        communityPageUrl(slug);
+    }
+  },
+  true
+);
+
+document.addEventListener(
+  "keydown",
+  event=>{
+    const row=
+      event.target.closest?.(
+        "#communityDropdown .community-more-row"
+      );
+
+    if(
+      !row ||
+      event.target.closest(
+        ".community-pin"
+      ) ||
+      !(
+        event.key==="Enter" ||
+        event.key===" "
+      )
+    ){
+      return;
+    }
+
+    const state=
+      communityPageReadState();
+
+    const slug=
+      row.dataset.communitySlug||
+      communityPageSlugForName(
+        row.dataset.community,
+        state
+      );
+
+    if(!state[slug])return;
+
+    event.preventDefault();
+
+    window.location.href=
+      communityPageUrl(slug);
+  }
+);
+
+const communityPageHotbar=
+  document.getElementById(
+    "masterPinnedCommunities"
+  );
+
+communityPageHotbar?.addEventListener(
+  "dragover",
+  event=>{
+    event.preventDefault();
+
+    const after=[
+      ...communityPageHotbar.querySelectorAll(
+        ".community-chip:not(.dragging)"
+      )
+    ].find(
+      item=>
+        event.clientX<=
+        item.getBoundingClientRect().left+
+        item.offsetWidth/2
+    );
+
+    if(communityPageDraggedChip){
+      after
+        ?communityPageHotbar.insertBefore(
+            communityPageDraggedChip,
+            after
+          )
+        :communityPageHotbar.appendChild(
+            communityPageDraggedChip
+          );
+    }
+  }
+);
+
+communityPageHotbar?.addEventListener(
+  "wheel",
+  event=>{
+    if(
+      Math.abs(event.deltaY)>
+      Math.abs(event.deltaX)
+    ){
+      event.preventDefault();
+      communityPageHotbar.scrollLeft+=
+        event.deltaY;
+    }
+  },
+  {passive:false}
+);
+
+syncCommunityPageHotbar();
+
+document.addEventListener(
+  "allmedia:community-state-change",
+  syncCommunityPageHotbar
+);
+
+document.addEventListener(
+  "allmedia:community-state-refresh",
+  syncCommunityPageHotbar
+);
+
+window.addEventListener(
+  "storage",
+  event=>{
+    if(
+      event.key===
+        COMMUNITY_PAGE_STATE_KEY ||
+      event.key===
+        COMMUNITY_PAGE_PIN_ORDER_KEY
+    ){
+      syncCommunityPageHotbar();
+    }
+  }
+);
+
+
 
 
   }
