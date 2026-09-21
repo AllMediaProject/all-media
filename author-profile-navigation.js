@@ -809,6 +809,707 @@ document.addEventListener("click",event=>{
 renderProfileSavedPosts();
 syncSavedButtons();
 
+
+/* =========================================================
+   AUD-014 — WORKING POCKET ACTION OUTSIDE HOME
+   Home keeps using pocket-integration.js. Discover, Profile,
+   and Community reuse the same Pocket storage + chooser design.
+========================================================= */
+
+const CROSS_PAGE_POCKET_CREATED_KEY="allMediaPocketPrototypeV1";
+const CROSS_PAGE_POCKET_SAVED_KEY="allMediaPocketSavedPostsV1";
+const CROSS_PAGE_POCKET_REGISTRY_KEY="allMediaPocketRegistryV1";
+
+const CROSS_PAGE_POCKET_DEFAULTS=[
+  {name:"Halloween",emoji:"🎃",type:"owned"},
+  {name:"Art",emoji:"🎨",type:"owned"},
+  {name:"Crochet",emoji:"🧶",type:"owned"},
+  {name:"Home Decor",emoji:"🏠",type:"owned"},
+  {name:"Recipes",emoji:"🍲",type:"owned"},
+  {name:"Future Projects",emoji:"⭐",type:"owned"}
+];
+
+function crossPagePocketReadJSON(key,fallback){
+  try{
+    return JSON.parse(
+      localStorage.getItem(key)||
+      JSON.stringify(fallback)
+    );
+  }catch(error){
+    return fallback;
+  }
+}
+
+function crossPagePocketWriteJSON(key,value){
+  try{
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+  }catch(error){}
+}
+
+function crossPagePocketKey(name){
+  return String(name||"").trim().toLowerCase();
+}
+
+function crossPagePocketPostId(post){
+  if(!post)return "";
+
+  if(post.dataset.pocketPostId){
+    return post.dataset.pocketPostId;
+  }
+
+  const id="p_"+reblogPostHash([
+    post.querySelector(".username")?.textContent||"",
+    post.querySelector(".blog-title,.video-title")?.textContent||"",
+    post.querySelector(
+      ".caption,.blog-excerpt,.video-description,.byte-caption"
+    )?.textContent||"",
+    post.querySelector("img")?.src||"",
+    post.querySelector("video")?.src||""
+  ].join("|"));
+
+  post.dataset.pocketPostId=id;
+  return id;
+}
+
+function crossPagePocketSavedMap(){
+  return crossPagePocketReadJSON(
+    CROSS_PAGE_POCKET_SAVED_KEY,
+    {}
+  );
+}
+
+function crossPagePocketIsSavedAnywhere(id){
+  return Object.values(
+    crossPagePocketSavedMap()
+  ).some(
+    list=>(list||[]).some(
+      record=>record.id===id
+    )
+  );
+}
+
+function crossPagePocketSnapshot(post){
+  const clone=post.cloneNode(true);
+
+  [clone,...clone.querySelectorAll("*")].forEach(el=>{
+    [...el.attributes].forEach(attribute=>{
+      if(/^on/i.test(attribute.name)){
+        el.removeAttribute(attribute.name);
+      }
+    });
+
+    if(el.id){
+      el.removeAttribute("id");
+    }
+  });
+
+  clone.querySelectorAll(
+    ".active,.open,.show,.shared,.saved,.pocketed,.community-shared"
+  ).forEach(el=>{
+    el.classList.remove(
+      "active",
+      "open",
+      "show",
+      "shared",
+      "saved",
+      "pocketed",
+      "community-shared"
+    );
+  });
+
+  return clone.outerHTML;
+}
+
+function crossPagePocketIsIn(name,post){
+  const id=crossPagePocketPostId(post);
+  const map=crossPagePocketSavedMap();
+
+  return (
+    map[crossPagePocketKey(name)]||[]
+  ).some(record=>record.id===id);
+}
+
+function crossPagePocketAdd(name,post){
+  const map=crossPagePocketSavedMap();
+  const key=crossPagePocketKey(name);
+  const id=crossPagePocketPostId(post);
+  const list=map[key]||[];
+
+  if(!list.some(record=>record.id===id)){
+    list.unshift({
+      id,
+      html:crossPagePocketSnapshot(post),
+      addedAt:Date.now()
+    });
+  }
+
+  map[key]=list;
+  crossPagePocketWriteJSON(
+    CROSS_PAGE_POCKET_SAVED_KEY,
+    map
+  );
+}
+
+function crossPagePocketRemove(name,post){
+  const map=crossPagePocketSavedMap();
+  const key=crossPagePocketKey(name);
+  const id=crossPagePocketPostId(post);
+
+  map[key]=(map[key]||[])
+    .filter(record=>record.id!==id);
+
+  crossPagePocketWriteJSON(
+    CROSS_PAGE_POCKET_SAVED_KEY,
+    map
+  );
+}
+
+function crossPageOwnedPockets(){
+  const registry=crossPagePocketReadJSON(
+    CROSS_PAGE_POCKET_REGISTRY_KEY,
+    {}
+  );
+
+  const created=crossPagePocketReadJSON(
+    CROSS_PAGE_POCKET_CREATED_KEY,
+    null
+  );
+
+  const seen=new Set();
+  const result=[];
+
+  if(created?.name){
+    const key=crossPagePocketKey(created.name);
+
+    seen.add(key);
+    result.push({
+      name:created.name,
+      emoji:created.emoji||created.icon||"▱"
+    });
+  }
+
+  Object.entries(registry).forEach(([registryKey,item])=>{
+    if(!item || item.type!=="owned" || !item.name)return;
+
+    const key=crossPagePocketKey(
+      item.name||registryKey
+    );
+
+    if(seen.has(key))return;
+    seen.add(key);
+
+    result.push({
+      name:item.name,
+      emoji:item.emoji||item.icon||"▱"
+    });
+  });
+
+  /*
+    Direct-load fallback: if the Home registry has never been written
+    in this browser, mirror Home's six built-in owned Pockets.
+  */
+  if(!Object.keys(registry).length){
+    CROSS_PAGE_POCKET_DEFAULTS.forEach(item=>{
+      const key=crossPagePocketKey(item.name);
+      if(seen.has(key))return;
+      seen.add(key);
+      result.push({
+        name:item.name,
+        emoji:item.emoji
+      });
+    });
+  }
+
+  return result;
+}
+
+function crossPagePocketSignalWords(value){
+  const words=String(value||"")
+    .toLowerCase()
+    .replace(/^#/,"")
+    .match(/[a-z0-9]+/g)||[];
+
+  const whole=words.join("");
+
+  return [...new Set(
+    [...words,whole].filter(Boolean)
+  )];
+}
+
+function crossPagePocketHashtagSignal(value){
+  return String(value||"")
+    .toLowerCase()
+    .replace(/^#/,"")
+    .replace(/[^a-z0-9]+/g,"");
+}
+
+function crossPagePostPocketMatchData(post){
+  const topics=new Set();
+  const hashtags=new Set();
+
+  post.querySelectorAll(".topic").forEach(el=>{
+    crossPagePocketSignalWords(el.textContent)
+      .forEach(signal=>topics.add(signal));
+  });
+
+  post.querySelectorAll(
+    ".post-hashtags .post-hashtag"
+  ).forEach(el=>{
+    const signal=
+      crossPagePocketHashtagSignal(
+        el.textContent
+      );
+
+    if(signal)hashtags.add(signal);
+  });
+
+  return {topics,hashtags};
+}
+
+function crossPagePocketMatchData(pocket){
+  const registry=crossPagePocketReadJSON(
+    CROSS_PAGE_POCKET_REGISTRY_KEY,
+    {}
+  );
+
+  const meta=
+    registry[crossPagePocketKey(pocket.name)]||
+    {};
+
+  const topics=new Set();
+  const hashtags=new Set();
+
+  crossPagePocketSignalWords(pocket.name)
+    .forEach(signal=>topics.add(signal));
+
+  (meta.interests||[]).forEach(item=>{
+    const value=
+      typeof item==="string"
+        ?item
+        :item?.name;
+
+    crossPagePocketSignalWords(value)
+      .forEach(signal=>topics.add(signal));
+  });
+
+  (meta.hashtags||[]).forEach(tag=>{
+    const signal=
+      crossPagePocketHashtagSignal(tag);
+
+    if(signal)hashtags.add(signal);
+  });
+
+  return {topics,hashtags};
+}
+
+function crossPagePocketMatchesPost(pocket,post){
+  const postData=
+    crossPagePostPocketMatchData(post);
+
+  const pocketData=
+    crossPagePocketMatchData(pocket);
+
+  const topicMatch=
+    [...postData.topics].some(
+      signal=>pocketData.topics.has(signal)
+    );
+
+  const hashtagMatch=
+    [...postData.hashtags].some(
+      signal=>pocketData.hashtags.has(signal)
+    );
+
+  return topicMatch||hashtagMatch;
+}
+
+function ensureCrossPagePocketStyles(){
+  if(document.getElementById("pocketChooserStyles"))return;
+
+  const style=document.createElement("style");
+  style.id="pocketChooserStyles";
+  style.textContent=`
+    .am-pocket-chooser{
+      position:fixed;z-index:10000;width:min(290px,calc(100vw - 24px));
+      padding:10px;border:1px solid rgba(255,195,132,.35);border-radius:14px;
+      background:linear-gradient(145deg,#182a53,#101e40);
+      box-shadow:0 18px 42px rgba(0,0,0,.42);
+      color:#f8f8f2;font-family:'Outfit',sans-serif
+    }
+    .am-pocket-chooser[hidden]{display:none!important}
+    .am-pocket-head{display:flex;align-items:center;justify-content:space-between;padding:3px 3px 8px}
+    .am-pocket-head strong{font-size:11px;letter-spacing:.08em;color:#ffc384}
+    .am-pocket-close{width:25px;height:25px;border:0;border-radius:50%;background:rgba(255,255,255,.05);color:#aeb7cb;cursor:pointer}
+    .am-pocket-list{
+      display:grid;gap:5px;max-height:min(360px,55vh);
+      overflow-y:auto;overflow-x:hidden;padding-right:4px;
+      scrollbar-gutter:stable
+    }
+    .am-pocket-list::-webkit-scrollbar{width:6px}
+    .am-pocket-list::-webkit-scrollbar-track{background:transparent}
+    .am-pocket-list::-webkit-scrollbar-thumb{background:rgba(255,195,132,.28);border-radius:999px}
+    .am-pocket-list::-webkit-scrollbar-thumb:hover{background:rgba(255,195,132,.48)}
+    .am-pocket-show-all{
+      width:100%;margin-top:7px;padding:7px 8px;border:0;
+      background:transparent;color:#9aa7c2;
+      font:700 9px 'Outfit',sans-serif;text-align:left;cursor:pointer
+    }
+    .am-pocket-show-all:hover{color:#ffc384}
+    .am-pocket-show-all[hidden]{display:none!important}
+    .am-pocket-choice{
+      width:100%;min-height:42px;padding:7px 8px;
+      display:grid;grid-template-columns:28px 1fr 18px;
+      align-items:center;gap:8px;
+      border:1px solid rgba(255,255,255,.08);border-radius:10px;
+      background:rgba(255,255,255,.025);color:#eef2fb;
+      text-align:left;cursor:pointer
+    }
+    .am-pocket-choice:hover{
+      border-color:rgba(255,195,132,.38);
+      background:rgba(255,195,132,.06)
+    }
+    .am-pocket-choice.selected{
+      border-color:#ffc384;
+      background:rgba(255,195,132,.10);
+      color:#ffc384
+    }
+    .am-pocket-icon{
+      width:28px;height:28px;display:grid;place-items:center;
+      border-radius:50%;background:#26365f
+    }
+    .am-pocket-check{
+      width:18px;height:18px;display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.18);border-radius:50%;
+      font-size:10px;color:transparent
+    }
+    .am-pocket-choice.selected .am-pocket-check{
+      background:#ffc384;border-color:#ffc384;color:#101a3a
+    }
+    .am-pocket-note{
+      min-height:15px;padding:6px 3px 0;
+      color:#8f9dbd;font-size:9px
+    }
+    .feed .post .pocket-action.pocketed,
+    .profile-feed .post .pocket-action.pocketed,
+    .community-post-column .post .pocket-action.pocketed{
+      border-color:#ffc384!important;
+      background:rgba(255,195,132,.11)!important;
+      color:#ffc384!important
+    }
+  `;
+
+  document.head.appendChild(style);
+}
+
+function crossPagePocketChooser(){
+  let panel=
+    document.getElementById("amPocketChooser");
+
+  if(panel)return panel;
+
+  panel=document.createElement("div");
+  panel.id="amPocketChooser";
+  panel.className="am-pocket-chooser";
+  panel.hidden=true;
+
+  panel.innerHTML=`
+    <div class="am-pocket-head">
+      <strong>ADD TO POCKET</strong>
+      <button
+        class="am-pocket-close"
+        type="button"
+        aria-label="Close"
+      >×</button>
+    </div>
+
+    <div class="am-pocket-list"></div>
+
+    <button
+      class="am-pocket-show-all"
+      type="button"
+      hidden
+    >Show all Pockets</button>
+
+    <div class="am-pocket-note"></div>
+  `;
+
+  document.body.appendChild(panel);
+
+  panel.querySelector(".am-pocket-close")
+    ?.addEventListener(
+      "click",
+      ()=>{panel.hidden=true;}
+    );
+
+  panel.addEventListener("click",event=>{
+    const choice=
+      event.target.closest(".am-pocket-choice");
+
+    if(!choice)return;
+
+    const post=panel._post;
+    if(!post)return;
+
+    const name=choice.dataset.name||"";
+
+    if(crossPagePocketIsIn(name,post)){
+      crossPagePocketRemove(name,post);
+
+      choice.classList.remove("selected");
+
+      const check=
+        choice.querySelector(".am-pocket-check");
+
+      if(check)check.textContent="";
+
+      panel.querySelector(
+        ".am-pocket-note"
+      ).textContent=
+        `Removed from ${name}.`;
+    }else{
+      crossPagePocketAdd(name,post);
+
+      choice.classList.add("selected");
+
+      const check=
+        choice.querySelector(".am-pocket-check");
+
+      if(check)check.textContent="✓";
+
+      panel.querySelector(
+        ".am-pocket-note"
+      ).textContent=
+        `Added to ${name}.`;
+    }
+
+    syncCrossPagePocketButtons();
+  });
+
+  return panel;
+}
+
+function syncCrossPagePocketButtons(){
+  /*
+    Home has its own canonical integration and owns this behavior there.
+  */
+  if(document.querySelector(".pockets-panel"))return;
+
+  document.querySelectorAll(".post").forEach(post=>{
+    const id=crossPagePocketPostId(post);
+
+    post.querySelectorAll(
+      ".pocket-action"
+    ).forEach(button=>{
+      const active=
+        crossPagePocketIsSavedAnywhere(id);
+
+      button.classList.toggle(
+        "pocketed",
+        active
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        String(active)
+      );
+    });
+  });
+}
+
+function positionCrossPagePocketChooser(panel,button){
+  panel.hidden=false;
+
+  const rect=button.getBoundingClientRect();
+  const width=panel.offsetWidth||290;
+  const height=panel.offsetHeight||250;
+  const pad=10;
+
+  const left=Math.min(
+    window.innerWidth-width-pad,
+    Math.max(pad,rect.left)
+  );
+
+  let top=rect.bottom+7;
+
+  if(top+height>window.innerHeight-pad){
+    top=Math.max(
+      pad,
+      rect.top-height-7
+    );
+  }
+
+  panel.style.left=`${left}px`;
+  panel.style.top=`${top}px`;
+}
+
+function openCrossPagePocketChooser(button){
+  if(document.querySelector(".pockets-panel"))return;
+
+  ensureCrossPagePocketStyles();
+
+  const post=button.closest(".post");
+  if(!post)return;
+
+  const panel=crossPagePocketChooser();
+  const list=
+    panel.querySelector(".am-pocket-list");
+  const showAll=
+    panel.querySelector(".am-pocket-show-all");
+  const note=
+    panel.querySelector(".am-pocket-note");
+
+  const pockets=crossPageOwnedPockets();
+
+  panel._post=post;
+  note.textContent="";
+
+  function renderChoices(items){
+    list.innerHTML=items.map(pocket=>{
+      const selected=
+        crossPagePocketIsIn(
+          pocket.name,
+          post
+        );
+
+      const safeName=
+        String(pocket.name)
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;");
+
+      return `
+        <button
+          class="am-pocket-choice${selected?" selected":""}"
+          type="button"
+          data-name="${safeName}"
+        >
+          <span class="am-pocket-icon">${pocket.emoji||"▱"}</span>
+          <span>${safeName}</span>
+          <span class="am-pocket-check">${selected?"✓":""}</span>
+        </button>
+      `;
+    }).join("");
+  }
+
+  if(!pockets.length){
+    list.innerHTML=
+      '<div style="padding:12px 8px;color:#8995af;font-size:10px;text-align:center">You do not have any Pockets yet.</div>';
+
+    showAll.hidden=true;
+  }else{
+    const matches=pockets.filter(
+      pocket=>
+        crossPagePocketMatchesPost(
+          pocket,
+          post
+        )
+    );
+
+    if(
+      matches.length &&
+      matches.length<pockets.length
+    ){
+      renderChoices(matches);
+
+      showAll.hidden=false;
+      showAll.textContent=
+        `Show all Pockets (${pockets.length})`;
+
+      showAll.onclick=()=>{
+        renderChoices(pockets);
+        showAll.hidden=true;
+      };
+    }else{
+      renderChoices(
+        matches.length?matches:pockets
+      );
+
+      showAll.hidden=true;
+    }
+  }
+
+  positionCrossPagePocketChooser(
+    panel,
+    button
+  );
+}
+
+function closeCrossPagePocketChooser(){
+  if(document.querySelector(".pockets-panel"))return;
+
+  const panel=
+    document.getElementById("amPocketChooser");
+
+  if(panel)panel.hidden=true;
+}
+
+/*
+  Capture phase replaces Discover/Profile prototype-only Pocket clicks.
+  Home is excluded because pocket-integration.js remains canonical there.
+*/
+document.addEventListener("click",event=>{
+  if(document.querySelector(".pockets-panel"))return;
+
+  const button=event.target.closest?.(
+    ".post .pocket-action"
+  );
+
+  if(button){
+    const post=button.closest(".post");
+    if(!post)return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    openCrossPagePocketChooser(button);
+    return;
+  }
+
+  const panel=
+    document.getElementById("amPocketChooser");
+
+  if(
+    panel &&
+    !panel.hidden &&
+    !event.target.closest("#amPocketChooser")
+  ){
+    closeCrossPagePocketChooser();
+  }
+},true);
+
+/*
+  Keep current Home parity for AUD-014.
+  AUD-022 will separately change scroll-close behavior everywhere.
+*/
+window.addEventListener(
+  "resize",
+  closeCrossPagePocketChooser
+);
+
+window.addEventListener(
+  "scroll",
+  closeCrossPagePocketChooser,
+  true
+);
+
+syncCrossPagePocketButtons();
+
+window.addEventListener("storage",event=>{
+  if(
+    event.key===CROSS_PAGE_POCKET_SAVED_KEY ||
+    event.key===CROSS_PAGE_POCKET_REGISTRY_KEY ||
+    event.key===CROSS_PAGE_POCKET_CREATED_KEY
+  ){
+    syncCrossPagePocketButtons();
+  }
+});
+
+
+
 window.addEventListener("storage",event=>{
   if(event.key!==PROFILE_SAVED_POSTS_KEY)return;
   renderProfileSavedPosts();
