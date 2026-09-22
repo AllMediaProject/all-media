@@ -5568,3 +5568,54 @@ new MutationObserver(records=>{
    AUD-020 CORRECTION — RESTORE VIEW MORE COMMENTS TO PINNED CARDS
    Adds the same comments toggle used by normal Community feed cards.
 ========================================================= */
+
+
+/* =========================================================
+   AUD-022 — KEEP POCKET / COMMUNITY PICKERS OPEN WHILE
+   SCROLLING INSIDE THEIR OWN LISTS
+
+   Existing integrations intentionally close their chooser on page
+   scroll. Their capture-phase scroll listeners also catch nested
+   chooser scrolling. This final guard restores the chooser only when
+   the scroll originated inside that chooser.
+
+   Result:
+   - scroll inside Pocket picker -> stays open
+   - scroll inside Community picker -> stays open
+   - page scroll -> existing close behavior remains
+   - click outside / X / Escape / resize -> unchanged
+========================================================= */
+(() => {
+  function keepInternalChooserOpen(event){
+    const path=
+      typeof event.composedPath==="function"
+        ?event.composedPath()
+        :[];
+
+    [
+      document.getElementById("amPocketChooser"),
+      document.getElementById("amCommunityChooser")
+    ].forEach(panel=>{
+      if(!panel)return;
+
+      const target=event.target;
+      const inside=
+        path.includes(panel) ||
+        (
+          target instanceof Node &&
+          panel.contains(target)
+        );
+
+      if(inside){
+        panel.hidden=false;
+      }
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    keepInternalChooserOpen,
+    true
+  );
+})();
+
