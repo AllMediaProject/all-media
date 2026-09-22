@@ -4440,3 +4440,44 @@ new MutationObserver(records=>{
   subtree:true
 });
 })();
+
+/* =========================================================
+   AUD-017 CORRECTION — PROFILE PREVIEW OUTLINE EXECUTION
+   The original AUD-017 block landed inside Community-only logic.
+   This end-of-file adapter guarantees the Profile rule runs on load.
+========================================================= */
+(() => {
+  const hasProfileFeed =
+    document.querySelector(
+      "#postsPanel.profile-feed, #otherPostsPanel.profile-feed"
+    );
+
+  if(!hasProfileFeed)return;
+
+  let style =
+    document.getElementById(
+      "aud017ProfileRegularPostOutline"
+    );
+
+  if(style){
+    style.remove();
+  }
+
+  style=document.createElement("style");
+  style.id="aud017ProfileRegularPostOutline";
+  style.textContent=`
+    #postsPanel.profile-feed .feed > .post.regular-post > .post-image:not(.has-upload),
+    #otherPostsPanel.profile-feed .feed > .post.regular-post > .post-image:not(.has-upload){
+      border:1px solid rgba(255,195,132,.38)!important;
+      border-radius:14px!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.10),
+        0 0 24px rgba(255,195,132,.17),
+        0 10px 22px -17px rgba(0,0,0,.72),
+        inset 0 0 18px rgba(255,195,132,.025)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+})();
+
