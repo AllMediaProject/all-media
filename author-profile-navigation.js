@@ -5750,3 +5750,917 @@ new MutationObserver(records=>{
   );
 })();
 
+
+/* =========================================================
+   AUD-023 — PERSIST USER-CREATED HOME FEED POSTS
+   Home-only IndexedDB persistence for posts created through the
+   All Media composer.
+
+   Persists:
+   - Regular Post / Blog / Video / Byte cards
+   - uploaded image blobs
+   - uploaded video blobs
+   - edits
+   - comments / visible interaction state
+   - newest-first created-post order
+
+   Does NOT persist the built-in sample feed cards.
+========================================================= */
+(() => {
+  const feed=document.getElementById("feed");
+  const composer=document.getElementById("composer");
+
+  // Strict Home-page guard.
+  if(!feed || !composer)return;
+
+  const DB_NAME="allMediaHomeCreatedPostsV1";
+  const STORE_NAME="posts";
+  const DB_VERSION=1;
+
+  const saveTimers=new Map();
+  const writeVersions=new Map();
+  const restoredObjectUrls=new Set();
+
+  function openHomePostsDB(){
+    return new Promise((resolve,reject)=>{
+      if(!("indexedDB" in window)){
+        reject(
+          new Error(
+            "IndexedDB is unavailable in this browser."
+          )
+        );
+        return;
+      }
+
+      const request=indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
+
+      request.onupgradeneeded=()=>{
+        const db=request.result;
+
+        if(
+          !db.objectStoreNames.contains(
+            STORE_NAME
+          )
+        ){
+          const store=db.createObjectStore(
+            STORE_NAME,
+            {
+              keyPath:"id"
+            }
+          );
+
+          store.createIndex(
+            "createdAt",
+            "createdAt",
+            {
+              unique:false
+            }
+          );
+        }
+      };
+
+      request.onsuccess=()=>{
+        resolve(request.result);
+      };
+
+      request.onerror=()=>{
+        reject(
+          request.error ||
+          new Error(
+            "Could not open post storage."
+          )
+        );
+      };
+    });
+  }
+
+  function withHomePostsStore(
+    mode,
+    callback
+  ){
+    return openHomePostsDB()
+      .then(
+        db=>
+          new Promise((resolve,reject)=>{
+            const tx=db.transaction(
+              STORE_NAME,
+              mode
+            );
+
+            const store=
+              tx.objectStore(
+                STORE_NAME
+              );
+
+            let result;
+
+            try{
+              result=callback(
+                store,
+                tx
+              );
+            }catch(error){
+              db.close();
+              reject(error);
+              return;
+            }
+
+            tx.oncomplete=()=>{
+              db.close();
+              resolve(result);
+            };
+
+            tx.onerror=()=>{
+              const error=
+                tx.error ||
+                new Error(
+                  "Post storage transaction failed."
+                );
+
+              db.close();
+              reject(error);
+            };
+
+            tx.onabort=()=>{
+              const error=
+                tx.error ||
+                new Error(
+                  "Post storage transaction was cancelled."
+                );
+
+              db.close();
+              reject(error);
+            };
+          })
+      );
+  }
+
+  function requestResult(request){
+    return new Promise((resolve,reject)=>{
+      request.onsuccess=()=>{
+        resolve(request.result);
+      };
+
+      request.onerror=()=>{
+        reject(
+          request.error ||
+          new Error(
+            "Post storage request failed."
+          )
+        );
+      };
+    });
+  }
+
+  async function readStoredHomePosts(){
+    const db=await openHomePostsDB();
+
+    try{
+      const tx=db.transaction(
+        STORE_NAME,
+        "readonly"
+      );
+
+      const store=
+        tx.objectStore(
+          STORE_NAME
+        );
+
+      const records=
+        await requestResult(
+          store.getAll()
+        );
+
+      return (
+        Array.isArray(records)
+          ?records
+          :[]
+      ).sort(
+        (a,b)=>
+          (Number(b.createdAt)||0)-
+          (Number(a.createdAt)||0)
+      );
+    }finally{
+      db.close();
+    }
+  }
+
+  function ownedCreatedPost(node){
+    return (
+      node instanceof Element &&
+      node.matches(
+        '.post[data-owner="current-user"]'
+      )
+    );
+  }
+
+  function currentPostId(post){
+    return (
+      post?.dataset?.aud023PostId||
+      ""
+    );
+  }
+
+  function makePostId(){
+    if(
+      window.crypto?.randomUUID
+    ){
+      return (
+        "home_"+
+        crypto.randomUUID()
+      );
+    }
+
+    return (
+      "home_"+
+      Date.now().toString(36)+
+      "_"+
+      Math.random()
+        .toString(36)
+        .slice(2)
+    );
+  }
+
+  function ensurePostIdentity(
+    post,
+    preferredId="",
+    preferredCreatedAt=0
+  ){
+    if(!ownedCreatedPost(post)){
+      return null;
+    }
+
+    const id=
+      preferredId ||
+      currentPostId(post) ||
+      makePostId();
+
+    const createdAt=
+      Number(
+        preferredCreatedAt ||
+        post.dataset.aud023CreatedAt ||
+        Date.now()
+      );
+
+    post.dataset.aud023PostId=id;
+    post.dataset.aud023CreatedAt=
+      String(createdAt);
+
+    return {
+      id,
+      createdAt
+    };
+  }
+
+  function cleanPostClone(post){
+    const clone=post.cloneNode(true);
+
+    clone.removeAttribute(
+      "data-aud023-hydrating"
+    );
+
+    clone.querySelectorAll(
+      [
+        ".regular-post-menu.open",
+        ".blog-v11-menu.open",
+        ".video-v11-menu.open",
+        ".byte-v11-menu.open",
+        ".post-menu-dropdown.active"
+      ].join(",")
+    ).forEach(el=>{
+      el.classList.remove(
+        "open",
+        "active"
+      );
+    });
+
+    clone.querySelectorAll(
+      ".comment-composer.active"
+    ).forEach(el=>{
+      el.classList.remove(
+        "active"
+      );
+    });
+
+    clone.querySelectorAll(
+      ".single-comment-composer.open"
+    ).forEach(el=>{
+      el.classList.remove(
+        "open"
+      );
+    });
+
+    clone.querySelectorAll(
+      "video"
+    ).forEach(video=>{
+      video.removeAttribute(
+        "autoplay"
+      );
+    });
+
+    return clone;
+  }
+
+  function blobUrlsInHTML(html){
+    return [
+      ...new Set(
+        String(html)
+          .match(
+            /blob:[^"'()<>\s]+/g
+          )||
+        []
+      )
+    ];
+  }
+
+  async function serializeCreatedPost(
+    post
+  ){
+    const identity=
+      ensurePostIdentity(post);
+
+    if(!identity)return null;
+
+    const clone=
+      cleanPostClone(post);
+
+    let html=clone.outerHTML;
+
+    const urls=
+      blobUrlsInHTML(html);
+
+    const media=[];
+
+    for(
+      let index=0;
+      index<urls.length;
+      index++
+    ){
+      const url=urls[index];
+
+      try{
+        const response=
+          await fetch(url);
+
+        if(!response.ok){
+          continue;
+        }
+
+        const mediaBlob=
+          await response.blob();
+
+        const token=
+          `aud023-media://${
+            identity.id
+          }/${index}`;
+
+        html=html.split(url)
+          .join(token);
+
+        media.push({
+          token,
+          blob:mediaBlob,
+          type:
+            mediaBlob.type||
+            ""
+        });
+      }catch(error){
+        console.warn(
+          "[AUD-023] Could not preserve one media blob.",
+          error
+        );
+      }
+    }
+
+    return {
+      id:identity.id,
+      createdAt:
+        identity.createdAt,
+      updatedAt:Date.now(),
+      html,
+      media
+    };
+  }
+
+  async function putCreatedPost(
+    post
+  ){
+    if(!ownedCreatedPost(post)){
+      return;
+    }
+
+    const identity=
+      ensurePostIdentity(post);
+
+    if(!identity)return;
+
+    const id=identity.id;
+
+    const version=
+      (writeVersions.get(id)||0)+1;
+
+    writeVersions.set(
+      id,
+      version
+    );
+
+    let record;
+
+    try{
+      record=
+        await serializeCreatedPost(
+          post
+        );
+    }catch(error){
+      console.error(
+        "[AUD-023] Could not serialize created post.",
+        error
+      );
+      return;
+    }
+
+    if(
+      !record ||
+      writeVersions.get(id)!==version
+    ){
+      return;
+    }
+
+    try{
+      await withHomePostsStore(
+        "readwrite",
+        store=>{
+          store.put(record);
+        }
+      );
+    }catch(error){
+      console.error(
+        "[AUD-023] Could not save created post.",
+        error
+      );
+    }
+  }
+
+  function scheduleCreatedPostSave(
+    post,
+    delay=160
+  ){
+    if(!ownedCreatedPost(post)){
+      return;
+    }
+
+    const identity=
+      ensurePostIdentity(post);
+
+    if(!identity)return;
+
+    const id=identity.id;
+
+    clearTimeout(
+      saveTimers.get(id)
+    );
+
+    const timer=setTimeout(
+      ()=>{
+        saveTimers.delete(id);
+        putCreatedPost(post);
+      },
+      Math.max(
+        0,
+        Number(delay)||0
+      )
+    );
+
+    saveTimers.set(
+      id,
+      timer
+    );
+  }
+
+  async function deleteStoredCreatedPost(
+    id
+  ){
+    if(!id)return;
+
+    clearTimeout(
+      saveTimers.get(id)
+    );
+
+    saveTimers.delete(id);
+
+    writeVersions.set(
+      id,
+      (writeVersions.get(id)||0)+1
+    );
+
+    try{
+      await withHomePostsStore(
+        "readwrite",
+        store=>{
+          store.delete(id);
+        }
+      );
+    }catch(error){
+      console.error(
+        "[AUD-023] Could not delete stored post.",
+        error
+      );
+    }
+  }
+
+  function hydrateStoredRecord(
+    record
+  ){
+    if(
+      !record?.html ||
+      !record?.id
+    ){
+      return null;
+    }
+
+    let html=
+      String(record.html);
+
+    (
+      Array.isArray(record.media)
+        ?record.media
+        :[]
+    ).forEach(item=>{
+      if(
+        !item?.token ||
+        !(item.blob instanceof Blob)
+      ){
+        return;
+      }
+
+      const url=
+        URL.createObjectURL(
+          item.blob
+        );
+
+      restoredObjectUrls.add(url);
+
+      html=html
+        .split(item.token)
+        .join(url);
+    });
+
+    const template=
+      document.createElement(
+        "template"
+      );
+
+    template.innerHTML=
+      html.trim();
+
+    const post=
+      template.content.querySelector(
+        ".post"
+      );
+
+    if(!(post instanceof Element)){
+      return null;
+    }
+
+    post.dataset.owner=
+      "current-user";
+
+    post.dataset.aud023PostId=
+      record.id;
+
+    post.dataset.aud023CreatedAt=
+      String(
+        Number(record.createdAt)||
+        Date.now()
+      );
+
+    post.dataset.aud023Restored=
+      "true";
+
+    return post;
+  }
+
+  function prepareRestoredPost(post){
+    if(!post)return;
+
+    post.querySelectorAll(
+      ".media-carousel.feed-carousel"
+    ).forEach(carousel=>{
+      try{
+        if(
+          typeof wirePostCarouselSwipe===
+          "function"
+        ){
+          wirePostCarouselSwipe(
+            carousel
+          );
+        }
+      }catch(error){}
+    });
+
+    post.querySelectorAll(
+      ".video-feed-player video"
+    ).forEach(video=>{
+      try{
+        if(
+          typeof syncFeedVideoControls===
+          "function"
+        ){
+          syncFeedVideoControls(
+            video
+          );
+        }
+      }catch(error){}
+    });
+
+    try{
+      if(
+        post.classList.contains(
+          "byte-post"
+        ) ||
+        post.classList.contains(
+          "byte-post-v11"
+        )
+      ){
+        if(
+          typeof setupByteCaption===
+          "function"
+        ){
+          setupByteCaption(post);
+        }
+      }
+    }catch(error){}
+
+    try{
+      if(
+        post.classList.contains(
+          "video-post"
+        ) ||
+        post.classList.contains(
+          "video-post-v11"
+        )
+      ){
+        if(
+          typeof setupVideoDescription===
+          "function"
+        ){
+          setupVideoDescription(post);
+        }
+      }
+    }catch(error){}
+
+    try{
+      if(
+        typeof updateMoreLink===
+        "function"
+      ){
+        updateMoreLink(post);
+      }
+    }catch(error){}
+  }
+
+  async function restoreCreatedPosts(){
+    let records=[];
+
+    try{
+      records=
+        await readStoredHomePosts();
+    }catch(error){
+      console.error(
+        "[AUD-023] Could not restore created posts.",
+        error
+      );
+      return;
+    }
+
+    if(!records.length)return;
+
+    const fragment=
+      document.createDocumentFragment();
+
+    const restored=[];
+
+    records.forEach(record=>{
+      if(
+        feed.querySelector(
+          `.post[data-aud023-post-id="${CSS.escape(record.id)}"]`
+        )
+      ){
+        return;
+      }
+
+      const post=
+        hydrateStoredRecord(
+          record
+        );
+
+      if(!post)return;
+
+      restored.push(post);
+      fragment.appendChild(post);
+    });
+
+    if(!restored.length)return;
+
+    feed.insertBefore(
+      fragment,
+      feed.firstChild
+    );
+
+    restored.forEach(
+      prepareRestoredPost
+    );
+
+    try{
+      decorate(feed);
+    }catch(error){}
+
+    try{
+      syncReblogButtons();
+    }catch(error){}
+
+    try{
+      syncSavedButtons();
+    }catch(error){}
+
+    try{
+      syncCrossPagePocketButtons();
+    }catch(error){}
+
+    requestAnimationFrame(()=>{
+      window.dispatchEvent(
+        new CustomEvent(
+          "allmedia:refreshfeed"
+        )
+      );
+    });
+  }
+
+  function directOwnedPosts(nodes){
+    return [...nodes]
+      .filter(
+        ownedCreatedPost
+      );
+  }
+
+  const observer=
+    new MutationObserver(
+      records=>{
+        records.forEach(record=>{
+          const removed=
+            directOwnedPosts(
+              record.removedNodes
+            );
+
+          const added=
+            directOwnedPosts(
+              record.addedNodes
+            );
+
+          /*
+            Edit uses replaceWith(newPost). Transfer the old persistent
+            identity to the new card so SAVE CHANGES updates the same
+            stored record rather than creating a duplicate.
+          */
+          if(
+            removed.length===1 &&
+            added.length===1
+          ){
+            const oldPost=
+              removed[0];
+
+            const newPost=
+              added[0];
+
+            const oldId=
+              currentPostId(
+                oldPost
+              );
+
+            const oldCreatedAt=
+              Number(
+                oldPost.dataset
+                  .aud023CreatedAt
+              )||0;
+
+            if(oldId){
+              ensurePostIdentity(
+                newPost,
+                oldId,
+                oldCreatedAt
+              );
+
+              scheduleCreatedPostSave(
+                newPost,
+                0
+              );
+
+              return;
+            }
+          }
+
+          removed.forEach(post=>{
+            const id=
+              currentPostId(
+                post
+              );
+
+            if(id){
+              deleteStoredCreatedPost(
+                id
+              );
+            }
+          });
+
+          added.forEach(post=>{
+            ensurePostIdentity(post);
+
+            scheduleCreatedPostSave(
+              post,
+              0
+            );
+          });
+
+          const changedPost=
+            record.target instanceof Element
+              ?record.target.closest(
+                  '.post[data-owner="current-user"]'
+                )
+              :record.target?.parentElement
+                ?.closest?.(
+                  '.post[data-owner="current-user"]'
+                );
+
+          if(
+            changedPost &&
+            feed.contains(
+              changedPost
+            )
+          ){
+            scheduleCreatedPostSave(
+              changedPost,
+              180
+            );
+          }
+        });
+      }
+    );
+
+  observer.observe(
+    feed,
+    {
+      childList:true,
+      subtree:true,
+      characterData:true,
+      attributes:true,
+      attributeFilter:[
+        "class",
+        "data-liked",
+        "data-reblogged",
+        "aria-pressed"
+      ]
+    }
+  );
+
+  /*
+    If a user-created card already exists when this script starts,
+    give it persistent identity too.
+  */
+  feed.querySelectorAll(
+    ':scope > .post[data-owner="current-user"]'
+  ).forEach(post=>{
+    ensurePostIdentity(post);
+
+    scheduleCreatedPostSave(
+      post,
+      0
+    );
+  });
+
+  restoreCreatedPosts();
+
+  window.addEventListener(
+    "pagehide",
+    ()=>{
+      /*
+        Revoke only URLs created by AUD-023 restore. Original composer
+        object URLs remain owned by home.js.
+      */
+      restoredObjectUrls.forEach(
+        url=>{
+          try{
+            URL.revokeObjectURL(
+              url
+            );
+          }catch(error){}
+        }
+      );
+
+      restoredObjectUrls.clear();
+    }
+  );
+})();
+
