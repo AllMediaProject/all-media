@@ -5569,53 +5569,184 @@ new MutationObserver(records=>{
    Adds the same comments toggle used by normal Community feed cards.
 ========================================================= */
 
-
 /* =========================================================
-   AUD-022 — KEEP POCKET / COMMUNITY PICKERS OPEN WHILE
-   SCROLLING INSIDE THEIR OWN LISTS
+   AUD-022 CORRECTION — INTERNAL PICKER SCROLL MUST NOT CLOSE
+   Chrome fires the existing window scroll listeners even when the
+   scroll belongs to the chooser's own list. Protect the two chooser
+   elements themselves so "hide" requests are ignored only while an
+   internal chooser scroll is in progress.
 
-   Existing integrations intentionally close their chooser on page
-   scroll. Their capture-phase scroll listeners also catch nested
-   chooser scrolling. This final guard restores the chooser only when
-   the scroll originated inside that chooser.
-
-   Result:
-   - scroll inside Pocket picker -> stays open
-   - scroll inside Community picker -> stays open
-   - page scroll -> existing close behavior remains
-   - click outside / X / Escape / resize -> unchanged
+   Normal close behavior remains:
+   - outside click
+   - X button
+   - Escape
+   - resize
+   - actual page scroll
 ========================================================= */
 (() => {
-  function keepInternalChooserOpen(event){
-    const path=
-      typeof event.composedPath==="function"
-        ?event.composedPath()
-        :[];
+  const style=document.createElement("style");
+  style.id="aud022PickerScrollContainment";
+  style.textContent=`
+    #amPocketChooser .am-pocket-list,
+    #amCommunityChooser .am-community-chooser-list{
+      overscroll-behavior:contain!important;
+    }
+  `;
 
-    [
-      document.getElementById("amPocketChooser"),
-      document.getElementById("amCommunityChooser")
-    ].forEach(panel=>{
-      if(!panel)return;
-
-      const target=event.target;
-      const inside=
-        path.includes(panel) ||
-        (
-          target instanceof Node &&
-          panel.contains(target)
-        );
-
-      if(inside){
-        panel.hidden=false;
-      }
-    });
+  if(
+    !document.getElementById(
+      style.id
+    )
+  ){
+    document.head.appendChild(style);
   }
 
-  window.addEventListener(
-    "scroll",
-    keepInternalChooserOpen,
-    true
+  const hiddenDescriptor=
+    Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "hidden"
+    );
+
+  if(
+    !hiddenDescriptor?.get ||
+    !hiddenDescriptor?.set
+  ){
+    return;
+  }
+
+  function markInternalScroll(panel){
+    panel._aud022InternalScrollUntil=
+      performance.now()+260;
+  }
+
+  function internalScrollActive(panel){
+    const event=window.event;
+
+    if(
+      event?.type==="scroll"
+    ){
+      const target=event.target;
+
+      if(
+        target instanceof Node &&
+        panel.contains(target)
+      ){
+        return true;
+      }
+    }
+
+    return (
+      Number(
+        panel._aud022InternalScrollUntil
+      )>performance.now()
+    );
+  }
+
+  function protectChooser(panel){
+    if(
+      !panel ||
+      panel.dataset.aud022Protected===
+        "true"
+    ){
+      return;
+    }
+
+    panel.dataset.aud022Protected=
+      "true";
+
+    panel.addEventListener(
+      "wheel",
+      ()=>markInternalScroll(panel),
+      {
+        capture:true,
+        passive:true
+      }
+    );
+
+    panel.addEventListener(
+      "touchmove",
+      ()=>markInternalScroll(panel),
+      {
+        capture:true,
+        passive:true
+      }
+    );
+
+    const nativeSetAttribute=
+      panel.setAttribute.bind(panel);
+
+    panel.setAttribute=
+      function aud022SetAttribute(
+        name,
+        value
+      ){
+        if(
+          String(name).toLowerCase()===
+            "hidden" &&
+          internalScrollActive(panel)
+        ){
+          return;
+        }
+
+        return nativeSetAttribute(
+          name,
+          value
+        );
+      };
+
+    Object.defineProperty(
+      panel,
+      "hidden",
+      {
+        configurable:true,
+
+        get(){
+          return hiddenDescriptor.get.call(
+            panel
+          );
+        },
+
+        set(value){
+          if(
+            Boolean(value) &&
+            internalScrollActive(panel)
+          ){
+            return;
+          }
+
+          hiddenDescriptor.set.call(
+            panel,
+            Boolean(value)
+          );
+        }
+      }
+    );
+  }
+
+  function protectExistingChoosers(){
+    protectChooser(
+      document.getElementById(
+        "amPocketChooser"
+      )
+    );
+
+    protectChooser(
+      document.getElementById(
+        "amCommunityChooser"
+      )
+    );
+  }
+
+  protectExistingChoosers();
+
+  new MutationObserver(
+    protectExistingChoosers
+  ).observe(
+    document.documentElement,
+    {
+      childList:true,
+      subtree:true
+    }
   );
 })();
 
