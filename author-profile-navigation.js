@@ -5097,6 +5097,12 @@ new MutationObserver(records=>{
           </div>
         </div>
 
+        <button
+          class="more-comments"
+          onclick="masterToggleComments(this)"
+          type="button"
+        >View 1 more</button>
+
         <div class="post-footer-actions">
           <button
             class="hashtag-link"
@@ -5114,7 +5120,20 @@ new MutationObserver(records=>{
         <span class="post-hashtag">#community</span>
       </div>
 
-      <section class="comments-section"></section>
+      <section class="comments-section">
+        <div class="comment-item">
+          <div aria-hidden="true" class="comment-avatar">c</div>
+          <div class="comment-body">
+            <div class="comment-author">@communitymember</div>
+            <div>Love having this pinned here for easy reference.</div>
+            <div class="comment-actions">
+              <button class="comment-action comment-like-button" type="button">♡ Like</button>
+              <button class="comment-action" type="button">Reply</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="card-bottom-spacer" aria-hidden="true"></div>
     `;
   }
@@ -5545,3 +5564,7 @@ new MutationObserver(records=>{
   );
 })();
 
+/* =========================================================
+   AUD-020 CORRECTION — RESTORE VIEW MORE COMMENTS TO PINNED CARDS
+   Adds the same comments toggle used by normal Community feed cards.
+========================================================= */
