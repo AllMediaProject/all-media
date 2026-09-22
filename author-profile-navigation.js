@@ -4854,3 +4854,694 @@ new MutationObserver(records=>{
   document.head.appendChild(style);
 })();
 
+/* =========================================================
+   AUD-020 — PINNED COMMUNITY POSTS USE APPROVED CARD STYLES
+   Keeps the compact pinned shelf unchanged. When a pinned post is
+   opened, the overlay now renders the same Post / Blog / Video
+   structures used by normal Community feed cards.
+========================================================= */
+(() => {
+  const overlay=document.getElementById("pinnedPostOverlay");
+  const dialog=overlay?.querySelector(".pinned-post-dialog");
+  const closeButton=document.getElementById("pinnedPostClose");
+
+  if(
+    !overlay ||
+    !dialog ||
+    !document.querySelector(".pinned-card")
+  ){
+    return;
+  }
+
+  if(
+    document.getElementById(
+      "aud020PinnedCommunityCardStyles"
+    )
+  ){
+    return;
+  }
+
+  const style=document.createElement("style");
+  style.id="aud020PinnedCommunityCardStyles";
+  style.textContent=`
+    #pinnedPostOverlay .pinned-post-dialog.aud020-pinned-feed{
+      width:min(660px,96vw)!important;
+      max-width:660px!important;
+      margin:0 auto!important;
+      padding-top:8px!important;
+      display:block!important;
+    }
+
+    #aud020PinnedPostHost{
+      width:100%;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .pinned-open-post{
+      width:100%!important;
+      max-width:none!important;
+      margin:0!important;
+      box-sizing:border-box!important;
+      box-shadow:
+        0 24px 60px rgba(0,0,0,.34)!important;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .pinned-open-post .post-header{
+      padding-right:66px!important;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .aud020-pinned-post-title{
+      display:block;
+      margin-bottom:6px;
+      color:#f8f8f2;
+      font-size:14px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .aud020-pinned-media-art{
+      width:100%;
+      min-height:inherit;
+      height:100%;
+      display:grid;
+      place-items:center;
+      font-size:74px;
+      background:
+        radial-gradient(circle at 32% 72%,rgba(255,195,132,.18),transparent 28%),
+        linear-gradient(135deg,#613325,#17213f 72%);
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .blog-preview-image .aud020-pinned-media-art{
+      min-height:260px;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .video-feed-player .aud020-pinned-media-art{
+      min-height:330px;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .aud020-pinned-tag{
+      color:#ffc384;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .post-hashtags{
+      display:none;
+    }
+
+    #pinnedPostOverlay .aud020-pinned-feed .post-hashtags.active{
+      display:flex;
+    }
+  `;
+  document.head.appendChild(style);
+
+  dialog.classList.add(
+    "feed",
+    "aud020-pinned-feed"
+  );
+
+  let host=document.getElementById(
+    "aud020PinnedPostHost"
+  );
+
+  if(!host){
+    host=document.createElement("div");
+    host.id="aud020PinnedPostHost";
+
+    const legacy=
+      dialog.querySelector(
+        ".pinned-open-post"
+      );
+
+    if(legacy){
+      legacy.replaceWith(host);
+    }else{
+      dialog.appendChild(host);
+    }
+  }
+
+  function currentCommunityInfo(){
+    const name=
+      document.querySelector(
+        ".community-title-row h1"
+      )?.textContent?.trim()||
+      "Community";
+
+    const icon=
+      document.querySelector(
+        ".community-avatar"
+      )?.textContent?.trim()||
+      "◉";
+
+    const interest=
+      document.querySelector(
+        ".community-title-row .community-interest"
+      )?.textContent?.trim()||
+      "Community";
+
+    return {
+      name,
+      icon,
+      interest
+    };
+  }
+
+  function heartIcon(){
+    return `
+      <svg aria-hidden="true" class="like-heart" viewBox="0 0 24 24">
+        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+      </svg>
+    `;
+  }
+
+  function pocketIcon(){
+    return `
+      <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24">
+        <path d="M4 7h6l2 2h8v10H4Z"></path>
+        <path d="M8 4v6"></path>
+      </svg>
+    `;
+  }
+
+  function communityIcon(){
+    return `
+      <svg aria-hidden="true" class="action-icon" viewBox="0 0 24 24">
+        <circle cx="8" cy="8" r="3"></circle>
+        <circle cx="17" cy="9" r="2.5"></circle>
+        <path d="M3 19c.4-4 2.4-6 5-6s4.6 2 5 6"></path>
+        <path d="M13 18c.5-2.8 1.9-4.3 4-4.3 2 0 3.4 1.4 4 4.3"></path>
+      </svg>
+    `;
+  }
+
+  function saveIcon(){
+    return `
+      <svg aria-hidden="true" class="save-bookmark" viewBox="0 0 24 24">
+        <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.8L6 21Z"></path>
+      </svg>
+    `;
+  }
+
+  function commonActions(likeClass){
+    return `
+      <div class="interactions">
+        <button class="action-pill ${likeClass}" onclick="masterToggleLike(this)" type="button">
+          ${heartIcon()}
+          <span class="like-count" data-aud020-likes>0</span>
+        </button>
+
+        <button class="action-pill pocket-action" type="button">
+          ${pocketIcon()}
+          <span>Pocket</span>
+        </button>
+
+        <button class="action-pill community-action" type="button">
+          ${communityIcon()}
+          <span>Community</span>
+        </button>
+
+        <button class="reblog-counter" type="button">
+          ↻ <span data-aud020-reblogs>0</span> · Reblog
+        </button>
+
+        <button class="share-action" type="button">↗ Share</button>
+
+        <button aria-label="Save post" class="save-action" type="button">
+          ${saveIcon()}
+          <span>Save</span>
+        </button>
+      </div>
+
+      <div class="post-footer">
+        <div class="single-comment-composer">
+          <div class="comment-composer" onclick="masterOpenComposer(this)">
+            <div class="comment-compact-state">
+              <span class="comment-mini-avatar"></span>
+              <span>Say hi... share what you feel</span>
+            </div>
+
+            <div class="comment-expanded-state">
+              <textarea
+                class="comment-text-area"
+                maxlength="500"
+                onclick="event.stopPropagation()"
+                placeholder="Say hi... share what you feel"
+              ></textarea>
+
+              <div class="comment-post-actions">
+                <button class="comment-post-button" type="button">POST</button>
+                <button
+                  class="comment-close-button"
+                  onclick="masterCloseComposer(this,event)"
+                  type="button"
+                >CLOSE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-footer-actions">
+          <button
+            class="hashtag-link"
+            onclick="masterToggleHashtags(this)"
+            type="button"
+          >
+            <span class="hashtag-icon">#</span>
+            <span>Hashtags</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="post-hashtags">
+        <span class="post-hashtag">#pinned</span>
+        <span class="post-hashtag">#community</span>
+      </div>
+
+      <section class="comments-section"></section>
+      <div class="card-bottom-spacer" aria-hidden="true"></div>
+    `;
+  }
+
+  function headerMarkup(menuClass){
+    return `
+      <header class="post-header">
+        <div
+          aria-hidden="true"
+          class="profile-picture"
+          data-aud020-avatar
+        ></div>
+
+        <div class="post-author-copy">
+          <div class="post-author-line">
+            <span class="username" data-aud020-author></span>
+            <span class="post-time">· pinned</span>
+            <span class="post-type-bubble" data-aud020-type></span>
+          </div>
+
+          <div class="post-meta-line">
+            <span class="topic" data-aud020-topic></span>
+            <span class="post-community" data-aud020-community></span>
+          </div>
+        </div>
+
+        <div class="post-header-right">
+          <button
+            aria-label="More options"
+            class="post-menu-button"
+            onclick="masterToggleMenu(event,this)"
+            type="button"
+          >•••</button>
+
+          <div class="${menuClass}">
+            <button class="post-menu-action" type="button">Not interested</button>
+            <span class="post-menu-divider">|</span>
+            <button
+              class="post-menu-action post-menu-delete"
+              type="button"
+            >Report</button>
+          </div>
+        </div>
+      </header>
+    `;
+  }
+
+  function regularCard(){
+    const post=document.createElement("article");
+    post.className=
+      "post regular-post pinned-open-post";
+
+    post.innerHTML=`
+      ${headerMarkup("regular-post-menu")}
+
+      <div class="post-image crop-fit">
+        <div
+          class="sample-community-art aud020-pinned-media-art"
+          data-aud020-media
+        ></div>
+      </div>
+
+      <p class="caption">
+        <strong
+          class="aud020-pinned-post-title"
+          data-aud020-title
+        ></strong>
+        <span data-aud020-copy></span>
+      </p>
+
+      ${commonActions("regular-like-button")}
+    `;
+
+    return post;
+  }
+
+  function blogCard(){
+    const post=document.createElement("article");
+    post.className=
+      "post blog-post blog-post-v11 pinned-open-post";
+
+    post.innerHTML=`
+      ${headerMarkup("blog-v11-menu")}
+
+      <h2 class="blog-title blog-feed-title">
+        <span
+          aria-hidden="true"
+          class="blog-title-star"
+        >✦</span>
+        <span data-aud020-title></span>
+      </h2>
+
+      <div
+        aria-label="Pinned Blog preview"
+        class="blog-preview-image blog-home-preview"
+      >
+        <div
+          class="sample-media-art sample-blog-cover aud020-pinned-media-art"
+          data-aud020-media
+        ></div>
+      </div>
+
+      <p
+        class="blog-excerpt blog-feed-excerpt"
+        data-aud020-copy
+      ></p>
+
+      <button
+        class="read-blog blog-read-button"
+        onclick="masterToggleBlog(this)"
+        type="button"
+      >Read Blog →</button>
+
+      <div class="blog-full-content blog-full-body">
+        <p data-aud020-full-copy></p>
+      </div>
+
+      ${commonActions("blog-like-button")}
+    `;
+
+    return post;
+  }
+
+  function videoControls(){
+    return `
+      <div class="video-control-overlay">
+        <div class="video-control-row">
+          <button
+            type="button"
+            class="video-control-button video-control-play"
+            aria-label="Play video"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="video-control-button video-control-mute"
+            aria-label="Mute video"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10v4h4l5 4V6L9 10H5zM17 9c1.4 1.6 1.4 4.4 0 6"></path>
+            </svg>
+          </button>
+
+          <span class="video-control-time">0:00</span>
+          <input
+            class="video-control-scrubber"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            aria-label="Video timeline"
+          >
+          <span class="video-control-time">1:00</span>
+
+          <button
+            type="button"
+            class="video-control-button video-control-fullscreen"
+            aria-label="Fullscreen"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function videoCard(){
+    const post=document.createElement("article");
+    post.className=
+      "post video-post-v11 pinned-open-post";
+    post.dataset.postType="video";
+
+    post.innerHTML=`
+      ${headerMarkup("video-v11-menu")}
+
+      <h2 class="video-title">
+        <span
+          aria-hidden="true"
+          class="video-title-icon"
+        >▶</span>
+        <span data-aud020-title></span>
+      </h2>
+
+      <div
+        aria-label="Pinned Video preview"
+        class="video-feed-player video-v11-feed-player"
+      >
+        <div
+          class="sample-community-art aud020-pinned-media-art"
+          data-aud020-media
+        ></div>
+
+        ${videoControls()}
+      </div>
+
+      <p
+        class="video-description caption"
+        data-aud020-copy
+      ></p>
+
+      ${commonActions("video-like-button")}
+    `;
+
+    return post;
+  }
+
+  function setText(root,selector,value){
+    root.querySelectorAll(selector)
+      .forEach(el=>{
+        el.textContent=
+          String(value??"");
+      });
+  }
+
+  function applyPinnedData(post,data){
+    const info=currentCommunityInfo();
+    const type=
+      String(data.type||"POST")
+        .toUpperCase();
+
+    setText(
+      post,
+      "[data-aud020-avatar]",
+      data.avatar||"◉"
+    );
+
+    setText(
+      post,
+      "[data-aud020-author]",
+      data.author||"@community"
+    );
+
+    setText(
+      post,
+      "[data-aud020-type]",
+      type
+    );
+
+    setText(
+      post,
+      "[data-aud020-topic]",
+      `📌 ${info.interest}`
+    );
+
+    setText(
+      post,
+      "[data-aud020-community]",
+      `· in ${info.icon} ${info.name}`
+    );
+
+    setText(
+      post,
+      "[data-aud020-title]",
+      data.title||"Pinned Post"
+    );
+
+    setText(
+      post,
+      "[data-aud020-copy]",
+      data.copy||""
+    );
+
+    setText(
+      post,
+      "[data-aud020-full-copy]",
+      data.copy||""
+    );
+
+    setText(
+      post,
+      "[data-aud020-media]",
+      data.emoji||info.icon
+    );
+
+    setText(
+      post,
+      "[data-aud020-likes]",
+      Number(data.likes||0)
+    );
+
+    setText(
+      post,
+      "[data-aud020-reblogs]",
+      Number(data.reblogs||0)
+    );
+  }
+
+  function wirePinnedVideo(post){
+    const player=
+      post.querySelector(
+        ".video-feed-player"
+      );
+
+    if(!player)return;
+
+    const play=
+      player.querySelector(
+        ".video-control-play"
+      );
+
+    const mute=
+      player.querySelector(
+        ".video-control-mute"
+      );
+
+    const fullscreen=
+      player.querySelector(
+        ".video-control-fullscreen"
+      );
+
+    play?.addEventListener(
+      "click",
+      event=>{
+        event.stopPropagation();
+        const playing=
+          player.dataset.playing!=="true";
+
+        player.dataset.playing=
+          String(playing);
+
+        play.setAttribute(
+          "aria-label",
+          playing
+            ?"Pause video"
+            :"Play video"
+        );
+      }
+    );
+
+    mute?.addEventListener(
+      "click",
+      event=>{
+        event.stopPropagation();
+        const muted=
+          player.dataset.muted!=="true";
+
+        player.dataset.muted=
+          String(muted);
+
+        mute.setAttribute(
+          "aria-label",
+          muted
+            ?"Unmute video"
+            :"Mute video"
+        );
+      }
+    );
+
+    fullscreen?.addEventListener(
+      "click",
+      event=>{
+        event.stopPropagation();
+
+        if(
+          document.fullscreenElement
+        ){
+          document.exitFullscreen?.();
+        }else{
+          player.requestFullscreen?.();
+        }
+      }
+    );
+  }
+
+  function buildPinnedCard(data){
+    const type=
+      String(data.type||"POST")
+        .toUpperCase();
+
+    let post;
+
+    if(type==="BLOG"){
+      post=blogCard();
+    }else if(type==="VIDEO"){
+      post=videoCard();
+    }else{
+      post=regularCard();
+    }
+
+    applyPinnedData(post,data);
+
+    if(type==="VIDEO"){
+      wirePinnedVideo(post);
+    }
+
+    return post;
+  }
+
+  window.openPinnedPost=
+    function openPinnedPostAud020(id){
+      let data=null;
+
+      try{
+        if(
+          typeof pinnedPostData!==
+          "undefined"
+        ){
+          data=pinnedPostData[id];
+        }
+      }catch(error){}
+
+      if(!data)return;
+
+      host.replaceChildren(
+        buildPinnedCard(data)
+      );
+
+      overlay.classList.add("active");
+      overlay.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.style.overflow=
+        "hidden";
+    };
+
+  /* Existing Community close behavior remains intact. */
+  closeButton?.setAttribute(
+    "title",
+    "Close pinned post"
+  );
+})();
+
