@@ -4481,3 +4481,333 @@ new MutationObserver(records=>{
   document.head.appendChild(style);
 })();
 
+/* =========================================================
+   AUD-018 — PROFILE ABOUT ME DISCOVERY LINKS
+   Makes displayed People, Pockets, and Communities navigable
+   without changing the existing About Me layout.
+========================================================= */
+(() => {
+  const sections=[
+    ...document.querySelectorAll(
+      ".profile-discovery-section"
+    )
+  ];
+
+  if(!sections.length)return;
+
+  const style=document.createElement("style");
+  style.id="aud018ProfileDiscoveryLinks";
+  style.textContent=`
+    .profile-discovery-section .side-row.aud018-profile-discovery-link{
+      cursor:pointer;
+      transition:
+        background .14s ease,
+        border-color .14s ease,
+        color .14s ease;
+    }
+
+    .profile-discovery-section .side-row.aud018-profile-discovery-link:hover{
+      background:rgba(255,195,132,.055);
+    }
+
+    .profile-discovery-section .side-row.aud018-profile-discovery-link:focus-visible{
+      outline:1px dotted rgba(255,195,132,.78);
+      outline-offset:2px;
+    }
+  `;
+
+  if(
+    !document.getElementById(
+      style.id
+    )
+  ){
+    document.head.appendChild(style);
+  }
+
+  function readJSON(key,fallback){
+    try{
+      return JSON.parse(
+        localStorage.getItem(key)||
+        JSON.stringify(fallback)
+      );
+    }catch(error){
+      return fallback;
+    }
+  }
+
+  function writeJSON(key,value){
+    try{
+      localStorage.setItem(
+        key,
+        JSON.stringify(value)
+      );
+    }catch(error){}
+  }
+
+  function rowLabel(row){
+    const copy=
+      row.querySelector(
+        ":scope > div"
+      );
+
+    if(!copy)return "";
+
+    const clone=copy.cloneNode(true);
+
+    clone.querySelectorAll("small")
+      .forEach(el=>el.remove());
+
+    return clone.textContent.trim();
+  }
+
+  function rowIcon(row){
+    const first=
+      row.querySelector(
+        ":scope > span"
+      );
+
+    return (
+      first?.textContent?.trim()||
+      "◉"
+    );
+  }
+
+  function ownerProfileRow(row){
+    return Boolean(
+      row.closest("#myProfile")
+    );
+  }
+
+  function profileHandleForRow(row){
+    const view=
+      row.closest(".profile-view");
+
+    const handle=
+      view?.querySelector(
+        ".profile-handle-large"
+      )?.textContent?.trim();
+
+    return handle||"";
+  }
+
+  function slugify(value){
+    return String(value||"")
+      .trim()
+      .toLowerCase()
+      .replace(/&/g,"and")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"");
+  }
+
+  function openPerson(row){
+    const handle=
+      rowLabel(row)
+        .replace(/^@+/,"")
+        .trim();
+
+    if(!handle)return;
+
+    window.location.href=
+      `profile.html?user=${encodeURIComponent(handle)}`;
+  }
+
+  function openPocket(row){
+    const name=rowLabel(row);
+    if(!name)return;
+
+    const icon=rowIcon(row);
+    const isOwner=ownerProfileRow(row);
+    const creator=
+      profileHandleForRow(row);
+
+    const registry=readJSON(
+      "allMediaPocketRegistryV1",
+      {}
+    );
+
+    const key=name
+      .trim()
+      .toLowerCase();
+
+    registry[key]={
+      ...(registry[key]||{}),
+      name,
+      emoji:icon||"▱",
+      type:isOwner
+        ?"owned"
+        :"followed",
+      creator:
+        (registry[key]?.creator)||
+        creator||
+        ""
+    };
+
+    writeJSON(
+      "allMediaPocketRegistryV1",
+      registry
+    );
+
+    const params=
+      new URLSearchParams({
+        pocket:name
+      });
+
+    params.set(
+      isOwner
+        ?"owner"
+        :"visitor",
+      "1"
+    );
+
+    window.location.href=
+      `pocket-page-prototype.html?${params.toString()}`;
+  }
+
+  function openCommunity(row){
+    const name=rowLabel(row);
+    if(!name)return;
+
+    const icon=rowIcon(row);
+    const slug=slugify(name);
+    if(!slug)return;
+
+    const isOwner=
+      ownerProfileRow(row);
+
+    const state=readJSON(
+      "allMediaCommunityStateV1",
+      {}
+    );
+
+    const existing=
+      state[slug]||{};
+
+    state[slug]={
+      ...existing,
+      name,
+      icon:icon||"◉",
+      description:
+        existing.description||
+        "A public Community on All Media.",
+      access:
+        existing.access||
+        "Public",
+      joined:
+        typeof existing.joined==="boolean"
+          ?existing.joined
+          :isOwner,
+      pinned:
+        typeof existing.pinned==="boolean"
+          ?existing.pinned
+          :false,
+      notifications:
+        typeof existing.notifications==="boolean"
+          ?existing.notifications
+          :true,
+      role:
+        existing.role||
+        (isOwner
+          ?"owner"
+          :"member")
+    };
+
+    if(isOwner){
+      state[slug].joined=true;
+      state[slug].role="owner";
+    }
+
+    writeJSON(
+      "allMediaCommunityStateV1",
+      state
+    );
+
+    window.location.href=
+      slug==="spooky-cozy"
+        ?"community.html"
+        :`community.html?community=${encodeURIComponent(slug)}`;
+  }
+
+  function destinationType(row){
+    const panel=
+      row.closest(
+        "[data-side-panel]"
+      );
+
+    return panel?.dataset.sidePanel||"";
+  }
+
+  function activateRow(row){
+    const type=
+      destinationType(row);
+
+    if(type==="people"){
+      openPerson(row);
+      return;
+    }
+
+    if(type==="pockets"){
+      openPocket(row);
+      return;
+    }
+
+    if(type==="communities"){
+      openCommunity(row);
+    }
+  }
+
+  sections.forEach(section=>{
+    section.querySelectorAll(
+      ".side-panel .side-row"
+    ).forEach(row=>{
+      if(
+        row.dataset.aud018Linked===
+        "true"
+      ){
+        return;
+      }
+
+      row.dataset.aud018Linked="true";
+      row.classList.add(
+        "aud018-profile-discovery-link"
+      );
+      row.setAttribute(
+        "role",
+        "link"
+      );
+      row.tabIndex=0;
+
+      const type=
+        destinationType(row);
+
+      const label=rowLabel(row);
+
+      if(type && label){
+        row.setAttribute(
+          "aria-label",
+          `Open ${label}`
+        );
+      }
+
+      row.addEventListener(
+        "click",
+        ()=>activateRow(row)
+      );
+
+      row.addEventListener(
+        "keydown",
+        event=>{
+          if(
+            event.key!=="Enter" &&
+            event.key!==" "
+          ){
+            return;
+          }
+
+          event.preventDefault();
+          activateRow(row);
+        }
+      );
+    });
+  });
+})();
+
