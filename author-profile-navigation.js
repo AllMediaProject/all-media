@@ -4811,3 +4811,46 @@ new MutationObserver(records=>{
   });
 })();
 
+/* =========================================================
+   AUD-019 — PROFILE IDENTITY + ABOUT ME PEACH POLISH
+   Visual-only Profile treatment:
+   - solid peach frame/glow on the identity card
+   - dotted peach frame on the About Me card
+   Layout, spacing, sticky behavior, and Profile functionality stay intact.
+========================================================= */
+(() => {
+  if(!document.querySelector(".profile-view"))return;
+
+  if(
+    document.getElementById(
+      "aud019ProfilePeachPolish"
+    )
+  ){
+    return;
+  }
+
+  const style=document.createElement("style");
+  style.id="aud019ProfilePeachPolish";
+
+  style.textContent=`
+    #myProfile .profile-identity,
+    #otherProfile .profile-identity{
+      border:1px solid rgba(255,195,132,.34)!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.055),
+        0 0 24px -10px rgba(255,195,132,.22),
+        0 18px 42px -30px rgba(0,0,0,.72)!important;
+    }
+
+    #myProfile .about-card,
+    #otherProfile .about-card{
+      border:1px dotted rgba(255,195,132,.42)!important;
+      box-shadow:
+        0 0 0 1px rgba(255,195,132,.025),
+        0 0 20px -13px rgba(255,195,132,.18)!important;
+    }
+  `;
+
+  document.head.appendChild(style);
+})();
+
